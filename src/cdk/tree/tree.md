@@ -15,7 +15,6 @@ these two types of trees.
 
 <!-- example(cdk-tree-flat) -->
 
-
 In a flat tree, the hierarchy is flattened; nodes are not rendered inside of each other, but instead
 are rendered as siblings in sequence. An instance of `TreeFlattener` is used to generate the flat
 list of items from hierarchical data. The "level" of each tree node is read through the `getLevel`
@@ -30,7 +29,6 @@ the appropriate level.
   <cdk-tree-node> -- child node1 </cdk-tree-node>
   <cdk-tree-node> -- child node2 </cdk-tree-node>
 </cdk-tree>
-
 ```
 
 Flat trees are generally easier to style and inspect. They are also more friendly to scrolling
@@ -114,7 +112,6 @@ where the children of the node will be rendered.
   {{node.value}}
   <ng-container cdkTreeNodeOutlet></ng-container>
 </cdk-nested-tree-node>
-
 ```
 
 #### Adding expand/collapse
@@ -137,7 +134,7 @@ The toggle can be placed anywhere in the tree node, and is only toggled by click
 For best accessibility, `cdkTreeNodeToggle` should be on a button element and have an appropriate
 `aria-label`.
 
-这个切换开关可以放在树节点中的任意位置，而且只能通过点击动作进行切换。为了获得最佳的无障碍性，`cdkTreeNodeToggle` 应该放在一个 button 元素上，并拥有一个合适的`aria-label` 。
+这个切换开关可以放在树节点中的任意位置，而且只能通过点击动作进行切换。为了获得最佳的无障碍性，`cdkTreeNodeToggle` 应该放在一个 button 元素上，并拥有一个合适的 `aria-label` 。
 
 ```html
 <cdk-tree-node *cdkNodeDef="let node">
@@ -161,7 +158,6 @@ information of a flat tree node.
 <cdk-tree-node *cdkNodeDef="let node" cdkNodePadding>
   {{node.value}}
 </cdk-tree-node>
-
 ```
 
 Nested tree does not need this padding since padding can be easily added to the hierarchy structure
@@ -232,7 +228,7 @@ To improve performance, a `trackBy` function can be provided to the tree similar
 [`ngFor` `trackBy`](https://angular.io/api/common/NgForOf#change-propagation). This informs the
 tree how to uniquely identify nodes to track how the data changes with each update.
 
-为了提高性能，可以为树提供一个类似于 Angular 的 [`ngFor` `trackBy`](https://angular.io/api/common/NgForOf#change-propagation)的[`ngFor` `trackBy`](https://angular.io/api/common/NgForOf#change-propagation) 指令。这会告诉树要如何唯一地标识节点，以跟踪每次更新时数据的变化情况。
+为了提高性能，可以为树提供一个类似于 Angular 的 [`ngFor` `trackBy`](https://angular.cn/api/common/NgForOf#change-propagation)的[`ngFor` `trackBy`](https://angular.cn/api/common/NgForOf#change-propagation) 指令。这会告诉树要如何唯一地标识节点，以跟踪每次更新时数据的变化情况。
 
 ```html
 <cdk-tree [dataSource]="dataSource" [treeControl]="treeControl" [trackBy]="trackByFn">

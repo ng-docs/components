@@ -1,6 +1,6 @@
 The `portals` package provides a flexible system for rendering dynamic content into an application.
 
-`portals` 包提供了一个灵活的布局系统，可以把动态内容渲染到应用中。
+`portals` 包提供了一个灵活的布局体系，可以把动态内容渲染到应用中。
 
 ### Portals
 
@@ -24,30 +24,29 @@ built upon.
 
 ##### `Portal<T>`
 
-| Method                      | Description                         |
-| --------------------------- | ----------------------------------- |
-| 方法                      | 说明                               |
-| `attach(PortalOutlet): T`   | Attaches the portal to a host.      |
-| `attach(PortalOutlet): T` | 把此门户附着到宿主上。           |
-| `detach(): void`            | Detaches the portal from its host.  |
-| `detach(): void`          | 把此门户从宿主上拆除。     |
-| `isAttached: boolean`       | Whether the portal is attached.     |
-| `isAttached: boolean`     | 此门户是否已附着上。           |
+| Method | Description |
+| ------ | ----------- |
+| 方法 | 说明 |
+| `attach(PortalOutlet): T` | Attaches the portal to a host. |
+| `attach(PortalOutlet): T` | 把此门户附着到宿主上。 |
+| `detach(): void` | Detaches the portal from its host. |
+| `detach(): void` | 把此门户从宿主上拆除。 |
+| `isAttached: boolean` | Whether the portal is attached. |
+| `isAttached: boolean` | 此门户是否已附着上。 |
 
 ##### `PortalOutlet`
 
-| Method                  | Description                                 |
-| ----------------------- | ------------------------------------------- |
-| 方法                   | 说明                                      |
-| `attach(Portal): any`   | Attaches a portal to the host.              |
-| `attach(Portal): any`  | 把指定的门户添加到此宿主上。            |
-| `detach(): any`         | Detaches the portal from the host.          |
-| `detach(): any`        | 把指定的门户从此宿主上拆除。                    |
-| `dispose(): void`       | Permanently dispose the host.               |
-| `dispose(): void`      | 永久销毁此宿主。                      |
-| `hasAttached: boolean`  | Whether a portal is attached to the host.   |
-| `hasAttached: boolean` | 判断是否有门户附着在此宿主上。                  |
-
+| Method | Description |
+| ------ | ----------- |
+| 方法 | 说明 |
+| `attach(Portal): any` | Attaches a portal to the host. |
+| `attach(Portal): any` | 把指定的门户添加到此宿主上。 |
+| `detach(): any` | Detaches the portal from the host. |
+| `detach(): any` | 把指定的门户从此宿主上拆除。 |
+| `dispose(): void` | Permanently dispose the host. |
+| `dispose(): void` | 永久销毁此宿主。 |
+| `hasAttached: boolean` | Whether a portal is attached to the host. |
+| `hasAttached: boolean` | 判断是否有门户附着在此宿主上。 |
 
 #### Portals in practice
 
@@ -99,9 +98,15 @@ ngAfterViewInit() {
 ```
 
 ##### `TemplatePortal`
+
 You can create a `TemplatePortal` from an `<ng-template>`. `TemplatePortal` allows you to take Angular content within one template and render it somewhere else.
 
+你可以从 `<ng-template>` `TemplatePortal` 。 `TemplatePortal` 允许你在一个模板中获取 Angular 的内容，并把它渲染到其他地方。
+
 Usage:
+
+用法：
+
 ```html
 <ng-template #templatePortalContent>Some content here</ng-template>
 ```
@@ -118,9 +123,15 @@ ngAfterViewInit() {
 ```
 
 ##### `DomPortal`
-You can create a `DomPortal` from any native DOM element. `DomPortal` allows you to take any arbitrary DOM content and render it somewhere else. `DomPortal` moves content _as is_, so elements with Angular features like bindings or directives may no longer update if moved via `DomPortal`.
+
+You can create a `DomPortal` from any native DOM element. `DomPortal` allows you to take any arbitrary DOM content and render it somewhere else. `DomPortal` moves content *as is*, so elements with Angular features like bindings or directives may no longer update if moved via `DomPortal`.
+
+你可以从任何的 native DOM 元素 `DomPortal` `DomPortal` 允许你把任意 DOM 内容带到其它地方。 `DomPortal`*如*移动内容，因此，如果经由移动，角元件设有像绑定或指令可能不再更新 `DomPortal` 。
 
 Usage:
+
+用法：
+
 ```html
 <div #domPortalContent>Some content here</div>
 ```
@@ -132,12 +143,11 @@ ngAfterViewInit() {
 }
 ```
 
-
 ##### `CdkPortalOutlet`
 
 Used to add a portal outlet to a template. `CdkPortalOutlet` *is* a `PortalOutlet`.
 
-用于向模板中添加一个门户出口（Portal Outlet）。 `CdkPortalOutlet` *是*一个`PortalOutlet`。
+用于向模板中添加一个门户出口（Portal Outlet）。 `CdkPortalOutlet` *是*一个 `PortalOutlet`。
 
 Usage:
 

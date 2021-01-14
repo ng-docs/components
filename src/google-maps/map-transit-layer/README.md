@@ -2,7 +2,11 @@
 
 The `MapTransitLayer` component wraps the [`google.maps.TransitLayer` class](https://developers.google.com/maps/documentation/javascript/reference/map#TransitLayer) from the Google Maps JavaScript API.
 
+`MapTransitLayer` 组件包装了来自 Google Maps JavaScript API 的 [`google.maps.TransitLayer`](https://developers.google.com/maps/documentation/javascript/reference/map#TransitLayer) 类。
+
 ## Example
+
+## 例子
 
 ```typescript
 // google-maps-demo.component.ts

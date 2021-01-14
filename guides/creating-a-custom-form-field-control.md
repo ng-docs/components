@@ -86,7 +86,7 @@ The first step is to provide our new component as an implementation of the `MatF
 interface that the `<mat-form-field>` knows how to work with. To do this, we will have our class implement `MatFormFieldControl`. Since this is a generic interface, we'll need to include a type parameter indicating the type of data our control will work with, in this case `MyTel`. We then add a provider to our component so that the form field will be able to inject it as a
 `MatFormFieldControl`.
 
-第一步把我们的组件作为 `MatFormFieldControl` 接口的实现提供出来，而 `<mat-form-field>` 知道该如何与该接口协作。 要做到这一点，我们要创建一个自己的类来实现 `MatFormFieldControl`。由于它是一个泛型接口，我们需要包含一个类型参数来标记出这个控件支持的数据类型，在这里也就是 `MyTel`。然后我们为这个组件添加一个提供商，以便表单字段（form-field）能把它作为 `MatFormFieldControl` 注入进去。
+第一步把我们的组件作为 `MatFormFieldControl` 接口的实现提供出来，而 `<mat-form-field>` 知道该如何与该接口协作。 要做到这一点，我们要创建一个自己的类来实现 `MatFormFieldControl`。由于它是一个泛型接口，我们需要包含一个类型参数来标记出这个控件支持的数据类型，在这里也就是 `MyTel`。然后我们为这个组件添加一个提供者，以便表单字段（form-field）能把它作为 `MatFormFieldControl` 注入进去。
 
 ```ts
 @Component({
@@ -217,7 +217,7 @@ Note that if your component implements `ControlValueAccessor`, it may already be
 
 To resolve this, remove the `NG_VALUE_ACCESSOR` provider and instead set the value accessor directly:
 
-要解决这个问题，请移除 `NG_VALUE_ACCESSOR` 提供商，改为直接设置 Value Accessor 的值：
+要解决这个问题，请移除 `NG_VALUE_ACCESSOR` 提供者，改为直接设置 Value Accessor 的值：
 
 ```ts
 @Component({
@@ -251,7 +251,7 @@ export class MyTelInput implements MatFormFieldControl<MyTel> {
 
 For additional information about `ControlValueAccessor` see the [API docs](https://angular.io/api/forms/ControlValueAccessor).
 
-要深入了解 `ControlValueAccessor`，参见其 [API 文档](https://angular.io/api/forms/ControlValueAccessor)。
+要深入了解 `ControlValueAccessor`，参见其 [API 文档](https://angular.cn/api/forms/ControlValueAccessor)。
 
 #### `focused`
 
@@ -403,14 +403,20 @@ This method is used by the `<mat-form-field>` to set element ids that should be 
 `aria-describedby` attribute of your control. The ids are controlled through the form field as hints or errors are conditionally displayed and should be reflected in the control's
 `aria-describedby` attribute for an improved accessibility experience. 
 
+此方法被 `<mat-form-field>` 用于设置元素的 ID，这些 ID 会被控件的 `aria-describedby` 属性使用。这些 ID 会由表单字段（form field）控制，用于提示（hints）或错误（errors）的有条件显示，并且应该反映到控件的 `aria-describedby` 属性中，以提升无障碍化体验。
+
 The `setDescribedByIds` method is invoked whenever the control's state changes. Custom controls
 need to implement this method and update the `aria-describedby` attribute based on the specified
 element ids. Below is an example that shows how this can be achieved.
+
+每当控件的状态发生变化时，都会调用 `setDescribedByIds` 方法。自定义控件需要实现这个方法，并根据指定的元素 id 来更新 `aria-describedby` 属性。下面的例子演示了要如何达成这一目标。
 
 Note that the method by default will not respect element ids that have been set manually on the
 control element through the `aria-describedby` attribute. To ensure that your control does not
 accidentally override existing element ids specified by consumers of your control, create an
 input called `userAriaDescribedby`  like followed:
+
+注意，默认情况下该方法不在乎元素上通过 `aria-describedby` 属性手动设置的 ID。为了防止你的控件意外覆盖由控件消费者指定的现有 ID，可以创建一个名为 `userAriaDescribedby` 的输入属性，代码如下：
 
 ```ts
 @Input('aria-describedby') userAriaDescribedBy: string;
@@ -418,6 +424,8 @@ input called `userAriaDescribedby`  like followed:
 
 The form field will then pick up the user specified `aria-describedby` ids and merge
 them with ids for hints or errors whenever `setDescribedByIds` is invoked.
+
+然后，表单字段会取得用户指定的 `aria-describedby` ID，并确保每次调用 `setDescribedByIds` 时，都会把它们和为提示或错误提供的那些 ID 合并。
 
 ```ts
 setDescribedByIds(ids: string[]) {
@@ -448,21 +456,31 @@ MouseEvent
 
 ### Improving accessibility
 
+### 提升无障碍性
+
 Our custom form field control consists of multiple inputs that describe segments of a phone
 number. For accessibility purposes, we put those inputs as part of a `div` element with
 `role="group"`. This ensures that screen reader users can tell that all those inputs belong
 together.
 
+我们的自定义表单字段控件由多个用于描述电话号码段的输入控件组成。为了提升无障碍性，我们把这些输入作为带有 `role="group"` 属性的 `div` 元素的一部分。这可以确保屏幕阅读器用户知道所有这些输入控件都是一起的。
+
 One significant piece of information is missing for screen reader users though. They won't be able
 to tell what this input group represents. To improve this, we should add a label for the group
 element using either `aria-label` or `aria-labelledby`.
+
+屏幕阅读器用户却缺少一条很重要的信息。他们无法分辨这个输入组所代表的含义。为了改善这一点，我们应该使用 `aria-label` 或者 `aria-labelledby` 为这个分组元素添加一个标签。
 
 It's recommended to link the group to the label that is displayed as part of the parent
 `<mat-form-field>`. This ensures that explicitly specified labels (using `<mat-label>`) are
 actually used for labelling the control.
 
+我们建议把该标签链接到这个组，将其作为父元素 `<mat-form-field>` 的一部分。这可以确保显式指定的标签（使用 `<mat-label>` ）确实被用作了该控件的标签。
+
 In our concrete example, we add an attribute binding for `aria-labelledby` and bind it
 to the label element id provided by the parent `<mat-form-field>`.
+
+在下面的具体例子中，我们添加了一个到 `aria-labelledby` 属性的绑定，并把它绑定到由父 `<mat-form-field>` 提供的标签元素的 id。
 
 ```typescript
 export class MyTelInput implements MatFormFieldControl<MyTel> {

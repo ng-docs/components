@@ -146,12 +146,12 @@ The `<mat-sidenav>` can render in one of three different ways based on the `mode
 
 `<mat-sidenav>` 可以根据其 `mode` 属性的值以三种方式之一进行渲染。
 
-| Mode   | Description                                                                             |
-|--------|-----------------------------------------------------------------------------------------|
-| 模式   | 说明                                                                             |
-| `over` | Sidenav floats over the primary content, which is covered by a backdrop                 |
+| Mode | Description |
+| ---- | ----------- |
+| 模式 | 说明 |
+| `over` | Sidenav floats over the primary content, which is covered by a backdrop |
 | `over` | 侧边栏浮在主内容上方，并用一个背景遮住主内容 |
-| `push` | Sidenav pushes the primary content out of its way, also covering it with a backdrop     |
+| `push` | Sidenav pushes the primary content out of its way, also covering it with a backdrop |
 | `push` | 侧边栏把主内容挤出去，并用一个背景遮住主内容 |
 | `side` | Sidenav appears side-by-side with the main content, shrinking the main content's width to make space for the sidenav. |
 | `side` | 侧边栏和主内容并排显示，并收缩主内容的宽度，给侧边栏腾出空间 |
@@ -304,9 +304,16 @@ specific role makes sense, `role="region"` is again a good fallback.
 如果没办法指定合理的角色，同样可以用 `role="region"` 作为回退值。
 
 #### Focus management
+
+#### 焦点管理
+
 The sidenav has the ability to capture focus. This behavior is turned on for the `push` and `over` modes and it is off for `side` mode. You can change its default behavior by the `autoFocus` input.
 
+sidenav 能够捕获焦点。此功能在 `push` 和 `over` 模式下开启，在 `side` 模式下则被关闭。你可以通过输入属性 `autoFocus` 来改变其默认行为。
+
 By default the first tabbable element will recieve focus upon open. If you want a different element to be focused, you can set the `cdkFocusInitial` attribute on it.
+
+默认情况下，一旦打开，其中的第一个可接收焦点的元素就会收到焦点。如果你想让另一个元素获得焦点，可以在它上面添加 `cdkFocusInitial` 属性。
 
 ### Troubleshooting
 

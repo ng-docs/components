@@ -1,1 +1,3 @@
-Please see the official documentation at https://material.angular.io/components/component/tooltip
+Please see the official documentation at <https://material.angular.io/components/component/tooltip>
+
+请参阅 <https://material.angular.io/components/component/tooltip> 上的官方文档

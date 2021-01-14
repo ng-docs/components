@@ -62,6 +62,8 @@ Finally, create a mixin that accepts an Angular Material theme, and delegates to
 theming system mixins based on the configurations. A theme consists of configurations for
 individual theming systems (`color` and `typography`).
 
+最后，创建一个以 Angular Material 主题为参数的 mixin，并根据配置将职责委托给各个独立主题体系的 mixins。主题由各个主题体系（ `color` 和 `typography` ）的配置组成。
+
 ```scss
 @mixin candy-carousel-theme($theme) {
   // Extracts the color and typography configurations from the theme.

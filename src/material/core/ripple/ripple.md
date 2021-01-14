@@ -158,7 +158,7 @@ const globalRippleConfig: RippleGlobalOptions = {
 **Note**: Ripples will also have no animation if the `NoopAnimationsModule` is being used. This
 also means that the durations in the `animation` configuration won't be taken into account.
 
-**注意**：如果正在使用 `NoopAnimationsModule `水波也不会有动画。这意味着不必考虑 `animation` 配置中的持续时间。
+**注意**：如果正在使用 `NoopAnimationsModule` 水波也不会有动画。这意味着不必考虑 `animation` 配置中的持续时间。
 
 ### Animation behavior
 
@@ -189,12 +189,18 @@ const globalRippleConfig: RippleGlobalOptions = {
 
 ### Updating global options at runtime
 
+### 在运行时更新全局选项
+
 To change global ripple options at runtime, just inject the `MAT_RIPPLE_GLOBAL_OPTIONS`
 provider and update the desired options.
+
+要想在运行时更改全局的 ripple 选项，只需要注入 `MAT_RIPPLE_GLOBAL_OPTIONS` 提供者并更新所需的选项。
 
 There are various ways of injecting the global options. In order to make it easier to
 inject and update options at runtime, it's recommended to create a service that implements
 the `RippleGlobalOptions` interface.
+
+有多种注入全局选项的方式。为了便于在运行时注入和更新选项，我们建议你创建一个实现 `RippleGlobalOptions` 接口的服务。
 
 ```ts
 @Injectable({providedIn: 'root'})
@@ -215,6 +221,8 @@ export class MyModule {...}
 
 Now that the global ripple options are set to a service we can inject, the service can be
 used update any global ripple option at runtime.
+
+既然全局的 ripple 选项被设置为了我们可以注入的服务，那么该服务可以在运行时更新任何全局的 ripple 选项。
 
 ```ts
 @Component(...)

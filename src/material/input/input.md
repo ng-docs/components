@@ -30,19 +30,57 @@ be used with `matInput`:
 
 下列[输入框类型](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)可以和 `matInput` 一起使用：
 
-* color
-* date
-* datetime-local
-* email
-* month
-* number
-* password
-* search
-* tel
-* text
-* time
-* url
-* week
+- color
+
+  color - 颜色
+
+- date
+
+  date - 日期
+
+- datetime-local
+
+  datetime-local - 本地日期时间
+
+- email
+
+  email - 电子邮件
+
+- month
+
+  month - 月份
+
+- number
+
+  number - 数字
+
+- password
+
+  password - 密码
+
+- search
+
+  search - 搜索
+
+- tel
+
+  tel - 电话
+
+- text
+
+  text - 文本
+
+- time
+
+  time - 时间
+
+- url
+
+  url - 网址
+
+- week
+
+  week - 周次
 
 ### Form field features
 
@@ -116,7 +154,7 @@ globally cause input errors to show when the input is dirty and invalid.
 [`cdkTextareaAutosize` directive](https://material.angular.io/components/input/overview#auto-resizing-textarea-elements)
 available in the CDK.
 
-通过使用 CDK 中的 [`cdkTextareaAutosize` 指令](https://material.angular.io/components/input/overview#auto-resizing-textarea-elements)，可以把 `<textarea>` 元素做成自动调整大小的。
+通过使用 CDK 中的 [`cdkTextareaAutosize` 指令](https://material.angular.cn/components/input/overview#auto-resizing-textarea-elements)，可以把 `<textarea>` 元素做成自动调整大小的。
 
 ### Responding to changes in the autofill state of an `<input>`
 

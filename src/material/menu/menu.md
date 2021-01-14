@@ -146,6 +146,9 @@ with a different set of data, depending on the trigger that opened it:
   <kbd>LEFT_ARROW</kbd>：关闭当前菜单项的子菜单（如果有）
 
 - <kbd>ENTER</kbd>: Activates the focused menu item
+
+  <kbd>ENTER</kbd>：激活聚焦的菜单项
+
 - <kbd>ESCAPE</kbd>: Closes the menu
 
   <kbd>ENTER</kbd>：激活当前有焦点的菜单项

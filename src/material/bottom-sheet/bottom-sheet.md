@@ -104,8 +104,13 @@ export class AppModule {}
 ```
 
 ### Specifying global configuration defaults
+
+### 全局指定配置的默认值
+
 Default bottom sheet options can be specified by providing an instance of `MatBottomSheetConfig`
 for `MAT_BOTTOM_SHEET_DEFAULT_OPTIONS` in your application's root module.
+
+可以通过在应用的根模块中为 `MAT_BOTTOM_SHEET_DEFAULT_OPTIONS` 提供一个 `MatBottomSheetConfig` 实例来为底部操作表指定默认选项。
 
 ```ts
 @NgModule({

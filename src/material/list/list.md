@@ -6,7 +6,6 @@ list component, it provides Material Design styling, but no behavior of its own.
 
 <!-- example(list-overview) -->
 
-
 ### Simple lists
 
 ### 简单列表
@@ -59,10 +58,16 @@ element in an `<mat-list-item>`.
 
 ### Action lists
 
+### 动作列表
+
 Use the `<mat-action-list>` element when each item in the list performs some _action_. Each item
 in an action list is a `<button>` element.
 
+当列表中的每个项都要执行某种*动作*时，使用 `<mat-action-list>` 元素。动作列表中的每一项都是一个 `<button>` 元素。
+
 Simple action lists can use the `mat-list-item` attribute on button tag elements directly:
+
+简单的动作列表可以直接用 `mat-list-item` 属性添加在 `button` 元素上。
 
 ```html
 <mat-action-list>
@@ -179,7 +184,6 @@ to the main `mat-list` tag.
  <mat-list-item> Paprika </mat-list-item>
 </mat-list>
 ```
-
 
 ### Lists with multiple sections
 

@@ -14,7 +14,7 @@ For a Material Design styled table, see the
 [documentation for `MatTable`](https://material.angular.io/components/table) which builds on
 top of the CDK data-table.
 
-对于 Material Design 样式的表格，参见 [`MatTable`](https://material.angular.io/components/table) 的[文档](https://material.angular.io/components/table)，它建立在CDK数据表格的基础之上。
+对于 Material Design 样式的表格，参见 [`MatTable`](https://material.angular.cn/components/table) 的[文档](https://material.angular.cn/components/table)，它建立在 CDK 数据表格的基础之上。
 
 <!-- example(cdk-table-basic) -->
 
@@ -42,7 +42,7 @@ template (`cdkFooterCellDef`).
 </ng-container>
 ```
 
-The set of columns defined represent the columns that are _available_ to be rendered. The specific
+The set of columns defined represent the columns that are *available* to be rendered. The specific
 columns rendered in a given row, and their order, are specified on the row (see below).
 
 列定义的集合表示可*供*渲染的列。要渲染的特定列及其顺序可以在本行中指定（稍后讲）。
@@ -72,7 +72,7 @@ These row templates accept the specific columns to be rendered via the name give
 这些行模板通过赋值给 `cdkColumnDef` 的名字来接受要渲染的指定列。
 
 The `cdkRowDef` also exports row context, which can be used for event and property
-bindings on the row element. Any content placed _inside_ of the header row or data row template
+bindings on the row element. Any content placed *inside* of the header row or data row template
 will be ignored, as the rendered content of the row comes from the cell templates described
 above.
 
@@ -173,8 +173,8 @@ Whenever the data source emits data to this stream, the table will render an upd
 
 数据会通过 `DataSource` 提供给表格。当表格接收数据源时，它会调用 DataSource 的 `connect()` 方法，该方法返回一个发出数组型数据的可观察对象。每当数据源向此流中发出数据时，该表格都会重新渲染一次。
 
-Because the _data source_ provides this stream, it bears the responsibility of triggering table
-updates. This can be based on _anything_: websocket connections, user interaction, model updates,
+Because the *data source* provides this stream, it bears the responsibility of triggering table
+updates. This can be based on *anything*: websocket connections, user interaction, model updates,
 time-based intervals, etc. Most commonly, updates will be triggered by user interactions like
 sorting and pagination.
 
@@ -186,7 +186,7 @@ To improve performance, a `trackBy` function can be provided to the table simila
 [`ngFor` `trackBy`](https://angular.io/api/common/NgForOf#change-propagation). This informs the
 table how to uniquely identify rows to track how the data changes with each update.
 
-要想提高性能，可以在表格中提供一个类似于 Angular 的 [`ngFor` `trackBy`](https://angular.io/api/common/NgForOf#change-propagation) 指令。这会告诉表格要如何唯一地标识这些行，用以跟踪每次更新后数据的变化情况。
+要想提高性能，可以在表格中提供一个类似于 Angular 的 [`ngFor` `trackBy`](https://angular.cn/api/common/NgForOf#change-propagation) 指令。这会告诉表格要如何唯一地标识这些行，用以跟踪每次更新后数据的变化情况。
 
 ```html
 <table cdk-table [dataSource]="dataSource" [trackBy]="myTrackById">
@@ -238,5 +238,4 @@ For an example of how to render the structure as a table, see the
 [documentation for `<mat-table>`](https://material.angular.io/components/table) which includes
 the style support for this approach.
 
-有关如何将此结构渲染为表格的示例，请参阅 [`<mat-table>`](https://material.angular.io/components/table) 的[文档](https://material.angular.io/components/table)，其中包括此方法所需的样式支持。
-
+有关如何将此结构渲染为表格的示例，请参阅 [`<mat-table>`](https://material.angular.cn/components/table) 的[文档](https://material.angular.cn/components/table)，其中包括此方法所需的样式支持。

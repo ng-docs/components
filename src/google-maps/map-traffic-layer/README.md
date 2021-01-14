@@ -2,7 +2,11 @@
 
 The `MapTrafficLayer` component wraps the [`google.maps.TrafficLayer` class](https://developers.google.com/maps/documentation/javascript/reference/map#TrafficLayer) from the Google Maps JavaScript API. `autoRefresh` is true by default.
 
+`MapTrafficLayer` 组件包装了来自 Google Maps JavaScript API 中的 [`google.maps.TrafficLayer`](https://developers.google.com/maps/documentation/javascript/reference/map#TrafficLayer)  类。其 `autoRefresh` 属性默认为 true。
+
 ## Example
+
+## 例子
 
 ```typescript
 // google-maps-demo.component.ts

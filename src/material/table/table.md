@@ -79,9 +79,13 @@ Here's a simple column definition with the name `'score'`. The header cell conta
 Note that the cell templates are not restricted to only showing simple string values, but are
 flexible and allow you to provide any template.
 
+请注意，单元格模板不仅限于显示简单的字符串值，它非常灵活，可以让你提供任何模板。
+
 If your column is only responsible for rendering a single string value for the header and cells,
 you can instead define your column using the `mat-text-column`. The following column definition is
 equivalent to the one above.
+
+如果你的列只负责为表头和单元格渲染一个字符串值，可以改用 `mat-text-column` 来定义它。下面的列定义与上面的列定义是等价的。
 
 ```html
 <mat-text-column name="score"></mat-text-column>
@@ -91,6 +95,8 @@ Check out the API docs and examples of the `mat-text-column` to see how you can 
 text, text alignment, and cell data accessor.  Note that this is not compatible with the flex-layout
 table. Also, a data accessor should be provided if your data may have its properties minified
 since the string name will no longer match after minification.
+
+查看 API 文档和 `mat-text-column` 的例子，以了解如何自定义表头文本、文本对齐方式和单元格数据访问器。请注意，这与 flex-layout 表不兼容。此外，如果数据的属性最小化过，则应提供数据访问器，因为属性名和字符串名称在最小化后将不再匹配。
 
 #### 3. Define the row templates
 
@@ -410,8 +416,12 @@ masterToggle() {
 
 ##### 4. Include overflow styling
 
+##### 4. 包含 overflow 样式
+
 Finally, adjust the styling for the select column so that its overflow is not hidden. This allows
 the ripple effect to extend beyond the cell.
+
+最后，调整选取列的样式，让它的 overflow 不是 hidden。这样就可以让涟漪效果延伸到单元格之外。
 
 ```css
 .mat-column-select {
@@ -504,7 +514,11 @@ to resolve this.
 
 #### Multiple row templates
 
+#### 多行模板
+
 When using the `multiTemplateDataRows` directive to support multiple rows for each data object, the context of `*matRowDef` is the same except that the `index` value is replaced by `dataIndex` and `renderIndex`.
+
+当使用 `multiTemplateDataRows` 指令以支持让每个数据对象对应多行时，`*matRowDef` 中使用同一个上下文，不过其 `index` 值要换成 `dataIndex` 和 `renderIndex`。
 
 ### Accessibility
 

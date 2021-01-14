@@ -99,24 +99,27 @@ by the directives:
 
 `cdkDrag` 和 `cdkDropList` 指令只包含使用此功能时必需的那些样式。然后，该应用可以通过那些由指令添加的 CSS 类来定制这些元素：
 
-| Selector            | Description                                                              |
-|---------------------|--------------------------------------------------------------------------|
-| 选择器                     | 说明                                                                                                                                                                                             |
-| `.cdk-drop-list`    | Corresponds to the `cdkDropList` container.                              |
-| `.cdk-drop-list`           | 对应于 `cdkDropList` 容器。                                                                                                                                                                          |
-| `.cdk-drag`         | Corresponds to a `cdkDrag` instance.                                     |
-| `.cdk-drag`                | 对应于 `cdkDrag` 实例。                                                                                                                                                                              |
-| `.cdk-drag-disabled`| Class that is added to a disabled `cdkDrag`.                             |
-| `.cdk-drag-handle`  | Class that is added to the host element of the cdkDragHandle directive.  |
+| Selector | Description |
+| -------- | ----------- |
+| 选择器 | 说明 |
+| `.cdk-drop-list` | Corresponds to the `cdkDropList` container. |
+| `.cdk-drop-list` | 对应于 `cdkDropList` 容器。 |
+| `.cdk-drag` | Corresponds to a `cdkDrag` instance. |
+| `.cdk-drag` | 对应于 `cdkDrag` 实例。 |
+| `.cdk-drag-disabled` | Class that is added to a disabled `cdkDrag`. |
+| `.cdk-drag-disabled` | 要添加到已禁用的 `cdkDrag` 上的类。 |
+| `.cdk-drag-handle` | Class that is added to the host element of the cdkDragHandle directive. |
+| `.cdk-drag-handle` | 要添加到 cdkDragHandle 指令的宿主元素上的类。 |
 | `.cdk-drag-preview` | This is the element that will be rendered next to the user's cursor as they're dragging an item in a sortable list. By default the element looks exactly like the element that is being dragged. |
-| `.cdk-drag-preview`        | 这是当用户在可排序列表中拖动一个条目时，要渲染在用户光标附近的元素。默认情况下，该元素看上去和被拖动的元素完全一样。                                                                       |
+| `.cdk-drag-preview` | 这是当用户在可排序列表中拖动一个条目时，要渲染在用户光标附近的元素。默认情况下，该元素看上去和被拖动的元素完全一样。 |
 | `.cdk-drag-placeholder` | This is element that will be shown instead of the real element as it's being dragged inside a `cdkDropList`. By default this will look exactly like the element that is being sorted. |
-| `.cdk-drag-placeholder`    | 这是一个在拖入 `cdkDropList` 时要显示的元素，但不是真正的元素。默认情况下，它看上去和要排序的元素完全一样。                                                                               |
-| `.cdk-drop-list-dragging` | A class that is added to `cdkDropList` while the user is dragging an item.  |
-| `.cdk-drop-list-dragging`  | 当用户拖动条目时，添加到 `cdkDropList` 上的类。                                                                                                                                                          |
-| `.cdk-drop-list-disabled` | A class that is added to `cdkDropList` when it is disabled.  |
-| `.cdk-drop-list-receiving`| A class that is added to `cdkDropList` when it can receive an item that is being dragged inside a connected drop list.  |
-| `.cdk-drop-list-receiving` | 当 `cdkDropList` 可以接受某个拖动进关联拖放列表时，添加到 `cdkDropList` 上的类。                                                                                                         |
+| `.cdk-drag-placeholder` | 这是一个在拖入 `cdkDropList` 时要显示的元素，但不是真正的元素。默认情况下，它看上去和要排序的元素完全一样。 |
+| `.cdk-drop-list-dragging` | A class that is added to `cdkDropList` while the user is dragging an item. |
+| `.cdk-drop-list-dragging` | 当用户拖动条目时，添加到 `cdkDropList` 上的类。 |
+| `.cdk-drop-list-disabled` | A class that is added to `cdkDropList` when it is disabled. |
+| `.cdk-drop-list-disabled` | 当 `cdkDropList` 禁用时添加的一个类。 |
+| `.cdk-drop-list-receiving` | A class that is added to `cdkDropList` when it can receive an item that is being dragged inside a connected drop list. |
+| `.cdk-drop-list-receiving` | 当 `cdkDropList` 可以接受某个拖动进关联拖放列表时，添加到 `cdkDropList` 上的类。 |
 
 ### Animations
 
@@ -211,7 +214,7 @@ directive:
 The `cdkDropList` directive assumes that lists are vertical by default. This can be
 changed by setting the `orientation` property to `"horizontal"`.
 
-默认情况下，`cdkDropList` 指令假设列表是垂直的。可以把 `orientation` 属性设置为 `"horizontal"` 来改变它`。
+默认情况下，`cdkDropList` 指令假设列表是垂直的。可以把 `orientation` 属性设置为 `"horizontal"` 来改变它。
 
 <!-- example(cdk-drag-drop-horizontal-sorting) -->
 
@@ -237,7 +240,7 @@ By default, `cdkDrag` allows free movement in all directions. To restrict draggi
 specific axis, you can set `cdkDragLockAxis` on `cdkDrag` or `cdkDropListLockAxis` on `cdkDropList`
 to either `"x"` or `"y"`.
 
-默认情况下，`cdkDrag`允许所有方向的自由移动。要想限定只能沿特定的轴移动，可以把 `cdkDrag` 上的 `cdkDragLockAxis` 或 `cdkDropList` 上的 `lockAxis` 设置为 `"x"` 或 `"y"`。
+默认情况下，`cdkDrag` 允许所有方向的自由移动。要想限定只能沿特定的轴移动，可以把 `cdkDrag` 上的 `cdkDragLockAxis` 或 `cdkDropList` 上的 `lockAxis` 设置为 `"x"` 或 `"y"`。
 
 <!-- example(cdk-drag-drop-axis-lock) -->
 
@@ -272,25 +275,34 @@ be allowed into the new container.
 ### Disabled dragging
 
 ### 禁用拖动功能
+
 If you want to disable dragging for a particular drag item, you can do so by setting the
 `cdkDragDisabled` input on a `cdkDrag` item. Furthermore, you can disable an entire list
 using the `cdkDropListDisabled` input on a `cdkDropList` or a particular handle via
 `cdkDragHandleDisabled` on `cdkDragHandle`.
 
-如果要对特定的条目禁用拖曳，你可以在 `cdkDrag` 条目上设置输入属性 `cdkDragDisabled`。你还可以使用 `cdkDropList` 上的输入属性 `cdkDropListDisabled` 来禁用整个列表或 `cdkDragHandle` 上的 `cdkDragHandleDisabled`来进行特定的拖动手柄。
+如果要对特定的条目禁用拖曳，你可以在 `cdkDrag` 条目上设置输入属性 `cdkDragDisabled`。你还可以使用 `cdkDropList` 上的输入属性 `cdkDropListDisabled` 来禁用整个列表或 `cdkDragHandle` 上的 `cdkDragHandleDisabled` 来进行特定的拖动手柄。
 
 <!-- example(cdk-drag-drop-disabled) -->
 
 ### Disabled sorting
+
+### 禁用排序
+
 There are cases where draggable items can be dragged out of one list into another, however
 the user shouldn't be able to sort them within the source list. For these cases you can set the
 `cdkDropListSortingDisabled` input which will prevent the items in a `cdkDropList` from sorting,
 in addition to preserving the dragged item's initial position in the source list, if the user
 decides to return the item.
 
+某些情况下，可拖动的条目可以从一个列表拖到另一个列表中，但用户不应该在源列表中对它们进行排序。对于这些情况，你可以设置 `cdkDropListSortingDisabled` 输入，它会阻止 `cdkDropList` 保留被拖动条目在源列表中的初始位置（如果用户决定退回该条目）。
+
 <!-- example(cdk-drag-drop-disabled-sorting) -->
 
 ### Delayed dragging
+
+### 延迟拖动
+
 By default as soon as the user puts their pointer down on a `cdkDrag`, the dragging sequence will
 be started. This might not be desirable in cases like fullscreen draggable elements on touch
 devices where the user might accidentally trigger a drag as they're scrolling the page. For
@@ -298,20 +310,32 @@ cases like these you can delay the dragging sequence using the `cdkDragStartDela
 will wait for the user to hold down their pointer for the specified number of milliseconds before
 moving the element.
 
+默认情况下，只要用户把指针放在 `cdkDrag` ，就会启动拖动序列。这种对于触控设备上的全屏可拖动元素等情况可能并不理想，因为用户在滚动页面时可能会意外触发拖动。对于这类情况，你可以使用输入属性 `cdkDragStartDelay` 来延迟拖动，它会先等待用户按住指定的毫秒数之后才开始移动此元素。
+
 <!-- example(cdk-drag-drop-delay) -->
 
 ### Changing the standalone drag position
+
+### 改变独立的拖动位置
+
 By default, standalone `cdkDrag` elements move from their normal DOM position only when manually
 moved by a user. The element's position can be explicitly set, however, via the
 `cdkDragFreeDragPosition` input. Applications commonly use this, for example, to restore a
 draggable's position after a user has navigated away and then returned.
 
+默认情况下，独立的 `cdkDrag` 元素只有当用户手动移动时，才会从其常规 DOM 位置移开。通过输入属性 `cdkDragFreeDragPosition` 可以显式设置该元素的位置。例如，应用程序通常会这样做：当用户导航离开后，自动还原可拖动对象的位置，然后返回。
+
 <!-- example(cdk-drag-drop-free-drag-position) -->
 
 ### Controlling whether an item can be sorted into a particular index
+
+### 控制是否可以把一个条目排序到一个特定的序号上
+
 `cdkDrag` items can be sorted into any position inside of a `cdkDropList` by default. You can change
 this behavior by setting a `cdkDropListSortPredicate`. The predicate function will be called
 whenever an item is about to be moved into a new index. If the predicate returns `true`, the
 item will be moved into the new index, otherwise it will keep its current position.
+
+默认情况下，`cdkDrag` 的条目可以放到 `cdkDropList` 中的任意位置（序号）上。你可以通过设置 `cdkDropListSortPredicate` 来改变这种行为。每当一个条目要移到一个新的序号上时，就会调用一个谓词函数。如果该谓词返回 `true` ，则该项将被移入新序号，否则会保持当前位置。
 
 <!-- example(cdk-drag-drop-sort-predicate) -->

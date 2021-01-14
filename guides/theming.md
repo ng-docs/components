@@ -4,13 +4,19 @@
 
 ### What is a theme?
 
+### 什么是主题？
+
 Angular Material's theming system enables you to customize components to
 better reflect your product's brand. A theme consists of configurations for the individual
 `color` and `typography` systems in Angular Material. The library's approach to theming reflects
 the guidance from the [Material Design spec][1].
 
+Angular Material 的主题体系让你能够自定义组件，以更好地反映你产品的品牌形象。一个主题包含 Angular Material 中 `color` 和 `typography` 体系的配置。本库的主题方法遵循 [Material Design 规范][1]中给出的指导原则。
+
 In Angular Material, you create a color configuration by composing multiple palettes. In
 particular, a color configuration consists of:
+
+在 Angular Material 中，你可以通过组合多个调色板来创建颜色配置。具体来说，颜色配置包括：
 
 * A primary palette: colors most widely used across all screens and components.
 
@@ -33,6 +39,8 @@ particular, a color configuration consists of:
   背景色调色板：那些用做元素背景色的颜色。
 
 Additionally, in Angular Material, a configuration may optionally include `typography` settings. More information on how typography works can be [found in a dedicated guide][3].
+
+另外，在 Angular Material 中，配置可以选择性地包括 `typography`（排版）设置。关于排版原理的更多信息可以在这个[专栏][3]中找到。
 
 Angular Material theme styles are generated _statically_ at build-time so that your app doesn't have to spend cycles generating theme styles on startup.
 
@@ -110,6 +118,8 @@ A custom theme file does two things:
 
 2. Defines a **theme** data structure as the composition of configurations for the individual theming systems (`color` and `typography`). This object can be created with either the
    `mat-light-theme` function or the `mat-dark-theme` function. The output of this function is then passed to the `angular-material-theme` mixin, which will output all of the corresponding styles for the theme.
+
+   **主题**的数据结构定义为一些独立主题体系（`color` 和 `typography`）的配置组合。该对象可以用 `mat-light-theme` 函数或 `mat-dark-theme` 函数之一来创建。然后该函数的输出被传给 `angular-material-theme` mixin，这将输出该主题对应的所有样式。
 
 A typical theme file will look something like this:
 
@@ -253,7 +263,11 @@ You can include as many color schemes as you like in this manner. You can also `
 
 It's important to remember, however, that the `mat-core` mixin should only ever be included _once_. Similarly, the `angular-material-theme` mixin should not be used multiple times as it generates styles for all configured theming system parts. For example, typography styles would be generated multiple times, even though the configuration did not change. Instead, use fine-grained mixins such as `angular-material-color` that only result in styles being generated for the [color system][2].
 
+然而，重要的是要记住 `mat-core` mixin 只应该被包含*一次*。同样，`angular-material-theme` mixin 也不应多次使用，因为它会为所有已配置的各部分主题体系生成样式。例如，即使配置没有改变，也会多次生成排版样式。反之，应该使用细粒度的 mixins，比如 `angular-material-color` ，它只会为[颜色体系][2]生成样式。
+
 Read more about duplicated theme styles in the [dedicated guide](./duplicate-theming-styles.md).
+
+要了解更多关于重复主题风格的知识，请参见[专门的指南](./duplicate-theming-styles.md)。
 
 ##### Multiple themes and overlay-based components
 
@@ -318,15 +332,24 @@ $candy-app-theme:   mat-light-theme((
 
 #### Changing styles at run-time
 
+#### 在运行时改变样式
+
 ##### Toggling classes
+
+##### 切换类名
+
 You can use the theming mixins to customize any part of your application with standard
 CSS selectors. For example, let's say you want to toggle alternate colors on a button.
 You would first define a CSS class with the alternate colors.
+
+可以通过标准 CSS 选择器来使用这些主题 mixin，以自定义应用的任何部分。例如，假设你要在一个按钮上切换到备用颜色。你首先要用这些备用颜色定义一个 CSS 类。
 
 Note that `mat-button-color` should be used instead of `mat-button-theme` as we only
 want to have alternate colors for the button. Using the theme mixin could result in
 duplicative theme styles if the `mat-button-theme` has been included before. Read more about
 this in the [dedicated guide](./duplicate-theming-styles.md).
+
+需要注意的是应该用 `mat-button-color` 来代替 `mat-button-theme`，因为我们只希望有一些备用颜色的按钮。如果前面已经包含过 `mat-button-theme`，使用主题混入可能导致重复的主题风格。欲知详情，请参见[专门的指南](./duplicate-theming-styles.md)。
 
 ```scss
 .alternate-button {
@@ -337,6 +360,9 @@ this in the [dedicated guide](./duplicate-theming-styles.md).
 ```
 
 Then you can use normal Angular class bindings to toggle the alternate styles.
+
+然后，你可以使用普通的 Angular 类绑定来切换备用样式。
+
 ```html
 <div [class.alternate-button]="isAlternateMode">
   <button mat-button>Save changes</button>
@@ -346,11 +372,17 @@ Then you can use normal Angular class bindings to toggle the alternate styles.
 You can use this approach to style any component inside of the region marked with the custom
 CSS class.
 
+你可以用这个方法来为标记自定义 CSS 类的区域内的任何组件设置样式。
+
 ##### Swapping CSS files
+
+##### 交换 CSS 文件
 
 If you want to completely swap a theme without including all of the styles at once, you
 can swap the loaded theme file. The details will depend on your application, but the general
 idea looks like this:
+
+如果要完全交换主题而不想同时包含所有样式，你可以交换已加载的主题文件。其细节取决于你的应用，但总体思路如下：
 
 ```html
 

@@ -12,7 +12,7 @@ To add options to the select, add `<mat-option>` elements to the `<mat-select>`.
 has a `value` property that can be used to set the value that will be selected if the user chooses
 this option. The content of the `<mat-option>` is what will be shown to the user.
 
-要想往选择框中添加选项，请为`<mat-select>` 添加 `<mat-option>` 元素。每个 `<mat-option>` 都有一个 `value` 属性，用于给出当用户选择了该选项时的结果值，而 `<mat-option>` 的内容则会显示给用户。
+要想往选择框中添加选项，请为 `<mat-select>` 添加 `<mat-option>` 元素。每个 `<mat-option>` 都有一个 `value` 属性，用于给出当用户选择了该选项时的结果值，而 `<mat-option>` 的内容则会显示给用户。
 
 Angular Material also supports use of the native `<select>` element inside of
 `<mat-form-field>`. The native control has several performance, accessibility,
@@ -20,7 +20,7 @@ and usability advantages. See [the documentation for
 form-field](https://material.angular.io/components/form-field) for more information.
 
 Angular Material 还支持在 `<mat-form-field>` 中使用原生的 `<select>` 元素。
-这种原生控件在性能、无障碍性、可用性等方面具有一系列优点。参见 [form-field 的文档](https://material.angular.io/components/form-field)以了解详情。
+这种原生控件在性能、无障碍性、可用性等方面具有一系列优点。参见 [form-field 的文档](https://material.angular.cn/components/form-field)以了解详情。
 
 To use a native select inside `<mat-form-field>`, add  the `matNativeControl` attribute
 to the `<select>` element. 
@@ -231,6 +231,8 @@ The `<mat-select>` component without text or label should be given a meaningful 
 没有文本或标签的选择框组件应该通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。
 
 The `<mat-select>` component has `role="combobox"`, the dropdown panel has `role="listbox"` and options inside select panel have `role="option"`.
+
+`<mat-select>` 组件具有 `role="combobox"` 属性，下拉面板具有 `role="listbox"` 属性，并且其面板中的各个选项具有 `role="option"` 属性。
 
 The native `<select>` offers the best accessibility because it is supported directly by screen-readers.
 

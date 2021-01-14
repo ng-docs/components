@@ -52,12 +52,18 @@ export class YourDialog {
 
 ### Configuring dialog content via `entryComponents`
 
+### 通过 `entryComponents` 配置对话框的内容
+
 Because `MatDialog` instantiates components at run-time, the Angular compiler needs extra
 information to create the necessary `ComponentFactory` for your dialog content component.
+
+由于 `MatDialog` 是在运行时实例化组件的，所以 Angular 编译器需要额外的信息才能为对话框内容组件创建所需的 `ComponentFactory`。
 
 For any component loaded into a dialog, you must include your component class in the list of
 `entryComponents` in your NgModule definition so that the Angular compiler knows to create
 the `ComponentFactory` for it.
+
+对于任何要加载到对话框中的组件，都必须在 `entryComponents` 列表中包含你的组件类，以便 Angular 编译器知道如何为它创建 `ComponentFactory`。
 
 ```ts
 @NgModule({
@@ -131,6 +137,8 @@ export class YourDialog {
 
 Note that if you're using a template dialog (one that was opened with a `TemplateRef`), the data
 will be available implicitly in the template:
+
+注意，如果你正在使用模板对话框（用 `TemplateRef` 打开的对话框），其数据在模板中是隐式可用的：
 
 ```html
 <ng-template let-data>
@@ -273,11 +281,16 @@ wrapping back to the first tabbable element when reaching the end of the tab seq
 在对话框中的各个元素之间 tab 的时候，将会确保焦点始终位于对话框元素的内部，当到达 tab 序列的末尾时，就会回到该序列的头部。
 
 #### Focus Restoration
+
+#### 焦点复原
+
 Upon closing, the dialog returns focus to the element that had focus when the dialog opened.
 In some cases, however, this previously focused element no longer exists in the DOM, such as
 menu items. To manually restore focus to an appropriate element in such cases, you can disable 
 `restoreFocus` in `MatDialogConfig` and pass it into the `open` method.
 Then you can return focus manually by subscribing to the `afterClosed` observable on `MatDialogRef`.
+
+对话框关闭后，会把焦点返还给打开对话框时拥有焦点的元素。但是，在某些情况下，这个先前拥有焦点的元素可能在 DOM 中不再存在，例如菜单项。要想在这种情况下把焦点手动复原到合适的元素，你可以禁用 `MatDialogConfig` 中的 `restoreFocus`，并把它传给 `open` 方法。然后你可以通过订阅 `MatDialogRef` 上的 `afterClosed` 事件来手动返还焦点。
 
 <!-- example({"example":"dialog-from-menu",
               "file":"dialog-from-menu-example.ts", 

@@ -32,7 +32,7 @@ affect elements that are children of other components within your template. You 
 [_The State of CSS in Angular_](https://blog.angular.io/the-state-of-css-in-angular-4a52d4bd2700)
 on the Angular blog.
 
-默认情况下，Angular 组件的样式只会影响该组件的视图本身。也就是说你写的任何样式都只会影响到你这个组件模板中的元素。 它们**不会**影响到你模板中用到的其它组件的任何子元素。你可以到 [Angular 官方文档](https://angular.cn/guide/component-styles#view-encapsulation)中了解关于视图封装的更多知识。还可以到 Angular 官方博客中读一下 [* Angular 中 CSS 的开发状态*](https://blog.angular.io/the-state-of-css-in-angular-4a52d4bd2700)。
+默认情况下，Angular 组件的样式只会影响该组件的视图本身。也就是说你写的任何样式都只会影响到你这个组件模板中的元素。 它们**不会**影响到你模板中用到的其它组件的任何子元素。你可以到 [Angular 官方文档](https://angular.cn/guide/component-styles#view-encapsulation)中了解关于视图封装的更多知识。还可以到 Angular 官方博客中读一下 [* Angular 中 CSS 的开发状态*](https://blog.angular.cn/the-state-of-css-in-angular-4a52d4bd2700)。
 
 ##### Selector specificity
 
@@ -93,4 +93,4 @@ If your component has view encapsulation turned on (default), your component sty
 - Use a deprecated shadow-piercing descendant combinator to force styles to apply to all the child elements. Read more about this deprecated solution in the
   [Angular documentation](https://angular.io/guide/component-styles#deprecated-deep--and-ng-deep).
 
-  使用已弃用的 Shadow DOM 穿透组合器，强制这些样式应用于组件的所有子元素。欲知详情，参见 [Angular 官方文档](https://angular.io/guide/component-styles#deprecated-deep--and-ng-deep)。
+  使用已弃用的 Shadow DOM 穿透组合器，强制这些样式应用于组件的所有子元素。欲知详情，参见 [Angular 官方文档](https://angular.cn/guide/component-styles#deprecated-deep--and-ng-deep)。

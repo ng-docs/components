@@ -98,7 +98,7 @@ For flattened tree node, `getLevel` and `isExpandable` functions need to pass to
 
 `TreeControl` 控制树节点的展开/折叠状态。用户可以通过数控件来递归的展开/折叠树节点。
 对于嵌套树的节点，要把一个 `getChildren` 函数传给 `NestedTreeControl`，来让它能递归使用。
-`getChildren` 函数可以返回一个指定节点上子节点的 `Observable`或其子节点的数组。
+`getChildren` 函数可以返回一个指定节点上子节点的 `Observable` 或其子节点的数组。
 对于扁平树的节点，要把 `getLevel` 和 `isExpandable` 函数传给 `FlatTreeControl`，来让它能递归使用。
 
 ### Toggle

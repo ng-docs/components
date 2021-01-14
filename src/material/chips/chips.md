@@ -17,7 +17,7 @@ use `<mat-basic-chip>`. You can then customize the chip appearance by adding you
 
 _Hint: `<mat-basic-chip>` receives the `mat-basic-chip` CSS class in addition to the `mat-chip` class._
 
-*提示：`<mat-basic-chip>` 除了 `mat-chip` 类之外，还会添加 `mat-basic-chip`类。*
+*提示：`<mat-basic-chip>` 除了 `mat-chip` 类之外，还会添加 `mat-basic-chip` 类。*
 
 ### Selection
 

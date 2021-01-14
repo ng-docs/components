@@ -1,14 +1,16 @@
 The autocomplete is a normal text input enhanced by a panel of suggested options.
 
-自动完成（autocomplete）通过显示一个建议选项面板，来对标准文本框进行增强
+自动完成器（autocomplete）通过显示一个建议选项面板，来对标准文本框进行增强
 
 ### Simple autocomplete
 
-### 简单的自动完成
+### 简单的自动完成器
 
 Start by creating the autocomplete panel and the options displayed inside it. Each option should be
 defined by a `mat-option` tag. Set each option's value property to whatever you'd like the value
 of the text input to be when that option is selected.
+
+首先，创建自动完成面板，并在其中显示选项。每个选项都应该用 `mat-option` 标签来定义。把每个选项的 value 属性设置为你希望选择该选项时输入的文本值的值。
 
 <!-- example({"example":"autocomplete-simple",
               "file":"autocomplete-simple-example.html", 
@@ -17,6 +19,8 @@ of the text input to be when that option is selected.
 Next, create the input and set the `matAutocomplete` input to refer to the template reference we assigned 
 to the autocomplete. Let's assume you're using the `formControl` directive from `ReactiveFormsModule` to 
 track the value of the input.
+
+接下来，创建输入框并设置 `matAutocomplete` 输入属性以引用我们赋值给此自动完成器的模板引用。我们假设你使用 `ReactiveFormsModule` 中的 `formControl` 指令来跟踪输入框的值。
 
 > Note: It is possible to use template-driven forms instead, if you prefer. We use reactive forms
 in this example because it makes subscribing to changes in the input's value easy. For this
@@ -88,7 +92,7 @@ data as an object, but display just one of the option's string properties.
 To make this work, create a function on your component class that maps the control value to the
 desired display value. Then bind it to the autocomplete's `displayWith` property.
 
-要做到这一点，请在你的组件类上创建一个用于把控件值映射为其显示值的函数。然后把该函数绑定到自动完成组件的 `displayWith` 属性上。
+要做到这一点，请在你的组件类上创建一个用于把控件值映射为其显示值的函数。然后把该函数绑定到自动完成器的 `displayWith` 属性上。
 
 <!-- example(autocomplete-display) -->
 
@@ -107,9 +111,13 @@ injection token.
 
 ### Autocomplete on a custom input element
 
+### 在自定义输入元素上使用自动完成器
+
 While `mat-autocomplete` supports attaching itself to a `mat-form-field`, you can also set it on
 any other `input` element using the `matAutocomplete` attribute. This allows you to customize what
 the input looks like without having to bring in the extra functionality from `mat-form-field`.
+
+`mat-autocomplete` 支持把自己附加到 `mat-form-field` 上，你也可以使用 `matAutocomplete` 来把它设置到任何 `input` 元素上。这样你就可以自定义输入框的样子，而无需从 `mat-form-field` 引入额外的功能。
 
 <!-- example(autocomplete-plain-input) -->
 
@@ -183,4 +191,4 @@ The input for an autocomplete without text or labels should be given a meaningfu
 The autocomplete trigger is given `role="combobox"`. The trigger sets `aria-owns` to the
 autocomplete's id, and sets `aria-activedescendant` to the active option's id.
 
-自动完成组件的触发器是 `role="combobox"`。该触发器会把 `aria-owns` 设置为该组件的 id，并把 `aria-activedescendant` 设置为当前活动选项的 id。
+自动完成器的触发器是 `role="combobox"`。该触发器会把 `aria-owns` 设置为该组件的 id，并把 `aria-activedescendant` 设置为当前活动选项的 id。

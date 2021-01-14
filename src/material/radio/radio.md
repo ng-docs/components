@@ -68,7 +68,12 @@ Radio button groups should be given a meaningful label via `aria-label` or `aria
 单选按钮组应该通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。
 
 ### Default Color Configuration
+
+### 默认颜色配置
+
 The default color for radio buttons can be configured globally using the `MAT_RADIO_DEFAULT_OPTIONS` provider
+
+可以使用 `MAT_RADIO_DEFAULT_OPTIONS` 提供者全局配置单选按钮的默认颜色
 
 ```
 providers: [{

@@ -74,4 +74,3 @@ the key of the inner map is the row template. The value of the inner map should 
 `RenderRow` objects that were previously rendered.
 
 为了达到这个目的，缓存是作为一个映射表来构建的，其中外层映射表的键是数据对象，内层映射表的键是行模板。内层映射表的值是先前渲染过的与缓存 `RenderRow` 对象配对的数组。
-

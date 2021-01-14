@@ -43,14 +43,14 @@ interface. There are three stages of a scroll strategy's life cycle:
 
    在创建浮层的时候，会调用该策略的 `attach` 方法并传入浮层自身的引用。
 
-2. When an overlay is attached to the DOM, it'll call the `enable` method on its scroll strategy,
+1. When an overlay is attached to the DOM, it'll call the `enable` method on its scroll strategy,
 
    当浮层附加到 DOM 中时，它会调用其滚动策略中的 `enable` 方法，
 
-3. When an overlay is detached from the DOM or destroyed, it'll call the `disable` method on its
-scroll strategy, allowing it to clean up after itself.
+1. When an overlay is detached from the DOM or destroyed, it'll call the `disable` method on its
+   scroll strategy, allowing it to clean up after itself.
 
-   当一个浮层从 DOM 中分离出来或者被销毁时，它会调用滚动策略的 `disable` 方法，让它在自己清理完之后做一些清理工作。
+      当一个浮层从 DOM 中分离出来或者被销毁时，它会调用滚动策略的 `disable` 方法，让它在自己清理完之后做一些清理工作。
 
 Afterwards you can pass in the new scroll strategy to your overlay state:
 

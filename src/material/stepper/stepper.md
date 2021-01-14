@@ -52,9 +52,14 @@ For more complex labels, add a template with the `matStepLabel` directive inside
               "region": "step-label"}) -->
 
 #### Label position
+
+#### 标签位置
+
 For `mat-horizontal-stepper` it's possible to define the position of the label. `end` is the
 default value, while `bottom` will place it under the step icon instead of at its side.
 This behaviour is controlled by `labelPosition` property.
+
+`mat-horizontal-stepper` 可以定义标签的位置。`end` 是默认值，而 `bottom` 会把它放在步骤图标的下面而不是侧面。这个行为是由 `labelPosition` 属性控制的。
 
 <!-- example({"example": "stepper-label-position-bottom",
               "file": "stepper-label-position-bottom-example.html",
@@ -250,6 +255,8 @@ you can set the error message through the `errorMessage` input and configure the
 errors via the `showError` option in the `STEPPER_GLOBAL_OPTIONS` injection token. Note that since
 `linear` steppers prevent a user from advancing past an invalid step to begin with, this setting
 will not affect steppers marked as `linear`.
+
+如果要在用户移过一个尚未正确填写的步骤时显示错误，可以通过输入属性 `errorMessage` 设置错误信息。并且通过 `STEPPER_GLOBAL_OPTIONS` 令牌中的 `showError` 选项配置步进器显示错误的方式。请注意，由于 `linear` 步进器会阻止用户跳过无效的步骤，因此该设置不会影响标记为 `linear` 的步进器。
 
 ```ts
 @NgModule({

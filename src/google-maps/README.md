@@ -1,18 +1,36 @@
 # Angular Google Maps component
 
+# Angular Google Maps 组件
+
 This component provides a Google Maps Angular component that implements the
 [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial).
 File any bugs against the [angular/components repo](https://github.com/angular/components/issues).
 
+该组件提供了一个用于实现 [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial) 的 Google Maps Angular 组件。请到 [angular/components 仓库提交](https://github.com/angular/components/issues)任何 BUG。
+
 ## Installation
+
+## 安装
 
 To install, run `npm install @angular/google-maps`.
 
+要安装它，请运行 `npm install @angular/google-maps` 。
+
 ## Loading the API
 
+## 加载 API
+
 - First follow [these steps](https://developers.google.com/maps/gmp-get-started) to get an API key that can be used to load Google Maps.
+
+  首先，按照[以下步骤操作](https://developers.google.com/maps/gmp-get-started)，获取可用于加载 Google 地图的 API 密钥。
+
 - Load the [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API).
+
+  加载 [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API) 。
+
 - The Google Maps JavaScript API must be loaded before the `GoogleMap` component.
+
+  谷歌地图 JavaScript API 必须在 `GoogleMap` 组件之前加载。
 
 ```html
 <!-- index.html -->
@@ -26,7 +44,11 @@ To install, run `npm install @angular/google-maps`.
 
 ## Lazy Loading the API
 
+## 惰性加载 API
+
 The API can be loaded when the component is actually used by using the Angular HttpClient jsonp method to make sure that the component doesn't load until after the API has loaded.
+
+当实际使用组件时，可以通过使用 Angular HttpClient 的 jsonp 方法来加载此 API，以确保该组件会在 API 加载完之后再加载。
 
 ```typescript
 // google-maps-demo.module.ts
@@ -89,6 +111,8 @@ export class GoogleMapsDemoComponent {
 
 ## Components
 
+## 组件
+
 - [`GoogleMap`](./google-map/README.md)
 - [`MapMarker`](./map-marker/README.md)
 - [`MapInfoWindow`](./map-info-window/README.md)
@@ -104,7 +128,11 @@ export class GoogleMapsDemoComponent {
 
 ## The Options Input
 
+## 输入属性 `options`
+
 The Google Maps components implement all of the options for their respective objects from the Google Maps JavaScript API through an `options` input, but they also have specific inputs for some of the most common options. For example, the Google Maps component could have its options set either in with a google.maps.MapOptions object:
+
+Google Maps 组件通过输入属性 `options` 为 Google Maps JavaScript API 中的所有选项实现了相应的对象，但它们也为一些最常用的选项提供了专门的输入属性。例如，Google Maps 组件可以使用 google.maps.MapOptions 对象设置其选项：
 
 ```html
 <google-map [options]="options"></google-map>
@@ -119,6 +147,8 @@ options: google.maps.MapOptions = {
 
 It can also have individual options set for some of the most common options:
 
+也可以为一些最常用的选项设置一些单独的选项：
+
 ```html
 <google-map [center]="center"
             [zoom]="zoom"></google-map>
@@ -130,3 +160,5 @@ zoom = 4;
 ```
 
 Not every option has its own input. See the API for each component to see if the option has a dedicated input or if it should be set in the options input.
+
+并非每个选项都有自己的输入属性。查看每个组件的 API，了解该选项是否具有专用输入属性，还是应该在输入属性 options 中进行设置。

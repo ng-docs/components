@@ -27,7 +27,7 @@ header to align with Material Design specifications.
 <!-- example({"example": "expansion-overview",
               "file": "expansion-overview-example.html", 
               "region": "basic-panel"}) -->
-              
+
 By default, the expansion-panel header includes a toggle icon at the end of the
 header to indicate the expansion state. This icon can be hidden via the
 `hideToggle` property.

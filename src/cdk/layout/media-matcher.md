@@ -1,5 +1,5 @@
 ### MediaMatcher
- 
+
 When including the CDK's `LayoutModule`, components can inject `MediaMatcher` to access the 
 matchMedia method, if available on the platform.
 
@@ -19,4 +19,3 @@ export class MyWidget {
   }
 }  
 ```
-

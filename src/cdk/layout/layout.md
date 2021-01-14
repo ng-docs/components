@@ -74,36 +74,39 @@ The available values are:
 
 内置的断点基于 [Google 的 Material Design 规范](https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints) 。可用的值有：
 
-* Handset
+- Handset
 
   Handset - 手持设备
 
-* Tablet
+- Tablet
 
   Tablet - 平板电脑
 
-* Web
-* HandsetPortrait
+- Web
+
+  Web - 网站
+
+- HandsetPortrait
 
   HandsetPortrait - 手持设备竖屏
 
-* TabletPortrait
+- TabletPortrait
 
   TabletPortrait - 平板电脑竖屏
 
-* WebPortrait
+- WebPortrait
 
   WebPortrait - Web 竖屏
 
-* HandsetLandscape
+- HandsetLandscape
 
   HandsetLandscape - 手持设备横屏
 
-* TabletLandscape
+- TabletLandscape
 
   TabletLandscape - 平板电脑横屏
 
-* WebLandscape
+- WebLandscape
 
   WebLandscape - Web 横屏
 

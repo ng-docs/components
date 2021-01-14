@@ -26,7 +26,7 @@ managing that specific overlay.
 
 调用 `overlay.create()` 将返回一个 `OverlayRef` 实例。该实例用于管理那个特定浮层。
 
-The `OverlayRef` _is_ a `PortalOutlet`- once created, content can be added by attaching a `Portal`.
+The `OverlayRef` *is* a `PortalOutlet`- once created, content can be added by attaching a `Portal`.
 See the documentation on portals for further information.
 
 `OverlayRef` *是*一个 `PortalOutlet`。一旦创建它，就可以为它附加一个 `Portal` 来添加内容。更多信息，请参见关于 portals（）门户的文档。
@@ -97,7 +97,7 @@ Each `PositionStrategy` defines an `apply` method that is called whenever the ov
 should be updated. A custom position strategy can additionally expose any other APIs necessary as
 related to the positioning of the overlay element.
 
-可以通过实现 `PositionStrategy` 接口来创建自定义位置策略。每个 `PositionStrategy` 都定义了一个 `apply` 方法，每当应该更新该浮层的位置时，都会调用此方法。自定义位置策略还可以暴露一些与浮层元素定位有关的必要API。
+可以通过实现 `PositionStrategy` 接口来创建自定义位置策略。每个 `PositionStrategy` 都定义了一个 `apply` 方法，每当应该更新该浮层的位置时，都会调用此方法。自定义位置策略还可以暴露一些与浮层元素定位有关的必要 API。
 
 #### Scroll strategies
 
@@ -121,7 +121,7 @@ applications may implement special or customized page scrolling; if the `BlockSc
 conflicts with this kind of situation, it can be overriden by re-providing `BlockScrollStrategy`
 with a custom implementation.
 
-当浮层打开时，`BlockScrollStrategy` 会阻止页面滚动。注意，某些应用可能会实现特殊或自定义的页面滚动；如果`BlockScrollStrategy` 与这种情况冲突，可以通过重新提供带有自定义实现的 `BlockScrollStrategy` 来覆盖它。
+当浮层打开时，`BlockScrollStrategy` 会阻止页面滚动。注意，某些应用可能会实现特殊或自定义的页面滚动；如果 `BlockScrollStrategy` 与这种情况冲突，可以通过重新提供带有自定义实现的 `BlockScrollStrategy` 来覆盖它。
 
 `RepositionScrollStrategy` will re-position the overlay element on scroll. Note that this will have
 some performance impact on scrolling- users should weigh this cost in the context of each specific

@@ -143,7 +143,11 @@ the appropriate keyboard shortcuts. The `<mat-nav-tab-bar>`, however, use a _nav
 pattern by using a `<nav>` element with anchor elements as the "tabs". The difference
 between these two patterns comes from the fact one updates the page URL while the other does not.
 
+`<mat-tab-group>` 和 `<mat-nav-tab-bar>` 使用不同的交互模式。 `<mat-tab-group>` 组件会把 `tablist`、`tab` 和 `tabpanel` 合成一个带有相应键盘快捷键的组件。而 `<mat-nav-tab-bar>` 会以带锚点的 `<nav>` 元素作为页标签来使用*导航*交互模式。这两种模式之间的差异来自于后者要更新页面 URL，而前者不用。
+
 #### Labels
+
+#### 标签
 
 Tabs without text or labels should be given a meaningful label via `aria-label` or
 `aria-labelledby`. For `MatTabNav`, the `<nav>` element should have a label as well.

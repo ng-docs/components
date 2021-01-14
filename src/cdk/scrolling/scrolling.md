@@ -23,7 +23,7 @@ scrollable containers in the application.
 The `ViewportRuler` is a service that can be injected and used to measure the bounds of the browser
 viewport.
 
-`ViewportRuler`是一种可注入的服务，用于衡量浏览器视口的范围。
+`ViewportRuler` 是一种可注入的服务，用于衡量浏览器视口的范围。
 
 ### Virtual scrolling
 
@@ -47,7 +47,7 @@ rest.
 same API as [`*ngFor`](https://angular.io/api/common/NgForOf). The simplest usage just specifies the
 list of items (note that the `itemSize` property on the viewport must be set):
 
-`*cdkVirtualFor` 替换了 `<cdk-virtual-scroll-viewport>` 中的 [`*ngFor`](https://angular.io/api/common/NgForOf)，它支持与 [`*ngFor`](https://angular.io/api/common/NgForOf) 完全相同的API。最简单的用法就是指定条目列表（注意，必须在视口中设置 `itemSize` 属性）：
+`*cdkVirtualFor` 替换了 `<cdk-virtual-scroll-viewport>` 中的 [`*ngFor`](https://angular.cn/api/common/NgForOf)，它支持与 [`*ngFor`](https://angular.cn/api/common/NgForOf) 完全相同的 API。最简单的用法就是指定条目列表（注意，必须在视口中设置 `itemSize` 属性）：
 
 <!-- example(cdk-virtual-scroll-overview) -->
 
@@ -55,21 +55,21 @@ list of items (note that the `itemSize` property on the viewport must be set):
 
 `*cdkVirtualFor` 让模板中可以使用这些上下文变量：
 
-| Context variable | Description                                        |
-|------------------|----------------------------------------------------|
-| 上下文变量       | 说明                                               |
-| `index`          | The index of the item in the data source.          |
-| `index`          | 该条目在数据源中的索引。                               |
-| `count`          | The total number of items in the data source.      |
-| `count`          | 数据源中的条目总数。                               |
-| `first`          | Whether this is the first item in the data source. |
-| `first`          | 这是否是数据源中的第一个条目。                         |
-| `last`           | Whether this is the last item in the data source.  |
-| `last`           | 这是否是数据源中的最后一个条目。                       |
-| `even`           | Whether the `index` is even.                       |
-| `even`           | 该 `index` 是否为偶数。                                  |
-| `odd`            | Whether the `index` is odd.                        |
-| `odd`            | 该 `index` 是否为奇数。                              |
+| Context variable | Description |
+| ---------------- | ----------- |
+| 上下文变量 | 说明 |
+| `index` | The index of the item in the data source. |
+| `index` | 该条目在数据源中的索引。 |
+| `count` | The total number of items in the data source. |
+| `count` | 数据源中的条目总数。 |
+| `first` | Whether this is the first item in the data source. |
+| `first` | 这是否是数据源中的第一个条目。 |
+| `last` | Whether this is the last item in the data source. |
+| `last` | 这是否是数据源中的最后一个条目。 |
+| `even` | Whether the `index` is even. |
+| `even` | 该 `index` 是否为偶数。 |
+| `odd` | Whether the `index` is odd. |
+| `odd` | 该 `index` 是否为奇数。 |
 
 All of these apply to the index of the item in the data source, not the index in the rendered
 portion of the data.
@@ -140,7 +140,7 @@ remaining. Since this is below `minBufferPx` the viewport must render more buffe
 least enough buffer to get back to `maxBufferPx`. In this case, it renders 4 items (an additional
 `200px`) to bring the total buffer size to `290px`, back above `maxBufferPx`.
 
-这两个缓冲区参数的作用可以用一个例子来说明。假设我们有以下参数：`itemSize = 50`、`minBufferPx = 100`、`maxBufferPx = 250`。当用户滚动浏览内容时，视口就会检测到只剩下 `90px` 的缓冲区。由于它小于 `minBufferPx`，所以视口必须渲染更多缓冲区。它必须渲染足够数量的缓冲区，直到其大于等于 `maxBufferPx`。在这种情况下，它渲染了4个条目（额外的 `200px`），使缓冲区总大小达到`290px`，略高于`maxBufferPx` 。
+这两个缓冲区参数的作用可以用一个例子来说明。假设我们有以下参数：`itemSize = 50`、`minBufferPx = 100`、`maxBufferPx = 250`。当用户滚动浏览内容时，视口就会检测到只剩下 `90px` 的缓冲区。由于它小于 `minBufferPx`，所以视口必须渲染更多缓冲区。它必须渲染足够数量的缓冲区，直到其大于等于 `maxBufferPx`。在这种情况下，它渲染了 4 个条目（额外的 `200px`），使缓冲区总大小达到 `290px`，略高于 `maxBufferPx` 。
 
 <!-- example(cdk-virtual-scroll-fixed-buffer) -->
 
@@ -174,7 +174,7 @@ their proper parent, and then wrap the whole thing in a `cdk-virtual-scroll-view
 that the parent does not introduce additional space (e.g. via `margin` or `padding`) as it will
 interfere with the scrolling.
 
-某些HTML元素（如 `<tr>` 和 `<li>`）对它们所在的父元素种类有一些限制。要想对这些类型的元素进行虚拟滚动操作，就要把它们放在合适的父元素中，然后把它们共同包装在 `cdk-virtual-scroll-viewport` 中。注意，父组件中不要引入额外的空白区（比如通过 `margin` 或 `padding`），因为这样会干扰滚动。
+某些 HTML 元素（如 `<tr>` 和 `<li>`）对它们所在的父元素种类有一些限制。要想对这些类型的元素进行虚拟滚动操作，就要把它们放在合适的父元素中，然后把它们共同包装在 `cdk-virtual-scroll-viewport` 中。注意，父组件中不要引入额外的空白区（比如通过 `margin` 或 `padding`），因为这样会干扰滚动。
 
 <!-- example(cdk-virtual-scroll-dl) -->
 

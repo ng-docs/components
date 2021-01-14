@@ -71,17 +71,25 @@ SVG content is the CSS
 value. This makes SVG icons by default have the same color as surrounding text, and allows you to
 change the color by setting the `color` style on the `mat-icon` element.
 
+`<mat-icon>` 会把 SVG 内容直接内联到 DOM 中，作为自己的子级，来显示 SVG 图标。这种方法比 `<img>` 标签或 CSS `background-image` 更有优势，因为它允许使用 CSS 来为 SVG 指定样式。例如，SVG 内容的默认颜色是 CSS 的 [currentColor](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#currentColor_keyword) 值。这会使 SVG 图标默认使用与周围文本相同的颜色，并让你能通过设置 `mat-icon` 元素 `color` 样式来改变其颜色。
+
 In order to guard against XSS vulnerabilities, any SVG URLs and HTML strings passed to the
 `MatIconRegistry` must be marked as trusted by using Angular's `DomSanitizer` service.
+
+为了防范 XSS 漏洞， 传给 `MatIconRegistry` 的 SVG URL 和 HTML 字符串都必须使用 Angular 的 `DomSanitizer` 服务标记为可信的。
 
 `MatIconRegistry` fetches all remote SVG icons via Angular's `HttpClient` service. If you haven't
 included [`HttpClientModule` from the `@angular/common/http` package](https://angular.io/guide/http)
 in your `NgModule` imports, you will get an error at runtime.
 
+`MatIconRegistry` 通过 Angular 的 `HttpClient` 服务获取所有的远程 SVG 图标。如果你没有在 `NgModule` 的 `imports` 里包含 [`@angular/common/http` 包里 `HttpClientModule`](https://angular.cn/guide/http)，那么运行时就会出错。
+
 Note that `HttpClient` fetches SVG icons registered with a URL via `XmlHttpRequest`, subject to the
 [Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy). This
 means that icon URLs must have the same origin as the containing page or that the application's
 server must be configured to allow cross-origin requests.
+
+注意，`HttpClient` 要借助 `XmlHttpRequest` 来获取通过 URL 注册的 SVG 图标，它必须遵循[同源策略](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)。这意味着图标的 URL 必须与容器页面具有相同的源，或者必须将该应用服务器配置为允许跨域请求。
 
 #### Named icons
 

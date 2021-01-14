@@ -40,12 +40,18 @@ by using the `matDatepickerToggleIcon` directive:
 
 ### Date range selection
 
+### 日期范围选择
+
 If you want your users to select a range of dates, instead of a single date, you can use the
 `mat-date-range-input` and `mat-date-range-picker` components. They work in tandem, similarly to the
 `mat-datepicker` and the basic datepicker input.
 
+如果你希望用户选择一个日期范围而不是单个日期，可以使用 `mat-date-range-input` 和 `mat-date-range-picker` 组件。它们可以关联使用，类似于 `mat-date-range-input` 和 `mat-datepicker`。
+
 The `mat-date-range-input` component requires two `input` elements for the start and end dates,
 respectively:
+
+`mat-date-range-input` 组件要求为开始日期和结束日期分别提供两个 `input` 元素：
 
 ```html
 <mat-date-range-input>
@@ -57,11 +63,15 @@ respectively:
 The `mat-date-range-picker` component acts as the pop-up panel for selecting dates. This works in
 the same way as `mat-datepicker`, but allows the user to select multiple times:
 
+`mat-date-range-picker` 组件作为弹出式面板，用于选择日期。其工作方式和 `mat-datepicker` 相同，但允许用户多次选择：
+
 ```html
 <mat-date-range-picker #picker></mat-date-range-picker>
 ```
 
 Connect the range picker and range input using the `rangePicker` property:
+
+使用 `rangePicker` 属性把范围选择器和范围输入框联系起来：
 
 ```html
 <mat-date-range-input [rangePicker]="picker">
@@ -76,8 +86,12 @@ Connect the range picker and range input using the `rangePicker` property:
 
 ### Date range input forms integration
 
+### 日期范围输入框的表单集成
+
 The `mat-date-range-input` component can be used together with the `FormGroup` directive from
 `@angular/forms` to group the start and end values together and to validate them as a group.
+
+`mat-date-range-input` 组件可以和来自 `@angular/forms` 的 `FormGroup` 指令一起使用，它会把起始值和结束值组合在一起，并把它们作为一个组进行验证。
 
 <!-- example(date-range-picker-forms) -->
 
@@ -283,6 +297,8 @@ but allow selection via the calendar or vice-versa.
 
 ### Confirmation action buttons
 
+### 确认动作按钮
+
 By default, clicking on a date in the calendar will select it and close the calendar popup. In some
 cases this may not be desirable, because the user doesn't have a quick way of going back if they've
 changed their mind. If you want your users to be able to cancel their selection and to have to
@@ -292,6 +308,8 @@ inside `<mat-datepicker>` with a "Cancel" and an "Apply" button marked with the
 datepicker to only assign the value to the data model if the user presses "Apply", whereas pressing
 "Cancel" will close popup without changing the value.
 
+默认情况下，单击日历中的某个日期会选择它并关闭日历弹出窗口。在某些情况下，这可能是不可取的，因为如果用户改变主意，用户就无法快速返回。如果你希望你的用户可以取消他们的选择，而必须明确接受他们已经选择的值，你可以在 `<mat-datepicker>` 中添加一个 `<mat-datepicker-actions>` 元素，内含带有 `matDatepickerCancel` 属性的 “Cancel” 按钮和带有 `matDatepickerApply` 属性的 “Apply” 按钮。这样就会让日期选择器只有在用户按下 “Apply” 的情况下才把值赋给数据模型，而按下 “Cancel” 则会关闭弹出窗口而不改变值。
+
 <!-- example({"example":"datepicker-actions",
               "file":"datepicker-actions-example.html",
               "region":"datepicker-actions"}) -->
@@ -299,6 +317,8 @@ datepicker to only assign the value to the data model if the user presses "Apply
 The actions element is also supported for `<mat-date-range-picker>` where that it is called
 `<mat-date-range-picker-actions>` and the buttons are called `matDateRangePickerCancel` and
 `matDateRangePickerApply` respectively.
+
+此 actions 元素也支持 `<mat-date-range-picker>`，它叫做 `<mat-date-range-picker-actions>`，其按钮分别叫做 `matDateRangePickerCancel` 和 `matDateRangePickerApply`。
 
 <!-- example({"example":"datepicker-actions",
               "file":"datepicker-actions-example.html",
@@ -308,11 +328,15 @@ The actions element is also supported for `<mat-date-range-picker>` where that i
 
 ### Comparison ranges
 
+### 比较范围
+
 If your users need to compare the date range that they're currently selecting with another range,
 you can provide the comparison range start and end dates to the `mat-date-range-input` using the
 `comparisonStart` and `comparisonEnd` bindings. The comparison range will be rendered statically
 within the calendar, but it will change colors to indicate which dates overlap with the user's
 selected range.
+
+如果你的用户需要把他们当前正在选择的日期范围与另一个范围进行比较，你可以使用 `comparisonStart` 和 `comparisonEnd` 绑定来为 `mat-date-range-input` 提供比较范围。比较范围会在日历中静态呈现，但会改变颜色，以便指示哪些日期与用户选定的范围重叠。
 
 <!-- example(date-range-picker-comparison) -->
 
@@ -320,13 +344,19 @@ Note that comparison and overlap colors aren't derived from the current theme, d
 to limitations in the Material Design theming system. They can be customized using the
 `mat-date-range-colors` mixin.
 
+请注意，由于 Material Design 主题体系的限制，比较色和重叠色并非来自当前主题。可以使用 `mat-date-range-colors` mixin 来定制它们。
+
 ### Customizing the date selection logic
+
+### 自定义日期选择逻辑
 
 The `mat-date-range-picker` supports custom behaviors for range previews and selection. To customize
 this, you first create a class that implements `MatDateRangeSelectionStrategy`, and then provide
 the class via the `MAT_DATE_RANGE_SELECTION_STRATEGY` injection token. The following example
 uses the range selection strategy to create a custom range picker that limits the user to five-day
 ranges.
+
+`mat-date-range-picker` 支持自定义范围预览和选择的行为。为了自定义它，首先要创建一个实现 `MatDateRangeSelectionStrategy` 的类，然后通过 `MAT_DATE_RANGE_SELECTION_STRATEGY` 令牌提供该类。下面的例子使用这种范围选择策略来创建一个自定义范围选择器，它可以把用户限制在五天的范围内。
 
 <!-- example(date-range-picker-selection-strategy) -->
 
@@ -506,7 +536,7 @@ export class MyComponent {
 By default the `MomentDateAdapter` creates dates in your time zone specific locale. You can change the default behaviour to parse dates as UTC by providing the `MAT_MOMENT_DATE_ADAPTER_OPTIONS` and setting it to `useUtc: true`.
 
 默认情况下，`MomentDateAdapter` 会在时区设置中指定的时区上创建日期。
-你可以通过提供 `MAT_MOMENT_DATE_ADAPTER_OPTIONS` 并把它设置为 `useUtc: true`来把默认行为修改为按照 UTC 格式解析日期。
+你可以通过提供 `MAT_MOMENT_DATE_ADAPTER_OPTIONS` 并把它设置为 `useUtc: true` 来把默认行为修改为按照 UTC 格式解析日期。
 
 ```ts
 @NgModule({
@@ -522,6 +552,8 @@ By default the `MomentDateAdapter` will parse dates in a
 being parsed incorrectly. You can change the default behaviour to
 [parse dates strictly](https://momentjs.com/guides/#/parsing/strict-mode/) by providing
 the `MAT_MOMENT_DATE_ADAPTER_OPTIONS` and setting it to `strict: true`.
+
+默认情况下， `MomentDateAdapter` 会以[宽容方式](https://momentjs.com/guides/#/parsing/forgiving-mode/)解析日期。这可能导致日期被错误解析。你可以通过提供 `MAT_MOMENT_DATE_ADAPTER_OPTIONS` 并把它设置为 `strict: true` 来修改默认行为以便[严格解析日期](https://momentjs.com/guides/#/parsing/strict-mode/)。
 
 ```ts
 @NgModule({
@@ -585,11 +617,17 @@ export class MyApp {}
 
 ##### MomentDateModule formats
 
+##### MomentDateModule 的格式
+
 To use custom formats with the `MomentDateModule` you can pick from the parse formats documented
 [here](https://momentjs.com/docs/#/parsing/string-format/) and the display formats documented
 [here](https://momentjs.com/docs/#/displaying/format/).
 
+要使用 `MomentDateModule` 的自定义格式，你可以从[这里](https://momentjs.com/docs/#/parsing/string-format/)的文档中挑选解析格式，在[这里](https://momentjs.com/docs/#/displaying/format/)的文档中挑选显示格式。
+
 It is also possible to support multiple parse formats. For example:
+
+也可以支持多种解析格式。例如：
 
 ```ts
 @NgModule({
@@ -659,10 +697,15 @@ export class MyApp {}
 ```
 
 #### Highlighting specific dates
+
+#### 突出显示特定日期
+
 If you want to apply one or more CSS classes to some dates in the calendar (e.g. to highlight a
 holiday), you can do so with the `dateClass` input. It accepts a function which will be called
 with each of the dates in the calendar and will apply any classes that are returned. The return
 value can be anything that is accepted by `ngClass`.
+
+如果你想把一个或多个 CSS 类应用到日历中的某些日期（比如突出显示一个假日），你可以使用输入属性 `dateClass`。它接受一个函数，将对日历中的每个日期调用该函数，并应用其返回的任何类。返回值可以是 `ngClass` 接受的任何值。
 
 <!-- example(datepicker-date-class) -->
 
@@ -696,8 +739,8 @@ The datepicker supports the following keyboard shortcuts:
 | 快捷键             | 操作                                    |
 | `ALT` + `DOWN_ARROW` | Open the calendar pop-up                  |
 | `ALT` + `DOWN_ARROW` | 打开日历弹出框 |
-| `ESCAPE`             | Close the calendar pop-up                 |
-| `ESCAPE`             | 关闭日历弹出框 |
+| `ESCAPE` | Close the calendar pop-up |
+| `ESCAPE` | 关闭日历弹出框 |
 
 
 In month view:
