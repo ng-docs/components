@@ -1,0 +1,20 @@
+language: node_js
+sudo: false
+dist: trusty
+node_js:
+  - 12.14.1
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+  chrome: stable
+
+branches:
+  only:
+    master
+
+script:
+  - "yarn build-docs-content"
+  - "./scripts/deploy/deploy-cn.sh"
