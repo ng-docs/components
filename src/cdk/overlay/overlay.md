@@ -29,7 +29,7 @@ managing that specific overlay.
 The `OverlayRef` *is* a `PortalOutlet`- once created, content can be added by attaching a `Portal`.
 See the documentation on portals for further information.
 
-`OverlayRef` *是*一个 `PortalOutlet`。一旦创建它，就可以为它附加一个 `Portal` 来添加内容。更多信息，请参见关于 portals（）门户的文档。
+`OverlayRef` *是*一个 `PortalOutlet`。一旦创建它，就可以为它附加一个 `Portal` 来添加内容。更多信息，请参见关于 portals（传送点）的文档。
 
 ```ts
 const overlayRef = overlay.create();

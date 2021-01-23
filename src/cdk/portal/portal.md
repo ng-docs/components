@@ -4,7 +4,7 @@ The `portals` package provides a flexible system for rendering dynamic content i
 
 ### Portals
 
-### 门户
+### 传送点
 
 A `Portal` is a piece of UI that can be dynamically rendered to an open slot on the page.
 
@@ -28,11 +28,11 @@ built upon.
 | ------ | ----------- |
 | 方法 | 说明 |
 | `attach(PortalOutlet): T` | Attaches the portal to a host. |
-| `attach(PortalOutlet): T` | 把此门户附着到宿主上。 |
+| `attach(PortalOutlet): T` | 把此传送点附着到宿主上。 |
 | `detach(): void` | Detaches the portal from its host. |
-| `detach(): void` | 把此门户从宿主上拆除。 |
+| `detach(): void` | 把此传送点从宿主上拆除。 |
 | `isAttached: boolean` | Whether the portal is attached. |
-| `isAttached: boolean` | 此门户是否已附着上。 |
+| `isAttached: boolean` | 此传送点是否已附着上。 |
 
 ##### `PortalOutlet`
 
@@ -40,23 +40,23 @@ built upon.
 | ------ | ----------- |
 | 方法 | 说明 |
 | `attach(Portal): any` | Attaches a portal to the host. |
-| `attach(Portal): any` | 把指定的门户添加到此宿主上。 |
+| `attach(Portal): any` | 把指定的传送点添加到此宿主上。 |
 | `detach(): any` | Detaches the portal from the host. |
-| `detach(): any` | 把指定的门户从此宿主上拆除。 |
+| `detach(): any` | 把指定的传送点从此宿主上拆除。 |
 | `dispose(): void` | Permanently dispose the host. |
 | `dispose(): void` | 永久销毁此宿主。 |
 | `hasAttached: boolean` | Whether a portal is attached to the host. |
-| `hasAttached: boolean` | 判断是否有门户附着在此宿主上。 |
+| `hasAttached: boolean` | 判断是否有传送点附着在此宿主上。 |
 
 #### Portals in practice
 
-#### 门户实战
+#### 传送点实战
 
 ##### `CdkPortal`
 
 Used to get a portal from an `<ng-template>`. `CdkPortal` *is* a `Portal`.
 
-用于从某个 `<ng-template>` 获取门户。 `CdkPortal` *是*一个 `Portal`。
+用于从某个 `<ng-template>` 获取传送点。 `CdkPortal` *是*一个 `Portal`。
 
 Usage:
 
@@ -85,7 +85,7 @@ A component can use `@ViewChild` or `@ViewChildren` to get a reference to a
 Used to create a portal from a component type. When a component is dynamically created using
 portals, it must be included in the `entryComponents` of its `NgModule`.
 
-用于从某个组件类创建门户。当使用门户动态创建组件时，必须把该组件包含在 `NgModule` 的 `entryComponents` 中。
+用于从某个组件类创建传送点。当使用传送点动态创建组件时，必须把该组件包含在 `NgModule` 的 `entryComponents` 中。
 
 Usage:
 
@@ -147,7 +147,7 @@ ngAfterViewInit() {
 
 Used to add a portal outlet to a template. `CdkPortalOutlet` *is* a `PortalOutlet`.
 
-用于向模板中添加一个门户出口（Portal Outlet）。 `CdkPortalOutlet` *是*一个 `PortalOutlet`。
+用于向模板中添加一个传送点出口（Portal Outlet）。 `CdkPortalOutlet` *是*一个 `PortalOutlet`。
 
 Usage:
 
