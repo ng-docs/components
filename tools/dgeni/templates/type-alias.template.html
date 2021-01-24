@@ -7,12 +7,12 @@
 
 {%- if alias.isDeprecated -%}
 <div class="docs-api-type-alias-deprecated-marker" {$ macros.deprecationTitle(alias) $}>
-  Deprecated
+  已弃用
 </div>
 {%- endif -%}
 
 {%- if alias.description -%}
-  <p class="docs-api-type-alias-description">{$ alias.description | marked | safe $}</p>
+  <div class="docs-api-type-alias-description">{$ alias.description | marked | safe $}</div>
 {%- endif -%}
 
 <div class="docs-markdown">

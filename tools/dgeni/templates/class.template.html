@@ -14,26 +14,26 @@
 </h4>
 
 {%- if class.description -%}
-<p class="docs-api-class-description">{$ class.description | marked | safe $}</p>
+<div class="docs-api-class-description">{$ class.description | marked | safe $}</div>
 {%- endif -%}
 
 {%- if class.directiveSelectors -%}
-<p class="docs-api-directive-selectors">
-  <span class="docs-api-class-selector-label">Selector:</span>
+<div class="docs-api-directive-selectors">
+  <span class="docs-api-class-selector-label">选择器：</span>
   {% for selector in class.directiveSelectors %}
     <span class="docs-api-class-selector-name">{$ selector $}</span>
   {% endfor %}
-</p>
+</div>
 {%- endif -%}
 
 {%- if class.directiveExportAs -%}
-<span class="docs-api-class-export-label">Exported as:</span>
+<span class="docs-api-class-export-label">导出为：</span>
 <span class="docs-api-class-export-name">{$ class.directiveExportAs $}</span>
 {%- endif -%}
 
 {%- if class.isDeprecated -%}
 <div class="docs-api-class-deprecated-marker" {$ macros.deprecationTitle(class) $}>
-  Deprecated
+  已弃用
 </div>
 {%- endif -%}
 

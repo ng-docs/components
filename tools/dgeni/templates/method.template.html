@@ -6,12 +6,12 @@
       <th colspan="2" class="docs-api-method-name-cell">
         {%- if method.isDeprecated -%}
           <div class="docs-api-deprecated-marker" {$ macros.deprecationTitle(method) $}>
-            Deprecated
+            已弃用
           </div>
         {%- endif -%}
         {%- if method.isAsync -%}
         <div class="docs-api-async-method-marker">
-          async
+          异步
         </div>
         {%- endif -%}
         {$ method.name $}
@@ -29,7 +29,7 @@
   {%- if method.params.length -%}
   <thead>
     <tr class="docs-api-method-parameters-header-row">
-      <th colspan="2" class="docs-api-method-parameters-header-cell">Parameters</th>
+      <th colspan="2" class="docs-api-method-parameters-header-cell">参数</th>
     </tr>
   </thead>
   {% for parameter in method.params %}
@@ -44,9 +44,9 @@
       <code class="docs-api-method-parameter-type">{$ parameter.type $}</code>
     </td>
     <td class="docs-api-method-parameter-description-cell">
-      <p class="docs-api-method-parameter-description">
+      <div class="docs-api-method-parameter-description">
         {$ parameter.description | marked | safe $}
-      </p>
+      </div>
     </td>
   </tr>
   {% endfor %}
@@ -55,7 +55,7 @@
   {%- if method.type and method.type !== "void" -%}
   <thead>
     <tr class="docs-api-method-returns-header-row">
-      <th colspan="2" class="docs-api-method-returns-header-cell">Returns</th>
+      <th colspan="2" class="docs-api-method-returns-header-cell">返回值</th>
     </tr>
   </thead>
   <tr>
@@ -63,9 +63,9 @@
       <code class="docs-api-method-returns-type">{$ method.type $}</code>
     </td>
     <td class="docs-api-method-returns-description-cell">
-      <p class="docs-api-method-returns-description">
+      <div class="docs-api-method-returns-description">
         {$ method.returns.description | marked | safe $}
-      </p>
+      </div>
     </td>
   </tr>
   {%- endif -%}

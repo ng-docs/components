@@ -33,7 +33,7 @@
 
 <div class="docs-api">
   <h2>
-    API reference for Angular {$ doc.packageDisplayName $} {$ doc.displayName $}
+    Angular {$ doc.packageDisplayName $} {$ doc.displayName $} API 参考文档
   </h2>
 
   <p class="docs-api-module-import">
@@ -45,7 +45,7 @@
   {%- if doc.services.length -%}
     <h3 id="{$ doc.name $}-services" class="docs-header-link docs-api-h3">
       <span header-link="services"></span>
-      Services
+      服务
     </h3>
     {% for service in doc.services %}
       {$ class(service) $}
@@ -56,7 +56,7 @@
   {%- if doc.directives.length -%}
     <h3 id="{$ doc.name $}-directives" class="docs-header-link docs-api-h3">
       <span header-link="directives"></span>
-      Directives
+      指令
     </h3>
     {% for directive in doc.directives %}
       {$ class(directive) $}
@@ -66,7 +66,7 @@
   {%- if doc.classes.length -%}
     <h3 id="{$ doc.name $}-classes" class="docs-header-link docs-api-h3">
       <span header-link="classes"></span>
-      Classes
+      类
     </h3>
     {% for other in doc.classes %}
       {$ class(other) $}
@@ -76,7 +76,7 @@
   {%- if doc.interfaces.length -%}
     <h3 id="{$ doc.name $}-interfaces" class="docs-header-link docs-api-h3">
       <span header-link="interfaces"></span>
-      Interfaces
+      接口
     </h3>
     {% for item in doc.interfaces %}
       {$ interface(item) $}
@@ -86,7 +86,7 @@
   {%- if doc.functions.length -%}
     <h3 id="{$ doc.name $}-functions" class="docs-header-link docs-api-h3">
       <span header-link="functions"></span>
-      Functions
+      函数
     </h3>
     {% for item in doc.functions %}
       {#
@@ -100,7 +100,7 @@
   {%- if doc.typeAliases.length -%}
     <h3 id="{$ doc.name $}-type_aliases" class="docs-header-link docs-api-h3">
       <span header-link="type_aliases"></span>
-      Type aliases
+      类型别名
     </h3>
     {% for item in doc.typeAliases %}
       {$ typeAlias(item) $}
@@ -110,7 +110,7 @@
   {%- if doc.constants.length -%}
     <h3 id="{$ doc.name $}-constants" class="docs-header-link docs-api-h3">
       <span header-link="constants"></span>
-      Constants
+      常量
     </h3>
     {% for item in doc.constants %}
       {$ constant(item) $}

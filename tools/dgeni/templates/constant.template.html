@@ -7,12 +7,12 @@
 
 {%- if constant.isDeprecated -%}
 <div class="docs-api-constant-deprecated-marker" {$ macros.deprecationTitle(constant) $}>
-  Deprecated
+  已弃用
 </div>
 {%- endif -%}
 
 {%- if constant.description -%}
-  <p class="docs-api-constant-description">{$ constant.description | marked | safe $}</p>
+  <div class="docs-api-constant-description">{$ constant.description | marked | safe $}</div>
 {%- endif -%}
 
 <div class="docs-markdown">

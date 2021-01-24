@@ -22,9 +22,9 @@
     {%- endif -%}
     {%- if property.isDeprecated -%}
       <div class="docs-api-deprecated-marker" {$ macros.deprecationTitle(property) $}>
-        Deprecated
+        已弃用
       </div>
-    {%- endif -%}   
+    {%- endif -%}
 
     <p class="docs-api-property-name">
       <code>{$ property.name $}: {$ property.type $}</code>
