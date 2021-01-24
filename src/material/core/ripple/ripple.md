@@ -1,7 +1,7 @@
 Connect user input to screen reactions by using ripples to both indicate the point of touch, and to
 confirm that touch input was received. For touch or mouse, this occurs at the point of contact.
 
-使用水波可以将用户的输入与屏幕的反应联系起来，以指示触摸点，并确认已收到输入。对于触摸或鼠标，水波都会出现在接触点上。
+使用水波可以将用户的输入与屏幕的反应联系起来，以指示触摸点，并确认已收到输入。对于任何触摸或鼠标操作，其接触点上都会出现水波。
 
 The `matRipple` attribute directive defines an area in which a ripple animates on user interaction.
 
