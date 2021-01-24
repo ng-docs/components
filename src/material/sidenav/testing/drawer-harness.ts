@@ -51,6 +51,8 @@ export class MatDrawerHarness extends MatDrawerHarnessBase {
    * certain criteria.
    * @param options Options for filtering which drawer instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: DrawerHarnessFilters = {}): HarnessPredicate<MatDrawerHarness> {
     return new HarnessPredicate(MatDrawerHarness, options)

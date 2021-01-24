@@ -46,7 +46,12 @@ export const MAT_DATEPICKER_VALIDATORS: any = {
   multi: true
 };
 
-/** Directive used to connect an input to a MatDatepicker. */
+/**
+ * Directive used to connect an input to a MatDatepicker.
+ *
+ * 用于把输入框连接到 MatDatepicker 的指令。
+ *
+ */
 @Directive({
   selector: 'input[matDatepicker]',
   providers: [
@@ -73,7 +78,12 @@ export const MAT_DATEPICKER_VALIDATORS: any = {
 })
 export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
   implements MatDatepickerControl<D | null> {
-  /** The datepicker that this input is associated with. */
+  /**
+   * The datepicker that this input is associated with.
+   *
+   * 与此输入框关联的日期选择器。
+   *
+   */
   @Input()
   set matDatepicker(datepicker: MatDatepickerPanel<MatDatepickerControl<D>, D | null, D>) {
     if (datepicker) {
@@ -83,7 +93,12 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
   }
   _datepicker: MatDatepickerPanel<MatDatepickerControl<D>, D | null, D>;
 
-  /** The minimum valid date. */
+  /**
+   * The minimum valid date.
+   *
+   * 最小有效日期。
+   *
+   */
   @Input()
   get min(): D | null { return this._min; }
   set min(value: D | null) {
@@ -96,7 +111,12 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
   }
   private _min: D | null;
 
-  /** The maximum valid date. */
+  /**
+   * The maximum valid date.
+   *
+   * 最大有效日期。
+   *
+   */
   @Input()
   get max(): D | null { return this._max; }
   set max(value: D | null) {
@@ -109,7 +129,12 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
   }
   private _max: D | null;
 
-  /** Function that can be used to filter out dates within the datepicker. */
+  /**
+   * Function that can be used to filter out dates within the datepicker.
+   *
+   * 可以用来过滤掉日期选择器中日期的函数。
+   *
+   */
   @Input('matDatepickerFilter')
   get dateFilter() { return this._dateFilter; }
   set dateFilter(value: DateFilterFn<D | null>) {
@@ -122,7 +147,12 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
   }
   private _dateFilter: DateFilterFn<D | null>;
 
-  /** The combined form control validator for this input. */
+  /**
+   * The combined form control validator for this input.
+   *
+   * 该输入框的表单控件组合验证器。
+   *
+   */
   protected _validator: ValidatorFn | null;
 
   constructor(
@@ -136,23 +166,43 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
 
   /**
    * Gets the element that the datepicker popup should be connected to.
+   *
+   * 获取日期选择器弹出框应该连接到的元素。
+   *
    * @return The element to connect the popup to.
+   *
+   * 要把弹出框连接到的元素。
    */
   getConnectedOverlayOrigin(): ElementRef {
     return this._formField ? this._formField.getConnectedOverlayOrigin() : this._elementRef;
   }
 
-  /** Returns the palette used by the input's form field, if any. */
+  /**
+   * Returns the palette used by the input's form field, if any.
+   *
+   * 返回输入框表单字段中使用的调色板（如果有）。
+   *
+   */
   getThemePalette(): ThemePalette {
     return this._formField ? this._formField.color : undefined;
   }
 
-  /** Gets the value at which the calendar should start. */
+  /**
+   * Gets the value at which the calendar should start.
+   *
+   * 获取日历的起始日期。
+   *
+   */
   getStartValue(): D | null {
     return this.value;
   }
 
-  /** Opens the associated datepicker. */
+  /**
+   * Opens the associated datepicker.
+   *
+   * 打开相关的 datepicker。
+   *
+   */
   protected _openPopup(): void {
     if (this._datepicker) {
       this._datepicker.open();
@@ -169,17 +219,32 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
     }
   }
 
-  /** Gets the input's minimum date. */
+  /**
+   * Gets the input's minimum date.
+   *
+   * 获取输入框的最小日期。
+   *
+   */
   _getMinDate() {
     return this._min;
   }
 
-  /** Gets the input's maximum date. */
+  /**
+   * Gets the input's maximum date.
+   *
+   * 获取输入框的最大日期。
+   *
+   */
   _getMaxDate() {
     return this._max;
   }
 
-  /** Gets the input's date filtering function. */
+  /**
+   * Gets the input's date filtering function.
+   *
+   * 获取输入框的日期过滤函数。
+   *
+   */
   protected _getDateFilter() {
     return this._dateFilter;
   }

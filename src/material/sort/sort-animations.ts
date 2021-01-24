@@ -21,6 +21,9 @@ const SORT_ANIMATION_TRANSITION = AnimationDurations.ENTERING + ' ' +
 
 /**
  * Animations used by MatSort.
+ *
+ * 供 MatSort 使用的动画。
+ *
  * @docs-private
  */
 export const matSortAnimations: {

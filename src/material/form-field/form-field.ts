@@ -59,6 +59,9 @@ const outlineGapPadding = 5;
 
 /**
  * Boilerplate for applying mixins to MatFormField.
+ *
+ * 用于将 mixins 应用到 MatFormField 的样板代码
+ *
  * @docs-private
  */
 class MatFormFieldBase {
@@ -67,20 +70,36 @@ class MatFormFieldBase {
 
 /**
  * Base class to which we're applying the form field mixins.
+ *
+ * 我们要把表单字段 mixins 应用到的基类。
+ *
  * @docs-private
  */
 const _MatFormFieldMixinBase: CanColorCtor & typeof MatFormFieldBase =
     mixinColor(MatFormFieldBase, 'primary');
 
-/** Possible appearance styles for the form field. */
+/**
+ * Possible appearance styles for the form field.
+ *
+ * 表单字段可能的外观样式。
+ *
+ */
 export type MatFormFieldAppearance = 'legacy' | 'standard' | 'fill' | 'outline';
 
-/** Possible values for the "floatLabel" form-field input. */
+/**
+ * Possible values for the "floatLabel" form-field input.
+ *
+ * 表单字段输入属性 “floatLabel” 的可用值。
+ *
+ */
 export type FloatLabelType = 'always' | 'never' | 'auto';
 
 /**
  * Represents the default options for the form field that can be configured
  * using the `MAT_FORM_FIELD_DEFAULT_OPTIONS` injection token.
+ *
+ * 表示可通过 `MAT_FORM_FIELD_DEFAULT_OPTIONS` 令牌配置的表单字段的默认选项。
+ *
  */
 export interface MatFormFieldDefaultOptions {
   appearance?: MatFormFieldAppearance;
@@ -88,6 +107,9 @@ export interface MatFormFieldDefaultOptions {
   /**
    * Whether the label for form-fields should by default float `always`,
    * `never`, or `auto` (only when necessary).
+   *
+   * 表单字段的标签默认应该是 `always`、`never` 还是 `auto`（只在必要时）。
+   *
    */
   floatLabel?: FloatLabelType;
 }
@@ -95,6 +117,9 @@ export interface MatFormFieldDefaultOptions {
 /**
  * Injection token that can be used to configure the
  * default options for all form field within an app.
+ *
+ * 注入令牌，可以用来配置应用中所有表单字段的默认选项。
+ *
  */
 export const MAT_FORM_FIELD_DEFAULT_OPTIONS =
     new InjectionToken<MatFormFieldDefaultOptions>('MAT_FORM_FIELD_DEFAULT_OPTIONS');
@@ -103,10 +128,18 @@ export const MAT_FORM_FIELD_DEFAULT_OPTIONS =
  * Injection token that can be used to inject an instances of `MatFormField`. It serves
  * as alternative token to the actual `MatFormField` class which would cause unnecessary
  * retention of the `MatFormField` class and its component metadata.
+ *
+ * 这个注入令牌可以用来注入一个 `MatFormField` 的实例。它可以作为实际 `MatFormField` 类的备用令牌，使用实际类会导致 `MatFormField` 类及其组件元数据无法优化掉。
+ *
  */
 export const MAT_FORM_FIELD = new InjectionToken<MatFormField>('MatFormField');
 
-/** Container for form controls that applies Material Design styling and behavior. */
+/**
+ * Container for form controls that applies Material Design styling and behavior.
+ *
+ * 表单控件的容器，用来应用 Material Design 的样式和行为。
+ *
+ */
 @Component({
   selector: 'mat-form-field',
   exportAs: 'matFormField',
@@ -162,15 +195,28 @@ export class MatFormField extends _MatFormFieldMixinBase
   /**
    * Whether the outline gap needs to be calculated
    * immediately on the next change detection run.
+   *
+   * 是否需要在下次变更检测运行时立即计算轮廓的间隙。
+   *
    */
   private _outlineGapCalculationNeededImmediately = false;
 
-  /** Whether the outline gap needs to be calculated next time the zone has stabilized. */
+  /**
+   * Whether the outline gap needs to be calculated next time the zone has stabilized.
+   *
+   * 是否需要在下次 Zone 稳定后计算出轮廓的间隙。
+   *
+   */
   private _outlineGapCalculationNeededOnStable = false;
 
   private _destroyed = new Subject<void>();
 
-  /** The form-field appearance style. */
+  /**
+   * The form-field appearance style.
+   *
+   * 表单字段的外观样式。
+   *
+   */
   @Input()
   get appearance(): MatFormFieldAppearance { return this._appearance; }
   set appearance(value: MatFormFieldAppearance) {
@@ -184,7 +230,12 @@ export class MatFormField extends _MatFormFieldMixinBase
   }
   _appearance: MatFormFieldAppearance;
 
-  /** Whether the required marker should be hidden. */
+  /**
+   * Whether the required marker should be hidden.
+   *
+   * 是否应隐藏必填项标记。
+   *
+   */
   @Input()
   get hideRequiredMarker(): boolean { return this._hideRequiredMarker; }
   set hideRequiredMarker(value: boolean) {
@@ -192,21 +243,46 @@ export class MatFormField extends _MatFormFieldMixinBase
   }
   private _hideRequiredMarker: boolean;
 
-  /** Override for the logic that disables the label animation in certain cases. */
+  /**
+   * Override for the logic that disables the label animation in certain cases.
+   *
+   * 在某些情况下改写禁用标签动画的逻辑。
+   *
+   */
   private _showAlwaysAnimate = false;
 
-  /** Whether the floating label should always float or not. */
+  /**
+   * Whether the floating label should always float or not.
+   *
+   * 浮动标签是否应该始终是浮动的。
+   *
+   */
   _shouldAlwaysFloat(): boolean {
     return this.floatLabel === 'always' && !this._showAlwaysAnimate;
   }
 
-  /** Whether the label can float or not. */
+  /**
+   * Whether the label can float or not.
+   *
+   * 标签是否可以浮动。
+   *
+   */
   _canLabelFloat(): boolean { return this.floatLabel !== 'never'; }
 
-  /** State of the mat-hint and mat-error animations. */
+  /**
+   * State of the mat-hint and mat-error animations.
+   *
+   * mat-hint 和 mat-error 动画的状态。
+   *
+   */
   _subscriptAnimationState: string = '';
 
-  /** Text for the form field hint. */
+  /**
+   * Text for the form field hint.
+   *
+   * 表单字段提示的文本。
+   *
+   */
   @Input()
   get hintLabel(): string { return this._hintLabel; }
   set hintLabel(value: string) {
@@ -224,10 +300,15 @@ export class MatFormField extends _MatFormFieldMixinBase
   /**
    * Whether the label should always float, never float or float as the user types.
    *
+   * 标签是否应该始终是浮动的、永远不会浮动或根据用户的输入浮动。
+   *
    * Note: only the legacy appearance supports the `never` option. `never` was originally added as a
    * way to make the floating label emulate the behavior of a standard input placeholder. However
    * the form field now supports both floating labels and placeholders. Therefore in the non-legacy
    * appearances the `never` option has been disabled in favor of just using the placeholder.
+   *
+   * 注意：只有旧版外观支持 `never` 选项。 `never` 原本添加为让浮动标签模仿标准输入占位符行为的方法。但是，表单字段现在同时支持浮动标签和占位符。因此，在非遗留应用的外观中，只为了作为占位符使用的 `never` 选项已被禁用。
+   *
    */
   @Input()
   get floatLabel(): FloatLabelType {
@@ -241,7 +322,12 @@ export class MatFormField extends _MatFormFieldMixinBase
   }
   private _floatLabel: FloatLabelType;
 
-  /** Whether the Angular animations are enabled. */
+  /**
+   * Whether the Angular animations are enabled.
+   *
+   * 是否启用了 Angular 动画。
+   *
+   */
   _animationsEnabled: boolean;
 
   /**
@@ -301,6 +387,9 @@ export class MatFormField extends _MatFormFieldMixinBase
 
   /**
    * Gets the id of the label element. If no label is present, returns `null`.
+   *
+   * 获取 label 元素的 id。如果没有 label，则返回 `null` 。
+   *
    */
   getLabelId(): string|null {
     return this._hasFloatingLabel() ? this._labelId : null;
@@ -309,6 +398,9 @@ export class MatFormField extends _MatFormFieldMixinBase
   /**
    * Gets an ElementRef for the element that a overlay attached to the form-field should be
    * positioned relative to.
+   *
+   * 获取一个 ElementRef 元素，它为附着到表单字段上的浮层提供相对于该元素定位。
+   *
    */
   getConnectedOverlayOrigin(): ElementRef {
     return this._connectionContainerRef || this._elementRef;
@@ -397,7 +489,12 @@ export class MatFormField extends _MatFormFieldMixinBase
     this._destroyed.complete();
   }
 
-  /** Determines whether a class from the NgControl should be forwarded to the host element. */
+  /**
+   * Determines whether a class from the NgControl should be forwarded to the host element.
+   *
+   * 确定是否应该把 NgControl 中的类转发给宿主元素。
+   *
+   */
   _shouldForward(prop: keyof NgControl): boolean {
     const ngControl = this._control ? this._control.ngControl : null;
     return ngControl && ngControl[prop];
@@ -427,13 +524,23 @@ export class MatFormField extends _MatFormFieldMixinBase
     return this._hasLabel() || this.appearance === 'legacy' && this._hasPlaceholder();
   }
 
-  /** Determines whether to display hints or errors. */
+  /**
+   * Determines whether to display hints or errors.
+   *
+   * 确定是否显示提示或错误。
+   *
+   */
   _getDisplayedMessages(): 'error' | 'hint' {
     return (this._errorChildren && this._errorChildren.length > 0 &&
         this._control.errorState) ? 'error' : 'hint';
   }
 
-  /** Animates the placeholder up and locks it in position. */
+  /**
+   * Animates the placeholder up and locks it in position.
+   *
+   * 为占位符添加动画，并把它锁定到其位置。
+   *
+   */
   _animateAndLockLabel(): void {
     if (this._hasFloatingLabel() && this._canLabelFloat()) {
       // If animations are disabled, we shouldn't go in here,
@@ -454,6 +561,9 @@ export class MatFormField extends _MatFormFieldMixinBase
   /**
    * Ensure that there is only one placeholder (either `placeholder` attribute on the child control
    * or child element with the `mat-placeholder` directive).
+   *
+   * 确保只有一个占位符（无论是子控件中的 `placeholder` 属性，还是带有 `mat-placeholder` 指令的子元素）。
+   *
    */
   private _validatePlaceholders() {
     if (this._control.placeholder && this._placeholderChild &&
@@ -462,7 +572,12 @@ export class MatFormField extends _MatFormFieldMixinBase
     }
   }
 
-  /** Does any extra processing that is required when handling the hints. */
+  /**
+   * Does any extra processing that is required when handling the hints.
+   *
+   * 处理提示时是否需要进行额外的处理。
+   *
+   */
   private _processHints() {
     this._validateHints();
     this._syncDescribedByIds();
@@ -471,6 +586,9 @@ export class MatFormField extends _MatFormFieldMixinBase
   /**
    * Ensure that there is a maximum of one of each `<mat-hint>` alignment specified, with the
    * attribute being considered as `align="start"`.
+   *
+   * 确保每个 `<mat-hint>` 对齐中最只有一个对齐具有等价于 `align="start"` 的属性。
+   *
    */
   private _validateHints() {
     if (this._hintChildren && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -492,7 +610,12 @@ export class MatFormField extends _MatFormFieldMixinBase
     }
   }
 
-  /** Gets the default float label state. */
+  /**
+   * Gets the default float label state.
+   *
+   * 获取默认的浮动标签状态。
+   *
+   */
   private _getDefaultFloatLabelState(): FloatLabelType {
     return (this._defaults && this._defaults.floatLabel) || 'auto';
   }
@@ -500,6 +623,9 @@ export class MatFormField extends _MatFormFieldMixinBase
   /**
    * Sets the list of element IDs that describe the child control. This allows the control to update
    * its `aria-describedby` attribute accordingly.
+   *
+   * 设置描述子控件的元素 ID 列表。这允许控件相应地更新它的 `aria-describedby` 属性。
+   *
    */
   private _syncDescribedByIds() {
     if (this._control) {
@@ -534,7 +660,12 @@ export class MatFormField extends _MatFormFieldMixinBase
     }
   }
 
-  /** Throws an error if the form field's control is missing. */
+  /**
+   * Throws an error if the form field's control is missing.
+   *
+   * 如果缺少表单字段的控件，就会抛出一个错误。
+   *
+   */
   protected _validateControlChild() {
     if (!this._control && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw getMatFormFieldMissingControlError();
@@ -544,6 +675,9 @@ export class MatFormField extends _MatFormFieldMixinBase
   /**
    * Updates the width and position of the gap in the outline. Only relevant for the outline
    * appearance.
+   *
+   * 更新轮廓中间隙的宽度和位置。只与轮廓外观有关。
+   *
    */
   updateOutlineGap() {
     const labelEl = this._label ? this._label.nativeElement : null;
@@ -609,12 +743,22 @@ export class MatFormField extends _MatFormFieldMixinBase
         this._outlineGapCalculationNeededImmediately = false;
   }
 
-  /** Gets the start end of the rect considering the current directionality. */
+  /**
+   * Gets the start end of the rect considering the current directionality.
+   *
+   * 考虑当前的方向性，取得矩形的起始端。
+   *
+   */
   private _getStartEnd(rect: ClientRect): number {
     return (this._dir && this._dir.value === 'rtl') ? rect.right : rect.left;
   }
 
-  /** Checks whether the form field is attached to the DOM. */
+  /**
+   * Checks whether the form field is attached to the DOM.
+   *
+   * 检查表单字段是否已附着到 DOM。
+   *
+   */
   private _isAttachedToDOM(): boolean {
     const element: HTMLElement = this._elementRef.nativeElement;
 

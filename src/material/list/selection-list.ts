@@ -67,7 +67,12 @@ export const MAT_SELECTION_LIST_VALUE_ACCESSOR: any = {
   multi: true
 };
 
-/** Change event that is being fired whenever the selected state of an option changes. */
+/**
+ * Change event that is being fired whenever the selected state of an option changes.
+ *
+ * 当选项的某个选定状态发生变化时，就会触发这个事件。
+ *
+ */
 export class MatSelectionListChange {
   constructor(
     /** Reference to the selection list that emitted the event. */
@@ -85,6 +90,9 @@ export class MatSelectionListChange {
 /**
  * Type describing possible positions of a checkbox in a list option
  * with respect to the list item's text.
+ *
+ * 此类型描述列表中的复选框相对于列表条目文本的的可能位置。
+ *
  */
 export type MatListOptionCheckboxPosition = 'before'|'after';
 
@@ -92,6 +100,9 @@ export type MatListOptionCheckboxPosition = 'before'|'after';
  * Component for list-options of selection-list. Each list-option can automatically
  * generate a checkbox and can put current item into the selectionModel of selection-list
  * if the current item is selected.
+ *
+ * 选项列表中的列表项组件。每个列表项都会自动生成一个复选框，如果当前列表项被选定了，就会把当前条目放入选项列表的 selectionModel 中。
+ *
  */
 @Component({
   selector: 'mat-list-option',
@@ -133,13 +144,28 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
   @ContentChild(MatListIconCssMatStyler) _icon: MatListIconCssMatStyler;
   @ContentChildren(MatLine, {descendants: true}) _lines: QueryList<MatLine>;
 
-  /** DOM element containing the item's text. */
+  /**
+   * DOM element containing the item's text.
+   *
+   * 包含该条目文本的 DOM 元素。
+   *
+   */
   @ViewChild('text') _text: ElementRef;
 
-  /** Whether the label should appear before or after the checkbox. Defaults to 'after' */
+  /**
+   * Whether the label should appear before or after the checkbox. Defaults to 'after'
+   *
+   * 标签是出现在复选框之前还是之后。默认为'after'
+   *
+   */
   @Input() checkboxPosition: MatListOptionCheckboxPosition = 'after';
 
-  /** Theme color of the list option. This sets the color of the checkbox. */
+  /**
+   * Theme color of the list option. This sets the color of the checkbox.
+   *
+   * 列表选项的主题颜色。这会设置复选框的颜色。
+   *
+   */
   @Input()
   get color(): ThemePalette { return this._color || this.selectionList.color; }
   set color(newValue: ThemePalette) { this._color = newValue; }
@@ -148,9 +174,17 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
   /**
    * This is set to true after the first OnChanges cycle so we don't clear the value of `selected`
    * in the first cycle.
+   *
+   * 这会在第一个 OnChanges 检测周期后设置为 true，所以我们不会在第一个检测周期中清除 `selected` 的值。
+   *
    */
   private _inputsInitialized = false;
-  /** Value of the option */
+  /**
+   * Value of the option
+   *
+   * 选项的值
+   *
+   */
   @Input()
   get value(): any { return this._value; }
   set value(newValue: any) {
@@ -166,7 +200,12 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
   }
   private _value: any;
 
-  /** Whether the option is disabled. */
+  /**
+   * Whether the option is disabled.
+   *
+   * 该选项是否被禁用。
+   *
+   */
   @Input()
   get disabled() { return this._disabled || (this.selectionList && this.selectionList.disabled); }
   set disabled(value: any) {
@@ -178,7 +217,12 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
     }
   }
 
-  /** Whether the option is selected. */
+  /**
+   * Whether the option is selected.
+   *
+   * 该选项是否被选定。
+   *
+   */
   @Input()
   get selected(): boolean { return this.selectionList.selectedOptions.isSelected(this); }
   set selected(value: boolean) {
@@ -242,25 +286,43 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
     }
   }
 
-  /** Toggles the selection state of the option. */
+  /**
+   * Toggles the selection state of the option.
+   *
+   * 切换该选项的选定状态。
+   *
+   */
   toggle(): void {
     this.selected = !this.selected;
   }
 
-  /** Allows for programmatic focusing of the option. */
+  /**
+   * Allows for programmatic focusing of the option.
+   *
+   * 可以通过编程让该选项获得焦点。
+   *
+   */
   focus(): void {
     this._element.nativeElement.focus();
   }
 
   /**
    * Returns the list item's text label. Implemented as a part of the FocusKeyManager.
+   *
+   * 返回列表条目的文本标签。实现为 FocusKeyManager 的一部分。
+   *
    * @docs-private
    */
   getLabel() {
     return this._text ? (this._text.nativeElement.textContent || '') : '';
   }
 
-  /** Whether this list item should show a ripple effect when clicked. */
+  /**
+   * Whether this list item should show a ripple effect when clicked.
+   *
+   * 此列表条目是否应该在点击时显示涟漪效果。
+   *
+   */
   _isRippleDisabled() {
     return this.disabled || this.disableRipple || this.selectionList.disableRipple;
   }
@@ -284,12 +346,22 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
     this._hasFocus = false;
   }
 
-  /** Retrieves the DOM element of the component host. */
+  /**
+   * Retrieves the DOM element of the component host.
+   *
+   * 检索组件宿主的 DOM 元素。
+   *
+   */
   _getHostElement(): HTMLElement {
     return this._element.nativeElement;
   }
 
-  /** Sets the selected state of the option. Returns whether the value has changed. */
+  /**
+   * Sets the selected state of the option. Returns whether the value has changed.
+   *
+   * 设置选项的选定状态。返回该值是否已更改。
+   *
+   */
   _setSelected(selected: boolean): boolean {
     if (selected === this._selected) {
       return false;
@@ -311,6 +383,9 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
    * Notifies Angular that the option needs to be checked in the next change detection run. Mainly
    * used to trigger an update of the list option if the disabled state of the selection list
    * changed.
+   *
+   * 通知 Angular：在下一次运行变更检测时，需要检查该选项。主要用于在选择列表的禁用状态发生变化时触发 list 选项的更新。
+   *
    */
   _markForCheck() {
     this._changeDetector.markForCheck();
@@ -324,6 +399,9 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
 
 /**
  * Material Design list component where each item is a selectable option. Behaves as a listbox.
+ *
+ * Material Design 列表组件，每个条目都是一个可选的选项。其行为和列表框一致。
+ *
  */
 @Component({
   selector: 'mat-selection-list',
@@ -348,33 +426,66 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
   private _multiple = true;
   private _contentInitialized = false;
 
-  /** The FocusKeyManager which handles focus. */
+  /**
+   * The FocusKeyManager which handles focus.
+   *
+   * 用于处理焦点的 FocusKeyManager。
+   *
+   */
   _keyManager: FocusKeyManager<MatListOption>;
 
-  /** The option components contained within this selection-list. */
+  /**
+   * The option components contained within this selection-list.
+   *
+   * 这个选择列表中包含的选项组件。
+   *
+   */
   @ContentChildren(MatListOption, {descendants: true}) options: QueryList<MatListOption>;
 
-  /** Emits a change event whenever the selected state of an option changes. */
+  /**
+   * Emits a change event whenever the selected state of an option changes.
+   *
+   * 每当选项的选定状态发生变化时，就会发出一个 change 事件。
+   *
+   */
   @Output() readonly selectionChange: EventEmitter<MatSelectionListChange> =
       new EventEmitter<MatSelectionListChange>();
 
   /**
    * Tabindex of the selection list.
+   *
+   * 选择列表的 Tabindex。
+   *
    * @breaking-change 11.0.0 Remove `tabIndex` input.
+   *
+   * 11.0.0 删除输入属性 `tabIndex`
    */
   @Input() tabIndex: number = 0;
 
-  /** Theme color of the selection list. This sets the checkbox color for all list options. */
+  /**
+   * Theme color of the selection list. This sets the checkbox color for all list options.
+   *
+   * 选择列表的主题颜色。这会为所有列表中的选项设置复选框颜色。
+   *
+   */
   @Input() color: ThemePalette = 'accent';
 
   /**
    * Function used for comparing an option against the selected value when determining which
    * options should appear as selected. The first argument is the value of an options. The second
    * one is a value from the selected value. A boolean must be returned.
+   *
+   * 函数用于在确定哪些选项应该显示为选定状态时，比较一个选项和选定的值。第一个参数就是选项的值。第二个参数是选定值的值。必须返回一个布尔值。
+   *
    */
   @Input() compareWith: (o1: any, o2: any) => boolean = (a1, a2) => a1 === a2;
 
-  /** Whether the selection list is disabled. */
+  /**
+   * Whether the selection list is disabled.
+   *
+   * 是否禁用了选择列表。
+   *
+   */
   @Input()
   get disabled(): boolean { return this._disabled; }
   set disabled(value: boolean) {
@@ -388,7 +499,12 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
   }
   private _disabled: boolean = false;
 
-  /** Whether selection is limited to one or multiple items (default multiple). */
+  /**
+   * Whether selection is limited to one or multiple items (default multiple).
+   *
+   * 选择是否限制到一个或多个条目（默认的多个）。
+   *
+   */
   @Input()
   get multiple(): boolean { return this._multiple; }
   set multiple(value: boolean) {
@@ -405,25 +521,60 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
     }
   }
 
-  /** The currently selected options. */
+  /**
+   * The currently selected options.
+   *
+   * 当前选定的选项。
+   *
+   */
   selectedOptions = new SelectionModel<MatListOption>(this._multiple);
 
-  /** The tabindex of the selection list. */
+  /**
+   * The tabindex of the selection list.
+   *
+   * 此选择列表的 tabindex。
+   *
+   */
   _tabIndex = -1;
 
-  /** View to model callback that should be called whenever the selected options change. */
+  /**
+   * View to model callback that should be called whenever the selected options change.
+   *
+   * 视图到模型的回调，它应该在选定项发生变化时被调用。
+   *
+   */
   private _onChange: (value: any) => void = (_: any) => {};
 
-  /** Keeps track of the currently-selected value. */
+  /**
+   * Keeps track of the currently-selected value.
+   *
+   * 跟踪当前选定的值。
+   *
+   */
   _value: string[]|null;
 
-  /** Emits when the list has been destroyed. */
+  /**
+   * Emits when the list has been destroyed.
+   *
+   * 当列表被销毁时就会触发。
+   *
+   */
   private _destroyed = new Subject<void>();
 
-  /** View to model callback that should be called if the list or its options lost focus. */
+  /**
+   * View to model callback that should be called if the list or its options lost focus.
+   *
+   * 如果列表或其选项失去焦点，应该调用的视图到模型回调。
+   *
+   */
   _onTouched: () => void = () => {};
 
-  /** Whether the list has been destroyed. */
+  /**
+   * Whether the list has been destroyed.
+   *
+   * 该列表是否已被销毁。
+   *
+   */
   private _isDestroyed: boolean;
 
   constructor(private _element: ElementRef<HTMLElement>,
@@ -512,29 +663,54 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
     this._isDestroyed = true;
   }
 
-  /** Focuses the selection list. */
+  /**
+   * Focuses the selection list.
+   *
+   * 让此选择列表获得焦点。
+   *
+   */
   focus(options?: FocusOptions) {
     this._element.nativeElement.focus(options);
   }
 
-  /** Selects all of the options. */
+  /**
+   * Selects all of the options.
+   *
+   * 选择所有选项。
+   *
+   */
   selectAll() {
     this._setAllOptionsSelected(true);
   }
 
-  /** Deselects all of the options. */
+  /**
+   * Deselects all of the options.
+   *
+   * 取消选定所有选项。
+   *
+   */
   deselectAll() {
     this._setAllOptionsSelected(false);
   }
 
-  /** Sets the focused option of the selection-list. */
+  /**
+   * Sets the focused option of the selection-list.
+   *
+   * 设置此选择列表的 focused 选项。
+   *
+   */
   _setFocusedOption(option: MatListOption) {
     this._keyManager.updateActiveItem(option);
   }
 
   /**
    * Removes an option from the selection list and updates the active item.
+   *
+   * 从选择列表中删除一个选项并更新活动条目。
+   *
    * @returns Currently-active item.
+   *
+   * 当前的活动条目。
    */
   _removeOptionFromList(option: MatListOption): MatListOption | null {
     const optionIndex = this._getOptionIndex(option);
@@ -551,7 +727,12 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
     return this._keyManager.activeItem;
   }
 
-  /** Passes relevant key presses to our key manager. */
+  /**
+   * Passes relevant key presses to our key manager.
+   *
+   * 把相关的按键传给按键管理器。
+   *
+   */
   _keydown(event: KeyboardEvent) {
     const keyCode = event.keyCode;
     const manager = this._keyManager;
@@ -585,7 +766,12 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
     }
   }
 
-  /** Reports a value change to the ControlValueAccessor */
+  /**
+   * Reports a value change to the ControlValueAccessor
+   *
+   * 向 ControlValueAccessor 报告值的变化
+   *
+   */
   _reportValueChange() {
     // Stop reporting value changes after the list has been destroyed. This avoids
     // cases where the list might wrongly reset its value once it is removed, but
@@ -597,12 +783,22 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
     }
   }
 
-  /** Emits a change event if the selected state of an option changed. */
+  /**
+   * Emits a change event if the selected state of an option changed.
+   *
+   * 如果选定的某个选项状态发生了变化，就会发出一个 change 事件。
+   *
+   */
   _emitChangeEvent(options: MatListOption[]) {
     this.selectionChange.emit(new MatSelectionListChange(this, options[0], options));
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   *是 ControlValueAccessor 实现的一部分。
+   *
+   */
   writeValue(values: string[]): void {
     this._value = values;
 
@@ -611,22 +807,42 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
     }
   }
 
-  /** Implemented as a part of ControlValueAccessor. */
+  /**
+   * Implemented as a part of ControlValueAccessor.
+   *
+   *是 ControlValueAccessor 实现的一部分。
+   *
+   */
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   *是 ControlValueAccessor 实现的一部分。
+   *
+   */
   registerOnChange(fn: (value: any) => void): void {
     this._onChange = fn;
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   *是 ControlValueAccessor 实现的一部分。
+   *
+   */
   registerOnTouched(fn: () => void): void {
     this._onTouched = fn;
   }
 
-  /** Sets the selected options based on the specified values. */
+  /**
+   * Sets the selected options based on the specified values.
+   *
+   * 根据指定的值设置选定的选项。
+   *
+   */
   private _setOptionsFromValues(values: string[]) {
     this.options.forEach(option => option._setSelected(false));
 
@@ -643,12 +859,22 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
     });
   }
 
-  /** Returns the values of the selected options. */
+  /**
+   * Returns the values of the selected options.
+   *
+   * 返回选定的选项的值。
+   *
+   */
   private _getSelectedOptionValues(): string[] {
     return this.options.filter(option => option.selected).map(option => option.value);
   }
 
-  /** Toggles the state of the currently focused option if enabled. */
+  /**
+   * Toggles the state of the currently focused option if enabled.
+   *
+   * 如果启用，则切换当前拥有焦点的选项的状态。
+   *
+   */
   private _toggleFocusedOption(): void {
     let focusedIndex = this._keyManager.activeItemIndex;
 
@@ -668,6 +894,9 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
   /**
    * Sets the selected state on all of the options
    * and emits an event if anything changed.
+   *
+   * 在所有选项上设置选定状态，并在发生任何变化时发出本事件。
+   *
    */
   private _setAllOptionsSelected(
     isSelected: boolean,
@@ -694,19 +923,37 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
 
   /**
    * Utility to ensure all indexes are valid.
+   *
+   * 用来确保所有索引都有效的工具。
+   *
    * @param index The index to be checked.
+   *
+   * 要检查的索引。
+   *
    * @returns True if the index is valid for our list of options.
+   *
+   * 如果索引对于我们的选项列表有效，则返回 true。
    */
   private _isValidIndex(index: number): boolean {
     return index >= 0 && index < this.options.length;
   }
 
-  /** Returns the index of the specified list option. */
+  /**
+   * Returns the index of the specified list option.
+   *
+   * 返回指定列表项的索引。
+   *
+   */
   private _getOptionIndex(option: MatListOption): number {
     return this.options.toArray().indexOf(option);
   }
 
-  /** Marks all the options to be checked in the next change detection run. */
+  /**
+   * Marks all the options to be checked in the next change detection run.
+   *
+   * 标记为要在下一次变更检测运行中检查的所有选项。
+   *
+   */
   private _markOptionsForCheck() {
     if (this.options) {
       this.options.forEach(option => option._markForCheck());
@@ -717,6 +964,9 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
    * Removes the tabindex from the selection list and resets it back afterwards, allowing the user
    * to tab out of it. This prevents the list from capturing focus and redirecting it back within
    * the list, creating a focus trap if it user tries to tab away.
+   *
+   * 从选择列表中删除 tabindex，然后重置它，以便允许用户跳出它。这会阻止该列表捕获焦点并将其重定向到列表中，如果用户试图离开它，就会创建一个焦点陷阱。
+   *
    */
   private _allowFocusEscape() {
     this._tabIndex = -1;
@@ -727,7 +977,12 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
     });
   }
 
-  /** Updates the tabindex based upon if the selection list is empty. */
+  /**
+   * Updates the tabindex based upon if the selection list is empty.
+   *
+   * 根据选择列表是否为空来更新 tabindex。
+   *
+   */
   private _updateTabIndex(): void {
     this._tabIndex = (this.options.length === 0) ? -1 : 0;
   }

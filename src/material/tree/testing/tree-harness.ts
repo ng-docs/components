@@ -24,6 +24,8 @@ export class MatTreeHarness extends ComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a tree with specific attributes.
    * @param options Options for narrowing the search
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: TreeHarnessFilters = {}): HarnessPredicate<MatTreeHarness> {
     return new HarnessPredicate(MatTreeHarness, options);

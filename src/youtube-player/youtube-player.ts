@@ -82,6 +82,9 @@ type UninitializedPlayer = Pick<Player, 'videoId' | 'playerVars' | 'destroy' | '
 /**
  * Object used to store the state of the player if the
  * user tries to interact with the API before it has been loaded.
+ *
+ * 如果用户在加载 API 之前尝试与 API 进行交互，则该对象用于存储播放器的状态。
+ *
  */
 interface PendingPlayerState {
   playbackState?: YT.PlayerState.PLAYING | YT.PlayerState.PAUSED | YT.PlayerState.CUED;
@@ -94,6 +97,9 @@ interface PendingPlayerState {
 /**
  * Angular component that renders a YouTube player via the YouTube player
  * iframe API.
+ *
+ * 用于通过 YouTube 播放器的 iframe API 渲染 YouTube 播放器的 Angular 组件。
+ *
  * @see https://developers.google.com/youtube/iframe_api_reference
  */
 @Component({
@@ -104,7 +110,12 @@ interface PendingPlayerState {
   template: '<div #youtubeContainer></div>',
 })
 export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
-  /** Whether we're currently rendering inside a browser. */
+  /**
+   * Whether we're currently rendering inside a browser.
+   *
+   * 我们目前是否正在浏览器中渲染。
+   *
+   */
   private _isBrowser: boolean;
   private _youtubeContainer = new Subject<HTMLElement>();
   private _destroyed = new Subject<void>();
@@ -113,7 +124,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   private _pendingPlayerState: PendingPlayerState | undefined;
   private _playerChanges = new BehaviorSubject<UninitializedPlayer | undefined>(undefined);
 
-  /** YouTube Video ID to view */
+  /**
+   * YouTube Video ID to view
+   *
+   * 要观看的 YouTube 视频 ID
+   *
+   */
   @Input()
   get videoId(): string | undefined { return this._videoId.value; }
   set videoId(videoId: string | undefined) {
@@ -121,7 +137,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
   private _videoId = new BehaviorSubject<string | undefined>(undefined);
 
-  /** Height of video player */
+  /**
+   * Height of video player
+   *
+   * 视频播放器的高度
+   *
+   */
   @Input()
   get height(): number | undefined { return this._height.value; }
   set height(height: number | undefined) {
@@ -129,7 +150,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
   private _height = new BehaviorSubject<number>(DEFAULT_PLAYER_HEIGHT);
 
-  /** Width of video player */
+  /**
+   * Width of video player
+   *
+   * 视频播放器的宽度
+   *
+   */
   @Input()
   get width(): number | undefined { return this._width.value; }
   set width(width: number | undefined) {
@@ -137,21 +163,36 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
   private _width = new BehaviorSubject<number>(DEFAULT_PLAYER_WIDTH);
 
-  /** The moment when the player is supposed to start playing */
+  /**
+   * The moment when the player is supposed to start playing
+   *
+   * 播放器应该开始播放的时刻
+   *
+   */
   @Input()
   set startSeconds(startSeconds: number | undefined) {
     this._startSeconds.next(startSeconds);
   }
   private _startSeconds = new BehaviorSubject<number | undefined>(undefined);
 
-  /** The moment when the player is supposed to stop playing */
+  /**
+   * The moment when the player is supposed to stop playing
+   *
+   * 播放器应该停止播放时刻
+   *
+   */
   @Input()
   set endSeconds(endSeconds: number | undefined) {
     this._endSeconds.next(endSeconds);
   }
   private _endSeconds = new BehaviorSubject<number | undefined>(undefined);
 
-  /** The suggested quality of the player */
+  /**
+   * The suggested quality of the player
+   *
+   * 播放器建议的播放品质
+   *
+   */
   @Input()
   set suggestedQuality(suggestedQuality: YT.SuggestedVideoQuality | undefined) {
     this._suggestedQuality.next(suggestedQuality);
@@ -161,6 +202,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   /**
    * Extra parameters used to configure the player. See:
    * https://developers.google.com/youtube/player_parameters.html?playerVersion=HTML5#Parameters
+   *
+   * 用于配置播放器的额外参数。请参阅：https://developers.google.com/youtube/player_parameters.html?playerVersion=HTML5#Parameters
+   *
    */
   @Input()
   get playerVars(): YT.PlayerVars | undefined { return this._playerVars.value; }
@@ -173,10 +217,18 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
    * Whether the iframe will attempt to load regardless of the status of the api on the
    * page. Set this to true if you don't want the `onYouTubeIframeAPIReady` field to be
    * set on the global window.
+   *
+   * 无论页面上的 api 状态如何，iframe 都会尝试加载。如果你不希望在全局 window 对象中设置 `onYouTubeIframeAPIReady` 字段，则把它设为 `true`。
+   *
    */
   @Input() showBeforeIframeApiLoads: boolean | undefined;
 
-  /** Outputs are direct proxies from the player itself. */
+  /**
+   * Outputs are direct proxies from the player itself.
+   *
+   * 直接代理给播放器自身的输出事件。
+   *
+   */
   @Output() ready: Observable<YT.PlayerEvent> =
       this._getLazyEmitter<YT.PlayerEvent>('onReady');
 
@@ -195,7 +247,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   @Output() playbackRateChange: Observable<YT.OnPlaybackRateChangeEvent> =
       this._getLazyEmitter<YT.OnPlaybackRateChangeEvent>('onPlaybackRateChange');
 
-  /** The element that will be replaced by the iframe. */
+  /**
+   * The element that will be replaced by the iframe.
+   *
+   * 那个将被 iframe 取代的元素。
+   *
+   */
   @ViewChild('youtubeContainer')
   youtubeContainer: ElementRef<HTMLElement>;
 
@@ -278,8 +335,13 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
+   *
    * @deprecated No longer being used. To be removed.
+   *
+   * 不用了。将来会删除
+   *
    * @breaking-change 11.0.0
+   *
    */
   createEventsBoundInZone(): YT.Events {
     return {};
@@ -308,7 +370,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     this._destroyed.complete();
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#playVideo */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#playVideo
+   *
+   * 参见 https://developers.google.com/youtube/iframe_api_reference#playVideo
+   *
+   */
   playVideo() {
     if (this._player) {
       this._player.playVideo();
@@ -317,7 +384,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#pauseVideo */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#pauseVideo
+   *
+   * 参见 https://developers.google.com/youtube/iframe_api_reference#pauseVideo
+   *
+   */
   pauseVideo() {
     if (this._player) {
       this._player.pauseVideo();
@@ -326,7 +398,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#stopVideo */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#stopVideo
+   *
+   * 参见 https://developers.google.com/youtube/iframe_api_reference#stopVideo
+   *
+   */
   stopVideo() {
     if (this._player) {
       this._player.stopVideo();
@@ -336,7 +413,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#seekTo */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#seekTo
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#seekTo>
+   *
+   */
   seekTo(seconds: number, allowSeekAhead: boolean) {
     if (this._player) {
       this._player.seekTo(seconds, allowSeekAhead);
@@ -345,7 +427,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#mute */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#mute
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#mute>
+   *
+   */
   mute() {
     if (this._player) {
       this._player.mute();
@@ -354,7 +441,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#unMute */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#unMute
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#unMute>
+   *
+   */
   unMute() {
     if (this._player) {
       this._player.unMute();
@@ -363,7 +455,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#isMuted */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#isMuted
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#isMuted>
+   *
+   */
   isMuted(): boolean {
     if (this._player) {
       return this._player.isMuted();
@@ -376,7 +473,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return false;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#setVolume */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#setVolume
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#setVolume>
+   *
+   */
   setVolume(volume: number) {
     if (this._player) {
       this._player.setVolume(volume);
@@ -385,7 +487,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getVolume */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getVolume
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getVolume>
+   *
+   */
   getVolume(): number {
     if (this._player) {
       return this._player.getVolume();
@@ -398,7 +505,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return 0;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#setPlaybackRate */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#setPlaybackRate
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#setPlaybackRate>
+   *
+   */
   setPlaybackRate(playbackRate: number) {
     if (this._player) {
       return this._player.setPlaybackRate(playbackRate);
@@ -407,7 +519,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getPlaybackRate */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getPlaybackRate
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getPlaybackRate>
+   *
+   */
   getPlaybackRate(): number {
     if (this._player) {
       return this._player.getPlaybackRate();
@@ -420,17 +537,32 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return 0;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getAvailablePlaybackRates */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getAvailablePlaybackRates
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getAvailablePlaybackRates>
+   *
+   */
   getAvailablePlaybackRates(): number[] {
     return this._player ? this._player.getAvailablePlaybackRates() : [];
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getVideoLoadedFraction */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getVideoLoadedFraction
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getVideoLoadedFraction>
+   *
+   */
   getVideoLoadedFraction(): number {
     return this._player ? this._player.getVideoLoadedFraction() : 0;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getPlayerState */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getPlayerState
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getPlayerState>
+   *
+   */
   getPlayerState(): YT.PlayerState | undefined {
     if (!this._isBrowser || !window.YT) {
       return undefined;
@@ -447,7 +579,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return YT.PlayerState.UNSTARTED;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getCurrentTime */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getCurrentTime
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getCurrentTime>
+   *
+   */
   getCurrentTime(): number {
     if (this._player) {
       return this._player.getCurrentTime();
@@ -460,32 +597,62 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return 0;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getPlaybackQuality */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getPlaybackQuality
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getPlaybackQuality>
+   *
+   */
   getPlaybackQuality(): YT.SuggestedVideoQuality {
     return this._player ? this._player.getPlaybackQuality() : 'default';
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getAvailableQualityLevels */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getAvailableQualityLevels
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getAvailableQualityLevels>
+   *
+   */
   getAvailableQualityLevels(): YT.SuggestedVideoQuality[] {
     return this._player ? this._player.getAvailableQualityLevels() : [];
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getDuration */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getDuration
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getDuration>
+   *
+   */
   getDuration(): number {
     return this._player ? this._player.getDuration() : 0;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getVideoUrl */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getVideoUrl
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getVideoUrl>
+   *
+   */
   getVideoUrl(): string {
     return this._player ? this._player.getVideoUrl() : '';
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getVideoEmbedCode */
+  /**
+   * See https://developers.google.com/youtube/iframe_api_reference#getVideoEmbedCode
+   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#getVideoEmbedCode>
+   *
+   */
   getVideoEmbedCode(): string {
     return this._player ? this._player.getVideoEmbedCode() : '';
   }
 
-  /** Gets an object that should be used to store the temporary API state. */
+  /**
+   * Gets an object that should be used to store the temporary API state.
+   *
+   * 获取一个用于存放临时 API 状态的对象。
+   *
+   */
   private _getPendingState(): PendingPlayerState {
     if (!this._pendingPlayerState) {
       this._pendingPlayerState = {};
@@ -494,7 +661,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return this._pendingPlayerState;
   }
 
-  /** Initializes a player from a temporary state. */
+  /**
+   * Initializes a player from a temporary state.
+   *
+   * 从临时状态初始化某个播放器。
+   *
+   */
   private _initializePlayer(player: YT.Player, state: PendingPlayerState): void {
     const {playbackState, playbackRate, volume, muted, seek} = state;
 
@@ -521,7 +693,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** Gets an observable that adds an event listener to the player when a user subscribes to it. */
+  /**
+   * Gets an observable that adds an event listener to the player when a user subscribes to it.
+   *
+   * 获取一个可观察对象，它会在用户订阅时为播放器添加一个事件监听器。
+   *
+   */
   private _getLazyEmitter<T extends YT.PlayerEvent>(name: keyof YT.Events): Observable<T> {
     // Start with the stream of players. This way the events will be transferred
     // over to the new player if it gets swapped out under-the-hood.
@@ -555,7 +732,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 }
 
-/** Listens to changes to the given width and height and sets it on the player. */
+/**
+ * Listens to changes to the given width and height and sets it on the player.
+ *
+ * 监听指定宽度和高度的变化情况，并在播放器上进行设置。
+ *
+ */
 function bindSizeToPlayer(
   playerObs: Observable<YT.Player | undefined>,
   widthObs: Observable<number>,
@@ -565,7 +747,12 @@ function bindSizeToPlayer(
       .subscribe(([player, width, height]) => player && player.setSize(width, height));
 }
 
-/** Listens to changes from the suggested quality and sets it on the given player. */
+/**
+ * Listens to changes from the suggested quality and sets it on the given player.
+ *
+ * 监听建议质量的变化情况，并把它设置在指定的播放器上。
+ *
+ */
 function bindSuggestedQualityToPlayer(
   playerObs: Observable<YT.Player | undefined>,
   suggestedQualityObs: Observable<YT.SuggestedVideoQuality | undefined>
@@ -581,8 +768,14 @@ function bindSuggestedQualityToPlayer(
 /**
  * Returns an observable that emits the loaded player once it's ready. Certain properties/methods
  * won't be available until the iframe finishes loading.
+ *
+ * 返回一个可观察对象，它会在所加载的播放器就绪后发出通知。在 iframe 完成加载之前，某些属性/方法是不可用的。
+ *
  * @param onAbort Callback function that will be invoked if the player loading was aborted before
  * it was able to complete. Can be used to clean up any loose references.
+ *
+ * 在播放器加载完成前被中止的情况下会调用这个回调函数。可以用来清理任何宽松的引用。
+ *
  */
 function waitUntilReady(onAbort: (player: UninitializedPlayer) => void):
   OperatorFunction<UninitializedPlayer | undefined, Player | undefined> {
@@ -621,7 +814,12 @@ function waitUntilReady(onAbort: (player: UninitializedPlayer) => void):
   });
 }
 
-/** Create an observable for the player based on the given options. */
+/**
+ * Create an observable for the player based on the given options.
+ *
+ * 基于指定的选项为播放器创建一个可观察对象。
+ *
+ */
 function createPlayerObservable(
   youtubeContainer: Observable<HTMLElement>,
   videoIdObs: Observable<string | undefined>,
@@ -648,7 +846,12 @@ function createPlayerObservable(
         distinctUntilChanged());
 }
 
-/** Skips the given observable until the other observable emits true, then emit the latest. */
+/**
+ * Skips the given observable until the other observable emits true, then emit the latest.
+ *
+ * 跳过指定的可观察对象，直到另一个可观察对象发出 true 后发出最后一条数据。
+ *
+ */
 function skipUntilRememberLatest<T>(notifier: Observable<boolean>): MonoTypeOperatorFunction<T> {
   return pipe(
     combineLatestOp(notifier),
@@ -656,7 +859,12 @@ function skipUntilRememberLatest<T>(notifier: Observable<boolean>): MonoTypeOper
     map(([value]) => value));
 }
 
-/** Destroy the player if there are no options, or create the player if there are options. */
+/**
+ * Destroy the player if there are no options, or create the player if there are options.
+ *
+ * 如果没有选项则销毁播放器；如果有选项，则自动创建播放器。
+ *
+ */
 function syncPlayerState(
   player: UninitializedPlayer | undefined,
   [container, videoOptions, ngZone]: [HTMLElement, YT.PlayerOptions | undefined, NgZone],
@@ -687,6 +895,10 @@ function syncPlayerState(
  * Call cueVideoById if the videoId changes, or when start or end seconds change. cueVideoById will
  * change the loaded video id to the given videoId, and set the start and end times to the given
  * start/end seconds.
+ *
+ * 如果 videoId 发生了变化，或者 start 或 end 的描述发生了变化，就调用 cueVideoById。
+ * cueVideoById 会把已加载的视频 id 更改为指定的 videoId，并把开始时间和结束时间设置为指定的开始/结束时间。
+ *
  */
 function bindCueVideoCall(
   playerObs: Observable<Player | undefined>,
@@ -744,7 +956,12 @@ function playerIsReady(player: UninitializedPlayer): player is Player {
   return 'getPlayerStatus' in player;
 }
 
-/** Combines the two observables temporarily for the filter function. */
+/**
+ * Combines the two observables temporarily for the filter function.
+ *
+ * 暂时把这两个可观察对象组合起来，供过滤函数用。
+ *
+ */
 function filterOnOther<R, T>(
   otherObs: Observable<T>,
   filterFn: (t: T, r?: R) => boolean,

@@ -38,6 +38,9 @@ const _MatMenuItemMixinBase: CanDisableRippleCtor & CanDisableCtor & typeof MatM
 
 /**
  * Single item inside of a `mat-menu`. Provides the menu item styling and accessibility treatment.
+ *
+ * `mat-menu` 里面的单个菜单项。提供菜单项样式和无障碍性处理。
+ *
  */
 @Component({
   selector: '[mat-menu-item]',
@@ -60,19 +63,44 @@ const _MatMenuItemMixinBase: CanDisableRippleCtor & CanDisableCtor & typeof MatM
 export class MatMenuItem extends _MatMenuItemMixinBase
     implements FocusableOption, CanDisable, CanDisableRipple, AfterViewInit, OnDestroy {
 
-  /** ARIA role for the menu item. */
+  /**
+   * ARIA role for the menu item.
+   *
+   * 菜单项的 ARIA 角色。
+   *
+   */
   @Input() role: 'menuitem' | 'menuitemradio' | 'menuitemcheckbox' = 'menuitem';
 
-  /** Stream that emits when the menu item is hovered. */
+  /**
+   * Stream that emits when the menu item is hovered.
+   *
+   * 当菜单项悬停时会发出流。
+   *
+   */
   readonly _hovered: Subject<MatMenuItem> = new Subject<MatMenuItem>();
 
-  /** Stream that emits when the menu item is focused. */
+  /**
+   * Stream that emits when the menu item is focused.
+   *
+   * 当菜单项获得焦点时会发出流。
+   *
+   */
   readonly _focused = new Subject<MatMenuItem>();
 
-  /** Whether the menu item is highlighted. */
+  /**
+   * Whether the menu item is highlighted.
+   *
+   * 该菜单项是否突出显示。
+   *
+   */
   _highlighted: boolean = false;
 
-  /** Whether the menu item acts as a trigger for a sub-menu. */
+  /**
+   * Whether the menu item acts as a trigger for a sub-menu.
+   *
+   * 菜单项是否作为子菜单的触发器。
+   *
+   */
   _triggersSubmenu: boolean = false;
 
   constructor(
@@ -93,7 +121,12 @@ export class MatMenuItem extends _MatMenuItemMixinBase
     }
   }
 
-  /** Focuses the menu item. */
+  /**
+   * Focuses the menu item.
+   *
+   * 让本菜单项获得焦点。
+   *
+   */
   focus(origin?: FocusOrigin, options?: FocusOptions): void {
     if (this._focusMonitor && origin) {
       this._focusMonitor.focusVia(this._getHostElement(), origin, options);
@@ -126,17 +159,32 @@ export class MatMenuItem extends _MatMenuItemMixinBase
     this._focused.complete();
   }
 
-  /** Used to set the `tabindex`. */
+  /**
+   * Used to set the `tabindex`.
+   *
+   * 用来设置 `tabindex` 。
+   *
+   */
   _getTabIndex(): string {
     return this.disabled ? '-1' : '0';
   }
 
-  /** Returns the host DOM element. */
+  /**
+   * Returns the host DOM element.
+   *
+   * 返回宿主 DOM 元素。
+   *
+   */
   _getHostElement(): HTMLElement {
     return this._elementRef.nativeElement;
   }
 
-  /** Prevents the default element actions if it is disabled. */
+  /**
+   * Prevents the default element actions if it is disabled.
+   *
+   * 如果被禁用了，就会阻止默认元素上的操作
+   *
+   */
   // We have to use a `HostListener` here in order to support both Ivy and ViewEngine.
   // In Ivy the `host` bindings will be merged when this class is extended, whereas in
   // ViewEngine they're overwritten.
@@ -150,7 +198,12 @@ export class MatMenuItem extends _MatMenuItemMixinBase
     }
   }
 
-  /** Emits to the hover stream. */
+  /**
+   * Emits to the hover stream.
+   *
+   * 发送悬停流。
+   *
+   */
   // We have to use a `HostListener` here in order to support both Ivy and ViewEngine.
   // In Ivy the `host` bindings will be merged when this class is extended, whereas in
   // ViewEngine they're overwritten.
@@ -161,7 +214,12 @@ export class MatMenuItem extends _MatMenuItemMixinBase
     this._hovered.next(this);
   }
 
-  /** Gets the label to be used when determining whether the option should be focused. */
+  /**
+   * Gets the label to be used when determining whether the option should be focused.
+   *
+   * 获取在确定该选项是否应该获得焦点时使用的标签。
+   *
+   */
   getLabel(): string {
     const clone = this._elementRef.nativeElement.cloneNode(true) as HTMLElement;
     const icons = clone.querySelectorAll('mat-icon, .material-icons');

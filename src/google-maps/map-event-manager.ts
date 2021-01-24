@@ -14,14 +14,29 @@ type MapEventManagerTarget = {
   addListener: (name: string, callback: (...args: any[]) => void) => google.maps.MapsEventListener;
 } | undefined;
 
-/** Manages event on a Google Maps object, ensuring that events are added only when necessary. */
+/**
+ * Manages event on a Google Maps object, ensuring that events are added only when necessary.
+ *
+ * 管理 Google Maps 对象上的事件，确保只在必要时添加事件。
+ *
+ */
 export class MapEventManager {
-  /** Pending listeners that were added before the target was set. */
+  /**
+   * Pending listeners that were added before the target was set.
+   *
+   * 等待在设置目标之前添加的监听器。
+   *
+   */
   private _pending: {observable: Observable<any>, observer: Subscriber<any>}[] = [];
   private _listeners: google.maps.MapsEventListener[] = [];
   private _targetStream = new BehaviorSubject<MapEventManagerTarget>(undefined);
 
-  /** Clears all currently-registered event listeners. */
+  /**
+   * Clears all currently-registered event listeners.
+   *
+   * 清除所有当前注册的事件监听器。
+   *
+   */
   private _clearListeners() {
     for (const listener of this._listeners) {
       listener.remove();
@@ -32,7 +47,12 @@ export class MapEventManager {
 
   constructor(private _ngZone: NgZone) {}
 
-  /** Gets an observable that adds an event listener to the map when a consumer subscribes to it. */
+  /**
+   * Gets an observable that adds an event listener to the map when a consumer subscribes to it.
+   *
+   * 获取一个可观察对象，当消费者订阅它时，它会向地图添加一个事件监听器。
+   *
+   */
   getLazyEmitter<T>(name: string): Observable<T> {
     return this._targetStream.pipe(switchMap(target => {
       const observable = new Observable<T>(observer => {
@@ -53,7 +73,12 @@ export class MapEventManager {
     }));
   }
 
-  /** Sets the current target that the manager should bind events to. */
+  /**
+   * Sets the current target that the manager should bind events to.
+   *
+   * 设置当前目标，以便管理器把事件绑定到它。
+   *
+   */
   setTarget(target: MapEventManagerTarget) {
     const currentTarget = this._targetStream.value;
 
@@ -74,7 +99,12 @@ export class MapEventManager {
     this._pending = [];
   }
 
-  /** Destroys the manager and clears the event listeners. */
+  /**
+   * Destroys the manager and clears the event listeners.
+   *
+   * 销毁管理器并清除事件监听器。
+   *
+   */
   destroy() {
     this._clearListeners();
     this._pending = [];

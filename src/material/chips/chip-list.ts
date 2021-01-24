@@ -59,7 +59,12 @@ const _MatChipListMixinBase: CanUpdateErrorStateCtor & typeof MatChipListBase =
 // Increasing integer for generating unique ids for chip-list components.
 let nextUniqueId = 0;
 
-/** Change event object that is emitted when the chip list value has changed. */
+/**
+ * Change event object that is emitted when the chip list value has changed.
+ *
+ * 纸片列表的值发生变化时发出的事件对象。
+ *
+ */
 export class MatChipListChange {
   constructor(
     /** Chip list that emitted the event. */
@@ -71,6 +76,9 @@ export class MatChipListChange {
 
 /**
  * A material design chips component (named ChipList for its similarity to the List component).
+ *
+ * 一种Material Design纸片组件（由于类似于 List 组件，因此得名 ChipList）。
+ *
  */
 @Component({
   selector: 'mat-chip-list',
@@ -103,6 +111,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
   ControlValueAccessor, AfterContentInit, DoCheck, OnInit, OnDestroy, CanUpdateErrorState {
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   readonly controlType: string = 'mat-chip-list';
@@ -111,65 +122,151 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
    * When a chip is destroyed, we store the index of the destroyed chip until the chips
    * query list notifies about the update. This is necessary because we cannot determine an
    * appropriate chip that should receive focus until the array of chips updated completely.
+   *
+   * 当纸片被销毁时，我们会把要销毁的纸片的索引存起来，直到纸片查询列表通知该更新为止。这是必要的，因为在完全更新纸片数组之前，我们无法确定哪个纸片适合获得焦点。
+   *
    */
   private _lastDestroyedChipIndex: number | null = null;
 
-  /** Subject that emits when the component has been destroyed. */
+  /**
+   * Subject that emits when the component has been destroyed.
+   *
+   * 主体对象，在组件被销毁后发出数据。
+   *
+   */
   private _destroyed = new Subject<void>();
 
-  /** Subscription to focus changes in the chips. */
+  /**
+   * Subscription to focus changes in the chips.
+   *
+   * 订阅纸片的焦点变更事件。
+   *
+   */
   private _chipFocusSubscription: Subscription | null;
 
-  /** Subscription to blur changes in the chips. */
+  /**
+   * Subscription to blur changes in the chips.
+   *
+   * 订阅纸片列表的失焦事件。
+   *
+   */
   private _chipBlurSubscription: Subscription | null;
 
-  /** Subscription to selection changes in chips. */
+  /**
+   * Subscription to selection changes in chips.
+   *
+   * 订阅纸片列表选定纸片的事件
+   *
+   */
   private _chipSelectionSubscription: Subscription | null;
 
-  /** Subscription to remove changes in chips. */
+  /**
+   * Subscription to remove changes in chips.
+   *
+   * 订阅纸片列表中删除纸片的事件。
+   *
+   */
   private _chipRemoveSubscription: Subscription | null;
 
-  /** The chip input to add more chips */
+  /**
+   * The chip input to add more chips
+   *
+   * 添加更多纸片时使用的纸片输入框
+   *
+   */
   protected _chipInput: MatChipTextControl;
 
-  /** Uid of the chip list */
+  /**
+   * Uid of the chip list
+   *
+   * 纸片列表的唯一 ID
+   *
+   */
   _uid: string = `mat-chip-list-${nextUniqueId++}`;
 
-  /** The aria-describedby attribute on the chip list for improved a11y. */
+  /**
+   * The aria-describedby attribute on the chip list for improved a11y.
+   *
+   * 纸片列表中的 aria-describedby 属性提升了无障碍性。
+   *
+   */
   _ariaDescribedby: string;
 
-  /** Tab index for the chip list. */
+  /**
+   * Tab index for the chip list.
+   *
+   * 纸片列表的 Tabindex。
+   *
+   */
   _tabIndex = 0;
 
   /**
    * User defined tab index.
-   * When it is not null, use user defined tab index. Otherwise use _tabIndex
+   * When it is not null, use user defined tab index. Otherwise use \_tabIndex
+   *
+   * 用户自定义的 Tabindex。当它不为 null 时，使用用户自定义的 tab 索引。否则，使用 \_tabIndex
+   *
    */
   _userTabIndex: number | null = null;
 
-  /** The FocusKeyManager which handles focus. */
+  /**
+   * The FocusKeyManager which handles focus.
+   *
+   * FocusKeyManager 用于处理焦点。
+   *
+   */
   _keyManager: FocusKeyManager<MatChip>;
 
-  /** Function when touched */
+  /**
+   * Function when touched
+   *
+   * 已接触后的函数
+   *
+   */
   _onTouched = () => {};
 
-  /** Function when changed */
+  /**
+   * Function when changed
+   *
+   * 已更改时的函数
+   *
+   */
   _onChange: (value: any) => void = () => {};
 
   _selectionModel: SelectionModel<MatChip>;
 
-  /** The array of selected chips inside chip list. */
+  /**
+   * The array of selected chips inside chip list.
+   *
+   * 纸片列表中选定纸片的数组。
+   *
+   */
   get selected(): MatChip[] | MatChip {
     return this.multiple ? this._selectionModel.selected : this._selectionModel.selected[0];
   }
 
-  /** The ARIA role applied to the chip list. */
+  /**
+   * The ARIA role applied to the chip list.
+   *
+   * ARIA 的角色，应用于纸片列表中。
+   *
+   */
   get role(): string | null { return this.empty ? null : 'listbox'; }
 
-  /** An object used to control when error messages are shown. */
+  /**
+   * An object used to control when error messages are shown.
+   *
+   * 用于控制何时显示错误信息的对象。
+   *
+   */
   @Input() errorStateMatcher: ErrorStateMatcher;
 
-  /** Whether the user should be allowed to select multiple chips. */
+  /**
+   * Whether the user should be allowed to select multiple chips.
+   *
+   * 是否允许用户选择多个纸片。
+   *
+   */
   @Input()
   get multiple(): boolean { return this._multiple; }
   set multiple(value: boolean) {
@@ -182,6 +279,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
    * A function to compare the option values with the selected values. The first argument
    * is a value from an option. The second is a value from the selection. A boolean
    * should be returned.
+   *
+   * 用来比较选项值和当前选择的函数。第一个参数是选项的值，第二个选定的值。应该返回一个布尔值。
+   *
    */
   @Input()
   get compareWith(): (o1: any, o2: any) => boolean { return this._compareWith; }
@@ -196,6 +296,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 实现为作为 MatFormFieldControl 的一部分。
+   *
    * @docs-private
    */
   @Input()
@@ -208,6 +311,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   get id(): string {
@@ -216,6 +322,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   @Input()
@@ -228,6 +337,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   @Input()
@@ -240,13 +352,21 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
   }
   protected _placeholder: string;
 
-  /** Whether any chips or the matChipInput inside of this chip-list has focus. */
+  /**
+   * Whether any chips or the matChipInput inside of this chip-list has focus.
+   *
+   * 这个纸片列表中是否存在任何拥有焦点的纸片或 matChipInput。
+   *
+   */
   get focused(): boolean {
     return (this._chipInput && this._chipInput.focused) || this._hasFocusedChip();
   }
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   get empty(): boolean {
@@ -255,12 +375,18 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   get shouldLabelFloat(): boolean { return !this.empty || this.focused; }
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   @Input()
@@ -271,12 +397,20 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
   }
   protected _disabled: boolean = false;
 
-  /** Orientation of the chip list. */
+  /**
+   * Orientation of the chip list.
+   *
+   * 纸片列表的方向。
+   *
+   */
   @Input('aria-orientation') ariaOrientation: 'horizontal' | 'vertical' = 'horizontal';
 
   /**
    * Whether or not this chip list is selectable. When a chip list is not selectable,
    * the selected states for all the chips inside the chip list are always ignored.
+   *
+   * 这个纸片列表是否可以选择。当纸片列表不可选时，纸片列表中所有纸片的选定状态总会被忽略。
+   *
    */
   @Input()
   get selectable(): boolean { return this._selectable; }
@@ -295,38 +429,71 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
     this._tabIndex = value;
   }
 
-  /** Combined stream of all of the child chips' selection change events. */
+  /**
+   * Combined stream of all of the child chips' selection change events.
+   *
+   * 所有子纸片的选定状态更改事件的组合流。
+   *
+   */
   get chipSelectionChanges(): Observable<MatChipSelectionChange> {
     return merge(...this.chips.map(chip => chip.selectionChange));
   }
 
-  /** Combined stream of all of the child chips' focus change events. */
+  /**
+   * Combined stream of all of the child chips' focus change events.
+   *
+   * 所有子纸片的聚焦事件的组合流。
+   *
+   */
   get chipFocusChanges(): Observable<MatChipEvent> {
     return merge(...this.chips.map(chip => chip._onFocus));
   }
 
-  /** Combined stream of all of the child chips' blur change events. */
+  /**
+   * Combined stream of all of the child chips' blur change events.
+   *
+   * 所有子纸片的失焦事件的组合流。
+   *
+   */
   get chipBlurChanges(): Observable<MatChipEvent> {
     return merge(...this.chips.map(chip => chip._onBlur));
   }
 
-  /** Combined stream of all of the child chips' remove change events. */
+  /**
+   * Combined stream of all of the child chips' remove change events.
+   *
+   * 所有子纸片的删除事件的组合流。
+   *
+   */
   get chipRemoveChanges(): Observable<MatChipEvent> {
     return merge(...this.chips.map(chip => chip.destroyed));
   }
 
-  /** Event emitted when the selected chip list value has been changed by the user. */
+  /**
+   * Event emitted when the selected chip list value has been changed by the user.
+   *
+   * 当纸片列表当前选择被用户改变时发出的事件。
+   *
+   */
   @Output() readonly change: EventEmitter<MatChipListChange> =
       new EventEmitter<MatChipListChange>();
 
   /**
    * Event that emits whenever the raw value of the chip-list changes. This is here primarily
    * to facilitate the two-way binding for the `value` input.
+   *
+   * 每当纸片列表的原始值发生变化时就会发出本事件。这主要是为了方便 `value` 输入的双向绑定。
+   *
    * @docs-private
    */
   @Output() readonly valueChange: EventEmitter<any> = new EventEmitter<any>();
 
-  /** The chip components contained within this chip list. */
+  /**
+   * The chip components contained within this chip list.
+   *
+   * 这个纸片列表中包含的纸片组件。
+   *
+   */
   @ContentChildren(MatChip, {
     // We need to use `descendants: true`, because Ivy will no longer match
     // indirect descendants if it's left as false.
@@ -416,7 +583,12 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
   }
 
 
-  /** Associates an HTML input element with this chip list. */
+  /**
+   * Associates an HTML input element with this chip list.
+   *
+   * 将 HTML 输入框元素与该纸片列表关联起来。
+   *
+   */
   registerInput(inputElement: MatChipTextControl): void {
     this._chipInput = inputElement;
 
@@ -427,6 +599,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   setDescribedByIds(ids: string[]) { this._ariaDescribedby = ids.join(' '); }
@@ -456,6 +631,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   onContainerClick(event: MouseEvent) {
@@ -467,6 +645,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
   /**
    * Focuses the first non-disabled chip in this chip list, or the associated input when there
    * are no eligible chips.
+   *
+   * 让这个纸片列表中的第一个非禁用纸片获得焦点，或在没有合格纸片时让其关联输入框获得焦点。
+   *
    */
   focus(options?: FocusOptions): void {
     if (this.disabled) {
@@ -486,7 +667,12 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
     }
   }
 
-  /** Attempt to focus an input if we have one. */
+  /**
+   * Attempt to focus an input if we have one.
+   *
+   * 如果我们有一个输入框，尝试让它获得焦点。
+   *
+   */
   _focusInput(options?: FocusOptions) {
     if (this._chipInput) {
       this._chipInput.focus(options);
@@ -495,6 +681,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Pass events to the keyboard manager. Available here for tests.
+   *
+   * 把事件传给按键管理器。这里是供测试用的。
+   *
    */
   _keydown(event: KeyboardEvent) {
     const target = event.target as HTMLElement;
@@ -512,6 +701,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Check the tab index as you should not be allowed to focus an empty list.
+   *
+   * 检查 Tabindex，因为不应该允许空白列表获得焦点。
+   *
    */
   protected _updateTabIndex(): void {
     // If we have 0 chips, we should not allow keyboard focus
@@ -521,6 +713,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
   /**
    * If the amount of chips changed, we need to update the
    * key manager state and focus the next closest chip.
+   *
+   * 如果纸片数量发生了变化，我们就需要更新按键管理器的状态并让下一个最近的纸片获得焦点。
+   *
    */
   protected _updateFocusForDestroyedChips() {
     // Move focus to the closest chip. If no other chips remain, focus the chip-list itself.
@@ -539,8 +734,15 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
   /**
    * Utility to ensure all indexes are valid.
    *
+   * 用来确保所有索引都有效的工具。
+   *
    * @param index The index to be checked.
+   *
+   * 要检查的索引。
+   *
    * @returns True if the index is valid for our list of chips.
+   *
+   * 如果该索引对我们的纸片列表有效，则为真。
    */
   private _isValidIndex(index: number): boolean {
     return index >= 0 && index < this.chips.length;
@@ -577,7 +779,12 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Finds and selects the chip based on its value.
+   *
+   * 根据纸片的值，查找并选择它。
+   *
    * @returns Chip that has the corresponding value.
+   *
+   * 具有相应值的纸片。
    */
   private _selectValue(value: any, isUserInput: boolean = true): MatChip | undefined {
 
@@ -606,7 +813,13 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
 
   /**
    * Deselects every chip in the list.
+   *
+   * 取消选定列表中的每一个纸片。
+   *
    * @param skip Chip that should not be deselected.
+   *
+   * 不应该被取消选择的纸片。
+   *
    */
   private _clearSelection(skip?: MatChip): void {
     this._selectionModel.clear();
@@ -621,6 +834,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
   /**
    * Sorts the model values, ensuring that they keep the same
    * order that they have in the panel.
+   *
+   * 对模型值进行排序，确保它们与面板中的顺序保持一致。
+   *
    */
   private _sortValues(): void {
     if (this._multiple) {
@@ -635,7 +851,12 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
     }
   }
 
-  /** Emits change event to set the model value. */
+  /**
+   * Emits change event to set the model value.
+   *
+   * 发出 change 事件来设置模型值。
+   *
+   */
   private _propagateChanges(fallbackValue?: any): void {
     let valueToEmit: any = null;
 
@@ -651,7 +872,12 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
     this._changeDetectorRef.markForCheck();
   }
 
-  /** When blurred, mark the field as touched when focus moved outside the chip list. */
+  /**
+   * When blurred, mark the field as touched when focus moved outside the chip list.
+   *
+   * 当失焦时，如果焦点移动到了纸片列表之外，就把该字段标记为“已接触”。
+   *
+   */
   _blur() {
     if (!this._hasFocusedChip()) {
       this._keyManager.setActiveItem(-1);
@@ -675,7 +901,12 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
     }
   }
 
-  /** Mark the field as touched */
+  /**
+   * Mark the field as touched
+   *
+   * 把这个字段标记为已接触。
+   *
+   */
   _markAsTouched() {
     this._onTouched();
     this._changeDetectorRef.markForCheck();
@@ -686,6 +917,9 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
    * Removes the `tabindex` from the chip list and resets it back afterwards, allowing the
    * user to tab out of it. This prevents the list from capturing focus and redirecting
    * it back to the first chip, creating a focus trap, if it user tries to tab away.
+   *
+   * 从纸片列表中删除 `tabindex` ，然后重置它，以便用户可以跳出去。这会阻止该列表捕获焦点并将其重定向回第一个纸片，如果用户试图离开，就会创建一个焦点陷阱。
+   *
    */
   _allowFocusEscape() {
     if (this._tabIndex !== -1) {
@@ -727,7 +961,12 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
     }
   }
 
-  /** Listens to user-generated selection events on each chip. */
+  /**
+   * Listens to user-generated selection events on each chip.
+   *
+   * 在每张纸片上监听用户自己造成的选定事件。
+   *
+   */
   private _listenToChipsSelection(): void {
     this._chipSelectionSubscription = this.chipSelectionChanges.subscribe(event => {
       event.source.selected
@@ -749,7 +988,12 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
     });
   }
 
-  /** Listens to user-generated selection events on each chip. */
+  /**
+   * Listens to user-generated selection events on each chip.
+   *
+   * 在每张纸片上监听用户自己造成的选定事件。
+   *
+   */
   private _listenToChipsFocus(): void {
     this._chipFocusSubscription = this.chipFocusChanges.subscribe(event => {
       let chipIndex: number = this.chips.toArray().indexOf(event.chip);
@@ -780,7 +1024,12 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
     });
   }
 
-  /** Checks whether an event comes from inside a chip element. */
+  /**
+   * Checks whether an event comes from inside a chip element.
+   *
+   * 检查事件是否来自纸片内部。
+   *
+   */
   private _originatesFromChip(event: Event): boolean {
     let currentElement = event.target as HTMLElement | null;
 
@@ -795,12 +1044,22 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
     return false;
   }
 
-  /** Checks whether any of the chips is focused. */
+  /**
+   * Checks whether any of the chips is focused.
+   *
+   * 检查是否有任何纸片获得焦点了。
+   *
+   */
   private _hasFocusedChip() {
     return this.chips && this.chips.some(chip => chip._hasFocus);
   }
 
-  /** Syncs the list's state with the individual chips. */
+  /**
+   * Syncs the list's state with the individual chips.
+   *
+   * 将列表的状态与各个纸片同步。
+   *
+   */
   private _syncChipsState() {
     if (this.chips) {
       this.chips.forEach(chip => {

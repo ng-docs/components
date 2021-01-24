@@ -18,7 +18,12 @@ export class _Schedule {
   endTasks: (() => unknown)[] = [];
 }
 
-/** Injection token used to provide a coalesced style scheduler. */
+/**
+ * Injection token used to provide a coalesced style scheduler.
+ *
+ * 注入令牌，用于提供样式合并调度器。
+ *
+ */
 export const _COALESCED_STYLE_SCHEDULER =
     new InjectionToken<_CoalescedStyleScheduler>('_COALESCED_STYLE_SCHEDULER');
 
@@ -26,6 +31,8 @@ export const _COALESCED_STYLE_SCHEDULER =
  * Allows grouping up CSSDom mutations after the current execution context.
  * This can significantly improve performance when separate consecutive functions are
  * reading from the CSSDom and then mutating it.
+ *
+ * 允许在当前执行上下文之后对 CSSDom 的修改进行分组。当使用单独的不间断函数从 CSSDom 中读取并修改它，这可以显着提高性能。
  *
  * @docs-private
  */
@@ -38,6 +45,9 @@ export class _CoalescedStyleScheduler implements OnDestroy {
 
   /**
    * Schedules the specified task to run at the end of the current VM turn.
+   *
+   * 安排指定任务在当前虚拟机周期结束时运行。
+   *
    */
   schedule(task: () => unknown): void {
     this._createScheduleIfNeeded();
@@ -48,6 +58,9 @@ export class _CoalescedStyleScheduler implements OnDestroy {
   /**
    * Schedules the specified task to run after other scheduled tasks at the end of the current
    * VM turn.
+   *
+   * 安排指定的任务在当前虚拟机其他预定任务的周期结束时运行。
+   *
    */
   scheduleEnd(task: () => unknown): void {
     this._createScheduleIfNeeded();
@@ -55,7 +68,12 @@ export class _CoalescedStyleScheduler implements OnDestroy {
     this._currentSchedule!.endTasks.push(task);
   }
 
-  /** Prevent any further tasks from running. */
+  /**
+   * Prevent any further tasks from running.
+   *
+   * 防止继续运行其它任务。
+   *
+   */
   ngOnDestroy() {
     this._destroyed.next();
     this._destroyed.complete();

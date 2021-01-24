@@ -27,6 +27,8 @@ export class MatSelectionListHarness extends MatListHarnessBase<
    * certain criteria.
    * @param options Options for filtering which selection list instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: SelectionListHarnessFilters = {}):
       HarnessPredicate<MatSelectionListHarness> {
@@ -79,6 +81,8 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    * meets certain criteria.
    * @param options Options for filtering which list option instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ListOptionHarnessFilters = {}): HarnessPredicate<MatListOptionHarness> {
     return getListItemPredicate(MatListOptionHarness, options)

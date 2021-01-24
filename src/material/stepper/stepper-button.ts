@@ -9,7 +9,12 @@
 import {CdkStepperNext, CdkStepperPrevious} from '@angular/cdk/stepper';
 import {Directive} from '@angular/core';
 
-/** Button that moves to the next step in a stepper workflow. */
+/**
+ * Button that moves to the next step in a stepper workflow.
+ *
+ * 用来移动到步进器工作流下一步的按钮。
+ *
+ */
 @Directive({
   selector: 'button[matStepperNext]',
   host: {
@@ -21,7 +26,12 @@ import {Directive} from '@angular/core';
 export class MatStepperNext extends CdkStepperNext {
 }
 
-/** Button that moves to the previous step in a stepper workflow. */
+/**
+ * Button that moves to the previous step in a stepper workflow.
+ *
+ * 用来移动到步进器工作流中上一步的按钮。
+ *
+ */
 @Directive({
   selector: 'button[matStepperPrevious]',
   host: {

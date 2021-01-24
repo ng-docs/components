@@ -38,6 +38,9 @@ const _MatTabMixinBase: CanDisableCtor & typeof MatTabBase =
 
 /**
  * Used to provide a tab group to a tab without causing a circular dependency.
+ *
+ * 用来为选项卡提供一个选项卡组，而不会产生循环依赖。
+ *
  * @docs-private
  */
 export const MAT_TAB_GROUP = new InjectionToken<any>('MAT_TAB_GROUP');
@@ -52,7 +55,12 @@ export const MAT_TAB_GROUP = new InjectionToken<any>('MAT_TAB_GROUP');
   exportAs: 'matTab',
 })
 export class MatTab extends _MatTabMixinBase implements OnInit, CanDisable, OnChanges, OnDestroy {
-  /** Content for the tab label given by `<ng-template mat-tab-label>`. */
+  /**
+   * Content for the tab label given by `<ng-template mat-tab-label>`.
+   *
+   * 选项卡标签的内容由 `<ng-template mat-tab-label>` 指定。
+   *
+   */
   @ContentChild(MAT_TAB_LABEL)
   get templateLabel(): MatTabLabel { return this._templateLabel; }
   set templateLabel(value: MatTabLabel) { this._setTemplateLabelInput(value); }
@@ -60,26 +68,52 @@ export class MatTab extends _MatTabMixinBase implements OnInit, CanDisable, OnCh
 
   /**
    * Template provided in the tab content that will be used if present, used to enable lazy-loading
+   *
+   * 选项卡内容中提供的模板，如果存在，将用于启用惰性加载
+   *
    */
   @ContentChild(MAT_TAB_CONTENT, {read: TemplateRef, static: true})
   _explicitContent: TemplateRef<any>;
 
-  /** Template inside the MatTab view that contains an `<ng-content>`. */
+  /**
+   * Template inside the MatTab view that contains an `<ng-content>`.
+   *
+   *  MatTab 视图中包含 `<ng-content>` 的模板内容。
+   *
+   */
   @ViewChild(TemplateRef, {static: true}) _implicitContent: TemplateRef<any>;
 
-  /** Plain text label for the tab, used when there is no template label. */
+  /**
+   * Plain text label for the tab, used when there is no template label.
+   *
+   * 选项卡的纯文本标签，没有模板标签时使用。
+   *
+   */
   @Input('label') textLabel: string = '';
 
-  /** Aria label for the tab. */
+  /**
+   * Aria label for the tab.
+   *
+   * 选项卡的 Aria 标签。
+   *
+   */
   @Input('aria-label') ariaLabel: string;
 
   /**
    * Reference to the element that the tab is labelled by.
    * Will be cleared if `aria-label` is set at the same time.
+   *
+   * 到选项卡标签所标注的元素的引用。如果同时设置了 `aria-label`，该属性将被清除。
+   *
    */
   @Input('aria-labelledby') ariaLabelledby: string;
 
-  /** Portal that will be the hosted content of the tab */
+  /**
+   * Portal that will be the hosted content of the tab
+   *
+   * 该选项卡内容的传送点
+   *
+   */
   private _contentPortal: TemplatePortal | null = null;
 
   /** @docs-private */
@@ -87,23 +121,37 @@ export class MatTab extends _MatTabMixinBase implements OnInit, CanDisable, OnCh
     return this._contentPortal;
   }
 
-  /** Emits whenever the internal state of the tab changes. */
+  /**
+   * Emits whenever the internal state of the tab changes.
+   *
+   * 只要选项卡内部状态发生变化，就会发出通知。
+   *
+   */
   readonly _stateChanges = new Subject<void>();
 
   /**
    * The relatively indexed position where 0 represents the center, negative is left, and positive
    * represents the right.
+   *
+   * 相对的索引位置，其中 0 代表中心，负数代表左边，正数代表右边。
+   *
    */
   position: number | null = null;
 
   /**
    * The initial relatively index origin of the tab if it was created and selected after there
    * was already a selected tab. Provides context of what position the tab should originate from.
+   *
+   * 该选项卡初始相对索引的原点（如果已经创建并在已选定的选项卡之后被选定）。这个属性提供了此选项卡应该来自哪个位置的上下文。
+   *
    */
   origin: number | null = null;
 
   /**
    * Whether the tab is currently active.
+   *
+   * 该选项卡目前是否有效。
+   *
    */
   isActive = false;
 
@@ -132,6 +180,9 @@ export class MatTab extends _MatTabMixinBase implements OnInit, CanDisable, OnCh
    * This has been extracted to a util because of TS 4 and VE.
    * View Engine doesn't support property rename inheritance.
    * TS 4.0 doesn't allow properties to override accessors or vice-versa.
+   *
+   * 由于 TS 4 和 VE 的原因，它已被提取成了一个工具函数。 View Engine 不支持继承时进行属性重命名。 TS 4.0 不允许改写属性访问器，反之亦然。
+   *
    * @docs-private
    */
   protected _setTemplateLabelInput(value: MatTabLabel) {

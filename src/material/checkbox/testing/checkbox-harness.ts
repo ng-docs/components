@@ -10,16 +10,34 @@ import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {CheckboxHarnessFilters} from './checkbox-harness-filters';
 
-/** Harness for interacting with a standard mat-checkbox in tests. */
+/**
+ * Harness for interacting with a standard mat-checkbox in tests.
+ *
+ * 在测试中与标准 mat-checkbox 进行交互的测试工具。
+ *
+ */
 export class MatCheckboxHarness extends ComponentHarness {
-  /** The selector for the host element of a `MatCheckbox` instance. */
+  /**
+   * The selector for the host element of a `MatCheckbox` instance.
+   *
+   * `MatCheckbox` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-checkbox';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatCheckboxHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate` ，它可以用来搜索符合条件 `MatCheckboxHarness`
+   *
    * @param options Options for filtering which checkbox instances are considered a match.
+   *
+   * 一个选项，用来过滤哪些复选框实例是匹配的。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 一个使用指定选项配置过的 `HarnessPredicate`。
    */
   static with(options: CheckboxHarnessFilters = {}): HarnessPredicate<MatCheckboxHarness> {
     return new HarnessPredicate(MatCheckboxHarness, options)
@@ -36,72 +54,137 @@ export class MatCheckboxHarness extends ComponentHarness {
   private _input = this.locatorFor('input');
   private _inputContainer = this.locatorFor('.mat-checkbox-inner-container');
 
-  /** Whether the checkbox is checked. */
+  /**
+   * Whether the checkbox is checked.
+   *
+   * 是否勾选了复选框。
+   *
+   */
   async isChecked(): Promise<boolean> {
     const checked = (await this._input()).getProperty('checked');
     return coerceBooleanProperty(await checked);
   }
 
-  /** Whether the checkbox is in an indeterminate state. */
+  /**
+   * Whether the checkbox is in an indeterminate state.
+   *
+   * 该复选框是否处于未决状态。
+   *
+   */
   async isIndeterminate(): Promise<boolean> {
     const indeterminate = (await this._input()).getProperty('indeterminate');
     return coerceBooleanProperty(await indeterminate);
   }
 
-  /** Whether the checkbox is disabled. */
+  /**
+   * Whether the checkbox is disabled.
+   *
+   * 该复选框是否已被禁用。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     const disabled = (await this._input()).getAttribute('disabled');
     return coerceBooleanProperty(await disabled);
   }
 
-  /** Whether the checkbox is required. */
+  /**
+   * Whether the checkbox is required.
+   *
+   * 该复选框是否必填的。
+   *
+   */
   async isRequired(): Promise<boolean> {
     const required = (await this._input()).getProperty('required');
     return coerceBooleanProperty(await required);
   }
 
-  /** Whether the checkbox is valid. */
+  /**
+   * Whether the checkbox is valid.
+   *
+   * 该复选框是否有效。
+   *
+   */
   async isValid(): Promise<boolean> {
     const invalid = (await this.host()).hasClass('ng-invalid');
     return !(await invalid);
   }
 
-  /** Gets the checkbox's name. */
+  /**
+   * Gets the checkbox's name.
+   *
+   * 获取复选框的名字。
+   *
+   */
   async getName(): Promise<string|null> {
     return (await this._input()).getAttribute('name');
   }
 
-  /** Gets the checkbox's value. */
+  /**
+   * Gets the checkbox's value.
+   *
+   * 获取复选框的值。
+   *
+   */
   async getValue(): Promise<string|null> {
     return (await this._input()).getProperty('value');
   }
 
-  /** Gets the checkbox's aria-label. */
+  /**
+   * Gets the checkbox's aria-label.
+   *
+   * 获取复选框的 aria-label。
+   *
+   */
   async getAriaLabel(): Promise<string|null> {
     return (await this._input()).getAttribute('aria-label');
   }
 
-  /** Gets the checkbox's aria-labelledby. */
+  /**
+   * Gets the checkbox's aria-labelledby.
+   *
+   * 获取复选框的 aria-labelledby。
+   *
+   */
   async getAriaLabelledby(): Promise<string|null> {
     return (await this._input()).getAttribute('aria-labelledby');
   }
 
-  /** Gets the checkbox's label text. */
+  /**
+   * Gets the checkbox's label text.
+   *
+   * 获取复选框的标签文本。
+   *
+   */
   async getLabelText(): Promise<string> {
     return (await this._label()).text();
   }
 
-  /** Focuses the checkbox. */
+  /**
+   * Focuses the checkbox.
+   *
+   * 聚焦复选框。
+   *
+   */
   async focus(): Promise<void> {
     return (await this._input()).focus();
   }
 
-  /** Blurs the checkbox. */
+  /**
+   * Blurs the checkbox.
+   *
+   * 失焦复选框。
+   *
+   */
   async blur(): Promise<void> {
     return (await this._input()).blur();
   }
 
-  /** Whether the checkbox is focused. */
+  /**
+   * Whether the checkbox is focused.
+   *
+   * 该复选框是否拥有焦点。
+   *
+   */
   async isFocused(): Promise<boolean> {
     return (await this._input()).isFocused();
   }
@@ -109,9 +192,14 @@ export class MatCheckboxHarness extends ComponentHarness {
   /**
    * Toggles the checked state of the checkbox.
    *
+   * 切换复选框的勾选状态。
+   *
    * Note: This attempts to toggle the checkbox as a user would, by clicking it. Therefore if you
    * are using `MAT_CHECKBOX_DEFAULT_OPTIONS` to change the behavior on click, calling this method
    * might not have the expected result.
+   *
+   * 注意：当用户点击时，这会尝试按用户的意图切换复选框。因此，如果你使用 `MAT_CHECKBOX_DEFAULT_OPTIONS` 改变过点击时的行为，那么调用这个方法可能产生预料之外的效果。
+   *
    */
   async toggle(): Promise<void> {
     return (await this._inputContainer()).click();
@@ -121,9 +209,14 @@ export class MatCheckboxHarness extends ComponentHarness {
    * Puts the checkbox in a checked state by toggling it if it is currently unchecked, or doing
    * nothing if it is already checked.
    *
+   * 如果当前未勾选复选框，则把复选框置于已勾选状态;如果复选框已勾选，则不执行任何操作。
+   *
    * Note: This attempts to check the checkbox as a user would, by clicking it. Therefore if you
    * are using `MAT_CHECKBOX_DEFAULT_OPTIONS` to change the behavior on click, calling this method
    * might not have the expected result.
+   *
+   * 注意：这会尝试通过单击该复选框来勾选复选框。因此，如果你使用 `MAT_CHECKBOX_DEFAULT_OPTIONS` 改变过单击的行为，那么调用这个方法可能产生预料之外的效果。
+   *
    */
   async check(): Promise<void> {
     if (!(await this.isChecked())) {
@@ -135,9 +228,14 @@ export class MatCheckboxHarness extends ComponentHarness {
    * Puts the checkbox in an unchecked state by toggling it if it is currently checked, or doing
    * nothing if it is already unchecked.
    *
+   * 如果复选框当前是勾选的，则把它切换到未勾选状态，如果复选框已经是未勾选的，则不做任何操作。
+   *
    * Note: This attempts to uncheck the checkbox as a user would, by clicking it. Therefore if you
    * are using `MAT_CHECKBOX_DEFAULT_OPTIONS` to change the behavior on click, calling this method
    * might not have the expected result.
+   *
+   * 注意：这会尝试通过单击该复选框来取消勾选该复选框。因此，如果你使用 `MAT_CHECKBOX_DEFAULT_OPTIONS` 改变过单击时的行为，那么调用这个方法可能产生预料之外的效果。
+   *
    */
   async uncheck(): Promise<void> {
     if (await this.isChecked()) {

@@ -19,6 +19,8 @@ export class MatDrawerContentHarness extends ContentContainerComponentHarness<st
    * meets certain criteria.
    * @param options Options for filtering which drawer content instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: DrawerContentHarnessFilters = {}):
     HarnessPredicate<MatDrawerContentHarness> {

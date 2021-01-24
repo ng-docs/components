@@ -68,28 +68,56 @@ let nextUniqueId = 0;
 export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   MatDatepickerControl<D>, MatDateRangeInputParent<D>, MatDateRangePickerInput<D>,
   AfterContentInit, OnChanges, OnDestroy {
-  /** Current value of the range input. */
+  /**
+   * Current value of the range input.
+   *
+   * 范围输入框的当前值。
+   *
+   */
   get value() {
     return this._model ? this._model.selection : null;
   }
 
-  /** Unique ID for the input. */
+  /**
+   * Unique ID for the input.
+   *
+   * 输入框的唯一 ID。
+   *
+   */
   id = `mat-date-range-input-${nextUniqueId++}`;
 
-  /** Whether the control is focused. */
+  /**
+   * Whether the control is focused.
+   *
+   * 控件是否拥有焦点。
+   *
+   */
   focused = false;
 
-  /** Whether the control's label should float. */
+  /**
+   * Whether the control's label should float.
+   *
+   * 控件的标签是否应该浮动。
+   *
+   */
   get shouldLabelFloat(): boolean {
     return this.focused || !this.empty;
   }
 
-  /** Name of the form control. */
+  /**
+   * Name of the form control.
+   *
+   * 表单控件的名字。
+   *
+   */
   controlType = 'mat-date-range-input';
 
   /**
    * Implemented as a part of `MatFormFieldControl`.
    * Set the placeholder attribute on `matStartDate` and `matEndDate`.
+   *
+   *是 `MatFormFieldControl` 实现的一部分。在 `matStartDate` 和 `matEndDate` 上设置占位符属性。
+   *
    * @docs-private
    */
   get placeholder() {
@@ -98,7 +126,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
     return (start || end) ? `${start} ${this.separator} ${end}` : '';
   }
 
-  /** The range picker that this input is associated with. */
+  /**
+   * The range picker that this input is associated with.
+   *
+   * 此输入框所关联的范围选择器。
+   *
+   */
   @Input()
   get rangePicker() { return this._rangePicker; }
   set rangePicker(rangePicker: MatDatepickerPanel<MatDatepickerControl<D>, DateRange<D>, D>) {
@@ -110,7 +143,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   }
   private _rangePicker: MatDatepickerPanel<MatDatepickerControl<D>, DateRange<D>, D>;
 
-  /** Whether the input is required. */
+  /**
+   * Whether the input is required.
+   *
+   * 输入框是否为必填项。
+   *
+   */
   @Input()
   get required(): boolean { return !!this._required; }
   set required(value: boolean) {
@@ -118,7 +156,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   }
   private _required: boolean;
 
-  /** Function that can be used to filter out dates within the date range picker. */
+  /**
+   * Function that can be used to filter out dates within the date range picker.
+   *
+   * 可用于过滤掉日期范围选择器中日期的函数。
+   *
+   */
   @Input()
   get dateFilter() { return this._dateFilter; }
   set dateFilter(value: DateFilterFn<D>) {
@@ -138,7 +181,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   }
   private _dateFilter: DateFilterFn<D>;
 
-  /** The minimum valid date. */
+  /**
+   * The minimum valid date.
+   *
+   * 最小有效日期。
+   *
+   */
   @Input()
   get min(): D | null { return this._min; }
   set min(value: D | null) {
@@ -151,7 +199,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   }
   private _min: D | null;
 
-  /** The maximum valid date. */
+  /**
+   * The maximum valid date.
+   *
+   * 最大有效日期。
+   *
+   */
   @Input()
   get max(): D | null { return this._max; }
   set max(value: D | null) {
@@ -164,7 +217,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   }
   private _max: D | null;
 
-  /** Whether the input is disabled. */
+  /**
+   * Whether the input is disabled.
+   *
+   * 输入框是否被禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return (this._startInput && this._endInput) ?
@@ -181,7 +239,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   }
   _groupDisabled = false;
 
-  /** Whether the input is in an error state. */
+  /**
+   * Whether the input is in an error state.
+   *
+   * 输入框是否处于出错状态。
+   *
+   */
   get errorState(): boolean {
     if (this._startInput && this._endInput) {
       return this._startInput.errorState || this._endInput.errorState;
@@ -190,26 +253,56 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
     return false;
   }
 
-  /** Whether the datepicker input is empty. */
+  /**
+   * Whether the datepicker input is empty.
+   *
+   * 日期选择器输入框是否为空。
+   *
+   */
   get empty(): boolean {
     const startEmpty = this._startInput ? this._startInput.isEmpty() : false;
     const endEmpty = this._endInput ? this._endInput.isEmpty() : false;
     return startEmpty && endEmpty;
   }
 
-  /** Value for the `aria-describedby` attribute of the inputs. */
+  /**
+   * Value for the `aria-describedby` attribute of the inputs.
+   *
+   * 输入框的 `aria-describedby` 属性值。
+   *
+   */
   _ariaDescribedBy: string | null = null;
 
-  /** Date selection model currently registered with the input. */
+  /**
+   * Date selection model currently registered with the input.
+   *
+   * 当前在输入框中注册的日期选择模型。
+   *
+   */
   private _model: MatDateSelectionModel<DateRange<D>> | undefined;
 
-  /** Separator text to be shown between the inputs. */
+  /**
+   * Separator text to be shown between the inputs.
+   *
+   * 要在输入框之间显示的分隔符文本。
+   *
+   */
   @Input() separator = '–';
 
-  /** Start of the comparison range that should be shown in the calendar. */
+  /**
+   * Start of the comparison range that should be shown in the calendar.
+   *
+   * 应该在日历中显示的比较范围的起始日期。
+   *
+   */
   @Input() comparisonStart: D | null = null;
 
-  /** End of the comparison range that should be shown in the calendar. */
+  /**
+   * End of the comparison range that should be shown in the calendar.
+   *
+   * 应该在日历中显示的比较范围的结束日期。
+   *
+   */
   @Input() comparisonEnd: D | null = null;
 
   @ContentChild(MatStartDate) _startInput: MatStartDate<D>;
@@ -218,11 +311,19 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   /**
    * Implemented as a part of `MatFormFieldControl`.
    * TODO(crisbeto): change type to `AbstractControlDirective` after #18206 lands.
+   *
+   *是 `MatFormFieldControl` 实现的一部分。
+   *
    * @docs-private
    */
   ngControl: NgControl | null;
 
-  /** Emits when the input's state has changed. */
+  /**
+   * Emits when the input's state has changed.
+   *
+   * 当输入框状态发生变化时触发。
+   *
+   */
   stateChanges = new Subject<void>();
 
   constructor(
@@ -242,6 +343,9 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
 
   /**
    * Implemented as a part of `MatFormFieldControl`.
+   *
+   *是 `MatFormFieldControl` 实现的一部分。
+   *
    * @docs-private
    */
   setDescribedByIds(ids: string[]): void {
@@ -250,6 +354,9 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
 
   /**
    * Implemented as a part of `MatFormFieldControl`.
+   *
+   *是 `MatFormFieldControl` 实现的一部分。
+   *
    * @docs-private
    */
   onContainerClick(): void {
@@ -294,56 +401,106 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
     this.stateChanges.complete();
   }
 
-  /** Gets the date at which the calendar should start. */
+  /**
+   * Gets the date at which the calendar should start.
+   *
+   * 获取日历的起始日期。
+   *
+   */
   getStartValue(): D | null {
     return this.value ? this.value.start : null;
   }
 
-  /** Gets the input's theme palette. */
+  /**
+   * Gets the input's theme palette.
+   *
+   * 获取输入框的主题调色板。
+   *
+   */
   getThemePalette(): ThemePalette {
     return this._formField ? this._formField.color : undefined;
   }
 
-  /** Gets the element to which the calendar overlay should be attached. */
+  /**
+   * Gets the element to which the calendar overlay should be attached.
+   *
+   * 获取要附着日历浮层的元素。
+   *
+   */
   getConnectedOverlayOrigin(): ElementRef {
     return this._formField ? this._formField.getConnectedOverlayOrigin() : this._elementRef;
   }
 
-  /** Gets the value that is used to mirror the state input. */
+  /**
+   * Gets the value that is used to mirror the state input.
+   *
+   * 获取用于镜像状态输入框的值。
+   *
+   */
   _getInputMirrorValue() {
     return this._startInput ? this._startInput.getMirrorValue() : '';
   }
 
-  /** Whether the input placeholders should be hidden. */
+  /**
+   * Whether the input placeholders should be hidden.
+   *
+   * 输入框占位符是否应该隐藏。
+   *
+   */
   _shouldHidePlaceholders() {
     return this._startInput ? !this._startInput.isEmpty() : false;
   }
 
-  /** Handles the value in one of the child inputs changing. */
+  /**
+   * Handles the value in one of the child inputs changing.
+   *
+   * 处理子输入框之一的值的变化。
+   *
+   */
   _handleChildValueChange() {
     this.stateChanges.next(undefined);
     this._changeDetectorRef.markForCheck();
   }
 
-  /** Opens the date range picker associated with the input. */
+  /**
+   * Opens the date range picker associated with the input.
+   *
+   * 打开与输入框关联的日期范围选择器。
+   *
+   */
   _openDatepicker() {
     if (this._rangePicker) {
       this._rangePicker.open();
     }
   }
 
-  /** Whether the separate text should be hidden. */
+  /**
+   * Whether the separate text should be hidden.
+   *
+   * 是否要隐藏单独的文本。
+   *
+   */
   _shouldHideSeparator() {
     return (!this._formField || this._formField._hideControlPlaceholder()) && this.empty;
   }
 
-  /** Gets the value for the `aria-labelledby` attribute of the inputs. */
+  /**
+   * Gets the value for the `aria-labelledby` attribute of the inputs.
+   *
+   * 获取输入框 `aria-labelledby` 属性的值。
+   *
+   */
   _getAriaLabelledby() {
     const formField = this._formField;
     return formField && formField._hasFloatingLabel() ? formField._labelId : null;
   }
 
-  /** Re-runs the validators on the start/end inputs. */
+  /**
+   * Re-runs the validators on the start/end inputs.
+   *
+   * 重新运行起始日期/结束日期输入框的验证器。
+   *
+   */
   private _revalidate() {
     if (this._startInput) {
       this._startInput._validatorOnChange();
@@ -354,7 +511,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
     }
   }
 
-  /** Registers the current date selection model with the start/end inputs. */
+  /**
+   * Registers the current date selection model with the start/end inputs.
+   *
+   * 使用起始日期/结束日期输入框来注册当前的日期选择模型。
+   *
+   */
   private _registerModel(model: MatDateSelectionModel<DateRange<D>>) {
     if (this._startInput) {
       this._startInput._registerModel(model);

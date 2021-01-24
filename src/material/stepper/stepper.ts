@@ -60,10 +60,20 @@ import {MatStepperIcon, MatStepperIconContext} from './stepper-icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatStep extends CdkStep implements ErrorStateMatcher {
-  /** Content for step label given by `<ng-template matStepLabel>`. */
+  /**
+   * Content for step label given by `<ng-template matStepLabel>`.
+   *
+   * 步骤标签的内容，由 `<ng-template matStepLabel>` 提供。
+   *
+   */
   @ContentChild(MatStepLabel) stepLabel: MatStepLabel;
 
-  /** Theme color for the particular step. */
+  /**
+   * Theme color for the particular step.
+   *
+   * 特定步骤的主题颜色。
+   *
+   */
   @Input() color: ThemePalette;
 
   /** @breaking-change 8.0.0 remove the `?` after `stepperOptions` */
@@ -73,7 +83,12 @@ export class MatStep extends CdkStep implements ErrorStateMatcher {
     super(stepper, stepperOptions);
   }
 
-  /** Custom error state matcher that additionally checks for validity of interacted form. */
+  /**
+   * Custom error state matcher that additionally checks for validity of interacted form.
+   *
+   * 自定义错误状态匹配器，它还要检查交互式表单的有效性。
+   *
+   */
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const originalErrorState = this._errorStateMatcher.isErrorState(control, form);
 
@@ -89,31 +104,76 @@ export class MatStep extends CdkStep implements ErrorStateMatcher {
 
 @Directive({selector: '[matStepper]', providers: [{provide: CdkStepper, useExisting: MatStepper}]})
 export class MatStepper extends CdkStepper implements AfterContentInit {
-  /** The list of step headers of the steps in the stepper. */
+  /**
+   * The list of step headers of the steps in the stepper.
+   *
+   * 步进器中各步骤的步骤头列表。
+   *
+   */
   @ViewChildren(MatStepHeader) _stepHeader: QueryList<MatStepHeader>;
 
-  /** Full list of steps inside the stepper, including inside nested steppers. */
+  /**
+   * Full list of steps inside the stepper, including inside nested steppers.
+   *
+   * 步进器里面的完整步骤列表，也包括嵌套的步进器内部的步骤。
+   *
+   */
   @ContentChildren(MatStep, {descendants: true}) _steps: QueryList<MatStep>;
 
-  /** Steps that belong to the current stepper, excluding ones from nested steppers. */
+  /**
+   * Steps that belong to the current stepper, excluding ones from nested steppers.
+   *
+   * 属于当前步进器的步骤（不包括那些来自嵌套步进器的步骤）。
+   *
+   */
   readonly steps: QueryList<MatStep> = new QueryList<MatStep>();
 
-  /** Custom icon overrides passed in by the consumer. */
+  /**
+   * Custom icon overrides passed in by the consumer.
+   *
+   * 消费者传入的自定义改写图标。
+   *
+   */
   @ContentChildren(MatStepperIcon, {descendants: true}) _icons: QueryList<MatStepperIcon>;
 
-  /** Event emitted when the current step is done transitioning in. */
+  /**
+   * Event emitted when the current step is done transitioning in.
+   *
+   * 转换到当前步骤完毕后发出的事件。
+   *
+   */
   @Output() readonly animationDone: EventEmitter<void> = new EventEmitter<void>();
 
-  /** Whether ripples should be disabled for the step headers. */
+  /**
+   * Whether ripples should be disabled for the step headers.
+   *
+   * 是否应为步骤头禁用涟漪。
+   *
+   */
   @Input() disableRipple: boolean;
 
-  /** Theme color for all of the steps in stepper. */
+  /**
+   * Theme color for all of the steps in stepper.
+   *
+   * 步进器中所有步骤的主题颜色。
+   *
+   */
   @Input() color: ThemePalette;
 
-  /** Consumer-specified template-refs to be used to override the header icons. */
+  /**
+   * Consumer-specified template-refs to be used to override the header icons.
+   *
+   * 由消费者指定的 TemplateRef，用来改写标题图标。
+   *
+   */
   _iconOverrides: {[key: string]: TemplateRef<MatStepperIconContext>} = {};
 
-  /** Stream of animation `done` events when the body expands/collapses. */
+  /**
+   * Stream of animation `done` events when the body expands/collapses.
+   *
+   * 当步骤体展开/折叠时，动画的 `done` 事件流。
+   *
+   */
   _animationDone = new Subject<AnimationEvent>();
 
   ngAfterContentInit() {
@@ -166,7 +226,12 @@ export class MatStepper extends CdkStepper implements AfterContentInit {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatHorizontalStepper extends MatStepper {
-  /** Whether the label should display in bottom or end position. */
+  /**
+   * Whether the label should display in bottom or end position.
+   *
+   * 标签是显示在底部还是末尾。
+   *
+   */
   @Input()
   labelPosition: 'bottom' | 'end' = 'end';
 

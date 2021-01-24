@@ -33,15 +33,30 @@ class MatBadgeBase {}
 const _MatBadgeMixinBase:
     CanDisableCtor & typeof MatBadgeBase = mixinDisabled(MatBadgeBase);
 
-/** Allowed position options for matBadgePosition */
+/**
+ * Allowed position options for matBadgePosition
+ *
+ * matBadgePosition 可接受的位置选项
+ *
+ */
 export type MatBadgePosition =
     'above after' | 'above before' | 'below before' | 'below after' |
     'before' | 'after' | 'above' | 'below';
 
-/** Allowed size options for matBadgeSize */
+/**
+ * Allowed size options for matBadgeSize
+ *
+ * matBadgeSize 可接受的大小选项
+ *
+ */
 export type MatBadgeSize = 'small' | 'medium' | 'large';
 
-/** Directive to display a text badge. */
+/**
+ * Directive to display a text badge.
+ *
+ * 用于显示文字徽章的指令。
+ *
+ */
 @Directive({
   selector: '[matBadge]',
   inputs: ['disabled: matBadgeDisabled'],
@@ -60,10 +75,20 @@ export type MatBadgeSize = 'small' | 'medium' | 'large';
   },
 })
 export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges, CanDisable {
-  /** Whether the badge has any content. */
+  /**
+   * Whether the badge has any content.
+   *
+   * 徽章中是否有任何内容。
+   *
+   */
   _hasContent = false;
 
-  /** The color of the badge. Can be `primary`, `accent`, or `warn`. */
+  /**
+   * The color of the badge. Can be `primary`, `accent`, or `warn`.
+   *
+   * 徽章的颜色。可以是 `primary`、`accent` 或 `warn` 。
+   *
+   */
   @Input('matBadgeColor')
   get color(): ThemePalette { return this._color; }
   set color(value: ThemePalette) {
@@ -72,7 +97,12 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
   }
   private _color: ThemePalette = 'primary';
 
-  /** Whether the badge should overlap its contents or not */
+  /**
+   * Whether the badge should overlap its contents or not
+   *
+   * 徽章是否应与其内容重叠
+   *
+   */
   @Input('matBadgeOverlap')
   get overlap(): boolean { return this._overlap; }
   set overlap(val: boolean) {
@@ -83,13 +113,26 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
   /**
    * Position the badge should reside.
    * Accepts any combination of 'above'|'below' and 'before'|'after'
+   *
+   * 徽章应该放在哪里。接受 'above'|'below' 和 'before'|'after' 的任意组合
+   *
    */
   @Input('matBadgePosition') position: MatBadgePosition = 'above after';
 
-  /** The content for the badge */
+  /**
+   * The content for the badge
+   *
+   * 徽章的内容
+   *
+   */
   @Input('matBadge') content: string | number | undefined | null;
 
-  /** Message used to describe the decorated element via aria-describedby */
+  /**
+   * Message used to describe the decorated element via aria-describedby
+   *
+   * 用于描述被 aria-describedby 装饰的元素的信息
+   *
+   */
   @Input('matBadgeDescription')
   get description(): string { return this._description; }
   set description(newDescription: string) {
@@ -106,10 +149,20 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
   }
   private _description: string;
 
-  /** Size of the badge. Can be 'small', 'medium', or 'large'. */
+  /**
+   * Size of the badge. Can be 'small', 'medium', or 'large'.
+   *
+   * 徽章的大小。可以是 'small'、'medium' 或 'large'。
+   *
+   */
   @Input('matBadgeSize') size: MatBadgeSize = 'medium';
 
-  /** Whether the badge is hidden. */
+  /**
+   * Whether the badge is hidden.
+   *
+   * 徽章是否隐藏了。
+   *
+   */
   @Input('matBadgeHidden')
   get hidden(): boolean { return this._hidden; }
   set hidden(val: boolean) {
@@ -117,7 +170,12 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
   }
   private _hidden: boolean;
 
-  /** Unique id for the badge */
+  /**
+   * Unique id for the badge
+   *
+   * 徽章的唯一标识
+   *
+   */
   _id: number = nextId++;
 
   private _badgeElement: HTMLElement | undefined;
@@ -138,12 +196,22 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
       }
     }
 
-  /** Whether the badge is above the host or not */
+  /**
+   * Whether the badge is above the host or not
+   *
+   * 徽章是否在宿主元素上方
+   *
+   */
   isAbove(): boolean {
     return this.position.indexOf('below') === -1;
   }
 
-  /** Whether the badge is after the host or not */
+  /**
+   * Whether the badge is after the host or not
+   *
+   * 徽章是否在宿主元素下方
+   *
+   */
   isAfter(): boolean {
     return this.position.indexOf('before') === -1;
   }
@@ -177,12 +245,20 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
   /**
    * Gets the element into which the badge's content is being rendered.
    * Undefined if the element hasn't been created (e.g. if the badge doesn't have content).
+   *
+   * 获取要用来渲染徽章内容的元素。如果尚未创建该元素，则返回 undefined（例如，如果该徽章没有内容）。
+   *
    */
   getBadgeElement(): HTMLElement | undefined {
     return this._badgeElement;
   }
 
-  /** Injects a span element into the DOM with the content. */
+  /**
+   * Injects a span element into the DOM with the content.
+   *
+   * 把一个 span 元素注入到具有该内容的 DOM 中。
+   *
+   */
   private _updateTextContent(): HTMLSpanElement {
     if (!this._badgeElement) {
       this._badgeElement = this._createBadgeElement();
@@ -192,7 +268,12 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
     return this._badgeElement;
   }
 
-  /** Creates the badge element */
+  /**
+   * Creates the badge element
+   *
+   * 创建徽章元素
+   *
+   */
   private _createBadgeElement(): HTMLElement {
     const badgeElement = this._renderer.createElement('span');
     const activeClass = 'mat-badge-active';
@@ -228,7 +309,12 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
     return badgeElement;
   }
 
-  /** Sets the aria-label property on the element */
+  /**
+   * Sets the aria-label property on the element
+   *
+   * 在元素上设置 aria-label 属性
+   *
+   */
   private _updateHostAriaDescription(newDescription: string, oldDescription: string): void {
     // ensure content available before setting label
     const content = this._updateTextContent();
@@ -242,7 +328,12 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
     }
   }
 
-  /** Adds css theme class given the color to the component host */
+  /**
+   * Adds css theme class given the color to the component host
+   *
+   * 为组件宿主添加指定颜色的 css 主题类
+   *
+   */
   private _setColor(colorPalette: ThemePalette) {
     if (colorPalette !== this._color) {
       const classList = this._elementRef.nativeElement.classList;
@@ -255,7 +346,12 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
     }
   }
 
-  /** Clears any existing badges that might be left over from server-side rendering. */
+  /**
+   * Clears any existing badges that might be left over from server-side rendering.
+   *
+   * 清除可能在服务端渲染时残留的所有现存徽章。
+   *
+   */
   private _clearExistingBadges(cssClass: string) {
     const element = this._elementRef.nativeElement;
     let childCount = element.children.length;
@@ -270,7 +366,12 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
     }
   }
 
-  /** Gets the string representation of the badge content. */
+  /**
+   * Gets the string representation of the badge content.
+   *
+   * 获取徽章内容的字符串表示。
+   *
+   */
   private _stringifyContent(): string {
     // Convert null and undefined to an empty string which is consistent
     // with how Angular handles them in inside template interpolations.

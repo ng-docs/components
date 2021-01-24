@@ -21,6 +21,8 @@ export class MatSlideToggleHarness extends ComponentHarness {
    *   - `selector` finds a slide-toggle whose host element matches the given selector.
    *   - `label` finds a slide-toggle with specific label text.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: SlideToggleHarnessFilters = {}): HarnessPredicate<MatSlideToggleHarness> {
     return new HarnessPredicate(MatSlideToggleHarness, options)

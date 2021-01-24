@@ -13,12 +13,20 @@ import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 /**
  * Interface for a a MatInkBar positioner method, defining the positioning and width of the ink
  * bar in a set of tabs.
+ *
+ * 一个 MatInkBar 定位器方法的接口，用于定义选项卡组中墨水条的位置和宽度。
+ *
  */
 export interface _MatInkBarPositioner {
   (element: HTMLElement): { left: string, width: string };
 }
 
-/** Injection token for the MatInkBar's Positioner. */
+/**
+ * Injection token for the MatInkBar's Positioner.
+ *
+ * MatInkBar 定位器的注入令牌。
+ *
+ */
 export const _MAT_INK_BAR_POSITIONER =
   new InjectionToken<_MatInkBarPositioner>('MatInkBarPositioner', {
     providedIn: 'root',
@@ -27,6 +35,9 @@ export const _MAT_INK_BAR_POSITIONER =
 
 /**
  * The default positioner function for the MatInkBar.
+ *
+ * MatInkBar 默认的定位器函数。
+ *
  * @docs-private
  */
 export function _MAT_INK_BAR_POSITIONER_FACTORY(): _MatInkBarPositioner {
@@ -40,6 +51,9 @@ export function _MAT_INK_BAR_POSITIONER_FACTORY(): _MatInkBarPositioner {
 
 /**
  * The ink-bar is used to display and animate the line underneath the current active tab label.
+ *
+ * 墨水条用于显示当前活动选项卡下方的那条横线的行为和动画。
+ *
  * @docs-private
  */
 @Directive({
@@ -59,6 +73,9 @@ export class MatInkBar {
   /**
    * Calculates the styles from the provided element in order to align the ink-bar to that element.
    * Shows the ink bar if previously set as hidden.
+   *
+   * 根据提供的元素计算样式，以便把墨水条与该元素对齐。如果以前就已设置为隐藏的，则显示墨水条。
+   *
    * @param element
    */
   alignToElement(element: HTMLElement) {
@@ -73,18 +90,31 @@ export class MatInkBar {
     }
   }
 
-  /** Shows the ink bar. */
+  /**
+   * Shows the ink bar.
+   *
+   * 显示墨水条。
+   *
+   */
   show(): void {
     this._elementRef.nativeElement.style.visibility = 'visible';
   }
 
-  /** Hides the ink bar. */
+  /**
+   * Hides the ink bar.
+   *
+   * 隐藏墨水条。
+   *
+   */
   hide(): void {
     this._elementRef.nativeElement.style.visibility = 'hidden';
   }
 
   /**
    * Sets the proper styles to the ink bar element.
+   *
+   * 为墨水条元素设置合适的样式。
+   *
    * @param element
    */
   private _setStyles(element: HTMLElement) {

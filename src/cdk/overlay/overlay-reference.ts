@@ -13,6 +13,9 @@ import {Subject} from 'rxjs';
 /**
  * Basic interface for an overlay. Used to avoid circular type references between
  * `OverlayRef`, `PositionStrategy` and `ScrollStrategy`, and `OverlayConfig`.
+ *
+ * 浮层的基本接口。用于避免 `OverlayRef`、`PositionStrategy` 以及 `ScrollStrategy` 和 `OverlayConfig` 之间的循环类型引用。
+ *
  * @docs-private
  */
 export interface OverlayReference {

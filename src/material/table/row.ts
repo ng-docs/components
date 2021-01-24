@@ -22,6 +22,9 @@ import {ChangeDetectionStrategy, Component, Directive, ViewEncapsulation} from '
 /**
  * Header row definition for the mat-table.
  * Captures the header row's template and other header properties such as the columns to display.
+ *
+ * mat-table 的表头行定义。存放表头行的模板和其他表头属性，比如要显示的列。
+ *
  */
 @Directive({
   selector: '[matHeaderRowDef]',
@@ -35,6 +38,9 @@ export class MatHeaderRowDef extends CdkHeaderRowDef {
 /**
  * Footer row definition for the mat-table.
  * Captures the footer row's template and other footer properties such as the columns to display.
+ *
+ * mat-table 的表尾行定义。存放表尾行的模板和其他表尾属性，比如要显示的列。
+ *
  */
 @Directive({
   selector: '[matFooterRowDef]',
@@ -49,6 +55,10 @@ export class MatFooterRowDef extends CdkFooterRowDef {
  * Data row definition for the mat-table.
  * Captures the data row's template and other properties such as the columns to display and
  * a when predicate that describes when this row should be used.
+ *
+ * mat-table 的数据行定义。
+ * 存放数据行的模板和其他属性，比如要显示的列和描述何时应该使用该行的谓词。
+ *
  */
 @Directive({
   selector: '[matRowDef]',
@@ -58,7 +68,12 @@ export class MatFooterRowDef extends CdkFooterRowDef {
 export class MatRowDef<T> extends CdkRowDef<T> {
 }
 
-/** Header template container that contains the cell outlet. Adds the right class and role. */
+/**
+ * Header template container that contains the cell outlet. Adds the right class and role.
+ *
+ * 包含单元格出口地标的表头模板容器。添加合适的类和角色。
+ *
+ */
 @Component({
   selector: 'mat-header-row, tr[mat-header-row]',
   template: CDK_ROW_TEMPLATE,
@@ -76,7 +91,12 @@ export class MatRowDef<T> extends CdkRowDef<T> {
 export class MatHeaderRow extends CdkHeaderRow {
 }
 
-/** Footer template container that contains the cell outlet. Adds the right class and role. */
+/**
+ * Footer template container that contains the cell outlet. Adds the right class and role.
+ *
+ * 包含单元格出口地标的表尾模板容器。添加合适的类和角色。
+ *
+ */
 @Component({
   selector: 'mat-footer-row, tr[mat-footer-row]',
   template: CDK_ROW_TEMPLATE,
@@ -94,7 +114,12 @@ export class MatHeaderRow extends CdkHeaderRow {
 export class MatFooterRow extends CdkFooterRow {
 }
 
-/** Data row template container that contains the cell outlet. Adds the right class and role. */
+/**
+ * Data row template container that contains the cell outlet. Adds the right class and role.
+ *
+ * 包含单元格出口地标的数据行模板容器。添加合适的类和角色。
+ *
+ */
 @Component({
   selector: 'mat-row, tr[mat-row]',
   template: CDK_ROW_TEMPLATE,
@@ -112,7 +137,12 @@ export class MatFooterRow extends CdkFooterRow {
 export class MatRow extends CdkRow {
 }
 
-/** Row that can be used to display a message when no data is shown in the table. */
+/**
+ * Row that can be used to display a message when no data is shown in the table.
+ *
+ * 当表中没有数据时，可以用来显示一条消息的行。
+ *
+ */
 @Directive({
   selector: 'ng-template[matNoDataRow]',
   providers: [{provide: CdkNoDataRow, useExisting: MatNoDataRow}],

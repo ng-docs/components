@@ -9,6 +9,8 @@
 /**
  * A pending copy-to-clipboard operation.
  *
+ * 一个挂起的复制到剪贴板操作。
+ *
  * The implementation of copying text to the clipboard modifies the DOM and
  * forces a relayout. This relayout can take too long if the string is large,
  * causing the execCommand('copy') to happen too long after the user clicked.
@@ -16,8 +18,13 @@
  * relayout happen in a separate tick from copying by providing a copy function
  * that can be called later.
  *
+ * 把文本复制到剪贴板的实现会修改 DOM 并强制重新布局。如果字符串很大，这次重新布局可能需要很长时间，这会导致 execCommand('copy') 在用户点击后很久才会发生。这会导致浏览器拒绝复制。该对象可以通过提供一个稍后调用的复制函数，来允许在一个独立的周期中内进行重新布局。
+ *
  * Destroy must be called when no longer in use, regardless of whether `copy` is
  * called.
+ *
+ * 无论是否调用 `copy` ，都必须在不再使用时调用其 Destroy。
+ *
  */
 export class PendingCopy {
   private _textarea: HTMLTextAreaElement|undefined;
@@ -37,7 +44,12 @@ export class PendingCopy {
     this._document.body.appendChild(textarea);
   }
 
-  /** Finishes copying the text. */
+  /**
+   * Finishes copying the text.
+   *
+   * 完成复制文本的操作。
+   *
+   */
   copy(): boolean {
     const textarea = this._textarea;
     let successful = false;
@@ -62,7 +74,12 @@ export class PendingCopy {
     return successful;
   }
 
-  /** Cleans up DOM changes used to perform the copy operation. */
+  /**
+   * Cleans up DOM changes used to perform the copy operation.
+   *
+   * 清理用于执行复制操作的 DOM 更改。
+   *
+   */
   destroy() {
     const textarea = this._textarea;
 

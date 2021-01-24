@@ -100,7 +100,7 @@ add click handlers to advance or rewind the workflow, respectively.
 If you want to reset a stepper to its initial state, you can use the `reset` method. Note that
 resetting it will call `reset` on the underlying form control which clears the value.
 
-如果要将步进器重置为初始状态，可以使用 `reset` 方法。注意，重置它会在底层表单控件上调用 `reset` 来清除这个值。
+如果要将步进器重置为初始状态，可以使用 `reset` 方法。注意，重置它会在底部操作表控件上调用 `reset` 来清除这个值。
 
 ### Keyboard interaction
 

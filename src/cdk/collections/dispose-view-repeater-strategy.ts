@@ -26,9 +26,20 @@ import {
  * {@link ViewContainerRef}. When new items are inserted into the container,
  * the repeater will always construct a new embedded view for each item.
  *
+ * 当一个复制器（repeater）从 {@link ViewContainerRef} 中移除时就会销毁这些视图。当把新条目插入到容器中时，复制器总会为每个条目构造一个新的嵌入式视图。
+ *
  * @template T The type for the embedded view's $implicit property.
+ *
+ * 嵌入式视图的 $implicit 属性的类型。
+ *
  * @template R The type for the item in each IterableDiffer change record.
+ *
+ * 每个 IterableDiffer 更改记录中条目的类型。
+ *
  * @template C The type for the context passed to each embedded view.
+ *
+ * 传递给每个嵌入式视图的上下文的类型。
+ *
  */
 export class _DisposeViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemContext<T>>
     implements _ViewRepeater<T, R, C> {

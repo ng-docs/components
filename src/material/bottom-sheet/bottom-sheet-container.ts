@@ -39,6 +39,9 @@ import {FocusTrap, FocusTrapFactory} from '@angular/cdk/a11y';
 
 /**
  * Internal component that wraps user-provided bottom sheet content.
+ *
+ * 用于包装用户提供的底部操作表内容的内部组件。
+ *
  * @docs-private
  */
 @Component({
@@ -66,25 +69,60 @@ import {FocusTrap, FocusTrapFactory} from '@angular/cdk/a11y';
 export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestroy {
   private _breakpointSubscription: Subscription;
 
-  /** The portal outlet inside of this container into which the content will be loaded. */
+  /**
+   * The portal outlet inside of this container into which the content will be loaded.
+   *
+   * 此容器内的传送点地标（portal outlet），其内容会加载。
+   *
+   */
   @ViewChild(CdkPortalOutlet, {static: true}) _portalOutlet: CdkPortalOutlet;
 
-  /** The state of the bottom sheet animations. */
+  /**
+   * The state of the bottom sheet animations.
+   *
+   * 底部操作表动画的状态。
+   *
+   */
   _animationState: 'void' | 'visible' | 'hidden' = 'void';
 
-  /** Emits whenever the state of the animation changes. */
+  /**
+   * Emits whenever the state of the animation changes.
+   *
+   * 每当动画的状态发生变化时就会触发。
+   *
+   */
   _animationStateChanged = new EventEmitter<AnimationEvent>();
 
-  /** The class that traps and manages focus within the bottom sheet. */
+  /**
+   * The class that traps and manages focus within the bottom sheet.
+   *
+   * 在底部操作表中捕获和管理焦点的类。
+   *
+   */
   private _focusTrap: FocusTrap;
 
-  /** Element that was focused before the bottom sheet was opened. */
+  /**
+   * Element that was focused before the bottom sheet was opened.
+   *
+   * 在底部操作表打开之前拥有焦点的元素。
+   *
+   */
   private _elementFocusedBeforeOpened: HTMLElement | null = null;
 
-  /** Server-side rendering-compatible reference to the global document object. */
+  /**
+   * Server-side rendering-compatible reference to the global document object.
+   *
+   * 与服务器渲染兼容的对全局文档对象的引用。
+   *
+   */
   private _document: Document;
 
-  /** Whether the component has been destroyed. */
+  /**
+   * Whether the component has been destroyed.
+   *
+   * 该组件是否已被销毁。
+   *
+   */
   private _destroyed: boolean;
 
   constructor(
@@ -110,7 +148,12 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
       });
   }
 
-  /** Attach a component portal as content to this bottom sheet container. */
+  /**
+   * Attach a component portal as content to this bottom sheet container.
+   *
+   * 把组件传送点作为内容附着到这个底部操作表容器中。
+   *
+   */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
     this._validatePortalAttached();
     this._setPanelClass();
@@ -118,7 +161,12 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
     return this._portalOutlet.attachComponentPortal(portal);
   }
 
-  /** Attach a template portal as content to this bottom sheet container. */
+  /**
+   * Attach a template portal as content to this bottom sheet container.
+   *
+   * 把模板传送点作为内容附着到这个底部操作表容器中。
+   *
+   */
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
     this._validatePortalAttached();
     this._setPanelClass();
@@ -128,7 +176,13 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
 
   /**
    * Attaches a DOM portal to the bottom sheet container.
+   *
+   * 把 DOM 传送点连接到底部操作表容器中。
+   *
    * @deprecated To be turned into a method.
+   *
+   * 将会转成方法。
+   *
    * @breaking-change 10.0.0
    */
   attachDomPortal = (portal: DomPortal) => {
@@ -138,7 +192,12 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
     return this._portalOutlet.attachDomPortal(portal);
   }
 
-  /** Begin animation of bottom sheet entrance into view. */
+  /**
+   * Begin animation of bottom sheet entrance into view.
+   *
+   * 启动底部操作表进入视图动画。
+   *
+   */
   enter(): void {
     if (!this._destroyed) {
       this._animationState = 'visible';
@@ -146,7 +205,12 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
     }
   }
 
-  /** Begin animation of the bottom sheet exiting from view. */
+  /**
+   * Begin animation of the bottom sheet exiting from view.
+   *
+   * 启动底部操作表离开视图的动画。
+   *
+   */
   exit(): void {
     if (!this._destroyed) {
       this._animationState = 'hidden';
@@ -196,7 +260,12 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
     }
   }
 
-  /** Moves the focus inside the focus trap. */
+  /**
+   * Moves the focus inside the focus trap.
+   *
+   * 把焦点移到焦点陷阱内部。
+   *
+   */
   private _trapFocus() {
     const element = this._elementRef.nativeElement;
 
@@ -220,7 +289,12 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
     }
   }
 
-  /** Restores focus to the element that was focused before the bottom sheet was opened. */
+  /**
+   * Restores focus to the element that was focused before the bottom sheet was opened.
+   *
+   * 将焦点返还给底部操作表打开前拥有焦点的元素。
+   *
+   */
   private _restoreFocus() {
     const toFocus = this._elementFocusedBeforeOpened;
 
@@ -244,7 +318,12 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
     }
   }
 
-  /** Saves a reference to the element that was focused before the bottom sheet was opened. */
+  /**
+   * Saves a reference to the element that was focused before the bottom sheet was opened.
+   *
+   * 在打开底部操作表之前，保存对拥有焦点的元素的引用。
+   *
+   */
   private _savePreviouslyFocusedElement() {
     this._elementFocusedBeforeOpened = this._document.activeElement as HTMLElement;
 

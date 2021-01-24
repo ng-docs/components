@@ -13,31 +13,67 @@ import {Subject} from 'rxjs';
 /**
  * To modify the labels and text displayed, create a new instance of MatPaginatorIntl and
  * include it in a custom provider
+ *
+ * 要修改显示的标签和文本，就要创建一个新的 MatPaginatorIntl 实例，并把它包含在自定义提供者中
+ *
  */
 @Injectable({providedIn: 'root'})
 export class MatPaginatorIntl {
   /**
    * Stream to emit from when labels are changed. Use this to notify components when the labels have
    * changed after initialization.
+   *
+   * 当标签发生变化时，要触发这个流。当初始化之后标签再发生变化时，用它来通知组件。
+   *
    */
   readonly changes: Subject<void> = new Subject<void>();
 
-  /** A label for the page size selector. */
+  /**
+   * A label for the page size selector.
+   *
+   * 分页大小选择器的标签。
+   *
+   */
   itemsPerPageLabel: string = 'Items per page:';
 
-  /** A label for the button that increments the current page. */
+  /**
+   * A label for the button that increments the current page.
+   *
+   * 用于增加当前分页按钮的标签。
+   *
+   */
   nextPageLabel: string = 'Next page';
 
-  /** A label for the button that decrements the current page. */
+  /**
+   * A label for the button that decrements the current page.
+   *
+   * 用于减小当前分页按钮的标签。
+   *
+   */
   previousPageLabel: string = 'Previous page';
 
-  /** A label for the button that moves to the first page. */
+  /**
+   * A label for the button that moves to the first page.
+   *
+   * 移动到第一页按钮的标签。
+   *
+   */
   firstPageLabel: string = 'First page';
 
-  /** A label for the button that moves to the last page. */
+  /**
+   * A label for the button that moves to the last page.
+   *
+   * 移动到最后一页按钮的标签。
+   *
+   */
   lastPageLabel: string = 'Last page';
 
-  /** A label for the range of items within the current page and the length of the whole list. */
+  /**
+   * A label for the range of items within the current page and the length of the whole list.
+   *
+   * 当前分页当中条目范围的标签，以及整个列表的长度。
+   *
+   */
   getRangeLabel: (page: number, pageSize: number, length: number) => string =
     (page: number, pageSize: number, length: number) => {
       if (length == 0 || pageSize == 0) { return `0 of ${length}`; }

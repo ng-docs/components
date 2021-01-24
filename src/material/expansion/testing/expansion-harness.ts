@@ -41,6 +41,8 @@ export class MatExpansionPanelHarness extends
    *   - `expanded` finds an expansion-panel that is currently expanded.
    *   - `disabled` finds an expansion-panel that is disabled.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ExpansionPanelHarnessFilters = {}):
       HarnessPredicate<MatExpansionPanelHarness> {

@@ -45,9 +45,17 @@ import {
  * An event used for datepicker input and change events. We don't always have access to a native
  * input or change event because the event may have been triggered by the user clicking on the
  * calendar popup. For consistency, we always use MatDatepickerInputEvent instead.
+ *
+ * 用于日期选择器的输入框和变更事件。我们并不总是能访问原生的 input 或者 change 事件，因为用户点击日历弹出窗口时可能会触发该事件。为了保持一致性，我们总是要改用 MatDatepickerInputEvent。
+ *
  */
 export class MatDatepickerInputEvent<D, S = unknown> {
-  /** The new value for the target datepicker input. */
+  /**
+   * The new value for the target datepicker input.
+   *
+   * 目标日期选择器输入框控件的新值。
+   *
+   */
   value: D | null;
 
   constructor(
@@ -59,18 +67,38 @@ export class MatDatepickerInputEvent<D, S = unknown> {
   }
 }
 
-/** Function that can be used to filter out dates from a calendar. */
+/**
+ * Function that can be used to filter out dates from a calendar.
+ *
+ * 可以用来过滤日历中日期的函数。
+ *
+ */
 export type DateFilterFn<D> = (date: D | null) => boolean;
 
-/** Base class for datepicker inputs. */
+/**
+ * Base class for datepicker inputs.
+ *
+ * 日期选择器输入框的基类。
+ *
+ */
 @Directive()
 export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection<S>>
   implements ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy, Validator {
 
-  /** Whether the component has been initialized. */
+  /**
+   * Whether the component has been initialized.
+   *
+   * 该组件是否已初始化。
+   *
+   */
   private _isInitialized: boolean;
 
-  /** The value of the input. */
+  /**
+   * The value of the input.
+   *
+   * 输入框的值。
+   *
+   */
   @Input()
   get value(): D | null {
     return this._model ? this._getValueFromModel(this._model.selection) : this._pendingValue;
@@ -80,7 +108,12 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   }
   protected _model: MatDateSelectionModel<S, D> | undefined;
 
-  /** Whether the datepicker-input is disabled. */
+  /**
+   * Whether the datepicker-input is disabled.
+   *
+   * datepicker-input 是否被禁用了。
+   *
+   */
   @Input()
   get disabled(): boolean { return !!this._disabled || this._parentDisabled(); }
   set disabled(value: boolean) {
@@ -105,15 +138,30 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   }
   private _disabled: boolean;
 
-  /** Emits when a `change` event is fired on this `<input>`. */
+  /**
+   * Emits when a `change` event is fired on this `<input>`.
+   *
+   * `<input>` 上触发 `change` 事件时发出通知。
+   *
+   */
   @Output() readonly dateChange: EventEmitter<MatDatepickerInputEvent<D, S>> =
       new EventEmitter<MatDatepickerInputEvent<D, S>>();
 
-  /** Emits when an `input` event is fired on this `<input>`. */
+  /**
+   * Emits when an `input` event is fired on this `<input>`.
+   *
+   * `<input>` 上触发 `input` 事件时发出通知。
+   *
+   */
   @Output() readonly dateInput: EventEmitter<MatDatepickerInputEvent<D, S>> =
       new EventEmitter<MatDatepickerInputEvent<D, S>>();
 
-  /** Emits when the internal state has changed */
+  /**
+   * Emits when the internal state has changed
+   *
+   * 当内部状态发生变化时触发
+   *
+   */
   stateChanges = new Subject<void>();
 
   _onTouched = () => {};
@@ -127,16 +175,29 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    * Since the value is kept on the model which is assigned in an Input,
    * we might get a value before we have a model. This property keeps track
    * of the value until we have somewhere to assign it.
+   *
+   * 由于这个值保存在由输入属性赋值的模型上的，所以在有模型之前，我们就可能得到了一个值。这个属性会跟踪这个值，直到我们在别的地方对它赋值为止。
+   *
    */
   private _pendingValue: D | null;
 
-  /** The form control validator for whether the input parses. */
+  /**
+   * The form control validator for whether the input parses.
+   *
+   * 表单控件验证器，用于判断输入值是否解析过。
+   *
+   */
   private _parseValidator: ValidatorFn = (): ValidationErrors | null => {
     return this._lastValueValid ?
         null : {'matDatepickerParse': {'text': this._elementRef.nativeElement.value}};
   }
 
-  /** The form control validator for the date filter. */
+  /**
+   * The form control validator for the date filter.
+   *
+   * 日期过滤器的表单控件验证器
+   *
+   */
   private _filterValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const controlValue = this._dateAdapter.getValidDateOrNull(
       this._dateAdapter.deserialize(control.value));
@@ -144,7 +205,12 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
         null : {'matDatepickerFilter': true};
   }
 
-  /** The form control validator for the min date. */
+  /**
+   * The form control validator for the min date.
+   *
+   * 最小日期的表单控件验证器。
+   *
+   */
   private _minValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const controlValue = this._dateAdapter.getValidDateOrNull(
       this._dateAdapter.deserialize(control.value));
@@ -154,7 +220,12 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
         null : {'matDatepickerMin': {'min': min, 'actual': controlValue}};
   }
 
-  /** The form control validator for the max date. */
+  /**
+   * The form control validator for the max date.
+   *
+   * 表单控件验证器的最大日期。
+   *
+   */
   private _maxValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const controlValue = this._dateAdapter.getValidDateOrNull(
       this._dateAdapter.deserialize(control.value));
@@ -164,21 +235,46 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
         null : {'matDatepickerMax': {'max': max, 'actual': controlValue}};
   }
 
-  /** Gets the base validator functions. */
+  /**
+   * Gets the base validator functions.
+   *
+   * 获取基本的验证函数。
+   *
+   */
   protected _getValidators(): ValidatorFn[] {
     return [this._parseValidator, this._minValidator, this._maxValidator, this._filterValidator];
   }
 
-  /** Gets the minimum date for the input. Used for validation. */
+  /**
+   * Gets the minimum date for the input. Used for validation.
+   *
+   * 获取输入框的最小日期。用于验证。
+   *
+   */
   abstract _getMinDate(): D | null;
 
-  /** Gets the maximum date for the input. Used for validation. */
+  /**
+   * Gets the maximum date for the input. Used for validation.
+   *
+   * 获取输入框的最大日期。用于验证。
+   *
+   */
   abstract _getMaxDate(): D | null;
 
-  /** Gets the date filter function. Used for validation. */
+  /**
+   * Gets the date filter function. Used for validation.
+   *
+   * 获取日期过滤函数。用于验证。
+   *
+   */
   protected abstract _getDateFilter(): DateFilterFn<D> | undefined;
 
-  /** Registers a date selection model with the input. */
+  /**
+   * Registers a date selection model with the input.
+   *
+   * 为输入注册一个日期选择模型。
+   *
+   */
   _registerModel(model: MatDateSelectionModel<S, D>): void {
     this._model = model;
     this._valueChangesSubscription.unsubscribe();
@@ -200,22 +296,52 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     });
   }
 
-  /** Opens the popup associated with the input. */
+  /**
+   * Opens the popup associated with the input.
+   *
+   * 打开与该输入框关联的弹出窗口。
+   *
+   */
   protected abstract _openPopup(): void;
 
-  /** Assigns a value to the input's model. */
+  /**
+   * Assigns a value to the input's model.
+   *
+   * 为输入框的模型赋值。
+   *
+   */
   protected abstract _assignValueToModel(model: D | null): void;
 
-  /** Converts a value from the model into a native value for the input. */
+  /**
+   * Converts a value from the model into a native value for the input.
+   *
+   * 将模型中的值转换为输入框的原生值。
+   *
+   */
   protected abstract _getValueFromModel(modelValue: S): D | null;
 
-  /** Combined form control validator for this input. */
+  /**
+   * Combined form control validator for this input.
+   *
+   * 该输入框的组合表单控件验证器。
+   *
+   */
   protected abstract _validator: ValidatorFn | null;
 
-  /** Predicate that determines whether the input should handle a particular change event. */
+  /**
+   * Predicate that determines whether the input should handle a particular change event.
+   *
+   * 一个谓词函数，用于决定输入框是否应该处理特定的变更事件。
+   *
+   */
   protected abstract _shouldHandleChangeEvent(event: DateSelectionModelChange<S>): boolean;
 
-  /** Whether the last value set on the input was valid. */
+  /**
+   * Whether the last value set on the input was valid.
+   *
+   * 输入框的最后一个值是否有效。
+   *
+   */
   protected _lastValueValid = false;
 
   constructor(
@@ -320,7 +446,12 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     this.dateChange.emit(new MatDatepickerInputEvent(this, this._elementRef.nativeElement));
   }
 
-  /** Handles blur events on the input. */
+  /**
+   * Handles blur events on the input.
+   *
+   * 处理输入框中的失焦（blur）事件。
+   *
+   */
   _onBlur() {
     // Reformat the input only if we have a valid value.
     if (this.value) {
@@ -330,13 +461,23 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     this._onTouched();
   }
 
-  /** Formats a value and sets it on the input element. */
+  /**
+   * Formats a value and sets it on the input element.
+   *
+   * 格式化值并把它设置在输入框元素上。
+   *
+   */
   protected _formatValue(value: D | null) {
     this._elementRef.nativeElement.value =
         value ? this._dateAdapter.format(value, this._dateFormats.display.dateInput) : '';
   }
 
-  /** Assigns a value to the model. */
+  /**
+   * Assigns a value to the model.
+   *
+   * 为模型赋值。
+   *
+   */
   private _assignValue(value: D | null) {
     // We may get some incoming values before the model was
     // assigned. Save the value so that we can assign it later.
@@ -348,7 +489,12 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     }
   }
 
-  /** Whether a value is considered valid. */
+  /**
+   * Whether a value is considered valid.
+   *
+   * 决定值是否有效。
+   *
+   */
   private _isValidValue(value: D | null): boolean {
     return !value || this._dateAdapter.isValid(value);
   }
@@ -356,12 +502,20 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   /**
    * Checks whether a parent control is disabled. This is in place so that it can be overridden
    * by inputs extending this one which can be placed inside of a group that can be disabled.
+   *
+   * 检查父控件是否被禁用。输入框可以通过扩展这个值来改写它，可以把它放在一个可禁用的控件组中。
+   *
    */
   protected _parentDisabled() {
     return false;
   }
 
-  /** Programmatically assigns a value to the input. */
+  /**
+   * Programmatically assigns a value to the input.
+   *
+   * 以编程方式为输入框赋值。
+   *
+   */
   protected _assignValueProgrammatically(value: D | null) {
     value = this._dateAdapter.deserialize(value);
     this._lastValueValid = this._isValidValue(value);
@@ -370,7 +524,12 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     this._formatValue(value);
   }
 
-  /** Gets whether a value matches the current date filter. */
+  /**
+   * Gets whether a value matches the current date filter.
+   *
+   * 获取某个值是否与当前日期过滤器匹配。
+   *
+   */
   _matchesFilter(value: D | null): boolean {
     const filter = this._getDateFilter();
     return !filter || filter(value);
@@ -385,6 +544,9 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
 /**
  * Checks whether the `SimpleChanges` object from an `ngOnChanges`
  * callback has any changes, accounting for date objects.
+ *
+ * 检查 `ngOnChanges` 回调函数中 `SimpleChanges` 对象是否有任何变更，支持日期对象。
+ *
  */
 export function dateInputsHaveChanged(
   changes: SimpleChanges,

@@ -16,6 +16,9 @@ import {
 
 /**
  * Animations used by the MatFormField.
+ *
+ * 供 MatFormField 使用的动画。
+ *
  * @docs-private
  */
 export const matFormFieldAnimations: {

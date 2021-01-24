@@ -29,29 +29,47 @@ import {getTreeControlFunctionsMissingError} from './tree-errors';
  * By using `cdk-nested-tree-node` component in tree node template, children of the parent node will
  * be added in the `cdkTreeNodeOutlet` in tree node template.
  * The children of node will be automatically added to `cdkTreeNodeOutlet`.
+ *
+ * 嵌套节点是 `<cdk-tree>` 的子节点。它适用于嵌套树。通过在树节点模板中使用 `cdk-nested-tree-node` 组件，会把父节点的子节点添加到树节点模板的  `cdkTreeNodeOutlet` 中。 该节点的子节点会自动添加到 `cdkTreeNodeOutlet` 中。
+ *
  */
 @Directive({
   selector: 'cdk-nested-tree-node',
   exportAs: 'cdkNestedTreeNode',
   inputs: ['role', 'disabled', 'tabIndex'],
   providers: [
-    {provide: CdkTreeNode, useExisting: CdkNestedTreeNode},
-    {provide: CDK_TREE_NODE_OUTLET_NODE, useExisting: CdkNestedTreeNode}
-  ]
+    { provide: CdkTreeNode, useExisting: CdkNestedTreeNode },
+    { provide: CDK_TREE_NODE_OUTLET_NODE, useExisting: CdkNestedTreeNode },
+  ],
 })
 export class CdkNestedTreeNode<T, K = T> extends CdkTreeNode<T, K>
     implements AfterContentInit, DoCheck, OnDestroy, OnInit {
-  /** Differ used to find the changes in the data provided by the data source. */
+  /**
+   * Differ used to find the changes in the data provided by the data source.
+   *
+   * 差分器用于查找数据源所提供的数据变化。
+   *
+   */
   private _dataDiffer: IterableDiffer<T>;
 
-  /** The children data dataNodes of current node. They will be placed in `CdkTreeNodeOutlet`. */
+  /**
+   * The children data dataNodes of current node. They will be placed in `CdkTreeNodeOutlet`.
+   *
+   * 当前节点的子节点的数据节点。它们将放在 `CdkTreeNodeOutlet` 中。
+   *
+   */
   protected _children: T[];
 
-  /** The children node placeholder. */
+  /**
+   * The children node placeholder.
+   *
+   * 子节点的占位符。
+   *
+   */
   @ContentChildren(CdkTreeNodeOutlet, {
     // We need to use `descendants: true`, because Ivy will no longer match
     // indirect descendants if it's left as false.
-    descendants: true
+    descendants: true,
   })
   nodeOutlet: QueryList<CdkTreeNodeOutlet>;
 
@@ -76,7 +94,7 @@ export class CdkNestedTreeNode<T, K = T> extends CdkTreeNode<T, K>
       this.updateChildrenNodes(childrenNodes as T[]);
     } else if (isObservable(childrenNodes)) {
       childrenNodes.pipe(takeUntil(this._destroyed))
-        .subscribe(result => this.updateChildrenNodes(result));
+          .subscribe(result => this.updateChildrenNodes(result));
     }
     this.nodeOutlet.changes.pipe(takeUntil(this._destroyed))
         .subscribe(() => this.updateChildrenNodes());
@@ -97,7 +115,12 @@ export class CdkNestedTreeNode<T, K = T> extends CdkTreeNode<T, K>
     super.ngOnDestroy();
   }
 
-  /** Add children dataNodes to the NodeOutlet */
+  /**
+   * Add children dataNodes to the NodeOutlet
+   *
+   * 把子节点的数据节点添加到 NodeOutlet 中
+   *
+   */
   protected updateChildrenNodes(children?: T[]): void {
     const outlet = this._getNodeOutlet();
     if (children) {
@@ -112,7 +135,12 @@ export class CdkNestedTreeNode<T, K = T> extends CdkTreeNode<T, K>
     }
   }
 
-  /** Clear the children dataNodes. */
+  /**
+   * Clear the children dataNodes.
+   *
+   * 清除子节点的数据节点。
+   *
+   */
   protected _clear(): void {
     const outlet = this._getNodeOutlet();
     if (outlet) {
@@ -121,7 +149,12 @@ export class CdkNestedTreeNode<T, K = T> extends CdkTreeNode<T, K>
     }
   }
 
-  /** Gets the outlet for the current node. */
+  /**
+   * Gets the outlet for the current node.
+   *
+   * 获取当前节点的出口地标。
+   *
+   */
   private _getNodeOutlet() {
     const outlets = this.nodeOutlet;
 

@@ -26,6 +26,9 @@ import {catchError, finalize, map, share, tap} from 'rxjs/operators';
 /**
  * Returns an exception to be thrown in the case when attempting to
  * load an icon with a name that cannot be found.
+ *
+ * 当尝试加载一个名字无法找到的图标时，返回一个要抛出的异常。
+ *
  * @docs-private
  */
 export function getMatIconNameNotFoundError(iconName: string): Error {
@@ -36,6 +39,9 @@ export function getMatIconNameNotFoundError(iconName: string): Error {
 /**
  * Returns an exception to be thrown when the consumer attempts to use
  * `<mat-icon>` without including @angular/common/http.
+ *
+ * 使用 `<mat-icon>` 但没有导入 @angular/common/http 时，会返回一个异常。
+ *
  * @docs-private
  */
 export function getMatIconNoHttpProviderError(): Error {
@@ -47,7 +53,13 @@ export function getMatIconNoHttpProviderError(): Error {
 
 /**
  * Returns an exception to be thrown when a URL couldn't be sanitized.
+ *
+ * 当 URL 无法清理时，返回要抛出的异常。
+ *
  * @param url URL that was attempted to be sanitized.
+ *
+ * 试图清理的 URL
+ *
  * @docs-private
  */
 export function getMatIconFailedToSanitizeUrlError(url: SafeResourceUrl): Error {
@@ -57,7 +69,13 @@ export function getMatIconFailedToSanitizeUrlError(url: SafeResourceUrl): Error 
 
 /**
  * Returns an exception to be thrown when a HTML string couldn't be sanitized.
+ *
+ * 当 HTML 字符串无法清理时，返回抛出的异常。
+ *
  * @param literal HTML that was attempted to be sanitized.
+ *
+ * 试图清理的 HTML。
+ *
  * @docs-private
  */
 export function getMatIconFailedToSanitizeLiteralError(literal: SafeHtml): Error {
@@ -65,23 +83,46 @@ export function getMatIconFailedToSanitizeLiteralError(literal: SafeHtml): Error
                `Angular's DomSanitizer. Attempted literal was "${literal}".`);
 }
 
-/** Options that can be used to configure how an icon or the icons in an icon set are presented. */
+/**
+ * Options that can be used to configure how an icon or the icons in an icon set are presented.
+ *
+ * 一个选项，可以用来配置如何展示一个图标或图标集。
+ *
+ */
 export interface IconOptions {
-  /** View box to set on the icon. */
+  /**
+   * View box to set on the icon.
+   *
+   * 在图标上设置的 viewBox。
+   *
+   */
   viewBox?: string;
 
-  /** Whether or not to fetch the icon or icon set using HTTP credentials. */
+  /**
+   * Whether or not to fetch the icon or icon set using HTTP credentials.
+   *
+   * 是否要使用 HTTP 凭据获取图标或图标集。
+   *
+   */
   withCredentials?: boolean;
 }
 
 /**
  * Function that will be invoked by the icon registry when trying to resolve the
  * URL from which to fetch an icon. The returned URL will be used to make a request for the icon.
+ *
+ * 尝试解析用来提取图标的 URL 时，图标注册表会调用该函数。返回的 URL 将用于发出图标请求。
+ *
  */
 export type IconResolver = (name: string, namespace: string) =>
     (SafeResourceUrl | SafeResourceUrlWithIconOptions | null);
 
-/** Object that specifies a URL from which to fetch an icon and the options to use for it. */
+/**
+ * Object that specifies a URL from which to fetch an icon and the options to use for it.
+ *
+ * 该对象用于指定要提取图标的 URL 以及要使用的图标选项。
+ *
+ */
 export interface SafeResourceUrlWithIconOptions {
   url: SafeResourceUrl;
   options: IconOptions;
@@ -89,6 +130,9 @@ export interface SafeResourceUrlWithIconOptions {
 
 /**
  * Configuration for an icon, including the URL and possibly the cached SVG element.
+ *
+ * 图标的配置，包括 URL和可能缓存过的 SVG 元素。
+ *
  * @docs-private
  */
 class SvgIconConfig {
@@ -100,15 +144,35 @@ class SvgIconConfig {
     public options?: IconOptions) {}
 }
 
-/** Icon configuration whose content has already been loaded. */
+/**
+ * Icon configuration whose content has already been loaded.
+ *
+ * 已加载过内容的图标配置。
+ *
+ */
 type LoadedSvgIconConfig = SvgIconConfig & {svgText: string};
 
 /**
  * Service to register and display icons used by the `<mat-icon>` component.
+ *
+ * 本服务用来注册和显示供 `<mat-icon>` 组件使用的图标。
+ *
  * - Registers icon URLs by namespace and name.
+ *
+ *   按命名空间和名称注册图标 URL。
+ *
  * - Registers icon set URLs by namespace.
+ *
+ *   按命名空间注册图标集的 URL。
+ *
  * - Registers aliases for CSS classes, for use with icon fonts.
+ *
+ *   为 CSS 类注册别名，用于字体图标。
+ *
  * - Loads icons from URLs and extracts individual icons from icon sets.
+ *
+ *   从 URL 中加载图标，并从图标集中提取各个图标。
+ *
  */
 @Injectable({providedIn: 'root'})
 export class MatIconRegistry implements OnDestroy {
@@ -116,31 +180,60 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * URLs and cached SVG elements for individual icons. Keys are of the format "[namespace]:[icon]".
+   *
+   * 各个图标的 URL 和缓存的 SVG 元素。键的格式为“[namespace]:[icon]”。
+   *
    */
   private _svgIconConfigs = new Map<string, SvgIconConfig>();
 
   /**
    * SvgIconConfig objects and cached SVG elements for icon sets, keyed by namespace.
    * Multiple icon sets can be registered under the same namespace.
+   *
+   * SvgIconConfig 对象和图标集里的缓存 SVG 元素，以名称空间为键。可以在同一个命名空间下注册多个图标集。
+   *
    */
   private _iconSetConfigs = new Map<string, SvgIconConfig[]>();
 
-  /** Cache for icons loaded by direct URLs. */
+  /**
+   * Cache for icons loaded by direct URLs.
+   *
+   * 通过直接 URL 加载的图标的缓存。
+   *
+   */
   private _cachedIconsByUrl = new Map<string, SVGElement>();
 
-  /** In-progress icon fetches. Used to coalesce multiple requests to the same URL. */
+  /**
+   * In-progress icon fetches. Used to coalesce multiple requests to the same URL.
+   *
+   * 正进行中的图标提取请求。用来把多个请求合并成同一个 URL。
+   *
+   */
   private _inProgressUrlFetches = new Map<string, Observable<string>>();
 
-  /** Map from font identifiers to their CSS class names. Used for icon fonts. */
+  /**
+   * Map from font identifiers to their CSS class names. Used for icon fonts.
+   *
+   * 从字体标识符映射到它们的 CSS 类名。用于字体图标。
+   *
+   */
   private _fontCssClassesByAlias = new Map<string, string>();
 
-  /** Registered icon resolver functions. */
+  /**
+   * Registered icon resolver functions.
+   *
+   * 已注册的图标解析器函数。
+   *
+   */
   private _resolvers: IconResolver[] = [];
 
   /**
    * The CSS class to apply when an `<mat-icon>` component has no icon name, url, or font specified.
    * The default 'material-icons' value assumes that the material icon font has been loaded as
    * described at http://google.github.io/material-design-icons/#icon-font-for-the-web
+   *
+   * 当 `<mat-icon>` 组件没有指定图标名、url 或字体时，要应用的 CSS 类。默认的 “material-icons” 值假定已加载了 Material 字体图标，详见 http://google.github.io/material-design-icons/#icon-font-for-the-web
+   *
    */
   private _defaultFontSetClass = 'material-icons';
 
@@ -154,7 +247,13 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Registers an icon by URL in the default namespace.
+   *
+   * 在默认命名空间中用 URL 注册一个图标。
+   *
    * @param iconName Name under which the icon should be registered.
+   *
+   * 图标要注册成的名称。
+   *
    * @param url
    */
   addSvgIcon(iconName: string, url: SafeResourceUrl, options?: IconOptions): this {
@@ -163,8 +262,17 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Registers an icon using an HTML string in the default namespace.
+   *
+   * 在默认命名空间中使用 HTML 字符串注册一个图标。
+   *
    * @param iconName Name under which the icon should be registered.
+   *
+   * 图标要注册成的名称。
+   *
    * @param literal SVG source of the icon.
+   *
+   * 图标 SVG 源码。
+   *
    */
   addSvgIconLiteral(iconName: string, literal: SafeHtml, options?: IconOptions): this {
     return this.addSvgIconLiteralInNamespace('', iconName, literal, options);
@@ -172,8 +280,17 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Registers an icon by URL in the specified namespace.
+   *
+   * 在指定的命名空间中按 URL 注册一个图标。
+   *
    * @param namespace Namespace in which the icon should be registered.
+   *
+   * 要注册图标的命名空间。
+   *
    * @param iconName Name under which the icon should be registered.
+   *
+   * 图标要注册成的名称。
+   *
    * @param url
    */
   addSvgIconInNamespace(namespace: string, iconName: string, url: SafeResourceUrl,
@@ -187,7 +304,13 @@ export class MatIconRegistry implements OnDestroy {
    * the icon. The resolver is expected to return a `SafeResourceUrl` that points to the icon,
    * an object with the icon URL and icon options, or `null` if the icon is not supported. Resolvers
    * will be invoked in the order in which they have been registered.
+   *
+   * 用注册表注册一个图标解析器函数。当注册表尝试解析用来获取图标的 URL 时，会以图标名称和命名空间为参数调用该函数。该解析器需要返回一个指向图标的 `SafeResourceUrl`，一个带有图标 URL 和图标选项的对象，如果不支持该图标，则返回 `null`。这些解析器会按照其注册时的顺序进行调用。
+   *
    * @param resolver Resolver function to be registered.
+   *
+   * 要注册的解析器函数。
+   *
    */
   addSvgIconResolver(resolver: IconResolver): this {
     this._resolvers.push(resolver);
@@ -196,9 +319,21 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Registers an icon using an HTML string in the specified namespace.
+   *
+   * 在指定的命名空间中，以 HTML 字符串注册一个图标。
+   *
    * @param namespace Namespace in which the icon should be registered.
+   *
+   * 要注册图标的命名空间。
+   *
    * @param iconName Name under which the icon should be registered.
+   *
+   * 图标要注册成的名称。
+   *
    * @param literal SVG source of the icon.
+   *
+   * 图标的 SVG 源码。
+   *
    */
   addSvgIconLiteralInNamespace(namespace: string, iconName: string, literal: SafeHtml,
                                options?: IconOptions): this {
@@ -215,6 +350,9 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Registers an icon set by URL in the default namespace.
+   *
+   * 在默认命名空间中通过 URL 注册一个图标集。
+   *
    * @param url
    */
   addSvgIconSet(url: SafeResourceUrl, options?: IconOptions): this {
@@ -223,7 +361,13 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Registers an icon set using an HTML string in the default namespace.
+   *
+   * 在默认命名空间中，使用 HTML 字符串注册一个图标集。
+   *
    * @param literal SVG source of the icon set.
+   *
+   * 图标集的 SVG 源码。
+   *
    */
   addSvgIconSetLiteral(literal: SafeHtml, options?: IconOptions): this {
     return this.addSvgIconSetLiteralInNamespace('', literal, options);
@@ -231,7 +375,13 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Registers an icon set by URL in the specified namespace.
+   *
+   * 在指定的命名空间中，使用 HTML 字符串注册一个图标集。
+   *
    * @param namespace Namespace in which to register the icon set.
+   *
+   * 要在其中注册图标集的命名空间。
+   *
    * @param url
    */
   addSvgIconSetInNamespace(namespace: string, url: SafeResourceUrl, options?: IconOptions): this {
@@ -240,8 +390,17 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Registers an icon set using an HTML string in the specified namespace.
+   *
+   * 在指定的命名空间中，使用 HTML 字符串注册一个图标集。
+   *
    * @param namespace Namespace in which to register the icon set.
+   *
+   * 要在其中注册图标集的命名空间。
+   *
    * @param literal SVG source of the icon set.
+   *
+   * 图标集的 SVG 源码。
+   *
    */
   addSvgIconSetLiteralInNamespace(namespace: string, literal: SafeHtml,
                                   options?: IconOptions): this {
@@ -259,8 +418,16 @@ export class MatIconRegistry implements OnDestroy {
    * component with the alias as the fontSet input will cause the class name to be applied
    * to the `<mat-icon>` element.
    *
+   * 为要用作字体图标的 CSS 类名定义一个别名。用此别名作为输入属性 fontSet 来创建 matIcon 组件会导致这个类名被应用到 `<mat-icon>` 元素中。
+   *
    * @param alias Alias for the font.
+   *
+   * 该字体的别名。
+   *
    * @param className Class name override to be used instead of the alias.
+   *
+   * 用于代替别名进行改写的类名。
+   *
    */
   registerFontClassAlias(alias: string, className: string = alias): this {
     this._fontCssClassesByAlias.set(alias, className);
@@ -270,6 +437,9 @@ export class MatIconRegistry implements OnDestroy {
   /**
    * Returns the CSS class name associated with the alias by a previous call to
    * registerFontClassAlias. If no CSS class has been associated, returns the alias unmodified.
+   *
+   * 返回与先前调用 registerFontClassAlias 返回的别名相关联的 CSS 类名。如果没有关联的 CSS 类，则直接返回别名。
+   *
    */
   classNameForFontAlias(alias: string): string {
     return this._fontCssClassesByAlias.get(alias) || alias;
@@ -278,6 +448,8 @@ export class MatIconRegistry implements OnDestroy {
   /**
    * Sets the CSS class name to be used for icon fonts when an `<mat-icon>` component does not
    * have a fontSet input value, and is not loading an icon by name or URL.
+   *
+   * 当 `<mat-icon>` 组件的输入属性 fontSet 没有值，并且不是在按名字或 URL 加载图标时，设置要用于字体图标的 CSS 类名。
    *
    * @param className
    */
@@ -289,6 +461,9 @@ export class MatIconRegistry implements OnDestroy {
   /**
    * Returns the CSS class name to be used for icon fonts when an `<mat-icon>` component does not
    * have a fontSet input value, and is not loading an icon by name or URL.
+   *
+   * 当 `<mat-icon>` 组件的输入属性 fontSet 没有值，并且不是在按名字或 URL 加载图标时，返回用于字体图标的 CSS 类名。
+   *
    */
   getDefaultFontSetClass(): string {
     return this._defaultFontSetClass;
@@ -300,7 +475,12 @@ export class MatIconRegistry implements OnDestroy {
    * the produced element will always be a new copy of the originally fetched icon. (That is,
    * it will not contain any modifications made to elements previously returned).
    *
+   * 返回一个 Observable，用于根据指定的 URL 生成图标（比如 `<svg>` DOM 元素）。该 URL 的响应可能会被缓存，所以这并不总会导致 HTTP 请求，但是所生成的元素始终是原来获得的图标的新副本。（也就是说，它不会对以前返回的元素做任何修改）。
+   *
    * @param safeUrl URL from which to fetch the SVG icon.
+   *
+   * 要从中获取 SVG 图标的 URL。
+   *
    */
   getSvgIconFromUrl(safeUrl: SafeResourceUrl): Observable<SVGElement> {
     const url = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, safeUrl);
@@ -326,8 +506,16 @@ export class MatIconRegistry implements OnDestroy {
    * and namespace. The icon must have been previously registered with addIcon or addIconSet;
    * if not, the Observable will throw an error.
    *
+   * 返回一个 Observable，用于根据指定的 URL 生成图标（比如 `<svg>` DOM 元素）。该图标必须先前已经使用 addIcon 或 addIconSet 注册过；如果没有，这个 Observable 就会抛出一个错误。
+   *
    * @param name Name of the icon to be retrieved.
+   *
+   * 要检索的图标名称。
+   *
    * @param namespace Namespace in which to look for the icon.
+   *
+   * 要在其中查找图标的命名空间。
+   *
    */
   getNamedSvgIcon(name: string, namespace: string = ''): Observable<SVGElement> {
     const key = iconKey(namespace, name);
@@ -365,6 +553,9 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Returns the cached icon for a SvgIconConfig if available, or fetches it from its URL if not.
+   *
+   * 如果可用的话，返回 SvgIconConfig 的缓存图标；如果不可用，则从它的 URL 中获取它。
+   *
    */
   private _getSvgFromConfig(config: SvgIconConfig): Observable<SVGElement> {
     if (config.svgText) {
@@ -383,6 +574,9 @@ export class MatIconRegistry implements OnDestroy {
    * that have not been cached, and searches again after all fetches are completed.
    * The returned Observable produces the SVG element if possible, and throws
    * an error if no icon with the specified name can be found.
+   *
+   * 尝试在任何一个 SVG 图标集中找到一个具有指定名字的图标。首先会在可用的缓存图标中搜索名称能匹配的嵌套元素，如果找到，则把该元素复制到新的 `<svg>` 元素中。如果找不到，则获取所有尚未缓存的图标集，并在全部获取完后再次搜索。如果找到，返回的 Observable 就会发出 SVG 元素，否则就抛出一个错误。
+   *
    */
   private _getSvgFromIconSetConfigs(name: string, iconSetConfigs: SvgIconConfig[]):
       Observable<SVGElement> {
@@ -433,6 +627,9 @@ export class MatIconRegistry implements OnDestroy {
    * Searches the cached SVG elements for the given icon sets for a nested icon element whose "id"
    * tag matches the specified name. If found, copies the nested element to a new SVG element and
    * returns it. Returns null if no matching element is found.
+   *
+   * 在指定图标集的缓存 SVG 元素中搜索 “id” 标签与指定名称相匹配的嵌套图标元素。如果找到，就把嵌套元素复制到一个新的 SVG 元素中并返回它。如果找不到，则返回 null。
+   *
    */
   private _extractIconWithNameFromAnySet(iconName: string, iconSetConfigs: SvgIconConfig[]):
       SVGElement | null {
@@ -458,6 +655,9 @@ export class MatIconRegistry implements OnDestroy {
   /**
    * Loads the content of the icon URL specified in the SvgIconConfig and creates an SVG element
    * from it.
+   *
+   * 加载 SvgIconConfig 中指定的图标 URL 的内容，并从中创建一个 SVG 元素。
+   *
    */
   private _loadSvgIconFromConfig(config: SvgIconConfig): Observable<SVGElement> {
     return this._fetchIcon(config).pipe(
@@ -469,6 +669,9 @@ export class MatIconRegistry implements OnDestroy {
   /**
    * Loads the content of the icon set URL specified in the
    * SvgIconConfig and attaches it to the config.
+   *
+   * 加载 SvgIconConfig 中指定的图标集 URL 的内容，并把它附加到配置对象中。
+   *
    */
   private _loadSvgIconSetFromConfig(config: SvgIconConfig): Observable<string | null> {
     if (config.svgText) {
@@ -482,6 +685,9 @@ export class MatIconRegistry implements OnDestroy {
    * Searches the cached element of the given SvgIconConfig for a nested icon element whose "id"
    * tag matches the specified name. If found, copies the nested element to a new SVG element and
    * returns it. Returns null if no matching element is found.
+   *
+   * 在指定的 SvgIconConfig 的缓存元素中搜索 “id” 标签与指定名称匹配的嵌套图标元素。如果找到，就把嵌套元素复制到一个新的 SVG 元素中并返回它。如果找不到，则返回 null。
+   *
    */
   private _extractSvgIconFromSet(iconSet: SVGElement, iconName: string,
                                  options?: IconOptions): SVGElement | null {
@@ -525,6 +731,9 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Creates a DOM element from the given SVG string.
+   *
+   * 根据指定的 SVG 字符串创建一个 DOM 元素。
+   *
    */
   private _svgElementFromString(str: string): SVGElement {
     const div = this._document.createElement('DIV');
@@ -541,6 +750,9 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Converts an element into an SVG node by cloning all of its children.
+   *
+   * 通过克隆其所有子元素，把一个元素转换成一个 SVG 节点。
+   *
    */
   private _toSvgElement(element: Element): SVGElement {
     const svg = this._svgElementFromString('<svg></svg>');
@@ -566,6 +778,9 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Sets the default attributes for an SVG element to be used as an icon.
+   *
+   * 设置要用作图标的 SVG 元素的默认属性。
+   *
    */
   private _setSvgAttributes(svg: SVGElement, options?: IconOptions): SVGElement {
     svg.setAttribute('fit', '');
@@ -584,6 +799,9 @@ export class MatIconRegistry implements OnDestroy {
   /**
    * Returns an Observable which produces the string contents of the given icon. Results may be
    * cached, so future calls with the same URL may not cause another HTTP request.
+   *
+   * 返回一个 Observable，它生成指定图标的字符串内容。这些结果可能会被缓存，所以将来使用相同的 URL 调用它时可能不会导致其它 HTTP 请求。
+   *
    */
   private _fetchIcon(iconConfig: SvgIconConfig): Observable<string> {
     const {url: safeUrl, options} = iconConfig;
@@ -625,9 +843,21 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Registers an icon config by name in the specified namespace.
+   *
+   * 在指定的命名空间中按名称注册一个图标配置。
+   *
    * @param namespace Namespace in which to register the icon config.
+   *
+   * 要在其中注册图标配置的命名空间。
+   *
    * @param iconName Name under which to register the config.
+   *
+   * 用来注册配置的名字。
+   *
    * @param config Config to be registered.
+   *
+   * 要注册的配置。
+   *
    */
   private _addSvgIconConfig(namespace: string, iconName: string, config: SvgIconConfig): this {
     this._svgIconConfigs.set(iconKey(namespace, iconName), config);
@@ -636,8 +866,17 @@ export class MatIconRegistry implements OnDestroy {
 
   /**
    * Registers an icon set config in the specified namespace.
+   *
+   * 在指定的命名空间中注册一个图标集配置。
+   *
    * @param namespace Namespace in which to register the icon config.
+   *
+   * 要在其中注册图标集配置的命名空间。
+   *
    * @param config Config to be registered.
+   *
+   * 要注册的配置。
+   *
    */
   private _addSvgIconSetConfig(namespace: string, config: SvgIconConfig): this {
     const configNamespace = this._iconSetConfigs.get(namespace);
@@ -651,7 +890,12 @@ export class MatIconRegistry implements OnDestroy {
     return this;
   }
 
-  /** Parses a config's text into an SVG element. */
+  /**
+   * Parses a config's text into an SVG element.
+   *
+   * 把配置文本解析成 SVG 元素。
+   *
+   */
   private _svgElementFromConfig(config: LoadedSvgIconConfig): SVGElement {
     if (!config.svgElement) {
       const svg = this._svgElementFromString(config.svgText);
@@ -662,7 +906,12 @@ export class MatIconRegistry implements OnDestroy {
     return config.svgElement;
   }
 
-  /** Tries to create an icon config through the registered resolver functions. */
+  /**
+   * Tries to create an icon config through the registered resolver functions.
+   *
+   * 尝试通过已注册的解析器函数创建一个图标配置。
+   *
+   */
   private _getIconConfigFromResolvers(namespace: string, name: string): SvgIconConfig | undefined {
     for (let i = 0; i < this._resolvers.length; i++) {
       const result = this._resolvers[i](name, namespace);
@@ -702,12 +951,22 @@ export const ICON_REGISTRY_PROVIDER = {
   useFactory: ICON_REGISTRY_PROVIDER_FACTORY,
 };
 
-/** Clones an SVGElement while preserving type information. */
+/**
+ * Clones an SVGElement while preserving type information.
+ *
+ * 克隆 SVGElement，同时保留类型信息。
+ *
+ */
 function cloneSvg(svg: SVGElement): SVGElement {
   return svg.cloneNode(true) as SVGElement;
 }
 
-/** Returns the cache key to use for an icon namespace and name. */
+/**
+ * Returns the cache key to use for an icon namespace and name.
+ *
+ * 返回要用于图标命名空间和图标名称的缓存键。
+ *
+ */
 function iconKey(namespace: string, name: string) {
   return namespace + ':' + name;
 }

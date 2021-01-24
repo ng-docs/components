@@ -61,23 +61,41 @@ import {_MatAutocompleteOriginBase} from './autocomplete-origin';
  * The following style constants are necessary to save here in order
  * to properly calculate the scrollTop of the panel. Because we are not
  * actually focusing the active item, scroll must be handled manually.
+ *
+ * 为了正确计算面板的 scrollTop，下列样式常量需要保存。因为我们实际上没有为活动条目设置焦点，所以必须手动处理滚动。
+ *
  */
 
 /**
  * The height of each autocomplete option.
+ *
+ * 每个自动完成选项的高度。
+ *
  * @deprecated No longer being used. To be removed.
+ *
+ * 不用了。将来会删除
  * @breaking-change 12.0.0
  */
 export const AUTOCOMPLETE_OPTION_HEIGHT = 48;
 
 /**
  * The total height of the autocomplete panel.
+ *
+ * 自动完成面板的总高度。
+ *
  * @deprecated No longer being used. To be removed.
+ *
+ * 不用了。将来会删除
  * @breaking-change 12.0.0
  */
 export const AUTOCOMPLETE_PANEL_HEIGHT = 256;
 
-/** Injection token that determines the scroll handling while the autocomplete panel is open. */
+/**
+ * Injection token that determines the scroll handling while the autocomplete panel is open.
+ *
+ * 当自动完成面板打开时，注入令牌决定了滚动处理策略。
+ *
+ */
 export const MAT_AUTOCOMPLETE_SCROLL_STRATEGY =
     new InjectionToken<() => ScrollStrategy>('mat-autocomplete-scroll-strategy');
 
@@ -95,6 +113,9 @@ export const MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY_PROVIDER = {
 
 /**
  * Provider that allows the autocomplete to register as a ControlValueAccessor.
+ *
+ * 允许将此自动完成器注册为 ControlValueAccessor 的提供者。
+ *
  * @docs-private
  */
 export const MAT_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
@@ -105,6 +126,9 @@ export const MAT_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 
 /**
  * Creates an error to be thrown when attempting to use an autocomplete trigger without a panel.
+ *
+ * 试图在没有面板的情况下使用自动完成触发器时，就会抛出一个错误。
+ *
  * @docs-private
  */
 export function getMatAutocompleteMissingPanelError(): Error {
@@ -113,7 +137,12 @@ export function getMatAutocompleteMissingPanelError(): Error {
                'you\'re attempting to open it after the ngAfterContentInit hook.');
 }
 
-/** Base class with all of the `MatAutocompleteTrigger` functionality. */
+/**
+ * Base class with all of the `MatAutocompleteTrigger` functionality.
+ *
+ * 具备所有 `MatAutocompleteTrigger` 功能的基类。
+ *
+ */
 @Directive()
 export abstract class _MatAutocompleteTriggerBase implements ControlValueAccessor, AfterViewInit,
   OnChanges, OnDestroy {
@@ -124,37 +153,78 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
   private _autocompleteDisabled = false;
   private _scrollStrategy: () => ScrollStrategy;
 
-  /** Old value of the native input. Used to work around issues with the `input` event on IE. */
+  /**
+   * Old value of the native input. Used to work around issues with the `input` event on IE.
+   *
+   * 原生输入框的旧值。用来解决 IE 中 `input` 事件的问题。
+   *
+   */
   private _previousValue: string | number | null;
 
-  /** Strategy that is used to position the panel. */
+  /**
+   * Strategy that is used to position the panel.
+   *
+   * 本面板的定位策略。
+   *
+   */
   private _positionStrategy: FlexibleConnectedPositionStrategy;
 
-  /** Whether or not the label state is being overridden. */
+  /**
+   * Whether or not the label state is being overridden.
+   *
+   * 是否改写了标签状态。
+   *
+   */
   private _manuallyFloatingLabel = false;
 
-  /** The subscription for closing actions (some are bound to document). */
+  /**
+   * The subscription for closing actions (some are bound to document).
+   *
+   * 管理各种关闭动作（其中一些订阅到了 `document`）的订阅。
+   *
+   */
   private _closingActionsSubscription: Subscription;
 
-  /** Subscription to viewport size changes. */
+  /**
+   * Subscription to viewport size changes.
+   *
+   * 管理视口大小变化的订阅。
+   *
+   */
   private _viewportSubscription = Subscription.EMPTY;
 
   /**
    * Whether the autocomplete can open the next time it is focused. Used to prevent a focused,
    * closed autocomplete from being reopened if the user switches to another browser tab and then
    * comes back.
+   *
+   * 自动完成功能是否可以在下一次获得焦点时打开。如果用户切换到另一个浏览器标签，然后回来，它会防止重新打开一个有焦点的、已关闭的自动完成器。
+   *
    */
   private _canOpenOnNextFocus = true;
 
-  /** Whether the element is inside of a ShadowRoot component. */
+  /**
+   * Whether the element is inside of a ShadowRoot component.
+   *
+   * 该元素是否在 ShadowRoot 组件的内部。
+   *
+   */
   private _isInsideShadowRoot: boolean;
 
-  /** Stream of keyboard events that can close the panel. */
+  /**
+   * Stream of keyboard events that can close the panel.
+   *
+   * 可以关闭此面板的键盘事件流。
+   *
+   */
   private readonly _closeKeyEventStream = new Subject<void>();
 
   /**
    * Event handler for when the window is blurred. Needs to be an
    * arrow function in order to preserve the context.
+   *
+   * 窗口失去焦点时的事件处理函数。需要用箭头函数才能保留上下文。
+   *
    */
   private _windowBlurHandler = () => {
     // If the user blurred the window while the autocomplete is focused, it means that it'll be
@@ -170,7 +240,12 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
   /** `View -> model callback called when autocomplete has been touched` */
   _onTouched = () => {};
 
-  /** The autocomplete panel to be attached to this trigger. */
+  /**
+   * The autocomplete panel to be attached to this trigger.
+   *
+   * 要附着到此触发器的自动完成面板。
+   *
+   */
   @Input('matAutocomplete') autocomplete: _MatAutocompleteBase;
 
   /**
@@ -179,17 +254,26 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
    * the viewport, otherwise the panel will be shown above it. If the position is set to
    * `above` or `below`, the panel will always be shown above or below the trigger. no matter
    * whether it fits completely in the viewport.
+   *
+   * 自动完成面板相对于触发器元素的位置。`auto` 位置会让该面板在触发器下方渲染，前提是它有足够的空间放进本视口中，否则面板就会显示在它的上方。如果位置设为 `above` 或 `below` ，则面板将始终显示在触发器的上方或下方，无论它是否完全适合本视口。
+   *
    */
   @Input('matAutocompletePosition') position: 'auto' | 'above' | 'below' = 'auto';
 
   /**
    * Reference relative to which to position the autocomplete panel.
    * Defaults to the autocomplete trigger element.
+   *
+   * 用来定位自动完成面板的基准点。默认为本自动完成触发器元素。
+   *
    */
   @Input('matAutocompleteConnectedTo') connectedTo: _MatAutocompleteOriginBase;
 
   /**
    * `autocomplete` attribute to be set on the input element.
+   *
+   * 要在输入框元素上设置的 `autocomplete` 属性
+   *
    * @docs-private
    */
   @Input('autocomplete') autocompleteAttribute: string = 'off';
@@ -197,6 +281,9 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
   /**
    * Whether the autocomplete is disabled. When disabled, the element will
    * act as a regular input and the user won't be able to open the panel.
+   *
+   * 是否禁用了自动完成器。当禁用时，该元素和常规输入框的行为相同，用户将无法打开该面板。
+   *
    */
   @Input('matAutocompleteDisabled')
   get autocompleteDisabled(): boolean { return this._autocompleteDisabled; }
@@ -218,7 +305,12 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
     this._scrollStrategy = scrollStrategy;
   }
 
-  /** Class to apply to the panel when it's above the input. */
+  /**
+   * Class to apply to the panel when it's above the input.
+   *
+   * 当此面板位于输入框上方时要应用的类。
+   *
+   */
   protected abstract _aboveClass: string;
 
   ngAfterViewInit() {
@@ -252,19 +344,34 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
     this._closeKeyEventStream.complete();
   }
 
-  /** Whether or not the autocomplete panel is open. */
+  /**
+   * Whether or not the autocomplete panel is open.
+   *
+   * 自动完成面板是否处于已打开状态。
+   *
+   */
   get panelOpen(): boolean {
     return this._overlayAttached && this.autocomplete.showPanel;
   }
   private _overlayAttached: boolean = false;
 
-  /** Opens the autocomplete suggestion panel. */
+  /**
+   * Opens the autocomplete suggestion panel.
+   *
+   * 打开自动完成建议面板。
+   *
+   */
   openPanel(): void {
     this._attachOverlay();
     this._floatLabel();
   }
 
-  /** Closes the autocomplete suggestion panel. */
+  /**
+   * Closes the autocomplete suggestion panel.
+   *
+   * 关闭自动完成建议面板。
+   *
+   */
   closePanel(): void {
     this._resetLabel();
 
@@ -298,6 +405,9 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
   /**
    * Updates the position of the autocomplete suggestion panel to ensure that it fits all options
    * within the viewport.
+   *
+   * 更新自动完成建议面板的位置，以确保它能容纳视口中的所有选项。
+   *
    */
   updatePosition(): void {
     if (this._overlayAttached) {
@@ -308,6 +418,9 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
   /**
    * A stream of actions that should close the autocomplete panel, including
    * when an option is selected, on blur, and when TAB is pressed.
+   *
+   * 会导致关闭自动完成面板的一系列动作，包括当选择了某个选项时、失去焦点时，以及当按下 TAB 时。
+   *
    */
   get panelClosingActions(): Observable<MatOptionSelectionChange|null> {
     return merge(
@@ -324,7 +437,12 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
     );
   }
 
-  /** Stream of autocomplete option selections. */
+  /**
+   * Stream of autocomplete option selections.
+   *
+   * 自动完成选项的选择流。
+   *
+   */
   readonly optionSelections: Observable<MatOptionSelectionChange> = defer(() => {
     if (this.autocomplete && this.autocomplete.options) {
       return merge(...this.autocomplete.options.map(option => option.onSelectionChange));
@@ -336,7 +454,12 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
         .pipe(take(1), switchMap(() => this.optionSelections));
   }) as Observable<MatOptionSelectionChange>;
 
-  /** The currently active option, coerced to MatOption type. */
+  /**
+   * The currently active option, coerced to MatOption type.
+   *
+   * 当前处于活动状态的选项，强制转换为 MatOption 类型。
+   *
+   */
   get activeOption(): MatOption | null {
     if (this.autocomplete && this.autocomplete._keyManager) {
       return this.autocomplete._keyManager.activeItem;
@@ -345,7 +468,12 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
     return null;
   }
 
-  /** Stream of clicks outside of the autocomplete panel. */
+  /**
+   * Stream of clicks outside of the autocomplete panel.
+   *
+   * 自动填充面板外部的点击事件流。
+   *
+   */
   private _getOutsideClickStream(): Observable<any> {
     return merge(
             fromEvent(this._document, 'click') as Observable<MouseEvent>,
@@ -456,7 +584,13 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
    * In "auto" mode, the label will animate down as soon as focus is lost.
    * This causes the value to jump when selecting an option with the mouse.
    * This method manually floats the label until the panel can be closed.
+   *
+   * 在 `auto` 模式下，一旦焦点丢失，标签就会以动画形式下沉。当使用鼠标选择一个选项时，会导致该值跳动。此方法会手动浮起标签直到面板关闭。
+   *
    * @param shouldAnimate Whether the label should be animated when it is floated.
+   *
+   * 该标签在浮起时是否应该是动画的。
+   *
    */
   private _floatLabel(shouldAnimate = false): void {
     if (this._formField && this._formField.floatLabel === 'auto') {
@@ -470,7 +604,12 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
     }
   }
 
-  /** If the label has been manually elevated, return it to its normal state. */
+  /**
+   * If the label has been manually elevated, return it to its normal state.
+   *
+   * 如果已经手动浮起了标签，就把它恢复到正常状态。
+   *
+   */
   private _resetLabel(): void  {
     if (this._manuallyFloatingLabel) {
       this._formField.floatLabel = 'auto';
@@ -481,6 +620,9 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
   /**
    * This method listens to a stream of panel closing actions and resets the
    * stream every time the option list changes.
+   *
+   * 此方法监听面板的关闭动作流，并在每次选项列表发生变化时重置该流。
+   *
    */
   private _subscribeToClosingActions(): Subscription {
     const firstStable = this._zone.onStable.pipe(take(1));
@@ -521,7 +663,12 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
         .subscribe(event => this._setValueAndClose(event));
   }
 
-  /** Destroys the autocomplete suggestion panel. */
+  /**
+   * Destroys the autocomplete suggestion panel.
+   *
+   * 销毁自动完成建议面板。
+   *
+   */
   private _destroyPanel(): void {
     if (this._overlayRef) {
       this.closePanel();
@@ -554,6 +701,9 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
    * This method closes the panel, and if a value is specified, also sets the associated
    * control to that value. It will also mark the control as dirty if this interaction
    * stemmed from the user.
+   *
+   * 这个方法会关闭此面板，如果指定了值，也会把其关联控件设置为该值。如果这种交互来自用户，它还会把此控件标记为脏的。
+   *
    */
   private _setValueAndClose(event: MatOptionSelectionChange | null): void {
     if (event && event.source) {
@@ -569,6 +719,9 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
 
   /**
    * Clear any previous selected option and emit a selection change event for this option
+   *
+   * 清除以前选定的所有选项并为该选项发出当前选择变更事件
+   *
    */
   private _clearPreviousSelectedOption(skip: MatOption) {
     this.autocomplete.options.forEach(option => {
@@ -664,7 +817,12 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
     return strategy;
   }
 
-  /** Sets the positions on a position strategy based on the directive's input state. */
+  /**
+   * Sets the positions on a position strategy based on the directive's input state.
+   *
+   * 根据指令的输入状态设置某个位置策略上的一些位置值。
+   *
+   */
   private _setStrategyPositions(positionStrategy: FlexibleConnectedPositionStrategy) {
     // Note that we provide horizontal fallback positions, even though by default the dropdown
     // width matches the input, because consumers can override the width. See #18854.
@@ -707,7 +865,12 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
     return this.autocomplete.panelWidth || this._getHostWidth();
   }
 
-  /** Returns the width of the input element, so the panel width can match it. */
+  /**
+   * Returns the width of the input element, so the panel width can match it.
+   *
+   * 返回输入框元素的宽度，面板的宽度可以适配它。
+   *
+   */
   private _getHostWidth(): number {
     return this._getConnectedElement().nativeElement.getBoundingClientRect().width;
   }
@@ -715,6 +878,9 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
   /**
    * Resets the active item to -1 so arrow events will activate the
    * correct options, or to 0 if the consumer opted into it.
+   *
+   * 活动条目的值会重置为 -1，所以方向键事件会激活正确的选项，如果消费者选择了它，则为 0。
+   *
    */
   private _resetActiveItem(): void {
     const autocomplete = this.autocomplete;
@@ -728,18 +894,33 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
     }
   }
 
-  /** Determines whether the panel can be opened. */
+  /**
+   * Determines whether the panel can be opened.
+   *
+   * 确定是否可以打开面板。
+   *
+   */
   private _canOpen(): boolean {
     const element = this._element.nativeElement;
     return !element.readOnly && !element.disabled && !this._autocompleteDisabled;
   }
 
-  /** Use defaultView of injected document if available or fallback to global window reference */
+  /**
+   * Use defaultView of injected document if available or fallback to global window reference
+   *
+   * 如果可用，则使用注入文档中的 defaultView ，否则回退到全局窗口引用
+   *
+   */
   private _getWindow(): Window {
     return this._document?.defaultView || window;
   }
 
-  /** Scrolls to a particular option in the list. */
+  /**
+   * Scrolls to a particular option in the list.
+   *
+   * 滚动到列表中的某个特定选项。
+   *
+   */
   private _scrollToOption(index: number): void {
     // Given that we are not actually focusing active options, we must manually adjust scroll
     // to reveal options below the fold. First, we find the offset of the option from the top

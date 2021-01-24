@@ -8,6 +8,11 @@
 
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/** Criteria that can be used to filter a list of `MatButtonToggleGroupHarness` instances. */
+/**
+ * Criteria that can be used to filter a list of `MatButtonToggleGroupHarness` instances.
+ *
+ * 可以用来过滤 `MatButtonToggleGroupHarness` 实例列表的标准。
+ *
+ */
 export interface ButtonToggleGroupHarnessFilters extends BaseHarnessFilters {
 }

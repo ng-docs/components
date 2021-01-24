@@ -11,9 +11,16 @@ import {Injector} from '@angular/core';
 /**
  * Custom injector to be used when providing custom
  * injection tokens to components inside a portal.
+ *
+ * 自定义注入器，用于为传送点内的组件提供自定义注入令牌。
+ *
  * @docs-private
  * @deprecated Use `Injector.create` instead.
+ *
+ * 请改用 `Injector.create` 。
+ *
  * @breaking-change 11.0.0
+ *
  */
 export class PortalInjector implements Injector {
   constructor(

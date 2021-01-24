@@ -23,6 +23,8 @@ export class MatStepHarness extends ContentContainerComponentHarness<string> {
    * certain criteria.
    * @param options Options for filtering which steps are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: StepHarnessFilters = {}): HarnessPredicate<MatStepHarness> {
     return new HarnessPredicate(MatStepHarness, options)

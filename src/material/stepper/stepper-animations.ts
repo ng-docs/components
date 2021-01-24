@@ -16,6 +16,9 @@ import {
 
 /**
  * Animations used by the Material steppers.
+ *
+ * 为 Material 步进器使用的动画。
+ *
  * @docs-private
  */
 export const matStepperAnimations: {

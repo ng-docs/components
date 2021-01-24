@@ -36,13 +36,21 @@ import {MatPaginatedTabHeader} from './paginated-tab-header';
 
 /**
  * Base class with all of the `MatTabHeader` functionality.
+ *
+ * 具备所有 `MatTabHeader` 功能的基类。
+ *
  * @docs-private
  */
 @Directive()
 export abstract class _MatTabHeaderBase extends MatPaginatedTabHeader implements
   AfterContentChecked, AfterContentInit, AfterViewInit, OnDestroy {
 
-  /** Whether the ripple effect is disabled or not. */
+  /**
+   * Whether the ripple effect is disabled or not.
+   *
+   * 是否禁用了涟漪效果。
+   *
+   */
   @Input()
   get disableRipple() { return this._disableRipple; }
   set disableRipple(value: any) { this._disableRipple = coerceBooleanProperty(value); }
@@ -68,6 +76,9 @@ export abstract class _MatTabHeaderBase extends MatPaginatedTabHeader implements
  * an ink bar that follows the currently selected tab. When the tabs list's width exceeds the
  * width of the header container, then arrows will be displayed to allow the user to scroll
  * left and right across the header.
+ *
+ * 选项卡组的标题，显示选项卡组中所有选项卡的列表。包含一个跟随当前选定选项卡的墨水条。当选项卡列表的宽度超出标头容器的宽度时，就会显示箭头，让用户可以在标头中左右滚动。
+ *
  * @docs-private
  */
 @Component({

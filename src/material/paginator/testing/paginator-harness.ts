@@ -31,6 +31,8 @@ export class MatPaginatorHarness extends ComponentHarness {
    * certain criteria.
    * @param options Options for filtering which paginator instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: PaginatorHarnessFilters = {}): HarnessPredicate<MatPaginatorHarness> {
     return new HarnessPredicate(MatPaginatorHarness, options);

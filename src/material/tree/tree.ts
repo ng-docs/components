@@ -17,6 +17,9 @@ import {MatTreeNodeOutlet} from './outlet';
 
 /**
  * Wrapper for the CdkTable with Material design styles.
+ *
+ * 采用 Material Design 样式的 CdkTree 封装器。
+ *
  */
 @Component({
   selector: 'mat-tree',

@@ -32,6 +32,8 @@ export class MatStepperNextHarness extends StepperButtonHarness {
    * certain criteria.
    * @param options Options for filtering which steps are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: StepperButtonHarnessFilters = {}): HarnessPredicate<MatStepperNextHarness> {
     return new HarnessPredicate(MatStepperNextHarness, options)
@@ -51,6 +53,8 @@ export class MatStepperPreviousHarness extends StepperButtonHarness {
    * that meets certain criteria.
    * @param options Options for filtering which steps are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: StepperButtonHarnessFilters = {}):
     HarnessPredicate<MatStepperPreviousHarness> {

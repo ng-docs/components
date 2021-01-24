@@ -30,6 +30,9 @@ import {debounceTime} from 'rxjs/operators';
 
 /**
  * Factory that creates a new MutationObserver and allows us to stub it out in unit tests.
+ *
+ * 该工厂用来创建一个新的 MutationObserver，并允许我们在单元测试中使用它的桩服务。
+ *
  * @docs-private
  */
 @Injectable({providedIn: 'root'})
@@ -40,10 +43,20 @@ export class MutationObserverFactory {
 }
 
 
-/** An injectable service that allows watching elements for changes to their content. */
+/**
+ * An injectable service that allows watching elements for changes to their content.
+ *
+ * 一种可注入的服务，它允许监视元素内容的变化。
+ *
+ */
 @Injectable({providedIn: 'root'})
 export class ContentObserver implements OnDestroy {
-  /** Keeps track of the existing MutationObservers so they can be reused. */
+  /**
+   * Keeps track of the existing MutationObservers so they can be reused.
+   *
+   * 跟踪现有的 MutationObserver，以便复用它们。
+   *
+   */
   private _observedElements = new Map<Element, {
     observer: MutationObserver | null,
     stream: Subject<MutationRecord[]>,
@@ -58,13 +71,25 @@ export class ContentObserver implements OnDestroy {
 
   /**
    * Observe content changes on an element.
+   *
+   * 观察元素的内容变化。
+   *
    * @param element The element to observe for content changes.
+   *
+   * 要观察内容变化的元素。
+   *
    */
   observe(element: Element): Observable<MutationRecord[]>;
 
   /**
    * Observe content changes on an element.
+   *
+   * 观察元素的内容变化。
+   *
    * @param element The element to observe for content changes.
+   *
+   * 要观察内容变化的元素。
+   *
    */
   observe(element: ElementRef<Element>): Observable<MutationRecord[]>;
 
@@ -85,6 +110,9 @@ export class ContentObserver implements OnDestroy {
   /**
    * Observes the given element by using the existing MutationObserver if available, or creating a
    * new one if not.
+   *
+   * 通过使用现有的 MutationObserver（如果可用）来观察指定的元素，否则就创建一个新的观察器。
+   *
    */
   private _observeElement(element: Element): Subject<MutationRecord[]> {
     if (!this._observedElements.has(element)) {
@@ -107,6 +135,9 @@ export class ContentObserver implements OnDestroy {
   /**
    * Un-observes the given element and cleans up the underlying MutationObserver if nobody else is
    * observing this element.
+   *
+   * 停止观察这个指定的元素，如果没有其他人在观察这个元素，就清理掉底层的 MutationObserver。
+   *
    */
   private _unobserveElement(element: Element) {
     if (this._observedElements.has(element)) {
@@ -117,7 +148,12 @@ export class ContentObserver implements OnDestroy {
     }
   }
 
-  /** Clean up the underlying MutationObserver for the specified element. */
+  /**
+   * Clean up the underlying MutationObserver for the specified element.
+   *
+   * 为指定的元素清理底层的 MutationObserver。
+   *
+   */
   private _cleanupObserver(element: Element) {
     if (this._observedElements.has(element)) {
       const {observer, stream} = this._observedElements.get(element)!;
@@ -134,18 +170,29 @@ export class ContentObserver implements OnDestroy {
 /**
  * Directive that triggers a callback whenever the content of
  * its associated element has changed.
+ *
+ * 每当关联元素的内容发生变化时触发回调指令。
+ *
  */
 @Directive({
   selector: '[cdkObserveContent]',
   exportAs: 'cdkObserveContent',
 })
 export class CdkObserveContent implements AfterContentInit, OnDestroy {
-  /** Event emitted for each change in the element's content. */
+  /**
+   * Event emitted for each change in the element's content.
+   *
+   * 针对元素内容中每个变化发出通知。
+   *
+   */
   @Output('cdkObserveContent') event = new EventEmitter<MutationRecord[]>();
 
   /**
    * Whether observing content is disabled. This option can be used
    * to disconnect the underlying MutationObserver until it is needed.
+   *
+   * 对内容的观察是否被禁用。此选项可用于断开与底层 MutationObserver 的连接，直到需要它为止。
+   *
    */
   @Input('cdkObserveContentDisabled')
   get disabled() { return this._disabled; }
@@ -155,7 +202,12 @@ export class CdkObserveContent implements AfterContentInit, OnDestroy {
   }
   private _disabled = false;
 
-  /** Debounce interval for emitting the changes. */
+  /**
+   * Debounce interval for emitting the changes.
+   *
+   * 用于在发出更改事件时防抖。
+   *
+   */
   @Input()
   get debounce(): number { return this._debounce; }
   set debounce(value: number) {

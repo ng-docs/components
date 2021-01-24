@@ -11,6 +11,9 @@ import {ListRange} from '@angular/cdk/collections';
 
 /**
  * An item to be repeated by the VirtualScrollViewport
+ *
+ * 要被 VirtualScrollViewport 重复的条目
+ *
  */
 export interface CdkVirtualScrollRepeater<T> {
   dataStream: Observable<T[] | ReadonlyArray<T>>;

@@ -17,6 +17,9 @@ import {_DisposeViewRepeaterStrategy, _VIEW_REPEATER_STRATEGY} from '@angular/cd
 
 /**
  * Wrapper for the CdkTable with Material design styles.
+ *
+ * 采用 Material Design 样式的 CdkTable 封装器。
+ *
  */
 @Component({
   selector: 'mat-table, table[mat-table]',
@@ -41,9 +44,19 @@ import {_DisposeViewRepeaterStrategy, _VIEW_REPEATER_STRATEGY} from '@angular/cd
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MatTable<T> extends CdkTable<T> {
-  /** Overrides the sticky CSS class set by the `CdkTable`. */
+  /**
+   * Overrides the sticky CSS class set by the `CdkTable`.
+   *
+   * `CdkTable` 设置的粘性 CSS 类。
+   *
+   */
   protected stickyCssClass = 'mat-table-sticky';
 
-  /** Overrides the need to add position: sticky on every sticky cell element in `CdkTable`. */
+  /**
+   * Overrides the need to add position: sticky on every sticky cell element in `CdkTable`.
+   *
+   * 改写在 `CdkTable` 每个粘性单元元素上添加 position: sticky 的需求。
+   *
+   */
   protected needsPositionStickyOnElement = false;
 }

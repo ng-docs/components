@@ -21,6 +21,8 @@ export class MatSliderHarness extends ComponentHarness {
    *   - `selector` finds a slider whose host element matches the given selector.
    *   - `id` finds a slider with specific id.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: SliderHarnessFilters = {}): HarnessPredicate<MatSliderHarness> {
     return new HarnessPredicate(MatSliderHarness, options);

@@ -53,7 +53,12 @@ export class MatToolbarRow {}
 export class MatToolbar extends _MatToolbarMixinBase implements CanColor, AfterViewInit {
   private _document: Document;
 
-  /** Reference to all toolbar row elements that have been projected. */
+  /**
+   * Reference to all toolbar row elements that have been projected.
+   *
+   * 到投影过来的所有工具栏行元素的引用。
+   *
+   */
   @ContentChildren(MatToolbarRow, {descendants: true}) _toolbarRows: QueryList<MatToolbarRow>;
 
   constructor(
@@ -75,6 +80,9 @@ export class MatToolbar extends _MatToolbarMixinBase implements CanColor, AfterV
 
   /**
    * Throws an exception when developers are attempting to combine the different toolbar row modes.
+   *
+   * 当开发人员试图组合不同的工具栏行模式时会抛出异常。
+   *
    */
   private _checkToolbarMixedModes() {
     if (this._toolbarRows.length && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -94,6 +102,9 @@ export class MatToolbar extends _MatToolbarMixinBase implements CanColor, AfterV
 
 /**
  * Throws an exception when attempting to combine the different toolbar row modes.
+ *
+ * 当试图组合不同的工具栏行模式时抛出异常。
+ *
  * @docs-private
  */
 export function throwToolbarMixedModesError() {

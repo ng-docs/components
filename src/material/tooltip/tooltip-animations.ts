@@ -17,6 +17,9 @@ import {
 
 /**
  * Animations used by MatTooltip.
+ *
+ * 供 MatTooltip 使用的动画。
+ *
  * @docs-private
  */
 export const matTooltipAnimations: {

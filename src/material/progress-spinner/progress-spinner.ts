@@ -24,17 +24,28 @@ import {CanColor, CanColorCtor, mixinColor} from '@angular/material/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
 
-/** Possible mode for a progress spinner. */
+/**
+ * Possible mode for a progress spinner.
+ *
+ * 进度圈的可能模式。
+ *
+ */
 export type ProgressSpinnerMode = 'determinate' | 'indeterminate';
 
 /**
  * Base reference size of the spinner.
+ *
+ * 进度圈的基本引用大小。
+ *
  * @docs-private
  */
 const BASE_SIZE = 100;
 
 /**
  * Base reference stroke width of the spinner.
+ *
+ * 进度圈的基本引用线宽。
+ *
  * @docs-private
  */
 const BASE_STROKE_WIDTH = 10;
@@ -47,20 +58,43 @@ class MatProgressSpinnerBase {
 const _MatProgressSpinnerMixinBase: CanColorCtor & typeof MatProgressSpinnerBase =
     mixinColor(MatProgressSpinnerBase, 'primary');
 
-/** Default `mat-progress-spinner` options that can be overridden. */
+/**
+ * Default `mat-progress-spinner` options that can be overridden.
+ *
+ * 默认的 `mat-progress-spinner` 选项，可以改写它们。
+ *
+ */
 export interface MatProgressSpinnerDefaultOptions {
-  /** Diameter of the spinner. */
+  /**
+   * Diameter of the spinner.
+   *
+   * 进度圈的直径。
+   *
+   */
   diameter?: number;
-  /** Width of the spinner's stroke. */
+  /**
+   * Width of the spinner's stroke.
+   *
+   * 进度圈的线宽。
+   *
+   */
   strokeWidth?: number;
   /**
    * Whether the animations should be force to be enabled, ignoring if the current environment is
    * using NoopAnimationsModule.
+   *
+   * 是否要强制启用动画，忽略当前环境是否正在使用 NoopAnimationsModule。
+   *
    */
   _forceAnimations?: boolean;
 }
 
-/** Injection token to be used to override the default options for `mat-progress-spinner`. */
+/**
+ * Injection token to be used to override the default options for `mat-progress-spinner`.
+ *
+ * 注入令牌，用于改写 `mat-progress-spinner` 的默认选项。
+ *
+ */
 export const MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS =
     new InjectionToken<MatProgressSpinnerDefaultOptions>('mat-progress-spinner-default-options', {
       providedIn: 'root',
@@ -102,6 +136,9 @@ const INDETERMINATE_ANIMATION_TEMPLATE = `
 
 /**
  * `<mat-progress-spinner>` component.
+ *
+ * `<mat-progress-spinner>` 组件
+ *
  */
 @Component({
   selector: 'mat-progress-spinner',
@@ -133,6 +170,9 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
    * Element to which we should add the generated style tags for the indeterminate animation.
    * For most elements this is the document, but for the ones in the Shadow DOM we need to
    * use the shadow root.
+   *
+   * 要为未定动画添加生成的样式标签的元素。对于大多数元素来说，这是 document，但对于 Shadow DOM 中的那些，我们要使用 Shadow DOM 根。
+   *
    */
   private _styleRoot: Node;
 
@@ -141,16 +181,34 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
    * We need to keep track of which elements the diameters were attached to, because for
    * elements in the Shadow DOM the style tags are attached to the shadow root, rather
    * than the document head.
+   *
+   * 跟踪现有实例的直径，以便对生成的样式进行重复数据删除（默认 d = 100）。我们需要跟踪这个直径已附着到哪些元素，因为对于 Shadow DOM 中的元素，样式标签会附着到 Shadow DOM 根上，而不是 document 头中。
+   *
    */
   private static _diameters = new WeakMap<Node, Set<number>>();
 
-  /** Whether the _mat-animation-noopable class should be applied, disabling animations.  */
+  /**
+   * Whether the \_mat-animation-noopable class should be applied, disabling animations.
+   *
+   * 是否应该使用 \_mat-animation-noopable 类，以禁用动画。
+   *
+   */
   _noopAnimations: boolean;
 
-  /** A string that is used for setting the spinner animation-name CSS property */
+  /**
+   * A string that is used for setting the spinner animation-name CSS property
+   *
+   * 一个字符串，用于设置进度圈的 animation-name CSS 属性
+   *
+   */
   _spinnerAnimationLabel: string;
 
-  /** The diameter of the progress spinner (will set width and height of svg). */
+  /**
+   * The diameter of the progress spinner (will set width and height of svg).
+   *
+   * 进度圈的直径（用于设置 svg 的宽度和高度）。
+   *
+   */
   @Input()
   get diameter(): number { return this._diameter; }
   set diameter(size: number) {
@@ -163,7 +221,12 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
     }
   }
 
-  /** Stroke width of the progress spinner. */
+  /**
+   * Stroke width of the progress spinner.
+   *
+   * 进度圈的线宽。
+   *
+   */
   @Input()
   get strokeWidth(): number {
     return this._strokeWidth || this.diameter / 10;
@@ -172,10 +235,20 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
     this._strokeWidth = coerceNumberProperty(value);
   }
 
-  /** Mode of the progress circle */
+  /**
+   * Mode of the progress circle
+   *
+   * 进步圈的模式
+   *
+   */
   @Input() mode: ProgressSpinnerMode = 'determinate';
 
-  /** Value of the progress circle. */
+  /**
+   * Value of the progress circle.
+   *
+   * 进度圈的值
+   *
+   */
   @Input()
   get value(): number {
     return this.mode === 'determinate' ? this._value : 0;
@@ -234,23 +307,43 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
     element.classList.add(animationClass);
   }
 
-  /** The radius of the spinner, adjusted for stroke width. */
+  /**
+   * The radius of the spinner, adjusted for stroke width.
+   *
+   * 进度圈的半径，根据线宽调整。
+   *
+   */
   _getCircleRadius() {
     return (this.diameter - BASE_STROKE_WIDTH) / 2;
   }
 
-  /** The view box of the spinner's svg element. */
+  /**
+   * The view box of the spinner's svg element.
+   *
+   * 进度圈 svg 元素的 viewBox。
+   *
+   */
   _getViewBox() {
     const viewBox = this._getCircleRadius() * 2 + this.strokeWidth;
     return `0 0 ${viewBox} ${viewBox}`;
   }
 
-  /** The stroke circumference of the svg circle. */
+  /**
+   * The stroke circumference of the svg circle.
+   *
+   * svg circle 的笔画周长。
+   *
+   */
   _getStrokeCircumference(): number {
     return 2 * Math.PI * this._getCircleRadius();
   }
 
-  /** The dash offset of the svg circle. */
+  /**
+   * The dash offset of the svg circle.
+   *
+   * svg circle 的短划线偏移量。
+   *
+   */
   _getStrokeDashOffset() {
     if (this.mode === 'determinate') {
       return this._getStrokeCircumference() * (100 - this._value) / 100;
@@ -264,12 +357,22 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
     return null;
   }
 
-  /** Stroke width of the circle in percent. */
+  /**
+   * Stroke width of the circle in percent.
+   *
+   * 圆的线宽，以百分比表示。
+   *
+   */
   _getCircleStrokeWidth() {
     return this.strokeWidth / this.diameter * 100;
   }
 
-  /** Dynamically generates a style tag containing the correct animation for this diameter. */
+  /**
+   * Dynamically generates a style tag containing the correct animation for this diameter.
+   *
+   * 动态生成一个样式标签，里面包含这个直径的正确动画。
+   *
+   */
   private _attachStyleNode(): void {
     const styleRoot = this._styleRoot;
     const currentDiameter = this._diameter;
@@ -291,7 +394,12 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
     }
   }
 
-  /** Generates animation styles adjusted for the spinner's diameter. */
+  /**
+   * Generates animation styles adjusted for the spinner's diameter.
+   *
+   * 根据进度圈的直径生成动画样式。
+   *
+   */
   private _getAnimationText(): string {
     const strokeCircumference = this._getStrokeCircumference();
     return INDETERMINATE_ANIMATION_TEMPLATE
@@ -301,7 +409,12 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
         .replace(/DIAMETER/g, `${this._spinnerAnimationLabel}`);
   }
 
-  /** Returns the circle diameter formatted for use with the animation-name CSS property. */
+  /**
+   * Returns the circle diameter formatted for use with the animation-name CSS property.
+   *
+   * 返回格式化过的圆直径，以便与 animation-name CSS 属性一起使用。
+   *
+   */
   private _getSpinnerAnimationLabel(): string {
     // The string of a float point number will include a period ‘.’ character,
     // which is not valid for a CSS animation-name.
@@ -317,8 +430,13 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
 /**
  * `<mat-spinner>` component.
  *
+ * `<mat-spinner>` 组件
+ *
  * This is a component definition to be used as a convenience reference to create an
  * indeterminate `<mat-progress-spinner>` instance.
+ *
+ * 这是一个组件定义，可以作为方便的引用它来创建一个未定 `<mat-progress-spinner>` 的实例。
+ *
  */
 @Component({
   selector: 'mat-spinner',

@@ -52,6 +52,9 @@ import {coerceNumberProperty} from '@angular/cdk/coercion';
 /**
  * CDK tree component that connects with a data source to retrieve data of type `T` and renders
  * dataNodes with hierarchy. Updates the dataNodes when new data is provided by the data source.
+ *
+ * CDK 树组件，用于连接数据源，检索 `T` 类型的数据，并使用分层结构渲染数据节点。当数据源提供新数据时，会更新数据节点。
+ *
  */
 @Component({
   selector: 'cdk-tree',
@@ -70,25 +73,53 @@ import {coerceNumberProperty} from '@angular/cdk/coercion';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer, OnDestroy, OnInit {
-  /** Subject that emits when the component has been destroyed. */
+  /**
+   * Subject that emits when the component has been destroyed.
+   *
+   * 组件被销毁后发出的主体对象。
+   *
+   */
   private _onDestroy = new Subject<void>();
 
-  /** Differ used to find the changes in the data provided by the data source. */
+  /**
+   * Differ used to find the changes in the data provided by the data source.
+   *
+   * 差分器，用于查找数据源所提供的数据的变化。
+   *
+   */
   private _dataDiffer: IterableDiffer<T>;
 
-  /** Stores the node definition that does not have a when predicate. */
+  /**
+   * Stores the node definition that does not have a when predicate.
+   *
+   * 存储那些没有 when 谓词的节点定义。
+   *
+   */
   private _defaultNodeDef: CdkTreeNodeDef<T> | null;
 
-  /** Data subscription */
+  /**
+   * Data subscription
+   *
+   * 数据订阅
+   *
+   */
   private _dataSubscription: Subscription | null;
 
-  /** Level of nodes */
+  /**
+   * Level of nodes
+   *
+   * 节点的层级
+   *
+   */
   private _levels: Map<T, number> = new Map<T, number>();
 
   /**
    * Provides a stream containing the latest data array to render. Influenced by the tree's
    * stream of view window (what dataNodes are currently on screen).
    * Data source can be an observable of data array, or a data array to render.
+   *
+   * 提供一个包含要渲染的最新数据数组的流。受树的视图流窗口影响（即当前屏幕上有哪些数据节点）。数据源可以是数据数组的可观察对象，也可以是要渲染的数据数组。
+   *
    */
   @Input()
   get dataSource(): DataSource<T> | Observable<T[]> | T[] { return this._dataSource; }
@@ -99,7 +130,12 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
   }
   private _dataSource: DataSource<T> | Observable<T[]> | T[];
 
-  /** The tree controller */
+  /**
+   * The tree controller
+   *
+   * 树控制器
+   *
+   */
   @Input() treeControl: TreeControl<T, K>;
 
   /**
@@ -107,13 +143,22 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
    * to `ngFor` `trackBy` function. Optimize node operations by identifying a node based on its data
    * relative to the function to know if a node should be added/removed/moved.
    * Accepts a function that takes two parameters, `index` and `item`.
+   *
+   * 跟踪函数，用于检查数据变化的差异。类似于 `ngFor` 的 `trackBy` 函数。
+   * 可以优化节点操作，方法是根据该函数处理后的数据来标识一个节点，以了解该节点是否应添加/删除/移动。接受带两个参数 `index` 和 `item` 的函数。
+   *
    */
   @Input() trackBy: TrackByFunction<T>;
 
   // Outlets within the tree's template where the dataNodes will be inserted.
   @ViewChild(CdkTreeNodeOutlet, {static: true}) _nodeOutlet: CdkTreeNodeOutlet;
 
-  /** The tree node template for the tree */
+  /**
+   * The tree node template for the tree
+   *
+   * 树的节点模板
+   *
+   */
   @ContentChildren(CdkTreeNodeDef, {
     // We need to use `descendants: true`, because Ivy will no longer match
     // indirect descendants if it's left as false.
@@ -125,6 +170,9 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
   /**
    * Stream containing the latest information on what rows are being displayed on screen.
    * Can be used by the data source to as a heuristic of what data should be provided.
+   *
+   * 这个流包含哪些节点正显示在屏幕上的最新信息。可以被数据源用作该提供哪些数据的线索。
+   *
    */
   viewChange =
     new BehaviorSubject<{start: number, end: number}>({start: 0, end: Number.MAX_VALUE});
@@ -176,6 +224,9 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
    * Switch to the provided data source by resetting the data and unsubscribing from the current
    * render change subscription if one exists. If the data source is null, interpret this by
    * clearing the node outlet. Otherwise start listening for new data.
+   *
+   * 通过重置数据来切换到所提供的数据源，并取消订阅当前的渲染变更流（如果有）。如果该数据源为 null，就理解为清除该节点的出口地标。否则就开始监听新数据。
+   *
    */
   private _switchDataSource(dataSource: DataSource<T> | Observable<T[]> | T[]) {
     if (this._dataSource && typeof (this._dataSource as DataSource<T>).disconnect === 'function') {
@@ -198,7 +249,12 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
     }
   }
 
-  /** Set up a subscription for the data provided by the data source. */
+  /**
+   * Set up a subscription for the data provided by the data source.
+   *
+   * 为数据源提供的数据设置订阅。
+   *
+   */
   private _observeRenderChanges() {
     let dataStream: Observable<T[] | ReadonlyArray<T>> | undefined;
 
@@ -218,7 +274,12 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
     }
   }
 
-  /** Check for changes made in the data and render each change (node added/removed/moved). */
+  /**
+   * Check for changes made in the data and render each change (node added/removed/moved).
+   *
+   * 检查数据所做的更改，并渲染每个更改（添加/删除/移动节点）。
+   *
+   */
   renderNodeChanges(data: T[] | ReadonlyArray<T>, dataDiffer: IterableDiffer<T> = this._dataDiffer,
                     viewContainer: ViewContainerRef = this._nodeOutlet.viewContainer,
                     parentData?: T) {
@@ -247,6 +308,9 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
    * one node definition, it is returned. Otherwise, find the node definition that has a when
    * predicate that returns true with the data. If none return true, return the default node
    * definition.
+   *
+   * 找到与此节点数据相匹配的节点定义。如果只有一个节点定义，就返回它。否则，找到具有 when 谓词并且该谓词返回 true 的节点定义。如果全都不返回 true，则返回默认的节点定义。
+   *
    */
   _getNodeDef(data: T, i: number): CdkTreeNodeDef<T> {
     if (this._nodeDefs.length === 1) { return this._nodeDefs.first; }
@@ -264,6 +328,9 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
   /**
    * Create the embedded view for the data node template and place it in the correct index location
    * within the data node view container.
+   *
+   * 为数据节点模板创建嵌入式视图，并把它放在数据节点视图容器的正确索引位置。
+   *
    */
   insertNode(nodeData: T, index: number, viewContainer?: ViewContainerRef, parentData?: T) {
     const node = this._getNodeDef(nodeData, index);
@@ -298,6 +365,9 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
 
 /**
  * Tree node for CdkTree. It contains the data in the tree node.
+ *
+ * CdkTree 的树节点。它包含树节点中的数据。
+ *
  */
 @Directive({
   selector: 'cdk-tree-node',
@@ -306,9 +376,18 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
 export class CdkTreeNode<T, K = T> implements DoCheck, FocusableOption, OnDestroy, OnInit {
   /**
    * The role of the tree node.
+   *
+   * 树节点的角色是什么。
+   *
    * @deprecated The correct role is 'treeitem', 'group' should not be used. This input will be
    *   removed in a future version.
+   *
+   * 正确的角色是 'treeitem'，不应该使用 'group'。该输入属性将在以后的版本中删除。
+   *
    * @breaking-change 12.0.0 Remove this input
+   *
+   * 12.0.0 删除该输入属性
+   *
    */
   @Input() get role(): 'treeitem'|'group' { return 'treeitem'; }
 
@@ -320,18 +399,36 @@ export class CdkTreeNode<T, K = T> implements DoCheck, FocusableOption, OnDestro
   /**
    * The most recently created `CdkTreeNode`. We save it in static variable so we can retrieve it
    * in `CdkTree` and set the data to it.
+   *
+   * 最近创建的 `CdkTreeNode`。我们把它保存在静态变量中，这样我们就可以在 `CdkTree` 中检索它并把数据设置成它。
+   *
    */
   static mostRecentTreeNode: CdkTreeNode<any> | null = null;
 
-  /** Subject that emits when the component has been destroyed. */
+  /**
+   * Subject that emits when the component has been destroyed.
+   *
+   * 组件被销毁后发出通知的主体对象。
+   *
+   */
   protected _destroyed = new Subject<void>();
 
-  /** Emits when the node's data has changed. */
+  /**
+   * Emits when the node's data has changed.
+   *
+   * 当节点数据发生变化时触发。
+   *
+   */
   _dataChanges = new Subject<void>();
 
   private _parentNodeAriaLevel: number;
 
-  /** The tree node's data. */
+  /**
+   * The tree node's data.
+   *
+   * 树节点的数据。
+   *
+   */
   get data(): T { return this._data; }
   set data(value: T) {
     if (value !== this._data) {
@@ -399,7 +496,12 @@ export class CdkTreeNode<T, K = T> implements DoCheck, FocusableOption, OnDestro
     this._destroyed.complete();
   }
 
-  /** Focuses the menu item. Implements for FocusableOption. */
+  /**
+   * Focuses the menu item. Implements for FocusableOption.
+   *
+   * 让此菜单项获得焦点。是对 FocusableOption 的实现。
+   *
+   */
   focus(): void {
     this._elementRef.nativeElement.focus();
   }

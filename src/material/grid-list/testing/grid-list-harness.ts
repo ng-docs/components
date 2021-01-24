@@ -21,6 +21,8 @@ export class MatGridListHarness extends ComponentHarness {
    * that meets certain criteria.
    * @param options Options for filtering which dialog instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: GridListHarnessFilters = {}): HarnessPredicate<MatGridListHarness> {
     return new HarnessPredicate(MatGridListHarness, options);

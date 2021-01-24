@@ -16,13 +16,26 @@ export type Direction = 'ltr' | 'rtl';
 /**
  * The directionality (LTR / RTL) context for the application (or a subtree of it).
  * Exposes the current direction and a stream of direction changes.
+ *
+ * 应用程序（或其子树）的方向性（LTR/RTL）上下文。对外暴露当前的方向和一个表示方向变化的流。
+ *
  */
 @Injectable({providedIn: 'root'})
 export class Directionality implements OnDestroy {
-  /** The current 'ltr' or 'rtl' value. */
+  /**
+   * The current 'ltr' or 'rtl' value.
+   *
+   * 当前 'ltr' 或 'rtl' 的值。
+   *
+   */
   readonly value: Direction = 'ltr';
 
-  /** Stream that emits whenever the 'ltr' / 'rtl' state changes. */
+  /**
+   * Stream that emits whenever the 'ltr' / 'rtl' state changes.
+   *
+   * 每当 'ltr' / 'rtl' 状态发生变化时就会触发的流。
+   *
+   */
   readonly change = new EventEmitter<Direction>();
 
   constructor(@Optional() @Inject(DIR_DOCUMENT) _document?: any) {

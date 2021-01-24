@@ -15,7 +15,12 @@ import {
 } from '@angular/animations';
 import {AnimationCurves, AnimationDurations} from '@angular/material/core';
 
-/** Animations used by the Material bottom sheet. */
+/**
+ * Animations used by the Material bottom sheet.
+ *
+ * Material 底部操作表使用的动画。
+ *
+ */
 export const matBottomSheetAnimations: {
   readonly bottomSheetState: AnimationTriggerMetadata;
 } = {

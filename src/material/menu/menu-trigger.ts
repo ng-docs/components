@@ -42,7 +42,12 @@ import {MatMenuItem} from './menu-item';
 import {MatMenuPanel, MAT_MENU_PANEL} from './menu-panel';
 import {MenuPositionX, MenuPositionY} from './menu-positions';
 
-/** Injection token that determines the scroll handling while the menu is open. */
+/**
+ * Injection token that determines the scroll handling while the menu is open.
+ *
+ * 当注册菜单打开时，它确定滚动处理的注入令牌。
+ *
+ */
 export const MAT_MENU_SCROLL_STRATEGY =
     new InjectionToken<() => ScrollStrategy>('mat-menu-scroll-strategy');
 
@@ -58,15 +63,30 @@ export const MAT_MENU_SCROLL_STRATEGY_FACTORY_PROVIDER = {
   useFactory: MAT_MENU_SCROLL_STRATEGY_FACTORY,
 };
 
-/** Default top padding of the menu panel. */
+/**
+ * Default top padding of the menu panel.
+ *
+ * 菜单面板的默认顶部填充。
+ *
+ */
 export const MENU_PANEL_TOP_PADDING = 8;
 
-/** Options for binding a passive event listener. */
+/**
+ * Options for binding a passive event listener.
+ *
+ * 绑定被动事件监听器的选项。
+ *
+ */
 const passiveEventListenerOptions = normalizePassiveListenerOptions({passive: true});
 
 // TODO(andrewseguin): Remove the kebab versions in favor of camelCased attribute selectors
 
-/** Directive applied to an element that should trigger a `mat-menu`. */
+/**
+ * Directive applied to an element that should trigger a `mat-menu`.
+ *
+ * Directive（Directive）应用于一个触发 `mat-menu` 的元素。
+ *
+ */
 @Directive({
   selector: `[mat-menu-trigger-for], [matMenuTriggerFor]`,
   host: {
@@ -92,12 +112,18 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
   /**
    * We're specifically looking for a `MatMenu` here since the generic `MatMenuPanel`
    * interface lacks some functionality around nested menus and animations.
+   *
+   * 我们特意在 `MatMenu` ，因为通用的 `MatMenuPanel` 接口在嵌套的菜单和动画中缺乏一些功能。
+   *
    */
   private _parentMaterialMenu: _MatMenuBase | undefined;
 
   /**
    * Handles touch start events on the trigger.
    * Needs to be an arrow function so we can easily use addEventListener and removeEventListener.
+   *
+   * 处理触发器上的 touch 启动事件。需要成为一个箭头函数，以便我们可以轻松使用 addEventListener 和 removeEventListener。
+   *
    */
   private _handleTouchStart = () => this._openedBy = 'touch';
 
@@ -106,6 +132,7 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
   _openedBy: Exclude<FocusOrigin, 'program'> = null;
 
   /**
+   *
    * @deprecated
    * @breaking-change 8.0.0
    */
@@ -115,7 +142,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     this.menu = v;
   }
 
-  /** References the menu instance that the trigger is associated with. */
+  /**
+   * References the menu instance that the trigger is associated with.
+   *
+   * 引用触发器所关联的菜单实例。
+   *
+   */
   @Input('matMenuTriggerFor')
   get menu() { return this._menu; }
   set menu(menu: MatMenuPanel) {
@@ -144,33 +176,61 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
   }
   private _menu: MatMenuPanel;
 
-  /** Data to be passed along to any lazily-rendered content. */
+  /**
+   * Data to be passed along to any lazily-rendered content.
+   *
+   * 要传递给任何一段时间的惰性内容的数据。
+   *
+   */
   @Input('matMenuTriggerData') menuData: any;
 
   /**
    * Whether focus should be restored when the menu is closed.
    * Note that disabling this option can have accessibility implications
    * and it's up to you to manage focus, if you decide to turn it off.
+   *
+   * 当菜单关闭时，是否要恢复焦点。请注意，禁用此选项可能会产生辅助功能，如果你决定将其关闭，则可由此来管理焦点。
+   *
    */
   @Input('matMenuTriggerRestoreFocus') restoreFocus: boolean = true;
 
-  /** Event emitted when the associated menu is opened. */
+  /**
+   * Event emitted when the associated menu is opened.
+   *
+   * 关联菜单打开时发出的事件。
+   *
+   */
   @Output() readonly menuOpened: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * Event emitted when the associated menu is opened.
+   *
+   * 关联菜单打开时发出的事件。
+   *
    * @deprecated Switch to `menuOpened` instead
+   *
+   * 切换到 `menuOpened` 代替
    * @breaking-change 8.0.0
    */
   // tslint:disable-next-line:no-output-on-prefix
   @Output() readonly onMenuOpen: EventEmitter<void> = this.menuOpened;
 
-  /** Event emitted when the associated menu is closed. */
+  /**
+   * Event emitted when the associated menu is closed.
+   *
+   * 当关联的菜单关闭时会发出本事件。
+   *
+   */
   @Output() readonly menuClosed: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * Event emitted when the associated menu is closed.
+   *
+   * 当关联的菜单关闭时会发出本事件。
+   *
    * @deprecated Switch to `menuClosed` instead
+   *
+   * 切换到 `menuClosed` 代替
    * @breaking-change 8.0.0
    */
   // tslint:disable-next-line:no-output-on-prefix
@@ -218,27 +278,52 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     this._hoverSubscription.unsubscribe();
   }
 
-  /** Whether the menu is open. */
+  /**
+   * Whether the menu is open.
+   *
+   * 菜单是否已打开。
+   *
+   */
   get menuOpen(): boolean {
     return this._menuOpen;
   }
 
-  /** The text direction of the containing app. */
+  /**
+   * The text direction of the containing app.
+   *
+   * 包含该应用的文字方向。
+   *
+   */
   get dir(): Direction {
     return this._dir && this._dir.value === 'rtl' ? 'rtl' : 'ltr';
   }
 
-  /** Whether the menu triggers a sub-menu or a top-level one. */
+  /**
+   * Whether the menu triggers a sub-menu or a top-level one.
+   *
+   * 菜单是触发了子菜单，还是触发了顶级菜单。
+   *
+   */
   triggersSubmenu(): boolean {
     return !!(this._menuItemInstance && this._parentMaterialMenu);
   }
 
-  /** Toggles the menu between the open and closed states. */
+  /**
+   * Toggles the menu between the open and closed states.
+   *
+   * 在打开状态和关闭状态之间切换菜单。
+   *
+   */
   toggleMenu(): void {
     return this._menuOpen ? this.closeMenu() : this.openMenu();
   }
 
-  /** Opens the menu. */
+  /**
+   * Opens the menu.
+   *
+   * 打开菜单
+   *
+   */
   openMenu(): void {
     if (this._menuOpen) {
       return;
@@ -266,14 +351,25 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     }
   }
 
-  /** Closes the menu. */
+  /**
+   * Closes the menu.
+   *
+   * 关闭菜单。
+   *
+   */
   closeMenu(): void {
     this.menu.close.emit();
   }
 
   /**
    * Focuses the menu trigger.
+   *
+   * 重点关注菜单触发器。
+   *
    * @param origin Source of the menu trigger's focus.
+   *
+   * 菜单触发器的焦点来源于此。
+   *
    */
   focus(origin?: FocusOrigin, options?: FocusOptions) {
     if (this._focusMonitor && origin) {
@@ -283,7 +379,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     }
   }
 
-  /** Closes the menu and does the necessary cleanup. */
+  /**
+   * Closes the menu and does the necessary cleanup.
+   *
+   * 关闭菜单并进行必要的清理工作。
+   *
+   */
   private _destroyMenu() {
     if (!this._overlayRef || !this.menuOpen) {
       return;
@@ -326,6 +427,9 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
   /**
    * This method sets the menu state to open and focuses the first item if
    * the menu was opened via the keyboard.
+   *
+   * 如果菜单是通过键盘打开的，这个方法会把菜单状态设置为打开并聚焦第一个条目。
+   *
    */
   private _initMenu(): void {
     this.menu.parentMenu = this.triggersSubmenu() ? this._parentMaterialMenu : undefined;
@@ -335,7 +439,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     this.menu.focusFirstItem(this._openedBy || 'program');
   }
 
-  /** Updates the menu elevation based on the amount of parent menus that it has. */
+  /**
+   * Updates the menu elevation based on the amount of parent menus that it has.
+   *
+   * 菜单的更新窗口根据它所拥有的父菜单量来更新。
+   *
+   */
   private _setMenuElevation(): void {
     if (this.menu.setElevation) {
       let depth = 0;
@@ -350,7 +459,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     }
   }
 
-  /** Restores focus to the element that was focused before the menu was open. */
+  /**
+   * Restores focus to the element that was focused before the menu was open.
+   *
+   * 将焦点恢复到菜单打开前聚焦的元素。
+   *
+   */
   private _restoreFocus() {
     // We should reset focus if the user is navigating using a keyboard or
     // if we have a top-level trigger which might cause focus to be lost
@@ -381,6 +495,9 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
   /**
    * This method checks that a valid instance of MatMenu has been passed into
    * matMenuTriggerFor. If not, an exception is thrown.
+   *
+   * 这个方法检查 MatMenu 的一个有效实例是否已经传入 matMenuTriggerFor。如果没有，抛出一个异常。
+   *
    */
   private _checkMenu() {
     if (!this.menu && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -391,6 +508,9 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
   /**
    * This method creates the overlay from the provided menu's template and saves its
    * OverlayRef so that it can be attached to the DOM when openMenu is called.
+   *
+   * 这个方法从提供的菜单模板中创建了 overlay，并保存了 OverlayRef，以便在调用 openMenu 时把它附着到 DOM 上。
+   *
    */
   private _createOverlay(): OverlayRef {
     if (!this._overlayRef) {
@@ -409,6 +529,9 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
 
   /**
    * This method builds the configuration object needed to create the overlay, the OverlayState.
+   *
+   * 这个方法构建了创建浮层 OverlayState 所需的配置对象。
+   *
    * @returns OverlayConfig
    */
   private _getOverlayConfig(): OverlayConfig {
@@ -429,6 +552,9 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
    * Listens to changes in the position of the overlay and sets the correct classes
    * on the menu based on the new position. This ensures the animation origin is always
    * correct, even if a fallback position is used for the overlay.
+   *
+   * 监听浮层位置的变化，并根据新的位置在菜单上设置正确的类。即使在后备位置使用浮层，这也能确保动画原点始终正确。
+   *
    */
   private _subscribeToPositions(position: FlexibleConnectedPositionStrategy): void {
     if (this.menu.setPositionClasses) {
@@ -444,7 +570,13 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
   /**
    * Sets the appropriate positions on a position strategy
    * so the overlay connects with the trigger correctly.
+   *
+   * 在位置策略上设置合适的位置，使浮层与触发器正确连接。
+   *
    * @param positionStrategy Strategy whose position to update.
+   *
+   * 策略的位置要更新。
+   *
    */
   private _setPosition(positionStrategy: FlexibleConnectedPositionStrategy) {
     let [originX, originFallbackX]: HorizontalConnectionPos[] =
@@ -488,7 +620,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     ]);
   }
 
-  /** Returns a stream that emits whenever an action that should close the menu occurs. */
+  /**
+   * Returns a stream that emits whenever an action that should close the menu occurs.
+   *
+   * 返回当应该关闭菜单的动作发生时才会发出的流。
+   *
+   */
   private _menuClosingActions() {
     const backdrop = this._overlayRef!.backdropClick();
     const detachments = this._overlayRef!.detachments();
@@ -501,7 +638,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     return merge(backdrop, parentClose, hover, detachments);
   }
 
-  /** Handles mouse presses on the trigger. */
+  /**
+   * Handles mouse presses on the trigger.
+   *
+   * 在触发器上按下鼠标。
+   *
+   */
   _handleMousedown(event: MouseEvent): void {
     if (!isFakeMousedownFromScreenReader(event)) {
       // Since right or middle button clicks won't trigger the `click` event,
@@ -517,7 +659,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     }
   }
 
-  /** Handles key presses on the trigger. */
+  /**
+   * Handles key presses on the trigger.
+   *
+   * 处理扳机上的按键操作。
+   *
+   */
   _handleKeydown(event: KeyboardEvent): void {
     const keyCode = event.keyCode;
 
@@ -534,7 +681,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     }
   }
 
-  /** Handles click events on the trigger. */
+  /**
+   * Handles click events on the trigger.
+   *
+   * 处理触发器上的 click 事件。
+   *
+   */
   _handleClick(event: MouseEvent): void {
     if (this.triggersSubmenu()) {
       // Stop event propagation to avoid closing the parent menu.
@@ -545,7 +697,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     }
   }
 
-  /** Handles the cases where the user hovers over the trigger. */
+  /**
+   * Handles the cases where the user hovers over the trigger.
+   *
+   * 处理用户将鼠标悬停在触发器上的情况。
+   *
+   */
   private _handleHover() {
     // Subscribe to changes in the hovered item in order to toggle the panel.
     if (!this.triggersSubmenu() || !this._parentMaterialMenu) {
@@ -578,7 +735,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
       });
   }
 
-  /** Gets the portal that should be attached to the overlay. */
+  /**
+   * Gets the portal that should be attached to the overlay.
+   *
+   * 获取应该附着到浮层的传送点。
+   *
+   */
   private _getPortal(): TemplatePortal {
     // Note that we can avoid this check by keeping the portal on the menu panel.
     // While it would be cleaner, we'd have to introduce another required method on

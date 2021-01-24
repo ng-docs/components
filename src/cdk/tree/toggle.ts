@@ -13,10 +13,18 @@ import {CdkTree, CdkTreeNode} from './tree';
 
 /**
  * Node toggle to expand/collapse the node.
+ *
+ * 切换节点，以展开/折叠节点。
+ *
  */
 @Directive({selector: '[cdkTreeNodeToggle]'})
 export class CdkTreeNodeToggle<T, K = T> {
-  /** Whether expand/collapse the node recursively. */
+  /**
+   * Whether expand/collapse the node recursively.
+   *
+   * 是否递归展开/折叠节点。
+   *
+   */
   @Input('cdkTreeNodeToggleRecursive')
   get recursive(): boolean { return this._recursive; }
   set recursive(value: boolean) { this._recursive = coerceBooleanProperty(value); }

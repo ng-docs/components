@@ -16,6 +16,9 @@ import {
 
 /**
  * Animations used by the Material snack bar.
+ *
+ * 供 Material快餐栏使用的动画。
+ *
  * @docs-private
  */
 export const matSnackBarAnimations: {

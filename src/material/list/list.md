@@ -219,7 +219,7 @@ To add a divider, use `<mat-divider>`.
 
 The type of list used in any given situation depends on how the end-user will be interacting with it.
 
-在给定的场景下使用哪种列表，取决于最终用户将如何与之交互。
+在指定的场景下使用哪种列表，取决于最终用户将如何与之交互。
 
 #### Navigation
 

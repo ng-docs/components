@@ -21,7 +21,12 @@ import {PositionStrategy} from './position/position-strategy';
 import {ScrollStrategy} from './scroll';
 
 
-/** An object where all of its properties cannot be written. */
+/**
+ * An object where all of its properties cannot be written.
+ *
+ * 所有属性都不可变的对象。
+ *
+ */
 export type ImmutableObject<T> = {
   readonly [P in keyof T]: T[P];
 };
@@ -29,6 +34,9 @@ export type ImmutableObject<T> = {
 /**
  * Reference to an overlay that has been created with the Overlay service.
  * Used to manipulate or dispose of said overlay.
+ *
+ * 到使用浮层服务创建的浮层的引用。用来操纵或清除此浮层。
+ *
  */
 export class OverlayRef implements PortalOutlet, OverlayReference {
   private _backdropElement: HTMLElement | null = null;
@@ -43,13 +51,26 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
   /**
    * Reference to the parent of the `_host` at the time it was detached. Used to restore
    * the `_host` to its original position in the DOM when it gets re-attached.
+   *
+   * 在拆除浮层时，引用其 `_host` 的父元素。当重新附着时，用于把 `_host` 恢复其在 DOM 中的原始位置。
+   *
    */
   private _previousHostParent: HTMLElement;
 
-  /** Stream of keydown events dispatched to this overlay. */
+  /**
+   * Stream of keydown events dispatched to this overlay.
+   *
+   * 派发给此浮层的 keydown 事件流。
+   *
+   */
   _keydownEvents = new Subject<KeyboardEvent>();
 
-  /** Stream of mouse outside events dispatched to this overlay. */
+  /**
+   * Stream of mouse outside events dispatched to this overlay.
+   *
+   * 将浮层外鼠标传给此浮层的事件流。
+   *
+   */
   _outsidePointerEvents = new Subject<MouseEvent>();
 
   constructor(
@@ -71,12 +92,22 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     this._positionStrategy = _config.positionStrategy;
   }
 
-  /** The overlay's HTML element */
+  /**
+   * The overlay's HTML element
+   *
+   * 浮层的 HTML 元素
+   *
+   */
   get overlayElement(): HTMLElement {
     return this._pane;
   }
 
-  /** The overlay's backdrop HTML element. */
+  /**
+   * The overlay's backdrop HTML element.
+   *
+   * 浮层的背景板 HTML 元素。
+   *
+   */
   get backdropElement(): HTMLElement | null {
     return this._backdropElement;
   }
@@ -85,6 +116,9 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
    * Wrapper around the panel element. Can be used for advanced
    * positioning where a wrapper with specific styling is
    * required around the overlay pane.
+   *
+   * 面板元素周围的包装器。可用于高级定位，在这里，需要在浮层面板周围使用具有特定样式的包装器。
+   *
    */
   get hostElement(): HTMLElement {
     return this._host;
@@ -98,8 +132,16 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
    * Attaches content, given via a Portal, to the overlay.
    * If the overlay is configured to have a backdrop, it will be created.
    *
+   * 把通过传送点给出的内容附着到浮层上。如果浮层配置为具有背景板，也会创建它。
+   *
    * @param portal Portal instance to which to attach the overlay.
+   *
+   * 要附着的传送点实例。
+   *
    * @returns The portal attachment result.
+   *
+   * 传送点附着的结果。
+   *
    */
   attach(portal: Portal<any>): any {
     let attachResult = this._portalOutlet.attach(portal);
@@ -160,7 +202,13 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
 
   /**
    * Detaches an overlay from a portal.
+   *
+   * 从浮层中拆除传送点。
+   *
    * @returns The portal detachment result.
+   *
+   * 拆除传送点的结果。
+   *
    */
   detach(): any {
     if (!this.hasAttached()) {
@@ -198,7 +246,12 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     return detachmentResult;
   }
 
-  /** Cleans up the overlay from the DOM. */
+  /**
+   * Cleans up the overlay from the DOM.
+   *
+   * 清理 DOM 中的浮层。
+   *
+   */
   dispose(): void {
     const isAttached = this.hasAttached();
 
@@ -231,49 +284,94 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     this._detachments.complete();
   }
 
-  /** Whether the overlay has attached content. */
+  /**
+   * Whether the overlay has attached content.
+   *
+   * 浮层是否附着着内容。
+   *
+   */
   hasAttached(): boolean {
     return this._portalOutlet.hasAttached();
   }
 
-  /** Gets an observable that emits when the backdrop has been clicked. */
+  /**
+   * Gets an observable that emits when the backdrop has been clicked.
+   *
+   * 获取一个当单击背景时会发出通知的可观察对象。
+   *
+   */
   backdropClick(): Observable<MouseEvent> {
     return this._backdropClick;
   }
 
-  /** Gets an observable that emits when the overlay has been attached. */
+  /**
+   * Gets an observable that emits when the overlay has been attached.
+   *
+   * 获取一个在附着浮层时会发出通知的可观察对象。
+   *
+   */
   attachments(): Observable<void> {
     return this._attachments;
   }
 
-  /** Gets an observable that emits when the overlay has been detached. */
+  /**
+   * Gets an observable that emits when the overlay has been detached.
+   *
+   * 获取一个当浮层已被拆除时会发出的可观察对象。
+   *
+   */
   detachments(): Observable<void> {
     return this._detachments;
   }
 
-  /** Gets an observable of keydown events targeted to this overlay. */
+  /**
+   * Gets an observable of keydown events targeted to this overlay.
+   *
+   * 获取一个以此浮层为目标的 keydown 事件的可观察对象。
+   *
+   */
   keydownEvents(): Observable<KeyboardEvent> {
     return this._keydownEvents;
   }
 
-  /** Gets an observable of pointer events targeted outside this overlay. */
+  /**
+   * Gets an observable of pointer events targeted outside this overlay.
+   *
+   * 获取一个此浮层之外的指针事件的可观察对象。
+   *
+   */
   outsidePointerEvents(): Observable<MouseEvent> {
     return this._outsidePointerEvents;
   }
 
-  /** Gets the current overlay configuration, which is immutable. */
+  /**
+   * Gets the current overlay configuration, which is immutable.
+   *
+   * 获取当前的浮层配置，它是不可变对象。
+   *
+   */
   getConfig(): OverlayConfig {
     return this._config;
   }
 
-  /** Updates the position of the overlay based on the position strategy. */
+  /**
+   * Updates the position of the overlay based on the position strategy.
+   *
+   * 根据定位策略更新浮层的位置。
+   *
+   */
   updatePosition(): void {
     if (this._positionStrategy) {
       this._positionStrategy.apply();
     }
   }
 
-  /** Switches to a new position strategy and updates the overlay position. */
+  /**
+   * Switches to a new position strategy and updates the overlay position.
+   *
+   * 切换到新的定位策略并更新浮层的位置。
+   *
+   */
   updatePositionStrategy(strategy: PositionStrategy): void {
     if (strategy === this._positionStrategy) {
       return;
@@ -291,26 +389,46 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     }
   }
 
-  /** Update the size properties of the overlay. */
+  /**
+   * Update the size properties of the overlay.
+   *
+   * 更新浮层的大小属性。
+   *
+   */
   updateSize(sizeConfig: OverlaySizeConfig): void {
     this._config = {...this._config, ...sizeConfig};
     this._updateElementSize();
   }
 
-  /** Sets the LTR/RTL direction for the overlay. */
+  /**
+   * Sets the LTR/RTL direction for the overlay.
+   *
+   * 设置浮层的 LTR/RTL 方向。
+   *
+   */
   setDirection(dir: Direction | Directionality): void {
     this._config = {...this._config, direction: dir};
     this._updateElementDirection();
   }
 
-  /** Add a CSS class or an array of classes to the overlay pane. */
+  /**
+   * Add a CSS class or an array of classes to the overlay pane.
+   *
+   * 把一个或一组 CSS 类添加到浮层面板中。
+   *
+   */
   addPanelClass(classes: string | string[]): void {
     if (this._pane) {
       this._toggleClasses(this._pane, classes, true);
     }
   }
 
-  /** Remove a CSS class or an array of classes from the overlay pane. */
+  /**
+   * Remove a CSS class or an array of classes from the overlay pane.
+   *
+   * 从浮层面板中删除一个或一组 CSS 类。
+   *
+   */
   removePanelClass(classes: string | string[]): void {
     if (this._pane) {
       this._toggleClasses(this._pane, classes, false);
@@ -319,6 +437,9 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
 
   /**
    * Returns the layout direction of the overlay panel.
+   *
+   * 返回浮层面板的布局方向。
+   *
    */
   getDirection(): Direction {
     const direction = this._config.direction;
@@ -330,7 +451,12 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     return typeof direction === 'string' ? direction : direction.value;
   }
 
-  /** Switches to a new scroll strategy. */
+  /**
+   * Switches to a new scroll strategy.
+   *
+   * 切换到新的滚动策略。
+   *
+   */
   updateScrollStrategy(strategy: ScrollStrategy): void {
     if (strategy === this._scrollStrategy) {
       return;
@@ -345,12 +471,22 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     }
   }
 
-  /** Updates the text direction of the overlay panel. */
+  /**
+   * Updates the text direction of the overlay panel.
+   *
+   * 更新浮层面板的文本方向。
+   *
+   */
   private _updateElementDirection() {
     this._host.setAttribute('dir', this.getDirection());
   }
 
-  /** Updates the size of the overlay element based on the overlay config. */
+  /**
+   * Updates the size of the overlay element based on the overlay config.
+   *
+   * 基于浮层配置更新浮层元素的大小。
+   *
+   */
   private _updateElementSize() {
     if (!this._pane) {
       return;
@@ -366,12 +502,22 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     style.maxHeight = coerceCssPixelValue(this._config.maxHeight);
   }
 
-  /** Toggles the pointer events for the overlay pane element. */
+  /**
+   * Toggles the pointer events for the overlay pane element.
+   *
+   * 切换浮层面板元素的指针事件。
+   *
+   */
   private _togglePointerEvents(enablePointer: boolean) {
     this._pane.style.pointerEvents = enablePointer ? 'auto' : 'none';
   }
 
-  /** Attaches a backdrop for this overlay. */
+  /**
+   * Attaches a backdrop for this overlay.
+   *
+   * 为这个浮层附着一个背景板。
+   *
+   */
   private _attachBackdrop() {
     const showingClass = 'cdk-overlay-backdrop-showing';
 
@@ -410,6 +556,9 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
    * that should be behind it, was destroyed. The next time both of them are opened,
    * the stacking will be wrong, because the detached element's pane will still be
    * in its original DOM position.
+   *
+   * 更新元素的堆叠顺序，并根据需要把它移动到顶层。某些情况下，这是必须的，比如一个浮层要从元素上拆除，而另一个浮层（在它后面）则要被销毁。下次打开时，两个浮层都是错误的，因为要从元素上拆除的面板仍然在原来的 DOM 位置。
+   *
    */
   private _updateStackingOrder() {
     if (this._host.nextSibling) {
@@ -417,7 +566,12 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     }
   }
 
-  /** Detaches the backdrop (if any) associated with the overlay. */
+  /**
+   * Detaches the backdrop (if any) associated with the overlay.
+   *
+   * 拆除与本浮层关联的背景板（如果有的话）。
+   *
+   */
   detachBackdrop(): void {
     let backdropToDetach = this._backdropElement;
 
@@ -467,7 +621,12 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     timeoutId = this._ngZone.runOutsideAngular(() => setTimeout(finishDetach, 500));
   }
 
-  /** Toggles a single CSS class or an array of classes on an element. */
+  /**
+   * Toggles a single CSS class or an array of classes on an element.
+   *
+   * 在元素上切换一个或一组 CSS 类。
+   *
+   */
   private _toggleClasses(element: HTMLElement, cssClasses: string | string[], isAdd: boolean) {
     const classList = element.classList;
 
@@ -480,7 +639,12 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     });
   }
 
-  /** Detaches the overlay content next time the zone stabilizes. */
+  /**
+   * Detaches the overlay content next time the zone stabilizes.
+   *
+   * 当 Zone 下次变得稳定时，就会拆除浮层的内容。
+   *
+   */
   private _detachContentWhenStable() {
     // Normally we wouldn't have to explicitly run this outside the `NgZone`, however
     // if the consumer is using `zone-patch-rxjs`, the `Subscription.unsubscribe` call will
@@ -510,7 +674,12 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     });
   }
 
-  /** Disposes of a scroll strategy. */
+  /**
+   * Disposes of a scroll strategy.
+   *
+   * 释放滚动策略。
+   *
+   */
   private _disposeScrollStrategy() {
     const scrollStrategy = this._scrollStrategy;
 
@@ -525,7 +694,12 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
 }
 
 
-/** Size properties for an overlay. */
+/**
+ * Size properties for an overlay.
+ *
+ * 浮层的大小属性。
+ *
+ */
 export interface OverlaySizeConfig {
   width?: number | string;
   height?: number | string;

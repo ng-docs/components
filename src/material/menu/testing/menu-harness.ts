@@ -30,6 +30,8 @@ export class MatMenuHarness extends ContentContainerComponentHarness<string> {
    * criteria.
    * @param options Options for filtering which menu instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: MenuHarnessFilters = {}): HarnessPredicate<MatMenuHarness> {
     return new HarnessPredicate(MatMenuHarness, options)
@@ -154,6 +156,8 @@ export class MatMenuItemHarness extends ContentContainerComponentHarness<string>
    * certain criteria.
    * @param options Options for filtering which menu item instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: MenuItemHarnessFilters = {}): HarnessPredicate<MatMenuItemHarness> {
     return new HarnessPredicate(MatMenuItemHarness, options)

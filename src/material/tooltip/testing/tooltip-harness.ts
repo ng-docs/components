@@ -19,6 +19,8 @@ export class MatTooltipHarness extends ComponentHarness {
    * for a tooltip trigger with specific attributes.
    * @param options Options for narrowing the search.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: TooltipHarnessFilters = {}): HarnessPredicate<MatTooltipHarness> {
     return new HarnessPredicate(MatTooltipHarness, options);

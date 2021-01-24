@@ -9,7 +9,12 @@
 import {Directive} from '@angular/core';
 
 
-/** The floating label for a `mat-form-field`. */
+/**
+ * The floating label for a `mat-form-field`.
+ *
+ * `mat-form-field` 的浮动标签。
+ *
+ */
 @Directive({
   selector: 'mat-label'
 })

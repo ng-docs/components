@@ -19,6 +19,8 @@ export class MatTabLinkHarness extends ComponentHarness {
    * certain criteria.
    * @param options Options for filtering which tab link instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: TabLinkHarnessFilters = {}): HarnessPredicate<MatTabLinkHarness> {
     return new HarnessPredicate(MatTabLinkHarness, options)

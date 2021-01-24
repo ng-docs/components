@@ -21,7 +21,12 @@ import {TemplatePortal} from '@angular/cdk/portal';
 import {MatDatepickerBase, MatDatepickerControl} from './datepicker-base';
 
 
-/** Button that will close the datepicker and assign the current selection to the data model. */
+/**
+ * Button that will close the datepicker and assign the current selection to the data model.
+ *
+ * 该按钮用于关闭 datepicker，并将当前选择内容赋值给数据模型。
+ *
+ */
 @Directive({
   selector: '[matDatepickerApply], [matDateRangePickerApply]',
   host: {'(click)': '_applySelection()'}
@@ -36,7 +41,12 @@ export class MatDatepickerApply {
 }
 
 
-/** Button that will close the datepicker and discard the current selection. */
+/**
+ * Button that will close the datepicker and discard the current selection.
+ *
+ * 该按钮用于关闭日期选择器并丢弃当前的选择。
+ *
+ */
 @Directive({
   selector: '[matDatepickerCancel], [matDateRangePickerCancel]',
   host: {'(click)': '_datepicker.close()'}
@@ -49,6 +59,9 @@ export class MatDatepickerCancel {
 /**
  * Container that can be used to project a row of action buttons
  * to the bottom of a datepicker or date range picker.
+ *
+ * 可以用来把一行动作按钮投影到日期选择器或日期范围选择器底部的容器。
+ *
  */
 @Component({
   selector: 'mat-datepicker-actions, mat-date-range-picker-actions',

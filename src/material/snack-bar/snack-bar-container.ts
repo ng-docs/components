@@ -35,6 +35,9 @@ import {MatSnackBarConfig} from './snack-bar-config';
 
 /**
  * Internal interface for a snack bar container.
+ *
+ * 快餐栏容器的内部接口。
+ *
  * @docs-private
  */
 export interface _SnackBarContainer {
@@ -50,6 +53,9 @@ export interface _SnackBarContainer {
 
 /**
  * Internal component that wraps user-provided snack bar content.
+ *
+ * 包裹用户提供的快餐栏内容的内部组件。
+ *
  * @docs-private
  */
 @Component({
@@ -71,31 +77,76 @@ export interface _SnackBarContainer {
 })
 export class MatSnackBarContainer extends BasePortalOutlet
     implements OnDestroy, _SnackBarContainer {
-  /** The number of milliseconds to wait before announcing the snack bar's content. */
+  /**
+   * The number of milliseconds to wait before announcing the snack bar's content.
+   *
+   * 朗读快餐栏内容之前要等待的毫秒数。
+   *
+   */
   private readonly _announceDelay: number = 150;
 
-  /** The timeout for announcing the snack bar's content. */
+  /**
+   * The timeout for announcing the snack bar's content.
+   *
+   * 朗读快餐栏内容的超时时间。
+   *
+   */
   private _announceTimeoutId: number;
 
-  /** Whether the component has been destroyed. */
+  /**
+   * Whether the component has been destroyed.
+   *
+   * 该组件是否已被销毁。
+   *
+   */
   private _destroyed = false;
 
-  /** The portal outlet inside of this container into which the snack bar content will be loaded. */
+  /**
+   * The portal outlet inside of this container into which the snack bar content will be loaded.
+   *
+   * 此容器内部的传送点出口地标，快餐栏的内容将加载到这里。
+   *
+   */
   @ViewChild(CdkPortalOutlet, {static: true}) _portalOutlet: CdkPortalOutlet;
 
-  /** Subject for notifying that the snack bar has announced to screen readers. */
+  /**
+   * Subject for notifying that the snack bar has announced to screen readers.
+   *
+   * 用于通知快餐栏已经朗读给屏幕阅读器的主体对象。
+   *
+   */
   readonly _onAnnounce: Subject<void> = new Subject();
 
-  /** Subject for notifying that the snack bar has exited from view. */
+  /**
+   * Subject for notifying that the snack bar has exited from view.
+   *
+   * 用于通知快餐栏已经从视图中退出的主体对象。
+   *
+   */
   readonly _onExit: Subject<void> = new Subject();
 
-  /** Subject for notifying that the snack bar has finished entering the view. */
+  /**
+   * Subject for notifying that the snack bar has finished entering the view.
+   *
+   * 用于通知快餐栏已经进入视图的主体对象。
+   *
+   */
   readonly _onEnter: Subject<void> = new Subject();
 
-  /** The state of the snack bar animations. */
+  /**
+   * The state of the snack bar animations.
+   *
+   * 快餐栏动画的状态。
+   *
+   */
   _animationState = 'void';
 
-  /** aria-live value for the live region. */
+  /**
+   * aria-live value for the live region.
+   *
+   * 表示现场区域的 aria-live 值。
+   *
+   */
   _live: AriaLivePoliteness;
 
   constructor(
@@ -119,14 +170,24 @@ export class MatSnackBarContainer extends BasePortalOutlet
     }
   }
 
-  /** Attach a component portal as content to this snack bar container. */
+  /**
+   * Attach a component portal as content to this snack bar container.
+   *
+   * 把一个组件传送点作为内容附着到这个快餐栏容器中。
+   *
+   */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
     this._assertNotAttached();
     this._applySnackBarClasses();
     return this._portalOutlet.attachComponentPortal(portal);
   }
 
-  /** Attach a template portal as content to this snack bar container. */
+  /**
+   * Attach a template portal as content to this snack bar container.
+   *
+   * 把模板传送点作为内容附着到这个快餐栏容器中。
+   *
+   */
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
     this._assertNotAttached();
     this._applySnackBarClasses();
@@ -135,6 +196,9 @@ export class MatSnackBarContainer extends BasePortalOutlet
 
   /**
    * Attaches a DOM portal to the snack bar container.
+   *
+   * 把 DOM 传送点附着到这个快餐栏容器中。
+   *
    * @deprecated To be turned into a method.
    * @breaking-change 10.0.0
    */
@@ -144,7 +208,12 @@ export class MatSnackBarContainer extends BasePortalOutlet
     return this._portalOutlet.attachDomPortal(portal);
   }
 
-  /** Handle end of animations, updating the state of the snackbar. */
+  /**
+   * Handle end of animations, updating the state of the snackbar.
+   *
+   * 处理动画的结束事件，更新快餐栏的状态。
+   *
+   */
   onAnimationEnd(event: AnimationEvent) {
     const {fromState, toState} = event;
 
@@ -164,7 +233,12 @@ export class MatSnackBarContainer extends BasePortalOutlet
     }
   }
 
-  /** Begin animation of snack bar entrance into view. */
+  /**
+   * Begin animation of snack bar entrance into view.
+   *
+   * 启动快餐栏进入视图的动画。
+   *
+   */
   enter(): void {
     if (!this._destroyed) {
       this._animationState = 'visible';
@@ -173,7 +247,12 @@ export class MatSnackBarContainer extends BasePortalOutlet
     }
   }
 
-  /** Begin animation of the snack bar exiting from view. */
+  /**
+   * Begin animation of the snack bar exiting from view.
+   *
+   * 启动快餐栏离开视图的动画。
+   *
+   */
   exit(): Observable<void> {
     // Note: this one transitions to `hidden`, rather than `void`, in order to handle the case
     // where multiple snack bars are opened in quick succession (e.g. two consecutive calls to
@@ -192,7 +271,12 @@ export class MatSnackBarContainer extends BasePortalOutlet
     return this._onExit;
   }
 
-  /** Makes sure the exit callbacks have been invoked when the element is destroyed. */
+  /**
+   * Makes sure the exit callbacks have been invoked when the element is destroyed.
+   *
+   * 当元素被销毁时，确保已经调用了 exit 回调函数。
+   *
+   */
   ngOnDestroy() {
     this._destroyed = true;
     this._completeExit();
@@ -201,6 +285,9 @@ export class MatSnackBarContainer extends BasePortalOutlet
   /**
    * Waits for the zone to settle before removing the element. Helps prevent
    * errors where we end up removing an element which is in the middle of an animation.
+   *
+   * 在删除该元素之前，等待 zone 恢复正常。这有助于防止错误，因为我们最终移除了一个正在播放动画的元素。
+   *
    */
   private _completeExit() {
     this._ngZone.onMicrotaskEmpty.pipe(take(1)).subscribe(() => {
@@ -209,7 +296,12 @@ export class MatSnackBarContainer extends BasePortalOutlet
     });
   }
 
-  /** Applies the various positioning and user-configured CSS classes to the snack bar. */
+  /**
+   * Applies the various positioning and user-configured CSS classes to the snack bar.
+   *
+   * 把各种定位和用户配置的 CSS 类应用到快餐栏。
+   *
+   */
   private _applySnackBarClasses() {
     const element: HTMLElement = this._elementRef.nativeElement;
     const panelClasses = this.snackBarConfig.panelClass;
@@ -232,7 +324,12 @@ export class MatSnackBarContainer extends BasePortalOutlet
     }
   }
 
-  /** Asserts that no content is already attached to the container. */
+  /**
+   * Asserts that no content is already attached to the container.
+   *
+   * 断言没有任何内容附着到了容器上。
+   *
+   */
   private _assertNotAttached() {
     if (this._portalOutlet.hasAttached() && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw Error('Attempting to attach snack bar content after content is already attached');
@@ -242,6 +339,9 @@ export class MatSnackBarContainer extends BasePortalOutlet
   /**
    * Starts a timeout to move the snack bar content to the live region so screen readers will
    * announce it.
+   *
+   * 开始超时，把快餐栏内容移到现场区域，以便屏幕阅读器朗读它。
+   *
    */
   private _screenReaderAnnounce() {
     if (!this._announceTimeoutId) {

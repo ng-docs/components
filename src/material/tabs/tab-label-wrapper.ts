@@ -19,6 +19,9 @@ const _MatTabLabelWrapperMixinBase: CanDisableCtor & typeof MatTabLabelWrapperBa
 
 /**
  * Used in the `mat-tab-group` view to display tab labels.
+ *
+ * 供 `mat-tab-group` 视图用来显示选项卡标签。
+ *
  * @docs-private
  */
 @Directive({
@@ -34,7 +37,12 @@ export class MatTabLabelWrapper extends _MatTabLabelWrapperMixinBase implements 
     super();
   }
 
-  /** Sets focus on the wrapper element */
+  /**
+   * Sets focus on the wrapper element
+   *
+   * 让包装器元素获得焦点
+   *
+   */
   focus(): void {
     this.elementRef.nativeElement.focus();
   }

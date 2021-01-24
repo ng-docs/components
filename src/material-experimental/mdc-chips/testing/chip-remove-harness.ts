@@ -9,21 +9,39 @@
 import {HarnessPredicate, ComponentHarness} from '@angular/cdk/testing';
 import {ChipRemoveHarnessFilters} from './chip-harness-filters';
 
-/** Harness for interacting with a standard Material chip remove button in tests. */
+/**
+ * Harness for interacting with a standard Material chip remove button in tests.
+ *
+ * 在测试过程中与标准 Material 纸片移除按钮交互的工具。
+ *
+ */
 export class MatChipRemoveHarness extends ComponentHarness {
   static hostSelector = '.mat-mdc-chip-remove';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatChipRemoveHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate` ，它可以用来搜索满足一定条件 `MatChipRemoveHarness`
+   *
    * @param options Options for filtering which input instances are considered a match.
+   *
+   * 一个选项，用来筛选哪些输入实例是匹配的。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ChipRemoveHarnessFilters = {}): HarnessPredicate<MatChipRemoveHarness> {
     return new HarnessPredicate(MatChipRemoveHarness, options);
   }
 
-  /** Clicks the remove button. */
+  /**
+   * Clicks the remove button.
+   *
+   * 点击“删除”按钮。
+   *
+   */
   async click(): Promise<void> {
     return (await this.host()).click();
   }

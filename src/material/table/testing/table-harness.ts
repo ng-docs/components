@@ -33,6 +33,8 @@ export class MatTableHarness extends ContentContainerComponentHarness<string> {
    * Gets a `HarnessPredicate` that can be used to search for a table with specific attributes.
    * @param options Options for narrowing the search
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: TableHarnessFilters = {}): HarnessPredicate<MatTableHarness> {
     return new HarnessPredicate(MatTableHarness, options);

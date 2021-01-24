@@ -46,14 +46,27 @@ import {MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER, DateRange} from './date-select
 
 /**
  * Possible views for the calendar.
+ *
+ * 日历的可选视图。
+ *
  * @docs-private
  */
 export type MatCalendarView = 'month' | 'year' | 'multi-year';
 
-/** Counter used to generate unique IDs. */
+/**
+ * Counter used to generate unique IDs.
+ *
+ * 用于生成唯一 ID 的计数器。
+ *
+ */
 let uniqueId = 0;
 
-/** Default header for MatCalendar */
+/**
+ * Default header for MatCalendar
+ *
+ * MatCalendar 的默认标头
+ *
+ */
 @Component({
   selector: 'mat-calendar-header',
   templateUrl: 'calendar-header.html',
@@ -73,7 +86,12 @@ export class MatCalendarHeader<D> {
     this.calendar.stateChanges.subscribe(() => changeDetectorRef.markForCheck());
   }
 
-  /** The label for the current calendar view. */
+  /**
+   * The label for the current calendar view.
+   *
+   * 当前日历视图的标签。
+   *
+   */
   get periodButtonText(): string {
     if (this.calendar.currentView == 'month') {
       return this._dateAdapter
@@ -103,7 +121,12 @@ export class MatCalendarHeader<D> {
         this._intl.switchToMultiYearViewLabel : this._intl.switchToMonthViewLabel;
   }
 
-  /** The label for the previous button. */
+  /**
+   * The label for the previous button.
+   *
+   * 前一个按钮的标签。
+   *
+   */
   get prevButtonLabel(): string {
     return {
       'month': this._intl.prevMonthLabel,
@@ -112,7 +135,12 @@ export class MatCalendarHeader<D> {
     }[this.calendar.currentView];
   }
 
-  /** The label for the next button. */
+  /**
+   * The label for the next button.
+   *
+   * 下一个按钮的标签。
+   *
+   */
   get nextButtonLabel(): string {
     return {
       'month': this._intl.nextMonthLabel,
@@ -121,12 +149,22 @@ export class MatCalendarHeader<D> {
     }[this.calendar.currentView];
   }
 
-  /** Handles user clicks on the period label. */
+  /**
+   * Handles user clicks on the period label.
+   *
+   * 处理用户点击“时间段标签”的操作。
+   *
+   */
   currentPeriodClicked(): void {
     this.calendar.currentView = this.calendar.currentView == 'month' ? 'multi-year' : 'month';
   }
 
-  /** Handles user clicks on the previous button. */
+  /**
+   * Handles user clicks on the previous button.
+   *
+   * 处理用户点击“上月”按钮的操作。
+   *
+   */
   previousClicked(): void {
     this.calendar.activeDate = this.calendar.currentView == 'month' ?
         this._dateAdapter.addCalendarMonths(this.calendar.activeDate, -1) :
@@ -135,7 +173,12 @@ export class MatCalendarHeader<D> {
             );
   }
 
-  /** Handles user clicks on the next button. */
+  /**
+   * Handles user clicks on the next button.
+   *
+   * 处理用户点击“下月”按钮的操作。
+   *
+   */
   nextClicked(): void {
     this.calendar.activeDate = this.calendar.currentView == 'month' ?
         this._dateAdapter.addCalendarMonths(this.calendar.activeDate, 1) :
@@ -145,7 +188,12 @@ export class MatCalendarHeader<D> {
             );
   }
 
-  /** Whether the previous period button is enabled. */
+  /**
+   * Whether the previous period button is enabled.
+   *
+   * 是否启用“上个时间段”按钮。
+   *
+   */
   previousEnabled(): boolean {
     if (!this.calendar.minDate) {
       return true;
@@ -154,13 +202,23 @@ export class MatCalendarHeader<D> {
         !this._isSameView(this.calendar.activeDate, this.calendar.minDate);
   }
 
-  /** Whether the next period button is enabled. */
+  /**
+   * Whether the next period button is enabled.
+   *
+   * 是否启用“下个时间段”按钮。
+   *
+   */
   nextEnabled(): boolean {
     return !this.calendar.maxDate ||
         !this._isSameView(this.calendar.activeDate, this.calendar.maxDate);
   }
 
-  /** Whether the two dates represent the same view in the current view mode (month or year). */
+  /**
+   * Whether the two dates represent the same view in the current view mode (month or year).
+   *
+   * 这两个日期在当前视图模式（月或年）中是否代表相同的视图。
+   *
+   */
   private _isSameView(date1: D, date2: D): boolean {
     if (this.calendar.currentView == 'month') {
       return this._dateAdapter.getYear(date1) == this._dateAdapter.getYear(date2) &&
@@ -177,6 +235,9 @@ export class MatCalendarHeader<D> {
 
 /**
  * A calendar that is used as part of the datepicker.
+ *
+ * 一个用作日期选择器一部分的日历。
+ *
  * @docs-private
  */
 @Component({
@@ -192,10 +253,20 @@ export class MatCalendarHeader<D> {
   providers: [MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER]
 })
 export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDestroy, OnChanges {
-  /** An input indicating the type of the header component, if set. */
+  /**
+   * An input indicating the type of the header component, if set.
+   *
+   * 一个指出标头组件类型的输入属性（如果已设置）。
+   *
+   */
   @Input() headerComponent: ComponentType<any>;
 
-  /** A portal containing the header component type for this calendar. */
+  /**
+   * A portal containing the header component type for this calendar.
+   *
+   * 一个传送点，里面包含该日历的标头组件的类型。
+   *
+   */
   _calendarHeaderPortal: Portal<any>;
 
   private _intlChanges: Subscription;
@@ -204,10 +275,18 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
    * Used for scheduling that focus should be moved to the active cell on the next tick.
    * We need to schedule it, rather than do it immediately, because we have to wait
    * for Angular to re-evaluate the view children.
+   *
+   * 用来表示焦点是否应该在下一个周期中移动到活动单元格上。我们需要计划它，而不能立即执行，因为我们必须等待 Angular 重新评估视图子组件。
+   *
    */
   private _moveFocusOnNextTick = false;
 
-  /** A date representing the period (month or year) to start the calendar in. */
+  /**
+   * A date representing the period (month or year) to start the calendar in.
+   *
+   * 表示时间段（月或年）的起始日期。
+   *
+   */
   @Input()
   get startAt(): D | null { return this._startAt; }
   set startAt(value: D | null) {
@@ -215,10 +294,20 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   }
   private _startAt: D | null;
 
-  /** Whether the calendar should be started in month or year view. */
+  /**
+   * Whether the calendar should be started in month or year view.
+   *
+   * 日历应该开始于月视图还是年视图。
+   *
+   */
   @Input() startView: MatCalendarView = 'month';
 
-  /** The currently selected date. */
+  /**
+   * The currently selected date.
+   *
+   * 当前选定日期。
+   *
+   */
   @Input()
   get selected(): DateRange<D> | D | null { return this._selected; }
   set selected(value: DateRange<D> | D | null) {
@@ -230,7 +319,12 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   }
   private _selected: DateRange<D> | D | null;
 
-  /** The minimum selectable date. */
+  /**
+   * The minimum selectable date.
+   *
+   * 最小可选日期。
+   *
+   */
   @Input()
   get minDate(): D | null { return this._minDate; }
   set minDate(value: D | null) {
@@ -238,7 +332,12 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   }
   private _minDate: D | null;
 
-  /** The maximum selectable date. */
+  /**
+   * The maximum selectable date.
+   *
+   * 最大可选日期。
+   *
+   */
   @Input()
   get maxDate(): D | null { return this._maxDate; }
   set maxDate(value: D | null) {
@@ -246,55 +345,112 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   }
   private _maxDate: D | null;
 
-  /** Function used to filter which dates are selectable. */
+  /**
+   * Function used to filter which dates are selectable.
+   *
+   * 用于过滤可选择哪些日期的函数。
+   *
+   */
   @Input() dateFilter: (date: D) => boolean;
 
-  /** Function that can be used to add custom CSS classes to dates. */
+  /**
+   * Function that can be used to add custom CSS classes to dates.
+   *
+   * 可以用来为日期添加自定义 CSS 类的函数。
+   *
+   */
   @Input() dateClass: MatCalendarCellClassFunction<D>;
 
-  /** Start of the comparison range. */
+  /**
+   * Start of the comparison range.
+   *
+   * 比较范围的起始日期。
+   *
+   */
   @Input() comparisonStart: D | null;
 
-  /** End of the comparison range. */
+  /**
+   * End of the comparison range.
+   *
+   * 比较范围的结束日期。
+   *
+   */
   @Input() comparisonEnd: D | null;
 
-  /** Emits when the currently selected date changes. */
+  /**
+   * Emits when the currently selected date changes.
+   *
+   * 当前选定的日期发生变化时发出通知。
+   *
+   */
   @Output() readonly selectedChange: EventEmitter<D | null> = new EventEmitter<D | null>();
 
   /**
    * Emits the year chosen in multiyear view.
    * This doesn't imply a change on the selected date.
+   *
+   * 在多年视图中选择年份。这不会更改选定日期。
+   *
    */
   @Output() readonly yearSelected: EventEmitter<D> = new EventEmitter<D>();
 
   /**
    * Emits the month chosen in year view.
    * This doesn't imply a change on the selected date.
+   *
+   * 在年份视图中选择月份。这不会更改选定日期。
+   *
    */
   @Output() readonly monthSelected: EventEmitter<D> = new EventEmitter<D>();
 
   /**
    * Emits when the current view changes.
+   *
+   * 当前视图发生变化时触发。
+   *
    */
   @Output() readonly viewChanged: EventEmitter<MatCalendarView> =
     new EventEmitter<MatCalendarView>(true);
 
-  /** Emits when any date is selected. */
+  /**
+   * Emits when any date is selected.
+   *
+   * 选定任何日期时会发出通知。
+   *
+   */
   @Output() readonly _userSelection: EventEmitter<MatCalendarUserEvent<D | null>> =
       new EventEmitter<MatCalendarUserEvent<D | null>>();
 
-  /** Reference to the current month view component. */
+  /**
+   * Reference to the current month view component.
+   *
+   * 引用当前的月份视图组件。
+   *
+   */
   @ViewChild(MatMonthView) monthView: MatMonthView<D>;
 
-  /** Reference to the current year view component. */
+  /**
+   * Reference to the current year view component.
+   *
+   * 引用当前的年份视图组件。
+   *
+   */
   @ViewChild(MatYearView) yearView: MatYearView<D>;
 
-  /** Reference to the current multi-year view component. */
+  /**
+   * Reference to the current multi-year view component.
+   *
+   * 引用当前的多年视图组件。
+   *
+   */
   @ViewChild(MatMultiYearView) multiYearView: MatMultiYearView<D>;
 
   /**
    * The current active date. This determines which time period is shown and which date is
    * highlighted when using keyboard navigation.
+   *
+   * 目前的活跃日期。这决定了在使用键盘导航时会显示哪个时间段以及突出显示的是哪个日期。
+   *
    */
   get activeDate(): D { return this._clampedActiveDate; }
   set activeDate(value: D) {
@@ -304,7 +460,12 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   }
   private _clampedActiveDate: D;
 
-  /** Whether the calendar is in month view. */
+  /**
+   * Whether the calendar is in month view.
+   *
+   * 此日历是否位于月份视图中。
+   *
+   */
   get currentView(): MatCalendarView { return this._currentView; }
   set currentView(value: MatCalendarView) {
     const viewChangedResult = this._currentView !== value ? value : null;
@@ -319,6 +480,9 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
 
   /**
    * Emits whenever there is a state change that the header may need to respond to.
+   *
+   * 每当状态发生变化时，都会发出标头可能需要响应的信息。
+   *
    */
   stateChanges = new Subject<void>();
 
@@ -385,7 +549,12 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
     this._getCurrentViewComponent()._focusActiveCell(false);
   }
 
-  /** Updates today's date after an update of the active date */
+  /**
+   * Updates today's date after an update of the active date
+   *
+   * 在活动日期更新后更新今天的日期
+   *
+   */
   updateTodaysDate() {
     const currentView = this.currentView;
     let view: MatMonthView<D> | MatYearView<D> | MatMultiYearView<D>;
@@ -401,7 +570,12 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
     view._init();
   }
 
-  /** Handles date selection in the month view. */
+  /**
+   * Handles date selection in the month view.
+   *
+   * 在月份视图中处理日期选择。
+   *
+   */
   _dateSelected(event: MatCalendarUserEvent<D | null>): void {
     const date = event.value;
 
@@ -413,23 +587,43 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
     this._userSelection.emit(event);
   }
 
-  /** Handles year selection in the multiyear view. */
+  /**
+   * Handles year selection in the multiyear view.
+   *
+   * 在多年视图中处理年份选择。
+   *
+   */
   _yearSelectedInMultiYearView(normalizedYear: D) {
     this.yearSelected.emit(normalizedYear);
   }
 
-  /** Handles month selection in the year view. */
+  /**
+   * Handles month selection in the year view.
+   *
+   * 在年份视图中处理月份选择。
+   *
+   */
   _monthSelectedInYearView(normalizedMonth: D) {
     this.monthSelected.emit(normalizedMonth);
   }
 
-  /** Handles year/month selection in the multi-year/year views. */
+  /**
+   * Handles year/month selection in the multi-year/year views.
+   *
+   * 处理多年/年份视图中的年份/月份选择。
+   *
+   */
   _goToDateInView(date: D, view: 'month' | 'year' | 'multi-year'): void {
     this.activeDate = date;
     this.currentView = view;
   }
 
-  /** Returns the component instance that corresponds to the current calendar view. */
+  /**
+   * Returns the component instance that corresponds to the current calendar view.
+   *
+   * 返回与当前日历视图对应的组件实例。
+   *
+   */
   private _getCurrentViewComponent() {
     return this.monthView || this.yearView || this.multiYearView;
   }

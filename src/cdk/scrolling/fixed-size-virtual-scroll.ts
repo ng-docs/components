@@ -14,29 +14,70 @@ import {VIRTUAL_SCROLL_STRATEGY, VirtualScrollStrategy} from './virtual-scroll-s
 import {CdkVirtualScrollViewport} from './virtual-scroll-viewport';
 
 
-/** Virtual scrolling strategy for lists with items of known fixed size. */
+/**
+ * Virtual scrolling strategy for lists with items of known fixed size.
+ *
+ * 具有固定大小已知条目列表的虚拟滚动策略。
+ *
+ */
 export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
   private _scrolledIndexChange = new Subject<number>();
 
-  /** @docs-private Implemented as part of VirtualScrollStrategy. */
+  /**
+   *
+   * @docs-private Implemented as part of VirtualScrollStrategy.
+   *
+   *是 VirtualScrollStrategy 实现的一部分。
+   *
+   */
   scrolledIndexChange: Observable<number> = this._scrolledIndexChange.pipe(distinctUntilChanged());
 
-  /** The attached viewport. */
+  /**
+   * The attached viewport.
+   *
+   * 附着的视口。
+   *
+   */
   private _viewport: CdkVirtualScrollViewport | null = null;
 
-  /** The size of the items in the virtually scrolling list. */
+  /**
+   * The size of the items in the virtually scrolling list.
+   *
+   * 虚拟滚动列表中各条目的大小。
+   *
+   */
   private _itemSize: number;
 
-  /** The minimum amount of buffer rendered beyond the viewport (in pixels). */
+  /**
+   * The minimum amount of buffer rendered beyond the viewport (in pixels).
+   *
+   * 缓存在视口之外的最小缓冲区数（以像素为单位）。
+   *
+   */
   private _minBufferPx: number;
 
-  /** The number of buffer items to render beyond the edge of the viewport (in pixels). */
+  /**
+   * The number of buffer items to render beyond the edge of the viewport (in pixels).
+   *
+   * 缓存在视口边缘以外的缓冲区数（以像素为单位）。
+   *
+   */
   private _maxBufferPx: number;
 
   /**
+   *
    * @param itemSize The size of the items in the virtually scrolling list.
+   *
+   * 虚拟滚动列表中各条目的大小。
+   *
    * @param minBufferPx The minimum amount of buffer (in pixels) before needing to render more
+   *
+   * 在需要渲染更多内容之前，缓冲区的最小量（以像素为单位）
+   *
    * @param maxBufferPx The amount of buffer (in pixels) to render when rendering more.
+   *
+   * 渲染时要渲染的缓冲区（以像素为单位）。
+   *
    */
   constructor(itemSize: number, minBufferPx: number, maxBufferPx: number) {
     this._itemSize = itemSize;
@@ -46,7 +87,13 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
 
   /**
    * Attaches this scroll strategy to a viewport.
+   *
+   * 把这个滚动策略附加到视口中。
+   *
    * @param viewport The viewport to attach this strategy to.
+   *
+   * 要把此策略附加到的视口。
+   *
    */
   attach(viewport: CdkVirtualScrollViewport) {
     this._viewport = viewport;
@@ -54,7 +101,12 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
     this._updateRenderedRange();
   }
 
-  /** Detaches this scroll strategy from the currently attached viewport. */
+  /**
+   * Detaches this scroll strategy from the currently attached viewport.
+   *
+   * 这个滚动策略是从当前连接的视口中拆除出来的。
+   *
+   */
   detach() {
     this._scrolledIndexChange.complete();
     this._viewport = null;
@@ -62,9 +114,21 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
 
   /**
    * Update the item size and buffer size.
+   *
+   * 更新条目大小和缓冲区大小。
+   *
    * @param itemSize The size of the items in the virtually scrolling list.
+   *
+   * 虚拟滚动列表中各条目的大小。
+   *
    * @param minBufferPx The minimum amount of buffer (in pixels) before needing to render more
+   *
+   * 在需要渲染更多内容之前，缓冲区的最小量（以像素为单位）
+   *
    * @param maxBufferPx The amount of buffer (in pixels) to render when rendering more.
+   *
+   * 渲染时要渲染的缓冲区（以像素为单位）。
+   *
    */
   updateItemAndBufferSize(itemSize: number, minBufferPx: number, maxBufferPx: number) {
     if (maxBufferPx < minBufferPx && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -77,27 +141,60 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
     this._updateRenderedRange();
   }
 
-  /** @docs-private Implemented as part of VirtualScrollStrategy. */
+  /**
+   *
+   * @docs-private Implemented as part of VirtualScrollStrategy.
+   *
+   *是 VirtualScrollStrategy 实现的一部分。
+   *
+   */
   onContentScrolled() {
     this._updateRenderedRange();
   }
 
-  /** @docs-private Implemented as part of VirtualScrollStrategy. */
+  /**
+   *
+   * @docs-private Implemented as part of VirtualScrollStrategy.
+   *
+   *是 VirtualScrollStrategy 实现的一部分。
+   *
+   */
   onDataLengthChanged() {
     this._updateTotalContentSize();
     this._updateRenderedRange();
   }
 
-  /** @docs-private Implemented as part of VirtualScrollStrategy. */
+  /**
+   *
+   * @docs-private Implemented as part of VirtualScrollStrategy.
+   *
+   *是 VirtualScrollStrategy 实现的一部分。
+   *
+   */
   onContentRendered() { /* no-op */ }
 
-  /** @docs-private Implemented as part of VirtualScrollStrategy. */
+  /**
+   *
+   * @docs-private Implemented as part of VirtualScrollStrategy.
+   *
+   *是 VirtualScrollStrategy 实现的一部分。
+   *
+   */
   onRenderedOffsetChanged() { /* no-op */ }
 
   /**
    * Scroll to the offset for the given index.
+   *
+   * 滚动到指定索引的偏移量。
+   *
    * @param index The index of the element to scroll to.
+   *
+   * 要滚动的元素的索引。
+   *
    * @param behavior The ScrollBehavior to use when scrolling.
+   *
+   * 滚动时要使用的 ScrollBehavior。
+   *
    */
   scrollToIndex(index: number, behavior: ScrollBehavior): void {
     if (this._viewport) {
@@ -105,7 +202,12 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
     }
   }
 
-  /** Update the viewport's total content size. */
+  /**
+   * Update the viewport's total content size.
+   *
+   * 更新视口的总内容大小。
+   *
+   */
   private _updateTotalContentSize() {
     if (!this._viewport) {
       return;
@@ -114,7 +216,12 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
     this._viewport.setTotalContentSize(this._viewport.getDataLength() * this._itemSize);
   }
 
-  /** Update the viewport's rendered range. */
+  /**
+   * Update the viewport's rendered range.
+   *
+   * 更新视口的渲染范围。
+   *
+   */
   private _updateRenderedRange() {
     if (!this._viewport) {
       return;
@@ -174,15 +281,26 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
 /**
  * Provider factory for `FixedSizeVirtualScrollStrategy` that simply extracts the already created
  * `FixedSizeVirtualScrollStrategy` from the given directive.
+ *
+ * `FixedSizeVirtualScrollStrategy` Provider 工厂，只是从指定的指令中提取已经创建的 `FixedSizeVirtualScrollStrategy`
+ *
  * @param fixedSizeDir The instance of `CdkFixedSizeVirtualScroll` to extract the
  *     `FixedSizeVirtualScrollStrategy` from.
+ *
+ * `CdkFixedSizeVirtualScroll` 实例从中提取 `FixedSizeVirtualScrollStrategy` 。
+ *
  */
 export function _fixedSizeVirtualScrollStrategyFactory(fixedSizeDir: CdkFixedSizeVirtualScroll) {
   return fixedSizeDir._scrollStrategy;
 }
 
 
-/** A virtual scroll strategy that supports fixed-size items. */
+/**
+ * A virtual scroll strategy that supports fixed-size items.
+ *
+ * 支持固定大小的虚拟滚动策略。
+ *
+ */
 @Directive({
   selector: 'cdk-virtual-scroll-viewport[itemSize]',
   providers: [{
@@ -192,7 +310,12 @@ export function _fixedSizeVirtualScrollStrategyFactory(fixedSizeDir: CdkFixedSiz
   }],
 })
 export class CdkFixedSizeVirtualScroll implements OnChanges {
-  /** The size of the items in the list (in pixels). */
+  /**
+   * The size of the items in the list (in pixels).
+   *
+   * 列表中条目的大小（以像素为单位）。
+   *
+   */
   @Input()
   get itemSize(): number { return this._itemSize; }
   set itemSize(value: number) { this._itemSize = coerceNumberProperty(value); }
@@ -201,6 +324,9 @@ export class CdkFixedSizeVirtualScroll implements OnChanges {
   /**
    * The minimum amount of buffer rendered beyond the viewport (in pixels).
    * If the amount of buffer dips below this number, more items will be rendered. Defaults to 100px.
+   *
+   * 缓存在视口之外的最小缓冲区数（以像素为单位）。当缓冲区的数量低于这个数时，就会渲染出更多的条目。默认为 100px。
+   *
    */
   @Input()
   get minBufferPx(): number { return this._minBufferPx; }
@@ -209,13 +335,21 @@ export class CdkFixedSizeVirtualScroll implements OnChanges {
 
   /**
    * The number of pixels worth of buffer to render for when rendering new items. Defaults to 200px.
+   *
+   * 渲染新条目时要渲染的缓冲区的像素数。默认为 200px。
+   *
    */
   @Input()
   get maxBufferPx(): number { return this._maxBufferPx; }
   set maxBufferPx(value: number) { this._maxBufferPx = coerceNumberProperty(value); }
   _maxBufferPx = 200;
 
-  /** The scroll strategy used by this directive. */
+  /**
+   * The scroll strategy used by this directive.
+   *
+   * 本指令使用的滚动策略。
+   *
+   */
   _scrollStrategy =
       new FixedSizeVirtualScrollStrategy(this.itemSize, this.minBufferPx, this.maxBufferPx);
 

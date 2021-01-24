@@ -19,6 +19,9 @@ import {BasePortalOutlet, ComponentPortal, TemplatePortal, DomPortal} from './po
 /**
  * A PortalOutlet for attaching portals to an arbitrary DOM element outside of the Angular
  * application context.
+ *
+ * PortalOutlet，用于把传送点附着到 Angular 应用上下文之外的任意一个 DOM 元素上。
+ *
  */
 export class DomPortalOutlet extends BasePortalOutlet {
   private _document: Document;
@@ -41,8 +44,17 @@ export class DomPortalOutlet extends BasePortalOutlet {
 
   /**
    * Attach the given ComponentPortal to DOM element using the ComponentFactoryResolver.
+   *
+   * 使用 ComponentFactoryResolver 把指定的 ComponentPortal 添加到 DOM 元素中。
+   *
    * @param portal Portal to be attached
+   *
+   * 要附着到的传送点
+   *
    * @returns Reference to the created component.
+   *
+   * 所创建的组件的引用。
+   *
    */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
     const resolver = portal.componentFactoryResolver || this._componentFactoryResolver;
@@ -77,8 +89,17 @@ export class DomPortalOutlet extends BasePortalOutlet {
 
   /**
    * Attaches a template portal to the DOM as an embedded view.
+   *
+   * 把一个模板传送点作为嵌入式视图附着到 DOM 上。
+   *
    * @param portal Portal to be attached.
+   *
+   * 要附着到的传送点。
+   *
    * @returns Reference to the created embedded view.
+   *
+   * 所创建的嵌入式视图的引用。
+   *
    */
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
     let viewContainer = portal.viewContainerRef;
@@ -108,9 +129,19 @@ export class DomPortalOutlet extends BasePortalOutlet {
 
   /**
    * Attaches a DOM portal by transferring its content into the outlet.
+   *
+   * 通过把其内容传入指定的地标来附着到 DOM 传送点。
+   *
    * @param portal Portal to be attached.
+   *
+   * 要附着到的传送点。
+   *
    * @deprecated To be turned into a method.
+   *
+   * 要改成方法。
+   *
    * @breaking-change 10.0.0
+   *
    */
   attachDomPortal = (portal: DomPortal) => {
     // @breaking-change 10.0.0 Remove check and error once the
@@ -141,6 +172,9 @@ export class DomPortalOutlet extends BasePortalOutlet {
 
   /**
    * Clears out a portal from the DOM.
+   *
+   * 从 DOM 中清除一个传送点。
+   *
    */
   dispose(): void {
     super.dispose();
@@ -149,14 +183,24 @@ export class DomPortalOutlet extends BasePortalOutlet {
     }
   }
 
-  /** Gets the root HTMLElement for an instantiated component. */
+  /**
+   * Gets the root HTMLElement for an instantiated component.
+   *
+   * 获取实例化组件的根 HTMLElement。
+   *
+   */
   private _getComponentRootNode(componentRef: ComponentRef<any>): HTMLElement {
     return (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
   }
 }
 
 /**
+ *
  * @deprecated Use `DomPortalOutlet` instead.
+ *
+ * 请改用 `DomPortalOutlet` 。
+ *
  * @breaking-change 9.0.0
+ *
  */
 export class DomPortalHost extends DomPortalOutlet {}

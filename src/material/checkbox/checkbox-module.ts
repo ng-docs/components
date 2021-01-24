@@ -12,7 +12,12 @@ import {MatCommonModule, MatRippleModule} from '@angular/material/core';
 import {MatCheckbox} from './checkbox';
 import {MatCheckboxRequiredValidator} from './checkbox-required-validator';
 
-/** This module is used by both original and MDC-based checkbox implementations. */
+/**
+ * This module is used by both original and MDC-based checkbox implementations.
+ *
+ * 原始的和基于 MDC 的复选框实现都会使用这个模块。
+ *
+ */
 @NgModule({
   exports: [MatCheckboxRequiredValidator],
   declarations: [MatCheckboxRequiredValidator],

@@ -41,17 +41,29 @@ import {
 
 
 /**
+ *
  * @deprecated No longer used.
+ *
+ * 不再使用了。
+ *
  * @breaking-change 11.0.0
  */
 export type ToggleType = 'checkbox' | 'radio';
 
-/** Possible appearance styles for the button toggle. */
+/**
+ * Possible appearance styles for the button toggle.
+ *
+ * 按钮开关可能的外观样式。
+ *
+ */
 export type MatButtonToggleAppearance = 'legacy' | 'standard';
 
 /**
  * Represents the default options for the button toggle that can be configured
  * using the `MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS` injection token.
+ *
+ * 表示按钮开关的默认选项，可用 `MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS` 注入令牌进行配置。
+ *
  */
 export interface MatButtonToggleDefaultOptions {
   appearance?: MatButtonToggleAppearance;
@@ -60,6 +72,9 @@ export interface MatButtonToggleDefaultOptions {
 /**
  * Injection token that can be used to configure the
  * default options for all button toggles within an app.
+ *
+ * 注入令牌，可以用来配置应用中所有按钮开关的默认选项。
+ *
  */
 export const MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS =
     new InjectionToken<MatButtonToggleDefaultOptions>('MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS');
@@ -68,6 +83,9 @@ export const MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS =
  * Injection token that can be used to reference instances of `MatButtonToggleGroup`.
  * It serves as alternative token to the actual `MatButtonToggleGroup` class which
  * could cause unnecessary retention of the class and its component metadata.
+ *
+ * 这个注入令牌可以用来引用 `MatButtonToggleGroup` 实例。它可以作为实际 `MatButtonToggleGroup` 类的备用令牌，使用实际类会导致无法优化不必要的类及其组件元数据。
+ *
  */
 export const MAT_BUTTON_TOGGLE_GROUP =
     new InjectionToken<MatButtonToggleGroup>('MatButtonToggleGroup');
@@ -75,6 +93,9 @@ export const MAT_BUTTON_TOGGLE_GROUP =
 /**
  * Provider Expression that allows mat-button-toggle-group to register as a ControlValueAccessor.
  * This allows it to support [(ngModel)].
+ *
+ * 这个注入表达式可以让 mat-button-toggle-group 注册为 ControlValueAccessor。这样它就能支持 `[(ngModel)]` 了。
+ *
  * @docs-private
  */
 export const MAT_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR: any = {
@@ -85,7 +106,12 @@ export const MAT_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR: any = {
 
 let _uniqueIdCounter = 0;
 
-/** Change event object emitted by MatButtonToggle. */
+/**
+ * Change event object emitted by MatButtonToggle.
+ *
+ * MatButtonToggle 发出的变更事件对象。
+ *
+ */
 export class MatButtonToggleChange {
   constructor(
     /** The MatButtonToggle that emits the event. */
@@ -95,7 +121,12 @@ export class MatButtonToggleChange {
     public value: any) {}
 }
 
-/** Exclusive selection button toggle group that behaves like a radio-button group. */
+/**
+ * Exclusive selection button toggle group that behaves like a radio-button group.
+ *
+ * 排他性按钮开关组的行为类似于单选按钮组。
+ *
+ */
 @Directive({
   selector: 'mat-button-toggle-group',
   providers: [
@@ -122,29 +153,55 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
    * value will exclude any values from this one that don't correspond to a
    * toggle. Useful for the cases where the value is assigned before the toggles
    * have been initialized or at the same that they're being swapped out.
+   *
+   * 指向消费者试图赋值的原始值的引用。其实际值会排除那些无法与开关对应的值。适用于要在初始化开关之前赋值的情况，或者它们同时被关闭的情况。
+   *
    */
   private _rawValue: any;
 
   /**
    * The method to be called in order to update ngModel.
    * Now `ngModel` binding is not supported in multiple selection mode.
+   *
+   * 为了更新 ngModel 而要调用的方法。目前在多选模式下尚不支持 `ngModel`
+   *
    */
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
-  /** onTouch function registered via registerOnTouch (ControlValueAccessor). */
+  /**
+   * onTouch function registered via registerOnTouch (ControlValueAccessor).
+   *
+   * 通过 ControlValueAccessor 的 registerOnTouch 注册的 onTouch 函数。
+   *
+   */
   _onTouched: () => any = () => {};
 
-  /** Child button toggle buttons. */
+  /**
+   * Child button toggle buttons.
+   *
+   * 当前组件的子按钮开关。
+   *
+   */
   @ContentChildren(forwardRef(() => MatButtonToggle), {
     // Note that this would technically pick up toggles
     // from nested groups, but that's not a case that we support.
     descendants: true
   }) _buttonToggles: QueryList<MatButtonToggle>;
 
-  /** The appearance for all the buttons in the group. */
+  /**
+   * The appearance for all the buttons in the group.
+   *
+   * 该组中所有按钮的外观。
+   *
+   */
   @Input() appearance: MatButtonToggleAppearance;
 
-  /** `name` attribute for the underlying `input` element. */
+  /**
+   * `name` attribute for the underlying `input` element.
+   *
+   * 底层 `input` 元素的 `name` 属性。
+   *
+   */
   @Input()
   get name(): string { return this._name; }
   set name(value: string) {
@@ -159,14 +216,24 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
   }
   private _name = `mat-button-toggle-group-${_uniqueIdCounter++}`;
 
-  /** Whether the toggle group is vertical. */
+  /**
+   * Whether the toggle group is vertical.
+   *
+   * 开关组是否为垂直的。
+   *
+   */
   @Input()
   get vertical(): boolean { return this._vertical; }
   set vertical(value: boolean) {
     this._vertical = coerceBooleanProperty(value);
   }
 
-  /** Value of the toggle group. */
+  /**
+   * Value of the toggle group.
+   *
+   * 开关组的值。
+   *
+   */
   @Input()
   get value(): any {
     const selected = this._selectionModel ? this._selectionModel.selected : [];
@@ -185,24 +252,42 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
   /**
    * Event that emits whenever the value of the group changes.
    * Used to facilitate two-way data binding.
+   *
+   * 每当组的值发生变化就会发出的事件。用来方便进行双向数据绑定。
+   *
    * @docs-private
    */
   @Output() readonly valueChange = new EventEmitter<any>();
 
-  /** Selected button toggles in the group. */
+  /**
+   * Selected button toggles in the group.
+   *
+   * 本组中选定的按钮开关。
+   *
+   */
   get selected() {
     const selected = this._selectionModel ? this._selectionModel.selected : [];
     return this.multiple ? selected : (selected[0] || null);
   }
 
-  /** Whether multiple button toggles can be selected. */
+  /**
+   * Whether multiple button toggles can be selected.
+   *
+   * 是否可以选择多个按钮开关。
+   *
+   */
   @Input()
   get multiple(): boolean { return this._multiple; }
   set multiple(value: boolean) {
     this._multiple = coerceBooleanProperty(value);
   }
 
-  /** Whether multiple button toggle group is disabled. */
+  /**
+   * Whether multiple button toggle group is disabled.
+   *
+   * 是否禁用了多按钮开关组。
+   *
+   */
   @Input()
   get disabled(): boolean { return this._disabled; }
   set disabled(value: boolean) {
@@ -213,7 +298,12 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
     }
   }
 
-  /** Event emitted when the group's value changes. */
+  /**
+   * Event emitted when the group's value changes.
+   *
+   * 当组的值发生变化时会发出本事件。
+   *
+   */
   @Output() readonly change: EventEmitter<MatButtonToggleChange> =
       new EventEmitter<MatButtonToggleChange>();
 
@@ -236,7 +326,13 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
 
   /**
    * Sets the model value. Implemented as part of ControlValueAccessor.
+   *
+   * 设置模型值。作为 ControlValueAccessor 实现的一部分。
+   *
    * @param value Value to be set to the model.
+   *
+   * 要设置为模型的值。
+   *
    */
   writeValue(value: any) {
     this.value = value;
@@ -258,7 +354,12 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
     this.disabled = isDisabled;
   }
 
-  /** Dispatch change event with current selection and group value. */
+  /**
+   * Dispatch change event with current selection and group value.
+   *
+   * 使用当前选定的值和组的值派发 change 事件。
+   *
+   */
   _emitChangeEvent(): void {
     const selected = this.selected;
     const source = Array.isArray(selected) ? selected[selected.length - 1] : selected;
@@ -269,10 +370,25 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
 
   /**
    * Syncs a button toggle's selected state with the model value.
+   *
+   * 使用模型值同步一个按钮开关的选定状态。
+   *
    * @param toggle Toggle to be synced.
+   *
+   * 要同步的开关。
+   *
    * @param select Whether the toggle should be selected.
+   *
+   * 是否应该选定此开关。
+   *
    * @param isUserInput Whether the change was a result of a user interaction.
+   *
+   * 这些变化是否用户交互的结果。
+   *
    * @param deferEvents Whether to defer emitting the change events.
+   *
+   * 是否要推迟发布各种变更事件。
+   *
    */
   _syncButtonToggle(toggle: MatButtonToggle,
                     select: boolean,
@@ -304,12 +420,22 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
     }
   }
 
-  /** Checks whether a button toggle is selected. */
+  /**
+   * Checks whether a button toggle is selected.
+   *
+   * 检查是否选定了某个按钮开关。
+   *
+   */
   _isSelected(toggle: MatButtonToggle) {
     return this._selectionModel && this._selectionModel.isSelected(toggle);
   }
 
-  /** Determines whether a button toggle should be checked on init. */
+  /**
+   * Determines whether a button toggle should be checked on init.
+   *
+   * 确定是否应该在初始化时检查按钮开关。
+   *
+   */
   _isPrechecked(toggle: MatButtonToggle) {
     if (typeof this._rawValue === 'undefined') {
       return false;
@@ -322,7 +448,12 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
     return toggle.value === this._rawValue;
   }
 
-  /** Updates the selection state of the toggles in the group based on a value. */
+  /**
+   * Updates the selection state of the toggles in the group based on a value.
+   *
+   * 根据某个值更新组中各个开关的选定状态。
+   *
+   */
   private _setSelectionByValue(value: any|any[]) {
     this._rawValue = value;
 
@@ -343,13 +474,23 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
     }
   }
 
-  /** Clears the selected toggles. */
+  /**
+   * Clears the selected toggles.
+   *
+   * 清除那些已选定的按钮开关。
+   *
+   */
   private _clearSelection() {
     this._selectionModel.clear();
     this._buttonToggles.forEach(toggle => toggle.checked = false);
   }
 
-  /** Selects a value if there's a toggle that corresponds to it. */
+  /**
+   * Selects a value if there's a toggle that corresponds to it.
+   *
+   * 如果有一个与之对应的开关，就选择一个值。
+   *
+   */
   private _selectValue(value: any) {
     const correspondingOption = this._buttonToggles.find(toggle => {
       return toggle.value != null && toggle.value === value;
@@ -361,7 +502,12 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
     }
   }
 
-  /** Syncs up the group's value with the model and emits the change event. */
+  /**
+   * Syncs up the group's value with the model and emits the change event.
+   *
+   * 将该组的值与模型同步，并发出 change 事件。
+   *
+   */
   private _updateModelValue(isUserInput: boolean) {
     // Only emit the change event for user input.
     if (isUserInput) {
@@ -384,7 +530,12 @@ class MatButtonToggleBase {}
 const _MatButtonToggleMixinBase: CanDisableRippleCtor & typeof MatButtonToggleBase =
     mixinDisableRipple(MatButtonToggleBase);
 
-/** Single button inside of a toggle group. */
+/**
+ * Single button inside of a toggle group.
+ *
+ * 开关组内部的单个按钮。
+ *
+ */
 @Component({
   selector: 'mat-button-toggle',
   templateUrl: 'button-toggle.html',
@@ -416,35 +567,76 @@ export class MatButtonToggle extends _MatButtonToggleMixinBase implements OnInit
   /**
    * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
    * take precedence so this may be omitted.
+   *
+   * 附着在宿主元素上的 aria-label 属性。在大多数情况下，aria-labelledby 优先，所以可省略。
+   *
    */
   @Input('aria-label') ariaLabel: string;
 
   /**
    * Users can specify the `aria-labelledby` attribute which will be forwarded to the input element
+   *
+   * 用户可以指定 `aria-labelledby` 属性，它会被转发到 input 元素上
+   *
    */
   @Input('aria-labelledby') ariaLabelledby: string | null = null;
 
   @ViewChild('button') _buttonElement: ElementRef<HTMLButtonElement>;
 
-  /** The parent button toggle group (exclusive selection). Optional. */
+  /**
+   * The parent button toggle group (exclusive selection). Optional.
+   *
+   * 父开关组（排他选择）。可选。
+   *
+   */
   buttonToggleGroup: MatButtonToggleGroup;
 
-  /** Unique ID for the underlying `button` element. */
+  /**
+   * Unique ID for the underlying `button` element.
+   *
+   * `button` 元素的唯一 ID。
+   *
+   */
   get buttonId(): string { return `${this.id}-button`; }
 
-  /** The unique ID for this button toggle. */
+  /**
+   * The unique ID for this button toggle.
+   *
+   * 此按钮开关的唯一 ID。
+   *
+   */
   @Input() id: string;
 
-  /** HTML's 'name' attribute used to group radios for unique selection. */
+  /**
+   * HTML's 'name' attribute used to group radios for unique selection.
+   *
+   * HTML 的 'name' 属性用于对单选按钮进行分组以进行唯一选择。
+   *
+   */
   @Input() name: string;
 
-  /** MatButtonToggleGroup reads this to assign its own value. */
+  /**
+   * MatButtonToggleGroup reads this to assign its own value.
+   *
+   * MatButtonToggleGroup 读取它来指定自己的值。
+   *
+   */
   @Input() value: any;
 
-  /** Tabindex for the toggle. */
+  /**
+   * Tabindex for the toggle.
+   *
+   * 此开关的 Tabindex。
+   *
+   */
   @Input() tabIndex: number | null;
 
-  /** The appearance style of the button. */
+  /**
+   * The appearance style of the button.
+   *
+   * 此按钮的外观样式。
+   *
+   */
   @Input()
   get appearance(): MatButtonToggleAppearance {
     return this.buttonToggleGroup ? this.buttonToggleGroup.appearance : this._appearance;
@@ -454,7 +646,12 @@ export class MatButtonToggle extends _MatButtonToggleMixinBase implements OnInit
   }
   private _appearance: MatButtonToggleAppearance;
 
-  /** Whether the button is checked. */
+  /**
+   * Whether the button is checked.
+   *
+   * 此按钮是否被勾选。
+   *
+   */
   @Input()
   get checked(): boolean {
     return this.buttonToggleGroup ? this.buttonToggleGroup._isSelected(this) : this._checked;
@@ -473,7 +670,12 @@ export class MatButtonToggle extends _MatButtonToggleMixinBase implements OnInit
     }
   }
 
-  /** Whether the button is disabled. */
+  /**
+   * Whether the button is disabled.
+   *
+   * 此按钮是否被禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._disabled || (this.buttonToggleGroup && this.buttonToggleGroup.disabled);
@@ -481,7 +683,12 @@ export class MatButtonToggle extends _MatButtonToggleMixinBase implements OnInit
   set disabled(value: boolean) { this._disabled = coerceBooleanProperty(value); }
   private _disabled: boolean = false;
 
-  /** Event emitted when the group value changes. */
+  /**
+   * Event emitted when the group value changes.
+   *
+   * 本组的值发生变化时发出的事件。
+   *
+   */
   @Output() readonly change: EventEmitter<MatButtonToggleChange> =
       new EventEmitter<MatButtonToggleChange>();
 
@@ -539,12 +746,22 @@ export class MatButtonToggle extends _MatButtonToggleMixinBase implements OnInit
     }
   }
 
-  /** Focuses the button. */
+  /**
+   * Focuses the button.
+   *
+   * 让此按钮获得焦点。
+   *
+   */
   focus(options?: FocusOptions): void {
     this._buttonElement.nativeElement.focus(options);
   }
 
-  /** Checks the button toggle due to an interaction with the underlying native button. */
+  /**
+   * Checks the button toggle due to an interaction with the underlying native button.
+   *
+   * 由于来自与底层原生按钮的交互，而选定此按钮开关
+   *
+   */
   _onButtonClick() {
     const newChecked = this._isSingleSelector ? true : !this._checked;
 
@@ -563,6 +780,9 @@ export class MatButtonToggle extends _MatButtonToggleMixinBase implements OnInit
    * Marks the button toggle as needing checking for change detection.
    * This method is exposed because the parent button toggle group will directly
    * update bound properties of the radio button.
+   *
+   * 标记此按钮是否需要进行变更检测。之所以暴露出此方法，是因为父按钮的开关组要直接更新此单选按钮的绑定属性。
+   *
    */
   _markForCheck() {
     // When the group value changes, the button will not be notified.

@@ -41,7 +41,12 @@ import {
 } from './scroll/index';
 
 
-/** Default set of positions for the overlay. Follows the behavior of a dropdown. */
+/**
+ * Default set of positions for the overlay. Follows the behavior of a dropdown.
+ *
+ * 浮层的默认位置集合。它遵循下拉列表的行为方式。
+ *
+ */
 const defaultPositionList: ConnectedPosition[] = [
   {
     originX: 'start',
@@ -69,13 +74,21 @@ const defaultPositionList: ConnectedPosition[] = [
   }
 ];
 
-/** Injection token that determines the scroll handling while the connected overlay is open. */
+/**
+ * Injection token that determines the scroll handling while the connected overlay is open.
+ *
+ * 当打开已连接的浮层时，此注入令牌会决定如何处理滚动。
+ *
+ */
 export const CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY =
     new InjectionToken<() => ScrollStrategy>('cdk-connected-overlay-scroll-strategy');
 
 /**
  * Directive applied to an element to make it usable as an origin for an Overlay using a
  * ConnectedPositionStrategy.
+ *
+ * 该指令应用于某个元素，以便在使用 ConnectedPositionStrategy 时可以作为 Overlay 的原点。
+ *
  */
 @Directive({
   selector: '[cdk-overlay-origin], [overlay-origin], [cdkOverlayOrigin]',
@@ -91,6 +104,9 @@ export class CdkOverlayOrigin {
 /**
  * Directive to facilitate declarative creation of an
  * Overlay using a FlexibleConnectedPositionStrategy.
+ *
+ * 该指令旨在帮助用 FlexibleConnectedPositionStrategy 声明式的创建一个浮层。
+ *
  */
 @Directive({
   selector: '[cdk-connected-overlay], [connected-overlay], [cdkConnectedOverlay]',
@@ -113,19 +129,37 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
   private _position: FlexibleConnectedPositionStrategy;
   private _scrollStrategyFactory: () => ScrollStrategy;
 
-  /** Origin for the connected overlay. */
+  /**
+   * Origin for the connected overlay.
+   *
+   * 已连接浮层的原点。
+   *
+   */
   @Input('cdkConnectedOverlayOrigin') origin: CdkOverlayOrigin;
 
-  /** Registered connected position pairs. */
+  /**
+   * Registered connected position pairs.
+   *
+   * 已注册的连接位置对。
+   *
+   */
   @Input('cdkConnectedOverlayPositions') positions: ConnectedPosition[];
 
   /**
    * This input overrides the positions input if specified. It lets users pass
    * in arbitrary positioning strategies.
+   *
+   * 如果指定，该输入会改写输入属性 positions。它可以让用户传入任意的定位策略。
+   *
    */
   @Input('cdkConnectedOverlayPositionStrategy') positionStrategy: FlexibleConnectedPositionStrategy;
 
-  /** The offset in pixels for the overlay connection point on the x-axis */
+  /**
+   * The offset in pixels for the overlay connection point on the x-axis
+   *
+   * 浮层连接点在 x 轴上的像素偏移量
+   *
+   */
   @Input('cdkConnectedOverlayOffsetX')
   get offsetX(): number { return this._offsetX; }
   set offsetX(offsetX: number) {
@@ -136,7 +170,12 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
     }
   }
 
-  /** The offset in pixels for the overlay connection point on the y-axis */
+  /**
+   * The offset in pixels for the overlay connection point on the y-axis
+   *
+   * 浮层连接点在 y 轴上的像素偏移量
+   *
+   */
   @Input('cdkConnectedOverlayOffsetY')
   get offsetY() { return this._offsetY; }
   set offsetY(offsetY: number) {
@@ -147,82 +186,192 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
     }
   }
 
-  /** The width of the overlay panel. */
+  /**
+   * The width of the overlay panel.
+   *
+   * 浮层面板的宽度。
+   *
+   */
   @Input('cdkConnectedOverlayWidth') width: number | string;
 
-  /** The height of the overlay panel. */
+  /**
+   * The height of the overlay panel.
+   *
+   * 浮层面板的高度。
+   *
+   */
   @Input('cdkConnectedOverlayHeight') height: number | string;
 
-  /** The min width of the overlay panel. */
+  /**
+   * The min width of the overlay panel.
+   *
+   * 浮层面板的最小宽度。
+   *
+   */
   @Input('cdkConnectedOverlayMinWidth') minWidth: number | string;
 
-  /** The min height of the overlay panel. */
+  /**
+   * The min height of the overlay panel.
+   *
+   * 浮层面板的最小高度。
+   *
+   */
   @Input('cdkConnectedOverlayMinHeight') minHeight: number | string;
 
-  /** The custom class to be set on the backdrop element. */
+  /**
+   * The custom class to be set on the backdrop element.
+   *
+   * 在背景板元素上设置的自定义类。
+   *
+   */
   @Input('cdkConnectedOverlayBackdropClass') backdropClass: string;
 
-  /** The custom class to add to the overlay pane element. */
+  /**
+   * The custom class to add to the overlay pane element.
+   *
+   * 要添加到浮层面板元素中的自定义类。
+   *
+   */
   @Input('cdkConnectedOverlayPanelClass') panelClass: string | string[];
 
-  /** Margin between the overlay and the viewport edges. */
+  /**
+   * Margin between the overlay and the viewport edges.
+   *
+   * 浮层与视口边缘之间的边距。
+   *
+   */
   @Input('cdkConnectedOverlayViewportMargin') viewportMargin: number = 0;
 
-  /** Strategy to be used when handling scroll events while the overlay is open. */
+  /**
+   * Strategy to be used when handling scroll events while the overlay is open.
+   *
+   * 在浮层完成时，处理 scroll 事件时要使用的策略。
+   *
+   */
   @Input('cdkConnectedOverlayScrollStrategy') scrollStrategy: ScrollStrategy;
 
-  /** Whether the overlay is open. */
+  /**
+   * Whether the overlay is open.
+   *
+   * 浮层是否已打开。
+   *
+   */
   @Input('cdkConnectedOverlayOpen') open: boolean = false;
 
-  /** Whether the overlay can be closed by user interaction. */
+  /**
+   * Whether the overlay can be closed by user interaction.
+   *
+   * 浮层是否可以通过用户交互来关闭。
+   *
+   */
   @Input('cdkConnectedOverlayDisableClose') disableClose: boolean = false;
 
-  /** CSS selector which to set the transform origin. */
+  /**
+   * CSS selector which to set the transform origin.
+   *
+   * 用于设置变换原点的 CSS 选择器。
+   *
+   */
   @Input('cdkConnectedOverlayTransformOriginOn') transformOriginSelector: string;
 
-  /** Whether or not the overlay should attach a backdrop. */
+  /**
+   * Whether or not the overlay should attach a backdrop.
+   *
+   * 浮层是否应带有背景板。
+   *
+   */
   @Input('cdkConnectedOverlayHasBackdrop')
   get hasBackdrop() { return this._hasBackdrop; }
   set hasBackdrop(value: any) { this._hasBackdrop = coerceBooleanProperty(value); }
 
-  /** Whether or not the overlay should be locked when scrolling. */
+  /**
+   * Whether or not the overlay should be locked when scrolling.
+   *
+   * 滚动时是否应该锁定浮层。
+   *
+   */
   @Input('cdkConnectedOverlayLockPosition')
   get lockPosition() { return this._lockPosition; }
   set lockPosition(value: any) { this._lockPosition = coerceBooleanProperty(value); }
 
-  /** Whether the overlay's width and height can be constrained to fit within the viewport. */
+  /**
+   * Whether the overlay's width and height can be constrained to fit within the viewport.
+   *
+   * 浮层的宽度和高度是否可以约束在当前视口中。
+   *
+   */
   @Input('cdkConnectedOverlayFlexibleDimensions')
   get flexibleDimensions() { return this._flexibleDimensions; }
   set flexibleDimensions(value: boolean) {
     this._flexibleDimensions = coerceBooleanProperty(value);
   }
 
-  /** Whether the overlay can grow after the initial open when flexible positioning is turned on. */
+  /**
+   * Whether the overlay can grow after the initial open when flexible positioning is turned on.
+   *
+   * 当弹性定位打开时，浮层是否能在首次打开后扩大。
+   *
+   */
   @Input('cdkConnectedOverlayGrowAfterOpen')
   get growAfterOpen() { return this._growAfterOpen; }
   set growAfterOpen(value: boolean) { this._growAfterOpen = coerceBooleanProperty(value); }
 
-  /** Whether the overlay can be pushed on-screen if none of the provided positions fit. */
+  /**
+   * Whether the overlay can be pushed on-screen if none of the provided positions fit.
+   *
+   * 如果所提供的位置都不合适，是否可以在屏幕上往下压浮层。
+   *
+   */
   @Input('cdkConnectedOverlayPush')
   get push() { return this._push; }
   set push(value: boolean) { this._push = coerceBooleanProperty(value); }
 
-  /** Event emitted when the backdrop is clicked. */
+  /**
+   * Event emitted when the backdrop is clicked.
+   *
+   * 单击背景板时发出的事件。
+   *
+   */
   @Output() backdropClick = new EventEmitter<MouseEvent>();
 
-  /** Event emitted when the position has changed. */
+  /**
+   * Event emitted when the position has changed.
+   *
+   * 当定位发生变化时会发出本事件。
+   *
+   */
   @Output() positionChange = new EventEmitter<ConnectedOverlayPositionChange>();
 
-  /** Event emitted when the overlay has been attached. */
+  /**
+   * Event emitted when the overlay has been attached.
+   *
+   * 连接浮层时会发出本事件。
+   *
+   */
   @Output() attach = new EventEmitter<void>();
 
-  /** Event emitted when the overlay has been detached. */
+  /**
+   * Event emitted when the overlay has been detached.
+   *
+   * 解除浮层时会发出本事件。
+   *
+   */
   @Output() detach = new EventEmitter<void>();
 
-  /** Emits when there are keyboard events that are targeted at the overlay. */
+  /**
+   * Emits when there are keyboard events that are targeted at the overlay.
+   *
+   * 键盘事件的目标是本浮层会触发。
+   *
+   */
   @Output() overlayKeydown = new EventEmitter<KeyboardEvent>();
 
-  /** Emits when there are mouse outside click events that are targeted at the overlay. */
+  /**
+   * Emits when there are mouse outside click events that are targeted at the overlay.
+   *
+   * 当本浮层的外部发生鼠标点击事件时会触发。
+   *
+   */
   @Output() overlayOutsideClick = new EventEmitter<MouseEvent>();
 
   // TODO(jelbourn): inputs for size, scroll behavior, animation, etc.
@@ -238,12 +387,22 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
     this.scrollStrategy = this._scrollStrategyFactory();
   }
 
-  /** The associated overlay reference. */
+  /**
+   * The associated overlay reference.
+   *
+   * 到关联的浮层引用。
+   *
+   */
   get overlayRef(): OverlayRef {
     return this._overlayRef;
   }
 
-  /** The element's layout direction. */
+  /**
+   * The element's layout direction.
+   *
+   * 元素的布局方向。
+   *
+   */
   get dir(): Direction {
     return this._dir ? this._dir.value : 'ltr';
   }
@@ -279,7 +438,12 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
     }
   }
 
-  /** Creates an overlay */
+  /**
+   * Creates an overlay
+   *
+   * 创建一个浮层
+   *
+   */
   private _createOverlay() {
     if (!this.positions || !this.positions.length) {
       this.positions = defaultPositionList;
@@ -302,7 +466,12 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
     });
   }
 
-  /** Builds the overlay config based on the directive's inputs */
+  /**
+   * Builds the overlay config based on the directive's inputs
+   *
+   * 根据指令的输入属性构建浮层配置
+   *
+   */
   private _buildConfig(): OverlayConfig {
     const positionStrategy = this._position =
       this.positionStrategy || this._createPositionStrategy();
@@ -340,7 +509,12 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
     return overlayConfig;
   }
 
-  /** Updates the state of a position strategy, based on the values of the directive inputs. */
+  /**
+   * Updates the state of a position strategy, based on the values of the directive inputs.
+   *
+   * 根据指令输入属性的值更新位置策略的状态。
+   *
+   */
   private _updatePositionStrategy(positionStrategy: FlexibleConnectedPositionStrategy) {
     const positions: ConnectedPosition[] = this.positions.map(currentPosition => ({
       originX: currentPosition.originX,
@@ -363,14 +537,24 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
       .withTransformOriginOn(this.transformOriginSelector);
   }
 
-  /** Returns the position strategy of the overlay to be set on the overlay config */
+  /**
+   * Returns the position strategy of the overlay to be set on the overlay config
+   *
+   * 返回要在浮层配置上设置的浮层定位策略
+   *
+   */
   private _createPositionStrategy(): FlexibleConnectedPositionStrategy {
     const strategy = this._overlay.position().flexibleConnectedTo(this.origin.elementRef);
     this._updatePositionStrategy(strategy);
     return strategy;
   }
 
-  /** Attaches the overlay and subscribes to backdrop clicks if backdrop exists */
+  /**
+   * Attaches the overlay and subscribes to backdrop clicks if backdrop exists
+   *
+   * 如果存在背景板，请把浮层附着上去并订阅背景板点击事件
+   *
+   */
   private _attachOverlay() {
     if (!this._overlayRef) {
       this._createOverlay();
@@ -408,7 +592,12 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
     }
   }
 
-  /** Detaches the overlay and unsubscribes to backdrop clicks if backdrop exists */
+  /**
+   * Detaches the overlay and unsubscribes to backdrop clicks if backdrop exists
+   *
+   * 如果背景板存在，则拆除浮层并取消订阅背景板点击事件
+   *
+   */
   private _detachOverlay() {
     if (this._overlayRef) {
       this._overlayRef.detach();

@@ -11,7 +11,12 @@ import {DOCUMENT} from '@angular/common';
 import {normalizePassiveListenerOptions} from '@angular/cdk/platform';
 import {Subject} from 'rxjs';
 
-/** Event options that can be used to bind an active, capturing event. */
+/**
+ * Event options that can be used to bind an active, capturing event.
+ *
+ * 可以用来绑定活动的捕获事件的选项。
+ *
+ */
 const activeCapturingEventOptions = normalizePassiveListenerOptions({
   passive: false,
   capture: true
@@ -20,6 +25,9 @@ const activeCapturingEventOptions = normalizePassiveListenerOptions({
 /**
  * Service that keeps track of all the drag item and drop container
  * instances, and manages global event listeners on the `document`.
+ *
+ * 该服务可以跟踪所有的可拖动条目和可投放容器实例，并管理 `document` 上的全局事件监听器。
+ *
  * @docs-private
  */
 // Note: this class is generic, rather than referencing CdkDrag and CdkDropList directly, in order
@@ -29,16 +37,36 @@ const activeCapturingEventOptions = normalizePassiveListenerOptions({
 export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements OnDestroy {
   private _document: Document;
 
-  /** Registered drop container instances. */
+  /**
+   * Registered drop container instances.
+   *
+   * 已注册的可投放容器实例。
+   *
+   */
   private _dropInstances = new Set<C>();
 
-  /** Registered drag item instances. */
+  /**
+   * Registered drag item instances.
+   *
+   * 已注册的拖动条目实例
+   *
+   */
   private _dragInstances = new Set<I>();
 
-  /** Drag item instances that are currently being dragged. */
+  /**
+   * Drag item instances that are currently being dragged.
+   *
+   * 当前正被拖动的条目实例。
+   *
+   */
   private _activeDragInstances: I[] = [];
 
-  /** Keeps track of the event listeners that we've bound to the `document`. */
+  /**
+   * Keeps track of the event listeners that we've bound to the `document`.
+   *
+   * 跟踪我们绑定到 `document` 上的事件监听器。
+   *
+   */
   private _globalListeners = new Map<string, {
     handler: (event: Event) => void,
     options?: AddEventListenerOptions | boolean
@@ -47,22 +75,36 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
   /**
    * Predicate function to check if an item is being dragged.  Moved out into a property,
    * because it'll be called a lot and we don't want to create a new function every time.
+   *
+   * 用于检查条目是否可被拖动的谓词函数。挪了属性中，因为它会被调用很多次，而且每次都不想创建新函数。
+   *
    */
   private _draggingPredicate = (item: I) => item.isDragging();
 
   /**
    * Emits the `touchmove` or `mousemove` events that are dispatched
    * while the user is dragging a drag item instance.
+   *
+   * 当用户正在拖动一个拖动条目实例时，会派发 `touchmove` 或 `mousemove` 事件。
+   *
    */
   readonly pointerMove: Subject<TouchEvent | MouseEvent> = new Subject<TouchEvent | MouseEvent>();
 
   /**
    * Emits the `touchend` or `mouseup` events that are dispatched
    * while the user is dragging a drag item instance.
+   *
+   * 当用户正在拖动一个拖曳条目实例时，会派发 `touchend` 或 `mouseup` 事件。
+   *
    */
   readonly pointerUp: Subject<TouchEvent | MouseEvent> = new Subject<TouchEvent | MouseEvent>();
 
-  /** Emits when the viewport has been scrolled while the user is dragging an item. */
+  /**
+   * Emits when the viewport has been scrolled while the user is dragging an item.
+   *
+   * 在用户拖动某个条目并滚动视口时发出通知。
+   *
+   */
   readonly scroll: Subject<Event> = new Subject<Event>();
 
   constructor(
@@ -71,14 +113,24 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
     this._document = _document;
   }
 
-  /** Adds a drop container to the registry. */
+  /**
+   * Adds a drop container to the registry.
+   *
+   * 在注册表中添加一个投放容器。
+   *
+   */
   registerDropContainer(drop: C) {
     if (!this._dropInstances.has(drop)) {
       this._dropInstances.add(drop);
     }
   }
 
-  /** Adds a drag item instance to the registry. */
+  /**
+   * Adds a drag item instance to the registry.
+   *
+   * 把一个拖动条目的实例添加到注册表中。
+   *
+   */
   registerDragItem(drag: I) {
     this._dragInstances.add(drag);
 
@@ -95,12 +147,22 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
     }
   }
 
-  /** Removes a drop container from the registry. */
+  /**
+   * Removes a drop container from the registry.
+   *
+   * 从注册表中删除一个投放容器。
+   *
+   */
   removeDropContainer(drop: C) {
     this._dropInstances.delete(drop);
   }
 
-  /** Removes a drag item instance from the registry. */
+  /**
+   * Removes a drag item instance from the registry.
+   *
+   * 从注册表中删除一个拖动条目实例。
+   *
+   */
   removeDragItem(drag: I) {
     this._dragInstances.delete(drag);
     this.stopDragging(drag);
@@ -113,8 +175,17 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
 
   /**
    * Starts the dragging sequence for a drag instance.
+   *
+   * 为一个拖动实例开始拖曳序列。
+   *
    * @param drag Drag instance which is being dragged.
+   *
+   * 正在拖动的实例。
+   *
    * @param event Event that initiated the dragging.
+   *
+   * 引发了拖动的事件。
+   *
    */
   startDragging(drag: I, event: TouchEvent | MouseEvent) {
     // Do not process the same drag twice to avoid memory leaks and redundant listeners
@@ -167,7 +238,12 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
     }
   }
 
-  /** Stops dragging a drag item instance. */
+  /**
+   * Stops dragging a drag item instance.
+   *
+   * 停止拖动条目的实例。
+   *
+   */
   stopDragging(drag: I) {
     const index = this._activeDragInstances.indexOf(drag);
 
@@ -180,7 +256,12 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
     }
   }
 
-  /** Gets whether a drag item instance is currently being dragged. */
+  /**
+   * Gets whether a drag item instance is currently being dragged.
+   *
+   * 获取是否正在拖动条目实例。
+   *
+   */
   isDragging(drag: I) {
     return this._activeDragInstances.indexOf(drag) > -1;
   }
@@ -195,7 +276,13 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
 
   /**
    * Event listener that will prevent the default browser action while the user is dragging.
+   *
+   * 事件监听器会在用户拖动时阻止默认的浏览器操作。
+   *
    * @param event Event whose default action should be prevented.
+   *
+   * 应该阻止默认操作的事件。
+   *
    */
   private _preventDefaultWhileDragging = (event: Event) => {
     if (this._activeDragInstances.length > 0) {
@@ -203,7 +290,12 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
     }
   }
 
-  /** Event listener for `touchmove` that is bound even if no dragging is happening. */
+  /**
+   * Event listener for `touchmove` that is bound even if no dragging is happening.
+   *
+   * `touchmove` 事件监听器，即使没有拖动也会被绑定。
+   *
+   */
   private _persistentTouchmoveListener = (event: TouchEvent) => {
     if (this._activeDragInstances.length > 0) {
       // Note that we only want to prevent the default action after dragging has actually started.
@@ -217,7 +309,12 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
     }
   }
 
-  /** Clears out the global event listeners from the `document`. */
+  /**
+   * Clears out the global event listeners from the `document`.
+   *
+   * 清除 `document` 上的全局事件监听器。
+   *
+   */
   private _clearGlobalListeners() {
     this._globalListeners.forEach((config, name) => {
       this._document.removeEventListener(name, config.handler, config.options);

@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Coerces a value to a CSS pixel value. */
+/**
+ * Coerces a value to a CSS pixel value.
+ *
+ * 把值强制转换为 CSS 的像素值。
+ *
+ */
 export function coerceCssPixelValue(value: any): string {
   if (value == null) {
     return '';

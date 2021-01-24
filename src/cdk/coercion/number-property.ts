@@ -8,11 +8,19 @@
 
 /**
  * Type describing the allowed values for a number input
+ *
+ * 此类型描述数字输入的允许值
+ *
  * @docs-private
  */
 export type NumberInput = string | number | null | undefined;
 
-/** Coerces a data-bound value (typically a string) to a number. */
+/**
+ * Coerces a data-bound value (typically a string) to a number.
+ *
+ * 把数据绑定值（通常是字符串）强制转换为数字。
+ *
+ */
 export function coerceNumberProperty(value: any): number;
 export function coerceNumberProperty<D>(value: any, fallback: D): number | D;
 export function coerceNumberProperty(value: any, fallbackValue = 0) {
@@ -21,6 +29,9 @@ export function coerceNumberProperty(value: any, fallbackValue = 0) {
 
 /**
  * Whether the provided value is considered a number.
+ *
+ * 提供的值是否可视为数字。
+ *
  * @docs-private
  */
 export function _isNumberValue(value: any): boolean {

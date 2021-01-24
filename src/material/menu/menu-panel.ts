@@ -14,12 +14,18 @@ import {MatMenuContent} from './menu-content';
 
 /**
  * Injection token used to provide the parent menu to menu-specific components.
+ *
+ * 注入令牌，用于把父菜单提供给菜单专用的组件。
+ *
  * @docs-private
  */
 export const MAT_MENU_PANEL = new InjectionToken<MatMenuPanel>('MAT_MENU_PANEL');
 
 /**
  * Interface for a custom menu panel that can be used with `matMenuTriggerFor`.
+ *
+ * 用于描述和 `matMenuTriggerFor` 一起使用的自定义菜单面板的接口。
+ *
  * @docs-private
  */
 export interface MatMenuPanel<T = any> {

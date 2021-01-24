@@ -54,6 +54,9 @@ const _MatListItemMixinBase: CanDisableRippleCtor & typeof MatListItemBase =
  * Injection token that can be used to inject instances of `MatList`. It serves as
  * alternative token to the actual `MatList` class which could cause unnecessary
  * retention of the class and its component metadata.
+ *
+ * 这个注入令牌可以用来注入 `MatList` 实例。它可以作为实际 `MatList` 类的备用令牌，如果使用真实类可能导致此类及其组件元数据无法优化掉。
+ *
  */
 export const MAT_LIST = new InjectionToken<MatList>('MatList');
 
@@ -61,6 +64,9 @@ export const MAT_LIST = new InjectionToken<MatList>('MatList');
  * Injection token that can be used to inject instances of `MatNavList`. It serves as
  * alternative token to the actual `MatNavList` class which could cause unnecessary
  * retention of the class and its component metadata.
+ *
+ * 这个注入令牌可以用来注入一些 `MatNavList` 实例。它可以作为实际 `MatNavList` 类的备用令牌，如果使用真实类可能导致此类及其组件元数据无法优化掉。
+ *
  */
 export const MAT_NAV_LIST = new InjectionToken<MatNavList>('MatNavList');
 
@@ -80,7 +86,12 @@ export const MAT_NAV_LIST = new InjectionToken<MatNavList>('MatNavList');
 })
 export class MatNavList extends _MatListMixinBase implements CanDisable, CanDisableRipple,
   OnChanges, OnDestroy {
-  /** Emits when the state of the list changes. */
+  /**
+   * Emits when the state of the list changes.
+   *
+   * 当列表状态发生变化时发出通知。
+   *
+   */
   _stateChanges = new Subject<void>();
 
   ngOnChanges() {
@@ -110,7 +121,12 @@ export class MatNavList extends _MatListMixinBase implements CanDisable, CanDisa
 })
 export class MatList extends _MatListMixinBase implements CanDisable, CanDisableRipple, OnChanges,
   OnDestroy {
-  /** Emits when the state of the list changes. */
+  /**
+   * Emits when the state of the list changes.
+   *
+   * 当列表状态发生变化时发出通知。
+   *
+   */
   _stateChanges = new Subject<void>();
 
   constructor(private _elementRef: ElementRef<HTMLElement>) {
@@ -149,6 +165,9 @@ export class MatList extends _MatListMixinBase implements CanDisable, CanDisable
 
 /**
  * Directive whose purpose is to add the mat- CSS styling to this selector.
+ *
+ * 本指令的目的是把 mat- CSS 样式添加到这个选择器中。
+ *
  * @docs-private
  */
 @Directive({
@@ -159,6 +178,9 @@ export class MatListAvatarCssMatStyler {}
 
 /**
  * Directive whose purpose is to add the mat- CSS styling to this selector.
+ *
+ * 本指令的目的是把 mat- CSS 样式添加到这个选择器中。
+ *
  * @docs-private
  */
 @Directive({
@@ -169,6 +191,9 @@ export class MatListIconCssMatStyler {}
 
 /**
  * Directive whose purpose is to add the mat- CSS styling to this selector.
+ *
+ * 本指令的目的是把 mat- CSS 样式添加到这个选择器中。
+ *
  * @docs-private
  */
 @Directive({
@@ -177,7 +202,12 @@ export class MatListIconCssMatStyler {}
 })
 export class MatListSubheaderCssMatStyler {}
 
-/** An item within a Material Design list. */
+/**
+ * An item within a Material Design list.
+ *
+ * “Material Design” 列表中的一个条目
+ *
+ */
 @Component({
   selector: 'mat-list-item, a[mat-list-item], button[mat-list-item]',
   exportAs: 'matListItem',
@@ -228,7 +258,12 @@ export class MatListItem extends _MatListItemMixinBase implements AfterContentIn
     }
   }
 
-  /** Whether the option is disabled. */
+  /**
+   * Whether the option is disabled.
+   *
+   * 该选项是否被禁用。
+   *
+   */
   @Input()
   get disabled() { return this._disabled || !!(this._list && this._list.disabled); }
   set disabled(value: boolean) {
@@ -245,13 +280,23 @@ export class MatListItem extends _MatListItemMixinBase implements AfterContentIn
     this._destroyed.complete();
   }
 
-  /** Whether this list item should show a ripple effect when clicked. */
+  /**
+   * Whether this list item should show a ripple effect when clicked.
+   *
+   * 此列表条目是否应该在点击时显示涟漪效果。
+   *
+   */
   _isRippleDisabled() {
     return !this._isInteractiveList || this.disableRipple ||
            !!(this._list && this._list.disableRipple);
   }
 
-  /** Retrieves the DOM element of the component host. */
+  /**
+   * Retrieves the DOM element of the component host.
+   *
+   * 检索组件宿主的 DOM 元素。
+   *
+   */
   _getHostElement(): HTMLElement {
     return this._element.nativeElement;
   }

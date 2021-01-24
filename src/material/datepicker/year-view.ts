@@ -47,6 +47,9 @@ import {DateRange} from './date-selection-model';
 
 /**
  * An internal component used to display a single year in the datepicker.
+ *
+ * 一个内部组件，用于在日期选择器中显示一年。
+ *
  * @docs-private
  */
 @Component({
@@ -59,7 +62,12 @@ import {DateRange} from './date-selection-model';
 export class MatYearView<D> implements AfterContentInit, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;
 
-  /** The date to display in this year view (everything other than the year is ignored). */
+  /**
+   * The date to display in this year view (everything other than the year is ignored).
+   *
+   * 要在今年视图中显示的日期（忽略该年份以外的所有内容）。
+   *
+   */
   @Input()
   get activeDate(): D { return this._activeDate; }
   set activeDate(value: D) {
@@ -75,7 +83,12 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   }
   private _activeDate: D;
 
-  /** The currently selected date. */
+  /**
+   * The currently selected date.
+   *
+   * 当前选定日期。
+   *
+   */
   @Input()
   get selected(): DateRange<D> | D | null { return this._selected; }
   set selected(value: DateRange<D> | D | null) {
@@ -89,7 +102,12 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   }
   private _selected: DateRange<D> | D | null;
 
-  /** The minimum selectable date. */
+  /**
+   * The minimum selectable date.
+   *
+   * 最小可选日期。
+   *
+   */
   @Input()
   get minDate(): D | null { return this._minDate; }
   set minDate(value: D | null) {
@@ -97,7 +115,12 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   }
   private _minDate: D | null;
 
-  /** The maximum selectable date. */
+  /**
+   * The maximum selectable date.
+   *
+   * 最大可选日期。
+   *
+   */
   @Input()
   get maxDate(): D | null { return this._maxDate; }
   set maxDate(value: D | null) {
@@ -105,36 +128,84 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   }
   private _maxDate: D | null;
 
-  /** A function used to filter which dates are selectable. */
+  /**
+   * A function used to filter which dates are selectable.
+   *
+   * 用来过滤可选择哪些日期的函数。
+   *
+   */
   @Input() dateFilter: (date: D) => boolean;
 
-  /** Function that can be used to add custom CSS classes to date cells. */
+  /**
+   * Function that can be used to add custom CSS classes to date cells.
+   *
+   * 可用于把自定义 CSS 类添加到日期单元格的函数。
+   *
+   */
   @Input() dateClass: MatCalendarCellClassFunction<D>;
 
-  /** Emits when a new month is selected. */
+  /**
+   * Emits when a new month is selected.
+   *
+   * 选定新月份后会发出通知。
+   *
+   */
   @Output() readonly selectedChange: EventEmitter<D> = new EventEmitter<D>();
 
-  /** Emits the selected month. This doesn't imply a change on the selected date */
+  /**
+   * Emits the selected month. This doesn't imply a change on the selected date
+   *
+   * 选定月份时会发出通知。这并不会更改选定日期
+   *
+   */
   @Output() readonly monthSelected: EventEmitter<D> = new EventEmitter<D>();
 
-  /** Emits when any date is activated. */
+  /**
+   * Emits when any date is activated.
+   *
+   * 激活任何日期时，都会发出通知。
+   *
+   */
   @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
 
-  /** The body of calendar table */
+  /**
+   * The body of calendar table
+   *
+   * 日历表的正文
+   *
+   */
   @ViewChild(MatCalendarBody) _matCalendarBody: MatCalendarBody;
 
-  /** Grid of calendar cells representing the months of the year. */
+  /**
+   * Grid of calendar cells representing the months of the year.
+   *
+   * 日历单元格表示一年中的月份。
+   *
+   */
   _months: MatCalendarCell[][];
 
-  /** The label for this year (e.g. "2017"). */
+  /**
+   * The label for this year (e.g. "2017").
+   *
+   * 今年的标签（例如“2017”）。
+   *
+   */
   _yearLabel: string;
 
-  /** The month in this year that today falls on. Null if today is in a different year. */
+  /**
+   * The month in this year that today falls on. Null if today is in a different year.
+   *
+   * 今天在这一年中的月份。如果今天不在这一年，那就为空。
+   *
+   */
   _todayMonth: number | null;
 
   /**
    * The month in this year that the selected Date falls on.
    * Null if the selected Date is in a different year.
+   *
+   * 选定的日期在这一年中的月份。如果选定的日期在不同的年份，则为空。
+   *
    */
   _selectedMonth: number | null;
 
@@ -165,7 +236,12 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
     this._rerenderSubscription.unsubscribe();
   }
 
-  /** Handles when a new month is selected. */
+  /**
+   * Handles when a new month is selected.
+   *
+   * 选定新的月份后处理。
+   *
+   */
   _monthSelected(event: MatCalendarUserEvent<number>) {
     const month = event.value;
     const normalizedDate =
@@ -180,7 +256,12 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
         Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth)));
   }
 
-  /** Handles keydown events on the calendar body when calendar is in year view. */
+  /**
+   * Handles keydown events on the calendar body when calendar is in year view.
+   *
+   * 当日历显示年视图时，处理日历主体上的 keydown 事件。
+   *
+   */
   _handleCalendarBodyKeydown(event: KeyboardEvent): void {
     // TODO(mmalerba): We currently allow keyboard navigation to disabled dates, but just prevent
     // disabled ones from being selected. This may not be ideal, we should look into whether
@@ -236,7 +317,12 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
     event.preventDefault();
   }
 
-  /** Initializes this year view. */
+  /**
+   * Initializes this year view.
+   *
+   * 初始化今年的视图。
+   *
+   */
   _init() {
     this._setSelectedMonth(this.selected);
     this._todayMonth = this._getMonthInCurrentYear(this._dateAdapter.today());
@@ -249,7 +335,12 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
     this._changeDetectorRef.markForCheck();
   }
 
-  /** Focuses the active cell after the microtask queue is empty. */
+  /**
+   * Focuses the active cell after the microtask queue is empty.
+   *
+   * 在微任务队列为空之后，让这个活动单元格获得焦点。
+   *
+   */
   _focusActiveCell() {
     this._matCalendarBody._focusActiveCell();
   }
@@ -257,13 +348,21 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   /**
    * Gets the month in this year that the given Date falls on.
    * Returns null if the given Date is in another year.
+   *
+   * 获取指定日期在当前年的月份。如果指定的日期在另一年，则返回 null。
+   *
    */
   private _getMonthInCurrentYear(date: D | null) {
     return date && this._dateAdapter.getYear(date) == this._dateAdapter.getYear(this.activeDate) ?
         this._dateAdapter.getMonth(date) : null;
   }
 
-  /** Creates an MatCalendarCell for the given month. */
+  /**
+   * Creates an MatCalendarCell for the given month.
+   *
+   * 为指定的月份创建一个 MatCalendarCell。
+   *
+   */
   private _createCellForMonth(month: number, monthName: string) {
     const date = this._dateAdapter.createDate(this._dateAdapter.getYear(this.activeDate), month, 1);
     const ariaLabel = this._dateAdapter.format(date, this._dateFormats.display.monthYearA11yLabel);
@@ -273,7 +372,12 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
         this._shouldEnableMonth(month), cellClasses);
   }
 
-  /** Whether the given month is enabled. */
+  /**
+   * Whether the given month is enabled.
+   *
+   * 指定的月份是否已启用。
+   *
+   */
   private _shouldEnableMonth(month: number) {
 
     const activeYear = this._dateAdapter.getYear(this.activeDate);
@@ -304,6 +408,9 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   /**
    * Tests whether the combination month/year is after this.maxDate, considering
    * just the month and year of this.maxDate
+   *
+   * 测试这个月/年组合是否在 this.maxDate 之后，只考虑 this.maxDate 中的月份和年份
+   *
    */
   private _isYearAndMonthAfterMaxDate(year: number, month: number) {
     if (this.maxDate) {
@@ -319,6 +426,9 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   /**
    * Tests whether the combination month/year is before this.minDate, considering
    * just the month and year of this.minDate
+   *
+   * 测试这个月/年组合是否在 this.minDate 之前，只考虑 this.minDate 中的月份和年份
+   *
    */
   private _isYearAndMonthBeforeMinDate(year: number, month: number) {
     if (this.minDate) {
@@ -331,12 +441,22 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
     return false;
   }
 
-  /** Determines whether the user has the RTL layout direction. */
+  /**
+   * Determines whether the user has the RTL layout direction.
+   *
+   * 确定用户是否具有 RTL 布局方向。
+   *
+   */
   private _isRtl() {
     return this._dir && this._dir.value === 'rtl';
   }
 
-  /** Sets the currently-selected month based on a model value. */
+  /**
+   * Sets the currently-selected month based on a model value.
+   *
+   * 根据模型的值设置当前选定的月份。
+   *
+   */
   private _setSelectedMonth(value: DateRange<D> | D | null) {
     if (value instanceof DateRange) {
       this._selectedMonth = this._getMonthInCurrentYear(value.start) ||

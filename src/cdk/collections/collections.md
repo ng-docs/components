@@ -7,7 +7,7 @@ The `collections` package provides a set of utilities for managing collections.
 `SelectionModel` is a utility for powering selection of one or more options from a list.
 This model is used in components such as the selection list, table selections and chip lists.
 
-`SelectionModel` 是一个实用工具，可以从列表中选择一个或多个选项。该模型用于组件，如可选列表，可选表格和芯片列表。
+`SelectionModel` 是一个实用工具，可以从列表中选择一个或多个选项。该模型用于组件，如可选列表，可选表格和纸片列表。
 
 #### Basic Usage
 

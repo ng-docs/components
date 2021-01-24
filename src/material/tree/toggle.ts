@@ -12,6 +12,9 @@ import {Directive, Input} from '@angular/core';
 
 /**
  * Wrapper for the CdkTree's toggle with Material design styles.
+ *
+ * 供 CdkTree 用于切换的带有 Material Design 样式的包装器。
+ *
  */
 @Directive({
   selector: '[matTreeNodeToggle]',

@@ -9,15 +9,30 @@
 import {ViewportRuler} from '@angular/cdk/scrolling';
 import {getMutableClientRect, adjustClientRect} from './client-rect';
 
-/** Object holding the scroll position of something. */
+/**
+ * Object holding the scroll position of something.
+ *
+ * 保存滚动位置的对象。
+ *
+ */
 interface ScrollPosition {
   top: number;
   left: number;
 }
 
-/** Keeps track of the scroll position and dimensions of the parents of an element. */
+/**
+ * Keeps track of the scroll position and dimensions of the parents of an element.
+ *
+ * 跟踪元素父级的滚动位置和尺寸。
+ *
+ */
 export class ParentPositionTracker {
-  /** Cached positions of the scrollable parent elements. */
+  /**
+   * Cached positions of the scrollable parent elements.
+   *
+   * 缓存的可滚动父元素位置。
+   *
+   */
   readonly positions = new Map<Document|HTMLElement, {
     scrollPosition: ScrollPosition,
     clientRect?: ClientRect
@@ -25,12 +40,22 @@ export class ParentPositionTracker {
 
   constructor(private _document: Document, private _viewportRuler: ViewportRuler) {}
 
-  /** Clears the cached positions. */
+  /**
+   * Clears the cached positions.
+   *
+   * 清除缓存的位置。
+   *
+   */
   clear() {
     this.positions.clear();
   }
 
-  /** Caches the positions. Should be called at the beginning of a drag sequence. */
+  /**
+   * Caches the positions. Should be called at the beginning of a drag sequence.
+   *
+   * 缓存这些位置。应该在拖曳序列开始时调用。
+   *
+   */
   cache(elements: HTMLElement[] | ReadonlyArray<HTMLElement>) {
     this.clear();
     this.positions.set(this._document, {
@@ -45,7 +70,12 @@ export class ParentPositionTracker {
     });
   }
 
-  /** Handles scrolling while a drag is taking place. */
+  /**
+   * Handles scrolling while a drag is taking place.
+   *
+   * 在拖动过程中处理滚动操作。
+   *
+   */
   handleScroll(event: Event): ScrollPosition | null {
     const target = event.target as HTMLElement | Document;
     const cachedPosition = this.positions.get(target);

@@ -66,7 +66,7 @@ matches the harness class to instances of the component in the DOM. Beyond that,
 given harness is specific to its corresponding component; refer to the component's documentation to
 learn how to use a specific harness.
 
-`ComponentHarness` 是所有组件线束的抽象基类。每个线束都会扩展这个类。所有 `ComponentHarness` 子类都有一个静态属性 `hostSelector` ，它把 harness 类与 DOM 中组件的实例相匹配。除此之外，任何给定线束的 API 都是特定于其对应的组件的。请参阅该组件的文档，了解如何使用特定的线束。
+`ComponentHarness` 是所有组件线束的抽象基类。每个线束都会扩展这个类。所有 `ComponentHarness` 子类都有一个静态属性 `hostSelector` ，它把 harness 类与 DOM 中组件的实例相匹配。除此之外，任何指定线束的 API 都是特定于其对应的组件的。请参阅该组件的文档，了解如何使用特定的线束。
 
 #### Using `TestbedHarnessEnvironment` and `ProtractorHarnessEnvironment`
 
@@ -79,7 +79,7 @@ should use the `ProtractorHarnessEnvironment`. Additional environments require c
 [API for harness environment authors](#api-for-harness-environment-authors) for more information on
 alternate test environments.
 
-这些类对应于组件工具体系的不同实现，并带有特定测试环境的绑定。任何给定的测试都只能导入*其中一个*类。基于 Karma 的单元测试应该使用 `TestbedHarnessEnvironment` ，而基于 Protractor 的端到端测试应该使用 `ProtractorHarnessEnvironment` 。其他环境要求自定义绑定;参见[线束环境作者的 API，](#api-for-harness-environment-authors)了解有关备用测试环境的更多信息。
+这些类对应于组件工具体系的不同实现，并带有特定测试环境的绑定。任何指定的测试都只能导入*其中一个*类。基于 Karma 的单元测试应该使用 `TestbedHarnessEnvironment` ，而基于 Protractor 的端到端测试应该使用 `ProtractorHarnessEnvironment` 。其他环境要求自定义绑定;参见[线束环境作者的 API，](#api-for-harness-environment-authors)了解有关备用测试环境的更多信息。
 
 These classes are primarily used to create a `HarnessLoader` instance, and in certain cases, to
 create `ComponentHarness` instances directly.
@@ -202,7 +202,7 @@ are used to create `ComponentHarness` instances for elements under this root ele
 | `getAllChildLoaders(selector: string): Promise<HarnessLoader[]>` | Acts like `getChildLoader`, but returns an array of `HarnessLoader` instances, one for each matching element, rather than just the first matching element |
 | 像 `getChildLoader` `HarnessLoader` ，但返回一个 HarnessLoader 实例数组，每个匹配元素一个，而不是第一个匹配的元素 |  |
 | `getHarness<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T> \| HarnessPredicate<T>): Promise<T>` | Searches for an instance of the given `ComponentHarness` class or `HarnessPredicate` below the root element of this `HarnessLoader` and returns an instance of the harness corresponding to the first matching element |
-| `HarnessLoader` 的根元素下面搜索给定 `ComponentHarness` 类或 `HarnessPredicate` 的实例，并返回与第一个匹配元素对应的线束的实例 |  |
+| `HarnessLoader` 的根元素下面搜索指定 `ComponentHarness` 类或 `HarnessPredicate` 的实例，并返回与第一个匹配元素对应的线束的实例 |  |
 | `getAllHarnesses<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T> \| HarnessPredicate<T>): Promise<T[]>` | Acts like `getHarness`, but returns an array of harness instances, one for each matching element, rather than just the first matching element |
 | `getHarness` 这样的行为，但会返回一个 harness 数组的数组，每个匹配的元素对应一个，而不只是第一个匹配的元素 |  |
 
@@ -347,7 +347,7 @@ Each instance of a `ComponentHarness` subclass represents a particular instance 
 corresponding component. You can access the component's host element via the `host` method from
 the `ComponentHarness` base class.
 
-`ComponentHarness` 子类的每个实例都表示相应组件的一个特定实例。 `ComponentHarness` 类 `host` 方法访问组件的 host 元素。
+`ComponentHarness` 子类的每个实例都表示相应组件的一个特定实例。 `ComponentHarness` 类 `host` 方法访问组件的宿主元素。
 
 `ComponentHarness` additionally offers several methods for locating elements within the component's
 DOM. These methods are `locatorFor`, `locatorForOptional`, and `locatorForAll`.
@@ -362,7 +362,7 @@ functions ensures that tests always reference the current state of the DOM.
 | ------ | ----------- |
 | 方法 | 说明 |
 | `host(): Promise<TestElement>` | Returns a `Promise` for the host element of the corresponding component instance. |
-| 返回相应组件实例的 host 元素的 `Promise` |  |
+| 返回相应组件实例的宿主元素的 `Promise` |  |
 | `locatorFor(selector: string): () => Promise<TestElement>` | Creates a function that returns a `Promise` for the first element matching the given selector when called. If no matching element is found, the `Promise` rejects. |
 | 创建一个函数，该函数在被调用时会返回与指定选择器匹配的第一个元素 `Promise` 如果找不到匹配的元素， `Promise` 拒绝。 |  |
 | `locatorForOptional(selector: string): () => Promise<TestElement \| null>` | Creates a function that returns a `Promise` for the first element matching the given selector when called. If no matching element is found, the `Promise` is resolved with `null`. |
@@ -404,11 +404,11 @@ The functions created with the locator methods described above all return `TestE
 | `clear(): Promise<void>` | Clears the text in the element (intended for `<input>` and `<textarea>` only). |
 | 清除元素中的文本（仅适用于 `<input>` 和 `<textarea>` ）。 |  |
 | `click(relativeX?: number, relativeY?: number): Promise<void>` | Clicks the element (at the given position relative to the element's top-left corner). |
-| 单击该元素（相对于该元素左上角的给定位置）。 |  |
+| 单击该元素（相对于该元素左上角的指定位置）。 |  |
 | `focus(): Promise<void>` | Focuses the element. |
 | 重点介绍该元素。 |  |
 | `getCssValue(property: string): Promise<string>` | Gets the computed value of the given CSS property for the element. |
-| 获取该元素给定 CSS 属性的计算值。 |  |
+| 获取该元素指定 CSS 属性的计算值。 |  |
 | `hover(): Promise<void>` | Hovers over the element. |
 | 盘旋元素。 |  |
 | `sendKeys(modifiers?: ModifierKeys, ...keys: (string \| TestKey)[]): Promise<void>` | Sends the given list of key presses to the element (with optional modifier keys). |
@@ -416,13 +416,13 @@ The functions created with the locator methods described above all return `TestE
 | `text(): Promise<string>` | Gets the text content of the element |
 | 获取该元素的文本内容 |  |
 | `getAttribute(name: string): Promise<string \| null>` | Gets the value of the given HTML attribute for the element. |
-| 获取该元素给定 HTML 属性的值。 |  |
+| 获取该元素指定 HTML 属性的值。 |  |
 | `hasClass(name: string): Promise<boolean>` | Checks whether the element has the given class applied. |
-| 检查该元素是否已应用给定的类。 |  |
+| 检查该元素是否已应用指定的类。 |  |
 | `getDimensions(): Promise<ElementDimensions>` | Gets the dimensions of the element. |
 | 获取该元素的维度。 |  |
 | `getProperty(name: string): Promise<any>` | Gets the value of the given JS property for the element. |
-| 获取该元素给定 JS 属性的值。 |  |
+| 获取该元素指定 JS 属性的值。 |  |
 | `matchesSelector(selector: string): Promise<boolean>` | Checks whether the element matches the given CSS selector. |
 | 检查该元素是否与指定的 CSS 选择器匹配。 |  |
 | `setInputValue(value: string): Promise<void>;` | Sets the value of a property of an input. |
@@ -675,7 +675,7 @@ several APIs that can be used to create `HarnessLoader` instances for cases like
 | ------ | ----------- |
 | 方法 | 说明 |
 | `harnessLoaderFor(selector: string): Promise<HarnessLoader>` | Gets a `Promise` for a `HarnessLoader` rooted at the first element matching the given selector, if no element is found the `Promise` rejects. |
-| 获取一个 `Promise` 用于 `HarnessLoader` 在给定的选择相匹配的第一元素为根，如果没有元件被发现的 `Promise` 废品。 |  |
+| 获取一个 `Promise` 用于 `HarnessLoader` 在指定的选择相匹配的第一元素为根，如果没有元件被发现的 `Promise` 废品。 |  |
 | `harnessLoaderForOptional(selector: string): Promise<HarnessLoader \| null>` | Gets a `Promise` for a `HarnessLoader` rooted at the first element matching the given selector, if no element is found the `Promise` resolves to `null`. |
 | 为一个 `HarnessLoader` 获取一个 `Promise` ，它是一个与指定选择器匹配的第一个元素，如果没有找到该元素，则 `Promise` 解析为 `null` 。 |  |
 | `harnessLoaderForAll(selector: string): Promise<HarnessLoader[]>` | Gets a `Promise` for a list of `HarnessLoader`, one rooted at each element matching the given selector. |
@@ -695,7 +695,7 @@ class MyPopupHarness extends ContentContainerComponentHarness<string> {
 
 #### Accessing elements outside of the component's host element
 
-#### 访问该组件的 host 元素之外的元素
+#### 访问该组件的宿主元素之外的元素
 
 There are times when a component harness might need to access elements outside of its corresponding
 component's host element. Components that use [CDK overlay](https://material.angular.io/cdk/overlay/overview) serve as examples of this. The CDK overlay creates an element that is attached directly to the body, outside of the component's host element. In this case,
@@ -807,13 +807,13 @@ result of the operation.
 | `text(): Promise<string>` | Gets the text content of the element. |
 | 获取该元素的文本内容。 |  |
 | `getAttribute(name: string): Promise<string \| null>` | Gets the value of the given HTML attribute for the element. |
-| 获取该元素给定 HTML 属性的值。 |  |
+| 获取该元素指定 HTML 属性的值。 |  |
 | `hasClass(name: string): Promise<boolean>` | Checks whether the element has the given class. |
 | 检查元素是否具有指定的类。 |  |
 | `getDimensions(): Promise<ElementDimensions>` | Gets the dimensions of the element. |
 | 获取该元素的维度。 |  |
 | `getProperty(name: string): Promise<any>` | Gets the value of the given property for the element. |
-| 获取该元素给定属性的值。 |  |
+| 获取该元素指定属性的值。 |  |
 | `matchesSelector(selector: string): Promise<boolean>` | Checks whether the given selector matches the element. |
 | 检查指定的选择器是否与该元素匹配。 |  |
 | `setInputValue(value: string): Promise<void>;` | Sets the value of a property of an input. |
@@ -870,7 +870,7 @@ The following are the abstract methods that must be implemented:
 | `abstract getDocumentRoot(): E` | Gets the root element for the environment (e.g. `document.body`). |
 | 获取环境的根元素（例如 `document.body` ）。 |  |
 | `abstract createTestElement(element: E): TestElement` | Creates a `TestElement` for the given raw element. |
-| 为给定的 raw 元素创建一个 `TestElement` |  |
+| 为指定的 raw 元素创建一个 `TestElement` |  |
 | `abstract createEnvironment(element: E): HarnessEnvironment` | Creates a `HarnessEnvironment` rooted at the given raw element. |
 | 根据指定的 raw 元素创建一个 `HarnessEnvironment` |  |
 | `abstract getAllRawElements(selector: string): Promise<E[]>` | Gets all of the raw elements under the root element of the environment matching the given selector. |

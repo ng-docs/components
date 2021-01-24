@@ -6,14 +6,24 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Parses a CSS time value to milliseconds. */
+/**
+ * Parses a CSS time value to milliseconds.
+ *
+ * 把 CSS 时间值解析成毫秒数。
+ *
+ */
 function parseCssTimeUnitsToMs(value: string): number {
   // Some browsers will return it in seconds, whereas others will return milliseconds.
   const multiplier = value.toLowerCase().indexOf('ms') > -1 ? 1 : 1000;
   return parseFloat(value) * multiplier;
 }
 
-/** Gets the transform transition duration, including the delay, of an element in milliseconds. */
+/**
+ * Gets the transform transition duration, including the delay, of an element in milliseconds.
+ *
+ * 获取一个元素上变换样式的过渡时间（包括延迟），单位为毫秒。
+ *
+ */
 export function getTransformTransitionDurationInMs(element: HTMLElement): number {
   const computedStyle = getComputedStyle(element);
   const transitionedProperties = parseCssPropertyValue(computedStyle, 'transition-property');
@@ -34,7 +44,12 @@ export function getTransformTransitionDurationInMs(element: HTMLElement): number
          parseCssTimeUnitsToMs(rawDelays[propertyIndex]);
 }
 
-/** Parses out multiple values from a computed style into an array. */
+/**
+ * Parses out multiple values from a computed style into an array.
+ *
+ * 从计算样式中解析出多个值放到数组中。
+ *
+ */
 function parseCssPropertyValue(computedStyle: CSSStyleDeclaration, name: string): string[] {
   const value = computedStyle.getPropertyValue(name);
   return value.split(',').map(part => part.trim());

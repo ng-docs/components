@@ -198,7 +198,7 @@ some icon on the page, a more appropriate  element should "own" the interaction:
 * The parent `<button>` or `<a>` should either have a meaningful label provided either through
 direct text content, `aria-label`, or `aria-labelledby`.
 
-  父元素 `<button>` 或 `<a>` 应该通过文本内容、`aria-label` 或 `aria-labelledby`提供一个有意义的标签。
+  父元素 `<button>` 或 `<a>` 应该通过文本内容、`aria-label` 或 `aria-labelledby` 提供一个有意义的标签。
 
 #### Indicator icons
 

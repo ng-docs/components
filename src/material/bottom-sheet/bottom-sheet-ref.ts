@@ -15,30 +15,66 @@ import {MatBottomSheetContainer} from './bottom-sheet-container';
 
 /**
  * Reference to a bottom sheet dispatched from the bottom sheet service.
+ *
+ * 引用来自底部操作表服务的底部操作表。
+ *
  */
 export class MatBottomSheetRef<T = any, R = any> {
-  /** Instance of the component making up the content of the bottom sheet. */
+  /**
+   * Instance of the component making up the content of the bottom sheet.
+   *
+   * 该组件的实例组成了底部操作表的内容。
+   *
+   */
   instance: T;
 
   /**
    * Instance of the component into which the bottom sheet content is projected.
+   *
+   * 底部操作表内容被投影进的组件实例
+   *
    * @docs-private
    */
   containerInstance: MatBottomSheetContainer;
 
-  /** Whether the user is allowed to close the bottom sheet. */
+  /**
+   * Whether the user is allowed to close the bottom sheet.
+   *
+   * 是否允许用户关闭底部操作表。
+   *
+   */
   disableClose: boolean | undefined;
 
-  /** Subject for notifying the user that the bottom sheet has been dismissed. */
+  /**
+   * Subject for notifying the user that the bottom sheet has been dismissed.
+   *
+   * 用于通知用户底部操作表已被关闭的流。
+   *
+   */
   private readonly _afterDismissed = new Subject<R | undefined>();
 
-  /** Subject for notifying the user that the bottom sheet has opened and appeared. */
+  /**
+   * Subject for notifying the user that the bottom sheet has opened and appeared.
+   *
+   * 用于通知用户底部操作表已打开并出现的流。
+   *
+   */
   private readonly _afterOpened = new Subject<void>();
 
-  /** Result to be passed down to the `afterDismissed` stream. */
+  /**
+   * Result to be passed down to the `afterDismissed` stream.
+   *
+   * 要传递给 `afterDismissed` 流的结果。
+   *
+   */
   private _result: R | undefined;
 
-  /** Handle to the timeout that's running as a fallback in case the exit animation doesn't fire. */
+  /**
+   * Handle to the timeout that's running as a fallback in case the exit animation doesn't fire.
+   *
+   * 在退出动画未触发的情况下，要超时多久才改用回退逻辑进行处理。
+   *
+   */
   private _closeFallbackTimeout: number;
 
   constructor(
@@ -84,7 +120,13 @@ export class MatBottomSheetRef<T = any, R = any> {
 
   /**
    * Dismisses the bottom sheet.
+   *
+   * 关闭底部操作表。
+   *
    * @param result Data to be passed back to the bottom sheet opener.
+   *
+   * 要传递回底部操作表的数据。
+   *
    */
   dismiss(result?: R): void {
     if (!this._afterDismissed.closed) {
@@ -110,18 +152,31 @@ export class MatBottomSheetRef<T = any, R = any> {
     }
   }
 
-  /** Gets an observable that is notified when the bottom sheet is finished closing. */
+  /**
+   * Gets an observable that is notified when the bottom sheet is finished closing.
+   *
+   * 获取一个可观察对象，当底部操作表已经完成并关闭时，它会收到通知。
+   *
+   */
   afterDismissed(): Observable<R | undefined> {
     return this._afterDismissed;
   }
 
-  /** Gets an observable that is notified when the bottom sheet has opened and appeared. */
+  /**
+   * Gets an observable that is notified when the bottom sheet has opened and appeared.
+   *
+   * 获取一个可观察对象，当底部操作表已经打开并出现时，它会收到通知。
+   *
+   */
   afterOpened(): Observable<void> {
     return this._afterOpened;
   }
 
   /**
    * Gets an observable that emits when the overlay's backdrop has been clicked.
+   *
+   * 获取一个可观察对象，当点击浮层的背景板时，它会发出数据。
+   *
    */
   backdropClick(): Observable<MouseEvent> {
     return this._overlayRef.backdropClick();
@@ -129,6 +184,9 @@ export class MatBottomSheetRef<T = any, R = any> {
 
   /**
    * Gets an observable that emits when keydown events are targeted on the overlay.
+   *
+   * 获取一个可观察对象，当指定浮层收到 keydown 事件时，它会发出数据。
+   *
    */
   keydownEvents(): Observable<KeyboardEvent> {
     return this._overlayRef.keydownEvents();

@@ -20,7 +20,12 @@ import {CanStick, CanStickCtor, mixinHasStickyInput} from './can-stick';
 import {CDK_TABLE} from './tokens';
 
 
-/** Base interface for a cell definition. Captures a column's cell template definition. */
+/**
+ * Base interface for a cell definition. Captures a column's cell template definition.
+ *
+ * 用于单元格定义的基本接口。存放列的单元格模板定义。
+ *
+ */
 export interface CellDef {
   template: TemplateRef<any>;
 }
@@ -28,6 +33,9 @@ export interface CellDef {
 /**
  * Cell definition for a CDK table.
  * Captures the template of a column's data row cell as well as cell-specific properties.
+ *
+ * CDK 表格的单元格定义。存放列的数据行单元格的模板以及单元格的专有属性。
+ *
  */
 @Directive({selector: '[cdkCellDef]'})
 export class CdkCellDef implements CellDef {
@@ -37,6 +45,9 @@ export class CdkCellDef implements CellDef {
 /**
  * Header cell definition for a CDK table.
  * Captures the template of a column's header cell and as well as cell-specific properties.
+ *
+ * CDK 表格的表头单元格定义。存放列的表头单元格的模板以及单元格的专有属性。
+ *
  */
 @Directive({selector: '[cdkHeaderCellDef]'})
 export class CdkHeaderCellDef implements CellDef {
@@ -46,6 +57,9 @@ export class CdkHeaderCellDef implements CellDef {
 /**
  * Footer cell definition for a CDK table.
  * Captures the template of a column's footer cell and as well as cell-specific properties.
+ *
+ * CDK 表格的表尾单元格定义。存放列的表尾单元格的模板以及单元格的专有属性。
+ *
  */
 @Directive({selector: '[cdkFooterCellDef]'})
 export class CdkFooterCellDef implements CellDef {
@@ -61,6 +75,9 @@ const _CdkColumnDefBase: CanStickCtor&typeof CdkColumnDefBase =
 /**
  * Column definition for the CDK table.
  * Defines a set of cells available for a table column.
+ *
+ * CDK 表格的列定义。定义一组可用于表列的单元格。
+ *
  */
 @Directive({
   selector: '[cdkColumnDef]',
@@ -68,7 +85,12 @@ const _CdkColumnDefBase: CanStickCtor&typeof CdkColumnDefBase =
   providers: [{provide: 'MAT_SORT_HEADER_COLUMN_DEF', useExisting: CdkColumnDef}],
 })
 export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
-  /** Unique name for this column. */
+  /**
+   * Unique name for this column.
+   *
+   * 这个列的唯一名称。
+   *
+   */
   @Input('cdkColumnDef')
   get name(): string { return this._name; }
   set name(name: string) { this._setNameInput(name); }
@@ -78,6 +100,9 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
    * Whether this column should be sticky positioned on the end of the row. Should make sure
    * that it mimics the `CanStick` mixin such that `_hasStickyChanged` is set to true if the value
    * has been changed.
+   *
+   * 此列是否应粘性在该行的末尾。应该确保它模仿了混入接口 `CanStick`，当该值更改后必须把 `_hasStickyChanged` 设为 true。
+   *
    */
   @Input('stickyEnd')
   get stickyEnd(): boolean {
@@ -103,11 +128,17 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
    * Transformed version of the column name that can be used as part of a CSS classname. Excludes
    * all non-alphanumeric characters and the special characters '-' and '_'. Any characters that
    * do not match are replaced by the '-' character.
+   *
+   * 列名的转换后版本，可以作为 CSS 类名的一部分。只允许字母、数字和两个特殊字符 “-” 和 “\_”。除此之外的字符都会替换为 “-”。
+   *
    */
   cssClassFriendlyName: string;
 
   /**
    * Class name for cells in this column.
+   *
+   * 该列中单元格的类名。
+   *
    * @docs-private
    */
   _columnCssClassName: string[];
@@ -121,6 +152,9 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
    * column.
    * In the future, columnCssClassName will change from type string[] to string and this
    * will set a single string value.
+   *
+   * 可改写的方法，它设置要添加到此列的每个单元格的 css 类。将来，columnCssClassName 会从 string[] 类型变为 string 类型，这样就可以设置一个字符串值。
+   *
    * @docs-private
    */
   protected _updateColumnCssClassName() {
@@ -131,6 +165,9 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
    * This has been extracted to a util because of TS 4 and VE.
    * View Engine doesn't support property rename inheritance.
    * TS 4.0 doesn't allow properties to override accessors or vice-versa.
+   *
+   * 由于 TS 4 和 VE 的原因，它已被提取成了一个工具函数。 View Engine 不支持继承时进行属性重命名。 TS 4.0 不允许改写属性访问器，反之亦然。
+   *
    * @docs-private
    */
   protected _setNameInput(value: string) {
@@ -147,7 +184,12 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
   static ngAcceptInputType_stickyEnd: BooleanInput;
 }
 
-/** Base class for the cells. Adds a CSS classname that identifies the column it renders in. */
+/**
+ * Base class for the cells. Adds a CSS classname that identifies the column it renders in.
+ *
+ * 单元格的基类。添加一个 CSS 类名来标识它所渲染的列。
+ *
+ */
 export class BaseCdkCell {
   constructor(columnDef: CdkColumnDef, elementRef: ElementRef) {
     // If IE 11 is dropped before we switch to setting a single class name, change to multi param
@@ -159,7 +201,12 @@ export class BaseCdkCell {
   }
 }
 
-/** Header cell template container that adds the right classes and role. */
+/**
+ * Header cell template container that adds the right classes and role.
+ *
+ * 用于添加正确的类和角色的表头单元格模板容器。
+ *
+ */
 @Directive({
   selector: 'cdk-header-cell, th[cdk-header-cell]',
   host: {
@@ -173,7 +220,12 @@ export class CdkHeaderCell extends BaseCdkCell {
   }
 }
 
-/** Footer cell template container that adds the right classes and role. */
+/**
+ * Footer cell template container that adds the right classes and role.
+ *
+ * 用于添加正确的类和角色的表尾单元格模板容器。
+ *
+ */
 @Directive({
   selector: 'cdk-footer-cell, td[cdk-footer-cell]',
   host: {
@@ -187,7 +239,12 @@ export class CdkFooterCell extends BaseCdkCell {
   }
 }
 
-/** Cell template container that adds the right classes and role. */
+/**
+ * Cell template container that adds the right classes and role.
+ *
+ * 用于添加正确的类和角色的单元格模板容器。
+ *
+ */
 @Directive({
   selector: 'cdk-cell, td[cdk-cell]',
   host: {

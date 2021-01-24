@@ -26,6 +26,8 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
    * certain criteria.
    * @param options Options for filtering which snack bar instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: SnackBarHarnessFilters = {}): HarnessPredicate<MatSnackBarHarness> {
     return new HarnessPredicate(MatSnackBarHarness, options);

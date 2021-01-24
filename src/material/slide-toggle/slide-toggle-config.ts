@@ -8,13 +8,28 @@
 import {InjectionToken} from '@angular/core';
 
 
-/** Default `mat-slide-toggle` options that can be overridden. */
+/**
+ * Default `mat-slide-toggle` options that can be overridden.
+ *
+ * 默认的 `mat-slide-toggle` 选项，可以被改写。
+ *
+ */
 export interface MatSlideToggleDefaultOptions {
-  /** Whether toggle action triggers value changes in slide toggle. */
+  /**
+   * Whether toggle action triggers value changes in slide toggle.
+   *
+   * 切换操作是否会触发滑块开关中的值更改。
+   *
+   */
   disableToggleValue?: boolean;
 }
 
-/** Injection token to be used to override the default options for `mat-slide-toggle`. */
+/**
+ * Injection token to be used to override the default options for `mat-slide-toggle`.
+ *
+ * 这个注入令牌用来改写 `mat-slide-toggle` 的默认选项。
+ *
+ */
 export const MAT_SLIDE_TOGGLE_DEFAULT_OPTIONS =
   new InjectionToken<MatSlideToggleDefaultOptions>('mat-slide-toggle-default-options', {
     providedIn: 'root',

@@ -19,21 +19,42 @@ import {
 } from './component-harness';
 import {TestElement} from './test-element';
 
-/** Parsed form of the queries passed to the `locatorFor*` methods. */
+/**
+ * Parsed form of the queries passed to the `locatorFor*` methods.
+ *
+ * 传给 `locatorFor*` 方法的查询的已解析格式。
+ *
+ */
 type ParsedQueries<T extends ComponentHarness> = {
-  /** The full list of queries, in their original order. */
+  /**
+   * The full list of queries, in their original order.
+   *
+   * 这些查询的完整列表按其原始顺序排列。
+   *
+   */
   allQueries: (string | HarnessPredicate<T>)[],
   /**
    * A filtered view of `allQueries` containing only the queries that are looking for a
    * `ComponentHarness`
+   *
+   * `allQueries` 的过滤视图，里面只包含要寻找的 `ComponentHarness`
+   *
    */
   harnessQueries: HarnessPredicate<T>[],
   /**
    * A filtered view of `allQueries` containing only the queries that are looking for a
    * `TestElement`
+   *
+   * `allQueries` 的过滤视图，里面只包含要查找的 `TestElement`
+   *
    */
   elementQueries: string[],
-  /** The set of all `ComponentHarness` subclasses represented in the original query list. */
+  /**
+   * The set of all `ComponentHarness` subclasses represented in the original query list.
+   *
+   * 原始查询列表中表示的所有 `ComponentHarness` 子类。
+   *
+   */
   harnessTypes: Set<ComponentHarnessConstructor<T>>,
 };
 
@@ -42,6 +63,9 @@ type ParsedQueries<T extends ComponentHarness> = {
  * different test environments (e.g. testbed, protractor, etc.). This class implements the
  * functionality of both a `HarnessLoader` and `LocatorFactory`. This class is generic on the raw
  * element type, `E`, used by the particular test environment.
+ *
+ * 可以扩展的基础测试工具环境类，它允许 `ComponentHarness` 用在不同的测试环境下（比如 testbed，protractor 等）。这个类实现了 `HarnessLoader` 和 `LocatorFactory` 的功能。这个类是原始元素类型 `E` 的泛型类，供特定测试环境使用。
+ *
  */
 export abstract class HarnessEnvironment<E> implements HarnessLoader, LocatorFactory {
   // Implemented as part of the `LocatorFactory` interface.
@@ -120,7 +144,12 @@ export abstract class HarnessEnvironment<E> implements HarnessLoader, LocatorFac
     return (await this.getAllRawElements(selector)).map(e => this.createEnvironment(e));
   }
 
-  /** Creates a `ComponentHarness` for the given harness type with the given raw host element. */
+  /**
+   * Creates a `ComponentHarness` for the given harness type with the given raw host element.
+   *
+   * 使用指定的原始宿主元素为指定的测试工具类型创建一个 `ComponentHarness`。
+   *
+   */
   protected createComponentHarness<T extends ComponentHarness>(
       harnessType: ComponentHarnessConstructor<T>, element: E): T {
     return new harnessType(this.createEnvironment(element));
@@ -132,23 +161,44 @@ export abstract class HarnessEnvironment<E> implements HarnessLoader, LocatorFac
   // Part of LocatorFactory interface, subclasses will implement.
   abstract waitForTasksOutsideAngular(): Promise<void>;
 
-  /** Gets the root element for the document. */
+  /**
+   * Gets the root element for the document.
+   *
+   * 获取该文档的根元素。
+   *
+   */
   protected abstract getDocumentRoot(): E;
 
-  /** Creates a `TestElement` from a raw element. */
+  /**
+   * Creates a `TestElement` from a raw element.
+   *
+   * 从原始元素中创建一个 `TestElement`
+   *
+   */
   protected abstract createTestElement(element: E): TestElement;
 
-  /** Creates a `HarnessLoader` rooted at the given raw element. */
+  /**
+   * Creates a `HarnessLoader` rooted at the given raw element.
+   *
+   * 创建一个以指定原始元素为根的 `HarnessLoader`。
+   *
+   */
   protected abstract createEnvironment(element: E): HarnessEnvironment<E>;
 
   /**
    * Gets a list of all elements matching the given selector under this environment's root element.
+   *
+   * 在这个环境的根元素下，获取与指定选择器匹配的所有元素列表。
+   *
    */
   protected abstract getAllRawElements(selector: string): Promise<E[]>;
 
   /**
    * Matches the given raw elements with the given list of element and harness queries to produce a
    * list of matched harnesses and test elements.
+   *
+   * 匹配指定的原始元素和指定的元素和测试工具查询列表，以生成配对的测试工具和测试元素列表。
+   *
    */
   private async _getAllHarnessesAndTestElements<T extends (HarnessQuery<any> | string)[]>(
       queries: T): Promise<LocatorFnResult<T>[]> {
@@ -185,6 +235,9 @@ export abstract class HarnessEnvironment<E> implements HarnessLoader, LocatorFac
    * `TestElement` or `ComponentHarness`, if it does not, return null. In cases where the caller
    * knows for sure that the query matches the element's selector, `skipSelectorCheck` can be used
    * to skip verification and optimize performance.
+   *
+   * 检查指定的查询是否与指定的元素匹配，如果匹配就返回匹配到的 `TestElement` 或 `ComponentHarness`，否则返回 null。如果调用者确定该查询与该元素的选择器匹配，则 `skipSelectorCheck` 可用于跳过验证并优化性能。
+   *
    */
   private async _getQueryResultForElement<T extends ComponentHarness>(
       query: string | HarnessPredicate<T>, rawElement: E, testElement: TestElement,
@@ -203,6 +256,9 @@ export abstract class HarnessEnvironment<E> implements HarnessLoader, LocatorFac
 /**
  * Parses a list of queries in the format accepted by the `locatorFor*` methods into an easier to
  * work with format.
+ *
+ * 解析 `locatorFor*` 方法可接受格式的查询列表，将其变成易于处理的格式。
+ *
  */
 function _parseQueries<T extends (HarnessQuery<any> | string)[]>(queries: T):
     ParsedQueries<LocatorFnResult<T> & ComponentHarness> {
@@ -230,6 +286,9 @@ function _parseQueries<T extends (HarnessQuery<any> | string)[]>(queries: T):
 /**
  * Removes duplicate query results for a particular element. (e.g. multiple `TestElement`
  * instances or multiple instances of the same `ComponentHarness` class.
+ *
+ * 删除特定元素的重复查询结果。（例如，多个 `TestElement` 实例或同一个 `ComponentHarness` 类的多个实例）。
+ *
  */
 async function _removeDuplicateQueryResults<T extends (ComponentHarness | TestElement | null)[]>(
     results: T): Promise<T> {
@@ -253,7 +312,12 @@ async function _removeDuplicateQueryResults<T extends (ComponentHarness | TestEl
   return dedupedMatches as T;
 }
 
-/** Verifies that there is at least one result in an array. */
+/**
+ * Verifies that there is at least one result in an array.
+ *
+ * 验证数组中至少有一个结果。
+ *
+ */
 async function _assertResultFound<T>(results: Promise<T[]>, queryDescriptions: string[]):
     Promise<T> {
   const result = (await results)[0];
@@ -264,13 +328,23 @@ async function _assertResultFound<T>(results: Promise<T[]>, queryDescriptions: s
   return result;
 }
 
-/** Gets a list of description strings from a list of queries. */
+/**
+ * Gets a list of description strings from a list of queries.
+ *
+ * 从查询列表中获取一个描述字符串列表。
+ *
+ */
 function _getDescriptionForLocatorForQueries(queries: (string | HarnessQuery<any>)[]) {
   return queries.map(query => typeof query === 'string' ?
       _getDescriptionForTestElementQuery(query) : _getDescriptionForComponentHarnessQuery(query));
 }
 
-/** Gets a description string for a `ComponentHarness` query. */
+/**
+ * Gets a description string for a `ComponentHarness` query.
+ *
+ * 获取 `ComponentHarness` 查询的描述字符串。
+ *
+ */
 function _getDescriptionForComponentHarnessQuery(query: HarnessQuery<any>) {
   const harnessPredicate =
       query instanceof HarnessPredicate ? query : new HarnessPredicate(query, {});
@@ -281,12 +355,22 @@ function _getDescriptionForComponentHarnessQuery(query: HarnessQuery<any>) {
       ` satisfying the constraints: ${harnessPredicate.getDescription()}` : '');
 }
 
-/** Gets a description string for a `TestElement` query. */
+/**
+ * Gets a description string for a `TestElement` query.
+ *
+ * 获取 `TestElement` 查询的描述字符串。
+ *
+ */
 function _getDescriptionForTestElementQuery(selector: string) {
   return `TestElement for element matching selector: "${selector}"`;
 }
 
-/** Gets a description string for a `HarnessLoader` query. */
+/**
+ * Gets a description string for a `HarnessLoader` query.
+ *
+ * 获取 `HarnessLoader` 查询的描述字符串。
+ *
+ */
 function _getDescriptionForHarnessLoaderQuery(selector: string) {
   return `HarnessLoader for element matching selector: "${selector}"`;
 }

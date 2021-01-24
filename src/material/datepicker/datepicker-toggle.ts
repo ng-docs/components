@@ -28,7 +28,12 @@ import {MatDatepickerIntl} from './datepicker-intl';
 import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
 
 
-/** Can be used to override the icon of a `matDatepickerToggle`. */
+/**
+ * Can be used to override the icon of a `matDatepickerToggle`.
+ *
+ * 可以用来改写 `matDatepickerToggle` 的图标。
+ *
+ */
 @Directive({
   selector: '[matDatepickerToggleIcon]'
 })
@@ -58,16 +63,36 @@ export class MatDatepickerToggleIcon {}
 export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDestroy {
   private _stateChanges = Subscription.EMPTY;
 
-  /** Datepicker instance that the button will toggle. */
+  /**
+   * Datepicker instance that the button will toggle.
+   *
+   * 该按钮将切换到的日期选择器实例。
+   *
+   */
   @Input('for') datepicker: MatDatepickerPanel<MatDatepickerControl<any>, D>;
 
-  /** Tabindex for the toggle. */
+  /**
+   * Tabindex for the toggle.
+   *
+   * 本开关的 Tabindex。
+   *
+   */
   @Input() tabIndex: number | null;
 
-  /** Screenreader label for the button. */
+  /**
+   * Screenreader label for the button.
+   *
+   * 该按钮的屏幕阅读器标签。
+   *
+   */
   @Input('aria-label') ariaLabel: string;
 
-  /** Whether the toggle button is disabled. */
+  /**
+   * Whether the toggle button is disabled.
+   *
+   * 按钮开关是否已禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     if (this._disabled === undefined && this.datepicker) {
@@ -81,13 +106,28 @@ export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDe
   }
   private _disabled: boolean;
 
-  /** Whether ripples on the toggle should be disabled. */
+  /**
+   * Whether ripples on the toggle should be disabled.
+   *
+   * 是否要禁用本开关上的涟漪。
+   *
+   */
   @Input() disableRipple: boolean;
 
-  /** Custom icon set by the consumer. */
+  /**
+   * Custom icon set by the consumer.
+   *
+   * 消费者设定的自定义图标。
+   *
+   */
   @ContentChild(MatDatepickerToggleIcon) _customIcon: MatDatepickerToggleIcon;
 
-  /** Underlying button element. */
+  /**
+   * Underlying button element.
+   *
+   * 底层的按钮元素。
+   *
+   */
   @ViewChild('button') _button: MatButton;
 
   constructor(

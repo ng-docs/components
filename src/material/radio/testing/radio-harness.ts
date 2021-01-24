@@ -20,6 +20,8 @@ export class MatRadioGroupHarness extends ComponentHarness {
    * certain criteria.
    * @param options Options for filtering which radio group instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: RadioGroupHarnessFilters = {}): HarnessPredicate<MatRadioGroupHarness> {
     return new HarnessPredicate(MatRadioGroupHarness, options)
@@ -163,6 +165,8 @@ export class MatRadioButtonHarness extends ComponentHarness {
    * certain criteria.
    * @param options Options for filtering which radio button instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: RadioButtonHarnessFilters = {}): HarnessPredicate<MatRadioButtonHarness> {
     return new HarnessPredicate(MatRadioButtonHarness, options)

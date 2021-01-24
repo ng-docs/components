@@ -32,7 +32,12 @@ import {Platform, normalizePassiveListenerOptions} from '@angular/cdk/platform';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
 
-/** Config used to bind passive event listeners */
+/**
+ * Config used to bind passive event listeners
+ *
+ * 用于绑定被动事件监听器的配置
+ *
+ */
 const passiveEventListenerOptions =
     normalizePassiveListenerOptions({passive: true}) as EventListenerOptions;
 
@@ -40,32 +45,52 @@ const passiveEventListenerOptions =
  * The directions that scrolling can go in when the header's tabs exceed the header width. 'After'
  * will scroll the header towards the end of the tabs list and 'before' will scroll towards the
  * beginning of the list.
+ *
+ * 当标头上的选项卡超出标头宽度时，可以滚动的方向。 'after' 会把标头滚动到选项卡列表的末尾，'before' 会滚动到列表的开头。
+ *
  */
 export type ScrollDirection = 'after' | 'before';
 
 /**
  * The distance in pixels that will be overshot when scrolling a tab label into view. This helps
  * provide a small affordance to the label next to it.
+ *
+ * 把页标签滚动进视图时，要超过的像素距离。这有助于为其下一个选项卡提供一点点可见性。
+ *
  */
 const EXAGGERATED_OVERSCROLL = 60;
 
 /**
  * Amount of milliseconds to wait before starting to scroll the header automatically.
  * Set a little conservatively in order to handle fake events dispatched on touch devices.
+ *
+ * 开始自动滚动标头之前需要等待的毫秒数。设置得保守一点，以便处理触控设备上发送的伪事件。
+ *
  */
 const HEADER_SCROLL_DELAY = 650;
 
 /**
  * Interval in milliseconds at which to scroll the header
  * while the user is holding their pointer.
+ *
+ * 用户按住指针设备时开始滚动标头的时间间隔（以毫秒为单位）。
+ *
  */
 const HEADER_SCROLL_INTERVAL = 100;
 
-/** Item inside a paginated tab header. */
+/**
+ * Item inside a paginated tab header.
+ *
+ * 带分页的选项卡标头中的条目。
+ *
+ */
 export type MatPaginatedTabHeaderItem = FocusableOption & {elementRef: ElementRef};
 
 /**
  * Base class for a tab header that supported pagination.
+ *
+ * 支持分页的选项卡标头的基类。
+ *
  * @docs-private
  */
 @Directive()
@@ -78,50 +103,111 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
   abstract _nextPaginator: ElementRef<HTMLElement>;
   abstract _previousPaginator: ElementRef<HTMLElement>;
 
-  /** The distance in pixels that the tab labels should be translated to the left. */
+  /**
+   * The distance in pixels that the tab labels should be translated to the left.
+   *
+   * 选项卡标签应该向左平移的距离（以像素为单位）。
+   *
+   */
   private _scrollDistance = 0;
 
-  /** Whether the header should scroll to the selected index after the view has been checked. */
+  /**
+   * Whether the header should scroll to the selected index after the view has been checked.
+   *
+   * 标头是否应该在检查完视图后滚动到选定的索引。
+   *
+   */
   private _selectedIndexChanged = false;
 
-  /** Emits when the component is destroyed. */
+  /**
+   * Emits when the component is destroyed.
+   *
+   * 当组件被销毁时会触发。
+   *
+   */
   protected readonly _destroyed = new Subject<void>();
 
-  /** Whether the controls for pagination should be displayed */
+  /**
+   * Whether the controls for pagination should be displayed
+   *
+   * 是否应该显示分页控件
+   *
+   */
   _showPaginationControls = false;
 
-  /** Whether the tab list can be scrolled more towards the end of the tab label list. */
+  /**
+   * Whether the tab list can be scrolled more towards the end of the tab label list.
+   *
+   * 选项卡列表是否可以滚动到选项卡列表的末尾之后。
+   *
+   */
   _disableScrollAfter = true;
 
-  /** Whether the tab list can be scrolled more towards the beginning of the tab label list. */
+  /**
+   * Whether the tab list can be scrolled more towards the beginning of the tab label list.
+   *
+   * 选项卡列表是否可以滚动到选项卡列表的末尾之前。
+   *
+   */
   _disableScrollBefore = true;
 
   /**
    * The number of tab labels that are displayed on the header. When this changes, the header
    * should re-evaluate the scroll position.
+   *
+   * 标头显示的选项卡数量。当这种情况发生变化时，标头会重新计算滚动位置。
+   *
    */
   private _tabLabelCount: number;
 
-  /** Whether the scroll distance has changed and should be applied after the view is checked. */
+  /**
+   * Whether the scroll distance has changed and should be applied after the view is checked.
+   *
+   * 滚动距离是否已更改，是否应在检查完视图后应用这些变更。
+   *
+   */
   private _scrollDistanceChanged: boolean;
 
-  /** Used to manage focus between the tabs. */
+  /**
+   * Used to manage focus between the tabs.
+   *
+   * 用来管理选项卡之间的焦点。
+   *
+   */
   private _keyManager: FocusKeyManager<MatPaginatedTabHeaderItem>;
 
-  /** Cached text content of the header. */
+  /**
+   * Cached text content of the header.
+   *
+   * 标头的缓存文本内容。
+   *
+   */
   private _currentTextContent: string;
 
-  /** Stream that will stop the automated scrolling. */
+  /**
+   * Stream that will stop the automated scrolling.
+   *
+   * 用来停止自动滚动的流。
+   *
+   */
   private _stopScrolling = new Subject<void>();
 
   /**
    * Whether pagination should be disabled. This can be used to avoid unnecessary
    * layout recalculations if it's known that pagination won't be required.
+   *
+   * 是否应该禁用分页。如果明确知道不需要分页，这可以用来避免不必要的布局重算。
+   *
    */
   @Input()
   disablePagination: boolean = false;
 
-  /** The index of the active tab. */
+  /**
+   * The index of the active tab.
+   *
+   * 活动选项卡的索引。
+   *
+   */
   get selectedIndex(): number { return this._selectedIndex; }
   set selectedIndex(value: number) {
     value = coerceNumberProperty(value);
@@ -137,10 +223,20 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
   }
   private _selectedIndex: number = 0;
 
-  /** Event emitted when the option is selected. */
+  /**
+   * Event emitted when the option is selected.
+   *
+   * 选定该选项卡时会发出本事件。
+   *
+   */
   readonly selectFocusedIndex: EventEmitter<number> = new EventEmitter<number>();
 
-  /** Event emitted when a label is focused. */
+  /**
+   * Event emitted when a label is focused.
+   *
+   * 选项卡获得焦点时发出的事件。
+   *
+   */
   readonly indexFocused: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(protected _elementRef: ElementRef<HTMLElement>,
@@ -161,7 +257,12 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
     });
   }
 
-  /** Called when the user has selected an item via the keyboard. */
+  /**
+   * Called when the user has selected an item via the keyboard.
+   *
+   * 当用户通过键盘选择了一个条目时调用。
+   *
+   */
   protected abstract _itemSelected(event: KeyboardEvent): void;
 
   ngAfterViewInit() {
@@ -248,7 +349,12 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
     this._stopScrolling.complete();
   }
 
-  /** Handles keyboard events on the header. */
+  /**
+   * Handles keyboard events on the header.
+   *
+   * 处理标头中的键盘事件。
+   *
+   */
   _handleKeydown(event: KeyboardEvent) {
     // We don't handle any key bindings with a modifier key.
     if (hasModifierKey(event)) {
@@ -270,6 +376,9 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
 
   /**
    * Callback for when the MutationObserver detects that the content has changed.
+   *
+   * 在 MutationObserver 检测到内容发生了变化时回调。
+   *
    */
   _onContentChanges() {
     const textContent = this._elementRef.nativeElement.textContent;
@@ -293,9 +402,14 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
   /**
    * Updates the view whether pagination should be enabled or not.
    *
+   * 更新视图是否应该启用分页。
+   *
    * WARNING: Calling this method can be very costly in terms of performance. It should be called
    * as infrequently as possible from outside of the Tabs component as it causes a reflow of the
    * page.
+   *
+   * 警告：就性能而言，调用此方法的成本非常高。它应尽可能从选项卡列表组件的外部调用，因为它会导致页面重排。
+   *
    */
   updatePagination() {
     this._checkPaginationEnabled();
@@ -303,12 +417,22 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
     this._updateTabScrollPosition();
   }
 
-  /** Tracks which element has focus; used for keyboard navigation */
+  /**
+   * Tracks which element has focus; used for keyboard navigation
+   *
+   * 跟踪哪个元素有焦点;用于键盘导航
+   *
+   */
   get focusIndex(): number {
     return this._keyManager ? this._keyManager.activeItemIndex! : 0;
   }
 
-  /** When the focus index is set, we must manually send focus to the correct label */
+  /**
+   * When the focus index is set, we must manually send focus to the correct label
+   *
+   * 当焦点的索引设置完毕后，我们必须手动将焦点发送到正确的选项卡上
+   *
+   */
   set focusIndex(value: number) {
     if (!this._isValidIndex(value) || this.focusIndex === value || !this._keyManager) {
       return;
@@ -320,6 +444,9 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
   /**
    * Determines if an index is valid.  If the tabs are not ready yet, we assume that the user is
    * providing a valid index and return true.
+   *
+   * 确定索引是否有效。如果这些选项卡尚未准备好，我们假设该用户正在提供一个有效的索引，并返回 true。
+   *
    */
   _isValidIndex(index: number): boolean {
     if (!this._items) { return true; }
@@ -331,6 +458,9 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
   /**
    * Sets focus on the HTML element for the label wrapper and scrolls it into the view if
    * scrolling is enabled.
+   *
+   * 让选项卡包装器的 HTML 元素获得焦点，如果启用了滚动功能，就会把它滚动到视图中。
+   *
    */
   _setTabFocus(tabIndex: number) {
     if (this._showPaginationControls) {
@@ -354,12 +484,22 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
     }
   }
 
-  /** The layout direction of the containing app. */
+  /**
+   * The layout direction of the containing app.
+   *
+   * 容器应用的布局方向。
+   *
+   */
   _getLayoutDirection(): Direction {
     return this._dir && this._dir.value === 'rtl' ? 'rtl' : 'ltr';
   }
 
-  /** Performs the CSS transformation on the tab list that will cause the list to scroll. */
+  /**
+   * Performs the CSS transformation on the tab list that will cause the list to scroll.
+   *
+   * 在选项卡列表中执行 CSS 转换，以便列表滚动。
+   *
+   */
   _updateTabScrollPosition() {
     if (this.disablePagination) {
       return;
@@ -385,7 +525,12 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
     }
   }
 
-  /** Sets the distance in pixels that the tab header should be transformed in the X-axis. */
+  /**
+   * Sets the distance in pixels that the tab header should be transformed in the X-axis.
+   *
+   * 设置选项卡标头在 X 轴上的变换距离（以像素为单位）。
+   *
+   */
   get scrollDistance(): number { return this._scrollDistance; }
   set scrollDistance(value: number) {
     this._scrollTo(value);
@@ -396,8 +541,13 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    * the end of the list, respectively). The distance to scroll is computed to be a third of the
    * length of the tab list view window.
    *
+   * 在'前'或后'方向移动选项卡列表（分别朝向列表的开头或列表的末尾）。滚动的距离是选项卡列表视图窗口长度的三分之一。
+   *
    * This is an expensive call that forces a layout reflow to compute box and scroll metrics and
    * should be called sparingly.
+   *
+   * 这是一个代价高昂的调用，它会强制进行布局重排来计算其矩形和滚动指示器，慎用。
+   *
    */
   _scrollHeader(direction: ScrollDirection) {
     const viewLength = this._tabListContainer.nativeElement.offsetWidth;
@@ -408,7 +558,12 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
     return this._scrollTo(this._scrollDistance + scrollAmount);
   }
 
-  /** Handles click events on the pagination arrows. */
+  /**
+   * Handles click events on the pagination arrows.
+   *
+   * 处理分页箭头上的 click 事件。
+   *
+   */
   _handlePaginatorClick(direction: ScrollDirection) {
     this._stopInterval();
     this._scrollHeader(direction);
@@ -417,8 +572,13 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
   /**
    * Moves the tab list such that the desired tab label (marked by index) is moved into view.
    *
+   * 移动选项卡列表，以便把所需的选项卡（用 index 标出）移动到视图中。
+   *
    * This is an expensive call that forces a layout reflow to compute box and scroll metrics and
    * should be called sparingly.
+   *
+   * 这是一个代价高昂的调用，它会强制进行布局重排来计算矩形和滚动指示器，慎用。
+   *
    */
   _scrollToLabel(labelIndex: number) {
     if (this.disablePagination) {
@@ -461,8 +621,13 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    * tab list is wider than the size of the header container, then the pagination controls should
    * be shown.
    *
+   * 计算是否应该显示分页控件。如果选项卡列表的滚动宽度比标头容器的大小要宽，那么就应该显示分页控件了。
+   *
    * This is an expensive call that forces a layout reflow to compute box and scroll metrics and
    * should be called sparingly.
+   *
+   * 这是一个代价高昂的调用，它会强制进行布局重排来计算矩形和滚动指示器，慎用。
+   *
    */
   _checkPaginationEnabled() {
     if (this.disablePagination) {
@@ -489,8 +654,13 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    * before button. If the header is at the end of the list (scroll distance is equal to the
    * maximum distance we can scroll), then disable the after button.
    *
+   * 评估应该启用还是禁用之前和之后的控件。如果标头位于列表的开头（滚动距离等于 0），则禁用“前一个”按钮。如果标头位于列表的末尾（滚动距离等于我们可以滚动的最大距离），则禁用“后一个”按钮。
+   *
    * This is an expensive call that forces a layout reflow to compute box and scroll metrics and
    * should be called sparingly.
+   *
+   * 这是一个代价高昂的调用，它会强制进行布局重排来计算矩形和滚动指示器，慎用。
+   *
    */
   _checkScrollingControls() {
     if (this.disablePagination) {
@@ -507,8 +677,13 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    * Determines what is the maximum length in pixels that can be set for the scroll distance. This
    * is equal to the difference in width between the tab list container and tab header container.
    *
+   * 确定滚动距离的最大长度（以像素为单位）。这等于选项卡列表容器和选项卡标头容器之间的宽度差异。
+   *
    * This is an expensive call that forces a layout reflow to compute box and scroll metrics and
    * should be called sparingly.
+   *
+   * 这是一个代价高昂的调用，它会强制进行布局重排来计算矩形和滚动指示器，慎用。
+   *
    */
   _getMaxScrollDistance(): number {
     const lengthOfTabList = this._tabList.nativeElement.scrollWidth;
@@ -516,7 +691,12 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
     return (lengthOfTabList - viewLength) || 0;
   }
 
-  /** Tells the ink-bar to align itself to the current label wrapper */
+  /**
+   * Tells the ink-bar to align itself to the current label wrapper
+   *
+   * 让墨水条把自己对准当前的选项卡包装器
+   *
+   */
   _alignInkBarToSelectedTab(): void {
     const selectedItem = this._items && this._items.length ?
         this._items.toArray()[this.selectedIndex] : null;
@@ -529,7 +709,12 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
     }
   }
 
-  /** Stops the currently-running paginator interval.  */
+  /**
+   * Stops the currently-running paginator interval.
+   *
+   * 停止当前正在运行的分页定时器。
+   *
+   */
   _stopInterval() {
     this._stopScrolling.next();
   }
@@ -537,7 +722,13 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
   /**
    * Handles the user pressing down on one of the paginators.
    * Starts scrolling the header after a certain amount of time.
+   *
+   * 处理用户按下分页器之一的操作。经过一段时间后才开始滚动标头。
+   *
    * @param direction In which direction the paginator should be scrolled.
+   *
+   * 应该在哪个方向上滚动分页器。
+   *
    */
   _handlePaginatorPress(direction: ScrollDirection, mouseEvent?: MouseEvent) {
     // Don't start auto scrolling for right mouse button clicks. Note that we shouldn't have to
@@ -565,7 +756,13 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
 
   /**
    * Scrolls the header to a given position.
+   *
+   * 将标头滚动到指定的位置。
+   *
    * @param position Position to which to scroll.
+   *
+   * 要滚动的位置
+   *
    * @returns Information on the current scroll distance and the maximum.
    */
   private _scrollTo(position: number) {

@@ -22,6 +22,8 @@ export class MatActionListHarness extends MatListHarnessBase<
    * certain criteria.
    * @param options Options for filtering which action list instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ActionListHarnessFilters = {}): HarnessPredicate<MatActionListHarness> {
     return new HarnessPredicate(MatActionListHarness, options);
@@ -40,6 +42,8 @@ export class MatActionListItemHarness extends MatListItemHarnessBase {
    * meets certain criteria.
    * @param options Options for filtering which action list item instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ActionListItemHarnessFilters = {}):
       HarnessPredicate<MatActionListItemHarness> {

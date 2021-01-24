@@ -40,6 +40,9 @@ const _MatIconMixinBase: CanColorCtor & typeof MatIconBase = mixinColor(MatIconB
 /**
  * Injection token used to provide the current location to `MatIcon`.
  * Used to handle server-side rendering and to stub out during unit tests.
+ *
+ * 注入令牌，用于为 `MatIcon` 提供当前的 location 对象。用于处理服务器端的渲染，以及在单元测试中作为桩使用。
+ *
  * @docs-private
  */
 export const MAT_ICON_LOCATION = new InjectionToken<MatIconLocation>('mat-icon-location', {
@@ -49,6 +52,9 @@ export const MAT_ICON_LOCATION = new InjectionToken<MatIconLocation>('mat-icon-l
 
 /**
  * Stubbed out location for `MatIcon`.
+ *
+ * 供 `MatIcon` 使用的 location 桩。
+ *
  * @docs-private
  */
 export interface MatIconLocation {
@@ -68,7 +74,12 @@ export function MAT_ICON_LOCATION_FACTORY(): MatIconLocation {
 }
 
 
-/** SVG attributes that accept a FuncIRI (e.g. `url(<something>)`). */
+/**
+ * SVG attributes that accept a FuncIRI (e.g. `url(<something>)`).
+ *
+ * 可接受 FuncIRI（例如 `url(<something>)` ）的 SVG 属性。
+ *
+ */
 const funcIriAttributes = [
   'clip-path',
   'color-profile',
@@ -84,29 +95,49 @@ const funcIriAttributes = [
   'stroke'
 ];
 
-/** Selector that can be used to find all elements that are using a `FuncIRI`. */
+/**
+ * Selector that can be used to find all elements that are using a `FuncIRI`.
+ *
+ * 可以用来查找所有正在使用 `FuncIRI` 元素的选择器。
+ *
+ */
 const funcIriAttributeSelector = funcIriAttributes.map(attr => `[${attr}]`).join(', ');
 
-/** Regex that can be used to extract the id out of a FuncIRI. */
+/**
+ * Regex that can be used to extract the id out of a FuncIRI.
+ *
+ * 可以用来从 FuncIRI 中提取 id 的正则表达式。
+ *
+ */
 const funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
 
 /**
  * Component to display an icon. It can be used in the following ways:
  *
+ * 要显示图标的组件。它可以通过以下方式使用：
+ *
  * - Specify the svgIcon input to load an SVG icon from a URL previously registered with the
  *   addSvgIcon, addSvgIconInNamespace, addSvgIconSet, or addSvgIconSetInNamespace methods of
  *   MatIconRegistry. If the svgIcon value contains a colon it is assumed to be in the format
- *   "[namespace]:[name]", if not the value will be the name of an icon in the default namespace.
+ *   "[namespace]&#x3A;[name]", if not the value will be the name of an icon in the default namespace.
  *   Examples:
+ *     `<mat-icon svgIcon="left-arrow"></mat-icon>
+ *     <mat-icon svgIcon="animals:cat"></mat-icon>`
+ *
+ *   指定输入属性 svgIcon，用于从之前使用 MatIconRegistry 的 addSvgIcon，addSvgIconInNamespace，addSvgIconSet 或 addSvgIconSetInNamespace 方法注册的 URL 中加载 SVG 图标。如果 svgIcon 的值包含冒号，则假定其格式为“[namespace]:[name]”，否则把该值视为默认命名空间中某个图标的名字。例如：
  *     `<mat-icon svgIcon="left-arrow"></mat-icon>
  *     <mat-icon svgIcon="animals:cat"></mat-icon>`
  *
  * - Use a font ligature as an icon by putting the ligature text in the content of the `<mat-icon>`
  *   component. By default the Material icons font is used as described at
- *   http://google.github.io/material-design-icons/#icon-font-for-the-web. You can specify an
+ *   <http://google.github.io/material-design-icons/#icon-font-for-the-web>. You can specify an
  *   alternate font by setting the fontSet input to either the CSS class to apply to use the
  *   desired font, or to an alias previously registered with MatIconRegistry.registerFontClassAlias.
  *   Examples:
+ *     `<mat-icon>home</mat-icon>
+ *     <mat-icon fontSet="myfont">sun</mat-icon>`
+ *
+ *   在 `<mat-icon>` 组件的内容中，可以用合字作为图标。默认情况下会使用 Material 字体图标，如 <http://google.github.io/material-design-icons/#icon-font-for-the-web> 所属。你可以指定一种替代字体，方法是把输入属性 fontSet 设置为要使用字体的 CSS 类，或者是之前用 MatIconRegistry.registerFontClassAlias 注册的别名。示例：
  *     `<mat-icon>home</mat-icon>
  *     <mat-icon fontSet="myfont">sun</mat-icon>`
  *
@@ -116,6 +147,10 @@ const funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
  *   https://fortawesome.github.io/Font-Awesome/examples/
  *   Example:
  *     `<mat-icon fontSet="fa" fontIcon="alarm"></mat-icon>`
+ *
+ *   指定要通过 CSS 规则包含的字体字形，方法是设置输入属性 fontSet 以指定字体，并使用输入属性 fontIcon 来指定图标。通常，fontIcon 会指定一个 CSS 类，它会让这个字形通过 :before 选择器显示出来，就像 https://fortawesome.github.io/Font-Awesome/examples/ 中一样，例如：
+ *     `<mat-icon fontSet="fa" fontIcon="alarm"></mat-icon>`
+ *
  */
 @Component({
   template: '<ng-content></ng-content>',
@@ -141,6 +176,9 @@ export class MatIcon extends _MatIconMixinBase implements OnInit, AfterViewCheck
   /**
    * Whether the icon should be inlined, automatically sizing the icon to match the font size of
    * the element the icon is contained in.
+   *
+   * 该图标是否应该内联，这会自动调整图标大小以匹配图标所在元素的字体大小。
+   *
    */
   @Input()
   get inline(): boolean {
@@ -151,7 +189,12 @@ export class MatIcon extends _MatIconMixinBase implements OnInit, AfterViewCheck
   }
   private _inline: boolean = false;
 
-  /** Name of the icon in the SVG icon set. */
+  /**
+   * Name of the icon in the SVG icon set.
+   *
+   * SVG 图标集中的图标名称。
+   *
+   */
   @Input()
   get svgIcon(): string { return this._svgIcon; }
   set svgIcon(value: string) {
@@ -166,7 +209,12 @@ export class MatIcon extends _MatIconMixinBase implements OnInit, AfterViewCheck
   }
   private _svgIcon: string;
 
-  /** Font set that the icon is a part of. */
+  /**
+   * Font set that the icon is a part of.
+   *
+   * 该图标所属的字体集。
+   *
+   */
   @Input()
   get fontSet(): string { return this._fontSet; }
   set fontSet(value: string) {
@@ -179,7 +227,12 @@ export class MatIcon extends _MatIconMixinBase implements OnInit, AfterViewCheck
   }
   private _fontSet: string;
 
-  /** Name of an icon within a font set. */
+  /**
+   * Name of an icon within a font set.
+   *
+   * 字体集中图标的名称。
+   *
+   */
   @Input()
   get fontIcon(): string { return this._fontIcon; }
   set fontIcon(value: string) {
@@ -198,13 +251,28 @@ export class MatIcon extends _MatIconMixinBase implements OnInit, AfterViewCheck
   _svgName: string | null;
   _svgNamespace: string | null;
 
-  /** Keeps track of the current page path. */
+  /**
+   * Keeps track of the current page path.
+   *
+   * 跟踪当前的页面路径。
+   *
+   */
   private _previousPath?: string;
 
-  /** Keeps track of the elements and attributes that we've prefixed with the current path. */
+  /**
+   * Keeps track of the elements and attributes that we've prefixed with the current path.
+   *
+   * 跟踪那些我们以当前路径作为前缀的元素和属性。
+   *
+   */
   private _elementsWithExternalReferences?: Map<Element, {name: string, value: string}[]>;
 
-  /** Subscription to the current in-progress SVG icon request. */
+  /**
+   * Subscription to the current in-progress SVG icon request.
+   *
+   * 订阅当前正在进行的 SVG 图标请求。
+   *
+   */
   private _currentIconFetch = Subscription.EMPTY;
 
   constructor(
@@ -233,6 +301,13 @@ export class MatIcon extends _MatIconMixinBase implements OnInit, AfterViewCheck
    *   'penguin' -> ['', 'penguin']
    *   null -> ['', '']
    *   'a:b:c' -> (throws Error)`
+   *
+   * 把一个 svgIcon 绑定值拆分成它的图标集和图标名称组件。返回一个 [(图标集), (图标名称)] 结构的双元素数组。这两个字段之间的分隔符是 ':'。如果没有分隔符，则为图标集返回一个空字符串，并为图标名返回整个值。如果参数为假值，则返回一个包含两个空字符串的数组。如果名字中包含两个或多个“:”分隔符，就会抛出一个错误。例如：
+   *   `'social:cake' -> ['social', 'cake']
+   *   'penguin' -> ['', 'penguin']
+   *   null -> ['', '']
+   *   'a:b:c' -> (throws Error)`
+   *
    */
   private _splitIconName(iconName: string): [string, string] {
     if (!iconName) {
@@ -360,6 +435,9 @@ export class MatIcon extends _MatIconMixinBase implements OnInit, AfterViewCheck
    * Cleans up a value to be used as a fontIcon or fontSet.
    * Since the value ends up being assigned as a CSS class, we
    * have to trim the value and omit space-separated values.
+   *
+   * 清理一个值，用作 fontIcon 或 fontSet。由于该值最终被赋值为一个 CSS 类，我们不得不修剪它并省略空格分隔的值。
+   *
    */
   private _cleanupFontValue(value: string) {
     return typeof value === 'string' ? value.trim().split(' ')[0] : value;
@@ -369,6 +447,9 @@ export class MatIcon extends _MatIconMixinBase implements OnInit, AfterViewCheck
    * Prepends the current path to all elements that have an attribute pointing to a `FuncIRI`
    * reference. This is required because WebKit browsers require references to be prefixed with
    * the current path, if the page has a `base` tag.
+   *
+   * 在所有具有指向 `FuncIRI` 引用属性的元素前面加上当前路径。如果当前页面含有 `base` 标签，那么 WebKit 的浏览器就会要求引用带有当前路径的前缀。
+   *
    */
   private _prependPathToReferences(path: string) {
     const elements = this._elementsWithExternalReferences;
@@ -385,6 +466,9 @@ export class MatIcon extends _MatIconMixinBase implements OnInit, AfterViewCheck
   /**
    * Caches the children of an SVG element that have `url()`
    * references that we need to prefix with the current path.
+   *
+   * 缓存 SVG 元素中带有 `url()` 引用的子元素，我们需要用当前路径作为前缀。
+   *
    */
   private _cacheChildrenWithExternalReferences(element: SVGElement) {
     const elementsWithFuncIri = element.querySelectorAll(funcIriAttributeSelector);
@@ -411,7 +495,12 @@ export class MatIcon extends _MatIconMixinBase implements OnInit, AfterViewCheck
     }
   }
 
-  /** Sets a new SVG icon with a particular name. */
+  /**
+   * Sets a new SVG icon with a particular name.
+   *
+   * 设置一个带有特定名字的新 SVG 图标。
+   *
+   */
   private _updateSvgIcon(rawName: string|undefined) {
     this._svgNamespace = null;
     this._svgName = null;

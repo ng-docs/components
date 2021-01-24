@@ -10,7 +10,13 @@ type ModifierKey = 'altKey' | 'shiftKey' | 'ctrlKey' | 'metaKey';
 
 /**
  * Checks whether a modifier key is pressed.
+ *
+ * 检查是否按下了修饰键。
+ *
  * @param event Event to be checked.
+ *
+ * 要检查的事件。
+ *
  */
 export function hasModifierKey(event: KeyboardEvent, ...modifiers: ModifierKey[]): boolean {
   if (modifiers.length) {

@@ -26,9 +26,21 @@ export function getMutableClientRect(element: Element): ClientRect {
 
 /**
  * Checks whether some coordinates are within a `ClientRect`.
+ *
+ * 检查某些坐标是否在 `ClientRect` 中。
+ *
  * @param clientRect ClientRect that is being checked.
+ *
+ * 正在检查的 ClientRect。
+ *
  * @param x Coordinates along the X axis.
+ *
+ * X 坐标。
+ *
  * @param y Coordinates along the Y axis.
+ *
+ * Y 坐标。
+ *
  */
 export function isInsideClientRect(clientRect: ClientRect, x: number, y: number) {
   const {top, bottom, left, right} = clientRect;
@@ -37,9 +49,21 @@ export function isInsideClientRect(clientRect: ClientRect, x: number, y: number)
 
 /**
  * Updates the top/left positions of a `ClientRect`, as well as their bottom/right counterparts.
+ *
+ * 更新 `ClientRect` 的左上/右上位置，以及它们下/右的相对位置。
+ *
  * @param clientRect `ClientRect` that should be updated.
+ *
+ * 要更新的 `ClientRect`
+ *
  * @param top Amount to add to the `top` position.
+ *
+ * 要添加到 `top` 位置的值。
+ *
  * @param left Amount to add to the `left` position.
+ *
+ * 要添加到 `left` 位置的值。
+ *
  */
 export function adjustClientRect(clientRect: ClientRect, top: number, left: number) {
   clientRect.top += top;
@@ -51,10 +75,25 @@ export function adjustClientRect(clientRect: ClientRect, top: number, left: numb
 
 /**
  * Checks whether the pointer coordinates are close to a ClientRect.
+ *
+ * 检查指针坐标是否靠近 ClientRect。
+ *
  * @param rect ClientRect to check against.
+ *
+ * 要检查的 ClientRect。
+ *
  * @param threshold Threshold around the ClientRect.
+ *
+ * ClientRect 周围的容差。
+ *
  * @param pointerX Coordinates along the X axis.
+ *
+ * X 坐标。
+ *
  * @param pointerY Coordinates along the Y axis.
+ *
+ * Y 坐标。
+ *
  */
 export function isPointerNearClientRect(rect: ClientRect,
                                         threshold: number,

@@ -9,6 +9,9 @@
 /**
  * Fake URLs and associated SVG documents used by tests.
  * The ID attribute is used to load the icons, the name attribute is only used for testing.
+ *
+ * 供测试使用的假 URL 和关联的 SVG 文档。ID 属性用来加载图标，name 属性只用于测试。
+ *
  * @docs-private
  */
 export const FAKE_SVGS = {

@@ -21,6 +21,8 @@ export class MatProgressSpinnerHarness extends ComponentHarness {
    * meets certain criteria.
    * @param options Options for filtering which progress spinner instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ProgressSpinnerHarnessFilters = {}):
       HarnessPredicate<MatProgressSpinnerHarness> {

@@ -8,6 +8,9 @@
 
 /**
  * Throws an exception when attempting to attach a null portal to a host.
+ *
+ * 当试图把空的传送点附着到宿主上时抛出异常。
+ *
  * @docs-private
  */
 export function throwNullPortalError() {
@@ -16,6 +19,9 @@ export function throwNullPortalError() {
 
 /**
  * Throws an exception when attempting to attach a portal to a host that is already attached.
+ *
+ * 当试图把传送点附着到已经附着过的宿主上时，会抛出异常。
+ *
  * @docs-private
  */
 export function throwPortalAlreadyAttachedError() {
@@ -24,6 +30,9 @@ export function throwPortalAlreadyAttachedError() {
 
 /**
  * Throws an exception when attempting to attach a portal to an already-disposed host.
+ *
+ * 当试图把传送点连接到已经拆除的宿主上时，会抛出异常。
+ *
  * @docs-private
  */
 export function throwPortalOutletAlreadyDisposedError() {
@@ -32,6 +41,9 @@ export function throwPortalOutletAlreadyDisposedError() {
 
 /**
  * Throws an exception when attempting to attach an unknown portal type.
+ *
+ * 当试图连接未知的传送点类型时抛出异常。
+ *
  * @docs-private
  */
 export function throwUnknownPortalTypeError() {
@@ -41,6 +53,9 @@ export function throwUnknownPortalTypeError() {
 
 /**
  * Throws an exception when attempting to attach a portal to a null host.
+ *
+ * 当试图把传送点添加到空宿主时抛出异常。
+ *
  * @docs-private
  */
 export function throwNullPortalOutletError() {
@@ -49,6 +64,9 @@ export function throwNullPortalOutletError() {
 
 /**
  * Throws an exception when attempting to detach a portal that is not attached.
+ *
+ * 当试图拆除未附着过的传送点时抛出异常。
+ *
  * @docs-private
  */
 export function throwNoPortalAttachedError() {

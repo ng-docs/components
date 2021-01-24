@@ -22,6 +22,8 @@ export class MatCellHarness extends ContentContainerComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a table cell with specific attributes.
    * @param options Options for narrowing the search
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: CellHarnessFilters = {}): HarnessPredicate<MatCellHarness> {
     return getCellPredicate(MatCellHarness, options);
@@ -60,6 +62,8 @@ export class MatHeaderCellHarness extends MatCellHarness {
    * a table header cell with specific attributes.
    * @param options Options for narrowing the search
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: CellHarnessFilters = {}): HarnessPredicate<MatHeaderCellHarness> {
     return getCellPredicate(MatHeaderCellHarness, options);
@@ -76,6 +80,8 @@ export class MatFooterCellHarness extends MatCellHarness {
    * a table footer cell with specific attributes.
    * @param options Options for narrowing the search
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: CellHarnessFilters = {}): HarnessPredicate<MatFooterCellHarness> {
     return getCellPredicate(MatFooterCellHarness, options);

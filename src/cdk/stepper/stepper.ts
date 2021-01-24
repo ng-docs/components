@@ -46,37 +46,85 @@ import {startWith, takeUntil} from 'rxjs/operators';
 import {CdkStepHeader} from './step-header';
 import {CdkStepLabel} from './step-label';
 
-/** Used to generate unique ID for each stepper component. */
+/**
+ * Used to generate unique ID for each stepper component.
+ *
+ * 用于为每个步进器组件生成唯一的 ID。
+ *
+ */
 let nextId = 0;
 
 /**
  * Position state of the content of each step in stepper that is used for transitioning
  * the content into correct position upon step selection change.
+ *
+ * 步进器中每个步骤内容的位置状态，用于在选定的步骤改变时将内容转移到正确的位置。
+ *
  */
 export type StepContentPositionState = 'previous'|'current'|'next';
 
-/** Possible orientation of a stepper. */
+/**
+ * Possible orientation of a stepper.
+ *
+ * 步进器可能的方向。
+ *
+ */
 export type StepperOrientation = 'horizontal'|'vertical';
 
-/** Change event emitted on selection changes. */
+/**
+ * Change event emitted on selection changes.
+ *
+ * 在选定值变化时发出的变更事件。
+ *
+ */
 export class StepperSelectionEvent {
-  /** Index of the step now selected. */
+  /**
+   * Index of the step now selected.
+   *
+   * 当前步骤的索引。
+   *
+   */
   selectedIndex: number;
 
-  /** Index of the step previously selected. */
+  /**
+   * Index of the step previously selected.
+   *
+   * 前一个步骤的索引。
+   *
+   */
   previouslySelectedIndex: number;
 
-  /** The step instance now selected. */
+  /**
+   * The step instance now selected.
+   *
+   * 此步骤的实例已被选定。
+   *
+   */
   selectedStep: CdkStep;
 
-  /** The step instance previously selected. */
+  /**
+   * The step instance previously selected.
+   *
+   * 以前选定的步骤实例。
+   *
+   */
   previouslySelectedStep: CdkStep;
 }
 
-/** The state of each step. */
+/**
+ * The state of each step.
+ *
+ * 每一步的状态。
+ *
+ */
 export type StepState = 'number'|'edit'|'done'|'error'|string;
 
-/** Enum to represent the different states of the steps. */
+/**
+ * Enum to represent the different states of the steps.
+ *
+ * 枚举表示步骤的不同状态。
+ *
+ */
 export const STEP_STATE = {
   NUMBER: 'number',
   EDIT: 'edit',
@@ -84,21 +132,43 @@ export const STEP_STATE = {
   ERROR: 'error'
 };
 
-/** InjectionToken that can be used to specify the global stepper options. */
+/**
+ * InjectionToken that can be used to specify the global stepper options.
+ *
+ * 这个注入令牌可以用来指定全局的步进器选项。
+ *
+ */
 export const STEPPER_GLOBAL_OPTIONS = new InjectionToken<StepperOptions>('STEPPER_GLOBAL_OPTIONS');
 
 /**
  * InjectionToken that can be used to specify the global stepper options.
+ *
+ * 这个注入令牌可以用来指定全局的步进器选项。
+ *
  * @deprecated Use `STEPPER_GLOBAL_OPTIONS` instead.
+ *
+ * 请改用 `STEPPER_GLOBAL_OPTIONS` 。
+ *
  * @breaking-change 8.0.0.
+ *
+ * 8.0.0
+ *
  */
 export const MAT_STEPPER_GLOBAL_OPTIONS = STEPPER_GLOBAL_OPTIONS;
 
-/** Configurable options for stepper. */
+/**
+ * Configurable options for stepper.
+ *
+ * 步进器的可配置选项。
+ *
+ */
 export interface StepperOptions {
   /**
    * Whether the stepper should display an error state or not.
    * Default behavior is assumed to be false.
+   *
+   * 步进器是否应该显示错误状态。假定默认行为是 false。
+   *
    */
   showError?: boolean;
 
@@ -106,6 +176,9 @@ export interface StepperOptions {
    * Whether the stepper should display the default indicator type
    * or not.
    * Default behavior is assumed to be true.
+   *
+   * 步进器是否应该显示默认的指示器类型。假设默认行为是 true。
+   *
    */
   displayDefaultIndicatorType?: boolean;
 }
@@ -122,37 +195,85 @@ export class CdkStep implements OnChanges {
   _showError: boolean;
   _displayDefaultIndicatorType: boolean;
 
-  /** Template for step label if it exists. */
+  /**
+   * Template for step label if it exists.
+   *
+   * 步进器标签的模板（如果存在）。
+   *
+   */
   @ContentChild(CdkStepLabel) stepLabel: CdkStepLabel;
 
-  /** Template for step content. */
+  /**
+   * Template for step content.
+   *
+   * 步骤内容的模板。
+   *
+   */
   @ViewChild(TemplateRef, {static: true}) content: TemplateRef<any>;
 
-  /** The top level abstract control of the step. */
+  /**
+   * The top level abstract control of the step.
+   *
+   * 该步骤的顶级抽象控件。
+   *
+   */
   @Input() stepControl: AbstractControlLike;
 
-  /** Whether user has seen the expanded step content or not. */
+  /**
+   * Whether user has seen the expanded step content or not.
+   *
+   * 用户是否看过展开后的步骤内容。
+   *
+   */
   interacted = false;
 
-  /** Plain text label of the step. */
+  /**
+   * Plain text label of the step.
+   *
+   * 该步骤的纯文本标签。
+   *
+   */
   @Input() label: string;
 
-  /** Error message to display when there's an error. */
+  /**
+   * Error message to display when there's an error.
+   *
+   * 当出现错误时显示的错误信息。
+   *
+   */
   @Input() errorMessage: string;
 
-  /** Aria label for the tab. */
+  /**
+   * Aria label for the tab.
+   *
+   * 选项卡的 Aria 标签。
+   *
+   */
   @Input('aria-label') ariaLabel: string;
 
   /**
    * Reference to the element that the tab is labelled by.
    * Will be cleared if `aria-label` is set at the same time.
+   *
+   * 到用来标注此选项卡的元素的引用。如果同时设置了 `aria-label`，则被清除。
+   *
    */
   @Input('aria-labelledby') ariaLabelledby: string;
 
-  /** State of the step. */
+  /**
+   * State of the step.
+   *
+   * 步骤的状态。
+   *
+   */
   @Input() state: StepState;
 
-  /** Whether the user can return to this step once it has been marked as completed. */
+  /**
+   * Whether the user can return to this step once it has been marked as completed.
+   *
+   * 一旦标记为已完成，用户是否可以返回此步骤。
+   *
+   */
   @Input()
   get editable(): boolean {
     return this._editable;
@@ -162,7 +283,12 @@ export class CdkStep implements OnChanges {
   }
   private _editable = true;
 
-  /** Whether the completion of step is optional. */
+  /**
+   * Whether the completion of step is optional.
+   *
+   * 是否可以不必完成此步骤。
+   *
+   */
   @Input()
   get optional(): boolean {
     return this._optional;
@@ -172,7 +298,12 @@ export class CdkStep implements OnChanges {
   }
   private _optional = false;
 
-  /** Whether step is marked as completed. */
+  /**
+   * Whether step is marked as completed.
+   *
+   * 步骤是否标记为已完成。
+   *
+   */
   @Input()
   get completed(): boolean {
     return this._completedOverride == null ? this._getDefaultCompleted() : this._completedOverride;
@@ -186,7 +317,12 @@ export class CdkStep implements OnChanges {
     return this.stepControl ? this.stepControl.valid && this.interacted : this.interacted;
   }
 
-  /** Whether step has an error. */
+  /**
+   * Whether step has an error.
+   *
+   * 步骤是否有错误。
+   *
+   */
   @Input()
   get hasError(): boolean {
     return this._customError == null ? this._getDefaultError() : this._customError;
@@ -200,7 +336,13 @@ export class CdkStep implements OnChanges {
     return this.stepControl && this.stepControl.invalid && this.interacted;
   }
 
-  /** @breaking-change 8.0.0 remove the `?` after `stepperOptions` */
+  /**
+   *
+   * @breaking-change 8.0.0 remove the `?` after `stepperOptions`
+   *
+   * 8.0.0 删除 `stepperOptions` 后的 `?`
+   *
+   */
   constructor(
       @Inject(forwardRef(() => CdkStepper)) public _stepper: CdkStepper,
       @Optional() @Inject(STEPPER_GLOBAL_OPTIONS) stepperOptions?: StepperOptions) {
@@ -209,12 +351,22 @@ export class CdkStep implements OnChanges {
     this._showError = !!this._stepperOptions.showError;
   }
 
-  /** Selects this step component. */
+  /**
+   * Selects this step component.
+   *
+   * 选择此步骤组件。
+   *
+   */
   select(): void {
     this._stepper.selected = this;
   }
 
-  /** Resets the step to its initial state. Note that this includes resetting form data. */
+  /**
+   * Resets the step to its initial state. Note that this includes resetting form data.
+   *
+   * 把步骤重置为初始状态。请注意，这也包括重置表单数据。
+   *
+   */
   reset(): void {
     this.interacted = false;
 
@@ -248,32 +400,68 @@ export class CdkStep implements OnChanges {
   exportAs: 'cdkStepper',
 })
 export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
-  /** Emits when the component is destroyed. */
+  /**
+   * Emits when the component is destroyed.
+   *
+   * 当组件被销毁时会触发。
+   *
+   */
   protected _destroyed = new Subject<void>();
 
-  /** Used for managing keyboard focus. */
+  /**
+   * Used for managing keyboard focus.
+   *
+   * 用于管理键盘焦点。
+   *
+   */
   private _keyManager: FocusKeyManager<FocusableOption>;
 
   /**
+   *
    * @breaking-change 8.0.0 Remove `| undefined` once the `_document`
    * constructor param is required.
+   *
+   * 8.0.0 删除 `| undefined` 构造函数中的 `_document` 参数是必要的。
+   *
    */
   private _document: Document|undefined;
 
-  /** Full list of steps inside the stepper, including inside nested steppers. */
+  /**
+   * Full list of steps inside the stepper, including inside nested steppers.
+   *
+   * 步进器里面的完整步骤列表，也包括嵌套步进器中的那些。
+   *
+   */
   @ContentChildren(CdkStep, {descendants: true}) _steps: QueryList<CdkStep>;
 
-  /** Steps that belong to the current stepper, excluding ones from nested steppers. */
+  /**
+   * Steps that belong to the current stepper, excluding ones from nested steppers.
+   *
+   * 属于当前步进器的步骤（不包括那些来自嵌套步进器中的步骤）。
+   *
+   */
   readonly steps: QueryList<CdkStep> = new QueryList<CdkStep>();
 
   /**
    * The list of step headers of the steps in the stepper.
+   *
+   * 步进器中各步骤的步骤头列表。
+   *
    * @deprecated Type to be changed to `QueryList<CdkStepHeader>`.
+   *
+   * 输入属性要改为 `QueryList<CdkStepHeader>` 。
+   *
    * @breaking-change 8.0.0
+   *
    */
   @ContentChildren(CdkStepHeader, {descendants: true}) _stepHeader: QueryList<FocusableOption>;
 
-  /** Whether the validity of previous steps should be checked or not. */
+  /**
+   * Whether the validity of previous steps should be checked or not.
+   *
+   * 是否检查前一个步骤的有效性。
+   *
+   */
   @Input()
   get linear(): boolean {
     return this._linear;
@@ -283,7 +471,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
   }
   private _linear = false;
 
-  /** The index of the selected step. */
+  /**
+   * The index of the selected step.
+   *
+   * 选定步骤的索引。
+   *
+   */
   @Input()
   get selectedIndex() {
     return this._selectedIndex;
@@ -307,7 +500,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
   }
   private _selectedIndex = 0;
 
-  /** The step that is selected. */
+  /**
+   * The step that is selected.
+   *
+   * 选定的步骤
+   *
+   */
   @Input()
   get selected(): CdkStep {
     // @breaking-change 8.0.0 Change return type to `CdkStep | undefined`.
@@ -317,11 +515,21 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     this.selectedIndex = this.steps ? this.steps.toArray().indexOf(step) : -1;
   }
 
-  /** Event emitted when the selected step has changed. */
+  /**
+   * Event emitted when the selected step has changed.
+   *
+   * 选定的步骤发生变化时发出的事件。
+   *
+   */
   @Output()
   selectionChange: EventEmitter<StepperSelectionEvent> = new EventEmitter<StepperSelectionEvent>();
 
-  /** Used to track unique ID for each stepper component. */
+  /**
+   * Used to track unique ID for each stepper component.
+   *
+   * 用于跟踪每个步进器组件的唯一 ID。
+   *
+   */
   _groupId: number;
 
   protected _orientation: StepperOrientation = 'horizontal';
@@ -379,39 +587,74 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     this._destroyed.complete();
   }
 
-  /** Selects and focuses the next step in list. */
+  /**
+   * Selects and focuses the next step in list.
+   *
+   * 选择并让列表中的下一步获得焦点。
+   *
+   */
   next(): void {
     this.selectedIndex = Math.min(this._selectedIndex + 1, this.steps.length - 1);
   }
 
-  /** Selects and focuses the previous step in list. */
+  /**
+   * Selects and focuses the previous step in list.
+   *
+   * 选择并让列表中的上一步获得焦点。
+   *
+   */
   previous(): void {
     this.selectedIndex = Math.max(this._selectedIndex - 1, 0);
   }
 
-  /** Resets the stepper to its initial state. Note that this includes clearing form data. */
+  /**
+   * Resets the stepper to its initial state. Note that this includes clearing form data.
+   *
+   * 步进器的初始状态是 1。请注意，这包括清除表单数据。
+   *
+   */
   reset(): void {
     this._updateSelectedItemIndex(0);
     this.steps.forEach(step => step.reset());
     this._stateChanged();
   }
 
-  /** Returns a unique id for each step label element. */
+  /**
+   * Returns a unique id for each step label element.
+   *
+   * 为每个标签元素返回一个唯一的 id。
+   *
+   */
   _getStepLabelId(i: number): string {
     return `cdk-step-label-${this._groupId}-${i}`;
   }
 
-  /** Returns unique id for each step content element. */
+  /**
+   * Returns unique id for each step content element.
+   *
+   * 为每个步骤的内容元素返回唯一的 id。
+   *
+   */
   _getStepContentId(i: number): string {
     return `cdk-step-content-${this._groupId}-${i}`;
   }
 
-  /** Marks the component to be change detected. */
+  /**
+   * Marks the component to be change detected.
+   *
+   * 标记要进行变更检测的组件。
+   *
+   */
   _stateChanged() {
     this._changeDetectorRef.markForCheck();
   }
 
-  /** Returns position state of the step with the given index. */
+  /**
+   * Returns position state of the step with the given index.
+   *
+   * 返回具有指定索引的步骤的位置状态。
+   *
+   */
   _getAnimationDirection(index: number): StepContentPositionState {
     const position = index - this._selectedIndex;
     if (position < 0) {
@@ -422,7 +665,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     return 'current';
   }
 
-  /** Returns the type of icon to be displayed. */
+  /**
+   * Returns the type of icon to be displayed.
+   *
+   * 返回要显示的图标类型。
+   *
+   */
   _getIndicatorType(index: number, state: StepState = STEP_STATE.NUMBER): StepState {
     const step = this.steps.toArray()[index];
     const isCurrentStep = this._isCurrentStep(index);
@@ -460,7 +708,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     return this._selectedIndex === index;
   }
 
-  /** Returns the index of the currently-focused step header. */
+  /**
+   * Returns the index of the currently-focused step header.
+   *
+   * 返回当前拥有焦点的步骤头的索引。
+   *
+   */
   _getFocusIndex() {
     return this._keyManager ? this._keyManager.activeItemIndex : this._selectedIndex;
   }
@@ -520,7 +773,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     return this._dir && this._dir.value === 'rtl' ? 'rtl' : 'ltr';
   }
 
-  /** Checks whether the stepper contains the focused element. */
+  /**
+   * Checks whether the stepper contains the focused element.
+   *
+   * 检查步进器是否包含有拥焦点的元素。
+   *
+   */
   private _containsFocus(): boolean {
     if (!this._document || !this._elementRef) {
       return false;
@@ -531,7 +789,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     return stepperElement === focusedElement || stepperElement.contains(focusedElement);
   }
 
-  /** Checks whether the passed-in index is a valid step index. */
+  /**
+   * Checks whether the passed-in index is a valid step index.
+   *
+   * 检查传入的索引是否为有效的步骤索引。
+   *
+   */
   private _isValidIndex(index: number): boolean {
     return index > -1 && (!this.steps || index < this.steps.length);
   }
@@ -548,6 +811,9 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
 /**
  * Simplified representation of an "AbstractControl" from @angular/forms.
  * Used to avoid having to bring in @angular/forms for a single optional interface.
+ *
+ * 来自 @angular/forms 的 “AbstractControl” 的简化表示。用于避免为单个可选接口引入 @angular/forms。
+ *
  * @docs-private
  */
 interface AbstractControlLike {

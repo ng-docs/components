@@ -36,14 +36,29 @@ import {MatDialogContainer, _MatDialogContainerBase} from './dialog-container';
 import {MatDialogRef} from './dialog-ref';
 
 
-/** Injection token that can be used to access the data that was passed in to a dialog. */
+/**
+ * Injection token that can be used to access the data that was passed in to a dialog.
+ *
+ * 这个注入令牌可以用来访问那些传入对话框的数据。
+ *
+ */
 export const MAT_DIALOG_DATA = new InjectionToken<any>('MatDialogData');
 
-/** Injection token that can be used to specify default dialog options. */
+/**
+ * Injection token that can be used to specify default dialog options.
+ *
+ * 这个注入令牌可以用来指定默认的对话框选项。
+ *
+ */
 export const MAT_DIALOG_DEFAULT_OPTIONS =
     new InjectionToken<MatDialogConfig>('mat-dialog-default-options');
 
-/** Injection token that determines the scroll handling while the dialog is open. */
+/**
+ * Injection token that determines the scroll handling while the dialog is open.
+ *
+ * 一个注入令牌，它在对话框打开时确定滚动的处理方式。
+ *
+ */
 export const MAT_DIALOG_SCROLL_STRATEGY =
     new InjectionToken<() => ScrollStrategy>('mat-dialog-scroll-strategy');
 
@@ -68,6 +83,9 @@ export const MAT_DIALOG_SCROLL_STRATEGY_PROVIDER = {
 /**
  * Base class for dialog services. The base dialog service allows
  * for arbitrary dialog refs and dialog container components.
+ *
+ * 对话框服务的基类。基本对话框服务允许使用任意对话框参数和对话框容器组件。
+ *
  */
 @Directive()
 export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implements OnDestroy {
@@ -77,12 +95,22 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
   private _ariaHiddenElements = new Map<Element, string|null>();
   private _scrollStrategy: () => ScrollStrategy;
 
-  /** Keeps track of the currently-open dialogs. */
+  /**
+   * Keeps track of the currently-open dialogs.
+   *
+   * 跟踪当前打开的对话框。
+   *
+   */
   get openDialogs(): MatDialogRef<any>[] {
     return this._parentDialog ? this._parentDialog.openDialogs : this._openDialogsAtThisLevel;
   }
 
-  /** Stream that emits when a dialog has been opened. */
+  /**
+   * Stream that emits when a dialog has been opened.
+   *
+   * 当对话框打开后会发出通知的流。
+   *
+   */
   get afterOpened(): Subject<MatDialogRef<any>> {
     return this._parentDialog ? this._parentDialog.afterOpened : this._afterOpenedAtThisLevel;
   }
@@ -96,6 +124,9 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
   /**
    * Stream that emits when all open dialog have finished closing.
    * Will emit on subscribe if there are no open dialogs to begin with.
+   *
+   * 当所有打开的对话框都关闭的时候会发出通知的流。如果没有打开的对话框，就会在订阅时立即触发。
+   *
    */
   readonly afterAllClosed: Observable<void> = defer(() => this.openDialogs.length ?
       this._getAfterAllClosed() :
@@ -116,18 +147,40 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 
   /**
    * Opens a modal dialog containing the given component.
+   *
+   * 打开一个包含指定组件的模态对话框。
+   *
    * @param component Type of the component to load into the dialog.
+   *
+   * 要加载到对话框中的组件类型。
+   *
    * @param config Extra configuration options.
+   *
+   * 额外的配置选项。
+   *
    * @returns Reference to the newly-opened dialog.
+   *
+   * 引用新打开的对话框。
    */
   open<T, D = any, R = any>(component: ComponentType<T>,
                             config?: MatDialogConfig<D>): MatDialogRef<T, R>;
 
   /**
    * Opens a modal dialog containing the given template.
+   *
+   * 打开一个包含指定模板的模态对话框。
+   *
    * @param template TemplateRef to instantiate as the dialog content.
+   *
+   * TemplateRef 要实例化为对话框内容。
+   *
    * @param config Extra configuration options.
+   *
+   * 额外的配置选项。
+   *
    * @returns Reference to the newly-opened dialog.
+   *
+   * 引用新打开的对话框。
    */
   open<T, D = any, R = any>(template: TemplateRef<T>,
                             config?: MatDialogConfig<D>): MatDialogRef<T, R>;
@@ -168,6 +221,9 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 
   /**
    * Closes all of the currently-open dialogs.
+   *
+   * 关闭所有当前打开的对话框。
+   *
    */
   closeAll(): void {
     this._closeDialogs(this.openDialogs);
@@ -175,7 +231,13 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 
   /**
    * Finds an open dialog by its id.
+   *
+   * 通过 id 查找一个打开的对话框。
+   *
    * @param id ID to use when looking up the dialog.
+   *
+   * 在查找对话框时要用到的 ID。
+   *
    */
   getDialogById(id: string): MatDialogRef<any> | undefined {
     return this.openDialogs.find(dialog => dialog.id === id);
@@ -191,8 +253,16 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 
   /**
    * Creates the overlay into which the dialog will be loaded.
+   *
+   * 创建用于加载对话框的浮层。
+   *
    * @param config The dialog configuration.
+   *
+   * 该对话框的配置。
+   *
    * @returns A promise resolving to the OverlayRef for the created overlay.
+   *
+   * 一个 Promise ，它会解析为 OverlayRef 所创建的浮层。
    */
   private _createOverlay(config: MatDialogConfig): OverlayRef {
     const overlayConfig = this._getOverlayConfig(config);
@@ -201,8 +271,16 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 
   /**
    * Creates an overlay config from a dialog config.
+   *
+   * 从对话框配置中创建一个浮层配置。
+   *
    * @param dialogConfig The dialog configuration.
+   *
+   * 该对话框的配置。
+   *
    * @returns The overlay configuration.
+   *
+   * 浮层的配置。
    */
   private _getOverlayConfig(dialogConfig: MatDialogConfig): OverlayConfig {
     const state = new OverlayConfig({
@@ -227,9 +305,20 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 
   /**
    * Attaches a dialog container to a dialog's already-created overlay.
+   *
+   * 把一个对话框容器附着到一个已经创建过的对话框中。
+   *
    * @param overlay Reference to the dialog's underlying overlay.
+   *
+   * 引用对话框的底层浮层对象。
+   *
    * @param config The dialog configuration.
+   *
+   * 该对话框的配置。
+   *
    * @returns A promise resolving to a ComponentRef for the attached container.
+   *
+   * 一个 Promise，会解析为所附着容器的 ComponentRef。
    */
   private _attachDialogContainer(overlay: OverlayRef, config: MatDialogConfig): C {
     const userInjector = config && config.viewContainerRef && config.viewContainerRef.injector;
@@ -247,12 +336,29 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 
   /**
    * Attaches the user-provided component to the already-created dialog container.
+   *
+   * 把用户提供的组件附着到已创建的对话框中。
+   *
    * @param componentOrTemplateRef The type of component being loaded into the dialog,
    *     or a TemplateRef to instantiate as the content.
+   *
+   * 要加载到对话框中的组件类型，或者要实例化为内容的 TemplateRef。
+   *
    * @param dialogContainer Reference to the wrapping dialog container.
+   *
+   * 对包装对话框容器的引用。
+   *
    * @param overlayRef Reference to the overlay in which the dialog resides.
+   *
+   * 对该对话框所在浮层的引用。
+   *
    * @param config The dialog configuration.
+   *
+   * 该对话框的配置。
+   *
    * @returns A promise resolving to the MatDialogRef that should be returned to the user.
+   *
+   * 一个解析为 MatDialogRef 的 Promise，它应该返回给用户。
    */
   private _attachDialogContent<T, R>(
       componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
@@ -285,10 +391,24 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
   /**
    * Creates a custom injector to be used inside the dialog. This allows a component loaded inside
    * of a dialog to close itself and, optionally, to return a value.
+   *
+   * 创建一个在对话框中使用的自定义注入器。这允许在对话框里面加载的组件关闭自身，并且返回一个可选的值。
+   *
    * @param config Config object that is used to construct the dialog.
+   *
+   * 用于构造对话框的配置对象。
+   *
    * @param dialogRef Reference to the dialog.
+   *
+   * 对话框的引用。
+   *
    * @param dialogContainer Dialog container element that wraps all of the contents.
+   *
+   * 包装所有内容的对话框容器元素。
+   *
    * @returns The custom injector that can be used inside the dialog.
+   *
+   * 可以在对话框中使用的自定义注入器。
    */
   private _createInjector<T>(
       config: MatDialogConfig,
@@ -320,7 +440,13 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 
   /**
    * Removes a dialog from the array of open dialogs.
+   *
+   * 从打开的对话框数组中删除一个对话框。
+   *
    * @param dialogRef Dialog to be removed.
+   *
+   * 要删除的对话框。
+   *
    */
   private _removeOpenDialog(dialogRef: MatDialogRef<any>) {
     const index = this.openDialogs.indexOf(dialogRef);
@@ -347,6 +473,9 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 
   /**
    * Hides all of the content that isn't an overlay from assistive technology.
+   *
+   * 隐藏所有不支持无障碍功能的浮层内容。
+   *
    */
   private _hideNonDialogContentFromAssistiveTechnology() {
     const overlayContainer = this._overlayContainer.getContainerElement();
@@ -370,7 +499,12 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
     }
   }
 
-  /** Closes all of the dialogs in an array. */
+  /**
+   * Closes all of the dialogs in an array.
+   *
+   * 关闭一个数组中的所有对话框。
+   *
+   */
   private _closeDialogs(dialogs: MatDialogRef<any>[]) {
     let i = dialogs.length;
 
@@ -387,6 +521,9 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 
 /**
  * Service to open Material Design modal dialogs.
+ *
+ * 用于打开 Material Design 模态对话框的服务。
+ *
  */
 @Injectable()
 export class MatDialog extends _MatDialogBase<MatDialogContainer> {
@@ -409,9 +546,20 @@ export class MatDialog extends _MatDialogBase<MatDialogContainer> {
 
 /**
  * Applies default options to the dialog config.
+ *
+ * 在对话框的配置中应用默认选项。
+ *
  * @param config Config to be modified.
+ *
+ * 要修改的配置。
+ *
  * @param defaultOptions Default options provided.
+ *
+ * 提供的默认选项。
+ *
  * @returns The new configuration object.
+ *
+ * 新的配置对象。
  */
 function _applyConfigDefaults(
     config?: MatDialogConfig, defaultOptions?: MatDialogConfig): MatDialogConfig {

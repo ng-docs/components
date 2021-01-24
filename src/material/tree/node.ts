@@ -38,6 +38,9 @@ const _MatTreeNodeMixinBase: HasTabIndexCtor & CanDisableCtor & typeof CdkTreeNo
 
 /**
  * Wrapper for the CdkTree node with Material design styles.
+ *
+ * 带有 Material Design 样式的 CdkTree 节点的包装器。
+ *
  */
 @Directive({
   selector: 'mat-tree-node',
@@ -83,6 +86,10 @@ export class MatTreeNode<T, K = T> extends _MatTreeNodeMixinBase<T, K>
 /**
  * Wrapper for the CdkTree node definition with Material design styles.
  * Captures the node's template and a when predicate that describes when this node should be used.
+ *
+ * 具有 Material Design 样式的 CdkTree 节点定义的包装器。
+ * 保存该节点的模板和一个 when 谓词，用于描述何时该使用此节点。
+ *
  */
 @Directive({
   selector: '[matTreeNodeDef]',
@@ -97,6 +104,9 @@ export class MatTreeNodeDef<T> extends CdkTreeNodeDef<T> {
 
 /**
  * Wrapper for the CdkTree nested node with Material design styles.
+ *
+ * 具有 Material Design 样式的 CdkTree 嵌套节点的包装器。
+ *
  */
 @Directive({
   selector: 'mat-nested-tree-node',
@@ -112,13 +122,23 @@ export class MatNestedTreeNode<T, K = T> extends CdkNestedTreeNode<T, K>
     implements AfterContentInit, DoCheck, OnDestroy, OnInit {
   @Input('matNestedTreeNode') node: T;
 
-  /** Whether the node is disabled. */
+  /**
+   * Whether the node is disabled.
+   *
+   * 该节点是否被禁用。
+   *
+   */
   @Input()
   get disabled() { return this._disabled; }
   set disabled(value: any) { this._disabled = coerceBooleanProperty(value); }
   private _disabled = false;
 
-  /** Tabindex for the node. */
+  /**
+   * Tabindex for the node.
+   *
+   * 该节点的 Tabindex。
+   *
+   */
   @Input()
   get tabIndex(): number { return this.disabled ? -1 : this._tabIndex; }
   set tabIndex(value: number) {

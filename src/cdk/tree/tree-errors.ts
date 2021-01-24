@@ -8,6 +8,9 @@
 
 /**
  * Returns an error to be thrown when there is no usable data.
+ *
+ * 返回没有可用数据时抛出的错误。
+ *
  * @docs-private
  */
 export function getTreeNoValidDataSourceError() {
@@ -16,6 +19,9 @@ export function getTreeNoValidDataSourceError() {
 
 /**
  * Returns an error to be thrown when there are multiple nodes that are missing a when function.
+ *
+ * 返回当多个节点都缺少 when 谓词时要抛出的错误。
+ *
  * @docs-private
  */
 export function getTreeMultipleDefaultNodeDefsError() {
@@ -24,6 +30,9 @@ export function getTreeMultipleDefaultNodeDefsError() {
 
 /**
  * Returns an error to be thrown when there are no matching node defs for a particular set of data.
+ *
+ * 返回当某个特定数据集没有匹配的节点定义时要抛出的错误。
+ *
  * @docs-private
  */
 export function getTreeMissingMatchingNodeDefError() {
@@ -32,6 +41,9 @@ export function getTreeMissingMatchingNodeDefError() {
 
 /**
  * Returns an error to be thrown when there are tree control.
+ *
+ * 返回找不到树形控件时抛出的错误。
+ *
  * @docs-private
  */
 export function getTreeControlMissingError() {
@@ -40,6 +52,9 @@ export function getTreeControlMissingError() {
 
 /**
  * Returns an error to be thrown when tree control did not implement functions for flat/nested node.
+ *
+ * 当树形控件没有为扁平/嵌套节点实现过函数时，返回一个抛出的错误。
+ *
  * @docs-private
  */
 export function getTreeControlFunctionsMissingError() {

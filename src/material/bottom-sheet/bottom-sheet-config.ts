@@ -10,56 +10,120 @@ import {Direction} from '@angular/cdk/bidi';
 import {ScrollStrategy} from '@angular/cdk/overlay';
 import {InjectionToken, ViewContainerRef} from '@angular/core';
 
-/** Injection token that can be used to access the data that was passed in to a bottom sheet. */
+/**
+ * Injection token that can be used to access the data that was passed in to a bottom sheet.
+ *
+ * 这个注入令牌可以用来访问那些传入底部操作表的数据。
+ *
+ */
 export const MAT_BOTTOM_SHEET_DATA = new InjectionToken<any>('MatBottomSheetData');
 
 /**
  * Configuration used when opening a bottom sheet.
+ *
+ * 打开底部操作表时使用的配置。
+ *
  */
 export class MatBottomSheetConfig<D = any> {
-  /** The view container to place the overlay for the bottom sheet into. */
+  /**
+   * The view container to place the overlay for the bottom sheet into.
+   *
+   * 用于放置底部操作表浮层的容器。
+   *
+   */
   viewContainerRef?: ViewContainerRef;
 
-  /** Extra CSS classes to be added to the bottom sheet container. */
+  /**
+   * Extra CSS classes to be added to the bottom sheet container.
+   *
+   * 要添加到底部操作表容器中的额外 CSS 类。
+   *
+   */
   panelClass?: string | string[];
 
-  /** Text layout direction for the bottom sheet. */
+  /**
+   * Text layout direction for the bottom sheet.
+   *
+   * 底部操作表的文本布局方向。
+   *
+   */
   direction?: Direction;
 
-  /** Data being injected into the child component. */
+  /**
+   * Data being injected into the child component.
+   *
+   * 注入到子组件中的数据。
+   *
+   */
   data?: D | null = null;
 
-  /** Whether the bottom sheet has a backdrop. */
+  /**
+   * Whether the bottom sheet has a backdrop.
+   *
+   * 底部操作表是否有背景板。
+   *
+   */
   hasBackdrop?: boolean = true;
 
-  /** Custom class for the backdrop. */
+  /**
+   * Custom class for the backdrop.
+   *
+   * 背景板的自定义类。
+   *
+   */
   backdropClass?: string;
 
-  /** Whether the user can use escape or clicking outside to close the bottom sheet. */
+  /**
+   * Whether the user can use escape or clicking outside to close the bottom sheet.
+   *
+   * 用户是否可以使用 escape 或单击外部来关闭底部操作表。
+   *
+   */
   disableClose?: boolean = false;
 
-  /** Aria label to assign to the bottom sheet element. */
+  /**
+   * Aria label to assign to the bottom sheet element.
+   *
+   * 指定给底部操作表元素的 Aria 标签。
+   *
+   */
   ariaLabel?: string | null = null;
 
   /**
    * Whether the bottom sheet should close when the user goes backwards/forwards in history.
    * Note that this usually doesn't include clicking on links (unless the user is using
    * the `HashLocationStrategy`).
+   *
+   * 当用户在历史记录中前进或后退时，底部操作表是否应该关闭。请注意，这通常不包括单击某些链接（除非用户正在使用 `HashLocationStrategy` ）。
+   *
    */
   closeOnNavigation?: boolean = true;
 
   // Note that this is disabled by default, because while the a11y recommendations are to focus
   // the first focusable element, doing so prevents screen readers from reading out the
   // rest of the bottom sheet content.
-  /** Whether the bottom sheet should focus the first focusable element on open. */
+  /**
+   * Whether the bottom sheet should focus the first focusable element on open.
+   *
+   * 在打开底部操作表时是否应该让第一个可获得焦点的元素获取焦点。
+   *
+   */
   autoFocus?: boolean = false;
 
   /**
    * Whether the bottom sheet should restore focus to the
    * previously-focused element, after it's closed.
+   *
+   * 关闭底部操作表时是否应该把焦点还给以前拥有焦点的元素。
+   *
    */
   restoreFocus?: boolean = true;
 
-  /** Scroll strategy to be used for the bottom sheet. */
+  /**
+   * Scroll strategy to be used for the bottom sheet.
+   *
+   * 用于底部操作表的滚动策略。
+   *
+   */
   scrollStrategy?: ScrollStrategy;
 }

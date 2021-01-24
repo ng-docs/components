@@ -8,5 +8,10 @@
 
 import {Version} from '@angular/core';
 
-/** Current version of the Angular Component Development Kit. */
+/**
+ * Current version of the Angular Component Development Kit.
+ *
+ * Angular 组件开发包的当前版本。
+ *
+ */
 export const VERSION = new Version('0.0.0-PLACEHOLDER');

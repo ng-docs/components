@@ -20,19 +20,37 @@ import {
 import {Clipboard} from './clipboard';
 import {PendingCopy} from './pending-copy';
 
-/** Object that can be used to configure the default options for `CdkCopyToClipboard`. */
+/**
+ * Object that can be used to configure the default options for `CdkCopyToClipboard`.
+ *
+ * 可用于配置 `CdkCopyToClipboard` 默认选项的对象。
+ *
+ */
 export interface CdkCopyToClipboardConfig {
-  /** Default number of attempts to make when copying text to the clipboard. */
+  /**
+   * Default number of attempts to make when copying text to the clipboard.
+   *
+   * 复制文本到剪贴板时的默认尝试次数。
+   *
+   */
   attempts?: number;
 }
 
-/** Injection token that can be used to provide the default options to `CdkCopyToClipboard`. */
+/**
+ * Injection token that can be used to provide the default options to `CdkCopyToClipboard`.
+ *
+ * 这个注入令牌可以用来为 `CdkCopyToClipboard` 提供默认选项。
+ *
+ */
 export const CKD_COPY_TO_CLIPBOARD_CONFIG =
     new InjectionToken<CdkCopyToClipboardConfig>('CKD_COPY_TO_CLIPBOARD_CONFIG');
 
 /**
  * Provides behavior for a button that when clicked copies content into user's
  * clipboard.
+ *
+ * 为某个按钮提供行为，此按钮在被点击时会把内容复制到用户的剪贴板中。
+ *
  */
 @Directive({
   selector: '[cdkCopyToClipboard]',
@@ -41,28 +59,54 @@ export const CKD_COPY_TO_CLIPBOARD_CONFIG =
   }
 })
 export class CdkCopyToClipboard implements OnDestroy {
-  /** Content to be copied. */
+  /**
+   * Content to be copied.
+   *
+   * 要复制的内容。
+   *
+   */
   @Input('cdkCopyToClipboard') text: string = '';
 
   /**
    * How many times to attempt to copy the text. This may be necessary for longer text, because
    * the browser needs time to fill an intermediate textarea element and copy the content.
+   *
+   * 尝试复制文本的次数是多少次。这对于文本较长的文本来说可能是必需的，因为浏览器需要时间来填充中转 textarea 元素并复制其内容。
+   *
    */
   @Input('cdkCopyToClipboardAttempts') attempts: number = 1;
 
   /**
    * Emits when some text is copied to the clipboard. The
    * emitted value indicates whether copying was successful.
+   *
+   * 某些文本被复制到剪贴板后发出通知。发出的值表示复制是否成功。
+   *
    */
   @Output('cdkCopyToClipboardCopied') copied = new EventEmitter<boolean>();
 
-  /** Copies that are currently being attempted. */
+  /**
+   * Copies that are currently being attempted.
+   *
+   * 目前正在尝试的复制操作。
+   *
+   */
   private _pending = new Set<PendingCopy>();
 
-  /** Whether the directive has been destroyed. */
+  /**
+   * Whether the directive has been destroyed.
+   *
+   * 该指令是否已被销毁。
+   *
+   */
   private _destroyed: boolean;
 
-  /** Timeout for the current copy attempt. */
+  /**
+   * Timeout for the current copy attempt.
+   *
+   * 本次尝试复制的超时时间。
+   *
+   */
   private _currentTimeout: any;
 
   constructor(
@@ -75,7 +119,12 @@ export class CdkCopyToClipboard implements OnDestroy {
     }
   }
 
-  /** Copies the current text to the clipboard. */
+  /**
+   * Copies the current text to the clipboard.
+   *
+   * 把当前文本复制到剪贴板。
+   *
+   */
   copy(attempts: number = this.attempts): void {
     if (attempts > 1) {
       let remainingAttempts = attempts;

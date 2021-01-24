@@ -36,6 +36,9 @@ import {
 
 /**
  * Header element of a `<mat-expansion-panel>`.
+ *
+ * `<mat-expansion-panel>` 标头元素。
+ *
  */
 @Component({
   selector: 'mat-expansion-panel-header',
@@ -104,48 +107,91 @@ export class MatExpansionPanelHeader implements AfterViewInit, OnDestroy, Focusa
     }
   }
 
-  /** Height of the header while the panel is expanded. */
+  /**
+   * Height of the header while the panel is expanded.
+   *
+   * 当面板展开时，标题的高度。
+   *
+   */
   @Input() expandedHeight: string;
 
-  /** Height of the header while the panel is collapsed. */
+  /**
+   * Height of the header while the panel is collapsed.
+   *
+   * 当面板折叠时，标题的高度。
+   *
+   */
   @Input() collapsedHeight: string;
 
   /**
    * Whether the associated panel is disabled. Implemented as a part of `FocusableOption`.
+   *
+   * 相关面板是否被禁用。实现为 `FocusableOption` 的一部分。
+   *
    * @docs-private
    */
   get disabled() {
     return this.panel.disabled;
   }
 
-  /** Toggles the expanded state of the panel. */
+  /**
+   * Toggles the expanded state of the panel.
+   *
+   * 切换面板的展开状态。
+   *
+   */
   _toggle(): void {
     if (!this.disabled) {
       this.panel.toggle();
     }
   }
 
-  /** Gets whether the panel is expanded. */
+  /**
+   * Gets whether the panel is expanded.
+   *
+   * 获取该面板是否已展开。
+   *
+   */
   _isExpanded(): boolean {
     return this.panel.expanded;
   }
 
-  /** Gets the expanded state string of the panel. */
+  /**
+   * Gets the expanded state string of the panel.
+   *
+   * 获取面板的展开状态字符串。
+   *
+   */
   _getExpandedState(): string {
     return this.panel._getExpandedState();
   }
 
-  /** Gets the panel id. */
+  /**
+   * Gets the panel id.
+   *
+   * 获取面板的 id。
+   *
+   */
   _getPanelId(): string {
     return this.panel.id;
   }
 
-  /** Gets the toggle position for the header. */
+  /**
+   * Gets the toggle position for the header.
+   *
+   * 获取标头上切换开关的位置。
+   *
+   */
   _getTogglePosition(): MatAccordionTogglePosition {
     return this.panel.togglePosition;
   }
 
-  /** Gets whether the expand indicator should be shown. */
+  /**
+   * Gets whether the expand indicator should be shown.
+   *
+   * 获取是否显示展开指示器。
+   *
+   */
   _showToggle(): boolean {
     return !this.panel.hideToggle && !this.panel.disabled;
   }
@@ -153,6 +199,9 @@ export class MatExpansionPanelHeader implements AfterViewInit, OnDestroy, Focusa
   /**
    * Gets the current height of the header. Null if no custom height has been
    * specified, and if the default height from the stylesheet should be used.
+   *
+   * 获取标头的当前高度。如果没有指定自定义高度并且使用样式表中的默认高度，则为 null。
+   *
    */
   _getHeaderHeight(): string|null {
     const isExpanded = this._isExpanded();
@@ -164,7 +213,12 @@ export class MatExpansionPanelHeader implements AfterViewInit, OnDestroy, Focusa
     return null;
   }
 
-  /** Handle keydown event calling to toggle() if appropriate. */
+  /**
+   * Handle keydown event calling to toggle() if appropriate.
+   *
+   * 处理 keydown 事件，并且如果合适就调用 toggle()。
+   *
+   */
   _keydown(event: KeyboardEvent) {
     switch (event.keyCode) {
       // Toggle for space and enter keys.
@@ -187,7 +241,13 @@ export class MatExpansionPanelHeader implements AfterViewInit, OnDestroy, Focusa
 
   /**
    * Focuses the panel header. Implemented as a part of `FocusableOption`.
+   *
+   * 让这个面板标头获得焦点。实现为 `FocusableOption` 的一部分。
+   *
    * @param origin Origin of the action that triggered the focus.
+   *
+   * 触发获得焦点的动作来源。
+   *
    * @docs-private
    */
   focus(origin?: FocusOrigin, options?: FocusOptions) {
@@ -214,6 +274,9 @@ export class MatExpansionPanelHeader implements AfterViewInit, OnDestroy, Focusa
 
 /**
  * Description element of a `<mat-expansion-panel-header>`.
+ *
+ * `<mat-expansion-panel-header>` 的描述元素。
+ *
  */
 @Directive({
   selector: 'mat-panel-description',
@@ -225,6 +288,9 @@ export class MatExpansionPanelDescription {}
 
 /**
  * Title element of a `<mat-expansion-panel-header>`.
+ *
+ * `<mat-expansion-panel-header>` 的标头元素
+ *
  */
 @Directive({
   selector: 'mat-panel-title',

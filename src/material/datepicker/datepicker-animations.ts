@@ -16,6 +16,9 @@ import {
 
 /**
  * Animations used by the Material datepicker.
+ *
+ * 供 Material日期选择器使用的动画功能。
+ *
  * @docs-private
  */
 export const matDatepickerAnimations: {

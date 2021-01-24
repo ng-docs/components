@@ -113,7 +113,7 @@ layed out horizontally or vertically (defaulting to horizontal). If the layout c
 the `orientation` attribute to match in order for the keyboard navigation to work properly and for
 menus to open up in the correct location.
 
-`CdkMenuBar` 指令遵循 [ARIA 菜单栏][menubar]规范，其行为类似桌面应用de 菜单栏。它包括至少一个触发子菜单的 `CdkMenuItem`。菜单栏可以使用水平或垂直布局（默认为水平布局）。如果该布局发生了变化，你必须先设置与之匹配的 `orientation` 属性。这样才能让键盘导航正常工作，并让菜单在正确的位置打开。
+`CdkMenuBar` 指令遵循 [ARIA 菜单栏][menubar]规范，其行为类似桌面应用 de 菜单栏。它包括至少一个触发子菜单的 `CdkMenuItem`。菜单栏可以使用水平或垂直布局（默认为水平布局）。如果该布局发生了变化，你必须先设置与之匹配的 `orientation` 属性。这样才能让键盘导航正常工作，并让菜单在正确的位置打开。
 
 <!-- example({
   "example": "cdk-menu-menubar",

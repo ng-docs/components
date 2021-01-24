@@ -10,7 +10,12 @@ import {Observable, isObservable, of as observableOf} from 'rxjs';
 import {DataSource} from './data-source';
 
 
-/** DataSource wrapper for a native array. */
+/**
+ * DataSource wrapper for a native array.
+ *
+ * 原生数组的 DataSource 包装器。
+ *
+ */
 export class ArrayDataSource<T> extends DataSource<T> {
   constructor(private _data: T[] | ReadonlyArray<T> | Observable<T[] | ReadonlyArray<T>>) {
     super();

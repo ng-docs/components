@@ -16,6 +16,9 @@ import {
 
 /**
  * Animations used by the Material drawers.
+ *
+ * 供 Material 抽屉使用的动画。
+ *
  * @docs-private
  */
 export const matDrawerAnimations: {

@@ -26,11 +26,17 @@ import {Subject} from 'rxjs';
  * Injection token that can be used to reference instances of `MatMenuContent`. It serves
  * as alternative token to the actual `MatMenuContent` class which could cause unnecessary
  * retention of the class and its directive metadata.
+ *
+ * 这个注入令牌可以用来引用 `MatMenuContent` 实例。它可以作为实际 `MatMenuContent` 类的备用令牌，直接使用实际类可能导致该类及其元数据无法被优化掉。
+ *
  */
 export const MAT_MENU_CONTENT = new InjectionToken<MatMenuContent>('MatMenuContent');
 
 /**
  * Menu content that will be rendered lazily once the menu is opened.
+ *
+ * 菜单打开后，菜单内容会惰性渲染。
+ *
  */
 @Directive({
   selector: 'ng-template[matMenuContent]',
@@ -40,7 +46,12 @@ export class MatMenuContent implements OnDestroy {
   private _portal: TemplatePortal<any>;
   private _outlet: DomPortalOutlet;
 
-  /** Emits when the menu content has been attached. */
+  /**
+   * Emits when the menu content has been attached.
+   *
+   * 菜单内容已附着时会触发。
+   *
+   */
   _attached = new Subject<void>();
 
   constructor(
@@ -54,6 +65,9 @@ export class MatMenuContent implements OnDestroy {
 
   /**
    * Attaches the content with a particular context.
+   *
+   * 使用特定的上下文来附着内容。
+   *
    * @docs-private
    */
   attach(context: any = {}) {
@@ -91,6 +105,9 @@ export class MatMenuContent implements OnDestroy {
 
   /**
    * Detaches the content.
+   *
+   * 拆除内容。
+   *
    * @docs-private
    */
   detach() {

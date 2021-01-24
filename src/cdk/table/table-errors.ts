@@ -8,7 +8,13 @@
 
 /**
  * Returns an error to be thrown when attempting to find an unexisting column.
+ *
+ * 返回试图查找不存在的列时要抛出的错误。
+ *
  * @param id Id whose lookup failed.
+ *
+ * 查找失败的 ID
+ *
  * @docs-private
  */
 export function getTableUnknownColumnError(id: string) {
@@ -17,6 +23,9 @@ export function getTableUnknownColumnError(id: string) {
 
 /**
  * Returns an error to be thrown when two column definitions have the same name.
+ *
+ * 返回当两个列定义具有相同的列名时抛出的错误。
+ *
  * @docs-private
  */
 export function getTableDuplicateColumnNameError(name: string) {
@@ -25,6 +34,9 @@ export function getTableDuplicateColumnNameError(name: string) {
 
 /**
  * Returns an error to be thrown when there are multiple rows that are missing a when function.
+ *
+ * 当有多个行缺少 when 函数时，返回一个要抛出的错误。
+ *
  * @docs-private
  */
 export function getTableMultipleDefaultRowDefsError() {
@@ -33,6 +45,9 @@ export function getTableMultipleDefaultRowDefsError() {
 
 /**
  * Returns an error to be thrown when there are no matching row defs for a particular set of data.
+ *
+ * 返回当某个特定数据集没有匹配的行定义时要抛出的错误。
+ *
  * @docs-private
  */
 export function getTableMissingMatchingRowDefError(data: any) {
@@ -42,6 +57,9 @@ export function getTableMissingMatchingRowDefError(data: any) {
 
 /**
  * Returns an error to be thrown when there is no row definitions present in the content.
+ *
+ * 返回当内容中没有行定义时要抛出的错误。
+ *
  * @docs-private
  */
 export function getTableMissingRowDefsError() {
@@ -51,6 +69,9 @@ export function getTableMissingRowDefsError() {
 
 /**
  * Returns an error to be thrown when the data source does not match the compatible types.
+ *
+ * 返回当数据源与可兼容类型不匹配时抛出的错误。
+ *
  * @docs-private
  */
 export function getTableUnknownDataSourceError() {
@@ -59,6 +80,9 @@ export function getTableUnknownDataSourceError() {
 
 /**
  * Returns an error to be thrown when the text column cannot find a parent table to inject.
+ *
+ * 当文本列找不到要注入的父表格时，返回一个抛出的错误。
+ *
  * @docs-private
  */
 export function getTableTextColumnMissingParentTableError() {
@@ -67,6 +91,9 @@ export function getTableTextColumnMissingParentTableError() {
 
 /**
  * Returns an error to be thrown when a table text column doesn't have a name.
+ *
+ * 当表格的文本列没有列名时，返回一个抛出的错误。
+ *
  * @docs-private
  */
 export function getTableTextColumnMissingNameError() {

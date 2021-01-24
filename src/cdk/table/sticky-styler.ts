@@ -18,6 +18,9 @@ export type StickyDirection = 'top' | 'bottom' | 'left' | 'right';
 
 /**
  * List of all possible directions that can be used for sticky positioning.
+ *
+ * 可用于粘性定位的所有方向列表。
+ *
  * @docs-private
  */
 export const STICKY_DIRECTIONS: StickyDirection[] = ['top', 'bottom', 'left', 'right'];
@@ -25,6 +28,9 @@ export const STICKY_DIRECTIONS: StickyDirection[] = ['top', 'bottom', 'left', 'r
 
 /**
  * Applies and removes sticky positioning styles to the `CdkTable` rows and columns cells.
+ *
+ * 在 `CdkTable` 行列单元格中应用和删除粘性定位样式。
+ *
  * @docs-private
  */
 export class StickyStyler {
@@ -34,16 +40,34 @@ export class StickyStyler {
   /**
    * @param _isNativeHtmlTable Whether the sticky logic should be based on a table
    *     that uses the native `<table>` element.
+   *
+   * 粘性逻辑是否应该基于一个使用原生 `<table>` 元素的表格。
+   *
    * @param _stickCellCss The CSS class that will be applied to every row/cell that has
    *     sticky positioning applied.
+   *
+   * 这个 CSS 类会应用于那些应用了粘性定位的行/单元格。
+   *
    * @param direction The directionality context of the table (ltr/rtl); affects column positioning
    *     by reversing left/right positions.
+   *
+   * 该表的方向性上下文（ltr/rtl）；通过反转左/右位置来影响列的定位。
+   *
    * @param _isBrowser Whether the table is currently being rendered on the server or the client.
+   *
+   * 表格当前是在服务器端还是客户端上渲染的。
+   *
    * @param _needsPositionStickyOnElement Whether we need to specify position: sticky on cells
    *     using inline styles. If false, it is assumed that position: sticky is included in
    *     the component stylesheet for _stickCellCss.
+   *
+   * 我们是否需要使用内联样式指定 position: sticky。如果为 false，则假定 position: sticky 包含在 \_stickCellCss 组件样式表中。
+   *
    * @param _positionListener A listener that is notified of changes to sticky rows/columns
    *     and their dimensions.
+   *
+   * 接收粘性行/列及其尺寸变更通知的监听器。
+   *
    */
   constructor(private _isNativeHtmlTable: boolean,
               private _stickCellCss: string,
@@ -67,8 +91,17 @@ export class StickyStyler {
   /**
    * Clears the sticky positioning styles from the row and its cells by resetting the `position`
    * style, setting the zIndex to 0, and unsetting each provided sticky direction.
+   *
+   * 通过重置 `position` 样式，将 zIndex 设置为 0，并取消设置每个提供的粘性方向，清除该行及其单元格中的粘性定位样式。
+   *
    * @param rows The list of rows that should be cleared from sticking in the provided directions
+   *
+   * 那些应该从所提供的粘性方向中清除的行列表
+   *
    * @param stickyDirections The directions that should no longer be set as sticky on the rows.
+   *
+   * 那些不应再把行粘附到的方向。
+   *
    */
   clearStickyPositioning(rows: HTMLElement[], stickyDirections: StickyDirection[]) {
     const elementsToClear: HTMLElement[] = [];
@@ -96,13 +129,28 @@ export class StickyStyler {
   /**
    * Applies sticky left and right positions to the cells of each row according to the sticky
    * states of the rendered column definitions.
+   *
+   * 根据要渲染的列定义中规定的粘性状态，在每行的单元格中应用要粘附到的左右位置。
+   *
    * @param rows The rows that should have its set of cells stuck according to the sticky states.
+   *
+   * 那些应该让其单元格根据粘性状态粘住的行。
+   *
    * @param stickyStartStates A list of boolean states where each state represents whether the cell
    *     in this index position should be stuck to the start of the row.
+   *
+   * 一个布尔型状态列表，其中每个状态表示该索引位置的单元格是否应该粘在该行的开头。
+   *
    * @param stickyEndStates A list of boolean states where each state represents whether the cell
    *     in this index position should be stuck to the end of the row.
+   *
+   * 一个布尔型状态列表，其中每个状态表示该索引位置的单元格是否应该粘在该行的末尾。
+   *
    * @param recalculateCellWidths Whether the sticky styler should recalculate the width of each
    *     column cell. If `false` cached widths will be used instead.
+   *
+   * 粘性样式器是否应该重新计算每个列单元格的宽度。如果为 `false` 就改用缓存中的宽度。
+   *
    */
   updateStickyColumns(
       rows: HTMLElement[], stickyStartStates: boolean[], stickyEndStates: boolean[],
@@ -169,12 +217,23 @@ export class StickyStyler {
   /**
    * Applies sticky positioning to the row's cells if using the native table layout, and to the
    * row itself otherwise.
+   *
+   * 如果使用原生表格布局，则对该行的单元格应用粘性定位，否则应用于该行本身。
+   *
    * @param rowsToStick The list of rows that should be stuck according to their corresponding
    *     sticky state and to the provided top or bottom position.
+   *
+   * 行的列表，这些行应该根据对应的粘性状态和所提供的顶部或底部位置进行粘附。
+   *
    * @param stickyStates A list of boolean states where each state represents whether the row
    *     should be stuck in the particular top or bottom position.
+   *
+   * 一个布尔状态列表，其中每个状态表示该行是否应该停留在特定的顶部或底部位置。
+   *
    * @param position The position direction in which the row should be stuck if that row should be
    *     sticky.
+   *
+   * 如果该行应该被粘住，这个参数表输出它应该被粘附到的位置。
    *
    */
   stickRows(rowsToStick: HTMLElement[], stickyStates: boolean[], position: 'top' | 'bottom') {
@@ -239,6 +298,10 @@ export class StickyStyler {
    * footer rows is to apply sticky styling to the tfoot container. This should only be done if
    * all footer rows are sticky. If not all footer rows are sticky, remove sticky positioning from
    * the tfoot element.
+   *
+   * 在 Safari 中使用原生表格时，粘性表尾单元格无法粘住。粘住表尾行的唯一方法就是把粘性样式应用到 tfoot 容器中。
+   * 这只在所有的表尾都要粘住的时候才行。如果并非所有的表尾行都要粘住，就要从 tfoot 元素中移除粘性定位。
+   *
    */
   updateStickyFooterContainer(tableElement: Element, stickyStates: boolean[]) {
     if (!this._isNativeHtmlTable) {
@@ -261,6 +324,9 @@ export class StickyStyler {
    * Removes the sticky style on the element by removing the sticky cell CSS class, re-evaluating
    * the zIndex, removing each of the provided sticky directions, and removing the
    * sticky position if there are no more directions.
+   *
+   * 删除此元素上的粘性样式 —— 删除粘性单元格 CSS 类，重新计算 zIndex，移除所提供的每个粘性方向，并删除粘性位置（如果没有更多方向指令）。
+   *
    */
   _removeStickyStyle(element: HTMLElement, stickyDirections: StickyDirection[]) {
     for (const dir of stickyDirections) {
@@ -290,6 +356,9 @@ export class StickyStyler {
    * Adds the sticky styling to the element by adding the sticky style class, changing position
    * to be sticky (and -webkit-sticky), setting the appropriate zIndex, and adding a sticky
    * direction and value.
+   *
+   * 为该元素添加粘性样式 —— 添加粘性样式类，修改粘附到的位置（和-webkit-sticky），设置合适的 zIndex，添加粘附的方向和值。
+   *
    */
   _addStickyStyle(element: HTMLElement, dir: StickyDirection, dirValue: number,
       isBorderElement: boolean) {
@@ -314,6 +383,12 @@ export class StickyStyler {
    * but above any non-sticky elements. Finally, left/right sticky elements (e.g. sticky columns)
    * should minimally increment so that they are above non-sticky elements but below top and bottom
    * elements.
+   *
+   * 根据设置的方向（上，下，左，右），计算该元素的 z-index 值。原则上，具有粘附到顶部的元素应具有最高的索引，因为它们是像表头一样的元素。
+   * 如果这些元素中的任何一个同时要粘附到另一个方向，那么它们应该出现在其它仅粘性顶部的元素之上（比如粘性表头上的粘性列）。
+   * 底部粘性元素（例如表尾行）应该是顺序中的下一个，这样它们就会低于表头，但会高于任何非粘性元素。
+   * 最后，粘附到左/右元素（例如粘性列）应该递增的最少，以便它们位于非粘性元素的上方，但位于顶部和底部元素的下方。
+   *
    */
   _getCalculatedZIndex(element: HTMLElement): string {
     const zIndexIncrements = {
@@ -336,7 +411,12 @@ export class StickyStyler {
     return zIndex ? `${zIndex}` : '';
   }
 
-  /** Gets the widths for each cell in the provided row. */
+  /**
+   * Gets the widths for each cell in the provided row.
+   *
+   * 获取提供的行中每个单元格的宽度。
+   *
+   */
   _getCellWidths(row: HTMLElement, recalculateCellWidths = true): number[] {
     if (!recalculateCellWidths && this._cachedCellWidths.length) {
       return this._cachedCellWidths;
@@ -357,6 +437,9 @@ export class StickyStyler {
    * Determines the left and right positions of each sticky column cell, which will be the
    * accumulation of all sticky column cell widths to the left and right, respectively.
    * Non-sticky cells do not need to have a value set since their positions will not be applied.
+   *
+   * 确定每个粘性列单元格的左右位置，它们分别是左右两侧粘性列单元格宽度的累加。非粘性单元格不需要有值，因为它们的位置不会被应用。
+   *
    */
   _getStickyStartColumnPositions(widths: number[], stickyStates: boolean[]): number[] {
     const positions: number[] = [];
@@ -376,6 +459,9 @@ export class StickyStyler {
    * Determines the left and right positions of each sticky column cell, which will be the
    * accumulation of all sticky column cell widths to the left and right, respectively.
    * Non-sticky cells do not need to have a value set since their positions will not be applied.
+   *
+   * 确定每个粘性列单元格的左右位置，它们分别是左右两侧粘性列单元格宽度的累加。非粘性单元格不需要有值，因为它们的位置不会被应用。
+   *
    */
   _getStickyEndColumnPositions(widths: number[], stickyStates: boolean[]): number[] {
     const positions: number[] = [];
@@ -393,8 +479,14 @@ export class StickyStyler {
 
   /**
    * Schedules styles to be applied when the style scheduler deems appropriate.
+   *
+   * 当样式调度程序认为合适时，调度要应用的样式。
+   *
    * @breaking-change 11.0.0 This method can be removed in favor of calling
    * `CoalescedStyleScheduler.schedule` directly once the scheduler is a required parameter.
+   *
+   * 当调度程序是一个必需参数时，可以删除此方法，改为直接调用 `CoalescedStyleScheduler.schedule`。
+   *
    */
   private _scheduleStyleChanges(changes: () => void) {
     if (this._coalescedStyleScheduler) {

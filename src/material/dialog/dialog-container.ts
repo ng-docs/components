@@ -33,7 +33,12 @@ import {
 import {matDialogAnimations} from './dialog-animations';
 import {MatDialogConfig} from './dialog-config';
 
-/** Event that captures the state of dialog container animations. */
+/**
+ * Event that captures the state of dialog container animations.
+ *
+ * 捕获对话框容器动画状态的事件。
+ *
+ */
 interface DialogAnimationEvent {
   state: 'opened' | 'opening' | 'closing' | 'closed';
   totalTime: number;
@@ -42,6 +47,9 @@ interface DialogAnimationEvent {
 /**
  * Throws an exception for the case when a ComponentPortal is
  * attached to a DomPortalOutlet without an origin.
+ *
+ * 当 ComponentPortal 被附着到一个没有原点（origin）的 DomPortalOutlet 时会引发异常。
+ *
  * @docs-private
  */
 export function throwMatDialogContentAlreadyAttachedError() {
@@ -51,34 +59,70 @@ export function throwMatDialogContentAlreadyAttachedError() {
 /**
  * Base class for the `MatDialogContainer`. The base class does not implement
  * animations as these are left to implementers of the dialog container.
+ *
+ * `MatDialogContainer` 的基类。基类没有实现动画，因为这些动画留给了对话框容器的各个实现者。
+ *
  */
 @Directive()
 export abstract class _MatDialogContainerBase extends BasePortalOutlet {
   protected _document: Document;
 
-  /** The portal outlet inside of this container into which the dialog content will be loaded. */
+  /**
+   * The portal outlet inside of this container into which the dialog content will be loaded.
+   *
+   * 此容器内的传送点地标，会在其中加载对话框内容。
+   *
+   */
   @ViewChild(CdkPortalOutlet, {static: true}) _portalOutlet: CdkPortalOutlet;
 
-  /** The class that traps and manages focus within the dialog. */
+  /**
+   * The class that traps and manages focus within the dialog.
+   *
+   * 在对话框中捕获和管理焦点的类。
+   *
+   */
   private _focusTrap: FocusTrap;
 
-  /** Emits when an animation state changes. */
+  /**
+   * Emits when an animation state changes.
+   *
+   * 当动画状态发生变化时会触发。
+   *
+   */
   _animationStateChanged = new EventEmitter<DialogAnimationEvent>();
 
-  /** Element that was focused before the dialog was opened. Save this to restore upon close. */
+  /**
+   * Element that was focused before the dialog was opened. Save this to restore upon close.
+   *
+   * 在打开对话框之前拥有焦点的元素。保存它，以便在关闭时恢复。
+   *
+   */
   private _elementFocusedBeforeDialogWasOpened: HTMLElement | null = null;
 
   /**
    * Type of interaction that led to the dialog being closed. This is used to determine
    * whether the focus style will be applied when returning focus to its original location
    * after the dialog is closed.
+   *
+   * 会导致关闭该对话框的交互类型。它用来确定在对话框关闭后把焦点返还给原来的位置时是否要应用焦点样式。
+   *
    */
   _closeInteractionType: FocusOrigin|null = null;
 
-  /** ID of the element that should be considered as the dialog's label. */
+  /**
+   * ID of the element that should be considered as the dialog's label.
+   *
+   * 要作为对话框标签的元素的 ID。
+   *
+   */
   _ariaLabelledBy: string | null;
 
-  /** ID for the container DOM element. */
+  /**
+   * ID for the container DOM element.
+   *
+   * 容器 DOM 元素的标识。
+   *
+   */
   _id: string;
 
   constructor(
@@ -95,10 +139,20 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
     this._document = _document;
   }
 
-  /** Starts the dialog exit animation. */
+  /**
+   * Starts the dialog exit animation.
+   *
+   * 开始播放对话框的退出动画。
+   *
+   */
   abstract _startExitAnimation(): void;
 
-  /** Initializes the dialog container with the attached content. */
+  /**
+   * Initializes the dialog container with the attached content.
+   *
+   * 初始化带有附着内容的对话框容器。
+   *
+   */
   _initializeWithAttachedContent() {
     this._setupFocusTrap();
     // Save the previously focused element. This element will be re-focused
@@ -111,7 +165,13 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
 
   /**
    * Attach a ComponentPortal as content to this dialog container.
+   *
+   * 把 ComponentPortal 作为内容附着到这个对话框的容器中。
+   *
    * @param portal Portal to be attached as the dialog content.
+   *
+   * 要作为对话框内容进行附着的传送点（Portal）。
+   *
    */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
     if (this._portalOutlet.hasAttached() && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -123,7 +183,13 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
 
   /**
    * Attach a TemplatePortal as content to this dialog container.
+   *
+   * 把 TemplatePortal 作为内容附着到这个对话框的容器中。
+   *
    * @param portal Portal to be attached as the dialog content.
+   *
+   * 要作为对话框内容进行附着的传送点。
+   *
    */
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
     if (this._portalOutlet.hasAttached() && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -135,8 +201,17 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
 
   /**
    * Attaches a DOM portal to the dialog container.
+   *
+   * 把 DOM 传送点附着到对话框容器中。
+   *
    * @param portal Portal to be attached.
+   *
+   * 要附着的传送点。
+   *
    * @deprecated To be turned into a method.
+   *
+   * 将会变成方法。
+   *
    * @breaking-change 10.0.0
    */
   attachDomPortal = (portal: DomPortal) => {
@@ -147,7 +222,12 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
     return this._portalOutlet.attachDomPortal(portal);
   }
 
-  /** Moves focus back into the dialog if it was moved out. */
+  /**
+   * Moves focus back into the dialog if it was moved out.
+   *
+   * 如果已经移出了焦点，就会把焦点移回对话框。
+   *
+   */
   _recaptureFocus() {
     if (!this._containsFocus()) {
       const focusContainer = !this._config.autoFocus || !this._focusTrap.focusInitialElement();
@@ -158,7 +238,12 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
     }
   }
 
-  /** Moves the focus inside the focus trap. */
+  /**
+   * Moves the focus inside the focus trap.
+   *
+   * 把焦点移到焦点陷阱里面。
+   *
+   */
   protected _trapFocus() {
     // If we were to attempt to focus immediately, then the content of the dialog would not yet be
     // ready in instances where change detection has to run first. To deal with this, we simply
@@ -175,7 +260,12 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
     }
   }
 
-  /** Restores focus to the element that was focused before the dialog opened. */
+  /**
+   * Restores focus to the element that was focused before the dialog opened.
+   *
+   * 将焦点恢复到打开对话框之前拥有焦点的元素。
+   *
+   */
   protected _restoreFocus() {
     const previousElement = this._elementFocusedBeforeDialogWasOpened;
 
@@ -205,19 +295,34 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
     }
   }
 
-  /** Sets up the focus trap. */
+  /**
+   * Sets up the focus trap.
+   *
+   * 设置焦点陷阱。
+   *
+   */
   private _setupFocusTrap() {
     this._focusTrap = this._focusTrapFactory.create(this._elementRef.nativeElement);
   }
 
-  /** Captures the element that was focused before the dialog was opened. */
+  /**
+   * Captures the element that was focused before the dialog was opened.
+   *
+   * 捕获在打开对话框之前拥有焦点的元素。
+   *
+   */
   private _capturePreviouslyFocusedElement() {
     if (this._document) {
       this._elementFocusedBeforeDialogWasOpened = this._document.activeElement as HTMLElement;
     }
   }
 
-  /** Focuses the dialog container. */
+  /**
+   * Focuses the dialog container.
+   *
+   * 让对话框容器获得焦点。
+   *
+   */
   private _focusDialogContainer() {
     // Note that there is no focus method when rendering on the server.
     if (this._elementRef.nativeElement.focus) {
@@ -225,7 +330,12 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
     }
   }
 
-  /** Returns whether focus is inside the dialog. */
+  /**
+   * Returns whether focus is inside the dialog.
+   *
+   * 返回焦点是否在对话框中。
+   *
+   */
   private _containsFocus() {
     const element = this._elementRef.nativeElement;
     const activeElement = this._document.activeElement;
@@ -235,7 +345,10 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
 
 /**
  * Internal component that wraps user-provided dialog content.
- * Animation is based on https://material.io/guidelines/motion/choreography.html.
+ * Animation is based on <https://material.io/guidelines/motion/choreography.html>.
+ *
+ * 包装用户提供的对话框内容的内部组件。动画基于 <https://material.io/guidelines/motion/choreography.html> 。
+ *
  * @docs-private
  */
 @Component({
@@ -262,10 +375,20 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
   },
 })
 export class MatDialogContainer extends _MatDialogContainerBase {
-  /** State of the dialog animation. */
+  /**
+   * State of the dialog animation.
+   *
+   * 此对话框动画的状态。
+   *
+   */
   _state: 'void' | 'enter' | 'exit' = 'enter';
 
-  /** Callback, invoked whenever an animation on the host completes. */
+  /**
+   * Callback, invoked whenever an animation on the host completes.
+   *
+   * 当宿主上的动画完成时，就会调用这个回调函数。
+   *
+   */
   _onAnimationDone({toState, totalTime}: AnimationEvent) {
     if (toState === 'enter') {
       this._trapFocus();
@@ -276,7 +399,12 @@ export class MatDialogContainer extends _MatDialogContainerBase {
     }
   }
 
-  /** Callback, invoked when an animation on the host starts. */
+  /**
+   * Callback, invoked when an animation on the host starts.
+   *
+   * 当宿主上的动画开始时，会调用 Callback。
+   *
+   */
   _onAnimationStart({toState, totalTime}: AnimationEvent) {
     if (toState === 'enter') {
       this._animationStateChanged.next({state: 'opening', totalTime});
@@ -285,7 +413,12 @@ export class MatDialogContainer extends _MatDialogContainerBase {
     }
   }
 
-  /** Starts the dialog exit animation. */
+  /**
+   * Starts the dialog exit animation.
+   *
+   * 开始播放对话框的退出动画。
+   *
+   */
   _startExitAnimation(): void {
     this._state = 'exit';
 

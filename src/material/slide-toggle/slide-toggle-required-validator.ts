@@ -28,7 +28,13 @@ export const MAT_SLIDE_TOGGLE_REQUIRED_VALIDATOR: Provider = {
  * that the control value is not undefined but that is not appropriate for a slide-toggle
  * where the value is always defined.
  *
+ * Material 滑块开关组件的验证器，在模板驱动表单中具有 required 属性。
+ * 默认的验证器需要表单控件确保其值不是 undefined，但是这对于永远是已定义值的滑块开关是不合适的。
+ *
  * Required slide-toggle form controls are valid when checked.
+ *
+ * 当检查时，滑块开关表单控件的必填项验证总是有效的。
+ *
  */
 @Directive({
   selector: `mat-slide-toggle[required][formControlName],

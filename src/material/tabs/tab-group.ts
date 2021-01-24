@@ -47,18 +47,43 @@ import {MAT_TAB_GROUP, MatTab} from './tab';
 import {MAT_TABS_CONFIG, MatTabsConfig} from './tab-config';
 
 
-/** Used to generate unique ID's for each tab component */
+/**
+ * Used to generate unique ID's for each tab component
+ *
+ * 用于为每个选项卡组件生成唯一的 ID
+ *
+ */
 let nextId = 0;
 
-/** A simple change event emitted on focus or selection changes. */
+/**
+ * A simple change event emitted on focus or selection changes.
+ *
+ * 焦点或选定状态发生变化时会发出的简单变更事件。
+ *
+ */
 export class MatTabChangeEvent {
-  /** Index of the currently-selected tab. */
+  /**
+   * Index of the currently-selected tab.
+   *
+   * 当前选定的选项卡的索引。
+   *
+   */
   index: number;
-  /** Reference to the currently-selected tab. */
+  /**
+   * Reference to the currently-selected tab.
+   *
+   * 到当前选定的选项卡的引用。
+   *
+   */
   tab: MatTab;
 }
 
-/** Possible positions for the tab header. */
+/**
+ * Possible positions for the tab header.
+ *
+ * 选项卡标头的可能位置。
+ *
+ */
 export type MatTabHeaderPosition = 'above' | 'below';
 
 // Boilerplate for applying mixins to MatTabGroup.
@@ -76,6 +101,9 @@ interface MatTabGroupBaseHeader {
 
 /**
  * Base class with all of the `MatTabGroupBase` functionality.
+ *
+ * 具备所有 `MatTabGroupBase` 功能的基类。
+ *
  * @docs-private
  */
 @Directive()
@@ -85,33 +113,71 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
   /**
    * All tabs inside the tab group. This includes tabs that belong to groups that are nested
    * inside the current one. We filter out only the tabs that belong to this group in `_tabs`.
+   *
+   * 选项卡组中的所有选项卡。这包括属于那些嵌套于当前组的子组中的选项卡。我们会在 `_tabs` 中筛选出只属于本组的选项卡。
+   *
    */
   abstract _allTabs: QueryList<MatTab>;
   abstract _tabBodyWrapper: ElementRef;
   abstract _tabHeader: MatTabGroupBaseHeader;
 
-  /** All of the tabs that belong to the group. */
+  /**
+   * All of the tabs that belong to the group.
+   *
+   * 所有属于本组的选项卡
+   *
+   */
   _tabs: QueryList<MatTab> = new QueryList<MatTab>();
 
-  /** The tab index that should be selected after the content has been checked. */
+  /**
+   * The tab index that should be selected after the content has been checked.
+   *
+   * 勾选内容后应该选定的选项卡索引。
+   *
+   */
   private _indexToSelect: number | null = 0;
 
-  /** Snapshot of the height of the tab body wrapper before another tab is activated. */
+  /**
+   * Snapshot of the height of the tab body wrapper before another tab is activated.
+   *
+   * 激活另一个选项卡之前，对此选项卡本体包装器器高度的快照。
+   *
+   */
   private _tabBodyWrapperHeight: number = 0;
 
-  /** Subscription to tabs being added/removed. */
+  /**
+   * Subscription to tabs being added/removed.
+   *
+   * 到“添加/删除选项卡”事件的订阅。
+   *
+   */
   private _tabsSubscription = Subscription.EMPTY;
 
-  /** Subscription to changes in the tab labels. */
+  /**
+   * Subscription to changes in the tab labels.
+   *
+   * 对选项卡标签变更的订阅。
+   *
+   */
   private _tabLabelSubscription = Subscription.EMPTY;
 
-  /** Whether the tab group should grow to the size of the active tab. */
+  /**
+   * Whether the tab group should grow to the size of the active tab.
+   *
+   * 选项卡组是否应该增长到活动选项卡的大小。
+   *
+   */
   @Input()
   get dynamicHeight(): boolean { return this._dynamicHeight; }
   set dynamicHeight(value: boolean) { this._dynamicHeight = coerceBooleanProperty(value); }
   private _dynamicHeight: boolean;
 
-  /** The index of the active tab. */
+  /**
+   * The index of the active tab.
+   *
+   * 活动选项卡的索引。
+   *
+   */
   @Input()
   get selectedIndex(): number | null { return this._selectedIndex; }
   set selectedIndex(value: number | null) {
@@ -119,10 +185,20 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
   }
   private _selectedIndex: number | null = null;
 
-  /** Position of the tab header. */
+  /**
+   * Position of the tab header.
+   *
+   * 选项卡标头的位置。
+   *
+   */
   @Input() headerPosition: MatTabHeaderPosition = 'above';
 
-  /** Duration for the tab animation. Will be normalized to milliseconds if no units are set. */
+  /**
+   * Duration for the tab animation. Will be normalized to milliseconds if no units are set.
+   *
+   * 选项卡动画的持续时间。如果没有设置单位，它会被标准化为毫秒。
+   *
+   */
   @Input()
   get animationDuration(): string { return this._animationDuration; }
   set animationDuration(value: string) {
@@ -133,11 +209,19 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
   /**
    * Whether pagination should be disabled. This can be used to avoid unnecessary
    * layout recalculations if it's known that pagination won't be required.
+   *
+   * 是否应该禁用分页。如果明确知道不需要分页，这可以用来避免不必要的布局重算。
+   *
    */
   @Input()
   disablePagination: boolean;
 
-  /** Background color of the tab group. */
+  /**
+   * Background color of the tab group.
+   *
+   * 选项卡组的背景颜色。
+   *
+   */
   @Input()
   get backgroundColor(): ThemePalette { return this._backgroundColor; }
   set backgroundColor(value: ThemePalette) {
@@ -153,17 +237,37 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
   }
   private _backgroundColor: ThemePalette;
 
-  /** Output to enable support for two-way binding on `[(selectedIndex)]` */
+  /**
+   * Output to enable support for two-way binding on `[(selectedIndex)]`
+   *
+   * 用来支持 `[(selectedIndex)]` 双向绑定的输出属性
+   *
+   */
   @Output() readonly selectedIndexChange: EventEmitter<number> = new EventEmitter<number>();
 
-  /** Event emitted when focus has changed within a tab group. */
+  /**
+   * Event emitted when focus has changed within a tab group.
+   *
+   * 选项卡组中的焦点发生变化时发出的事件。
+   *
+   */
   @Output() readonly focusChange: EventEmitter<MatTabChangeEvent> =
       new EventEmitter<MatTabChangeEvent>();
 
-  /** Event emitted when the body animation has completed */
+  /**
+   * Event emitted when the body animation has completed
+   *
+   * 当本体动画完成后，就会发出此事件
+   *
+   */
   @Output() readonly animationDone: EventEmitter<void> = new EventEmitter<void>();
 
-  /** Event emitted when the tab selection has changed. */
+  /**
+   * Event emitted when the tab selection has changed.
+   *
+   * 选项卡的选定值发生变化时发出的事件。
+   *
+   */
   @Output() readonly selectedTabChange: EventEmitter<MatTabChangeEvent> =
       new EventEmitter<MatTabChangeEvent>(true);
 
@@ -188,6 +292,10 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
    * and what the selected index should be. This is where we can know exactly what position
    * each tab should be in according to the new selected index, and additionally we know how
    * a new selected tab should transition in (from the left or right).
+   *
+   * 检查内容后，该组件会知道哪些选项卡已定义，以及选定的索引应该是什么。
+   * 这里我们可以根据新选定项的索引准确知道每个选项卡应该在哪个位置，另外我们也知道新选定选项卡应如何过渡（从左边或右边）。
+   *
    */
   ngAfterContentChecked() {
     // Don't clamp the `indexToSelect` immediately in the setter because it can happen that
@@ -260,7 +368,12 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
     });
   }
 
-  /** Listens to changes in all of the tabs. */
+  /**
+   * Listens to changes in all of the tabs.
+   *
+   * 监听所有选项卡中的变化。
+   *
+   */
   private _subscribeToAllTabChanges() {
     // Since we use a query with `descendants: true` to pick up the tabs, we may end up catching
     // some that are inside of nested tab groups. We filter them out manually by checking that
@@ -279,7 +392,12 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
     this._tabLabelSubscription.unsubscribe();
   }
 
-  /** Re-aligns the ink bar to the selected tab element. */
+  /**
+   * Re-aligns the ink bar to the selected tab element.
+   *
+   * 将墨水条与选定的选项卡元素重新对齐。
+   *
+   */
   realignInkBar() {
     if (this._tabHeader) {
       this._tabHeader._alignInkBarToSelectedTab();
@@ -304,6 +422,10 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
    * on the MatTab component, whereas the data binding is inside the MatTabGroup. In order for the
    * binding to be updated, we need to subscribe to changes in it and trigger change detection
    * manually.
+   *
+   * 订阅选项卡标签中的更改。这是必需的，因为选项卡的 @Input 在 MatTab 组件上，而数据绑定在 MatTabGroup 中。
+   * 要想更新绑定，我们就需要订阅其中的更改并手动触发变更检测。
+   *
    */
   private _subscribeToTabLabels() {
     if (this._tabLabelSubscription) {
@@ -314,7 +436,12 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
       .subscribe(() => this._changeDetectorRef.markForCheck());
   }
 
-  /** Clamps the given index to the bounds of 0 and the tabs length. */
+  /**
+   * Clamps the given index to the bounds of 0 and the tabs length.
+   *
+   * 在 0 和选项卡数之间夹取一个索引。
+   *
+   */
   private _clampTabIndex(index: number | null): number {
     // Note the `|| 0`, which ensures that values like NaN can't get through
     // and which would otherwise throw the component into an infinite loop
@@ -322,12 +449,22 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
     return Math.min(this._tabs.length - 1, Math.max(index || 0, 0));
   }
 
-  /** Returns a unique id for each tab label element */
+  /**
+   * Returns a unique id for each tab label element
+   *
+   * 为每个选项卡标签元素返回一个唯一的 id
+   *
+   */
   _getTabLabelId(i: number): string {
     return `mat-tab-label-${this._groupId}-${i}`;
   }
 
-  /** Returns a unique id for each tab content element */
+  /**
+   * Returns a unique id for each tab content element
+   *
+   * 为每个选项卡内容元素返回一个唯一的 id
+   *
+   */
   _getTabContentId(i: number): string {
     return `mat-tab-content-${this._groupId}-${i}`;
   }
@@ -335,6 +472,9 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
   /**
    * Sets the height of the body wrapper to the height of the activating tab if dynamic
    * height property is true.
+   *
+   * 如果 dynamicHeight 属性为 true，则把本体包装器的高度设置为激活选项卡的高度。
+   *
    */
   _setTabBodyWrapperHeight(tabHeight: number): void {
     if (!this._dynamicHeight || !this._tabBodyWrapperHeight) { return; }
@@ -350,7 +490,12 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
     }
   }
 
-  /** Removes the height of the tab body wrapper. */
+  /**
+   * Removes the height of the tab body wrapper.
+   *
+   * 去掉选项卡本体包装器的高度。
+   *
+   */
   _removeTabBodyWrapperHeight(): void {
     const wrapper = this._tabBodyWrapper.nativeElement;
     this._tabBodyWrapperHeight = wrapper.clientHeight;
@@ -358,14 +503,24 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
     this.animationDone.emit();
   }
 
-  /** Handle click events, setting new selected index if appropriate. */
+  /**
+   * Handle click events, setting new selected index if appropriate.
+   *
+   * 处理点击事件，根据需要设置新的选定项索引。
+   *
+   */
   _handleClick(tab: MatTab, tabHeader: MatTabGroupBaseHeader, index: number) {
     if (!tab.disabled) {
       this.selectedIndex = tabHeader.focusIndex = index;
     }
   }
 
-  /** Retrieves the tabindex for the tab. */
+  /**
+   * Retrieves the tabindex for the tab.
+   *
+   * 获取该选项卡的 tabindex。
+   *
+   */
   _getTabIndex(tab: MatTab, idx: number): number | null {
     if (tab.disabled) {
       return null;
@@ -383,6 +538,9 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
  * Material design tab-group component. Supports basic tab pairs (label + content) and includes
  * animated ink-bar, keyboard navigation, and screen reader.
  * See: https://material.io/design/components/tabs.html
+ *
+ * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：https://material.io/design/components/tabs.html
+ *
  */
 @Component({
   selector: 'mat-tab-group',

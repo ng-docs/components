@@ -15,9 +15,14 @@ import {Platform} from '@angular/cdk/platform';
 /**
  * Alternative to OverlayContainer that supports correct displaying of overlay elements in
  * Fullscreen mode
- * https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen
+ * <https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen>
+ *
+ * OverlayContainer 的替代品，支持在全屏模式（<https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen>）下正确显示浮层元素
  *
  * Should be provided in the root component.
+ *
+ * 应该在根组件中提供。
+ *
  */
 @Injectable({providedIn: 'root'})
 export class FullscreenOverlayContainer extends OverlayContainer implements OnDestroy {
@@ -86,6 +91,9 @@ export class FullscreenOverlayContainer extends OverlayContainer implements OnDe
   /**
    * When the page is put into fullscreen mode, a specific element is specified.
    * Only that element and its children are visible when in fullscreen mode.
+   *
+   * 当页面进入全屏模式时，会指定一个元素。在全屏模式下，只能看到该元素及其子元素。
+   *
    */
   getFullscreenElement(): Element {
     const _document = this._document as any;

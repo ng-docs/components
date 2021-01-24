@@ -30,7 +30,12 @@ export function deepCloneNode(node: HTMLElement): HTMLElement {
   return clone;
 }
 
-/** Matches elements between an element and its clone and allows for their data to be cloned. */
+/**
+ * Matches elements between an element and its clone and allows for their data to be cloned.
+ *
+ * 位于元素及其克隆体之间的匹配元素，并允许克隆它们的数据。
+ *
+ */
 function transferData<T extends Element>(selector: string, node: HTMLElement, clone: HTMLElement,
                                          callback: (source: T, clone: T) => void) {
   const descendantElements = node.querySelectorAll<T>(selector);
@@ -47,7 +52,12 @@ function transferData<T extends Element>(selector: string, node: HTMLElement, cl
 // Counter for unique cloned radio button names.
 let cloneUniqueId = 0;
 
-/** Transfers the data of one input element to another. */
+/**
+ * Transfers the data of one input element to another.
+ *
+ * 把一个输入元素的数据传给另一个输入元素。
+ *
+ */
 function transferInputData(source: Element & {value: string},
                            clone: Element & {value: string; name: string; type: string}) {
   // Browsers throw an error when assigning the value of a file input programmatically.
@@ -63,7 +73,12 @@ function transferInputData(source: Element & {value: string},
   }
 }
 
-/** Transfers the data of one canvas element to another. */
+/**
+ * Transfers the data of one canvas element to another.
+ *
+ * 把一个 canvas 元素的数据传给另一个 canvas 元素。
+ *
+ */
 function transferCanvasData(source: HTMLCanvasElement, clone: HTMLCanvasElement) {
   const context = clone.getContext('2d');
 

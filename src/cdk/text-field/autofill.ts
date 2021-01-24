@@ -21,30 +21,58 @@ import {coerceElement} from '@angular/cdk/coercion';
 import {EMPTY, Observable, Subject} from 'rxjs';
 
 
-/** An event that is emitted when the autofill state of an input changes. */
+/**
+ * An event that is emitted when the autofill state of an input changes.
+ *
+ * 当输入框的自动填充状态发生变化时发出的事件。
+ *
+ */
 export type AutofillEvent = {
-  /** The element whose autofill state changes. */
+  /**
+   * The element whose autofill state changes.
+   *
+   * 自动填充状态发生变化的元素。
+   *
+   */
   target: Element;
-  /** Whether the element is currently autofilled. */
+  /**
+   * Whether the element is currently autofilled.
+   *
+   * 该元素当前是否已自动填充。
+   *
+   */
   isAutofilled: boolean;
 };
 
 
-/** Used to track info about currently monitored elements. */
+/**
+ * Used to track info about currently monitored elements.
+ *
+ * 用于跟踪当前被监控元素的信息。
+ *
+ */
 type MonitoredElementInfo = {
   subject: Subject<AutofillEvent>;
   unlisten: () => void;
 };
 
 
-/** Options to pass to the animationstart listener. */
+/**
+ * Options to pass to the animationstart listener.
+ *
+ * 要传递给 animationstart 监听器的选项。
+ *
+ */
 const listenerOptions = normalizePassiveListenerOptions({passive: true});
 
 
 /**
  * An injectable service that can be used to monitor the autofill state of an input.
  * Based on the following blog post:
- * https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
+ * <https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7>
+ *
+ * 一种可注入的服务，可以用来监控输入框的自动填充状态。根据以下博客文章： [https：//medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7](https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7)
+ *
  */
 @Injectable({providedIn: 'root'})
 export class AutofillMonitor implements OnDestroy {
@@ -54,15 +82,33 @@ export class AutofillMonitor implements OnDestroy {
 
   /**
    * Monitor for changes in the autofill state of the given input element.
+   *
+   * 监控指定输入元素的自动填充状态变化。
+   *
    * @param element The element to monitor.
+   *
+   * 要监控的元素。
+   *
    * @return A stream of autofill state changes.
+   *
+   * 一个反映自动填充状态变化的流。
+   *
    */
   monitor(element: Element): Observable<AutofillEvent>;
 
   /**
    * Monitor for changes in the autofill state of the given input element.
+   *
+   * 监控指定输入元素的自动填充状态变化。
+   *
    * @param element The element to monitor.
+   *
+   * 要监控的元素
+   *
    * @return A stream of autofill state changes.
+   *
+   * 一个反映自动填充状态变化的流。
+   *
    */
   monitor(element: ElementRef<Element>): Observable<AutofillEvent>;
 
@@ -112,13 +158,25 @@ export class AutofillMonitor implements OnDestroy {
 
   /**
    * Stop monitoring the autofill state of the given input element.
+   *
+   * 停止监控指定输入元素的自动填充状态。
+   *
    * @param element The element to stop monitoring.
+   *
+   * 要停止监控的元素。
+   *
    */
   stopMonitoring(element: Element): void;
 
   /**
    * Stop monitoring the autofill state of the given input element.
+   *
+   * 停止监控指定输入元素的自动填充状态。
+   *
    * @param element The element to stop monitoring.
+   *
+   * 要停止监控的元素。
+   *
    */
   stopMonitoring(element: ElementRef<Element>): void;
 
@@ -141,12 +199,22 @@ export class AutofillMonitor implements OnDestroy {
 }
 
 
-/** A directive that can be used to monitor the autofill state of an input. */
+/**
+ * A directive that can be used to monitor the autofill state of an input.
+ *
+ * 一个指令，用于监控输入的自动填充状态。
+ *
+ */
 @Directive({
   selector: '[cdkAutofill]',
 })
 export class CdkAutofill implements OnDestroy, OnInit {
-  /** Emits when the autofill state of the element changes. */
+  /**
+   * Emits when the autofill state of the element changes.
+   *
+   * 元素的自动填充状态发生变化时触发。
+   *
+   */
   @Output() cdkAutofill: EventEmitter<AutofillEvent> = new EventEmitter<AutofillEvent>();
 
   constructor(private _elementRef: ElementRef<HTMLElement>,

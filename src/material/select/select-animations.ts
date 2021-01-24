@@ -21,7 +21,12 @@ import {
  * The following are all the animations for the mat-select component, with each
  * const containing the metadata for one animation.
  *
+ * 下面是 mat-select 组件的所有动画，每个常量都包含一个动画的元数据。
+ *
  * The values below match the implementation of the AngularJS Material mat-select animation.
+ *
+ * 这些值与 AngularJS Material mat-select 动画中的实现是一致的。
+ *
  * @docs-private
  */
 export const matSelectAnimations: {

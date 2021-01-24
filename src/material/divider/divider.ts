@@ -25,13 +25,23 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatDivider {
-  /** Whether the divider is vertically aligned. */
+  /**
+   * Whether the divider is vertically aligned.
+   *
+   * 此分隔器是否垂直对齐。
+   *
+   */
   @Input()
   get vertical(): boolean { return this._vertical; }
   set vertical(value: boolean) { this._vertical = coerceBooleanProperty(value); }
   private _vertical: boolean = false;
 
-  /** Whether the divider is an inset divider. */
+  /**
+   * Whether the divider is an inset divider.
+   *
+   * 此分隔器是否为内嵌式分隔器。
+   *
+   */
   @Input()
   get inset(): boolean { return this._inset; }
   set inset(value: boolean) { this._inset = coerceBooleanProperty(value); }

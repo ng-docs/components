@@ -19,6 +19,9 @@ import {MAT_MENU_SCROLL_STRATEGY_FACTORY_PROVIDER, MatMenuTrigger} from './menu-
 /**
  * Used by both the current `MatMenuModule` and the MDC `MatMenuModule`
  * to declare the menu-related directives.
+ *
+ * 由当前的 `MatMenuModule` 和 MDC 的 `MatMenuModule` 使用，用于声明与菜单相关的指令。
+ *
  */
 @NgModule({
   exports: [MatMenuTrigger, MatMenuContent, MatCommonModule],

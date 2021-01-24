@@ -30,6 +30,8 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
    *   - `selector` finds a button whose host element matches the given selector.
    *   - `text` finds a button with specific text content.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ButtonHarnessFilters = {}): HarnessPredicate<MatButtonHarness> {
     return new HarnessPredicate(MatButtonHarness, options)

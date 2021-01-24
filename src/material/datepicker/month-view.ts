@@ -59,6 +59,9 @@ const DAYS_PER_WEEK = 7;
 
 /**
  * An internal component used to display a single month in the datepicker.
+ *
+ * 一个用来在日期选择器中显示单个月的内部组件。
+ *
  * @docs-private
  */
 @Component({
@@ -73,6 +76,9 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
 
   /**
    * The date to display in this month view (everything other than the month and year is ignored).
+   *
+   * 要显示在本月视图中的日期（忽略月份和年份以外的所有内容）。
+   *
    */
   @Input()
   get activeDate(): D { return this._activeDate; }
@@ -89,7 +95,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   }
   private _activeDate: D;
 
-  /** The currently selected date. */
+  /**
+   * The currently selected date.
+   *
+   * 当前选定日期。
+   *
+   */
   @Input()
   get selected(): DateRange<D> | D | null { return this._selected; }
   set selected(value: DateRange<D> | D | null) {
@@ -103,7 +114,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   }
   private _selected: DateRange<D> | D | null;
 
-  /** The minimum selectable date. */
+  /**
+   * The minimum selectable date.
+   *
+   * 最小可选日期。
+   *
+   */
   @Input()
   get minDate(): D | null { return this._minDate; }
   set minDate(value: D | null) {
@@ -111,7 +127,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   }
   private _minDate: D | null;
 
-  /** The maximum selectable date. */
+  /**
+   * The maximum selectable date.
+   *
+   * 最大可选日期。
+   *
+   */
   @Input()
   get maxDate(): D | null { return this._maxDate; }
   set maxDate(value: D | null) {
@@ -119,65 +140,165 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   }
   private _maxDate: D | null;
 
-  /** Function used to filter which dates are selectable. */
+  /**
+   * Function used to filter which dates are selectable.
+   *
+   * 用于过滤哪些日期是可选择的函数。
+   *
+   */
   @Input() dateFilter: (date: D) => boolean;
 
-  /** Function that can be used to add custom CSS classes to dates. */
+  /**
+   * Function that can be used to add custom CSS classes to dates.
+   *
+   * 可以用来为日期添加自定义 CSS 类的函数。
+   *
+   */
   @Input() dateClass: MatCalendarCellClassFunction<D>;
 
-  /** Start of the comparison range. */
+  /**
+   * Start of the comparison range.
+   *
+   * 比较范围的开始日期。
+   *
+   */
   @Input() comparisonStart: D | null;
 
-  /** End of the comparison range. */
+  /**
+   * End of the comparison range.
+   *
+   * 比较范围的结束日期。
+   *
+   */
   @Input() comparisonEnd: D | null;
 
-  /** Emits when a new date is selected. */
+  /**
+   * Emits when a new date is selected.
+   *
+   * 选定新日期时会发出通知。
+   *
+   */
   @Output() readonly selectedChange: EventEmitter<D | null> = new EventEmitter<D | null>();
 
-  /** Emits when any date is selected. */
+  /**
+   * Emits when any date is selected.
+   *
+   * 选定任何日期时会发出通知。
+   *
+   */
   @Output() readonly _userSelection: EventEmitter<MatCalendarUserEvent<D | null>> =
       new EventEmitter<MatCalendarUserEvent<D | null>>();
 
-  /** Emits when any date is activated. */
+  /**
+   * Emits when any date is activated.
+   *
+   * 任何日期激活时，都会发出通知。
+   *
+   */
   @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
 
-  /** The body of calendar table */
+  /**
+   * The body of calendar table
+   *
+   * 日历表的表体
+   *
+   */
   @ViewChild(MatCalendarBody) _matCalendarBody: MatCalendarBody;
 
-  /** The label for this month (e.g. "January 2017"). */
+  /**
+   * The label for this month (e.g. "January 2017").
+   *
+   * 当前月的标签（例如“2017 年 1 月”）。
+   *
+   */
   _monthLabel: string;
 
-  /** Grid of calendar cells representing the dates of the month. */
+  /**
+   * Grid of calendar cells representing the dates of the month.
+   *
+   * 表示该月份日期的各个日历单元格。
+   *
+   */
   _weeks: MatCalendarCell[][];
 
-  /** The number of blank cells in the first row before the 1st of the month. */
+  /**
+   * The number of blank cells in the first row before the 1st of the month.
+   *
+   * 本月一日前第一行中空白单元格的数量。
+   *
+   */
   _firstWeekOffset: number;
 
-  /** Start value of the currently-shown date range. */
+  /**
+   * Start value of the currently-shown date range.
+   *
+   * 当前显示的日期范围的起始日期。
+   *
+   */
   _rangeStart: number | null;
 
-  /** End value of the currently-shown date range. */
+  /**
+   * End value of the currently-shown date range.
+   *
+   * 当前显示的日期范围的结束日期。
+   *
+   */
   _rangeEnd: number | null;
 
-  /** Start value of the currently-shown comparison date range. */
+  /**
+   * Start value of the currently-shown comparison date range.
+   *
+   * 当前显示的比较日期范围的起始日期。
+   *
+   */
   _comparisonRangeStart: number | null;
 
-  /** End value of the currently-shown comparison date range. */
+  /**
+   * End value of the currently-shown comparison date range.
+   *
+   * 当前显示的比较日期范围的结束日期。
+   *
+   */
   _comparisonRangeEnd: number | null;
 
-  /** Start of the preview range. */
+  /**
+   * Start of the preview range.
+   *
+   * 预览范围的起始日期。
+   *
+   */
   _previewStart: number | null;
 
-  /** End of the preview range. */
+  /**
+   * End of the preview range.
+   *
+   * 预览范围的结束日期。
+   *
+   */
   _previewEnd: number | null;
 
-  /** Whether the user is currently selecting a range of dates. */
+  /**
+   * Whether the user is currently selecting a range of dates.
+   *
+   * 用户当前是否选择了一个日期范围。
+   *
+   */
   _isRange: boolean;
 
-  /** The date of the month that today falls on. Null if today is in another month. */
+  /**
+   * The date of the month that today falls on. Null if today is in another month.
+   *
+   * 今天在正显示的月份中的日期。如果正显示的是另一个月，那就为空。
+   *
+   */
   _todayDate: number | null;
 
-  /** The names of the weekdays. */
+  /**
+   * The names of the weekdays.
+   *
+   * 工作日的名字。
+   *
+   */
   _weekdays: {long: string, narrow: string}[];
 
   constructor(readonly _changeDetectorRef: ChangeDetectorRef,
@@ -217,7 +338,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     this._rerenderSubscription.unsubscribe();
   }
 
-  /** Handles when a new date is selected. */
+  /**
+   * Handles when a new date is selected.
+   *
+   * 选择新日期时的处理方法。
+   *
+   */
   _dateSelected(event: MatCalendarUserEvent<number>) {
     const date = event.value;
     const selectedYear = this._dateAdapter.getYear(this.activeDate);
@@ -240,7 +366,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     this._userSelection.emit({value: selectedDate, event: event.event});
   }
 
-  /** Handles keydown events on the calendar body when calendar is in month view. */
+  /**
+   * Handles keydown events on the calendar body when calendar is in month view.
+   *
+   * 当日历在月份视图中时，在日历体上处理 keydown 事件。
+   *
+   */
   _handleCalendarBodyKeydown(event: KeyboardEvent): void {
     // TODO(mmalerba): We currently allow keyboard navigation to disabled dates, but just prevent
     // disabled ones from being selected. This may not be ideal, we should look into whether
@@ -313,7 +444,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     event.preventDefault();
   }
 
-  /** Initializes this month view. */
+  /**
+   * Initializes this month view.
+   *
+   * 初始化本月的视图。
+   *
+   */
   _init() {
     this._setRanges(this.selected);
     this._todayDate = this._getCellCompareValue(this._dateAdapter.today());
@@ -333,12 +469,22 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     this._changeDetectorRef.markForCheck();
   }
 
-  /** Focuses the active cell after the microtask queue is empty. */
+  /**
+   * Focuses the active cell after the microtask queue is empty.
+   *
+   * 在微任务队列为空之后，让这个活动单元格获得焦点。
+   *
+   */
   _focusActiveCell(movePreview?: boolean) {
     this._matCalendarBody._focusActiveCell(movePreview);
   }
 
-  /** Called when the user has activated a new cell and the preview needs to be updated. */
+  /**
+   * Called when the user has activated a new cell and the preview needs to be updated.
+   *
+   * 当用户激活了一个新单元格并且需要更新预览时调用。
+   *
+   */
   _previewChanged({event, value: cell}: MatCalendarUserEvent<MatCalendarCell<D> | null>) {
     if (this._rangeStrategy) {
       // We can assume that this will be a range, because preview
@@ -357,7 +503,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     }
   }
 
-  /** Initializes the weekdays. */
+  /**
+   * Initializes the weekdays.
+   *
+   * 初始化工作日。
+   *
+   */
   private _initWeekdays() {
     const firstDayOfWeek = this._dateAdapter.getFirstDayOfWeek();
     const narrowWeekdays = this._dateAdapter.getDayOfWeekNames('narrow');
@@ -370,7 +521,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     this._weekdays = weekdays.slice(firstDayOfWeek).concat(weekdays.slice(0, firstDayOfWeek));
   }
 
-  /** Creates MatCalendarCells for the dates in this month. */
+  /**
+   * Creates MatCalendarCells for the dates in this month.
+   *
+   * 为本月的日期创建一些 MatCalendarCell。
+   *
+   */
   private _createWeekCells() {
     const daysInMonth = this._dateAdapter.getNumDaysInMonth(this.activeDate);
     const dateNames = this._dateAdapter.getDateNames();
@@ -392,7 +548,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     }
   }
 
-  /** Date filter for the month */
+  /**
+   * Date filter for the month
+   *
+   * 本月日期的过滤器
+   *
+   */
   private _shouldEnableDate(date: D): boolean {
     return !!date &&
         (!this.minDate || this._dateAdapter.compareDate(date, this.minDate) >= 0) &&
@@ -403,19 +564,32 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   /**
    * Gets the date in this month that the given Date falls on.
    * Returns null if the given Date is in another month.
+   *
+   * 获取指定的日期在当前月份的天数。如果指定的日期在另一个月，则返回 null。
+   *
    */
   private _getDateInCurrentMonth(date: D | null): number | null {
     return date && this._hasSameMonthAndYear(date, this.activeDate) ?
         this._dateAdapter.getDate(date) : null;
   }
 
-  /** Checks whether the 2 dates are non-null and fall within the same month of the same year. */
+  /**
+   * Checks whether the 2 dates are non-null and fall within the same month of the same year.
+   *
+   * 检查 2 个日期是否不为空，并且在同一年的同一个月内。
+   *
+   */
   private _hasSameMonthAndYear(d1: D | null, d2: D | null): boolean {
     return !!(d1 && d2 && this._dateAdapter.getMonth(d1) == this._dateAdapter.getMonth(d2) &&
               this._dateAdapter.getYear(d1) == this._dateAdapter.getYear(d2));
   }
 
-  /** Gets the value that will be used to one cell to another. */
+  /**
+   * Gets the value that will be used to one cell to another.
+   *
+   * 获取一个 cell 到另一个 cell 中的值。
+   *
+   */
   private _getCellCompareValue(date: D | null): number | null {
     if (date) {
       // We use the time since the Unix epoch to compare dates in this view, rather than the
@@ -429,12 +603,22 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     return null;
   }
 
-  /** Determines whether the user has the RTL layout direction. */
+  /**
+   * Determines whether the user has the RTL layout direction.
+   *
+   * 确定用户是否具有 RTL 布局方向。
+   *
+   */
   private _isRtl() {
     return this._dir && this._dir.value === 'rtl';
   }
 
-  /** Sets the current range based on a model value. */
+  /**
+   * Sets the current range based on a model value.
+   *
+   * 根据模型中的值设置当前范围。
+   *
+   */
   private _setRanges(selectedValue: DateRange<D> | D | null) {
     if (selectedValue instanceof DateRange) {
       this._rangeStart = this._getCellCompareValue(selectedValue.start);

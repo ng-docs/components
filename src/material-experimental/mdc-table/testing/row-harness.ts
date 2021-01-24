@@ -24,6 +24,8 @@ export class MatRowHarness extends ComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a table row with specific attributes.
    * @param options Options for narrowing the search
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: RowHarnessFilters = {}): HarnessPredicate<MatRowHarness> {
     return new HarnessPredicate(MatRowHarness, options);
@@ -55,6 +57,8 @@ export class MatHeaderRowHarness extends ComponentHarness {
    * a table header row with specific attributes.
    * @param options Options for narrowing the search
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: RowHarnessFilters = {}): HarnessPredicate<MatHeaderRowHarness> {
     return new HarnessPredicate(MatHeaderRowHarness, options);
@@ -87,6 +91,8 @@ export class MatFooterRowHarness extends ComponentHarness {
    * a table footer row cell with specific attributes.
    * @param options Options for narrowing the search
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: RowHarnessFilters = {}): HarnessPredicate<MatFooterRowHarness> {
     return new HarnessPredicate(MatFooterRowHarness, options);

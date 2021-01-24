@@ -12,10 +12,20 @@ import {Observable, Subject} from 'rxjs';
 import {auditTime} from 'rxjs/operators';
 import {DOCUMENT} from '@angular/common';
 
-/** Time in ms to throttle the resize events by default. */
+/**
+ * Time in ms to throttle the resize events by default.
+ *
+ * resize 事件的默认节流时间（毫秒数）。
+ *
+ */
 export const DEFAULT_RESIZE_TIME = 20;
 
-/** Object that holds the scroll position of the viewport in each direction. */
+/**
+ * Object that holds the scroll position of the viewport in each direction.
+ *
+ * 在每个方向上保存视口滚动位置的对象。
+ *
+ */
 export interface ViewportScrollPosition {
   top: number;
   left: number;
@@ -23,22 +33,45 @@ export interface ViewportScrollPosition {
 
 /**
  * Simple utility for getting the bounds of the browser viewport.
+ *
+ * 用于获取浏览器视口范围的简单工具。
+ *
  * @docs-private
  */
 @Injectable({providedIn: 'root'})
 export class ViewportRuler implements OnDestroy {
-  /** Cached viewport dimensions. */
+  /**
+   * Cached viewport dimensions.
+   *
+   * 缓存的视口尺寸。
+   *
+   */
   private _viewportSize: {width: number; height: number};
 
-  /** Stream of viewport change events. */
+  /**
+   * Stream of viewport change events.
+   *
+   * 视口变化的事件流。
+   *
+   */
   private _change = new Subject<Event>();
 
-  /** Event listener that will be used to handle the viewport change events. */
+  /**
+   * Event listener that will be used to handle the viewport change events.
+   *
+   * 用于处理视口变化事件的监听器。
+   *
+   */
   private _changeListener = (event: Event) => {
     this._change.next(event);
   }
 
-  /** Used to reference correct document/window */
+  /**
+   * Used to reference correct document/window
+   *
+   * 用于引用正确的 document/window
+   *
+   */
   protected _document: Document;
 
   constructor(private _platform: Platform,
@@ -72,7 +105,12 @@ export class ViewportRuler implements OnDestroy {
     this._change.complete();
   }
 
-  /** Returns the viewport's width and height. */
+  /**
+   * Returns the viewport's width and height.
+   *
+   * 返回视口的宽度和高度。
+   *
+   */
   getViewportSize(): Readonly<{width: number, height: number}> {
     if (!this._viewportSize) {
       this._updateViewportSize();
@@ -88,7 +126,12 @@ export class ViewportRuler implements OnDestroy {
     return output;
   }
 
-  /** Gets a ClientRect for the viewport's bounds. */
+  /**
+   * Gets a ClientRect for the viewport's bounds.
+   *
+   * 获取视口边界的 ClientRect。
+   *
+   */
   getViewportRect(): ClientRect {
     // Use the document element's bounding rect rather than the window scroll properties
     // (e.g. pageYOffset, scrollY) due to in issue in Chrome and IE where window scroll
@@ -112,7 +155,12 @@ export class ViewportRuler implements OnDestroy {
     };
   }
 
-  /** Gets the (top, left) scroll position of the viewport. */
+  /**
+   * Gets the (top, left) scroll position of the viewport.
+   *
+   * 获取视口的滚动位置（上，左）。
+   *
+   */
   getViewportScrollPosition(): ViewportScrollPosition {
     // While we can get a reference to the fake document
     // during SSR, it doesn't have getBoundingClientRect.
@@ -142,18 +190,34 @@ export class ViewportRuler implements OnDestroy {
 
   /**
    * Returns a stream that emits whenever the size of the viewport changes.
+   *
+   * 返回当视口大小发生变化时发出通知的流。
+   *
    * @param throttleTime Time in milliseconds to throttle the stream.
+   *
+   * 此流的节流时间（以毫秒为单位）。
+   *
    */
   change(throttleTime: number = DEFAULT_RESIZE_TIME): Observable<Event> {
     return throttleTime > 0 ? this._change.pipe(auditTime(throttleTime)) : this._change;
   }
 
-  /** Use defaultView of injected document if available or fallback to global window reference */
+  /**
+   * Use defaultView of injected document if available or fallback to global window reference
+   *
+   * 如果可用，则使用注入 document 的 defaultView 或者回退到全局 window 引用
+   *
+   */
   private _getWindow(): Window {
     return this._document.defaultView || window;
   }
 
-  /** Updates the cached viewport size. */
+  /**
+   * Updates the cached viewport size.
+   *
+   * 更新缓存的视口大小。
+   *
+   */
   private _updateViewportSize() {
     const window = this._getWindow();
     this._viewportSize = this._platform.isBrowser ?

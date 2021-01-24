@@ -53,31 +53,76 @@ export class MatStepHeader extends _MatStepHeaderMixinBase implements AfterViewI
   CanColor {
   private _intlSubscription: Subscription;
 
-  /** State of the given step. */
+  /**
+   * State of the given step.
+   *
+   * 指定步骤的状态
+   *
+   */
   @Input() state: StepState;
 
-  /** Label of the given step. */
+  /**
+   * Label of the given step.
+   *
+   * 指定步骤的标签。
+   *
+   */
   @Input() label: MatStepLabel | string;
 
-  /** Error message to display when there's an error. */
+  /**
+   * Error message to display when there's an error.
+   *
+   * 当出现错误时显示错误信息。
+   *
+   */
   @Input() errorMessage: string;
 
-  /** Overrides for the header icons, passed in via the stepper. */
+  /**
+   * Overrides for the header icons, passed in via the stepper.
+   *
+   * 改写那些通过步进器传入的头部图标。
+   *
+   */
   @Input() iconOverrides: {[key: string]: TemplateRef<MatStepperIconContext>};
 
-  /** Index of the given step. */
+  /**
+   * Index of the given step.
+   *
+   * 指定步骤的索引。
+   *
+   */
   @Input() index: number;
 
-  /** Whether the given step is selected. */
+  /**
+   * Whether the given step is selected.
+   *
+   * 指定的步骤是否已选定。
+   *
+   */
   @Input() selected: boolean;
 
-  /** Whether the given step label is active. */
+  /**
+   * Whether the given step label is active.
+   *
+   * 指定的步骤标签是否有效。
+   *
+   */
   @Input() active: boolean;
 
-  /** Whether the given step is optional. */
+  /**
+   * Whether the given step is optional.
+   *
+   * 指定的步骤是否可选。
+   *
+   */
   @Input() optional: boolean;
 
-  /** Whether the ripple should be disabled. */
+  /**
+   * Whether the ripple should be disabled.
+   *
+   * 是否应该禁用涟漪。
+   *
+   */
   @Input() disableRipple: boolean;
 
   constructor(
@@ -98,7 +143,12 @@ export class MatStepHeader extends _MatStepHeaderMixinBase implements AfterViewI
     this._focusMonitor.stopMonitoring(this._elementRef);
   }
 
-  /** Focuses the step header. */
+  /**
+   * Focuses the step header.
+   *
+   * 让步骤头获得焦点。
+   *
+   */
   focus(origin?: FocusOrigin, options?: FocusOptions) {
     if (origin) {
       this._focusMonitor.focusVia(this._elementRef, origin, options);
@@ -107,22 +157,42 @@ export class MatStepHeader extends _MatStepHeaderMixinBase implements AfterViewI
     }
   }
 
-  /** Returns string label of given step if it is a text label. */
+  /**
+   * Returns string label of given step if it is a text label.
+   *
+   * 返回指定步骤的字符串标签（如果是文本标签）。
+   *
+   */
   _stringLabel(): string | null {
     return this.label instanceof MatStepLabel ? null : this.label;
   }
 
-  /** Returns MatStepLabel if the label of given step is a template label. */
+  /**
+   * Returns MatStepLabel if the label of given step is a template label.
+   *
+   * 如果指定步骤的标签是模板标签，则返回 MatStepLabel。
+   *
+   */
   _templateLabel(): MatStepLabel | null {
     return this.label instanceof MatStepLabel ? this.label : null;
   }
 
-  /** Returns the host HTML element. */
+  /**
+   * Returns the host HTML element.
+   *
+   * 返回宿主的 HTML 元素。
+   *
+   */
   _getHostElement() {
     return this._elementRef.nativeElement;
   }
 
-  /** Template context variables that are exposed to the `matStepperIcon` instances. */
+  /**
+   * Template context variables that are exposed to the `matStepperIcon` instances.
+   *
+   * 暴露给 `matStepperIcon` 实例的模板上下文变量。
+   *
+   */
   _getIconContext(): MatStepperIconContext {
     return {
       index: this.index,

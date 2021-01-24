@@ -11,7 +11,12 @@ import {Directive, Input} from '@angular/core';
 
 /**
  * Directive to automatically resize a textarea to fit its content.
+ *
+ * 用于自动调整 textarea 大小以适应其内容的指令。
+ *
  * @deprecated Use `cdkTextareaAutosize` from `@angular/cdk/text-field` instead.
+ *
+ * 请 `cdkTextareaAutosize` `@angular/cdk/text-field` cdkTextareaAutosize。
  * @breaking-change 8.0.0
  */
 @Directive({

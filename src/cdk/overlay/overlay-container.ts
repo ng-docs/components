@@ -13,11 +13,19 @@ import {Platform} from '@angular/cdk/platform';
 /**
  * Whether we're in a testing environment.
  * TODO(crisbeto): remove this once we have an overlay testing module.
+ *
+ * 我们是否处于测试环境中。
+ *
  */
 const isTestEnvironment: boolean = typeof window !== 'undefined' && !!window &&
   !!((window as any).__karma__ || (window as any).jasmine);
 
-/** Container inside which all overlays will render. */
+/**
+ * Container inside which all overlays will render.
+ *
+ * 所有浮层都会渲染到其中的容器。
+ *
+ */
 @Injectable({providedIn: 'root'})
 export class OverlayContainer implements OnDestroy {
   protected _containerElement: HTMLElement;
@@ -39,7 +47,13 @@ export class OverlayContainer implements OnDestroy {
    * This method returns the overlay container element. It will lazily
    * create the element the first time  it is called to facilitate using
    * the container in non-browser environments.
+   *
+   * 该方法返回浮层的容器元素。它会在第一次调用时惰性创建该元素，以便在非浏览器环境中使用该容器。
+   *
    * @returns the container element
+   *
+   * 容器元素
+   *
    */
   getContainerElement(): HTMLElement {
     if (!this._containerElement) {
@@ -52,6 +66,9 @@ export class OverlayContainer implements OnDestroy {
   /**
    * Create the overlay container element, which is simply a div
    * with the 'cdk-overlay-container' class on the document body.
+   *
+   * 创建浮层容器元素，它只是 document body 上一个带 “cdk-overlay-container” 类的 div 元素。
+   *
    */
   protected _createContainer(): void {
     const containerClass = 'cdk-overlay-container';

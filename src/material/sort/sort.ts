@@ -32,24 +32,59 @@ import {
   getSortInvalidDirectionError,
 } from './sort-errors';
 
-/** Interface for a directive that holds sorting state consumed by `MatSortHeader`. */
+/**
+ * Interface for a directive that holds sorting state consumed by `MatSortHeader`.
+ *
+ * 指令的接口，用于保存供 `MatSortHeader` 使用的排序状态。
+ *
+ */
 export interface MatSortable {
-  /** The id of the column being sorted. */
+  /**
+   * The id of the column being sorted.
+   *
+   * 要被排序的列的 id。
+   *
+   */
   id: string;
 
-  /** Starting sort direction. */
+  /**
+   * Starting sort direction.
+   *
+   * 开始排序的方向。
+   *
+   */
   start: 'asc' | 'desc';
 
-  /** Whether to disable clearing the sorting state. */
+  /**
+   * Whether to disable clearing the sorting state.
+   *
+   * 是否禁止清除排序状态。
+   *
+   */
   disableClear: boolean;
 }
 
-/** The current sort state. */
+/**
+ * The current sort state.
+ *
+ * 当前的排序状态。
+ *
+ */
 export interface Sort {
-  /** The id of the column being sorted. */
+  /**
+   * The id of the column being sorted.
+   *
+   * 要被排序的列的 id。
+   *
+   */
   active: string;
 
-  /** The sort direction. */
+  /**
+   * The sort direction.
+   *
+   * 排序的方向。
+   *
+   */
   direction: SortDirection;
 }
 
@@ -59,7 +94,12 @@ class MatSortBase {}
 const _MatSortMixinBase: HasInitializedCtor & CanDisableCtor & typeof MatSortBase =
     mixinInitialized(mixinDisabled(MatSortBase));
 
-/** Container for MatSortables to manage the sort state and provide default sort parameters. */
+/**
+ * Container for MatSortables to manage the sort state and provide default sort parameters.
+ *
+ * MatSortable 的容器，可以管理排序状态并提供默认的排序参数。
+ *
+ */
 @Directive({
   selector: '[matSort]',
   exportAs: 'matSort',
@@ -68,22 +108,45 @@ const _MatSortMixinBase: HasInitializedCtor & CanDisableCtor & typeof MatSortBas
 })
 export class MatSort extends _MatSortMixinBase
     implements CanDisable, HasInitialized, OnChanges, OnDestroy, OnInit {
-  /** Collection of all registered sortables that this directive manages. */
+  /**
+   * Collection of all registered sortables that this directive manages.
+   *
+   * 本指令管理的所有已注册可排序对象的集合。
+   *
+   */
   sortables = new Map<string, MatSortable>();
 
-  /** Used to notify any child components listening to state changes. */
+  /**
+   * Used to notify any child components listening to state changes.
+   *
+   * 用来通知那些监听状态变化的子组件。
+   *
+   */
   readonly _stateChanges = new Subject<void>();
 
-  /** The id of the most recently sorted MatSortable. */
+  /**
+   * The id of the most recently sorted MatSortable.
+   *
+   * 最近排序过的 MatSortable 的 id。
+   *
+   */
   @Input('matSortActive') active: string;
 
   /**
    * The direction to set when an MatSortable is initially sorted.
    * May be overriden by the MatSortable's sort start.
+   *
+   * 最初对 MatSortable 进行排序时要设置的方向。可以通过 MatSortable 的输入属性 start 来改写它。
+   *
    */
   @Input('matSortStart') start: 'asc' | 'desc' = 'asc';
 
-  /** The sort direction of the currently active MatSortable. */
+  /**
+   * The sort direction of the currently active MatSortable.
+   *
+   * 当前活动的 MatSortable 的排序方向。
+   *
+   */
   @Input('matSortDirection')
   get direction(): SortDirection { return this._direction; }
   set direction(direction: SortDirection) {
@@ -98,18 +161,29 @@ export class MatSort extends _MatSortMixinBase
   /**
    * Whether to disable the user from clearing the sort by finishing the sort direction cycle.
    * May be overriden by the MatSortable's disable clear input.
+   *
+   * 是否通过完成排序方向的循环来禁止用户清除排序。可以通过 MatSortable 的输入属性 disableClear 来改写它。
+   *
    */
   @Input('matSortDisableClear')
   get disableClear(): boolean { return this._disableClear; }
   set disableClear(v: boolean) { this._disableClear = coerceBooleanProperty(v); }
   private _disableClear: boolean;
 
-  /** Event emitted when the user changes either the active sort or sort direction. */
+  /**
+   * Event emitted when the user changes either the active sort or sort direction.
+   *
+   * 当用户改变活动的排序或排序方向时发出的事件。
+   *
+   */
   @Output('matSortChange') readonly sortChange: EventEmitter<Sort> = new EventEmitter<Sort>();
 
   /**
    * Register function to be used by the contained MatSortables. Adds the MatSortable to the
    * collection of MatSortables.
+   *
+   * 注册 MatSortable 的函数。这会把此 MatSortable 添加到 MatSortable 的集合中的。
+   *
    */
   register(sortable: MatSortable): void {
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
@@ -128,12 +202,20 @@ export class MatSort extends _MatSortMixinBase
   /**
    * Unregister function to be used by the contained MatSortables. Removes the MatSortable from the
    * collection of contained MatSortables.
+   *
+   * 取消注册 MatSortable 的函数。这会从 MatSortable 集合中删除此 MatSortable。
+   *
    */
   deregister(sortable: MatSortable): void {
     this.sortables.delete(sortable.id);
   }
 
-  /** Sets the active sort id and determines the new sort direction. */
+  /**
+   * Sets the active sort id and determines the new sort direction.
+   *
+   * 设置当前排序的 id，并确定新的排序方向。
+   *
+   */
   sort(sortable: MatSortable): void {
     if (this.active != sortable.id) {
       this.active = sortable.id;
@@ -145,7 +227,12 @@ export class MatSort extends _MatSortMixinBase
     this.sortChange.emit({active: this.active, direction: this.direction});
   }
 
-  /** Returns the next sort direction of the active sortable, checking for potential overrides. */
+  /**
+   * Returns the next sort direction of the active sortable, checking for potential overrides.
+   *
+   * 返回活动可排序对象的下一个排序方向，检查潜在的改写。
+   *
+   */
   getNextSortDirection(sortable: MatSortable): SortDirection {
     if (!sortable) { return ''; }
 
@@ -175,7 +262,12 @@ export class MatSort extends _MatSortMixinBase
   static ngAcceptInputType_disabled: BooleanInput;
 }
 
-/** Returns the sort direction cycle to use given the provided parameters of order and clear. */
+/**
+ * Returns the sort direction cycle to use given the provided parameters of order and clear.
+ *
+ * 指定所提供的 start 和 disableClear 参数，返回要使用的排序方向循环。
+ *
+ */
 function getSortDirectionCycle(start: 'asc' | 'desc',
                                disableClear: boolean): SortDirection[] {
   let sortOrder: SortDirection[] = ['asc', 'desc'];

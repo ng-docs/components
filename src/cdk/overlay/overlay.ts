@@ -26,7 +26,12 @@ import {OverlayPositionBuilder} from './position/overlay-position-builder';
 import {ScrollStrategyOptions} from './scroll/index';
 
 
-/** Next overlay unique ID. */
+/**
+ * Next overlay unique ID.
+ *
+ * 下一个浮层的唯一 ID。
+ *
+ */
 let nextUniqueId = 0;
 
 // Note that Overlay is *not* scoped to the app root because of the ComponentFactoryResolver
@@ -38,7 +43,12 @@ let nextUniqueId = 0;
  * selects, etc. can all be built using overlays. The service should primarily be used by authors
  * of re-usable components rather than developers building end-user applications.
  *
+ * 用来创建浮层的服务。浮层是指动态添加的一些浮动用户界面，用来作为其它组件的底层构建块。像对话框、工具提示、菜单、选择器等等都可以用浮层来构建。该服务主要应该由可复用组件的作者使用，而不是供开发者构建最终用户应用。
+ *
  * An overlay *is* a PortalOutlet, so any kind of Portal can be loaded into one.
+ *
+ * 浮层*是*一个 PortalOutlet，任何类型的传送点都可以加载到其中。
+ *
  */
 @Injectable()
 export class Overlay {
@@ -60,8 +70,17 @@ export class Overlay {
 
   /**
    * Creates an overlay.
+   *
+   * 创建一个浮层。
+   *
    * @param config Configuration applied to the overlay.
+   *
+   * 应用于浮层的配置。
+   *
    * @returns Reference to the created overlay.
+   *
+   * 所创建浮层的引用。
+   *
    */
   create(config?: OverlayConfig): OverlayRef {
     const host = this._createHostElement();
@@ -78,7 +97,13 @@ export class Overlay {
   /**
    * Gets a position builder that can be used, via fluent API,
    * to construct and configure a position strategy.
+   *
+   * 获取一个位置构建器，可以通过流式 API 来构建和配置定位策略。
+   *
    * @returns An overlay position builder.
+   *
+   * 浮层位置构建器。
+   *
    */
   position(): OverlayPositionBuilder {
     return this._positionBuilder;
@@ -86,7 +111,13 @@ export class Overlay {
 
   /**
    * Creates the DOM element for an overlay and appends it to the overlay container.
+   *
+   * 为浮层创建一个 DOM 元素，并把它追加到浮层容器中。
+   *
    * @returns Newly-created pane element
+   *
+   * 新创建的面板元素
+   *
    */
   private _createPaneElement(host: HTMLElement): HTMLElement {
     const pane = this._document.createElement('div');
@@ -101,7 +132,13 @@ export class Overlay {
   /**
    * Creates the host element that wraps around an overlay
    * and can be used for advanced positioning.
+   *
+   * 用于封装浮层的宿主元素，可用于高级定位。
+   *
    * @returns Newly-create host element.
+   *
+   * 新建的宿主元素。
+   *
    */
   private _createHostElement(): HTMLElement {
     const host = this._document.createElement('div');
@@ -111,8 +148,17 @@ export class Overlay {
 
   /**
    * Create a DomPortalOutlet into which the overlay content can be loaded.
+   *
+   * 创建一个可以加载浮层内容的 DomPortalOutlet。
+   *
    * @param pane The DOM element to turn into a portal outlet.
+   *
+   * 要转成传送点地标的 DOM 元素。
+   *
    * @returns A portal outlet for the given DOM element.
+   *
+   * 供指定 DOM 元素使用的传送点地标。
+   *
    */
   private _createPortalOutlet(pane: HTMLElement): DomPortalOutlet {
     // We have to resolve the ApplicationRef later in order to allow people

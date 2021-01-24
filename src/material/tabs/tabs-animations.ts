@@ -16,6 +16,9 @@ import {
 
 /**
  * Animations used by the Material tabs.
+ *
+ * 供 Material 选项卡使用的动画。
+ *
  * @docs-private
  */
 export const matTabsAnimations: {

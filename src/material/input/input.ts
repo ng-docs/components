@@ -63,7 +63,12 @@ class MatInputBase {
 const _MatInputMixinBase: CanUpdateErrorStateCtor & typeof MatInputBase =
     mixinErrorState(MatInputBase);
 
-/** Directive that allows a native input to work inside a `MatFormField`. */
+/**
+ * Directive that allows a native input to work inside a `MatFormField`.
+ *
+ * 允许原生输入工作于 `MatFormField` 中的指令。
+ *
+ */
 @Directive({
   selector: `input[matInput], textarea[matInput], select[matNativeControl],
       input[matNativeControl], textarea[matNativeControl]`,
@@ -96,41 +101,71 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   private _inputValueAccessor: {value: any};
   private _previousPlaceholder: string | null;
 
-  /** Whether the component is being rendered on the server. */
+  /**
+   * Whether the component is being rendered on the server.
+   *
+   * 该组件是否正在服务端渲染。
+   *
+   */
   readonly _isServer: boolean;
 
-  /** Whether the component is a native html select. */
+  /**
+   * Whether the component is a native html select.
+   *
+   * 该组件是否为原生的 html select 元素。
+   *
+   */
   readonly _isNativeSelect: boolean;
 
-  /** Whether the component is a textarea. */
+  /**
+   * Whether the component is a textarea.
+   *
+   * 该组件是否为 textarea。
+   *
+   */
   readonly _isTextarea: boolean;
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   focused: boolean = false;
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   readonly stateChanges: Subject<void> = new Subject<void>();
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   controlType: string = 'mat-input';
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   autofilled = false;
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   @Input()
@@ -154,6 +189,9 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   @Input()
@@ -163,12 +201,18 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   @Input() placeholder: string;
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   @Input()
@@ -176,7 +220,12 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   set required(value: boolean) { this._required = coerceBooleanProperty(value); }
   protected _required = false;
 
-  /** Input type of the element. */
+  /**
+   * Input type of the element.
+   *
+   * 该元素的输入框类型。
+   *
+   */
   @Input()
   get type(): string { return this._type; }
   set type(value: string) {
@@ -192,17 +241,28 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   }
   protected _type = 'text';
 
-  /** An object used to control when error messages are shown. */
+  /**
+   * An object used to control when error messages are shown.
+   *
+   * 用于控制何时显示错误信息的对象。
+   *
+   */
   @Input() errorStateMatcher: ErrorStateMatcher;
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   @Input('aria-describedby') userAriaDescribedBy: string;
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   @Input()
@@ -214,7 +274,12 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     }
   }
 
-  /** Whether the element is readonly. */
+  /**
+   * Whether the element is readonly.
+   *
+   * 该元素是否只读。
+   *
+   */
   @Input()
   get readonly(): boolean { return this._readonly; }
   set readonly(value: boolean) { this._readonly = coerceBooleanProperty(value); }
@@ -326,7 +391,12 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     this._dirtyCheckPlaceholder();
   }
 
-  /** Focuses the input. */
+  /**
+   * Focuses the input.
+   *
+   * 让此输入框获得焦点。
+   *
+   */
   focus(options?: FocusOptions): void {
     this._elementRef.nativeElement.focus(options);
   }
@@ -335,7 +405,12 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
   // In Ivy the `host` bindings will be merged when this class is extended, whereas in
   // ViewEngine they're overwritten.
   // TODO(crisbeto): we move this back into `host` once Ivy is turned on by default.
-  /** Callback for the cases where the focused state of the input changes. */
+  /**
+   * Callback for the cases where the focused state of the input changes.
+   *
+   * 在输入框的焦点状态发生变化时进行回调。
+   *
+   */
   // tslint:disable:no-host-decorator-in-concrete
   @HostListener('focus', ['true'])
   @HostListener('blur', ['false'])
@@ -363,7 +438,12 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     // FormsModule or ReactiveFormsModule, because Angular forms also listens to input events.
   }
 
-  /** Does some manual dirty checking on the native input `placeholder` attribute. */
+  /**
+   * Does some manual dirty checking on the native input `placeholder` attribute.
+   *
+   * 对 `placeholder` 属性进行一些手工脏检查。
+   *
+   */
   private _dirtyCheckPlaceholder() {
     // If we're hiding the native placeholder, it should also be cleared from the DOM, otherwise
     // screen readers will read it out twice: once from the label and once from the attribute.
@@ -378,7 +458,12 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     }
   }
 
-  /** Does some manual dirty checking on the native input `value` property. */
+  /**
+   * Does some manual dirty checking on the native input `value` property.
+   *
+   * 对 `value` 属性进行一些手动脏检查。
+   *
+   */
   protected _dirtyCheckNativeValue() {
     const newValue = this._elementRef.nativeElement.value;
 
@@ -388,7 +473,12 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     }
   }
 
-  /** Make sure the input is a supported type. */
+  /**
+   * Make sure the input is a supported type.
+   *
+   * 确保输入框是受支持的类型。
+   *
+   */
   protected _validateType() {
     if (MAT_INPUT_INVALID_TYPES.indexOf(this._type) > -1 &&
       (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -396,12 +486,22 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     }
   }
 
-  /** Checks whether the input type is one of the types that are never empty. */
+  /**
+   * Checks whether the input type is one of the types that are never empty.
+   *
+   * 检查输入类型是否为从不为空的类型之一。
+   *
+   */
   protected _isNeverEmpty() {
     return this._neverEmptyInputTypes.indexOf(this._type) > -1;
   }
 
-  /** Checks whether the input is invalid based on the native validation. */
+  /**
+   * Checks whether the input is invalid based on the native validation.
+   *
+   * 根据原生验证检查输入是否无效。
+   *
+   */
   protected _isBadInput() {
     // The `validity` property won't be present on platform-server.
     let validity = (this._elementRef.nativeElement as HTMLInputElement).validity;
@@ -410,6 +510,9 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   get empty(): boolean {
@@ -419,6 +522,9 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   get shouldLabelFloat(): boolean {
@@ -440,6 +546,9 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   setDescribedByIds(ids: string[]) {
@@ -452,6 +561,9 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   *是 MatFormFieldControl 实现的一部分。
+   *
    * @docs-private
    */
   onContainerClick() {

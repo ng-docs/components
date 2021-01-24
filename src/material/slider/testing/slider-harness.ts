@@ -20,6 +20,8 @@ export class MatSliderHarness extends ComponentHarness {
    * certain criteria.
    * @param options Options for filtering which slider instances are considered a match.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: SliderHarnessFilters = {}): HarnessPredicate<MatSliderHarness> {
     return new HarnessPredicate(MatSliderHarness, options);

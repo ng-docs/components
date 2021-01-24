@@ -21,6 +21,8 @@ export class MatCheckboxHarness extends ComponentHarness {
    *   - `label` finds a checkbox with specific label text.
    *   - `name` finds a checkbox with specific name.
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: CheckboxHarnessFilters = {}): HarnessPredicate<MatCheckboxHarness> {
     return new HarnessPredicate(MatCheckboxHarness, options)

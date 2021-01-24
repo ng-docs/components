@@ -46,12 +46,22 @@ export class MatGridTile {
     private _element: ElementRef<HTMLElement>,
     @Optional() @Inject(MAT_GRID_LIST) public _gridList?: MatGridListBase) {}
 
-  /** Amount of rows that the grid tile takes up. */
+  /**
+   * Amount of rows that the grid tile takes up.
+   *
+   * 网格图块占用的行数。
+   *
+   */
   @Input()
   get rowspan(): number { return this._rowspan; }
   set rowspan(value: number) { this._rowspan = Math.round(coerceNumberProperty(value)); }
 
-  /** Amount of columns that the grid tile takes up. */
+  /**
+   * Amount of columns that the grid tile takes up.
+   *
+   * 网格图块占用的列数。
+   *
+   */
   @Input()
   get colspan(): number { return this._colspan; }
   set colspan(value: number) { this._colspan = Math.round(coerceNumberProperty(value)); }
@@ -59,6 +69,9 @@ export class MatGridTile {
   /**
    * Sets the style of the grid-tile element.  Needs to be set manually to avoid
    * "Changed after checked" errors that would occur with HostBinding.
+   *
+   * 设置 grid-tile 元素的样式。需要手动设置，以避免在 HostBinding 时出现 “Changed after checked” 错误。
+   *
    */
   _setStyle(property: string, value: any): void {
     (this._element.nativeElement.style as any)[property] = value;
@@ -86,6 +99,9 @@ export class MatGridTileText implements AfterContentInit {
 
 /**
  * Directive whose purpose is to add the mat- CSS styling to this selector.
+ *
+ * 本指令的目的是把 mat- CSS 样式添加到这个选择器中。
+ *
  * @docs-private
  */
 @Directive({
@@ -96,6 +112,9 @@ export class MatGridAvatarCssMatStyler {}
 
 /**
  * Directive whose purpose is to add the mat- CSS styling to this selector.
+ *
+ * 本指令的目的是把 mat- CSS 样式添加到这个选择器中。
+ *
  * @docs-private
  */
 @Directive({
@@ -106,6 +125,9 @@ export class MatGridTileHeaderCssMatStyler {}
 
 /**
  * Directive whose purpose is to add the mat- CSS styling to this selector.
+ *
+ * 本指令的目的是把 mat- CSS 样式添加到这个选择器中。
+ *
  * @docs-private
  */
 @Directive({

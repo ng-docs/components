@@ -16,6 +16,9 @@ import {
 
 /**
  * Animations used by MatDialog.
+ *
+ * 供 MatDialog 使用的动画。
+ *
  * @docs-private
  */
 export const matDialogAnimations: {

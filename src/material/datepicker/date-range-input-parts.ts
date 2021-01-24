@@ -42,7 +42,12 @@ import {BACKSPACE} from '@angular/cdk/keycodes';
 import {MatDatepickerInputBase, DateFilterFn} from './datepicker-input-base';
 import {DateRange, DateSelectionModelChange} from './date-selection-model';
 
-/** Parent component that should be wrapped around `MatStartDate` and `MatEndDate`. */
+/**
+ * Parent component that should be wrapped around `MatStartDate` and `MatEndDate`.
+ *
+ * 用来包裹 `MatStartDate` 和 `MatEndDate` 的父组件。
+ *
+ */
 export interface MatDateRangeInputParent<D> {
   id: string;
   min: D | null;
@@ -62,12 +67,18 @@ export interface MatDateRangeInputParent<D> {
 /**
  * Used to provide the date range input wrapper component
  * to the parts without circular dependencies.
+ *
+ * 用来为那些没有循环依赖的部件提供日期范围输入框包装的组件。
+ *
  */
 export const MAT_DATE_RANGE_INPUT_PARENT =
     new InjectionToken<MatDateRangeInputParent<unknown>>('MAT_DATE_RANGE_INPUT_PARENT');
 
 /**
  * Base class for the individual inputs that can be projected inside a `mat-date-range-input`.
+ *
+ * 各种输入框的基类，可以投影到 `mat-date-range-input` 内部。
+ *
  */
 @Directive()
 abstract class MatDateRangeInputPartBase<D>
@@ -118,43 +129,83 @@ abstract class MatDateRangeInputPartBase<D>
     }
   }
 
-  /** Gets whether the input is empty. */
+  /**
+   * Gets whether the input is empty.
+   *
+   * 获取输入框的结果是否为空。
+   *
+   */
   isEmpty(): boolean {
     return this._elementRef.nativeElement.value.length === 0;
   }
 
-  /** Gets the placeholder of the input. */
+  /**
+   * Gets the placeholder of the input.
+   *
+   * 获取输入框的占位符。
+   *
+   */
   _getPlaceholder() {
     return this._elementRef.nativeElement.placeholder;
   }
 
-  /** Focuses the input. */
+  /**
+   * Focuses the input.
+   *
+   * 让输入框获得焦点。
+   *
+   */
   focus(): void {
     this._elementRef.nativeElement.focus();
   }
 
-  /** Handles `input` events on the input element. */
+  /**
+   * Handles `input` events on the input element.
+   *
+   * 处理 `input` 输入框元素上的事件。
+   *
+   */
   _onInput(value: string) {
     super._onInput(value);
     this._rangeInput._handleChildValueChange();
   }
 
-  /** Opens the datepicker associated with the input. */
+  /**
+   * Opens the datepicker associated with the input.
+   *
+   * 打开与输入框关联的 datepicker。
+   *
+   */
   protected _openPopup(): void {
     this._rangeInput._openDatepicker();
   }
 
-  /** Gets the minimum date from the range input. */
+  /**
+   * Gets the minimum date from the range input.
+   *
+   * 获取范围输入框的最小日期。
+   *
+   */
   _getMinDate() {
     return this._rangeInput.min;
   }
 
-  /** Gets the maximum date from the range input. */
+  /**
+   * Gets the maximum date from the range input.
+   *
+   * 获取范围输入框的最大日期。
+   *
+   */
   _getMaxDate() {
     return this._rangeInput.max;
   }
 
-  /** Gets the date filter function from the range input. */
+  /**
+   * Gets the date filter function from the range input.
+   *
+   * 获取范围输入框的日期过滤器函数。
+   *
+   */
   protected _getDateFilter() {
     return this._rangeInput.dateFilter;
   }
@@ -180,7 +231,12 @@ const _MatDateRangeInputBase:
     // Needs to be `as any`, because the base class is abstract.
     mixinErrorState(MatDateRangeInputPartBase as any);
 
-/** Input for entering the start date in a `mat-date-range-input`. */
+/**
+ * Input for entering the start date in a `mat-date-range-input`.
+ *
+ * 用于在 `mat-date-range-input` 中输入起始日期的输入框。
+ *
+ */
 @Directive({
   selector: 'input[matStartDate]',
   host: {
@@ -208,7 +264,12 @@ const _MatDateRangeInputBase:
 })
 export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements
     CanUpdateErrorState, DoCheck, OnInit {
-  /** Validator that checks that the start date isn't after the end date. */
+  /**
+   * Validator that checks that the start date isn't after the end date.
+   *
+   * 此验证器用于检查起始日期是否在结束日期之后。
+   *
+   */
   private _startValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const start = this._dateAdapter.getValidDateOrNull(
       this._dateAdapter.deserialize(control.value));
@@ -275,7 +336,12 @@ export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements
     this._rangeInput._handleChildValueChange();
   }
 
-  /** Gets the value that should be used when mirroring the input's size. */
+  /**
+   * Gets the value that should be used when mirroring the input's size.
+   *
+   * 获取镜像输入框大小时应该使用的值。
+   *
+   */
   getMirrorValue(): string {
     const element = this._elementRef.nativeElement;
     const value = element.value;
@@ -286,7 +352,12 @@ export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements
 }
 
 
-/** Input for entering the end date in a `mat-date-range-input`. */
+/**
+ * Input for entering the end date in a `mat-date-range-input`.
+ *
+ * 用于在 `mat-date-range-input` 中输入结束日期的输入框。
+ *
+ */
 @Directive({
   selector: 'input[matEndDate]',
   host: {
@@ -313,7 +384,12 @@ export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements
 })
 export class MatEndDate<D> extends _MatDateRangeInputBase<D> implements
     CanUpdateErrorState, DoCheck, OnInit {
-  /** Validator that checks that the end date isn't before the start date. */
+  /**
+   * Validator that checks that the end date isn't before the start date.
+   *
+   * 此验证器用于检查结束日期是否在起始日期之前。
+   *
+   */
   private _endValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const end = this._dateAdapter.getValidDateOrNull(this._dateAdapter.deserialize(control.value));
     const start = this._model ? this._model.selection.start : null;

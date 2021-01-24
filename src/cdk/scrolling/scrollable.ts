@@ -33,6 +33,10 @@ export type _YAxis = _XOR<_Top, _Bottom>;
  * top, bottom, left, right, start, or end of the viewport rather than just the top and left.
  * Please note: the top and bottom properties are mutually exclusive, as are the left, right,
  * start, and end properties.
+ *
+ * ScrollToOptions 的扩展版本，允许表达相对于视口顶部、底部、左侧、右侧、开头或结尾的滚动偏移量，而不仅仅是顶部和左侧。
+ * 请注意：top 和 bottom 属性是互斥的，left 和 right、start 和 end 属性也是如此。
+ *
  */
 export type ExtendedScrollToOptions = _XAxis & _YAxis & ScrollOptions;
 
@@ -40,6 +44,9 @@ export type ExtendedScrollToOptions = _XAxis & _YAxis & ScrollOptions;
  * Sends an event when the directive's element is scrolled. Registers itself with the
  * ScrollDispatcher service to include itself as part of its collection of scrolling events that it
  * can be listened to through the service.
+ *
+ * 该指令的元素发生滚动时发送一个事件。使用 ScrollDispatcher 服务注册自己，以便把自己包含在滚动事件集合中，并通过该服务来监听。
+ *
  */
 @Directive({
   selector: '[cdk-scrollable], [cdkScrollable]'
@@ -67,12 +74,22 @@ export class CdkScrollable implements OnInit, OnDestroy {
     this._destroyed.complete();
   }
 
-  /** Returns observable that emits when a scroll event is fired on the host element. */
+  /**
+   * Returns observable that emits when a scroll event is fired on the host element.
+   *
+   * 返回在宿主元素上发生 scroll 事件时会触发的可观察对象。
+   *
+   */
   elementScrolled(): Observable<Event> {
     return this._elementScrolled;
   }
 
-  /** Gets the ElementRef for the viewport. */
+  /**
+   * Gets the ElementRef for the viewport.
+   *
+   * 获取视口的 ElementRef。
+   *
+   */
   getElementRef(): ElementRef<HTMLElement> {
     return this.elementRef;
   }
@@ -83,7 +100,14 @@ export class CdkScrollable implements OnInit, OnDestroy {
    * left and right always refer to the left and right side of the scrolling container irrespective
    * of the layout direction. start and end refer to left and right in an LTR context and vice-versa
    * in an RTL context.
+   *
+   * 滚动到指定的偏移量。这是浏览器原生 scrollTo 方法的标准化版本，因为各个浏览器对于 scrollLeft 在 RTL 中的理解并不一致。
+   * 对于此方法，无论布局方向如何，左右都总是指向滚动容器的左侧和右侧。start 和 end 在 LTR 上下文中分别指向左右，在 RTL 上下文中则相反。
+   *
    * @param options specified the offsets to scroll to.
+   *
+   * 指定要滚动到的偏移量。
+   *
    */
   scrollTo(options: ExtendedScrollToOptions): void {
     const el = this.elementRef.nativeElement;
@@ -148,7 +172,14 @@ export class CdkScrollable implements OnInit, OnDestroy {
    * left and right always refer to the left and right side of the scrolling container irrespective
    * of the layout direction. start and end refer to left and right in an LTR context and vice-versa
    * in an RTL context.
+   *
+   * 测量相对于视口指定边缘的滚动偏移量。这个方法可以用来代替对 scrollLeft 或 scrollTop 的直接检查，因为各浏览器对于 scrollLeft 在 RTL 中的理解并不一致。
+   * 该方法返回的值是标准化的，左右都总是指向滚动容器的左侧和右侧，与布局方向无关。 start 和 end 在 LTR 上下文中指向左右，在 RTL 上下文则相反。
+   *
    * @param from The edge to measure from.
+   *
+   * 要测量的边缘。
+   *
    */
   measureScrollOffset(from: 'top' | 'left' | 'right' | 'bottom' | 'start' | 'end'): number {
     const LEFT = 'left';

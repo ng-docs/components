@@ -24,6 +24,9 @@ import {map} from 'rxjs/operators';
 /**
  * Corresponds to `Number.MAX_SAFE_INTEGER`. Moved out into a variable here due to
  * flaky browser support and the value not being defined in Closure's typings.
+ *
+ * 对应于 `Number.MAX_SAFE_INTEGER` 。这里提取了一个变量，因为浏览器对它支持不稳定，并且这个值没有在 Closure 的类型中定义。
+ *
  */
 const MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -35,23 +38,51 @@ interface Paginator {
   length: number;
 }
 
-/** Shared base class with MDC-based implementation. */
+/**
+ * Shared base class with MDC-based implementation.
+ *
+ * 与基于 MDC 实现共享的基类。
+ *
+ */
 export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
-  /** Stream that emits when a new data array is set on the data source. */
+  /**
+   * Stream that emits when a new data array is set on the data source.
+   *
+   * 当在数据源上设置新的数组时会发出流。
+   *
+   */
   private readonly _data: BehaviorSubject<T[]>;
 
-  /** Stream emitting render data to the table (depends on ordered data changes). */
+  /**
+   * Stream emitting render data to the table (depends on ordered data changes).
+   *
+   * 把数据渲染到表格中的事件流（取决于有序数据的变化）。
+   *
+   */
   private readonly _renderData = new BehaviorSubject<T[]>([]);
 
-  /** Stream that emits when a new filter string is set on the data source. */
+  /**
+   * Stream that emits when a new filter string is set on the data source.
+   *
+   * 当数据源上设置了新的过滤字符串时，会发出流。
+   *
+   */
   private readonly _filter = new BehaviorSubject<string>('');
 
-  /** Used to react to internal changes of the paginator that are made by the data source itself. */
+  /**
+   * Used to react to internal changes of the paginator that are made by the data source itself.
+   *
+   * 用于对数据源本身对分页器的内部更改作出反应。
+   *
+   */
   private readonly _internalPageChanges = new Subject<void>();
 
   /**
    * Subscription to the changes that should trigger an update to the table's rendered rows, such
    * as filtering, sorting, pagination, or base data changes.
+   *
+   * 订阅那些应该触发表格中渲染行更新的变更，比如过滤、排序、分页或基础数据的变化。
+   *
    */
   _renderChangesSubscription: Subscription|null = null;
 
@@ -60,16 +91,29 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    * is no filter. Useful for knowing the set of data the table represents.
    * For example, a 'selectAll()' function would likely want to select the set of filtered data
    * shown to the user rather than all the data.
+   *
+   * 通过过滤器字符串过滤过的数据集，如果没有过滤器，则全是数据。
+   * 需要知道表格所展现的数据集时，这非常有用。比如，'selectAll()' 函数可能会想给用户展示一组过滤过的数据，而不是所有的数据。
+   *
    */
   filteredData: T[];
 
-  /** Array of data that should be rendered by the table, where each object represents one row. */
+  /**
+   * Array of data that should be rendered by the table, where each object represents one row.
+   *
+   * 要由表格渲染的数据数组，其中每个对象代表一行。
+   *
+   */
   get data() { return this._data.value; }
   set data(data: T[]) { this._data.next(data); }
 
   /**
    * Filter term that should be used to filter out objects from the data array. To override how
    * data objects match to this filter string, provide a custom function for filterPredicate.
+   *
+   * 要用来从数据数组中过滤对象的过滤器关键词。
+   * 要改写数据对象与此过滤器字符串的匹配方式，请为 filterPredicate 提供一个自定义函数。
+   *
    */
   get filter(): string { return this._filter.value; }
   set filter(filter: string) { this._filter.next(filter); }
@@ -77,6 +121,9 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
   /**
    * Instance of the MatSort directive used by the table to control its sorting. Sort changes
    * emitted by the MatSort will trigger an update to the table's rendered data.
+   *
+   * 该表格使用 MatSort 指令的实例来控制它的排序。 MatSort 发出的排序变化会触发对该表格所渲染数据的更新。
+   *
    */
   get sort(): MatSort | null { return this._sort; }
   set sort(sort: MatSort|null) {
@@ -90,10 +137,15 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    * displayed. Page changes emitted by the MatPaginator will trigger an update to the
    * table's rendered data.
    *
+   * 该表格使用的 MatPaginator 组件实例，用来控制要显示哪页数据。MatPaginator 发出的页面更改会触发表格渲染数据的更新。
+   *
    * Note that the data source uses the paginator's properties to calculate which page of data
    * should be displayed. If the paginator receives its properties as template inputs,
    * e.g. `[pageLength]=100` or `[pageIndex]=1`, then be sure that the paginator's view has been
    * initialized before assigning it to this data source.
+   *
+   * 注意，数据源会使用此分页器的属性来计算应该显示哪个页面的数据。如果分页器要通过模板输入接收其属性，比如 `[pageLength]=100` 或者 `[pageIndex]=1` ，那就要确保此分页器的视图已经初始化了，然后再赋值给这个数据源。
+   *
    */
   get paginator(): P | null { return this._paginator; }
   set paginator(paginator: P | null) {
@@ -108,8 +160,18 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    * This default function assumes that the sort header IDs (which defaults to the column name)
    * matches the data's properties (e.g. column Xyz represents data['Xyz']).
    * May be set to a custom function for different behavior.
+   *
+   * 数据访问器函数，用于访问数据属性，以便通过默认的 sortData 函数进行排序。
+   * 这个默认函数假设排序头的 ID（默认为列名）与数据的属性相匹配（比如列 Xyz 对应 data['Xyz']）。可以为不同的行为设置同一个自定义函数。
+   *
    * @param data Data object that is being accessed.
+   *
+   * 正在访问的数据对象
+   *
    * @param sortHeaderId The name of the column that represents the data.
+   *
+   * 用来代表数据列的名字。
+   *
    */
   sortingDataAccessor: ((data: T, sortHeaderId: string) => string|number) =
       (data: T, sortHeaderId: string): string|number => {
@@ -132,8 +194,18 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    * By default, the function retrieves the active sort and its direction and compares data
    * by retrieving data using the sortingDataAccessor. May be overridden for a custom implementation
    * of data ordering.
+   *
+   * 根据 MatSort 的状态获取一个数据数组的已排序副本。在对已过滤的数据进行更改或从 MatSort 发出排序更改时调用。
+   * 默认情况下，使用该函数检索主动排序及其方向，并借助 sortingDataAccessor 检索数据来进行比较。可以改写为自定义的数据排序实现。
+   *
    * @param data The array of data that should be sorted.
+   *
+   * 那些要排序的数据数组。
+   *
    * @param sort The connected MatSort that holds the current sort state.
+   *
+   * 已连接的 MatSort，保存着当前排序状态。
+   *
    */
   sortData: ((data: T[], sort: MatSort) => T[]) = (data: T[], sort: MatSort): T[] => {
     const active = sort.active;
@@ -183,9 +255,20 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    * at least one occurrence in that string. By default, the filter string has its whitespace
    * trimmed and the match is case-insensitive. May be overridden for a custom implementation of
    * filter matching.
+   *
+   * 检查数据对象是否与数据源的过滤字符串匹配。默认情况下，会把每个数据对象都转换为其属性的字符串，如果该过滤器在该字符串中至少出现过一次，则返回 true。默认情况下，会修剪掉过滤字符串的空白，并且匹配时不区分大小写。可以改写为过滤器匹配算法的自定义实现。
+   *
    * @param data Data object used to check against the filter.
+   *
+   * 要让这个过滤器检查的数据对象。
+   *
    * @param filter Filter string that has been set on the data source.
+   *
+   * 在数据源上设置过的过滤字符串。
+   *
    * @returns Whether the filter matches against the data
+   *
+   * 过滤器是否匹配此数据
    */
   filterPredicate: ((data: T, filter: string) => boolean) = (data: T, filter: string): boolean => {
     // Transform the data into a lowercase string of all property values.
@@ -215,6 +298,9 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    * Subscribe to changes that should trigger an update to the table's rendered rows. When the
    * changes occur, process the current state of the filter, sort, and pagination along with
    * the provided base data and send it to the table for rendering.
+   *
+   * 订阅那些应该导致表格中更新已渲染行的变化。当发生这些变化时，根据过滤器、排序和分页器的当前状态对所提供的基础数据进行处理，并把它发送到表格中进行渲染。
+   *
    */
   _updateChangeSubscription() {
     // Sorting and/or pagination should be watched if MatSort and/or MatPaginator are provided.
@@ -252,6 +338,9 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    * Returns a filtered data array where each filter object contains the filter string within
    * the result of the filterTermAccessor function. If no filter is set, returns the data array
    * as provided.
+   *
+   * 返回一个过滤后的数据数组，其中每个过滤器对象都包含 filterTermAccessor 函数结果中的过滤字符串。如果没有设置过滤器，则返回所提供的数据数组。
+   *
    */
   _filterData(data: T[]) {
     // If there is a filter string, filter out data that does not contain it.
@@ -269,6 +358,10 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    * Returns a sorted copy of the data if MatSort has a sort applied, otherwise just returns the
    * data array as provided. Uses the default data accessor for data lookup, unless a
    * sortDataAccessor function is defined.
+   *
+   * 如果 MatSort 已应用了排序，则返回数据的有序副本，否则只返回所提供的数据数组。
+   * 除非定义了 sortDataAccessor 函数，否则使用默认的数据访问器进行数据查询。
+   *
    */
   _orderData(data: T[]): T[] {
     // If there is no active sort or direction, return the data without trying to sort.
@@ -280,6 +373,9 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
   /**
    * Returns a paged slice of the provided data array according to the provided MatPaginator's page
    * index and length. If there is no paginator provided, returns the data array as provided.
+   *
+   * 根据所提供的 MatPaginator 的页号和分页长度返回所提供的数据数组的分页切片。如果没有提供分页器，就返回所提供的数据数组。
+   *
    */
   _pageData(data: T[]): T[] {
     if (!this.paginator) { return data; }
@@ -292,6 +388,9 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    * Updates the paginator to reflect the length of the filtered data, and makes sure that the page
    * index does not exceed the paginator's last page. Values are changed in a resolved promise to
    * guard against making property changes within a round of change detection.
+   *
+   * 更新分页器来反映过滤后数据的长度，并确保页面索引不会超出分页器的最后一页。会在已解析的 Promise 中修改这些值，以免在一轮变更检测中进行属性更改。
+   *
    */
   _updatePaginator(filteredDataLength: number) {
     Promise.resolve().then(() => {
@@ -319,6 +418,9 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
 
   /**
    * Used by the MatTable. Called when it connects to the data source.
+   *
+   * 由 MatTable 使用。当连接数据源时调用。
+   *
    * @docs-private
    */
   connect() {
@@ -331,6 +433,9 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
 
   /**
    * Used by the MatTable. Called when it disconnects from the data source.
+   *
+   * 由 MatTable 使用。当断开数据源连接时调用。
+   *
    * @docs-private
    */
   disconnect() {
@@ -343,13 +448,22 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
  * Data source that accepts a client-side data array and includes native support of filtering,
  * sorting (using MatSort), and pagination (using MatPaginator).
  *
+ * 可接受客户端数据的数据源，包括原生支持的过滤、排序（使用 MatSort）和分页（使用 MatPaginator）。
+ *
  * Allows for sort customization by overriding sortingDataAccessor, which defines how data
  * properties are accessed. Also allows for filter customization by overriding filterTermAccessor,
  * which defines how row data is converted to a string for filter matching.
+ *
+ * 可以通过改写 sortingDataAccessor 来进行自定义排序，它定义了要如何访问数据属性。
+ * 还允许通过改写 filterTermAccessor 来自定义过滤器，它定义了要如何将行数据转换成字符串以进行过滤匹配。
  *
  * **Note:** This class is meant to be a simple data source to help you get started. As such
  * it isn't equipped to handle some more advanced cases like robust i18n support or server-side
  * interactions. If your app needs to support more advanced use cases, consider implementing your
  * own `DataSource`.
+ *
+ * **注意：**这个类是一个简单的数据源，可以帮助你入门。因此，它无法处理某些更高级的案例，比如提供强大的 i18n 支持或服务器端交互。
+ * 如果你的应用需要支持更高级的用例，可以考虑实现自己的 `DataSource` 。
+ *
  */
 export class MatTableDataSource<T> extends _MatTableDataSource<T, MatPaginator> {}

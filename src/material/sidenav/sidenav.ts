@@ -77,7 +77,12 @@ export class MatSidenavContent extends MatDrawerContent {
   encapsulation: ViewEncapsulation.None,
 })
 export class MatSidenav extends MatDrawer {
-  /** Whether the sidenav is fixed in the viewport. */
+  /**
+   * Whether the sidenav is fixed in the viewport.
+   *
+   * 侧边导航是否在视口中是固定的。
+   *
+   */
   @Input()
   get fixedInViewport(): boolean { return this._fixedInViewport; }
   set fixedInViewport(value) { this._fixedInViewport = coerceBooleanProperty(value); }
@@ -86,6 +91,9 @@ export class MatSidenav extends MatDrawer {
   /**
    * The gap between the top of the sidenav and the top of the viewport when the sidenav is in fixed
    * mode.
+   *
+   * 当侧边导航处于固定模式时，侧边导航顶部与视口顶部之间的间隙。
+   *
    */
   @Input()
   get fixedTopGap(): number { return this._fixedTopGap; }
@@ -95,6 +103,9 @@ export class MatSidenav extends MatDrawer {
   /**
    * The gap between the bottom of the sidenav and the bottom of the viewport when the sidenav is in
    * fixed mode.
+   *
+   * 当侧边导航处于固定模式时，侧边导航底部与视口底部之间的间隙。
+   *
    */
   @Input()
   get fixedBottomGap(): number { return this._fixedBottomGap; }

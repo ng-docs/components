@@ -30,15 +30,29 @@ import {
  * embedded view. Recycling cached views reduces the quantity of expensive DOM
  * inserts.
  *
+ * 当一个复制器从 {@link ViewContainerRef} 中移除时，会缓存这些复制器。当把新条目插入到容器中时，复制器会复用其中一个缓存的视图，而不是创建一个新的嵌入式视图。回收利用缓存的视图可以减少昂贵的 DOM 插入量。
+ *
  * @template T The type for the embedded view's $implicit property.
+ *
+ * 嵌入式视图的 $implicit 属性的类型。
+ *
  * @template R The type for the item in each IterableDiffer change record.
+ *
+ * 每个 IterableDiffer 更改记录中的条目类型。
+ *
  * @template C The type for the context passed to each embedded view.
+ *
+ * 传给每个嵌入式视图的上下文类型。
+ *
  */
 export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemContext<T>>
     implements _ViewRepeater<T, R, C> {
   /**
    * The size of the cache used to store unused views.
    * Setting the cache size to `0` will disable caching. Defaults to 20 views.
+   *
+   * 用于存储未用视图的缓存大小。如何将缓存大小设置为 `0` 将禁用缓存。默认为 20 个视图。
+   *
    */
   viewCacheSize: number = 20;
 
@@ -47,11 +61,18 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
    * but don't are not currently rendered. The view repeater will reuse these views rather than
    * creating brand new ones.
    *
+   * 查看缓存，用于存储以前已标记过的但当前没有渲染过的嵌入式视图实例。视图复制器会复用这些视图而不是全新的视图。
+   *
    * TODO(michaeljamesparsons) Investigate whether using a linked list would improve performance.
    */
   private _viewCache: EmbeddedViewRef<C>[] = [];
 
-  /** Apply changes to the DOM. */
+  /**
+   * Apply changes to the DOM.
+   *
+   * 把这些变化应用到 DOM 中。
+   *
+   */
   applyChanges(changes: IterableChanges<R>,
                viewContainerRef: ViewContainerRef,
                itemContextFactory: _ViewRepeaterItemContextFactory<T, R, C>,
@@ -97,6 +118,9 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
   /**
    * Inserts a view for a new item, either from the cache or by creating a new
    * one. Returns `undefined` if the item was inserted into a cached view.
+   *
+   * 为新条目插入一个视图，可能从缓存中取得，也可能创建一个新条目。如果该条目已被插入到缓存视图中，则返回 `undefined`
+   *
    */
   private _insertView(viewArgsFactory: () => _ViewRepeaterItemInsertArgs<C>, currentIndex: number,
                       viewContainerRef: ViewContainerRef,
@@ -112,13 +136,23 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
         viewArgs.templateRef, viewArgs.context, viewArgs.index);
   }
 
-  /** Detaches the view at the given index and inserts into the view cache. */
+  /**
+   * Detaches the view at the given index and inserts into the view cache.
+   *
+   * 在指定的索引处拆除视图，并把它插入到视图缓存中。
+   *
+   */
   private _detachAndCacheView(index: number, viewContainerRef: ViewContainerRef) {
     const detachedView = this._detachView(index, viewContainerRef);
     this._maybeCacheView(detachedView, viewContainerRef);
   }
 
-  /** Moves view at the previous index to the current index. */
+  /**
+   * Moves view at the previous index to the current index.
+   *
+   * 把前一个索引的视图移动到当前索引。
+   *
+   */
   private _moveView(adjustedPreviousIndex: number, currentIndex: number,
                     viewContainerRef: ViewContainerRef, value: T): EmbeddedViewRef<C> {
     const view = viewContainerRef.get(adjustedPreviousIndex!) as
@@ -131,6 +165,9 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
   /**
    * Cache the given detached view. If the cache is full, the view will be
    * destroyed.
+   *
+   * 缓存指定的已拆除视图。如果缓存已满，该视图将被销毁。
+   *
    */
   private _maybeCacheView(view: EmbeddedViewRef<C>, viewContainerRef: ViewContainerRef) {
     if (this._viewCache.length < this.viewCacheSize) {
@@ -150,7 +187,12 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
     }
   }
 
-  /** Inserts a recycled view from the cache at the given index. */
+  /**
+   * Inserts a recycled view from the cache at the given index.
+   *
+   * 在指定索引处的缓存中插入一个回收的视图。
+   *
+   */
   private _insertViewFromCache(index: number,
                                viewContainerRef: ViewContainerRef): EmbeddedViewRef<C> | null {
     const cachedView = this._viewCache.pop();
@@ -160,7 +202,12 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
     return cachedView || null;
   }
 
-  /** Detaches the embedded view at the given index. */
+  /**
+   * Detaches the embedded view at the given index.
+   *
+   * 在指定的索引处拆除嵌入式视图。
+   *
+   */
   private _detachView(index: number, viewContainerRef: ViewContainerRef): EmbeddedViewRef<C> {
     return viewContainerRef.detach(index) as EmbeddedViewRef<C>;
   }

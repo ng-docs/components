@@ -8,8 +8,17 @@
 
 /**
  * Gets text of element excluding certain selectors within the element.
+ *
+ * 获取元素的文本，但要排除元素中的某些选择器。
+ *
  * @param element Element to get text from,
+ *
+ * 要从中获取文字的元素，
+ *
  * @param excludeSelector Selector identifying which elements to exclude,
+ *
+ * 用于识别要排除的元素的选择器，
+ *
  */
 export function _getTextWithExcludedElements(element: Element, excludeSelector: string) {
   const clone = element.cloneNode(true) as Element;

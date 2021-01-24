@@ -8,7 +8,12 @@
 
 import {Directive, ElementRef} from '@angular/core';
 
-/** Base class containing all of the functionality for `MatAutocompleteOrigin`. */
+/**
+ * Base class containing all of the functionality for `MatAutocompleteOrigin`.
+ *
+ * 包含 `MatAutocompleteOrigin` 全部功能的基类。
+ *
+ */
 @Directive()
 export abstract class _MatAutocompleteOriginBase {
   constructor(
@@ -19,6 +24,9 @@ export abstract class _MatAutocompleteOriginBase {
 /**
  * Directive applied to an element to make it usable
  * as a connection point for an autocomplete panel.
+ *
+ * 指令应用于某个元素，以使其可用作自动完成面板的连接点。
+ *
  */
 @Directive({
   selector: '[matAutocompleteOrigin]',
