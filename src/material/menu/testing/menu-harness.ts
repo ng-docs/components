@@ -145,7 +145,6 @@ export class MatMenuHarness extends ContentContainerComponentHarness<string> {
   }
 }
 
-
 /** Harness for interacting with a standard mat-menu-item in tests. */
 export class MatMenuItemHarness extends ContentContainerComponentHarness<string> {
   /** The selector for the host element of a `MatMenuItem` instance. */

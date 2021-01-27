@@ -107,7 +107,6 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
   }
   private _selected: DateRange<D> | D | null;
 
-
   /**
    * The minimum selectable date.
    *

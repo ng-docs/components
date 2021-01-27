@@ -20,7 +20,6 @@ import {
 import {TemplatePortal} from '@angular/cdk/portal';
 import {MatDatepickerBase, MatDatepickerControl} from './datepicker-base';
 
-
 /**
  * Button that will close the datepicker and assign the current selection to the data model.
  *
@@ -40,7 +39,6 @@ export class MatDatepickerApply {
   }
 }
 
-
 /**
  * Button that will close the datepicker and discard the current selection.
  *
@@ -54,7 +52,6 @@ export class MatDatepickerApply {
 export class MatDatepickerCancel {
   constructor(public _datepicker: MatDatepickerBase<MatDatepickerControl<unknown>, unknown>) {}
 }
-
 
 /**
  * Container that can be used to project a row of action buttons

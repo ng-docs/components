@@ -20,7 +20,6 @@ import {
 import {coerceElement} from '@angular/cdk/coercion';
 import {EMPTY, Observable, Subject} from 'rxjs';
 
-
 /**
  * An event that is emitted when the autofill state of an input changes.
  *
@@ -44,7 +43,6 @@ export type AutofillEvent = {
   isAutofilled: boolean;
 };
 
-
 /**
  * Used to track info about currently monitored elements.
  *
@@ -56,7 +54,6 @@ type MonitoredElementInfo = {
   unlisten: () => void;
 };
 
-
 /**
  * Options to pass to the animationstart listener.
  *
@@ -64,7 +61,6 @@ type MonitoredElementInfo = {
  *
  */
 const listenerOptions = normalizePassiveListenerOptions({passive: true});
-
 
 /**
  * An injectable service that can be used to monitor the autofill state of an input.
@@ -197,7 +193,6 @@ export class AutofillMonitor implements OnDestroy {
     this._monitoredElements.forEach((_info, element) => this.stopMonitoring(element));
   }
 }
-
 
 /**
  * A directive that can be used to monitor the autofill state of an input.

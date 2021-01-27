@@ -46,7 +46,6 @@ import {take, takeUntil} from 'rxjs/operators';
 
 import {matTooltipAnimations} from './tooltip-animations';
 
-
 /**
  * Possible positions for a tooltip.
  *
@@ -176,9 +175,9 @@ export function MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(): MatTooltipDefaultOptions 
  * Directive that attaches a material design tooltip to the host element. Animates the showing and
  * hiding of a tooltip provided position (defaults to below the element).
  *
- * 把Material Design工具提示附着到宿主元素上的指令。会在工具提示指定的位置（默认在元素下方）进行动画显示和隐藏。
+ * 把 Material Design 工具提示附着到宿主元素上的指令。会在工具提示指定的位置（默认在元素下方）进行动画显示和隐藏。
  *
- * https://material.io/design/components/tooltips.html
+ * <https://material.io/design/components/tooltips.html>
  */
 @Directive({
   selector: '[matTooltip]',
@@ -1064,10 +1063,9 @@ export class TooltipComponent implements OnDestroy {
   /**
    * Interactions on the HTML body should close the tooltip immediately as defined in the
    * material design spec.
-   * https://material.io/design/components/tooltips.html#behavior
+   * <https://material.io/design/components/tooltips.html#behavior>
    *
-   * HTML 正文中的交互应该立即关闭工具提示，就像在Material Design规范中定义的那样。 <https://material.io/design/components/tooltips.html#behavior>
-   *
+   * HTML 正文中的交互应该立即关闭工具提示，就像在 Material Design 规范中定义的那样。 <https://material.io/design/components/tooltips.html#behavior>
    */
   _handleBodyInteraction(): void {
     if (this._closeOnInteraction) {

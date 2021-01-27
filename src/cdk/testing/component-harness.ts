@@ -100,7 +100,6 @@ export type LocatorFnResult<T extends (HarnessQuery<any> | string)[]> = {
       never;
 }[number];
 
-
 /**
  * Interface used to load ComponentHarness objects. This interface is used by test authors to
  * instantiate `ComponentHarness`es.
@@ -225,20 +224,19 @@ export interface LocatorFactory {
    *
    * 一系列查询，用于指定要搜索的测试工具和元素：
    *
-   *   - A `string` searches for elements matching the CSS selector specified by the string.
+   * - A `string` searches for elements matching the CSS selector specified by the string.
    *
-   *     `string` 搜索匹配字符串指定的 CSS 选择器的元素。
+   *   `string` 搜索匹配字符串指定的 CSS 选择器的元素。
    *
-   *   - A `ComponentHarness` constructor searches for `ComponentHarness` instances matching the
-   *     given class.
+   * - A `ComponentHarness` constructor searches for `ComponentHarness` instances matching the
+   *   given class.
    *
-   *     `ComponentHarness` 构造函数会搜索与指定类匹配的 `ComponentHarness` 实例
+   *   `ComponentHarness` 构造函数会搜索与指定类匹配的 `ComponentHarness` 实例
    *
-   *   - A `HarnessPredicate` searches for `ComponentHarness` instances matching the given
-   *     predicate.
+   * - A `HarnessPredicate` searches for `ComponentHarness` instances matching the given
+   *    predicate.
    *
-   *    `HarnessPredicate` 搜索满足指定谓词的 `ComponentHarness` 实例
-   *
+   *   `HarnessPredicate` 搜索满足指定谓词的 `ComponentHarness` 实例
    * @return An asynchronous locator function that searches for and returns a `Promise` for the
    *   first element or harness matching the given search criteria. Matches are ordered first by
    *   order in the DOM, and second by order in the queries list. If no matches are found, the
@@ -263,7 +261,6 @@ export interface LocatorFactory {
    * - `await lf.locatorFor('span')()` throws because the `Promise` rejects.
    *
    *   `await lf.locatorFor('span')()` 会抛出错误，因为 `Promise` 拒绝了。
-   *
    */
   locatorFor<T extends (HarnessQuery<any> | string)[]>(...queries: T):
       AsyncFactoryFn<LocatorFnResult<T>>;
@@ -500,7 +497,7 @@ export abstract class ComponentHarness {
   /**
    * Gets a `Promise` for the `TestElement` representing the host element of the component.
    *
-   * 获取一个代表该组件宿主元素的 `TestElement`  型`Promise`。
+   * 获取一个代表该组件宿主元素的 `TestElement`  型 `Promise`。
    *
    */
   async host(): Promise<TestElement> {
@@ -737,7 +734,6 @@ export abstract class ComponentHarness {
     return this.locatorFactory.waitForTasksOutsideAngular();
   }
 }
-
 
 /**
  * Base class for component harnesses that authors should extend if they anticipate that consumers

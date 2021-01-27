@@ -11,7 +11,6 @@ import {OverlayContainer} from './overlay-container';
 import {DOCUMENT} from '@angular/common';
 import {Platform} from '@angular/cdk/platform';
 
-
 /**
  * Alternative to OverlayContainer that supports correct displaying of overlay elements in
  * Fullscreen mode

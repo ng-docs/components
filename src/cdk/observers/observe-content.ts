@@ -42,7 +42,6 @@ export class MutationObserverFactory {
   }
 }
 
-
 /**
  * An injectable service that allows watching elements for changes to their content.
  *
@@ -166,7 +165,6 @@ export class ContentObserver implements OnDestroy {
   }
 }
 
-
 /**
  * Directive that triggers a callback whenever the content of
  * its associated element has changed.
@@ -253,7 +251,6 @@ export class CdkObserveContent implements AfterContentInit, OnDestroy {
   static ngAcceptInputType_disabled: BooleanInput;
   static ngAcceptInputType_debounce: NumberInput;
 }
-
 
 @NgModule({
   exports: [CdkObserveContent],

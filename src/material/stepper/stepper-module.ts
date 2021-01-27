@@ -20,7 +20,6 @@ import {MatStepperNext, MatStepperPrevious} from './stepper-button';
 import {MatStepperIcon} from './stepper-icon';
 import {MAT_STEPPER_INTL_PROVIDER} from './stepper-intl';
 
-
 @NgModule({
   imports: [
     MatCommonModule,

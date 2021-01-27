@@ -12,7 +12,7 @@ import {ChipInputHarnessFilters} from './chip-harness-filters';
 /**
  * Harness for interacting with a standard Material chip inputs in tests.
  *
- * 在测试中用来与标准Material纸片组件交互的测试工具。
+ * 在测试中用来与标准 Material 纸片组件交互的测试工具。
  *
  */
 export class MatChipInputHarness extends ComponentHarness {

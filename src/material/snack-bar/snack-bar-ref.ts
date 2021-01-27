@@ -10,7 +10,6 @@ import {OverlayRef} from '@angular/cdk/overlay';
 import {Observable, Subject} from 'rxjs';
 import {_SnackBarContainer} from './snack-bar-container';
 
-
 /**
  * Event that is emitted when a snack bar is dismissed.
  *
@@ -134,7 +133,6 @@ export class MatSnackBarRef<T> {
       this._onAction.complete();
     }
   }
-
 
   /**
    * Marks the snackbar action clicked.

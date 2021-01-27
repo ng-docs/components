@@ -33,7 +33,6 @@ import {
   MAT_EXPANSION_PANEL_DEFAULT_OPTIONS,
 } from './expansion-panel';
 
-
 /**
  * Header element of a `<mat-expansion-panel>`.
  *

@@ -17,7 +17,6 @@ import {
   CdkOverlayOrigin,
 } from './overlay-directives';
 
-
 @NgModule({
   imports: [BidiModule, PortalModule, ScrollingModule],
   exports: [CdkConnectedOverlay, CdkOverlayOrigin, ScrollingModule],

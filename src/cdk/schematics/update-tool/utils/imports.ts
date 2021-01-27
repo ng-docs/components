@@ -16,7 +16,6 @@ export interface Import {
   moduleName: string;
 }
 
-
 /** Resolves the import of the specified identifier. */
 export function getImportOfIdentifier(node: ts.Identifier, typeChecker: ts.TypeChecker): Import|
     null {
@@ -78,7 +77,7 @@ function getSpecificImportOfIdentifier(node: ts.Identifier, typeChecker: ts.Type
 
 /**
  * Resolves the import of the specified identifier. Expects the identifier to
- * resolve to a namespaced import declaration. e.g. "import * as core from ...".
+ * resolve to a namespaced import declaration. e.g. "import \* as core from ...".
  */
 function getImportOfNamespacedIdentifier(node: ts.Identifier, typeChecker: ts.TypeChecker): string|
     null {
@@ -99,7 +98,6 @@ function getImportOfNamespacedIdentifier(node: ts.Identifier, typeChecker: ts.Ty
 
   return importDecl.moduleSpecifier.text;
 }
-
 
 /**
  * Gets the root identifier of a qualified type chain. For example: "core.GestureConfig"

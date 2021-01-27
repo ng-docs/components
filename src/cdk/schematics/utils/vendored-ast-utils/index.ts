@@ -104,7 +104,6 @@ export function insertImport(source: ts.SourceFile, fileToEdit: string, symbolNa
   );
 }
 
-
 /**
  * Find all nodes from the AST in the subtree of node of SyntaxKind kind.
  * @param node
@@ -112,7 +111,7 @@ export function insertImport(source: ts.SourceFile, fileToEdit: string, symbolNa
  * @param max The maximum number of items to return.
  * @param recursive Continue looking for nodes of kind recursive until end
  * the last child even when node of kind has been found.
- * @return all nodes of kind, or [] if none is found
+ * @return all nodes of kind, or \[] if none is found
  */
 export function findNodes(node: ts.Node, kind: ts.SyntaxKind, max = Infinity, recursive = false): ts.Node[] {
   if (!node || max == 0) {
@@ -141,7 +140,6 @@ export function findNodes(node: ts.Node, kind: ts.SyntaxKind, max = Infinity, re
 
   return arr;
 }
-
 
 /**
  * Get all the nodes from a source.
@@ -180,7 +178,6 @@ export function findNode(node: ts.Node, kind: ts.SyntaxKind, text: string): ts.N
   return foundNode;
 }
 
-
 /**
  * Helper for sorting nodes.
  * @return function to sort nodes in increasing order of position in sourceFile
@@ -188,7 +185,6 @@ export function findNode(node: ts.Node, kind: ts.SyntaxKind, text: string): ts.N
 function nodesByPosition(first: ts.Node, second: ts.Node): number {
   return first.getStart() - second.getStart();
 }
-
 
 /**
  * Insert `toInsert` after the last occurence of `ts.SyntaxKind[nodes[i].kind]`

@@ -7,7 +7,6 @@
  */
 import {InjectionToken} from '@angular/core';
 
-
 /**
  * Default `mat-slide-toggle` options that can be overridden.
  *

@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-
 // Helper type that ignores `readonly` properties. This is used in
 // `extendStyles` to ignore the readonly properties on CSSStyleDeclaration
 // since we won't be touching those anyway.
@@ -45,7 +44,6 @@ export function extendStyles(
 
   return dest;
 }
-
 
 /**
  * Toggles whether the native drag interactions should be enabled for an element.

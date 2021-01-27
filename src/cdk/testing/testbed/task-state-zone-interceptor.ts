@@ -27,7 +27,7 @@ type PatchedProxyZone = ProxyZone & {
  * Interceptor that can be set up in a `ProxyZone` instance. The interceptor
  * will keep track of the task state and emit whenever the state changes.
  *
- * This serves as a workaround for https://github.com/angular/angular/issues/32896.
+ * This serves as a workaround for <https://github.com/angular/angular/issues/32896>.
  */
 export class TaskStateZoneInterceptor {
   /** Subject that can be used to emit a new state change. */

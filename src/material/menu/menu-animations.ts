@@ -18,10 +18,9 @@ import{
 /**
  * Animations used by the mat-menu component.
  * Animation duration and timing values are based on:
- * https://material.io/guidelines/components/menus.html#menus-usage
+ * <https://material.io/guidelines/components/menus.html#menus-usage>
  *
- * 供 mat-menu 组件使用的动画。动画时长和时间值基于：https://material.io/guidelines/components/menus.html#menus-usage
- *
+ * 供 mat-menu 组件使用的动画。动画时长和时间值基于：<https://material.io/guidelines/components/menus.html#menus-usage>
  * @docs-private
  */
 export const matMenuAnimations: {
@@ -47,7 +46,6 @@ export const matMenuAnimations: {
     }))),
     transition('* => void', animate('100ms 25ms linear', style({opacity: 0})))
   ]),
-
 
   /**
    * This animation fades in the background color and content of the menu panel

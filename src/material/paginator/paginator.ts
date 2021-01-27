@@ -92,7 +92,6 @@ export class PageEvent {
   length: number;
 }
 
-
 /**
  * Object that can be used to configure the default options for the paginator module.
  *
@@ -250,7 +249,6 @@ export abstract class _MatPaginatorBase<O extends {
     this._hidePageSize = coerceBooleanProperty(value);
   }
   private _hidePageSize = false;
-
 
   /**
    * Whether to show the first/last buttons UI to the user.
@@ -416,7 +414,6 @@ export abstract class _MatPaginatorBase<O extends {
     return Math.ceil(this.length / this.pageSize);
   }
 
-
   /**
    * Changes the page size so that the first item displayed on the page will still be
    * displayed using the new page size.
@@ -511,7 +508,6 @@ export abstract class _MatPaginatorBase<O extends {
   static ngAcceptInputType_showFirstLastButtons: BooleanInput;
   static ngAcceptInputType_disabled: BooleanInput;
 }
-
 
 /**
  * Component to provide navigation between paged information. Displays the size of the current

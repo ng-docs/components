@@ -52,7 +52,6 @@ import {
 import {matDrawerAnimations} from './drawer-animations';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
-
 /**
  * Throws an exception when two MatDrawer are matching the same position.
  *
@@ -63,7 +62,6 @@ import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 export function throwMatDuplicatedDrawerError(position: string) {
   throw Error(`A drawer was already declared for 'position="${position}"'`);
 }
-
 
 /**
  * Result of the toggle promise that indicates the state of the drawer.
@@ -92,7 +90,6 @@ export const MAT_DRAWER_DEFAULT_AUTOSIZE =
       providedIn: 'root',
       factory: MAT_DRAWER_DEFAULT_AUTOSIZE_FACTORY,
     });
-
 
 /**
  * Used to provide a drawer container to a drawer while avoiding circular references.
@@ -135,7 +132,6 @@ export class MatDrawerContent extends CdkScrollable implements AfterContentInit 
     });
   }
 }
-
 
 /**
  * This component corresponds to a drawer that can be opened on the drawer container.
@@ -644,7 +640,6 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
   static ngAcceptInputType_autoFocus: BooleanInput;
   static ngAcceptInputType_opened: BooleanInput;
 }
-
 
 /**
  * `<mat-drawer-container>` component.

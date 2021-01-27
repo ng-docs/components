@@ -8,7 +8,6 @@
 
 import {Directive, TemplateRef} from '@angular/core';
 
-
 /**
  * Context provided to the tree node component.
  *

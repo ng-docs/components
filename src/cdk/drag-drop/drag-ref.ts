@@ -1581,7 +1581,6 @@ export class DragRef<T = any> {
     return {x, y};
   }
 
-
   /**
    * Gets the pointer position on the page, accounting for any position constraints.
    *
@@ -1613,7 +1612,6 @@ export class DragRef<T = any> {
 
     return {x, y};
   }
-
 
   /**
    * Updates the current drag delta, based on the user's current pointer position on the page.

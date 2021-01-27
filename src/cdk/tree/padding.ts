@@ -59,7 +59,7 @@ export class CdkTreeNodePadding<T, K = T> implements OnDestroy {
   /**
    * The level of depth of the tree node. The padding will be `level * indent` pixels.
    *
-   * 树节点的深度级别。其衬距将是 `级别 * 缩进值` 像素。
+   * 树节点的深度级别。其衬距将是 ` 级别 * 缩进值 ` 像素。
    *
    */
   @Input('cdkTreeNodePadding')
@@ -71,7 +71,7 @@ export class CdkTreeNodePadding<T, K = T> implements OnDestroy {
    * The indent for each level. Can be a number or a CSS string.
    * Default number 40px from material design menu sub-menu spec.
    *
-   * 每个级别的缩进。可以是数字或 CSS 字符串。默认值为 40px，来自Material Design菜单中的子菜单规范。
+   * 每个级别的缩进。可以是数字或 CSS 字符串。默认值为 40px，来自 Material Design 菜单中的子菜单规范。
    *
    */
   @Input('cdkTreeNodePaddingIndent')

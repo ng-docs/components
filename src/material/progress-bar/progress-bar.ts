@@ -29,7 +29,6 @@ import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {fromEvent, Observable, Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 
-
 // TODO(josephperrott): Benchpress tests.
 // TODO(josephperrott): Add ARIA attributes for progress bar "for".
 

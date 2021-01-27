@@ -1398,7 +1398,6 @@ export class DropListRef<T = any> {
   }
 }
 
-
 /**
  * Finds the index of an item that matches a predicate function. Used as an equivalent
  * of `Array.prototype.findIndex` which isn't part of the standard Google typings.

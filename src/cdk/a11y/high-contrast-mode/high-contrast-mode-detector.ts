@@ -10,7 +10,6 @@ import {Platform} from '@angular/cdk/platform';
 import {DOCUMENT} from '@angular/common';
 import {Inject, Injectable} from '@angular/core';
 
-
 /** Set of possible high-contrast mode backgrounds. */
 export const enum HighContrastMode {
   NONE,

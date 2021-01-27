@@ -59,7 +59,6 @@ function rangesEqual(r1: ListRange, r2: ListRange): boolean {
 const SCROLL_SCHEDULER =
     typeof requestAnimationFrame !== 'undefined' ? animationFrameScheduler : asapScheduler;
 
-
 /**
  * A viewport that virtualizes its scrolling with the help of `CdkVirtualForOf`.
  *

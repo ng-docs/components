@@ -21,7 +21,6 @@ import {
 } from '@angular/core';
 import {CanColor, CanColorCtor, mixinColor} from '@angular/material/core';
 
-
 // Boilerplate for applying mixins to MatToolbar.
 /** @docs-private */
 class MatToolbarBase {

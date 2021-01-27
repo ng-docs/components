@@ -51,11 +51,9 @@ import {Platform} from '@angular/cdk/platform';
 import {NgControl} from '@angular/forms';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
-
 let nextUniqueId = 0;
 const floatingLabelScale = 0.75;
 const outlineGapPadding = 5;
-
 
 /**
  * Boilerplate for applying mixins to MatFormField.

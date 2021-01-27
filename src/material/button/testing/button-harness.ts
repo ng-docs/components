@@ -10,7 +10,6 @@ import {ContentContainerComponentHarness, HarnessPredicate} from '@angular/cdk/t
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {ButtonHarnessFilters} from './button-harness-filters';
 
-
 /**
  * Harness for interacting with a standard mat-button in tests.
  *

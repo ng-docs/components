@@ -14,7 +14,6 @@ import {
 } from './grid-tile';
 import {MatGridList} from './grid-list';
 
-
 @NgModule({
   imports: [MatLineModule, MatCommonModule],
   exports: [

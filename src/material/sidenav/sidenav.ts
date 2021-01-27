@@ -30,7 +30,6 @@ import {
 } from '@angular/cdk/coercion';
 import {ScrollDispatcher} from '@angular/cdk/scrolling';
 
-
 @Component({
   selector: 'mat-sidenav-content',
   template: '<ng-content></ng-content>',
@@ -52,7 +51,6 @@ export class MatSidenavContent extends MatDrawerContent {
     super(changeDetectorRef, container, elementRef, scrollDispatcher, ngZone);
   }
 }
-
 
 @Component({
   selector: 'mat-sidenav',
@@ -116,7 +114,6 @@ export class MatSidenav extends MatDrawer {
   static ngAcceptInputType_fixedTopGap: NumberInput;
   static ngAcceptInputType_fixedBottomGap: NumberInput;
 }
-
 
 @Component({
   selector: 'mat-sidenav-container',

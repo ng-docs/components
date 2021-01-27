@@ -18,7 +18,6 @@ import {
 } from './autocomplete-trigger';
 import {MatAutocompleteOrigin} from './autocomplete-origin';
 
-
 @NgModule({
   imports: [
     OverlayModule,

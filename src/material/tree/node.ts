@@ -51,7 +51,6 @@ const _MatTreeNodeMixinBase: HasTabIndexCtor & CanDisableCtor & typeof CdkTreeNo
 export class MatTreeNode<T, K = T> extends _MatTreeNodeMixinBase<T, K>
     implements CanDisable, DoCheck, HasTabIndex, OnInit, OnDestroy {
 
-
   constructor(protected _elementRef: ElementRef<HTMLElement>,
               protected _tree: CdkTree<T, K>,
               @Attribute('tabindex') tabIndex: string) {

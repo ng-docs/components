@@ -25,17 +25,15 @@ import {coerceElement} from '@angular/cdk/coercion';
 import {DOCUMENT} from '@angular/common';
 import {isFakeMousedownFromScreenReader} from '../fake-mousedown';
 
-
 // This is the value used by AngularJS Material. Through trial and error (on iPhone 6S) they found
 // that a value of around 650ms seems appropriate.
 export const TOUCH_BUFFER_MS = 650;
-
 
 export type FocusOrigin = 'touch' | 'mouse' | 'keyboard' | 'program' | null;
 
 /**
  * Corresponds to the options that can be passed to the native `focus` event.
- * via https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
+ * via <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus>
  */
 export interface FocusOptions {
   /** Whether the browser should scroll to the element when it is focused. */
@@ -80,7 +78,6 @@ const captureEventListenerOptions = normalizePassiveListenerOptions({
   passive: true,
   capture: true
 });
-
 
 /** Monitors mouse and keyboard events to determine the cause of focus events. */
 @Injectable({providedIn: 'root'})
@@ -579,7 +576,6 @@ function getTarget(event: Event): HTMLElement|null {
   // point to the shadow root so we have to use `composedPath` instead.
   return (event.composedPath ? event.composedPath()[0] : event.target) as HTMLElement | null;
 }
-
 
 /**
  * Directive that determines how a particular element was focused (via keyboard, mouse, touch, or

@@ -10,7 +10,6 @@ import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {SlideToggleHarnessFilters} from './slide-toggle-harness-filters';
 
-
 /** Harness for interacting with a standard mat-slide-toggle in tests. */
 export class MatSlideToggleHarness extends ComponentHarness {
   /** The selector for the host element of a `MatSlideToggle` instance. */

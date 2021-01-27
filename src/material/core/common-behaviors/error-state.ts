@@ -11,7 +11,6 @@ import {Subject} from 'rxjs';
 import {ErrorStateMatcher} from '../error/error-options';
 import {Constructor} from './constructor';
 
-
 /** @docs-private */
 export interface CanUpdateErrorState {
   updateErrorState(): void;

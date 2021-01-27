@@ -12,7 +12,6 @@ import {merge, Observable, Subject} from 'rxjs';
 import {filter, take} from 'rxjs/operators';
 import {MatBottomSheetContainer} from './bottom-sheet-container';
 
-
 /**
  * Reference to a bottom sheet dispatched from the bottom sheet service.
  *

@@ -12,7 +12,6 @@ import {combineLatest, concat, Observable, Observer, Subject} from 'rxjs';
 import {debounceTime, map, skip, startWith, take, takeUntil} from 'rxjs/operators';
 import {MediaMatcher} from './media-matcher';
 
-
 /**
  * The current state of a layout breakpoint.
  *

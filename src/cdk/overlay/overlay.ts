@@ -25,7 +25,6 @@ import {OverlayRef} from './overlay-ref';
 import {OverlayPositionBuilder} from './position/overlay-position-builder';
 import {ScrollStrategyOptions} from './scroll/index';
 
-
 /**
  * Next overlay unique ID.
  *

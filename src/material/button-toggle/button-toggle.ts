@@ -39,7 +39,6 @@ import {
   CanDisableRippleCtor,
 } from '@angular/material/core';
 
-
 /**
  *
  * @deprecated No longer used.

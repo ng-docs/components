@@ -15,7 +15,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {SimpleSnackBar} from './simple-snack-bar';
 import {MatSnackBarContainer} from './snack-bar-container';
 
-
 @NgModule({
   imports: [
     OverlayModule,

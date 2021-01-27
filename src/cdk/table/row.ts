@@ -31,7 +31,7 @@ import {CDK_TABLE} from './tokens';
  * The row template that can be used by the mat-table. Should not be used outside of the
  * material library.
  *
- * 供 mat-table 使用的行模板。不应该在Material库之外使用。
+ * 供 mat-table 使用的行模板。不应该在 Material 库之外使用。
  *
  */
 export const CDK_ROW_TEMPLATE = `<ng-container cdkCellOutlet></ng-container>`;
@@ -414,7 +414,6 @@ export class CdkCellOutlet implements OnDestroy {
 })
 export class CdkHeaderRow {
 }
-
 
 /**
  * Footer template container that contains the cell outlet. Adds the right class and role.

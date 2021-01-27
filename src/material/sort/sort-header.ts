@@ -30,7 +30,6 @@ import {SortDirection} from './sort-direction';
 import {getSortHeaderNotContainedWithinSortError} from './sort-errors';
 import {MatSortHeaderIntl} from './sort-header-intl';
 
-
 // Boilerplate for applying mixins to the sort header.
 /** @docs-private */
 class MatSortHeaderBase {}

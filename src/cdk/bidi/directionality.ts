@@ -9,9 +9,7 @@
 import {EventEmitter, Inject, Injectable, Optional, OnDestroy} from '@angular/core';
 import {DIR_DOCUMENT} from './dir-document-token';
 
-
 export type Direction = 'ltr' | 'rtl';
-
 
 /**
  * The directionality (LTR / RTL) context for the application (or a subtree of it).

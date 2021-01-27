@@ -46,7 +46,6 @@ import {startWith} from 'rxjs/operators';
 import {MAT_TAB_GROUP, MatTab} from './tab';
 import {MAT_TABS_CONFIG, MatTabsConfig} from './tab-config';
 
-
 /**
  * Used to generate unique ID's for each tab component
  *
@@ -537,10 +536,9 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
 /**
  * Material design tab-group component. Supports basic tab pairs (label + content) and includes
  * animated ink-bar, keyboard navigation, and screen reader.
- * See: https://material.io/design/components/tabs.html
+ * See: <https://material.io/design/components/tabs.html>
  *
- * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：https://material.io/design/components/tabs.html
- *
+ * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：<https://material.io/design/components/tabs.html>
  */
 @Component({
   selector: 'mat-tab-group',

@@ -21,7 +21,6 @@ import {
 } from './flexible-connected-position-strategy';
 import {GlobalPositionStrategy} from './global-position-strategy';
 
-
 /** Builder for overlay position strategy. */
 @Injectable({providedIn: 'root'})
 export class OverlayPositionBuilder {

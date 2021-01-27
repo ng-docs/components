@@ -9,7 +9,6 @@
 import {Observable, Subscriber} from 'rxjs';
 import {Constructor} from './constructor';
 
-
 /**
  * Mixin that adds an initialized property to a directive which, when subscribed to, will emit a
  * value once markInitialized has been called, which should be done during the ngOnInit function.
@@ -41,14 +40,14 @@ export function mixinInitialized<T extends Constructor<{}>>(base: T):
 
     /**
      * List of subscribers that subscribed before the directive was initialized. Should be notified
-     * during _markInitialized. Set to null after pending subscribers are notified, and should
+     * during \_markInitialized. Set to null after pending subscribers are notified, and should
      * not expect to be populated after.
      */
     _pendingSubscribers: Subscriber<void>[] | null = [];
 
     /**
      * Observable stream that emits when the directive initializes. If already initialized, the
-     * subscriber is stored to be notified once _markInitialized is called.
+     * subscriber is stored to be notified once \_markInitialized is called.
      */
     initialized = new Observable<void>(subscriber => {
       // If initialized, immediately notify the subscriber. Otherwise store the subscriber to notify

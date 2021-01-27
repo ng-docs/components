@@ -25,7 +25,6 @@ import {MatStepperIconContext} from './stepper-icon';
 import {CdkStepHeader, StepState} from '@angular/cdk/stepper';
 import {CanColorCtor, mixinColor, CanColor} from '@angular/material/core';
 
-
 // Boilerplate for applying mixins to MatStepHeader.
 /** @docs-private */
 class MatStepHeaderBase extends CdkStepHeader {

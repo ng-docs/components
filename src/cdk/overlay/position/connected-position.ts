@@ -13,7 +13,6 @@ export type HorizontalConnectionPos = 'start' | 'center' | 'end';
 /** Vertical dimension of a connection point on the perimeter of the origin or overlay element. */
 export type VerticalConnectionPos = 'top' | 'center' | 'bottom';
 
-
 /** A connection point on the origin element. */
 export interface OriginConnectionPosition {
   originX: HorizontalConnectionPos;
@@ -64,20 +63,26 @@ export class ConnectionPositionPair {
  * The overlay and origin are outside view if there is no overlap between their bounding client
  * rectangle and any one of the strategy's Scrollable's bounding client rectangle.
  *
- *       -----------                    -----------
- *       | outside |                    | clipped |
- *       |  view   |              --------------------------
- *       |         |              |     |         |        |
- *       ----------               |     -----------        |
- *  --------------------------    |                        |
- *  |                        |    |      Scrollable        |
- *  |                        |    |                        |
- *  |                        |     --------------------------
- *  |      Scrollable        |
- *  |                        |
- *  --------------------------
+ * ```
+ *   -----------                    -----------
+ *   | outside |                    | clipped |
+ *   |  view   |              --------------------------
+ *   |         |              |     |         |        |
+ *   ----------               |     -----------        |
+ * ```
  *
- *  @docs-private
+ *  \--------------------------    \|                        \|
+ *  |                        |    |      Scrollable        |
+ *  \|                        \|    \|                        \|
+ *  \|                        \|     --------------------------
+ *  |      Scrollable        |
+ *  \|                        \|
+ *
+ * \-------------------------- | | | | | Scrollable | | | | | | | -------------------------- | Scrollable | | |
+ *
+ *
+ * * * *
+ * @docs-private
  */
 export class ScrollingVisibility {
   isOriginClipped: boolean;

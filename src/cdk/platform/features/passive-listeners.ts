@@ -11,7 +11,7 @@ let supportsPassiveEvents: boolean;
 
 /**
  * Checks whether the user's browser supports passive event listeners.
- * See: https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+ * See: <https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md>
  */
 export function supportsPassiveEventListeners(): boolean {
   if (supportsPassiveEvents == null && typeof window !== 'undefined') {

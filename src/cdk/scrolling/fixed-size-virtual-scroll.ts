@@ -13,7 +13,6 @@ import {distinctUntilChanged} from 'rxjs/operators';
 import {VIRTUAL_SCROLL_STRATEGY, VirtualScrollStrategy} from './virtual-scroll-strategy';
 import {CdkVirtualScrollViewport} from './virtual-scroll-viewport';
 
-
 /**
  * Virtual scrolling strategy for lists with items of known fixed size.
  *
@@ -277,7 +276,6 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
   }
 }
 
-
 /**
  * Provider factory for `FixedSizeVirtualScrollStrategy` that simply extracts the already created
  * `FixedSizeVirtualScrollStrategy` from the given directive.
@@ -293,7 +291,6 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
 export function _fixedSizeVirtualScrollStrategyFactory(fixedSizeDir: CdkFixedSizeVirtualScroll) {
   return fixedSizeDir._scrollStrategy;
 }
-
 
 /**
  * A virtual scroll strategy that supports fixed-size items.

@@ -11,7 +11,6 @@ import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {DatepickerToggleHarnessFilters} from './datepicker-harness-filters';
 import {DatepickerTriggerHarnessBase} from './datepicker-trigger-harness-base';
 
-
 /** Harness for interacting with a standard Material datepicker toggle in tests. */
 export class MatDatepickerToggleHarness extends DatepickerTriggerHarnessBase {
   static hostSelector = '.mat-datepicker-toggle';

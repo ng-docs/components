@@ -23,7 +23,6 @@ import {
 import {DOCUMENT} from '@angular/common';
 import {BasePortalOutlet, ComponentPortal, Portal, TemplatePortal, DomPortal} from './portal';
 
-
 /**
  * Directive version of a `TemplatePortal`. Because the directive *is* a TemplatePortal,
  * the directive instance itself can be attached to a host, enabling declarative use of portals.
@@ -67,7 +66,6 @@ export class TemplatePortalDirective extends CdkPortal {}
  *
  */
 export type CdkPortalOutletAttachedRef = ComponentRef<any> | EmbeddedViewRef<any> | null;
-
 
 /**
  * Directive version of a PortalOutlet. Because the directive *is* a PortalOutlet, portals can be
@@ -327,7 +325,6 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
   }]
 })
 export class PortalHostDirective extends CdkPortalOutlet {}
-
 
 @NgModule({
   exports: [CdkPortal, CdkPortalOutlet, TemplatePortalDirective, PortalHostDirective],

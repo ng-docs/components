@@ -22,7 +22,6 @@ import {
   _ViewRepeaterOperation
 } from './view-repeater';
 
-
 /**
  * A repeater that caches views when they are removed from a
  * {@link ViewContainerRef}. When new items are inserted into the container,

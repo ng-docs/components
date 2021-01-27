@@ -23,7 +23,7 @@ export class MatTreeNodePadding<T, K = T> extends CdkTreeNodePadding<T, K> {
   /**
    * The level of depth of the tree node. The padding will be `level * indent` pixels.
    *
-   * 树节点的深度级别。衬距将是`级别 * 缩进值`像素。
+   * 树节点的深度级别。衬距将是 ` 级别 * 缩进值 ` 像素。
    *
    */
   @Input('matTreeNodePadding')
@@ -33,7 +33,7 @@ export class MatTreeNodePadding<T, K = T> extends CdkTreeNodePadding<T, K> {
   /**
    * The indent for each level. Default number 40px from material design menu sub-menu spec.
    *
-   * 每个级别的缩进。默认值是 40px，来自Material Design菜单中的子菜单规范。
+   * 每个级别的缩进。默认值是 40px，来自 Material Design 菜单中的子菜单规范。
    *
    */
   @Input('matTreeNodePaddingIndent')

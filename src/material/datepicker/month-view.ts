@@ -53,9 +53,7 @@ import {
   MAT_DATE_RANGE_SELECTION_STRATEGY,
 } from './date-range-selection-strategy';
 
-
 const DAYS_PER_WEEK = 7;
-
 
 /**
  * An internal component used to display a single month in the datepicker.

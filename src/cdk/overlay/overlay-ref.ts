@@ -20,7 +20,6 @@ import {OverlayReference} from './overlay-reference';
 import {PositionStrategy} from './position/position-strategy';
 import {ScrollStrategy} from './scroll';
 
-
 /**
  * An object where all of its properties cannot be written.
  *
@@ -692,7 +691,6 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     }
   }
 }
-
 
 /**
  * Size properties for an overlay.

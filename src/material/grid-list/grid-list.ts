@@ -31,7 +31,6 @@ import {Directionality} from '@angular/cdk/bidi';
 import {coerceNumberProperty, NumberInput} from '@angular/cdk/coercion';
 import {MAT_GRID_LIST, MatGridListBase} from './grid-list-base';
 
-
 // TODO(kara): Conditional (responsive) column count / row size.
 // TODO(kara): Re-layout on window resize / media change (debounced).
 // TODO(kara): gridTileHeader and gridTileFooter.
@@ -230,7 +229,6 @@ export class MatGridList implements MatGridListBase, OnInit, AfterContentChecked
     if (!this._tileCoordinator) {
       this._tileCoordinator = new TileCoordinator();
     }
-
 
     const tracker = this._tileCoordinator;
     const tiles = this._tiles.filter(tile => !tile._gridList || tile._gridList === this);

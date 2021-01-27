@@ -28,7 +28,7 @@ export abstract class BaseTreeControl<T, K = T> implements TreeControl<T, K> {
    * Returns the identifier by which a dataNode should be tracked, should its
    * reference change.
    *
-   * Similar to trackBy for *ngFor
+   * Similar to trackBy for \*ngFor
    */
   trackBy?: (dataNode: T) => K;
 

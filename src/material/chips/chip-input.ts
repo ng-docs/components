@@ -13,7 +13,6 @@ import {MatChipsDefaultOptions, MAT_CHIPS_DEFAULT_OPTIONS} from './chip-default-
 import {MatChipList} from './chip-list';
 import {MatChipTextControl} from './chip-text-control';
 
-
 /**
  * Represents an input event on a `matChipInput`.
  *

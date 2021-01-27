@@ -322,7 +322,6 @@ export const MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER: FactoryProvider = {
   useFactory: MAT_SINGLE_DATE_SELECTION_MODEL_FACTORY,
 };
 
-
 /** @docs-private */
 export function MAT_RANGE_DATE_SELECTION_MODEL_FACTORY(
     parent: MatSingleDateSelectionModel<unknown>, adapter: DateAdapter<unknown>) {

@@ -11,7 +11,6 @@ import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {MatButtonToggleAppearance} from '@angular/material/button-toggle';
 import {ButtonToggleHarnessFilters} from './button-toggle-harness-filters';
 
-
 /**
  * Harness for interacting with a standard mat-button-toggle in tests.
  *

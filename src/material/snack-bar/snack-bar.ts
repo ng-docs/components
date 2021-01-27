@@ -29,7 +29,6 @@ import {MatSnackBarContainer, _SnackBarContainer} from './snack-bar-container';
 import {MatSnackBarModule} from './snack-bar-module';
 import {MatSnackBarRef} from './snack-bar-ref';
 
-
 /**
  * Injection token that can be used to specify default snack bar.
  *

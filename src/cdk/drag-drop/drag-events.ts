@@ -118,7 +118,6 @@ export interface CdkDragExit<T = any, I = T> {
   item: CdkDrag<I>;
 }
 
-
 /**
  * Event emitted when the user drops a draggable item inside a drop container.
  *

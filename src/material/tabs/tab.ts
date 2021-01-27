@@ -29,7 +29,6 @@ import {Subject} from 'rxjs';
 import {MAT_TAB_CONTENT} from './tab-content';
 import {MAT_TAB_LABEL, MatTabLabel} from './tab-label';
 
-
 // Boilerplate for applying mixins to MatTab.
 /** @docs-private */
 class MatTabBase {}

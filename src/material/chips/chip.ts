@@ -46,7 +46,6 @@ import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {Subject} from 'rxjs';
 import {take} from 'rxjs/operators';
 
-
 /**
  * Represents an event fired on an individual `mat-chip`.
  *
@@ -149,11 +148,10 @@ export class MatChipAvatar {}
 })
 export class MatChipTrailingIcon {}
 
-
 /**
  * Material design styled Chip component. Used inside the MatChipList component.
  *
- * Material Design风格的纸片组件。在 MatChipList 组件中使用。
+ * Material Design 风格的纸片组件。在 MatChipList 组件中使用。
  *
  */
 @Directive({
@@ -632,15 +630,16 @@ export class MatChip extends _MatChipMixinBase implements FocusableOption, OnDes
  *
  * 示例：
  *
- *     `<mat-chip>
- *       <mat-icon matChipRemove>cancel</mat-icon>
- *     </mat-chip>`
+ * ```
+ * `<mat-chip>
+ *   <mat-icon matChipRemove>cancel</mat-icon>
+ * </mat-chip>`
+ * ```
  *
  * You *may* use a custom icon, but you may need to override the `mat-chip-remove` positioning
  * styles to properly center the icon within the chip.
  *
  * 你*可以*使用自定义图标，但是可能需要改写 `mat-chip-remove` 的定位样式，这样才能让图标在纸片内正确居中。
- *
  */
 @Directive({
   selector: '[matChipRemove]',

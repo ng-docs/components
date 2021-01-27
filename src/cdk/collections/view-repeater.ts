@@ -87,10 +87,9 @@ export type _ViewRepeaterItemValueResolver<T, R> =
     (record: IterableChangeRecord<R>) => T;
 
 /**
- * Indicates how a view was changed by a {@link _ViewRepeater}.
+ * Indicates how a view was changed by a {@link \_ViewRepeater}.
  *
- * 表示 {@link _ViewRepeater} 如何改变视图的方式。
- *
+ * 表示 {@link \_ViewRepeater} 如何改变视图的方式。
  */
 export const enum _ViewRepeaterOperation {
   /**
@@ -125,18 +124,15 @@ export const enum _ViewRepeaterOperation {
 
 /**
  * Meta data describing the state of a view after it was updated by a
- * {@link _ViewRepeater}.
+ * {@link \_ViewRepeater}.
  *
- * 元数据描述了 {@link _ViewRepeater} 更新后的视图状态。
- *
+ * 元数据描述了 {@link \_ViewRepeater} 更新后的视图状态。
  * @template R The type for the item in each IterableDiffer change record.
  *
  * 每个 IterableDiffer 更改记录中的条目类型。
- *
  * @template C The type for the context passed to each embedded view.
  *
  * 传递给每个嵌入式视图的上下文类型。
- *
  */
 export interface _ViewRepeaterItemChange<R, C> {
   /**
@@ -209,10 +205,9 @@ export interface _ViewRepeater<T, R, C extends _ViewRepeaterItemContext<T>> {
 }
 
 /**
- * Injection token for {@link _ViewRepeater}. This token is for use by Angular Material only.
+ * Injection token for {@link \_ViewRepeater}. This token is for use by Angular Material only.
  *
- * {@link _ViewRepeater} 的注入令牌。这个令牌只供 Angular Material 使用。
- *
+ * {@link \_ViewRepeater} 的注入令牌。这个令牌只供 Angular Material 使用。
  * @docs-private
  */
 export const _VIEW_REPEATER_STRATEGY = new InjectionToken<

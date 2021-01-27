@@ -145,7 +145,6 @@ export class MatDialogTitle implements OnInit {
   }
 }
 
-
 /**
  * Scrollable content container of a dialog.
  *
@@ -157,7 +156,6 @@ export class MatDialogTitle implements OnInit {
   host: {'class': 'mat-dialog-content'}
 })
 export class MatDialogContent {}
-
 
 /**
  * Container for the bottom action buttons in a dialog.
@@ -171,7 +169,6 @@ export class MatDialogContent {}
   host: {'class': 'mat-dialog-actions'}
 })
 export class MatDialogActions {}
-
 
 /**
  * Finds the closest MatDialogRef to an element by looking at the DOM.

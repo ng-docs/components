@@ -40,7 +40,6 @@ import {pairwise, shareReplay, startWith, switchMap, takeUntil} from 'rxjs/opera
 import {CdkVirtualScrollRepeater} from './virtual-scroll-repeater';
 import {CdkVirtualScrollViewport} from './virtual-scroll-viewport';
 
-
 /**
  * The context for an item rendered by `CdkVirtualForOf`
  *
@@ -105,7 +104,6 @@ export type CdkVirtualForOfContext<T> = {
    */
   odd: boolean;
 };
-
 
 /**
  * Helper to extract the offset of a DOM Node in a certain direction.

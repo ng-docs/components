@@ -17,7 +17,6 @@ import {
   RepositionScrollStrategyConfig,
 } from './reposition-scroll-strategy';
 
-
 /**
  * Options for how an overlay will handle scrolling.
  *

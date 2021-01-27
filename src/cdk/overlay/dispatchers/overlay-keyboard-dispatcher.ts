@@ -11,7 +11,6 @@ import {Inject, Injectable} from '@angular/core';
 import {OverlayReference} from '../overlay-reference';
 import {BaseOverlayDispatcher} from './base-overlay-dispatcher';
 
-
 /**
  * Service for dispatching keyboard events that land on the body to appropriate overlay ref,
  * if any. It maintains a list of attached overlays to determine best suited overlay based

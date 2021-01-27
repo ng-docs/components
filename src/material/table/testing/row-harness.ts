@@ -80,7 +80,6 @@ export class MatHeaderRowHarness extends ComponentHarness {
   }
 }
 
-
 /** Harness for interacting with a standard Angular Material table footer row. */
 export class MatFooterRowHarness extends ComponentHarness {
   /** The selector for the host element of a `MatFooterRowHarness` instance. */
@@ -113,7 +112,6 @@ export class MatFooterRowHarness extends ComponentHarness {
     return getCellTextByColumnName(this);
   }
 }
-
 
 async function getCellTextByIndex(harness: {
   getCells: (filter?: CellHarnessFilters) => Promise<MatCellHarness[]>

@@ -27,7 +27,6 @@ import {merge, of as observableOf, Subscription} from 'rxjs';
 import {MatDatepickerIntl} from './datepicker-intl';
 import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
 
-
 /**
  * Can be used to override the icon of a `matDatepickerToggle`.
  *
@@ -38,7 +37,6 @@ import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
   selector: '[matDatepickerToggleIcon]'
 })
 export class MatDatepickerToggleIcon {}
-
 
 @Component({
   selector: 'mat-datepicker-toggle',

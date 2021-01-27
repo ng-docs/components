@@ -69,7 +69,6 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
     return (await this._getSimpleSnackBarActionButton())!.text();
   }
 
-
   /**
    * Dismisses the snack-bar by clicking the action button. Method cannot be used for snack-bar's
    * without action or with custom content.

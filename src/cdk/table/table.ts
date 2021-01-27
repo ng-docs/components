@@ -155,7 +155,7 @@ export class NoDataRowOutlet implements RowOutlet {
  * The table template that can be used by the mat-table. Should not be used outside of the
  * material library.
  *
- * mat-table 中可以使用的表格模板。不应该在Material库之外使用。
+ * mat-table 中可以使用的表格模板。不应该在 Material 库之外使用。
  *
  * @docs-private
  */
@@ -200,13 +200,12 @@ abstract class RowViewRef<T> extends EmbeddedViewRef<RowContext<T>> {}
  * is false, there is only one template per data object). For each pair of data object and row
  * template, a `RenderRow` is added to the list of rows to render. If the data object and row
  * template pair has already been rendered, the previously used `RenderRow` is added; else a new
- * `RenderRow` is * created. Once the list is complete and all data objects have been itereated
+ * `RenderRow` is \* created. Once the list is complete and all data objects have been itereated
  * through, a diff is performed to determine the changes that need to be made to the rendered rows.
  *
  * 当表格需要确定要渲染的行的列表时，它会迭代遍历每个数据对象并评估它要显示的行模板的列表（当 multiTemplateDataRows 为 false 时，每个数据对象只有一个模板）。
  * 每对数据对象和行模板都会把一个 `RenderRow` 添加到要渲染的行列表中。如果已经渲染过这个数据对象和行模板对，就会添加以前用过的 `RenderRow`，否则就会创建一个新的 `RenderRow`。
  * 一旦列表完成、迭代完所有的数据对象之后，才会执行 diff 来确定需要对渲染行进行的更改。
- *
  * @docs-private
  */
 export interface RenderRow<T> {
@@ -517,17 +516,17 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
    *
    * 该表格的数据源可以通过三种方式提供（按复杂程度排序）：
    *
-   *   - Simple data array (each object represents one table row)
+   * - Simple data array (each object represents one table row)
    *
-   *     简单数据数组（每个对象代表格一个表格行）
+   *   简单数据数组（每个对象代表格一个表格行）
    *
-   *   - Stream that emits a data array each time the array changes
+   * - Stream that emits a data array each time the array changes
    *
-   *     每当数组发生变化时都会发出数据数组的流
+   *   每当数组发生变化时都会发出数据数组的流
    *
-   *   - `DataSource` object that implements the connect/disconnect interface.
+   * - `DataSource` object that implements the connect/disconnect interface.
    *
-   *     那些实现了 connect / disconnect 接口的 `DataSource`。
+   *   那些实现了 connect / disconnect 接口的 `DataSource`。
    *
    * If a data array is provided, the table must be notified when the array's objects are
    * added, removed, or moved. This can be done by calling the `renderRows()` function which will
@@ -550,7 +549,6 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
    *
    * 最后，在提供 `DataSource` 对象时，该表格将使用 connect 函数提供的 Observable 流，并在该流发出新的数据数组值时触发更新。
    * 在表格的 ngOnDestroy 中，或者从表格中删除了数据源时，该表格会调用数据源的 `disconnect` 函数（这可能对清理在连接过程中注册的所有订阅很有帮助）。
-   *
    */
   @Input()
   get dataSource(): CdkTableDataSourceInput<T> {
@@ -1376,7 +1374,6 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
 
     return rowDefs;
   }
-
 
   private _getEmbeddedViewArgs(renderRow: RenderRow<T>,
                                index: number): _ViewRepeaterItemInsertArgs<RowContext<T>> {

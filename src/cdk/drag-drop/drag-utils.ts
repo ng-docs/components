@@ -42,7 +42,6 @@ export function moveItemInArray<T = any>(array: T[], fromIndex: number, toIndex:
   array[to] = target;
 }
 
-
 /**
  * Moves an item from one array to another.
  *

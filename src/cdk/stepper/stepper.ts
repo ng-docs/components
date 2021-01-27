@@ -807,7 +807,6 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
   static ngAcceptInputType_selectedIndex: NumberInput;
 }
 
-
 /**
  * Simplified representation of an "AbstractControl" from @angular/forms.
  * Used to avoid having to bring in @angular/forms for a single optional interface.

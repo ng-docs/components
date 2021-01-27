@@ -84,7 +84,7 @@ export abstract class TileStyler {
    *
    * @param sizePercent Percent of the total grid-list space that one 1x1 tile would take up.
    *
-   * 一个 1x1图块占用的网格列表总空间的百分比。
+   * 一个 1x1 图块占用的网格列表总空间的百分比。
    *
    * @param gutterFraction Fraction of the gutter size taken up by one 1x1 tile.
    *
@@ -92,7 +92,7 @@ export abstract class TileStyler {
    *
    * @return The size of a 1x1 tile as an expression that can be evaluated via CSS calc().
    *
-   * 1x1图块的大小表达式，可以通过 CSS calc() 来计算。
+   * 1x1 图块的大小表达式，可以通过 CSS calc() 来计算。
    */
   getBaseTileSize(sizePercent: number, gutterFraction: number): string {
     // Take the base size percent (as would be if evenly dividing the size between cells),
@@ -102,7 +102,6 @@ export abstract class TileStyler {
     // edge evenly among the cells).
     return `(${sizePercent}% - (${this._gutterSize} * ${gutterFraction}))`;
   }
-
 
   /**
    * Gets The horizontal or vertical position of a tile, e.g., the 'top' or 'left' property value.
@@ -115,7 +114,7 @@ export abstract class TileStyler {
    *
    * @param baseSize Base size of a 1x1 tile (as computed in getBaseTileSize).
    *
-   * 1x1图块的基本大小（在 getBaseTileSize 中计算）。
+   * 1x1 图块的基本大小（在 getBaseTileSize 中计算）。
    *
    * @return Position of the tile as a CSS calc() expression.
    *
@@ -127,7 +126,6 @@ export abstract class TileStyler {
     return offset === 0 ? '0' : calc(`(${baseSize} + ${this._gutterSize}) * ${offset}`);
   }
 
-
   /**
    * Gets the actual size of a tile, e.g., width or height, taking rowspan or colspan into account.
    *
@@ -135,7 +133,7 @@ export abstract class TileStyler {
    *
    * @param baseSize Base size of a 1x1 tile (as computed in getBaseTileSize).
    *
-   * 1x1图块的基本大小（在 getBaseTileSize 中计算）。
+   * 1x1 图块的基本大小（在 getBaseTileSize 中计算）。
    *
    * @param span The tile's rowspan or colspan.
    *
@@ -148,7 +146,6 @@ export abstract class TileStyler {
   getTileSize(baseSize: string, span: number): string {
     return `(${baseSize} * ${span}) + (${span - 1} * ${this._gutterSize})`;
   }
-
 
   /**
    * Sets the style properties to be applied to a tile for the given row and column index.
@@ -257,7 +254,6 @@ export abstract class TileStyler {
   abstract reset(list: TileStyleTarget): void;
 }
 
-
 /**
  * This type of styler is instantiated when the user passes in a fixed row height.
  * Example `<mat-grid-list cols="3" rowHeight="100px">`
@@ -302,7 +298,6 @@ export class FixedTileStyler extends TileStyler {
     }
   }
 }
-
 
 /**
  * This type of styler is instantiated when the user passes in a width:height ratio
@@ -401,7 +396,6 @@ export class FitTileStyler extends TileStyler {
   }
 }
 
-
 /**
  * Wraps a CSS string in a calc function
  *
@@ -411,7 +405,6 @@ export class FitTileStyler extends TileStyler {
 function calc(exp: string): string {
   return `calc(${exp})`;
 }
-
 
 /**
  * Appends pixels to a CSS string if no units are given.

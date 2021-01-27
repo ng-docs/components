@@ -42,7 +42,6 @@ export class MatStepperNextHarness extends StepperButtonHarness {
   }
 }
 
-
 /** Harness for interacting with a standard Angular Material stepper previous button in tests. */
 export class MatStepperPreviousHarness extends StepperButtonHarness {
   /** The selector for the host element of a `MatStep` instance. */

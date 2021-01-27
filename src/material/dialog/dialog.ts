@@ -35,7 +35,6 @@ import {MatDialogConfig} from './dialog-config';
 import {MatDialogContainer, _MatDialogContainerBase} from './dialog-container';
 import {MatDialogRef} from './dialog-ref';
 
-
 /**
  * Injection token that can be used to access the data that was passed in to a dialog.
  *

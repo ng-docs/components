@@ -32,7 +32,6 @@ import {OutputNamesMigration} from './migrations/output-names';
 import {PropertyNamesMigration} from './migrations/property-names';
 import {UpgradeData} from './upgrade-data';
 
-
 /** List of migrations which run for the CDK update. */
 export const cdkMigrations: MigrationCtor<UpgradeData>[] = [
   AttributeSelectorsMigration,

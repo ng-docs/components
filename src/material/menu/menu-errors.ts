@@ -47,7 +47,6 @@ export function throwMatMenuInvalidPositionY() {
       Example: <mat-menu yPosition="above" #menu="matMenu"></mat-menu>`);
 }
 
-
 /**
  * Throws an exception for the case when a menu is assigned
  * to a trigger that is placed inside the same menu.

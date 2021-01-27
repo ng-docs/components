@@ -10,7 +10,6 @@ import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {MatBadgePosition, MatBadgeSize} from '@angular/material/badge';
 import {BadgeHarnessFilters} from './badge-harness-filters';
 
-
 /**
  * Harness for interacting with a standard Material badge in tests.
  *
@@ -29,10 +28,9 @@ export class MatBadgeHarness extends ComponentHarness {
    *
    * 缩小搜索范围的选项：
    *
-   *   - `text` finds a badge host with a particular text.
+   * - `text` finds a badge host with a particular text.
    *
-   *      `text` 查找带有特定文本的徽章宿主。
-   *
+   *    `text` 查找带有特定文本的徽章宿主。
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。

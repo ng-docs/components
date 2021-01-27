@@ -216,7 +216,6 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
     }
   }
 
-
   // TODO(tinayuangao): Work on keyboard traversal and actions, make sure it's working for RTL
   //     and nested trees.
 
@@ -361,7 +360,6 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
     }
   }
 }
-
 
 /**
  * Tree node for CdkTree. It contains the data in the tree node.

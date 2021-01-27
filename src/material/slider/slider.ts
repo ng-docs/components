@@ -488,7 +488,6 @@ export class MatSlider extends _MatSliderMixinBase
     return this.vertical ? !this.invert : this.invert;
   }
 
-
   /**
    * Whether the slider is at its minimum value.
    *

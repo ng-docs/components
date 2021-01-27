@@ -9,7 +9,6 @@
 import {Injectable, Optional, SkipSelf} from '@angular/core';
 import {Subject} from 'rxjs';
 
-
 /**
  * Stepper data that is required for internationalization.
  *
@@ -35,7 +34,6 @@ export class MatStepperIntl {
    */
   optionalLabel: string = 'Optional';
 }
-
 
 /** @docs-private */
 export function MAT_STEPPER_INTL_PROVIDER_FACTORY(parentIntl: MatStepperIntl) {

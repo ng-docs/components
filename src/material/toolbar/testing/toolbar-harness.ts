@@ -6,7 +6,6 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-
 import {ContentContainerComponentHarness, HarnessPredicate, parallel} from '@angular/cdk/testing';
 import {ToolbarHarnessFilters} from './toolbar-harness-filters';
 

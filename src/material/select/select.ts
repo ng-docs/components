@@ -101,7 +101,6 @@ import {
   getMatSelectNonFunctionValueError,
 } from './select-errors';
 
-
 let nextUniqueId = 0;
 
 /**
@@ -170,13 +169,12 @@ export const SELECT_ITEM_HEIGHT_EM = 3;
  * 面板边缘与多选模式下的选项文本之间的距离。
  *
  * Calculated as:
- * (SELECT_PANEL_PADDING_X * 1.5) + 16 = 40
+ * (SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40
  * The padding is multiplied by 1.5 because the checkbox's margin is half the padding.
  * The checkbox width is 16px.
  *
- * 计算公式为：(SELECT_PANEL_PADDING_X * 1.5) + 16 = 40
+ * 计算公式为：(SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40
  * 衬距值要乘以 1.5，因为复选框的边距是衬距的一半。复选框的宽度是 16px。
- *
  * @deprecated To be turned into a private variable.
  *
  * 要变成一个私有变量。
@@ -289,8 +287,6 @@ const _MatSelectMixinBase:
     CanUpdateErrorStateCtor &
     typeof MatSelectBase =
         mixinDisableRipple(mixinTabIndex(mixinDisabled(mixinErrorState(MatSelectBase))));
-
-
 
 /**
  * Injection token that can be used to reference instances of `MatSelectTrigger`. It serves as

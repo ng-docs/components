@@ -25,7 +25,6 @@ import {
 } from './table-errors';
 import {TEXT_COLUMN_OPTIONS, TextColumnOptions} from './tokens';
 
-
 /**
  * Column that simply shows text content for the header and row cells. Assumes that the table
  * is using the native table implementation (`<table>`).

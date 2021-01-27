@@ -26,7 +26,6 @@ import {
   LIVE_ANNOUNCER_DEFAULT_OPTIONS,
 } from './live-announcer-tokens';
 
-
 @Injectable({providedIn: 'root'})
 export class LiveAnnouncer implements OnDestroy {
   private _liveElement: HTMLElement;
@@ -171,7 +170,6 @@ export class LiveAnnouncer implements OnDestroy {
   }
 
 }
-
 
 /**
  * A directive that works similarly to aria-live, but uses the LiveAnnouncer to ensure compatibility

@@ -104,7 +104,6 @@ export abstract class Portal<T> {
   }
 }
 
-
 /**
  * A `ComponentPortal` is a portal that instantiates some Component upon attachment.
  *
@@ -243,7 +242,6 @@ export class DomPortal<T = HTMLElement> extends Portal<T> {
     this.element = element instanceof ElementRef ? element.nativeElement : element;
   }
 }
-
 
 /**
  * A `PortalOutlet` is an space that can contain a single `Portal`.

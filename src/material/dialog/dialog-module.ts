@@ -19,7 +19,6 @@ import {
   MatDialogTitle,
 } from './dialog-content-directives';
 
-
 @NgModule({
   imports: [
     OverlayModule,

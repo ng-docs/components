@@ -12,7 +12,6 @@ import {ButtonToggleGroupHarnessFilters} from './button-toggle-group-harness-fil
 import {ButtonToggleHarnessFilters} from './button-toggle-harness-filters';
 import {MatButtonToggleHarness} from './button-toggle-harness';
 
-
 /**
  * Harness for interacting with a standard mat-button-toggle in tests.
  *

@@ -29,7 +29,6 @@ import {take} from 'rxjs/operators';
 
 import {MatIconRegistry} from './icon-registry';
 
-
 // Boilerplate for applying mixins to MatIcon.
 /** @docs-private */
 class MatIconBase {
@@ -72,7 +71,6 @@ export function MAT_ICON_LOCATION_FACTORY(): MatIconLocation {
     getPathname: () => _location ? (_location.pathname + _location.search) : ''
   };
 }
-
 
 /**
  * SVG attributes that accept a FuncIRI (e.g. `url(<something>)`).
@@ -124,7 +122,7 @@ const funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
  *     `<mat-icon svgIcon="left-arrow"></mat-icon>
  *     <mat-icon svgIcon="animals:cat"></mat-icon>`
  *
- *   指定输入属性 svgIcon，用于从之前使用 MatIconRegistry 的 addSvgIcon，addSvgIconInNamespace，addSvgIconSet 或 addSvgIconSetInNamespace 方法注册的 URL 中加载 SVG 图标。如果 svgIcon 的值包含冒号，则假定其格式为“[namespace]:[name]”，否则把该值视为默认命名空间中某个图标的名字。例如：
+ *   指定输入属性 svgIcon，用于从之前使用 MatIconRegistry 的 addSvgIcon，addSvgIconInNamespace，addSvgIconSet 或 addSvgIconSetInNamespace 方法注册的 URL 中加载 SVG 图标。如果 svgIcon 的值包含冒号，则假定其格式为“[namespace]&#x3A;[name]”，否则把该值视为默认命名空间中某个图标的名字。例如：
  *     `<mat-icon svgIcon="left-arrow"></mat-icon>
  *     <mat-icon svgIcon="animals:cat"></mat-icon>`
  *
@@ -144,13 +142,12 @@ const funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
  * - Specify a font glyph to be included via CSS rules by setting the fontSet input to specify the
  *   font, and the fontIcon input to specify the icon. Typically the fontIcon will specify a
  *   CSS class which causes the glyph to be displayed via a :before selector, as in
- *   https://fortawesome.github.io/Font-Awesome/examples/
+ *   <https://fortawesome.github.io/Font-Awesome/examples/>
  *   Example:
  *     `<mat-icon fontSet="fa" fontIcon="alarm"></mat-icon>`
  *
- *   指定要通过 CSS 规则包含的字体字形，方法是设置输入属性 fontSet 以指定字体，并使用输入属性 fontIcon 来指定图标。通常，fontIcon 会指定一个 CSS 类，它会让这个字形通过 :before 选择器显示出来，就像 https://fortawesome.github.io/Font-Awesome/examples/ 中一样，例如：
+ *   指定要通过 CSS 规则包含的字体字形，方法是设置输入属性 fontSet 以指定字体，并使用输入属性 fontIcon 来指定图标。通常，fontIcon 会指定一个 CSS 类，它会让这个字形通过 :before 选择器显示出来，就像 <https://fortawesome.github.io/Font-Awesome/examples/> 中一样，例如：
  *     `<mat-icon fontSet="fa" fontIcon="alarm"></mat-icon>`
- *
  */
 @Component({
   template: '<ng-content></ng-content>',

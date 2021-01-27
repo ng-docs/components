@@ -23,7 +23,6 @@ import {
 import {CanColor, CanColorCtor, mixinColor} from '@angular/material/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
-
 /**
  * Possible mode for a progress spinner.
  *
@@ -425,7 +424,6 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
   static ngAcceptInputType_strokeWidth: NumberInput;
   static ngAcceptInputType_value: NumberInput;
 }
-
 
 /**
  * `<mat-spinner>` component.

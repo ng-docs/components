@@ -17,7 +17,7 @@ import {
 /**
  * Animations used by the Material datepicker.
  *
- * 供 Material日期选择器使用的动画功能。
+ * 供 Material 日期选择器使用的动画功能。
  *
  * @docs-private
  */

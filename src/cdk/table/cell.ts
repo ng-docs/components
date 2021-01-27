@@ -19,7 +19,6 @@ import {
 import {CanStick, CanStickCtor, mixinHasStickyInput} from './can-stick';
 import {CDK_TABLE} from './tokens';
 
-
 /**
  * Base interface for a cell definition. Captures a column's cell template definition.
  *
@@ -126,11 +125,10 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
 
   /**
    * Transformed version of the column name that can be used as part of a CSS classname. Excludes
-   * all non-alphanumeric characters and the special characters '-' and '_'. Any characters that
+   * all non-alphanumeric characters and the special characters '-' and '\_'. Any characters that
    * do not match are replaced by the '-' character.
    *
    * 列名的转换后版本，可以作为 CSS 类名的一部分。只允许字母、数字和两个特殊字符 “-” 和 “\_”。除此之外的字符都会替换为 “-”。
-   *
    */
   cssClassFriendlyName: string;
 
@@ -150,11 +148,10 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
   /**
    * Overridable method that sets the css classes that will be added to every cell in this
    * column.
-   * In the future, columnCssClassName will change from type string[] to string and this
+   * In the future, columnCssClassName will change from type string\[] to string and this
    * will set a single string value.
    *
-   * 可改写的方法，它设置要添加到此列的每个单元格的 css 类。将来，columnCssClassName 会从 string[] 类型变为 string 类型，这样就可以设置一个字符串值。
-   *
+   * 可改写的方法，它设置要添加到此列的每个单元格的 css 类。将来，columnCssClassName 会从 string\[] 类型变为 string 类型，这样就可以设置一个字符串值。
    * @docs-private
    */
   protected _updateColumnCssClassName() {

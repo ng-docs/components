@@ -8,7 +8,6 @@
 
 import {Directive} from '@angular/core';
 
-
 /**
  * The placeholder text for an `MatFormField`.
  *

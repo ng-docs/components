@@ -24,7 +24,6 @@ import {
 import {take} from 'rxjs/operators';
 import {InteractivityChecker} from '../interactivity-checker/interactivity-checker';
 
-
 /**
  * Class that allows for trapping focus within a DOM element.
  *

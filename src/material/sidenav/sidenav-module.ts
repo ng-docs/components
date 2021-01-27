@@ -13,7 +13,6 @@ import {MatCommonModule} from '@angular/material/core';
 import {MatDrawer, MatDrawerContainer, MatDrawerContent} from './drawer';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from './sidenav';
 
-
 @NgModule({
   imports: [
     CommonModule,

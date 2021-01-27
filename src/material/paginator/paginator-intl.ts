@@ -9,7 +9,6 @@
 import {Injectable, Optional, SkipSelf} from '@angular/core';
 import {Subject} from 'rxjs';
 
-
 /**
  * To modify the labels and text displayed, create a new instance of MatPaginatorIntl and
  * include it in a custom provider

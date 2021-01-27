@@ -109,7 +109,6 @@ export class DefaultMatCalendarRangeStrategy<D> implements MatDateRangeSelection
   }
 }
 
-
 /** @docs-private */
 export function MAT_CALENDAR_RANGE_STRATEGY_PROVIDER_FACTORY(
   parent: MatDateRangeSelectionStrategy<unknown>, adapter: DateAdapter<unknown>) {

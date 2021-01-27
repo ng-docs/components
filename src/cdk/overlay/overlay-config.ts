@@ -10,7 +10,6 @@ import {PositionStrategy} from './position/position-strategy';
 import {Direction, Directionality} from '@angular/cdk/bidi';
 import {ScrollStrategy, NoopScrollStrategy} from './scroll/index';
 
-
 /**
  * Initial configuration used when creating an overlay.
  *

@@ -16,7 +16,6 @@ import {
 } from '@angular/material/core/testing';
 import {SelectHarnessFilters} from './select-harness-filters';
 
-
 /** Harness for interacting with a standard mat-select in tests. */
 export class MatSelectHarness extends MatFormFieldControlHarness {
   private _documentRootLocator = this.documentRootLocatorFactory();

@@ -17,7 +17,6 @@ import {
 } from '@angular/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
-
 /**
  * Content of a card, needed as it's used as a selector in the API.
  *
@@ -177,7 +176,6 @@ export class MatCardXlImage {}
 })
 export class MatCardAvatar {}
 
-
 /**
  * A basic content container component that adds the styles of a Material design card.
  *
@@ -211,7 +209,6 @@ export class MatCard {
   constructor(@Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) {}
 }
 
-
 /**
  * Component intended to be used within the `<mat-card>` component. It adds styles for a
  * preset header section (i.e. a title, subtitle, and avatar layout).
@@ -228,7 +225,6 @@ export class MatCard {
   host: {'class': 'mat-card-header'}
 })
 export class MatCardHeader {}
-
 
 /**
  * Component intended to be used within the `<mat-card>` component. It adds styles for a preset

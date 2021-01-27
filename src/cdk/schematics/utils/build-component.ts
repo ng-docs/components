@@ -138,11 +138,9 @@ function addDeclarationToNgModule(options: ComponentOptions): Rule {
       host.commitUpdate(entryComponentRecorder);
     }
 
-
     return host;
   };
 }
-
 
 function buildSelector(options: ComponentOptions, projectPrefix?: string) {
   let selector = strings.dasherize(options.name);

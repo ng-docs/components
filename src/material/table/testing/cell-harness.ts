@@ -88,7 +88,6 @@ export class MatFooterCellHarness extends MatCellHarness {
   }
 }
 
-
 function getCellPredicate<T extends MatCellHarness>(
   type: ComponentHarnessConstructor<T>,
   options: CellHarnessFilters): HarnessPredicate<T> {

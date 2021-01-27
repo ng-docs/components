@@ -49,7 +49,6 @@ import {
 } from '@angular/material/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
-
 export interface MatRadioDefaultOptions {
   color: ThemePalette;
 }
@@ -352,10 +351,9 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase> implemen
   }
 
   /**
-   * Updates the `selected` radio button from the internal _value state.
+   * Updates the `selected` radio button from the internal \_value state.
    *
    * 从内部值的状态更新 `selected` 单元按钮。
-   *
    */
   private _updateSelectedRadioFromValue(): void {
     // If the value already matches the selected radio, do nothing.
@@ -711,10 +709,9 @@ export abstract class _MatRadioButtonBase extends _MatRadioButtonMixinBase imple
   private _value: any = null;
 
   /**
-   * Unregister function for _radioDispatcher
+   * Unregister function for \_radioDispatcher
    *
-   * 取消注册 _radioDispatcher 的函数
-   *
+   * 取消注册 \_radioDispatcher 的函数
    */
   private _removeUniqueSelectionListener: () => void = () => {};
 
@@ -878,7 +875,6 @@ export abstract class _MatRadioButtonBase extends _MatRadioButtonMixinBase imple
   static ngAcceptInputType_disableRipple: BooleanInput;
   static ngAcceptInputType_tabIndex: NumberInput;
 }
-
 
 /**
  * A Material design radio-button. Typically placed inside of `<mat-radio-group>` elements.

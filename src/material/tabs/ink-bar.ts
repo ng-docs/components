@@ -9,7 +9,6 @@
 import {Directive, ElementRef, Inject, InjectionToken, NgZone, Optional} from '@angular/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
-
 /**
  * Interface for a a MatInkBar positioner method, defining the positioning and width of the ink
  * bar in a set of tabs.

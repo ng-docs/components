@@ -42,7 +42,6 @@ import {startWith, takeUntil} from 'rxjs/operators';
 import {MatChip, MatChipEvent, MatChipSelectionChange} from './chip';
 import {MatChipTextControl} from './chip-text-control';
 
-
 // Boilerplate for applying mixins to MatChipList.
 /** @docs-private */
 class MatChipListBase {
@@ -54,7 +53,6 @@ class MatChipListBase {
 }
 const _MatChipListMixinBase: CanUpdateErrorStateCtor & typeof MatChipListBase =
     mixinErrorState(MatChipListBase);
-
 
 // Increasing integer for generating unique ids for chip-list components.
 let nextUniqueId = 0;
@@ -73,11 +71,10 @@ export class MatChipListChange {
     public value: any) { }
 }
 
-
 /**
  * A material design chips component (named ChipList for its similarity to the List component).
  *
- * 一种Material Design纸片组件（由于类似于 List 组件，因此得名 ChipList）。
+ * 一种 Material Design 纸片组件（由于类似于 List 组件，因此得名 ChipList）。
  *
  */
 @Component({
@@ -582,7 +579,6 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
     this._dropSubscriptions();
   }
 
-
   /**
    * Associates an HTML input element with this chip list.
    *
@@ -697,7 +693,6 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
       this.stateChanges.next();
     }
   }
-
 
   /**
    * Check the tab index as you should not be allowed to focus an empty list.

@@ -14,7 +14,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {CdkScrollableModule} from '@angular/cdk/scrolling';
 import {MAT_SELECT_SCROLL_STRATEGY_PROVIDER, MatSelect, MatSelectTrigger} from './select';
 
-
 @NgModule({
   imports: [
     CommonModule,

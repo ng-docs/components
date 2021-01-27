@@ -35,10 +35,8 @@ const DEFAULT_MONTH_NAMES = {
   'narrow': ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
 };
 
-
 /** The default date names to use if Intl API is not available. */
 const DEFAULT_DATE_NAMES = range(31, i => String(i + 1));
-
 
 /** The default day of the week names to use if Intl API is not available. */
 const DEFAULT_DAY_OF_WEEK_NAMES = {
@@ -47,15 +45,13 @@ const DEFAULT_DAY_OF_WEEK_NAMES = {
   'narrow': ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 };
 
-
 /**
  * Matches strings that have the form of a valid RFC 3339 string
- * (https://tools.ietf.org/html/rfc3339). Note that the string may not actually be a valid date
+ * (<https://tools.ietf.org/html/rfc3339>). Note that the string may not actually be a valid date
  * because the regex will match strings an with out of bounds month, date, etc.
  */
 const ISO_8601_REGEX =
     /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|(?:(?:\+|-)\d{2}:\d{2}))?)?$/;
-
 
 /** Creates an array and fills it with values. */
 function range<T>(length: number, valueFunction: (index: number) => T): T[] {
@@ -249,7 +245,7 @@ export class NativeDateAdapter extends DateAdapter<Date> {
 
   /**
    * Returns the given value if given a valid Date or null. Deserializes valid ISO 8601 strings
-   * (https://www.ietf.org/rfc/rfc3339.txt) into valid Dates and empty string into null. Returns an
+   * (<https://www.ietf.org/rfc/rfc3339.txt>) into valid Dates and empty string into null. Returns an
    * invalid date for all other values.
    */
   deserialize(value: any): Date | null {

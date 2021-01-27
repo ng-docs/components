@@ -27,7 +27,6 @@ import {MatBottomSheetContainer} from './bottom-sheet-container';
 import {MatBottomSheetModule} from './bottom-sheet-module';
 import {MatBottomSheetRef} from './bottom-sheet-ref';
 
-
 /**
  * Injection token that can be used to specify default bottom sheet options.
  *

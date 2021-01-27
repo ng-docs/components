@@ -167,7 +167,7 @@ export abstract class DateAdapter<D> {
   abstract addCalendarDays(date: D, days: number): D;
 
   /**
-   * Gets the RFC 3339 compatible string (https://tools.ietf.org/html/rfc3339) for the given date.
+   * Gets the RFC 3339 compatible string (<https://tools.ietf.org/html/rfc3339>) for the given date.
    * This method is used to generate date strings that are compatible with native HTML attributes
    * such as the `min` or `max` attribute of an `<input>`.
    * @param date The date to get the ISO date string for.

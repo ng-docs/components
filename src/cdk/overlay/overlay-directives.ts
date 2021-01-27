@@ -40,7 +40,6 @@ import {
   ScrollStrategy,
 } from './scroll/index';
 
-
 /**
  * Default set of positions for the overlay. Follows the behavior of a dropdown.
  *
@@ -99,7 +98,6 @@ export class CdkOverlayOrigin {
       /** Reference to the element on which the directive is applied. */
       public elementRef: ElementRef) { }
 }
-
 
 /**
  * Directive to facilitate declarative creation of an
@@ -613,7 +611,6 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
   static ngAcceptInputType_growAfterOpen: BooleanInput;
   static ngAcceptInputType_push: BooleanInput;
 }
-
 
 /** @docs-private */
 export function CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY(overlay: Overlay):

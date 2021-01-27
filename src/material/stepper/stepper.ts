@@ -101,7 +101,6 @@ export class MatStep extends CdkStep implements ErrorStateMatcher {
   }
 }
 
-
 @Directive({selector: '[matStepper]', providers: [{provide: CdkStepper, useExisting: MatStepper}]})
 export class MatStepper extends CdkStepper implements AfterContentInit {
   /**

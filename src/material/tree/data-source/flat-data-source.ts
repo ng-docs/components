@@ -44,6 +44,9 @@ import {map, take} from 'rxjs/operators';
  *   level: 2
  * }
  * and the output flattened type is `F` with additional information.
+ *
+ * For example, the input data of type `T` is nested, and contains its children data: SomeNode: { key: 'Fruits', children: \[ NodeOne: { key: 'Apple', }, NodeTwo: { key: 'Pear', } ] } After flattener flatten the tree, the structure will become SomeNode: { key: 'Fruits', expandable: true, level: 1 }, NodeOne: { key: 'Apple', expandable: false, level: 2 }, NodeTwo: { key: 'Pear', expandable: false, level: 2 } and the output flattened type is `F` with additional information.
+ *
  */
 export class MatTreeFlattener<T, F, K = F> {
 
@@ -117,7 +120,6 @@ export class MatTreeFlattener<T, F, K = F> {
     return results;
   }
 }
-
 
 /**
  * Data source for flat tree.

@@ -29,7 +29,6 @@ import {
   PropertyNameUpgradeData,
 } from './data';
 
-
 /** Upgrade data for the Angular CDK. */
 export const cdkUpgradeData: UpgradeData = {
   attributeSelectors,

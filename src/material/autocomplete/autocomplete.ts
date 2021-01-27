@@ -41,7 +41,6 @@ import {
 } from '@angular/material/core';
 import {Subscription} from 'rxjs';
 
-
 /**
  * Autocomplete IDs need to be unique across components, so this counter exists outside of
  * the component definition.
@@ -418,7 +417,6 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
 
     return this.ariaLabelledby ? labelId + ' ' + this.ariaLabelledby : labelId;
   }
-
 
   /**
    * Sets the autocomplete visibility classes on a classlist based on the panel is visible.

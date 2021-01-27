@@ -14,7 +14,6 @@ import {
   NativeSelectHarnessFilters,
 } from './native-select-harness-filters';
 
-
 /** Harness for interacting with a native `select` in tests. */
 export class MatNativeSelectHarness extends MatFormFieldControlHarness {
   static hostSelector = 'select[matNativeControl]';

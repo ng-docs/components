@@ -15,7 +15,6 @@ import {
 import {startWith} from 'rxjs/operators';
 import {MatCommonModule} from '../common-behaviors/common-module';
 
-
 /**
  * Shared directive to count lines inside a text area, such as a list item.
  * Line elements can be extracted with a @ContentChildren(MatLine) query, then

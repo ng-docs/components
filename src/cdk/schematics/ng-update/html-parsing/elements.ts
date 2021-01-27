@@ -58,7 +58,6 @@ function hasElementAttribute(element: DefaultTreeElement, attributeName: string)
   return element.attrs && element.attrs.some(attr => attr.name === attributeName.toLowerCase());
 }
 
-
 /** Gets the start offset of the given attribute from a Parse5 element. */
 export function getStartOffsetOfAttribute(element: any, attributeName: string): number {
   return element.sourceCodeLocation.attrs[attributeName.toLowerCase()].startOffset;

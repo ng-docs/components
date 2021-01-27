@@ -351,7 +351,6 @@ export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements
   static ngAcceptInputType_disabled: BooleanInput;
 }
 
-
 /**
  * Input for entering the end date in a `mat-date-range-input`.
  *

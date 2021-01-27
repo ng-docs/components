@@ -12,7 +12,6 @@ import {NgModule} from '@angular/core';
 import {MatCommonModule} from '@angular/material/core';
 import {MatBottomSheetContainer} from './bottom-sheet-container';
 
-
 @NgModule({
   imports: [
     OverlayModule,

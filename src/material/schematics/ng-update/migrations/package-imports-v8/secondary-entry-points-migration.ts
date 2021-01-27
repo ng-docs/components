@@ -167,7 +167,6 @@ function getDeclarationSymbolOfNode(node: ts.Node, checker: ts.TypeChecker): ts.
   return symbol;
 }
 
-
 /** Tries to resolve the name of the Material module that a node is imported from. */
 function resolveModuleName(node: ts.Identifier, typeChecker: ts.TypeChecker) {
   // Get the symbol for the named binding element. Note that we cannot determine the

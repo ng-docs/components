@@ -25,7 +25,6 @@ export type StickyDirection = 'top' | 'bottom' | 'left' | 'right';
  */
 export const STICKY_DIRECTIONS: StickyDirection[] = ['top', 'bottom', 'left', 'right'];
 
-
 /**
  * Applies and removes sticky positioning styles to the `CdkTable` rows and columns cells.
  *
@@ -42,32 +41,26 @@ export class StickyStyler {
    *     that uses the native `<table>` element.
    *
    * 粘性逻辑是否应该基于一个使用原生 `<table>` 元素的表格。
-   *
    * @param _stickCellCss The CSS class that will be applied to every row/cell that has
    *     sticky positioning applied.
    *
    * 这个 CSS 类会应用于那些应用了粘性定位的行/单元格。
-   *
    * @param direction The directionality context of the table (ltr/rtl); affects column positioning
    *     by reversing left/right positions.
    *
    * 该表的方向性上下文（ltr/rtl）；通过反转左/右位置来影响列的定位。
-   *
    * @param _isBrowser Whether the table is currently being rendered on the server or the client.
    *
    * 表格当前是在服务器端还是客户端上渲染的。
-   *
    * @param _needsPositionStickyOnElement Whether we need to specify position: sticky on cells
    *     using inline styles. If false, it is assumed that position: sticky is included in
-   *     the component stylesheet for _stickCellCss.
+   *     the component stylesheet for \_stickCellCss.
    *
    * 我们是否需要使用内联样式指定 position: sticky。如果为 false，则假定 position: sticky 包含在 \_stickCellCss 组件样式表中。
-   *
    * @param _positionListener A listener that is notified of changes to sticky rows/columns
    *     and their dimensions.
    *
    * 接收粘性行/列及其尺寸变更通知的监听器。
-   *
    */
   constructor(private _isNativeHtmlTable: boolean,
               private _stickCellCss: string,

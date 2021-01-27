@@ -56,7 +56,6 @@ import {
 } from './autocomplete';
 import {_MatAutocompleteOriginBase} from './autocomplete-origin';
 
-
 /**
  * The following style constants are necessary to save here in order
  * to properly calculate the scrollTop of the panel. Because we are not
@@ -957,7 +956,6 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
 
   static ngAcceptInputType_autocompleteDisabled: BooleanInput;
 }
-
 
 @Directive({
   selector: `input[matAutocomplete], textarea[matAutocomplete]`,

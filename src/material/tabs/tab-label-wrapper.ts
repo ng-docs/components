@@ -10,7 +10,6 @@ import {BooleanInput} from '@angular/cdk/coercion';
 import {Directive, ElementRef} from '@angular/core';
 import {CanDisable, CanDisableCtor, mixinDisabled} from '@angular/material/core';
 
-
 // Boilerplate for applying mixins to MatTabLabelWrapper.
 /** @docs-private */
 class MatTabLabelWrapperBase {}

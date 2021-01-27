@@ -396,7 +396,6 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
   static ngAcceptInputType_disableRipple: BooleanInput;
 }
 
-
 /**
  * Material Design list component where each item is a selectable option. Behaves as a listbox.
  *

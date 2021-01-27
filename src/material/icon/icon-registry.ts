@@ -22,7 +22,6 @@ import {DomSanitizer, SafeResourceUrl, SafeHtml} from '@angular/platform-browser
 import {forkJoin, Observable, of as observableOf, throwError as observableThrow} from 'rxjs';
 import {catchError, finalize, map, share, tap} from 'rxjs/operators';
 
-
 /**
  * Returns an exception to be thrown in the case when attempting to
  * load an icon with a name that cannot be found.
@@ -34,7 +33,6 @@ import {catchError, finalize, map, share, tap} from 'rxjs/operators';
 export function getMatIconNameNotFoundError(iconName: string): Error {
   return Error(`Unable to find icon with the name "${iconName}"`);
 }
-
 
 /**
  * Returns an exception to be thrown when the consumer attempts to use
@@ -49,7 +47,6 @@ export function getMatIconNoHttpProviderError(): Error {
                'Please include the HttpClientModule from @angular/common/http in your ' +
                'app imports.');
 }
-
 
 /**
  * Returns an exception to be thrown when a URL couldn't be sanitized.
@@ -131,7 +128,7 @@ export interface SafeResourceUrlWithIconOptions {
 /**
  * Configuration for an icon, including the URL and possibly the cached SVG element.
  *
- * 图标的配置，包括 URL和可能缓存过的 SVG 元素。
+ * 图标的配置，包括 URL 和可能缓存过的 SVG 元素。
  *
  * @docs-private
  */
@@ -179,10 +176,9 @@ export class MatIconRegistry implements OnDestroy {
   private _document: Document;
 
   /**
-   * URLs and cached SVG elements for individual icons. Keys are of the format "[namespace]:[icon]".
+   * URLs and cached SVG elements for individual icons. Keys are of the format "[namespace]&#x3A;[icon]".
    *
-   * 各个图标的 URL 和缓存的 SVG 元素。键的格式为“[namespace]:[icon]”。
-   *
+   * 各个图标的 URL 和缓存的 SVG 元素。键的格式为“[namespace]&#x3A;[icon]”。
    */
   private _svgIconConfigs = new Map<string, SvgIconConfig>();
 
@@ -230,10 +226,9 @@ export class MatIconRegistry implements OnDestroy {
   /**
    * The CSS class to apply when an `<mat-icon>` component has no icon name, url, or font specified.
    * The default 'material-icons' value assumes that the material icon font has been loaded as
-   * described at http://google.github.io/material-design-icons/#icon-font-for-the-web
+   * described at <http://google.github.io/material-design-icons/#icon-font-for-the-web>
    *
-   * 当 `<mat-icon>` 组件没有指定图标名、url 或字体时，要应用的 CSS 类。默认的 “material-icons” 值假定已加载了 Material 字体图标，详见 http://google.github.io/material-design-icons/#icon-font-for-the-web
-   *
+   * 当 `<mat-icon>` 组件没有指定图标名、url 或字体时，要应用的 CSS 类。默认的 “material-icons” 值假定已加载了 Material 字体图标，详见 <http://google.github.io/material-design-icons/#icon-font-for-the-web>
    */
   private _defaultFontSetClass = 'material-icons';
 

@@ -50,7 +50,6 @@ import {
   MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY,
 } from './checkbox-config';
 
-
 // Increasing integer for generating unique ids for checkbox components.
 let nextUniqueId = 0;
 
@@ -145,7 +144,6 @@ const _MatCheckboxMixinBase:
     typeof MatCheckboxBase =
         mixinTabIndex(mixinColor(mixinDisableRipple(mixinDisabled(MatCheckboxBase))));
 
-
 /**
  * A material design checkbox component. Supports all of the functionality of an HTML5 checkbox,
  * and exposes a similar API. A MatCheckbox can be either checked, unchecked, indeterminate, or
@@ -154,7 +152,7 @@ const _MatCheckboxMixinBase:
  * have the checkbox be accessible, you may supply an [aria-label] input.
  * See: <https://material.io/design/components/selection-controls.html>
  *
- * 一种Material Design复选框。支持 HTML5 复选框的所有功能，并公开类似的 API。 MatCheckbox 可以是选定、未选定、未决或禁用的。请注意，该组件会处理所有其它无障碍属性，因此无需自行提供。但是，如果你想省略一个标签并仍然让该复选框满足无障碍性，你可以提供一个 [aria-label] 输入属性。请参阅：<https://material.io/design/components/selection-controls.html>
+ * 一种 Material Design 复选框。支持 HTML5 复选框的所有功能，并公开类似的 API。 MatCheckbox 可以是选定、未选定、未决或禁用的。请注意，该组件会处理所有其它无障碍属性，因此无需自行提供。但是，如果你想省略一个标签并仍然让该复选框满足无障碍性，你可以提供一个 [aria-label] 输入属性。请参阅：<https://material.io/design/components/selection-controls.html>
  *
  */
 @Component({
