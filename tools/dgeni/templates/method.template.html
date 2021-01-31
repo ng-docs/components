@@ -29,6 +29,9 @@
   {%- if method.params.length -%}
   <thead>
     <tr class="docs-api-method-parameters-header-row">
+      <th colspan="2" class="docs-api-method-parameters-header-cell">Parameters</th>
+    </tr>
+    <tr class="docs-api-method-parameters-header-row">
       <th colspan="2" class="docs-api-method-parameters-header-cell">参数</th>
     </tr>
   </thead>
@@ -54,6 +57,9 @@
 
   {%- if method.type and method.type !== "void" -%}
   <thead>
+    <tr class="docs-api-method-returns-header-row">
+        <th colspan="2" class="docs-api-method-returns-header-cell">Returns</th>
+    </tr>
     <tr class="docs-api-method-returns-header-row">
       <th colspan="2" class="docs-api-method-returns-header-cell">返回值</th>
     </tr>
