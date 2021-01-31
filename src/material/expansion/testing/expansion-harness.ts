@@ -42,6 +42,8 @@ export class MatExpansionPanelHarness extends
    * with specific attributes.
    * @param options Options for narrowing the search:
    *
+   * 用来收窄搜索范围的选项：
+   *
    * - `title` finds an expansion-panel with a specific title text.
    * - `description` finds an expansion-panel with a specific description text.
    * - `expanded` finds an expansion-panel that is currently expanded.

@@ -26,7 +26,7 @@ export class MatBadgeHarness extends ComponentHarness {
    *
    * @param options Options for narrowing the search:
    *
-   * 缩小搜索范围的选项：
+   * 用来收窄搜索范围的选项：
    *
    * - `text` finds a badge host with a particular text.
    *

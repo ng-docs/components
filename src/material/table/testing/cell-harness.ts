@@ -20,6 +20,9 @@ export class MatCellHarness extends ContentContainerComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a table cell with specific attributes.
+   *
+   * 获取一个可用来使用指定属性搜索表格中单元格的 `HarnessPredicate`。
+   *
    * @param options Options for narrowing the search
    * @return a `HarnessPredicate` configured with the given options.
    *

@@ -28,7 +28,7 @@ export class MatBottomSheetHarness extends ContentContainerComponentHarness<stri
    *
    * @param options Options for narrowing the search.
    *
-   * 缩小搜索范围的选项。
+   * 用来收窄搜索范围的选项。
    *
    * @return a `HarnessPredicate` configured with the given options.
    *

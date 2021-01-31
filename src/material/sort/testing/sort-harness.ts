@@ -16,7 +16,13 @@ export class MatSortHarness extends ComponentHarness {
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `mat-sort` with specific attributes.
+   *
+   * 获取一个可用来使用指定属性搜索 `mat-sort` 的 `HarnessPredicate`。
+   *
    * @param options Options for narrowing the search.
+   *
+   * 用来收窄搜索范围的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。

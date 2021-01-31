@@ -23,6 +23,9 @@ export class MatTooltipHarness extends ComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search
    * for a tooltip trigger with specific attributes.
    * @param options Options for narrowing the search.
+   *
+   * 用来收窄搜索范围的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
