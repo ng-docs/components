@@ -189,8 +189,7 @@ function nodesByPosition(first: ts.Node, second: ts.Node): number {
 /**
  * Insert `toInsert` after the last occurence of `ts.SyntaxKind[nodes[i].kind]`
  * or after the last of occurence of `syntaxKind` if the last occurence is a sub child
- * of ts.SyntaxKind[nodes[i].kind] and save the changes in file.
- *
+ * of ts.SyntaxKind\[nodes[i].kind] and save the changes in file.
  * @param nodes insert after the last occurence of nodes
  * @param toInsert string to insert
  * @param file file to insert changes into

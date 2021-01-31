@@ -33,7 +33,7 @@ import {MapMarker} from '../map-marker/map-marker';
 /**
  * Angular component for implementing a Google Maps Marker Clusterer.
  *
- * See https://developers.google.com/maps/documentation/javascript/marker-clustering
+ * See <https://developers.google.com/maps/documentation/javascript/marker-clustering>
  */
 @Component({
   selector: 'map-marker-clusterer',
@@ -162,14 +162,14 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnDestroy {
   /**
    * See
    * googlemaps.github.io/v3-utility-library/modules/
-   * _google_markerclustererplus.html#clusteringbegin
+   * \_google_markerclustererplus.html#clusteringbegin
    */
   @Output()
   clusteringbegin: Observable<void> = this._eventManager.getLazyEmitter<void>('clusteringbegin');
 
   /**
    * See
-   * googlemaps.github.io/v3-utility-library/modules/_google_markerclustererplus.html#clusteringend
+   * googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#clusteringend
    */
   @Output()
   clusteringend: Observable<void> = this._eventManager.getLazyEmitter<void>('clusteringend');
@@ -181,7 +181,7 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnDestroy {
    *
    * See
    * googlemaps.github.io/v3-utility-library/classes/
-   * _google_markerclustererplus.markerclusterer.html
+   * \_google_markerclustererplus.markerclusterer.html
    */
   markerClusterer?: MarkerClusterer;
 

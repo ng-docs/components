@@ -80,7 +80,6 @@ export class ConnectionPositionPair {
  *
  * \-------------------------- | | | | | Scrollable | | | | | | | -------------------------- | Scrollable | | |
  *
- *
  * * * *
  * @docs-private
  */

@@ -9,7 +9,12 @@
 import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {IconHarnessFilters, IconType} from './icon-harness-filters';
 
-/** Harness for interacting with a standard mat-icon in tests. */
+/**
+ * Harness for interacting with a standard mat-icon in tests.
+ *
+ * 在测试中用来与标准 mat-icon 进行交互的测试工具。
+ *
+ */
 export class MatIconHarness extends ComponentHarness {
   /** The selector for the host element of a `MatIcon` instance. */
   static hostSelector = '.mat-icon';

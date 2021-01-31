@@ -10,7 +10,12 @@ import {AriaLivePoliteness} from '@angular/cdk/a11y';
 import {ContentContainerComponentHarness, HarnessPredicate, parallel} from '@angular/cdk/testing';
 import {SnackBarHarnessFilters} from './snack-bar-harness-filters';
 
-/** Harness for interacting with a standard mat-snack-bar in tests. */
+/**
+ * Harness for interacting with a standard mat-snack-bar in tests.
+ *
+ * 在测试中用来与标准 mat-snack-bar 进行交互的测试工具。
+ *
+ */
 export class MatSnackBarHarness extends ContentContainerComponentHarness<string> {
   // Developers can provide a custom component or template for the
   // snackbar. The canonical snack-bar parent is the "MatSnackBarContainer".

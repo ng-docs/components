@@ -138,6 +138,8 @@ export class InteractivityChecker {
   /**
    * Gets whether an element can be focused by the user.
    *
+   * 获取用户是否可以给某个元素设置焦点。
+   *
    * @param element Element to be checked.
    * @param config The config object with options to customize this method's behavior
    * @returns Whether the element is focusable.

@@ -21,7 +21,12 @@ export const enum MatExpansionPanelSection {
   CONTENT = '.mat-expansion-panel-content'
 }
 
-/** Harness for interacting with a standard mat-expansion-panel in tests. */
+/**
+ * Harness for interacting with a standard mat-expansion-panel in tests.
+ *
+ * 在测试中用来与标准 mat-expansion-panel 进行交互的测试工具。
+ *
+ */
 export class MatExpansionPanelHarness extends
   ContentContainerComponentHarness<MatExpansionPanelSection> {
   static hostSelector = '.mat-expansion-panel';

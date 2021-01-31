@@ -67,7 +67,12 @@ export class MatNativeSelectHarness extends MatFormFieldControlHarness {
     return (await this.host()).blur();
   }
 
-  /** Whether the select is focused. */
+  /**
+   * Whether the select is focused.
+   *
+   * 此选择器是否拥有焦点。
+   *
+   */
   async isFocused(): Promise<boolean> {
     return (await this.host()).isFocused();
   }

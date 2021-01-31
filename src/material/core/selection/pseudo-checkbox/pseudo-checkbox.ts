@@ -53,7 +53,12 @@ export class MatPseudoCheckbox {
   /** Display state of the checkbox. */
   @Input() state: MatPseudoCheckboxState = 'unchecked';
 
-  /** Whether the checkbox is disabled. */
+  /**
+   * Whether the checkbox is disabled.
+   *
+   * 该复选框是否已被禁用。
+   *
+   */
   @Input() disabled: boolean = false;
 
   constructor(@Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) { }

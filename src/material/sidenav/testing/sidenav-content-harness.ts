@@ -9,7 +9,12 @@
 import {ContentContainerComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {DrawerContentHarnessFilters} from './drawer-harness-filters';
 
-/** Harness for interacting with a standard mat-sidenav-content in tests. */
+/**
+ * Harness for interacting with a standard mat-sidenav-content in tests.
+ *
+ * 在测试中用来与标准 mat-sidenav-content 进行交互的测试工具。
+ *
+ */
 export class MatSidenavContentHarness extends ContentContainerComponentHarness<string> {
   /** The selector for the host element of a `MatSidenavContent` instance. */
   static hostSelector = '.mat-sidenav-content';

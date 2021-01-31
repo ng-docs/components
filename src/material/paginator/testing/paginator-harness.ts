@@ -11,7 +11,12 @@ import {MatSelectHarness} from '@angular/material/select/testing';
 import {coerceNumberProperty} from '@angular/cdk/coercion';
 import {PaginatorHarnessFilters} from './paginator-harness-filters';
 
-/** Harness for interacting with a standard mat-paginator in tests. */
+/**
+ * Harness for interacting with a standard mat-paginator in tests.
+ *
+ * 在测试中用来与标准 mat-paginator 进行交互的测试工具。
+ *
+ */
 export class MatPaginatorHarness extends ComponentHarness {
   /** Selector used to find paginator instances. */
   static hostSelector = '.mat-paginator';

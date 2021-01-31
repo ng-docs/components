@@ -9,7 +9,12 @@
 import {ContentContainerComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {DrawerContentHarnessFilters} from './drawer-harness-filters';
 
-/** Harness for interacting with a standard mat-drawer-content in tests. */
+/**
+ * Harness for interacting with a standard mat-drawer-content in tests.
+ *
+ * 在测试中用来与标准 mat-drawer-content 进行交互的测试工具。
+ *
+ */
 export class MatDrawerContentHarness extends ContentContainerComponentHarness<string> {
   /** The selector for the host element of a `MatDrawerContent` instance. */
   static hostSelector = '.mat-drawer-content';

@@ -12,7 +12,7 @@
  * Class for clustering markers on a Google Map.
  *
  * See
- * googlemaps.github.io/v3-utility-library/classes/_google_markerclustererplus.markerclusterer.html
+ * googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.markerclusterer.html
  */
 declare class MarkerClusterer {
   constructor(
@@ -86,7 +86,7 @@ declare class MarkerClusterer {
 /**
  * Cluster class from the @google/markerclustererplus library.
  *
- * See googlemaps.github.io/v3-utility-library/classes/_google_markerclustererplus.cluster.html
+ * See googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.cluster.html
  */
 declare class Cluster {
   constructor(markerClusterer: MarkerClusterer);
@@ -101,7 +101,7 @@ declare class Cluster {
  *
  * See
  * googlemaps.github.io/v3-utility-library/classes/
- * _google_markerclustererplus.markerclustereroptions.html
+ * \_google_markerclustererplus.markerclustereroptions.html
  */
 declare interface MarkerClustererOptions {
   ariaLabelFn?: AriaLabelFn;
@@ -129,7 +129,7 @@ declare interface MarkerClustererOptions {
  *
  * See
  * googlemaps.github.io/v3-utility-library/interfaces/
- * _google_markerclustererplus.clustericonstyle.html
+ * \_google_markerclustererplus.clustericonstyle.html
  */
 declare interface ClusterIconStyle {
   anchorIcon?: [number, number];
@@ -153,7 +153,7 @@ declare interface ClusterIconStyle {
  *
  * See
  * googlemaps.github.io/v3-utility-library/interfaces/
- * _google_markerclustererplus.clustericoninfo.html
+ * \_google_markerclustererplus.clustericoninfo.html
  */
 declare interface ClusterIconInfo {
   index: number;
@@ -164,14 +164,14 @@ declare interface ClusterIconInfo {
 /**
  * Function type alias for determining the aria label on a Google Maps marker cluster.
  *
- * See googlemaps.github.io/v3-utility-library/modules/_google_markerclustererplus.html#arialabelfn
+ * See googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#arialabelfn
  */
 declare type AriaLabelFn = (text: string) => string;
 
 /**
  * Function type alias for calculating how a marker cluster is displayed.
  *
- * See googlemaps.github.io/v3-utility-library/modules/_google_markerclustererplus.html#calculator
+ * See googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#calculator
  */
 declare type Calculator =
     (markers: google.maps.Marker[], clusterIconStylesCount: number) => ClusterIconInfo;

@@ -106,10 +106,20 @@ export class CdkDropList<T = any> implements OnDestroy {
    */
   @Input() id: string = `cdk-drop-list-${_uniqueIdCounter++}`;
 
-  /** Locks the position of the draggable elements inside the container along the specified axis. */
+  /**
+   * Locks the position of the draggable elements inside the container along the specified axis.
+   *
+   * 沿着指定的轴锁定容器内可拖动元素的位置。
+   *
+   */
   @Input('cdkDropListLockAxis') lockAxis: DragAxis;
 
-  /** Whether starting a dragging sequence from this container is disabled. */
+  /**
+   * Whether starting a dragging sequence from this container is disabled.
+   *
+   * 是否禁用了从此容器启动拖曳序列的方法。
+   *
+   */
   @Input('cdkDropListDisabled')
   get disabled(): boolean {
     return this._disabled || (!!this._group && this._group.disabled);
@@ -134,7 +144,12 @@ export class CdkDropList<T = any> implements OnDestroy {
   @Input('cdkDropListEnterPredicate')
   enterPredicate: (drag: CdkDrag, drop: CdkDropList) => boolean = () => true
 
-  /** Functions that is used to determine whether an item can be sorted into a particular index. */
+  /**
+   * Functions that is used to determine whether an item can be sorted into a particular index.
+   *
+   * 一个函数，用来判断某个条目是否可以被排序到特定索引。
+   *
+   */
   @Input('cdkDropListSortPredicate')
   sortPredicate: (index: number, drag: CdkDrag, drop: CdkDropList) => boolean = () => true
 
@@ -142,16 +157,29 @@ export class CdkDropList<T = any> implements OnDestroy {
   @Input('cdkDropListAutoScrollDisabled')
   autoScrollDisabled: boolean;
 
-  /** Number of pixels to scroll for each frame when auto-scrolling an element. */
+  /**
+   * Number of pixels to scroll for each frame when auto-scrolling an element.
+   *
+   * 当自动滚动元素时，这是每一帧滚动的像素数。
+   *
+   */
   @Input('cdkDropListAutoScrollStep')
   autoScrollStep: number;
 
-  /** Emits when the user drops an item inside the container. */
+  /**
+   * Emits when the user drops an item inside the container.
+   *
+   * 当用户把一个条目投放进该容器时就会触发。
+   *
+   */
   @Output('cdkDropListDropped')
   dropped: EventEmitter<CdkDragDrop<T, any>> = new EventEmitter<CdkDragDrop<T, any>>();
 
   /**
    * Emits when the user has moved a new drag item into this container.
+   *
+   * 当用户把一个新的拖动条目移到这个容器中时，就会触发。
+   *
    */
   @Output('cdkDropListEntered')
   entered: EventEmitter<CdkDragEnter<T>> = new EventEmitter<CdkDragEnter<T>>();
@@ -163,7 +191,12 @@ export class CdkDropList<T = any> implements OnDestroy {
   @Output('cdkDropListExited')
   exited: EventEmitter<CdkDragExit<T>> = new EventEmitter<CdkDragExit<T>>();
 
-  /** Emits as the user is swapping items while actively dragging. */
+  /**
+   * Emits as the user is swapping items while actively dragging.
+   *
+   * 当用户正在主动拖动以交换条目时，就会触发。
+   *
+   */
   @Output('cdkDropListSorted')
   sorted: EventEmitter<CdkDragSortEvent<T>> = new EventEmitter<CdkDragSortEvent<T>>();
 

@@ -10,7 +10,12 @@ import {coerceNumberProperty} from '@angular/cdk/coercion';
 import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {ProgressBarHarnessFilters} from './progress-bar-harness-filters';
 
-/** Harness for interacting with a standard mat-progress-bar in tests. */
+/**
+ * Harness for interacting with a standard mat-progress-bar in tests.
+ *
+ * 在测试中用来与标准 mat-progress-bar 进行交互的测试工具。
+ *
+ */
 export class MatProgressBarHarness extends ComponentHarness {
   /** The selector for the host element of a `MatProgressBar` instance. */
   static hostSelector = '.mat-progress-bar';

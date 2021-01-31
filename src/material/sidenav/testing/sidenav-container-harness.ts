@@ -11,7 +11,12 @@ import {DrawerContainerHarnessFilters, DrawerHarnessFilters} from './drawer-harn
 import {MatSidenavContentHarness} from './sidenav-content-harness';
 import {MatSidenavHarness} from './sidenav-harness';
 
-/** Harness for interacting with a standard mat-sidenav-container in tests. */
+/**
+ * Harness for interacting with a standard mat-sidenav-container in tests.
+ *
+ * 在测试中用来与标准 mat-sidenav-container 进行交互的测试工具。
+ *
+ */
 export class MatSidenavContainerHarness extends ContentContainerComponentHarness<string> {
   /** The selector for the host element of a `MatSidenavContainer` instance. */
   static hostSelector = '.mat-sidenav-container';
@@ -32,6 +37,9 @@ export class MatSidenavContainerHarness extends ContentContainerComponentHarness
   /**
    * Gets sidenavs that match particular criteria within the container.
    * @param filter Optionally filters which chips are included.
+   *
+   * 可选择过滤哪些纸片。
+   *
    */
   async getSidenavs(filter: DrawerHarnessFilters = {}): Promise<MatSidenavHarness[]> {
     return this.locatorForAll(MatSidenavHarness.with(filter))();

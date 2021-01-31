@@ -9,7 +9,12 @@
 import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {TooltipHarnessFilters} from './tooltip-harness-filters';
 
-/** Harness for interacting with a standard mat-tooltip in tests. */
+/**
+ * Harness for interacting with a standard mat-tooltip in tests.
+ *
+ * 在测试中用来与标准 mat-tooltip 进行交互的测试工具。
+ *
+ */
 export class MatTooltipHarness extends ComponentHarness {
   private _optionalPanel = this.documentRootLocatorFactory().locatorForOptional('.mat-tooltip');
   static hostSelector = '.mat-tooltip-trigger';

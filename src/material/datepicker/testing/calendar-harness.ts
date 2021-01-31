@@ -13,7 +13,12 @@ import {MatCalendarCellHarness} from './calendar-cell-harness';
 /** Possible views of a `MatCalendarHarness`. */
 export const enum CalendarView {MONTH, YEAR, MULTI_YEAR}
 
-/** Harness for interacting with a standard Material calendar in tests. */
+/**
+ * Harness for interacting with a standard Material calendar in tests.
+ *
+ * 在测试中与标准 Material calendar 进行交互的测试工具。
+ *
+ */
 export class MatCalendarHarness extends ComponentHarness {
   static hostSelector = '.mat-calendar';
 

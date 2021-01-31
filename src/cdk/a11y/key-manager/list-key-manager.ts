@@ -26,7 +26,12 @@ import {debounceTime, filter, map, tap} from 'rxjs/operators';
 
 /** This interface is for items that can be passed to a ListKeyManager. */
 export interface ListKeyManagerOption {
-  /** Whether the option is disabled. */
+  /**
+   * Whether the option is disabled.
+   *
+   * 该选项是否被禁用。
+   *
+   */
   disabled?: boolean;
 
   /** Gets the label for this option. */
@@ -190,6 +195,9 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
 
   /**
    * Sets the active item to the item at the index specified.
+   *
+   * 把激活条目设置为由索引指定的条目。
+   *
    * @param index The index of the item to be set as active.
    */
   setActiveItem(index: number): void;
@@ -212,6 +220,9 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
 
   /**
    * Sets the active item depending on the key event passed in.
+   *
+   * 根据传入的键盘事件设置激活条目。
+   *
    * @param event Keyboard event to be used for determining which element should be active.
    */
   onKeydown(event: KeyboardEvent): void {
@@ -309,22 +320,42 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
     return this._pressedLetters.length > 0;
   }
 
-  /** Sets the active item to the first enabled item in the list. */
+  /**
+   * Sets the active item to the first enabled item in the list.
+   *
+   * 将激活条目设置为列表中第一个可用的（enabled）条目。
+   *
+   */
   setFirstItemActive(): void {
     this._setActiveItemByIndex(0, 1);
   }
 
-  /** Sets the active item to the last enabled item in the list. */
+  /**
+   * Sets the active item to the last enabled item in the list.
+   *
+   * 将激活条目设置为列表中最后一个可用的（enabled）条目。
+   *
+   */
   setLastItemActive(): void {
     this._setActiveItemByIndex(this._items.length - 1, -1);
   }
 
-  /** Sets the active item to the next enabled item in the list. */
+  /**
+   * Sets the active item to the next enabled item in the list.
+   *
+   * 将激活条目设置为列表中的下一个可用的（enabled）条目。
+   *
+   */
   setNextItemActive(): void {
     this._activeItemIndex < 0 ? this.setFirstItemActive() : this._setActiveItemByDelta(1);
   }
 
-  /** Sets the active item to a previous enabled item in the list. */
+  /**
+   * Sets the active item to a previous enabled item in the list.
+   *
+   * 将激活条目设置为列表中的上一个可用的（enabled）条目。
+   *
+   */
   setPreviousItemActive(): void {
     this._activeItemIndex < 0 && this._wrap ? this.setLastItemActive()
                                             : this._setActiveItemByDelta(-1);

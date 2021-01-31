@@ -14,7 +14,12 @@ import {
   StepperOrientation,
 } from './step-harness-filters';
 
-/** Harness for interacting with a standard Material stepper in tests. */
+/**
+ * Harness for interacting with a standard Material stepper in tests.
+ *
+ * 在测试中与标准 Material stepper 进行交互的测试工具。
+ *
+ */
 export class MatStepperHarness extends ComponentHarness {
   /** The selector for the host element of a `MatStepper` instance. */
   static hostSelector = '.mat-stepper-horizontal, .mat-stepper-vertical';

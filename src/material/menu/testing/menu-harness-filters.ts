@@ -16,7 +16,12 @@ export interface MenuHarnessFilters extends BaseHarnessFilters {
 
 /** A set of criteria that can be used to filter a list of `MatMenuItemHarness` instances. */
 export interface MenuItemHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose text matches the given value. */
+  /**
+   * Only find instances whose text matches the given value.
+   *
+   * 只查找其文本内容匹配指定值的实例。
+   *
+   */
   text?: string | RegExp;
   /** Only find instances that have a sub-menu. */
   hasSubmenu?: boolean;

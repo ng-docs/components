@@ -14,7 +14,12 @@ export interface TreeHarnessFilters extends BaseHarnessFilters {
 
 /** A set of criteria that can be used to filter a list of node harness instances. */
 export interface TreeNodeHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose text matches the given value. */
+  /**
+   * Only find instances whose text matches the given value.
+   *
+   * 只查找其文本内容匹配指定值的实例。
+   *
+   */
   text?: string | RegExp;
 
   /** Only find instances whose disabled state matches the given value. */

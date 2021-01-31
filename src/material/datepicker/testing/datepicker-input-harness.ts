@@ -42,7 +42,12 @@ export class MatDatepickerInputHarness extends MatDatepickerInputHarnessBase imp
     return (await host.getAttribute('aria-owns')) != null;
   }
 
-  /** Opens the calendar associated with the input. */
+  /**
+   * Opens the calendar associated with the input.
+   *
+   * 打开与该输入框关联的日历。
+   *
+   */
   async openCalendar(): Promise<void> {
     const [isDisabled, hasCalendar] = await parallel(() => [this.isDisabled(), this.hasCalendar()]);
 

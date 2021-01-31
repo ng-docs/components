@@ -10,7 +10,12 @@ import {ComponentHarness, HarnessPredicate, parallel} from '@angular/cdk/testing
 import {TabGroupHarnessFilters, TabHarnessFilters} from './tab-harness-filters';
 import {MatTabHarness} from './tab-harness';
 
-/** Harness for interacting with a standard mat-tab-group in tests. */
+/**
+ * Harness for interacting with a standard mat-tab-group in tests.
+ *
+ * 在测试中用来与标准 mat-tab-group 进行交互的测试工具。
+ *
+ */
 export class MatTabGroupHarness extends ComponentHarness {
   /** The selector for the host element of a `MatTabGroup` instance. */
   static hostSelector = '.mat-tab-group';

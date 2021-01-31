@@ -18,7 +18,7 @@ export interface ButtonHarnessFilters extends BaseHarnessFilters {
   /**
    * Only find instances whose text matches the given value.
    *
-   * 只查找文本匹配指定值的实例。
+   * 只查找其文本内容匹配指定值的实例。
    *
    */
   text?: string | RegExp;

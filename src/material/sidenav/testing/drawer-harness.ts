@@ -41,7 +41,12 @@ export class MatDrawerHarnessBase extends ContentContainerComponentHarness<strin
   }
 }
 
-/** Harness for interacting with a standard mat-drawer in tests. */
+/**
+ * Harness for interacting with a standard mat-drawer in tests.
+ *
+ * 在测试中用来与标准 mat-drawer 进行交互的测试工具。
+ *
+ */
 export class MatDrawerHarness extends MatDrawerHarnessBase {
   /** The selector for the host element of a `MatDrawer` instance. */
   static hostSelector = '.mat-drawer';

@@ -10,7 +10,12 @@ import {HarnessPredicate, parallel} from '@angular/cdk/testing';
 import {MatFormFieldControlHarness} from '@angular/material/form-field/testing/control';
 import {InputHarnessFilters} from './input-harness-filters';
 
-/** Harness for interacting with a standard Material inputs in tests. */
+/**
+ * Harness for interacting with a standard Material inputs in tests.
+ *
+ * 在测试中与标准 Material 输入框进行交互的测试工具。
+ *
+ */
 export class MatInputHarness extends MatFormFieldControlHarness {
   // TODO: We do not want to handle `select` elements with `matNativeControl` because
   // not all methods of this harness work reasonably for native select elements.
@@ -35,12 +40,22 @@ export class MatInputHarness extends MatFormFieldControlHarness {
         });
   }
 
-  /** Whether the input is disabled. */
+  /**
+   * Whether the input is disabled.
+   *
+   * 输入框是否被禁用。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     return (await this.host()).getProperty('disabled')!;
   }
 
-  /** Whether the input is required. */
+  /**
+   * Whether the input is required.
+   *
+   * 输入框是否为必需的。
+   *
+   */
   async isRequired(): Promise<boolean> {
     return (await this.host()).getProperty('required')!;
   }
@@ -50,7 +65,12 @@ export class MatInputHarness extends MatFormFieldControlHarness {
     return (await this.host()).getProperty('readOnly')!;
   }
 
-  /** Gets the value of the input. */
+  /**
+   * Gets the value of the input.
+   *
+   * 获取输入框的值。
+   *
+   */
   async getValue(): Promise<string> {
     // The "value" property of the native input is never undefined.
     return (await (await this.host()).getProperty('value'))!;
@@ -71,7 +91,12 @@ export class MatInputHarness extends MatFormFieldControlHarness {
     return (await (await this.host()).getProperty('type'))!;
   }
 
-  /** Gets the placeholder of the input. */
+  /**
+   * Gets the placeholder of the input.
+   *
+   * 获取输入框的占位符。
+   *
+   */
   async getPlaceholder(): Promise<string> {
     const host = await this.host();
     const [nativePlaceholder, fallback] = await parallel(() => [
@@ -104,7 +129,12 @@ export class MatInputHarness extends MatFormFieldControlHarness {
     return (await this.host()).blur();
   }
 
-  /** Whether the input is focused. */
+  /**
+   * Whether the input is focused.
+   *
+   * 输入框是否拥有焦点。
+   *
+   */
   async isFocused(): Promise<boolean> {
     return (await this.host()).isFocused();
   }

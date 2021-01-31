@@ -11,7 +11,12 @@ import {MatListHarnessBase} from './list-harness-base';
 import {ActionListHarnessFilters, ActionListItemHarnessFilters} from './list-harness-filters';
 import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-base';
 
-/** Harness for interacting with a standard mat-action-list in tests. */
+/**
+ * Harness for interacting with a standard mat-action-list in tests.
+ *
+ * 在测试中用来与标准 mat-action-list 进行交互的测试工具。
+ *
+ */
 export class MatActionListHarness extends MatListHarnessBase<
     typeof MatActionListItemHarness, MatActionListItemHarness, ActionListItemHarnessFilters> {
   /** The selector for the host element of a `MatActionList` instance. */

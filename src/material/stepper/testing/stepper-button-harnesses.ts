@@ -16,7 +16,12 @@ abstract class StepperButtonHarness extends ComponentHarness {
     return (await this.host()).text();
   }
 
-  /** Clicks the button. */
+  /**
+   * Clicks the button.
+   *
+   * 单击此按钮。
+   *
+   */
   async click(): Promise<void> {
     return (await this.host()).click();
   }

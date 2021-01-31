@@ -24,7 +24,12 @@ export interface MatTableHarnessColumnsText {
   };
 }
 
-/** Harness for interacting with a standard mat-table in tests. */
+/**
+ * Harness for interacting with a standard mat-table in tests.
+ *
+ * 在测试中用来与标准 mat-table 进行交互的测试工具。
+ *
+ */
 export class MatTableHarness extends ContentContainerComponentHarness<string> {
   /** The selector for the host element of a `MatTableHarness` instance. */
   static hostSelector = '.mat-table';

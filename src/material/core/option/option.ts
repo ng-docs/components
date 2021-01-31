@@ -63,7 +63,12 @@ export class _MatOptionBase implements FocusableOption, AfterViewChecked, OnDest
   /** The unique ID of the option. */
   @Input() id: string = `mat-option-${_uniqueIdCounter++}`;
 
-  /** Whether the option is disabled. */
+  /**
+   * Whether the option is disabled.
+   *
+   * 该选项是否被禁用。
+   *
+   */
   @Input()
   get disabled() { return (this.group && this.group.disabled) || this._disabled; }
   set disabled(value: any) { this._disabled = coerceBooleanProperty(value); }
@@ -156,7 +161,12 @@ export class _MatOptionBase implements FocusableOption, AfterViewChecked, OnDest
     }
   }
 
-  /** Gets the label to be used when determining whether the option should be focused. */
+  /**
+   * Gets the label to be used when determining whether the option should be focused.
+   *
+   * 获取在确定该选项是否应该获得焦点时使用的标签。
+   *
+   */
   getLabel(): string {
     return this.viewValue;
   }

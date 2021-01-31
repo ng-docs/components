@@ -64,7 +64,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   /** Whether the overlay can grow via flexible width/height after the initial open. */
   private _growAfterOpen = false;
 
-  /** Whether the overlay's width and height can be constrained to fit within the viewport. */
+  /**
+   * Whether the overlay's width and height can be constrained to fit within the viewport.
+   *
+   * 浮层的宽度和高度是否可以约束在当前视口中。
+   *
+   */
   private _hasFlexibleDimensions = true;
 
   /** Whether the overlay position is locked. */

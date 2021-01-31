@@ -171,6 +171,7 @@ describe('BlockScrollStrategy', () => {
    * Skips the specified test, if it is being executed on iOS. This is necessary, because
    * programmatic scrolling inside the Karma iframe doesn't work on iOS, which renders these
    * tests unusable. For example, something as basic as the following won't work:
+   *
    * ```
    * window.scroll(0, 100);
    * expect(viewport.getViewportScrollPosition().top).toBe(100);

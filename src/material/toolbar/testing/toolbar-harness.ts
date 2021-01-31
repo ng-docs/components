@@ -14,7 +14,12 @@ export const enum MatToolbarSection {
   ROW = '.mat-toolbar-row'
 }
 
-/** Harness for interacting with a standard mat-toolbar in tests. */
+/**
+ * Harness for interacting with a standard mat-toolbar in tests.
+ *
+ * 在测试中用来与标准 mat-toolbar 进行交互的测试工具。
+ *
+ */
 export class MatToolbarHarness extends ContentContainerComponentHarness<MatToolbarSection> {
   static hostSelector = '.mat-toolbar';
 

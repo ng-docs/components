@@ -201,10 +201,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
 
   /**
    * Extra parameters used to configure the player. See:
-   * https://developers.google.com/youtube/player_parameters.html?playerVersion=HTML5#Parameters
+   * <https://developers.google.com/youtube/player_parameters.html?playerVersion=HTML5#Parameters>
    *
-   * 用于配置播放器的额外参数。请参阅：https://developers.google.com/youtube/player_parameters.html?playerVersion=HTML5#Parameters
-   *
+   * 用于配置播放器的额外参数。请参阅：<https://developers.google.com/youtube/player_parameters.html?playerVersion=HTML5#Parameters>
    */
   @Input()
   get playerVars(): YT.PlayerVars | undefined { return this._playerVars.value; }
@@ -371,10 +370,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#playVideo
+   * See <https://developers.google.com/youtube/iframe_api_reference#playVideo>
    *
-   * 参见 https://developers.google.com/youtube/iframe_api_reference#playVideo
-   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#playVideo>
    */
   playVideo() {
     if (this._player) {
@@ -385,10 +383,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#pauseVideo
+   * See <https://developers.google.com/youtube/iframe_api_reference#pauseVideo>
    *
-   * 参见 https://developers.google.com/youtube/iframe_api_reference#pauseVideo
-   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#pauseVideo>
    */
   pauseVideo() {
     if (this._player) {
@@ -399,10 +396,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#stopVideo
+   * See <https://developers.google.com/youtube/iframe_api_reference#stopVideo>
    *
-   * 参见 https://developers.google.com/youtube/iframe_api_reference#stopVideo
-   *
+   * 参见 <https://developers.google.com/youtube/iframe_api_reference#stopVideo>
    */
   stopVideo() {
     if (this._player) {
@@ -414,10 +410,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#seekTo
+   * See <https://developers.google.com/youtube/iframe_api_reference#seekTo>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#seekTo>
-   *
    */
   seekTo(seconds: number, allowSeekAhead: boolean) {
     if (this._player) {
@@ -428,10 +423,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#mute
+   * See <https://developers.google.com/youtube/iframe_api_reference#mute>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#mute>
-   *
    */
   mute() {
     if (this._player) {
@@ -442,10 +436,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#unMute
+   * See <https://developers.google.com/youtube/iframe_api_reference#unMute>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#unMute>
-   *
    */
   unMute() {
     if (this._player) {
@@ -456,10 +449,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#isMuted
+   * See <https://developers.google.com/youtube/iframe_api_reference#isMuted>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#isMuted>
-   *
    */
   isMuted(): boolean {
     if (this._player) {
@@ -474,10 +466,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#setVolume
+   * See <https://developers.google.com/youtube/iframe_api_reference#setVolume>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#setVolume>
-   *
    */
   setVolume(volume: number) {
     if (this._player) {
@@ -488,10 +479,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getVolume
+   * See <https://developers.google.com/youtube/iframe_api_reference#getVolume>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getVolume>
-   *
    */
   getVolume(): number {
     if (this._player) {
@@ -506,10 +496,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#setPlaybackRate
+   * See <https://developers.google.com/youtube/iframe_api_reference#setPlaybackRate>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#setPlaybackRate>
-   *
    */
   setPlaybackRate(playbackRate: number) {
     if (this._player) {
@@ -520,10 +509,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getPlaybackRate
+   * See <https://developers.google.com/youtube/iframe_api_reference#getPlaybackRate>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getPlaybackRate>
-   *
    */
   getPlaybackRate(): number {
     if (this._player) {
@@ -538,30 +526,27 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getAvailablePlaybackRates
+   * See <https://developers.google.com/youtube/iframe_api_reference#getAvailablePlaybackRates>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getAvailablePlaybackRates>
-   *
    */
   getAvailablePlaybackRates(): number[] {
     return this._player ? this._player.getAvailablePlaybackRates() : [];
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getVideoLoadedFraction
+   * See <https://developers.google.com/youtube/iframe_api_reference#getVideoLoadedFraction>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getVideoLoadedFraction>
-   *
    */
   getVideoLoadedFraction(): number {
     return this._player ? this._player.getVideoLoadedFraction() : 0;
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getPlayerState
+   * See <https://developers.google.com/youtube/iframe_api_reference#getPlayerState>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getPlayerState>
-   *
    */
   getPlayerState(): YT.PlayerState | undefined {
     if (!this._isBrowser || !window.YT) {
@@ -580,10 +565,9 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getCurrentTime
+   * See <https://developers.google.com/youtube/iframe_api_reference#getCurrentTime>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getCurrentTime>
-   *
    */
   getCurrentTime(): number {
     if (this._player) {
@@ -598,50 +582,45 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getPlaybackQuality
+   * See <https://developers.google.com/youtube/iframe_api_reference#getPlaybackQuality>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getPlaybackQuality>
-   *
    */
   getPlaybackQuality(): YT.SuggestedVideoQuality {
     return this._player ? this._player.getPlaybackQuality() : 'default';
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getAvailableQualityLevels
+   * See <https://developers.google.com/youtube/iframe_api_reference#getAvailableQualityLevels>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getAvailableQualityLevels>
-   *
    */
   getAvailableQualityLevels(): YT.SuggestedVideoQuality[] {
     return this._player ? this._player.getAvailableQualityLevels() : [];
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getDuration
+   * See <https://developers.google.com/youtube/iframe_api_reference#getDuration>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getDuration>
-   *
    */
   getDuration(): number {
     return this._player ? this._player.getDuration() : 0;
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getVideoUrl
+   * See <https://developers.google.com/youtube/iframe_api_reference#getVideoUrl>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getVideoUrl>
-   *
    */
   getVideoUrl(): string {
     return this._player ? this._player.getVideoUrl() : '';
   }
 
   /**
-   * See https://developers.google.com/youtube/iframe_api_reference#getVideoEmbedCode
+   * See <https://developers.google.com/youtube/iframe_api_reference#getVideoEmbedCode>
    *
    * 参见 <https://developers.google.com/youtube/iframe_api_reference#getVideoEmbedCode>
-   *
    */
   getVideoEmbedCode(): string {
     return this._player ? this._player.getVideoEmbedCode() : '';

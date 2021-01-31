@@ -12,7 +12,12 @@ export const enum StepperOrientation {HORIZONTAL, VERTICAL}
 
 /** A set of criteria that can be used to filter a list of `MatStepHarness` instances. */
 export interface StepHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose label matches the given value. */
+  /**
+   * Only find instances whose label matches the given value.
+   *
+   * 只查找标签与指定值匹配的实例。
+   *
+   */
   label?: string | RegExp;
   /** Only find steps with the given selected state. */
   selected?: boolean;
@@ -33,7 +38,12 @@ export interface StepperHarnessFilters extends BaseHarnessFilters {
  * `MatStepperNextHarness` and `MatStepperPreviousHarness` instances.
  */
 export interface StepperButtonHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose text matches the given value. */
+  /**
+   * Only find instances whose text matches the given value.
+   *
+   * 只查找其文本内容匹配指定值的实例。
+   *
+   */
   text?: string | RegExp;
 }
 

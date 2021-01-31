@@ -29,17 +29,32 @@ export function getInputPredicate<T extends MatDatepickerInputHarnessBase>(
 
 /** Base class for datepicker input harnesses. */
 export abstract class MatDatepickerInputHarnessBase extends ComponentHarness {
-  /** Whether the input is disabled. */
+  /**
+   * Whether the input is disabled.
+   *
+   * 输入框是否被禁用。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     return (await this.host()).getProperty('disabled')!;
   }
 
-  /** Whether the input is required. */
+  /**
+   * Whether the input is required.
+   *
+   * 输入框是否为必需的。
+   *
+   */
   async isRequired(): Promise<boolean> {
     return (await this.host()).getProperty('required')!;
   }
 
-  /** Gets the value of the input. */
+  /**
+   * Gets the value of the input.
+   *
+   * 获取输入框的值。
+   *
+   */
   async getValue(): Promise<string> {
     // The "value" property of the native input is always defined.
     return (await (await this.host()).getProperty('value'))!;
@@ -66,7 +81,12 @@ export abstract class MatDatepickerInputHarnessBase extends ComponentHarness {
     }
   }
 
-  /** Gets the placeholder of the input. */
+  /**
+   * Gets the placeholder of the input.
+   *
+   * 获取输入框的占位符。
+   *
+   */
   async getPlaceholder(): Promise<string> {
     return (await (await this.host()).getProperty('placeholder'));
   }
@@ -87,7 +107,12 @@ export abstract class MatDatepickerInputHarnessBase extends ComponentHarness {
     return (await this.host()).blur();
   }
 
-  /** Whether the input is focused. */
+  /**
+   * Whether the input is focused.
+   *
+   * 输入框是否拥有焦点。
+   *
+   */
   async isFocused(): Promise<boolean> {
     return (await this.host()).isFocused();
   }

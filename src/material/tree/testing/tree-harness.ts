@@ -15,7 +15,12 @@ export type TextTree = {
   children?: TextTree[];
 };
 
-/** Harness for interacting with a standard mat-tree in tests. */
+/**
+ * Harness for interacting with a standard mat-tree in tests.
+ *
+ * 在测试中用来与标准 mat-tree 进行交互的测试工具。
+ *
+ */
 export class MatTreeHarness extends ComponentHarness {
   /** The selector for the host element of a `MatTableHarness` instance. */
   static hostSelector = '.mat-tree';

@@ -9,7 +9,12 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
 
 /** A set of criteria that can be used to filter a list of `MatTabHarness` instances. */
 export interface TabHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose label matches the given value. */
+  /**
+   * Only find instances whose label matches the given value.
+   *
+   * 只查找标签与指定值匹配的实例。
+   *
+   */
   label?: string | RegExp;
 }
 
@@ -21,7 +26,12 @@ export interface TabGroupHarnessFilters extends BaseHarnessFilters {
 
 /** A set of criteria that can be used to filter a list of `MatTabLinkHarness` instances. */
 export interface TabLinkHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose label matches the given value. */
+  /**
+   * Only find instances whose label matches the given value.
+   *
+   * 只查找标签与指定值匹配的实例。
+   *
+   */
   label?: string | RegExp;
 }
 

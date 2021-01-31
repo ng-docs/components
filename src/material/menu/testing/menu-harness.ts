@@ -16,7 +16,12 @@ import {
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {MenuHarnessFilters, MenuItemHarnessFilters} from './menu-harness-filters';
 
-/** Harness for interacting with a standard mat-menu in tests. */
+/**
+ * Harness for interacting with a standard mat-menu in tests.
+ *
+ * 在测试中用来与标准 mat-menu 进行交互的测试工具。
+ *
+ */
 export class MatMenuHarness extends ContentContainerComponentHarness<string> {
   /** The selector for the host element of a `MatMenu` instance. */
   static hostSelector = '.mat-menu-trigger';
@@ -45,7 +50,12 @@ export class MatMenuHarness extends ContentContainerComponentHarness<string> {
     return coerceBooleanProperty(await disabled);
   }
 
-  /** Whether the menu is open. */
+  /**
+   * Whether the menu is open.
+   *
+   * 菜单是否已打开。
+   *
+   */
   async isOpen(): Promise<boolean> {
     return !!(await this._getMenuPanel());
   }
@@ -70,14 +80,24 @@ export class MatMenuHarness extends ContentContainerComponentHarness<string> {
     return (await this.host()).isFocused();
   }
 
-  /** Opens the menu. */
+  /**
+   * Opens the menu.
+   *
+   * 打开菜单
+   *
+   */
   async open(): Promise<void> {
     if (!await this.isOpen()) {
       return (await this.host()).click();
     }
   }
 
-  /** Closes the menu. */
+  /**
+   * Closes the menu.
+   *
+   * 关闭菜单。
+   *
+   */
   async close(): Promise<void> {
     const panel = await this._getMenuPanel();
     if (panel) {
@@ -145,7 +165,12 @@ export class MatMenuHarness extends ContentContainerComponentHarness<string> {
   }
 }
 
-/** Harness for interacting with a standard mat-menu-item in tests. */
+/**
+ * Harness for interacting with a standard mat-menu-item in tests.
+ *
+ * 在测试中用来与标准 mat-menu-item 进行交互的测试工具。
+ *
+ */
 export class MatMenuItemHarness extends ContentContainerComponentHarness<string> {
   /** The selector for the host element of a `MatMenuItem` instance. */
   static hostSelector = '.mat-menu-item';
@@ -177,7 +202,12 @@ export class MatMenuItemHarness extends ContentContainerComponentHarness<string>
     return (await this.host()).text();
   }
 
-  /** Focuses the menu item. */
+  /**
+   * Focuses the menu item.
+   *
+   * 让本菜单项获得焦点。
+   *
+   */
   async focus(): Promise<void> {
     return (await this.host()).focus();
   }

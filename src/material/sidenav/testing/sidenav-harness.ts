@@ -10,7 +10,12 @@ import {HarnessPredicate} from '@angular/cdk/testing';
 import {MatDrawerHarnessBase} from './drawer-harness';
 import {DrawerHarnessFilters} from './drawer-harness-filters';
 
-/** Harness for interacting with a standard mat-sidenav in tests. */
+/**
+ * Harness for interacting with a standard mat-sidenav in tests.
+ *
+ * 在测试中用来与标准 mat-sidenav 进行交互的测试工具。
+ *
+ */
 export class MatSidenavHarness extends MatDrawerHarnessBase {
   /** The selector for the host element of a `MatSidenav` instance. */
   static hostSelector = '.mat-sidenav';
@@ -29,7 +34,12 @@ export class MatSidenavHarness extends MatDrawerHarnessBase {
             async (harness, position) => (await harness.getPosition()) === position);
   }
 
-  /** Whether the sidenav is fixed in the viewport. */
+  /**
+   * Whether the sidenav is fixed in the viewport.
+   *
+   * 侧边导航是否在视口中是固定的。
+   *
+   */
   async isFixedInViewport(): Promise<boolean> {
     return (await this.host()).hasClass('mat-sidenav-fixed');
   }

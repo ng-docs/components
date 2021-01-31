@@ -10,7 +10,12 @@ import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {SlideToggleHarnessFilters} from './slide-toggle-harness-filters';
 
-/** Harness for interacting with a standard mat-slide-toggle in tests. */
+/**
+ * Harness for interacting with a standard mat-slide-toggle in tests.
+ *
+ * 在测试中用来与标准 mat-slide-toggle 进行交互的测试工具。
+ *
+ */
 export class MatSlideToggleHarness extends ComponentHarness {
   /** The selector for the host element of a `MatSlideToggle` instance. */
   static hostSelector = '.mat-slide-toggle';
@@ -49,7 +54,12 @@ export class MatSlideToggleHarness extends ComponentHarness {
     return coerceBooleanProperty(await disabled);
   }
 
-  /** Whether the slide-toggle is required. */
+  /**
+   * Whether the slide-toggle is required.
+   *
+   * 滑块开关是否为必填项。
+   *
+   */
   async isRequired(): Promise<boolean> {
     const required = (await this._input()).getAttribute('required');
     return coerceBooleanProperty(await required);
@@ -81,7 +91,12 @@ export class MatSlideToggleHarness extends ComponentHarness {
     return (await this._label()).text();
   }
 
-  /** Focuses the slide-toggle. */
+  /**
+   * Focuses the slide-toggle.
+   *
+   * 让此滑块开关获得焦点。
+   *
+   */
   async focus(): Promise<void> {
     return (await this._input()).focus();
   }

@@ -9,7 +9,12 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
 
 /** A set of criteria that can be used to filter a list of cell harness instances. */
 export interface CellHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose text matches the given value. */
+  /**
+   * Only find instances whose text matches the given value.
+   *
+   * 只查找其文本内容匹配指定值的实例。
+   *
+   */
   text?: string | RegExp;
 
   /** Only find instances whose column name matches the given value. */

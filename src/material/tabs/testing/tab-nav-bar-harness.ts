@@ -10,7 +10,12 @@ import {ComponentHarness, HarnessPredicate, parallel} from '@angular/cdk/testing
 import {TabNavBarHarnessFilters, TabLinkHarnessFilters} from './tab-harness-filters';
 import {MatTabLinkHarness} from './tab-link-harness';
 
-/** Harness for interacting with a standard mat-tab-nav-bar in tests. */
+/**
+ * Harness for interacting with a standard mat-tab-nav-bar in tests.
+ *
+ * 在测试中用来与标准 mat-tab-nav-bar 进行交互的测试工具。
+ *
+ */
 export class MatTabNavBarHarness extends ComponentHarness {
   /** The selector for the host element of a `MatTabNavBar` instance. */
   static hostSelector = '.mat-tab-nav-bar';

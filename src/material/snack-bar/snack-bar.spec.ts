@@ -1049,7 +1049,7 @@ class ComponentThatProvidesMatSnackBar {
 /**
  * Simple component to open snack bars from.
  * Create a real (non-test) NgModule as a workaround forRoot
- * https://github.com/angular/angular/issues/10760
+ * <https://github.com/angular/angular/issues/10760>
  */
 const TEST_DIRECTIVES = [ComponentWithChildViewContainer,
                          BurritosNotification,

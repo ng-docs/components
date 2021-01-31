@@ -115,7 +115,12 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
    */
   @Input('cdkDragFreeDragPosition') freeDragPosition: {x: number, y: number};
 
-  /** Whether starting to drag this element is disabled. */
+  /**
+   * Whether starting to drag this element is disabled.
+   *
+   * 是否已禁止拖动此元素。
+   *
+   */
   @Input('cdkDragDisabled')
   get disabled(): boolean {
     return this._disabled || (this.dropContainer && this.dropContainer.disabled);
@@ -134,28 +139,63 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
    */
   @Input('cdkDragConstrainPosition') constrainPosition?: (point: Point, dragRef: DragRef) => Point;
 
-  /** Class to be added to the preview element. */
+  /**
+   * Class to be added to the preview element.
+   *
+   * 要添加到预览元素中的类。
+   *
+   */
   @Input('cdkDragPreviewClass') previewClass: string | string[];
 
-  /** Emits when the user starts dragging the item. */
+  /**
+   * Emits when the user starts dragging the item.
+   *
+   * 当用户开始拖动该条目时会触发。
+   *
+   */
   @Output('cdkDragStarted') started: EventEmitter<CdkDragStart> = new EventEmitter<CdkDragStart>();
 
-  /** Emits when the user has released a drag item, before any animations have started. */
+  /**
+   * Emits when the user has released a drag item, before any animations have started.
+   *
+   * 当用户释放了一个拖动条目时触发。位于任何动画开始之前。
+   *
+   */
   @Output('cdkDragReleased') released: EventEmitter<CdkDragRelease> =
       new EventEmitter<CdkDragRelease>();
 
-  /** Emits when the user stops dragging an item in the container. */
+  /**
+   * Emits when the user stops dragging an item in the container.
+   *
+   * 当用户停止拖动容器中的某个条目时，会发出本通知。
+   *
+   */
   @Output('cdkDragEnded') ended: EventEmitter<CdkDragEnd> = new EventEmitter<CdkDragEnd>();
 
-  /** Emits when the user has moved the item into a new container. */
+  /**
+   * Emits when the user has moved the item into a new container.
+   *
+   * 当用户把本条目移到新容器中时发出通知。
+   *
+   */
   @Output('cdkDragEntered') entered: EventEmitter<CdkDragEnter<any>> =
       new EventEmitter<CdkDragEnter<any>>();
 
-  /** Emits when the user removes the item its container by dragging it into another container. */
+  /**
+   * Emits when the user removes the item its container by dragging it into another container.
+   *
+   * 当用户通过把拖动条目从所在的容器移到另一个容器中时，就会触发。
+   *
+   */
   @Output('cdkDragExited') exited: EventEmitter<CdkDragExit<any>> =
       new EventEmitter<CdkDragExit<any>>();
 
-  /** Emits when the user drops the item inside a container. */
+  /**
+   * Emits when the user drops the item inside a container.
+   *
+   * 当用户把条目放到容器中时，就会触发。
+   *
+   */
   @Output('cdkDragDropped') dropped: EventEmitter<CdkDragDrop<any>> =
       new EventEmitter<CdkDragDrop<any>>();
 
@@ -232,12 +272,22 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
     return this._dragRef.getPlaceholderElement();
   }
 
-  /** Returns the root draggable element. */
+  /**
+   * Returns the root draggable element.
+   *
+   * 返回可拖动条目的根元素。
+   *
+   */
   getRootElement(): HTMLElement {
     return this._dragRef.getRootElement();
   }
 
-  /** Resets a standalone drag item to its initial position. */
+  /**
+   * Resets a standalone drag item to its initial position.
+   *
+   * 将一个独立的拖动条目重置到初始位置。
+   *
+   */
   reset(): void {
     this._dragRef.reset();
   }

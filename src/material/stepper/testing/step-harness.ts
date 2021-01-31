@@ -76,7 +76,12 @@ export class MatStepHarness extends ContentContainerComponentHarness<string> {
     return (await this._getIconState()) === 'error';
   }
 
-  /** Whether the step is optional. */
+  /**
+   * Whether the step is optional.
+   *
+   * 该步骤是否可选。
+   *
+   */
   async isOptional(): Promise<boolean> {
     // If the node with the optional text is present, it means that the step is optional.
     const optionalNode = await this.locatorForOptional('.mat-step-optional')();

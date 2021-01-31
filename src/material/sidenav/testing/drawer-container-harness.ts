@@ -11,7 +11,12 @@ import {DrawerContainerHarnessFilters, DrawerHarnessFilters} from './drawer-harn
 import {MatDrawerContentHarness} from './drawer-content-harness';
 import {MatDrawerHarness} from './drawer-harness';
 
-/** Harness for interacting with a standard mat-drawer-container in tests. */
+/**
+ * Harness for interacting with a standard mat-drawer-container in tests.
+ *
+ * 在测试中用来与标准 mat-drawer-container 进行交互的测试工具。
+ *
+ */
 export class MatDrawerContainerHarness extends ContentContainerComponentHarness<string> {
   /** The selector for the host element of a `MatDrawerContainer` instance. */
   static hostSelector = '.mat-drawer-container';
@@ -32,6 +37,9 @@ export class MatDrawerContainerHarness extends ContentContainerComponentHarness<
   /**
    * Gets drawers that match particular criteria within the container.
    * @param filter Optionally filters which chips are included.
+   *
+   * 可选择过滤哪些纸片。
+   *
    */
   async getDrawers(filter: DrawerHarnessFilters = {}): Promise<MatDrawerHarness[]> {
     return this.locatorForAll(MatDrawerHarness.with(filter))();

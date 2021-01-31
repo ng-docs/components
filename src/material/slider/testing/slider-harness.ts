@@ -10,7 +10,12 @@ import {ComponentHarness, HarnessPredicate, parallel} from '@angular/cdk/testing
 import {coerceBooleanProperty, coerceNumberProperty} from '@angular/cdk/coercion';
 import {SliderHarnessFilters} from './slider-harness-filters';
 
-/** Harness for interacting with a standard mat-slider in tests. */
+/**
+ * Harness for interacting with a standard mat-slider in tests.
+ *
+ * 在测试中用来与标准 mat-slider 进行交互的测试工具。
+ *
+ */
 export class MatSliderHarness extends ComponentHarness {
   /** The selector for the host element of a `MatSlider` instance. */
   static hostSelector = '.mat-slider';

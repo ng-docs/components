@@ -16,7 +16,12 @@ import {
 } from '@angular/material/core/testing';
 import {SelectHarnessFilters} from './select-harness-filters';
 
-/** Harness for interacting with a standard mat-select in tests. */
+/**
+ * Harness for interacting with a standard mat-select in tests.
+ *
+ * 在测试中用来与标准 mat-select 进行交互的测试工具。
+ *
+ */
 export class MatSelectHarness extends MatFormFieldControlHarness {
   private _documentRootLocator = this.documentRootLocatorFactory();
   private _backdrop = this._documentRootLocator.locatorFor('.cdk-overlay-backdrop');
@@ -77,7 +82,12 @@ export class MatSelectHarness extends MatFormFieldControlHarness {
     return (await this.host()).blur();
   }
 
-  /** Whether the select is focused. */
+  /**
+   * Whether the select is focused.
+   *
+   * 此选择器是否拥有焦点。
+   *
+   */
   async isFocused(): Promise<boolean> {
     return (await this.host()).isFocused();
   }

@@ -16,7 +16,12 @@ import {
 } from './list-harness-filters';
 import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-base';
 
-/** Harness for interacting with a standard mat-selection-list in tests. */
+/**
+ * Harness for interacting with a standard mat-selection-list in tests.
+ *
+ * 在测试中用来与标准 mat-selection-list 进行交互的测试工具。
+ *
+ */
 export class MatSelectionListHarness extends MatListHarnessBase<
     typeof MatListOptionHarness, MatListOptionHarness, ListOptionHarnessFilters> {
   /** The selector for the host element of a `MatSelectionList` instance. */
@@ -37,7 +42,12 @@ export class MatSelectionListHarness extends MatListHarnessBase<
 
   _itemHarness = MatListOptionHarness;
 
-  /** Whether the selection list is disabled. */
+  /**
+   * Whether the selection list is disabled.
+   *
+   * 是否禁用了选择列表。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     return await (await this.host()).getAttribute('aria-disabled') === 'true';
   }
@@ -124,7 +134,12 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
     return (await this.host()).isFocused();
   }
 
-  /** Toggles the checked state of the checkbox. */
+  /**
+   * Toggles the checked state of the checkbox.
+   *
+   * 切换复选框的勾选状态。
+   *
+   */
   async toggle() {
     return (await this.host()).click();
   }

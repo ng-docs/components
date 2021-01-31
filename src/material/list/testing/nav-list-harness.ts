@@ -11,7 +11,12 @@ import {MatListHarnessBase} from './list-harness-base';
 import {NavListHarnessFilters, NavListItemHarnessFilters} from './list-harness-filters';
 import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-base';
 
-/** Harness for interacting with a standard mat-nav-list in tests. */
+/**
+ * Harness for interacting with a standard mat-nav-list in tests.
+ *
+ * 在测试中用来与标准 mat-nav-list 进行交互的测试工具。
+ *
+ */
 export class MatNavListHarness extends MatListHarnessBase<
     typeof MatNavListItemHarness, MatNavListItemHarness, NavListItemHarnessFilters> {
   /** The selector for the host element of a `MatNavList` instance. */
