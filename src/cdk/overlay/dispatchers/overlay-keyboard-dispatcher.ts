@@ -15,6 +15,9 @@ import {BaseOverlayDispatcher} from './base-overlay-dispatcher';
  * Service for dispatching keyboard events that land on the body to appropriate overlay ref,
  * if any. It maintains a list of attached overlays to determine best suited overlay based
  * on event target and order of overlay opens.
+ *
+ * 本服务用于将落在 body 上的键盘事件分派到适当的浮层引用（如果有）。它维护一个已附着的浮层列表，以便根据事件目标和浮层打开顺序确定最适合的浮层。
+ *
  */
 @Injectable({providedIn: 'root'})
 export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
@@ -23,7 +26,12 @@ export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
     super(document);
   }
 
-  /** Add a new overlay to the list of attached overlay refs. */
+  /**
+   * Add a new overlay to the list of attached overlay refs.
+   *
+   * 将新的浮层添加到已附着的浮层引用列表中。
+   *
+   */
   add(overlayRef: OverlayReference): void {
     super.add(overlayRef);
 
@@ -34,7 +42,12 @@ export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
     }
   }
 
-  /** Detaches the global keyboard event listener. */
+  /**
+   * Detaches the global keyboard event listener.
+   *
+   * 拆除全局键盘事件侦听器。
+   *
+   */
   protected detach() {
     if (this._isAttached) {
       this._document.body.removeEventListener('keydown', this._keydownListener);
@@ -42,7 +55,12 @@ export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
     }
   }
 
-  /** Keyboard event listener that will be attached to the body. */
+  /**
+   * Keyboard event listener that will be attached to the body.
+   *
+   * 键盘事件监听器，将被附着到 body 上。
+   *
+   */
   private _keydownListener = (event: KeyboardEvent) => {
     const overlays = this._attachedOverlays;
 

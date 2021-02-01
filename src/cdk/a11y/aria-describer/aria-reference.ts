@@ -6,12 +6,20 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** IDs are delimited by an empty space, as per the spec. */
+/**
+ * IDs are delimited by an empty space, as per the spec.
+ *
+ * 根据规范，ID 由空格分隔。
+ *
+ */
 const ID_DELIMITER = ' ';
 
 /**
  * Adds the given ID to the specified ARIA attribute on an element.
  * Used for attributes such as aria-labelledby, aria-owns, etc.
+ *
+ * 将指定 ID 添加到元素上特定的 ARIA 属性上。用于诸如 aria-labelledby，aria-owns 等属性。
+ *
  */
 export function addAriaReferencedId(el: Element, attr: string, id: string) {
   const ids = getAriaReferenceIds(el, attr);
@@ -24,6 +32,9 @@ export function addAriaReferencedId(el: Element, attr: string, id: string) {
 /**
  * Removes the given ID from the specified ARIA attribute on an element.
  * Used for attributes such as aria-labelledby, aria-owns, etc.
+ *
+ * 从元素上指定的 ARIA 属性中删除特定的 ID。用于诸如 aria-labelledby，aria-owns 等属性。
+ *
  */
 export function removeAriaReferencedId(el: Element, attr: string, id: string) {
   const ids = getAriaReferenceIds(el, attr);
@@ -39,6 +50,9 @@ export function removeAriaReferencedId(el: Element, attr: string, id: string) {
 /**
  * Gets the list of IDs referenced by the given ARIA attribute on an element.
  * Used for attributes such as aria-labelledby, aria-owns, etc.
+ *
+ * 获取元素上指定的 ARIA 属性引用的 ID 列表。用于诸如 aria-labelledby，aria-owns 等属性。
+ *
  */
 export function getAriaReferenceIds(el: Element, attr: string): string[] {
   // Get string array of all individual ids (whitespace delimited) in the attribute value

@@ -20,7 +20,12 @@ import {FOCUS_TRAP_INERT_STRATEGY, FocusTrapInertStrategy} from './focus-trap-in
 import {EventListenerFocusTrapInertStrategy} from './event-listener-inert-strategy';
 import {FocusTrapManager} from './focus-trap-manager';
 
-/** Factory that allows easy instantiation of configurable focus traps. */
+/**
+ * Factory that allows easy instantiation of configurable focus traps.
+ *
+ * 本工厂允许轻松实例化可配置的焦点陷阱。
+ *
+ */
 @Injectable({providedIn: 'root'})
 export class ConfigurableFocusTrapFactory {
   private _document: Document;
@@ -40,9 +45,21 @@ export class ConfigurableFocusTrapFactory {
 
   /**
    * Creates a focus-trapped region around the given element.
+   *
+   * 在指定元素周围创建一个焦点捕获区域。
+   *
    * @param element The element around which focus will be trapped.
+   *
+   * 要在其周围捕获焦点的元素。
+   *
    * @param config The focus trap configuration.
+   *
+   * 焦点陷阱配置。
+   *
    * @returns The created focus trap instance.
+   *
+   * 所创建的焦点陷阱实例。
+   *
    */
   create(element: HTMLElement, config?: ConfigurableFocusTrapConfig): ConfigurableFocusTrap;
 

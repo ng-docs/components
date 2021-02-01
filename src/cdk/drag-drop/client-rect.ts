@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Gets a mutable version of an element's bounding `ClientRect`. */
+/**
+ * Gets a mutable version of an element's bounding `ClientRect`.
+ *
+ * 获取元素边界 `ClientRect` 的可变版本。
+ *
+ */
 export function getMutableClientRect(element: Element): ClientRect {
   const clientRect = element.getBoundingClientRect();
 

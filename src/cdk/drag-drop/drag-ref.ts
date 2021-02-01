@@ -400,7 +400,7 @@ export class DragRef<T = any> {
   /**
    * Cached dimensions of the preview element.
    *
-   * 预览元素的缓存尺寸。
+   * 缓存的预览元素规格。
    *
    */
   private _previewRect?: ClientRect;
@@ -408,7 +408,7 @@ export class DragRef<T = any> {
   /**
    * Cached dimensions of the boundary element.
    *
-   * 边界元素的缓存尺寸。
+   * 缓存的边界元素规格。
    *
    */
   private _boundaryRect?: ClientRect;
@@ -424,7 +424,7 @@ export class DragRef<T = any> {
   /**
    * Template for placeholder element rendered to show where a draggable would be dropped.
    *
-   * 占位符元素的模板，用于展示可拖动对象的放置位置。
+   * 占位符元素的模板，用于展示可拖动对象的投放位置。
    *
    */
   private _placeholderTemplate?: DragHelperTemplate | null;

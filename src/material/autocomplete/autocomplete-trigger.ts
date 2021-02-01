@@ -819,7 +819,7 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
   /**
    * Sets the positions on a position strategy based on the directive's input state.
    *
-   * 根据指令的输入状态设置某个位置策略上的一些位置值。
+   * 根据指令的输入状态设置某个定位策略上的一些位置值。
    *
    */
   private _setStrategyPositions(positionStrategy: FlexibleConnectedPositionStrategy) {

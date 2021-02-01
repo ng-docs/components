@@ -510,7 +510,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
   /**
    * Updates the state of a position strategy, based on the values of the directive inputs.
    *
-   * 根据指令输入属性的值更新位置策略的状态。
+   * 根据指令输入属性的值更新定位策略的状态。
    *
    */
   private _updatePositionStrategy(positionStrategy: FlexibleConnectedPositionStrategy) {

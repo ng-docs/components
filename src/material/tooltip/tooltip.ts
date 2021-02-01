@@ -526,7 +526,7 @@ export class MatTooltip implements OnDestroy, AfterViewInit {
   /**
    * Create the overlay config and position strategy
    *
-   * 创建浮层配置和位置策略
+   * 创建浮层配置和定位策略
    *
    */
   private _createOverlay(): OverlayRef {

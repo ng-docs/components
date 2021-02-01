@@ -48,37 +48,85 @@ export class LiveAnnouncer implements OnDestroy {
 
   /**
    * Announces a message to screenreaders.
+   *
+   * 向屏幕阅读器发布一条消息。
+   *
    * @param message Message to be announced to the screenreader.
+   *
+   * 要通知到屏幕阅读器的消息。
+   *
    * @returns Promise that will be resolved when the message is added to the DOM.
+   *
+   * 将消息添加到 DOM 时将解决的 Promise。
+   *
    */
   announce(message: string): Promise<void>;
 
   /**
    * Announces a message to screenreaders.
+   *
+   * 向屏幕阅读器发布一条消息。
+   *
    * @param message Message to be announced to the screenreader.
+   *
+   * 要通知屏幕阅读器的消息。
+   *
    * @param politeness The politeness of the announcer element.
+   *
+   * 播音员元素的礼貌度。
+   *
    * @returns Promise that will be resolved when the message is added to the DOM.
+   *
+   * 将消息添加到 DOM 时将解决的 Promise。
+   *
    */
   announce(message: string, politeness?: AriaLivePoliteness): Promise<void>;
 
   /**
    * Announces a message to screenreaders.
+   *
+   * 向屏幕阅读器发布一条消息。
+   *
    * @param message Message to be announced to the screenreader.
+   *
+   * 要通知屏幕阅读器的消息。
+   *
    * @param duration Time in milliseconds after which to clear out the announcer element. Note
    *   that this takes effect after the message has been added to the DOM, which can be up to
    *   100ms after `announce` has been called.
+   *
+   * 清除播音员元素的时间（以毫秒为单位）。请注意，这是在将消息添加到 DOM 后生效的，这可能在调用 `announce` 之后的最多 100ms。
+   *
    * @returns Promise that will be resolved when the message is added to the DOM.
+   *
+   * 将消息添加到 DOM 时将解决的 Promise。
+   *
    */
   announce(message: string, duration?: number): Promise<void>;
 
   /**
    * Announces a message to screenreaders.
+   *
+   * 向屏幕阅读器发布一条消息。
+   *
    * @param message Message to be announced to the screenreader.
+   *
+   * 要通知屏幕阅读器的消息。
+   *
    * @param politeness The politeness of the announcer element.
+   *
+   * 播音员元素的礼貌度。
+   *
    * @param duration Time in milliseconds after which to clear out the announcer element. Note
    *   that this takes effect after the message has been added to the DOM, which can be up to
    *   100ms after `announce` has been called.
+   *
+   * 清除播音员元素的时间（以毫秒为单位）。请注意，这是在将消息添加到 DOM 后生效的，这可能在 `announce` 被调用之后最多 100ms。
+   *
    * @returns Promise that will be resolved when the message is added to the DOM.
+   *
+   * 将消息添加到 DOM 时将解决的 Promise。
+   *
    */
   announce(message: string, politeness?: AriaLivePoliteness, duration?: number): Promise<void>;
 
@@ -132,6 +180,9 @@ export class LiveAnnouncer implements OnDestroy {
    * Clears the current text from the announcer element. Can be used to prevent
    * screen readers from reading the text out again while the user is going
    * through the page landmarks.
+   *
+   * 从播音员元素中清除当前文本。可以用于防止屏幕阅读器在用户浏览页面地标时再次读出文本。
+   *
    */
   clear() {
     if (this._liveElement) {
@@ -174,13 +225,21 @@ export class LiveAnnouncer implements OnDestroy {
 /**
  * A directive that works similarly to aria-live, but uses the LiveAnnouncer to ensure compatibility
  * with a wider range of browsers and screen readers.
+ *
+ * 该指令与 aria-live 相似，但使用 LiveAnnouncer 来确保与更多浏览器和屏幕阅读器的兼容性。
+ *
  */
 @Directive({
   selector: '[cdkAriaLive]',
   exportAs: 'cdkAriaLive',
 })
 export class CdkAriaLive implements OnDestroy {
-  /** The aria-live politeness level to use when announcing messages. */
+  /**
+   * The aria-live politeness level to use when announcing messages.
+   *
+   * 朗读消息时要使用的 aria-live 礼貌度。
+   *
+   */
   @Input('cdkAriaLive')
   get politeness(): AriaLivePoliteness { return this._politeness; }
   set politeness(value: AriaLivePoliteness) {

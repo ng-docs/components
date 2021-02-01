@@ -571,7 +571,7 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
    * Sets the appropriate positions on a position strategy
    * so the overlay connects with the trigger correctly.
    *
-   * 在位置策略上设置合适的位置，使浮层与触发器正确连接。
+   * 在定位策略上设置合适的位置，使浮层与触发器正确连接。
    *
    * @param positionStrategy Strategy whose position to update.
    *

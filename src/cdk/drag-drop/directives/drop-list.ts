@@ -39,7 +39,12 @@ import {Subject} from 'rxjs';
 import {startWith, takeUntil} from 'rxjs/operators';
 import {assertElementNode} from './assertions';
 
-/** Counter used to generate unique ids for drop zones. */
+/**
+ * Counter used to generate unique ids for drop zones.
+ *
+ * 用于为拖放区生成唯一 ID 的计数器。
+ *
+ */
 let _uniqueIdCounter = 0;
 
 /**
@@ -53,10 +58,18 @@ export interface CdkDropListInternal extends CdkDropList {}
  * Injection token that can be used to reference instances of `CdkDropList`. It serves as
  * alternative token to the actual `CdkDropList` class which could cause unnecessary
  * retention of the class and its directive metadata.
+ *
+ * 用来引用 `CdkDropList` 实例的注入令牌。它用作实际 `CdkDropList` 类的备用令牌，这可能导致不必要地保留该类及其指令元数据。
+ *
  */
 export const CDK_DROP_LIST = new InjectionToken<CdkDropList>('CdkDropList');
 
-/** Container that wraps a set of draggable items. */
+/**
+ * Container that wraps a set of draggable items.
+ *
+ * 包装一组可拖动条目的容器。
+ *
+ */
 @Directive({
   selector: '[cdkDropList], cdk-drop-list',
   exportAs: 'cdkDropList',
@@ -74,35 +87,71 @@ export const CDK_DROP_LIST = new InjectionToken<CdkDropList>('CdkDropList');
   }
 })
 export class CdkDropList<T = any> implements OnDestroy {
-  /** Emits when the list has been destroyed. */
+  /**
+   * Emits when the list has been destroyed.
+   *
+   * 列表销毁后触发。
+   *
+   */
   private _destroyed = new Subject<void>();
 
-  /** Whether the element's scrollable parents have been resolved. */
+  /**
+   * Whether the element's scrollable parents have been resolved.
+   *
+   * 元素的可滚动父级是否已解析。
+   *
+   */
   private _scrollableParentsResolved: boolean;
 
-  /** Keeps track of the drop lists that are currently on the page. */
+  /**
+   * Keeps track of the drop lists that are currently on the page.
+   *
+   * 跟踪目前在页面上的投放列表。
+   *
+   */
   private static _dropLists: CdkDropList[] = [];
 
-  /** Reference to the underlying drop list instance. */
+  /**
+   * Reference to the underlying drop list instance.
+   *
+   * 对底层投放列表实例的引用。
+   *
+   */
   _dropListRef: DropListRef<CdkDropList<T>>;
 
   /**
    * Other draggable containers that this container is connected to and into which the
    * container's items can be transferred. Can either be references to other drop containers,
    * or their unique IDs.
+   *
+   * 此容器连接到的其他可拖动容器，此容器中的条目可以转移到其中。可以是到其他投放容器的引用，也可以是其唯一 ID。
+   *
    */
   @Input('cdkDropListConnectedTo')
   connectedTo: (CdkDropList | string)[] | CdkDropList | string = [];
 
-  /** Arbitrary data to attach to this container. */
+  /**
+   * Arbitrary data to attach to this container.
+   *
+   * 附加到此容器的任意数据。
+   *
+   */
   @Input('cdkDropListData') data: T;
 
-  /** Direction in which the list is oriented. */
+  /**
+   * Direction in which the list is oriented.
+   *
+   * 列表的方向。
+   *
+   */
   @Input('cdkDropListOrientation') orientation: DropListOrientation;
 
   /**
    * Unique ID for the drop zone. Can be used as a reference
    * in the `connectedTo` of another `CdkDropList`.
+   *
+   * 投放区的唯一 ID。可以在 `connectedTo` 中用作另一个 `CdkDropList` 的引用。
+   *
    */
   @Input() id: string = `cdk-drop-list-${_uniqueIdCounter++}`;
 
@@ -133,13 +182,21 @@ export class CdkDropList<T = any> implements OnDestroy {
   }
   private _disabled: boolean;
 
-  /** Whether sorting within this drop list is disabled. */
+  /**
+   * Whether sorting within this drop list is disabled.
+   *
+   * 是否禁用此投放列表中的排序。
+   *
+   */
   @Input('cdkDropListSortingDisabled')
   sortingDisabled: boolean;
 
   /**
    * Function that is used to determine whether an item
    * is allowed to be moved into a drop container.
+   *
+   * 此函数用于确定是否允许将条目移入投放容器。
+   *
    */
   @Input('cdkDropListEnterPredicate')
   enterPredicate: (drag: CdkDrag, drop: CdkDropList) => boolean = () => true
@@ -153,7 +210,12 @@ export class CdkDropList<T = any> implements OnDestroy {
   @Input('cdkDropListSortPredicate')
   sortPredicate: (index: number, drag: CdkDrag, drop: CdkDropList) => boolean = () => true
 
-  /** Whether to auto-scroll the view when the user moves their pointer close to the edges. */
+  /**
+   * Whether to auto-scroll the view when the user moves their pointer close to the edges.
+   *
+   * 用户将指针移到边缘附近时是否自动滚动视图。
+   *
+   */
   @Input('cdkDropListAutoScrollDisabled')
   autoScrollDisabled: boolean;
 
@@ -187,6 +249,9 @@ export class CdkDropList<T = any> implements OnDestroy {
   /**
    * Emits when the user removes an item from the container
    * by dragging it into another container.
+   *
+   * 当用户通过将条目拖到另一个容器中来将其从容器中移除时发出。
+   *
    */
   @Output('cdkDropListExited')
   exited: EventEmitter<CdkDragExit<T>> = new EventEmitter<CdkDragExit<T>>();
@@ -206,6 +271,9 @@ export class CdkDropList<T = any> implements OnDestroy {
    * well which means that we can't handle cases like dragging the headers of a `mat-table`
    * correctly. What we do instead is to have the items register themselves with the container
    * and then we sort them based on their position in the DOM.
+   *
+   * 跟踪注册在此容器中的条目。从历史上看，我们曾经使用 `ContentChildren` 查询来执行此操作，但是查询不能很好地处理已移植的视图，这意味着我们无法正确处理诸如 `mat-table` 的组件。相反，我们要做的是使条目在容器中注册，然后根据它们在 DOM 中的位置对它们进行排序。
+   *
    */
   private _unsortedItems = new Set<CdkDrag>();
 
@@ -248,7 +316,12 @@ export class CdkDropList<T = any> implements OnDestroy {
     }
   }
 
-  /** Registers an items with the drop list. */
+  /**
+   * Registers an items with the drop list.
+   *
+   * 在投放列表中注册一个条目。
+   *
+   */
   addItem(item: CdkDrag): void {
     this._unsortedItems.add(item);
 
@@ -257,7 +330,12 @@ export class CdkDropList<T = any> implements OnDestroy {
     }
   }
 
-  /** Removes an item from the drop list. */
+  /**
+   * Removes an item from the drop list.
+   *
+   * 从投放列表中删除一个条目。
+   *
+   */
   removeItem(item: CdkDrag): void {
     this._unsortedItems.delete(item);
 
@@ -266,7 +344,12 @@ export class CdkDropList<T = any> implements OnDestroy {
     }
   }
 
-  /** Gets the registered items in the list, sorted by their position in the DOM. */
+  /**
+   * Gets the registered items in the list, sorted by their position in the DOM.
+   *
+   * 获取列表中的已注册条目，按其在 DOM 中的位置排序。
+   *
+   */
   getSortedItems(): CdkDrag[] {
     return Array.from(this._unsortedItems).sort((a: CdkDrag, b: CdkDrag) => {
       const documentPosition =
@@ -296,7 +379,12 @@ export class CdkDropList<T = any> implements OnDestroy {
     this._destroyed.complete();
   }
 
-  /** Syncs the inputs of the CdkDropList with the options of the underlying DropListRef. */
+  /**
+   * Syncs the inputs of the CdkDropList with the options of the underlying DropListRef.
+   *
+   * 将 CdkDropList 的输入与其底层 DropListRef 的选项同步。
+   *
+   */
   private _setupInputSyncSubscription(ref: DropListRef<CdkDropList>) {
     if (this._dir) {
       this._dir.change
@@ -351,7 +439,12 @@ export class CdkDropList<T = any> implements OnDestroy {
     });
   }
 
-  /** Handles events from the underlying DropListRef. */
+  /**
+   * Handles events from the underlying DropListRef.
+   *
+   * 处理来自底层 DropListRef 的事件。
+   *
+   */
   private _handleEvents(ref: DropListRef<CdkDropList>) {
     ref.beforeStarted.subscribe(() => {
       this._syncItemsWithRef();
@@ -400,7 +493,12 @@ export class CdkDropList<T = any> implements OnDestroy {
     });
   }
 
-  /** Assigns the default input values based on a provided config object. */
+  /**
+   * Assigns the default input values based on a provided config object.
+   *
+   * 根据提供的配置对象分配默认输入值。
+   *
+   */
   private _assignDefaults(config: DragDropConfig) {
     const {
       lockAxis, draggingDisabled, sortingDisabled, listAutoScrollDisabled, listOrientation
@@ -416,7 +514,12 @@ export class CdkDropList<T = any> implements OnDestroy {
     }
   }
 
-  /** Syncs up the registered drag items with underlying drop list ref. */
+  /**
+   * Syncs up the registered drag items with underlying drop list ref.
+   *
+   * 使注册的拖动条目与底层投放列表的引用同步。
+   *
+   */
   private _syncItemsWithRef() {
     this._dropListRef.withItems(this.getSortedItems().map(item => item._dragRef));
   }

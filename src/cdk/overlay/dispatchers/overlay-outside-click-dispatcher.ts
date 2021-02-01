@@ -16,6 +16,9 @@ import {BaseOverlayDispatcher} from './base-overlay-dispatcher';
  * Service for dispatching mouse click events that land on the body to appropriate overlay ref,
  * if any. It maintains a list of attached overlays to determine best suited overlay based
  * on event target and order of overlay opens.
+ *
+ * 用于将鼠标单击事件落到适当的浮层引用（如果有）上的服务。它维护一个已附加的浮层列表，以便根据事件目标和浮层打开顺序确定最适合的浮层。
+ *
  */
 @Injectable({providedIn: 'root'})
 export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
@@ -26,7 +29,12 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
     super(document);
   }
 
-  /** Add a new overlay to the list of attached overlay refs. */
+  /**
+   * Add a new overlay to the list of attached overlay refs.
+   *
+   * 将新的浮层添加到已附加的浮层引用列表中。
+   *
+   */
   add(overlayRef: OverlayReference): void {
     super.add(overlayRef);
 
@@ -54,7 +62,12 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
     }
   }
 
-  /** Detaches the global keyboard event listener. */
+  /**
+   * Detaches the global keyboard event listener.
+   *
+   * 拆除全局键盘事件侦听器。
+   *
+   */
   protected detach() {
     if (this._isAttached) {
       this._document.body.removeEventListener('click', this._clickListener, true);
@@ -67,7 +80,12 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
     }
   }
 
-  /** Click event listener that will be attached to the body propagate phase. */
+  /**
+   * Click event listener that will be attached to the body propagate phase.
+   *
+   * 单击事件侦听器，该事件将附加到 body 上的传播阶段。
+   *
+   */
   private _clickListener = (event: MouseEvent) => {
     // Get the target through the `composedPath` if possible to account for shadow DOM.
     const target = event.composedPath ? event.composedPath()[0] : event.target;

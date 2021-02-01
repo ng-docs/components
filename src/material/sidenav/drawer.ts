@@ -575,7 +575,7 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
    * @param openedVia Focus origin that can be optionally set when opening a drawer. The
    *   origin will be used later when focus is restored on drawer close.
    *
-   * 可以在打开抽屉时自动设定原始焦点。稍后当抽屉关闭时要返还焦点时，会使用原始焦点。
+   * 可以在打开抽屉时自动设定焦点来源。稍后当抽屉关闭时要返还焦点时，会使用焦点来源。
    *
    */
   private _setOpen(isOpen: boolean, restoreFocus: boolean, openedVia: FocusOrigin = 'program')

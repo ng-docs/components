@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Creates a deep clone of an element. */
+/**
+ * Creates a deep clone of an element.
+ *
+ * 创建元素的深层克隆。
+ *
+ */
 export function deepCloneNode(node: HTMLElement): HTMLElement {
   const clone = node.cloneNode(true) as HTMLElement;
   const descendantsWithId = clone.querySelectorAll('[id]');

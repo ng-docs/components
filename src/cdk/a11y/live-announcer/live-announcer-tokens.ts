@@ -11,7 +11,12 @@ import {InjectionToken} from '@angular/core';
 // The tokens for the live announcer are defined in a separate file from LiveAnnouncer
 // as a workaround for https://github.com/angular/angular/issues/22559
 
-/** Possible politeness levels. */
+/**
+ * Possible politeness levels.
+ *
+ * 可能的礼貌度。
+ *
+ */
 export type AriaLivePoliteness = 'off' | 'polite' | 'assertive';
 
 export const LIVE_ANNOUNCER_ELEMENT_TOKEN =
@@ -25,15 +30,35 @@ export function LIVE_ANNOUNCER_ELEMENT_TOKEN_FACTORY(): null {
   return null;
 }
 
-/** Object that can be used to configure the default options for the LiveAnnouncer. */
+/**
+ * Object that can be used to configure the default options for the LiveAnnouncer.
+ *
+ * 可用于配置 LiveAnnouncer 的默认选项的对象。
+ *
+ */
 export interface LiveAnnouncerDefaultOptions {
-  /** Default politeness for the announcements. */
+  /**
+   * Default politeness for the announcements.
+   *
+   * 朗读的默认礼貌度。
+   *
+   */
   politeness?: AriaLivePoliteness;
 
-  /** Default duration for the announcement messages. */
+  /**
+   * Default duration for the announcement messages.
+   *
+   * 朗读消息的默认持续时间。
+   *
+   */
   duration?: number;
 }
 
-/** Injection token that can be used to configure the default options for the LiveAnnouncer. */
+/**
+ * Injection token that can be used to configure the default options for the LiveAnnouncer.
+ *
+ * 注入令牌，可用于配置 LiveAnnouncer 的默认选项。
+ *
+ */
 export const LIVE_ANNOUNCER_DEFAULT_OPTIONS =
     new InjectionToken<LiveAnnouncerDefaultOptions>('LIVE_ANNOUNCER_DEFAULT_OPTIONS');

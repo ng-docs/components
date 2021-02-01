@@ -21,7 +21,12 @@ import {
 } from './flexible-connected-position-strategy';
 import {GlobalPositionStrategy} from './global-position-strategy';
 
-/** Builder for overlay position strategy. */
+/**
+ * Builder for overlay position strategy.
+ *
+ * 浮层定位策略生成器。
+ *
+ */
 @Injectable({providedIn: 'root'})
 export class OverlayPositionBuilder {
   constructor(
@@ -30,6 +35,9 @@ export class OverlayPositionBuilder {
 
   /**
    * Creates a global position strategy.
+   *
+   * 创建全局定位策略。
+   *
    */
   global(): GlobalPositionStrategy {
     return new GlobalPositionStrategy();
@@ -37,6 +45,9 @@ export class OverlayPositionBuilder {
 
   /**
    * Creates a relative position strategy.
+   *
+   * 创建相对定位策略。
+   *
    * @param elementRef
    * @param originPos
    * @param overlayPos
@@ -54,7 +65,13 @@ export class OverlayPositionBuilder {
 
   /**
    * Creates a flexible position strategy.
+   *
+   * 创建灵活定位策略。
+   *
    * @param origin Origin relative to which to position the overlay.
+   *
+   * 浮层定位相对的原点。
+   *
    */
   flexibleConnectedTo(origin: FlexibleConnectedPositionStrategyOrigin):
     FlexibleConnectedPositionStrategy {

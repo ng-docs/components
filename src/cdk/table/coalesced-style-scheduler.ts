@@ -32,7 +32,7 @@ export const _COALESCED_STYLE_SCHEDULER =
  * This can significantly improve performance when separate consecutive functions are
  * reading from the CSSDom and then mutating it.
  *
- * 允许在当前执行上下文之后对 CSSDom 的修改进行分组。当使用单独的不间断函数从 CSSDom 中读取并修改它，这可以显着提高性能。
+ * 允许在当前执行上下文之后对 CSSDom 的修改进行分组。当使用单独的不间断函数从 CSSDom 中读取并修改它，这可以显著提高性能。
  *
  * @docs-private
  */

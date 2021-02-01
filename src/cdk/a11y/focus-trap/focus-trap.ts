@@ -27,12 +27,22 @@ import {InteractivityChecker} from '../interactivity-checker/interactivity-check
 /**
  * Class that allows for trapping focus within a DOM element.
  *
+ * 允许在 DOM 元素内捕获焦点的类。
+ *
  * This class currently uses a relatively simple approach to focus trapping.
  * It assumes that the tab order is the same as DOM order, which is not necessarily true.
  * Things like `tabIndex > 0`, flex `order`, and shadow roots can cause the two to misalign.
  *
+ * 此类当前使用相对简单的方法进行焦点捕获。它假定 tab 顺序与 DOM 顺序相同，但这不一定正确。和 `tabIndex > 0` 一样，flex `order` 和 Shadow DOM 之类的都可能导致两者未对齐。
+ *
  * @deprecated Use `ConfigurableFocusTrap` instead.
+ *
+ * 用 `ConfigurableFocusTrap` 代替。
+ *
  * @breaking-change for 11.0.0 Remove this class.
+ *
+ * 11.0.0 删除此类。
+ *
  */
 export class FocusTrap {
   private _startAnchor: HTMLElement | null;
@@ -43,7 +53,12 @@ export class FocusTrap {
   protected startAnchorListener = () => this.focusLastTabbableElement();
   protected endAnchorListener = () => this.focusFirstTabbableElement();
 
-  /** Whether the focus trap is active. */
+  /**
+   * Whether the focus trap is active.
+   *
+   * 焦点陷阱是否处于活动状态。
+   *
+   */
   get enabled(): boolean { return this._enabled; }
   set enabled(value: boolean) {
     this._enabled = value;
@@ -67,7 +82,12 @@ export class FocusTrap {
     }
   }
 
-  /** Destroys the focus trap by cleaning up the anchors. */
+  /**
+   * Destroys the focus trap by cleaning up the anchors.
+   *
+   * 清理锚点以销毁焦点陷阱。
+   *
+   */
   destroy() {
     const startAnchor = this._startAnchor;
     const endAnchor = this._endAnchor;
@@ -95,8 +115,14 @@ export class FocusTrap {
   /**
    * Inserts the anchors into the DOM. This is usually done automatically
    * in the constructor, but can be deferred for cases like directives with `*ngIf`.
+   *
+   * 将这些锚点插入 DOM。这通常是在构造函数中自动完成的，但是对于诸如 `*ngIf` 之类的指令，可以将其推迟。
+   *
    * @returns Whether the focus trap managed to attach successfuly. This may not be the case
    * if the target element isn't currently in the DOM.
+   *
+   * 焦点陷阱是否成功附着。如果目标元素当前不在 DOM 中，则可能不是这种情况。
+   *
    */
   attachAnchors(): boolean {
     // If we're not on the browser, there can be no focus to trap.
@@ -128,8 +154,14 @@ export class FocusTrap {
   /**
    * Waits for the zone to stabilize, then either focuses the first element that the
    * user specified, or the first tabbable element.
+   *
+   * 等待 zone 稳定，然后聚焦用户指定的第一个元素或第一个可 tab 的元素。
+   *
    * @returns Returns a promise that resolves with a boolean, depending
    * on whether focus was moved successfully.
+   *
+   * 返回一个解析为布尔值的 promise，具体取决于焦点是否成功移动。
+   *
    */
   focusInitialElementWhenReady(): Promise<boolean> {
     return new Promise<boolean>(resolve => {
@@ -140,8 +172,14 @@ export class FocusTrap {
   /**
    * Waits for the zone to stabilize, then focuses
    * the first tabbable element within the focus trap region.
+   *
+   * 等待 zone 稳定，然后让焦点陷阱内第一个可 tab 的元素获得焦点。
+   *
    * @returns Returns a promise that resolves with a boolean, depending
    * on whether focus was moved successfully.
+   *
+   * 返回一个解析为布尔值的 promise，具体取决于焦点是否成功移动。
+   *
    */
   focusFirstTabbableElementWhenReady(): Promise<boolean> {
     return new Promise<boolean>(resolve => {
@@ -152,8 +190,14 @@ export class FocusTrap {
   /**
    * Waits for the zone to stabilize, then focuses
    * the last tabbable element within the focus trap region.
+   *
+   * 等待 zone 稳定，然后让焦点陷阱内最后一个可 tab 的元素获得焦点。
+   *
    * @returns Returns a promise that resolves with a boolean, depending
    * on whether focus was moved successfully.
+   *
+   * 返回一个解析为布尔值的 promise，具体取决于焦点是否成功移动。
+   *
    */
   focusLastTabbableElementWhenReady(): Promise<boolean> {
     return new Promise<boolean>(resolve => {
@@ -163,8 +207,17 @@ export class FocusTrap {
 
   /**
    * Get the specified boundary element of the trapped region.
+   *
+   * 获取捕获 zone 的指定边界元素。
+   *
    * @param bound The boundary to get (start or end of trapped region).
+   *
+   * 要获取的边界（已捕获 zone 的开始或结束）。
+   *
    * @returns The boundary element.
+   *
+   * 边界元素。
+   *
    */
   private _getRegionBoundary(bound: 'start' | 'end'): HTMLElement | null {
     // Contains the deprecated version of selector, for temporary backwards comparability.
@@ -194,7 +247,13 @@ export class FocusTrap {
 
   /**
    * Focuses the element that should be focused when the focus trap is initialized.
+   *
+   * 在初始化焦点陷阱时应获得焦点的元素。
+   *
    * @returns Whether focus was moved successfully.
+   *
+   * 焦点是否成功移动。
+   *
    */
   focusInitialElement(): boolean {
     // Contains the deprecated version of selector, for temporary backwards comparability.
@@ -231,7 +290,13 @@ export class FocusTrap {
 
   /**
    * Focuses the first tabbable element within the focus trap region.
+   *
+   * 让焦点陷阱范围内第一个可 tab 的元素获得焦点。
+   *
    * @returns Whether focus was moved successfully.
+   *
+   * 焦点是否成功移动。
+   *
    */
   focusFirstTabbableElement(): boolean {
     const redirectToElement = this._getRegionBoundary('start');
@@ -245,7 +310,13 @@ export class FocusTrap {
 
   /**
    * Focuses the last tabbable element within the focus trap region.
+   *
+   * 让焦点陷阱范围内最后一个可 tab 的元素获得焦点。
+   *
    * @returns Whether focus was moved successfully.
+   *
+   * 焦点是否成功移动。
+   *
    */
   focusLastTabbableElement(): boolean {
     const redirectToElement = this._getRegionBoundary('end');
@@ -259,12 +330,20 @@ export class FocusTrap {
 
   /**
    * Checks whether the focus trap has successfully been attached.
+   *
+   * 检查焦点陷阱是否已附着成功。
+   *
    */
   hasAttached(): boolean {
     return this._hasAttached;
   }
 
-  /** Get the first tabbable element from a DOM subtree (inclusive). */
+  /**
+   * Get the first tabbable element from a DOM subtree (inclusive).
+   *
+   * 从 DOM 子树（包括）中获取第一个可 tab 元素。
+   *
+   */
   private _getFirstTabbableElement(root: HTMLElement): HTMLElement | null {
     if (this._checker.isFocusable(root) && this._checker.isTabbable(root)) {
       return root;
@@ -287,7 +366,12 @@ export class FocusTrap {
     return null;
   }
 
-  /** Get the last tabbable element from a DOM subtree (inclusive). */
+  /**
+   * Get the last tabbable element from a DOM subtree (inclusive).
+   *
+   * 从 DOM 子树（包括）中获取最后一个可 tab 元素。
+   *
+   */
   private _getLastTabbableElement(root: HTMLElement): HTMLElement | null {
     if (this._checker.isFocusable(root) && this._checker.isTabbable(root)) {
       return root;
@@ -309,7 +393,12 @@ export class FocusTrap {
     return null;
   }
 
-  /** Creates an anchor element. */
+  /**
+   * Creates an anchor element.
+   *
+   * 创建一个锚点元素。
+   *
+   */
   private _createAnchor(): HTMLElement {
     const anchor = this._document.createElement('div');
     this._toggleAnchorTabIndex(this._enabled, anchor);
@@ -321,8 +410,17 @@ export class FocusTrap {
 
   /**
    * Toggles the `tabindex` of an anchor, based on the enabled state of the focus trap.
+   *
+   * 根据焦点陷阱的启用状态，切换 `tabindex`
+   *
    * @param isEnabled Whether the focus trap is enabled.
+   *
+   * 是否启用焦点陷阱。
+   *
    * @param anchor Anchor on which to toggle the tabindex.
+   *
+   * 要在其上切换 tabindex 的锚点。
+   *
    */
   private _toggleAnchorTabIndex(isEnabled: boolean, anchor: HTMLElement) {
     // Remove the tabindex completely, rather than setting it to -1, because if the
@@ -332,6 +430,9 @@ export class FocusTrap {
 
   /**
    * Toggles the`tabindex` of both anchors to either trap Tab focus or allow it to escape.
+   *
+   * 切换 `tabindex` 以捕获 Tab 焦点或允许脱离。
+   *
    * @param enabled: Whether the anchors should trap Tab.
    */
   protected toggleAnchors(enabled: boolean) {
@@ -341,7 +442,12 @@ export class FocusTrap {
     }
   }
 
-  /** Executes a function when the zone is stable. */
+  /**
+   * Executes a function when the zone is stable.
+   *
+   * 当 zone 稳定时执行某函数。
+   *
+   */
   private _executeOnStable(fn: () => any): void {
     if (this._ngZone.isStable) {
       fn();
@@ -353,8 +459,17 @@ export class FocusTrap {
 
 /**
  * Factory that allows easy instantiation of focus traps.
+ *
+ * 允许轻松实例化焦点陷阱的工厂。
+ *
  * @deprecated Use `ConfigurableFocusTrapFactory` instead.
+ *
+ * 使用 `ConfigurableFocusTrapFactory` 代替。
+ *
  * @breaking-change for 11.0.0 Remove this class.
+ *
+ * 11.0.0 删除此类。
+ *
  */
 @Injectable({providedIn: 'root'})
 export class FocusTrapFactory {
@@ -370,10 +485,22 @@ export class FocusTrapFactory {
 
   /**
    * Creates a focus-trapped region around the given element.
+   *
+   * 在指定元素周围创建一个焦点捕获 zone 。
+   *
    * @param element The element around which focus will be trapped.
+   *
+   * 将在其周围捕获焦点的元素。
+   *
    * @param deferCaptureElements Defers the creation of focus-capturing elements to be done
    *     manually by the user.
+   *
+   * 推迟创建由用户手动完成的焦点捕获元素。
+   *
    * @returns The created focus trap instance.
+   *
+   * 创建的焦点陷阱实例。
+   *
    */
   create(element: HTMLElement, deferCaptureElements: boolean = false): FocusTrap {
     return new FocusTrap(
@@ -381,7 +508,12 @@ export class FocusTrapFactory {
   }
 }
 
-/** Directive for trapping focus within a region. */
+/**
+ * Directive for trapping focus within a region.
+ *
+ * 在 zone 内捕获焦点的指令。
+ *
+ */
 @Directive({
   selector: '[cdkTrapFocus]',
   exportAs: 'cdkTrapFocus',
@@ -389,13 +521,28 @@ export class FocusTrapFactory {
 export class CdkTrapFocus implements OnDestroy, AfterContentInit, OnChanges, DoCheck {
   private _document: Document;
 
-  /** Underlying FocusTrap instance. */
+  /**
+   * Underlying FocusTrap instance.
+   *
+   * 底层 FocusTrap 实例。
+   *
+   */
   focusTrap: FocusTrap;
 
-  /** Previously focused element to restore focus to upon destroy when using autoCapture. */
+  /**
+   * Previously focused element to restore focus to upon destroy when using autoCapture.
+   *
+   * 使用 autoCapture 时，销毁本指令会导致先前拥有焦点的元素恢复焦点。
+   *
+   */
   private _previouslyFocusedElement: HTMLElement | null = null;
 
-  /** Whether the focus trap is active. */
+  /**
+   * Whether the focus trap is active.
+   *
+   * 焦点陷阱是否处于活动状态。
+   *
+   */
   @Input('cdkTrapFocus')
   get enabled(): boolean { return this.focusTrap.enabled; }
   set enabled(value: boolean) { this.focusTrap.enabled = coerceBooleanProperty(value); }
@@ -403,6 +550,9 @@ export class CdkTrapFocus implements OnDestroy, AfterContentInit, OnChanges, DoC
   /**
    * Whether the directive should automatically move focus into the trapped region upon
    * initialization and return focus to the previous activeElement upon destruction.
+   *
+   * 指令是否应在初始化时自动将焦点移到捕获的 zone 中，并在销毁时将焦点返回给先前的 activeElement。
+   *
    */
   @Input('cdkTrapFocusAutoCapture')
   get autoCapture(): boolean { return this._autoCapture; }

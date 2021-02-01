@@ -8,8 +8,17 @@
 
 /**
  * Asserts that a particular node is an element.
+ *
+ * 断言特定节点是元素。
+ *
  * @param node Node to be checked.
+ *
+ * 要检查的节点。
+ *
  * @param name Name to attach to the error message.
+ *
+ * 附加到错误消息的名称。
+ *
  */
 export function assertElementNode(node: Node, name: string): asserts node is HTMLElement {
   if (node.nodeType !== 1) {

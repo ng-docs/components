@@ -15,6 +15,9 @@ const scrollBehaviorSupported = supportsScrollBehavior();
 
 /**
  * Strategy that will prevent the user from scrolling while the overlay is visible.
+ *
+ * 可以在浮层可见时阻止用户滚动的策略。
+ *
  */
 export class BlockScrollStrategy implements ScrollStrategy {
   private _previousHTMLStyles = {top: '', left: ''};
@@ -26,10 +29,20 @@ export class BlockScrollStrategy implements ScrollStrategy {
     this._document = document;
   }
 
-  /** Attaches this scroll strategy to an overlay. */
+  /**
+   * Attaches this scroll strategy to an overlay.
+   *
+   * 将此滚动策略附加到浮层。
+   *
+   */
   attach() {}
 
-  /** Blocks page-level scroll while the attached overlay is open. */
+  /**
+   * Blocks page-level scroll while the attached overlay is open.
+   *
+   * 打开已附着的浮层时阻止页面级滚动。
+   *
+   */
   enable() {
     if (this._canBeEnabled()) {
       const root = this._document.documentElement!;
@@ -49,7 +62,12 @@ export class BlockScrollStrategy implements ScrollStrategy {
     }
   }
 
-  /** Unblocks page-level scroll while the attached overlay is open. */
+  /**
+   * Unblocks page-level scroll while the attached overlay is open.
+   *
+   * 打开已附着的浮层时，取消阻止页面级滚动。
+   *
+   */
   disable() {
     if (this._isEnabled) {
       const html = this._document.documentElement!;

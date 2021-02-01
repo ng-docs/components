@@ -335,7 +335,7 @@ export class MatDialogRef<T, R = any> {
   /**
    * Fetches the position strategy object from the overlay ref.
    *
-   * 从浮层引用中获取位置策略对象。
+   * 从浮层引用中获取定位策略对象。
    *
    */
   private _getPositionStrategy(): GlobalPositionStrategy {

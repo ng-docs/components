@@ -20,8 +20,13 @@ import {
 /**
  * Options for how an overlay will handle scrolling.
  *
+ * 规定浮层该如何处理滚动的选项。
+ *
  * Users can provide a custom value for `ScrollStrategyOptions` to replace the default
  * behaviors. This class primarily acts as a factory for ScrollStrategy instances.
+ *
+ * 用户可以为 `ScrollStrategyOptions` 提供自定义值，以替换默认行为。此类主要充当 ScrollStrategy 实例的工厂。
+ *
  */
 @Injectable({providedIn: 'root'})
 export class ScrollStrategyOptions {
@@ -35,23 +40,45 @@ export class ScrollStrategyOptions {
       this._document = document;
     }
 
-  /** Do nothing on scroll. */
+  /**
+   * Do nothing on scroll.
+   *
+   * 滚动时不执行任何操作。
+   *
+   */
   noop = () => new NoopScrollStrategy();
 
   /**
    * Close the overlay as soon as the user scrolls.
+   *
+   * 用户滚动后立即关闭浮层。
+   *
    * @param config Configuration to be used inside the scroll strategy.
+   *
+   * 要在滚动策略中使用的配置。
+   *
    */
   close = (config?: CloseScrollStrategyConfig) => new CloseScrollStrategy(this._scrollDispatcher,
       this._ngZone, this._viewportRuler, config)
 
-  /** Block scrolling. */
+  /**
+   * Block scrolling.
+   *
+   * 块滚动。
+   *
+   */
   block = () => new BlockScrollStrategy(this._viewportRuler, this._document);
 
   /**
    * Update the overlay's position on scroll.
+   *
+   * 更新浮层在滚动条上的位置。
+   *
    * @param config Configuration to be used inside the scroll strategy.
    * Allows debouncing the reposition calls.
+   *
+   * 在滚动策略中使用的配置。允许针对重定位调用的防抖。
+   *
    */
   reposition = (config?: RepositionScrollStrategyConfig) => new RepositionScrollStrategy(
       this._scrollDispatcher, this._viewportRuler, this._ngZone, config)

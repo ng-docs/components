@@ -9,7 +9,12 @@
 import {PositionStrategy} from './position-strategy';
 import {OverlayReference} from '../overlay-reference';
 
-/** Class to be added to the overlay pane wrapper. */
+/**
+ * Class to be added to the overlay pane wrapper.
+ *
+ * 要添加到浮层窗格包装器的类。
+ *
+ */
 const wrapperClass = 'cdk-global-overlay-wrapper';
 
 /**
@@ -17,9 +22,17 @@ const wrapperClass = 'cdk-global-overlay-wrapper';
  * explicit position relative to the browser's viewport. We use flexbox, instead of
  * transforms, in order to avoid issues with subpixel rendering which can cause the
  * element to become blurry.
+ *
+ * 放置浮层的策略。使用此策略，可以为浮层赋予相对于浏览器视口的显式位置。为了避免亚像素渲染可能导致元素变得模糊的问题，我们使用 flexbox 而不是变换。
+ *
  */
 export class GlobalPositionStrategy implements PositionStrategy {
-  /** The overlay to which this strategy is attached. */
+  /**
+   * The overlay to which this strategy is attached.
+   *
+   * 此策略要附加到的浮层。
+   *
+   */
   private _overlayRef: OverlayReference;
   private _cssPosition: string = 'static';
   private _topOffset: string = '';
@@ -51,7 +64,13 @@ export class GlobalPositionStrategy implements PositionStrategy {
 
   /**
    * Sets the top position of the overlay. Clears any previously set vertical position.
+   *
+   * 设置浮层的顶部位置。清除任何先前设置的垂直位置。
+   *
    * @param value New top offset.
+   *
+   * 新的顶部偏移量。
+   *
    */
   top(value: string = ''): this {
     this._bottomOffset = '';
@@ -62,7 +81,13 @@ export class GlobalPositionStrategy implements PositionStrategy {
 
   /**
    * Sets the left position of the overlay. Clears any previously set horizontal position.
+   *
+   * 设置浮层的左侧位置。清除任何先前设置的水平位置。
+   *
    * @param value New left offset.
+   *
+   * 新的左侧偏移量。
+   *
    */
   left(value: string = ''): this {
     this._rightOffset = '';
@@ -73,7 +98,13 @@ export class GlobalPositionStrategy implements PositionStrategy {
 
   /**
    * Sets the bottom position of the overlay. Clears any previously set vertical position.
+   *
+   * 设置浮层的底部位置。清除任何先前设置的垂直位置。
+   *
    * @param value New bottom offset.
+   *
+   * 新的底部偏移量。
+   *
    */
   bottom(value: string = ''): this {
     this._topOffset = '';
@@ -84,7 +115,13 @@ export class GlobalPositionStrategy implements PositionStrategy {
 
   /**
    * Sets the right position of the overlay. Clears any previously set horizontal position.
+   *
+   * 设置浮层的正确位置。清除任何先前设置的水平位置。
+   *
    * @param value New right offset.
+   *
+   * 新的右侧偏移量。
+   *
    */
   right(value: string = ''): this {
     this._leftOffset = '';
@@ -95,7 +132,13 @@ export class GlobalPositionStrategy implements PositionStrategy {
 
   /**
    * Sets the overlay width and clears any previously set width.
+   *
+   * 设置浮层宽度并清除任何先前设置的宽度。
+   *
    * @param value New width for the overlay
+   *
+   * 浮层的新宽度
+   *
    * @deprecated Pass the `width` through the `OverlayConfig`.
    * @breaking-change 8.0.0
    */
@@ -111,7 +154,13 @@ export class GlobalPositionStrategy implements PositionStrategy {
 
   /**
    * Sets the overlay height and clears any previously set height.
+   *
+   * 设置浮层高度并清除任何先前设置的高度。
+   *
    * @param value New height for the overlay
+   *
+   * 浮层的新高度
+   *
    * @deprecated Pass the `height` through the `OverlayConfig`.
    * @breaking-change 8.0.0
    */
@@ -129,7 +178,12 @@ export class GlobalPositionStrategy implements PositionStrategy {
    * Centers the overlay horizontally with an optional offset.
    * Clears any previously set horizontal position.
    *
+   * 使浮层水平居中，并具有可选的偏移量。清除任何先前设置的水平位置。
+   *
    * @param offset Overlay offset from the horizontal center.
+   *
+   * 相对于水平中心的浮层偏移量。
+   *
    */
   centerHorizontally(offset: string = ''): this {
     this.left(offset);
@@ -141,7 +195,12 @@ export class GlobalPositionStrategy implements PositionStrategy {
    * Centers the overlay vertically with an optional offset.
    * Clears any previously set vertical position.
    *
+   * 使浮层垂直居中，并带有可选的偏移量。清除任何先前设置的垂直位置。
+   *
    * @param offset Overlay offset from the vertical center.
+   *
+   * 相对于垂直中心的浮层偏移量。
+   *
    */
   centerVertically(offset: string = ''): this {
     this.top(offset);

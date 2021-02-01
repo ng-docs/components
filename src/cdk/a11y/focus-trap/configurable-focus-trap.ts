@@ -16,11 +16,21 @@ import {ConfigurableFocusTrapConfig} from './configurable-focus-trap-config';
 /**
  * Class that allows for trapping focus within a DOM element.
  *
+ * 允许在 DOM 元素内捕获焦点的类。
+ *
  * This class uses a strategy pattern that determines how it traps focus.
  * See FocusTrapInertStrategy.
+ *
+ * 此类使用一种策略模式来确定如何捕获焦点。请参阅 FocusTrapInertStrategy。
+ *
  */
 export class ConfigurableFocusTrap extends FocusTrap implements ManagedFocusTrap {
-  /** Whether the FocusTrap is enabled. */
+  /**
+   * Whether the FocusTrap is enabled.
+   *
+   * 是否启用了此 FocusTrap。
+   *
+   */
   get enabled(): boolean { return this._enabled; }
   set enabled(value: boolean) {
     this._enabled = value;
@@ -43,7 +53,12 @@ export class ConfigurableFocusTrap extends FocusTrap implements ManagedFocusTrap
     this._focusTrapManager.register(this);
   }
 
-  /** Notifies the FocusTrapManager that this FocusTrap will be destroyed. */
+  /**
+   * Notifies the FocusTrapManager that this FocusTrap will be destroyed.
+   *
+   * 通知 FocusTrapManager，此 FocusTrap 将被销毁。
+   *
+   */
   destroy() {
     this._focusTrapManager.deregister(this);
     super.destroy();

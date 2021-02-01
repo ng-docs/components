@@ -15,17 +15,33 @@ import {isElementScrolledOutsideView} from '../position/scroll-clip';
 
 /**
  * Config options for the RepositionScrollStrategy.
+ *
+ * RepositionScrollStrategy 的配置选项。
+ *
  */
 export interface RepositionScrollStrategyConfig {
-  /** Time in milliseconds to throttle the scroll events. */
+  /**
+   * Time in milliseconds to throttle the scroll events.
+   *
+   * 滚动事件的限流时间（以毫秒为单位）。
+   *
+   */
   scrollThrottle?: number;
 
-  /** Whether to close the overlay once the user has scrolled away completely. */
+  /**
+   * Whether to close the overlay once the user has scrolled away completely.
+   *
+   * 用户完全滚动离开后是否关闭浮层。
+   *
+   */
   autoClose?: boolean;
 }
 
 /**
  * Strategy that will update the element position as the user is scrolling.
+ *
+ * 在用户滚动时更新元素位置的策略。
+ *
  */
 export class RepositionScrollStrategy implements ScrollStrategy {
   private _scrollSubscription: Subscription|null = null;
@@ -37,7 +53,12 @@ export class RepositionScrollStrategy implements ScrollStrategy {
     private _ngZone: NgZone,
     private _config?: RepositionScrollStrategyConfig) { }
 
-  /** Attaches this scroll strategy to an overlay. */
+  /**
+   * Attaches this scroll strategy to an overlay.
+   *
+   * 将此滚动策略附加到浮层。
+   *
+   */
   attach(overlayRef: OverlayReference) {
     if (this._overlayRef && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw getMatScrollStrategyAlreadyAttachedError();
@@ -46,7 +67,12 @@ export class RepositionScrollStrategy implements ScrollStrategy {
     this._overlayRef = overlayRef;
   }
 
-  /** Enables repositioning of the attached overlay on scroll. */
+  /**
+   * Enables repositioning of the attached overlay on scroll.
+   *
+   * 允许在滚动时重新定位浮层。
+   *
+   */
   enable() {
     if (!this._scrollSubscription) {
       const throttle = this._config ? this._config.scrollThrottle : 0;
@@ -72,7 +98,12 @@ export class RepositionScrollStrategy implements ScrollStrategy {
     }
   }
 
-  /** Disables repositioning of the attached overlay on scroll. */
+  /**
+   * Disables repositioning of the attached overlay on scroll.
+   *
+   * 禁止在滚动时重新定位浮层。
+   *
+   */
   disable() {
     if (this._scrollSubscription) {
       this._scrollSubscription.unsubscribe();

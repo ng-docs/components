@@ -10,30 +10,70 @@
 import {Optional} from '@angular/core';
 export type HorizontalConnectionPos = 'start' | 'center' | 'end';
 
-/** Vertical dimension of a connection point on the perimeter of the origin or overlay element. */
+/**
+ * Vertical dimension of a connection point on the perimeter of the origin or overlay element.
+ *
+ * 在原点周边或浮层元素上的连接点的垂直尺寸。
+ *
+ */
 export type VerticalConnectionPos = 'top' | 'center' | 'bottom';
 
-/** A connection point on the origin element. */
+/**
+ * A connection point on the origin element.
+ *
+ * 原点元素上的连接点。
+ *
+ */
 export interface OriginConnectionPosition {
   originX: HorizontalConnectionPos;
   originY: VerticalConnectionPos;
 }
 
-/** A connection point on the overlay element. */
+/**
+ * A connection point on the overlay element.
+ *
+ * 浮层元素上的连接点。
+ *
+ */
 export interface OverlayConnectionPosition {
   overlayX: HorizontalConnectionPos;
   overlayY: VerticalConnectionPos;
 }
 
-/** The points of the origin element and the overlay element to connect. */
+/**
+ * The points of the origin element and the overlay element to connect.
+ *
+ * 要连接的原点元素和浮层元素上的点。
+ *
+ */
 export class ConnectionPositionPair {
-  /** X-axis attachment point for connected overlay origin. Can be 'start', 'end', or 'center'. */
+  /**
+   * X-axis attachment point for connected overlay origin. Can be 'start', 'end', or 'center'.
+   *
+   * 已连接浮层原点的 X 轴连接点。可以是 'start'、'end' 或 'center'。
+   *
+   */
   originX: HorizontalConnectionPos;
-  /** Y-axis attachment point for connected overlay origin. Can be 'top', 'bottom', or 'center'. */
+  /**
+   * Y-axis attachment point for connected overlay origin. Can be 'top', 'bottom', or 'center'.
+   *
+   * 已连接浮层原点的 Y 轴连接点。可以是 'top'、'bottom' 或 'center'。
+   *
+   */
   originY: VerticalConnectionPos;
-  /** X-axis attachment point for connected overlay. Can be 'start', 'end', or 'center'. */
+  /**
+   * X-axis attachment point for connected overlay. Can be 'start', 'end', or 'center'.
+   *
+   * 已连接浮层原点的 X 轴连接点。可以是 'start'、'end' 或 'center'。
+   *
+   */
   overlayX: HorizontalConnectionPos;
-  /** Y-axis attachment point for connected overlay. Can be 'top', 'bottom', or 'center'. */
+  /**
+   * Y-axis attachment point for connected overlay. Can be 'top', 'bottom', or 'center'.
+   *
+   * 已连接浮层原点的 Y 轴连接点。可以是 'top'、'bottom' 或 'center'。
+   *
+   */
   overlayY: VerticalConnectionPos;
 
   constructor(
@@ -90,7 +130,12 @@ export class ScrollingVisibility {
   isOverlayOutsideView: boolean;
 }
 
-/** The change event emitted by the strategy when a fallback position is used. */
+/**
+ * The change event emitted by the strategy when a fallback position is used.
+ *
+ * 使用后备位置时，本策略发出的更改事件。
+ *
+ */
 export class ConnectedOverlayPositionChange {
   constructor(
       /** The position used as a result of this change. */
