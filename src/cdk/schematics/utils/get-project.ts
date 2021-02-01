@@ -12,6 +12,9 @@ import {SchematicsException} from '@angular-devkit/schematics';
 /**
  * Finds the specified project configuration in the workspace. Throws an error if the project
  * couldn't be found.
+ *
+ * 在工作空间中查找指定的项目配置。如果找不到项目，则会引发错误。
+ *
  */
 export function getProjectFromWorkspace(
     workspace: WorkspaceDefinition,

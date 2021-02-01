@@ -8,7 +8,12 @@
 
 let shadowDomIsSupported: boolean;
 
-/** Checks whether the user's browser support Shadow DOM. */
+/**
+ * Checks whether the user's browser support Shadow DOM.
+ *
+ * 检查用户的浏览器是否支持 Shadow DOM。
+ *
+ */
 export function _supportsShadowDom(): boolean {
   if (shadowDomIsSupported == null) {
     const head = typeof document !== 'undefined' ? document.head : null;
@@ -18,7 +23,12 @@ export function _supportsShadowDom(): boolean {
   return shadowDomIsSupported;
 }
 
-/** Gets the shadow root of an element, if supported and the element is inside the Shadow DOM. */
+/**
+ * Gets the shadow root of an element, if supported and the element is inside the Shadow DOM.
+ *
+ * 获取元素的 Shadow DOM 根（如果支持并且该元素在 Shadow DOM 内）。
+ *
+ */
 export function _getShadowRoot(element: HTMLElement): Node | null {
   if (_supportsShadowDom()) {
     const rootNode = element.getRootNode ? element.getRootNode() : null;

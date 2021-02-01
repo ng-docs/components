@@ -33,6 +33,9 @@ declare module 'typescript' {
 /**
  * Implementation of a TypeScript parse config host that relies fully on
  * a given virtual file system.
+ *
+ * TypeScript 解析配置宿主的实现完全依赖于给定的虚拟文件系统。
+ *
  */
 export class FileSystemHost implements ts.ParseConfigHost {
   useCaseSensitiveFileNames = ts.sys.useCaseSensitiveFileNames;
@@ -75,6 +78,9 @@ export class FileSystemHost implements ts.ParseConfigHost {
 /**
  * Creates a TypeScript compiler host that fully relies fully on the given
  * virtual file system. i.e. no interactions with the working directory.
+ *
+ * 创建完全依赖于给定虚拟文件系统的 TypeScript 编译器宿主。也就是说与工作目录没有交互。
+ *
  */
 export function createFileSystemCompilerHost(
     options: ts.CompilerOptions, fileSystem: FileSystem): ts.CompilerHost {

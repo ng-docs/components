@@ -10,7 +10,12 @@ import {Path} from '@angular-devkit/core';
 import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
 import {defaultTargetBuilders, getTargetsByBuilderName} from './project-targets';
 
-/** Gets the path of the index file in the given project. */
+/**
+ * Gets the path of the index file in the given project.
+ *
+ * 获取给定项目中索引文件的路径。
+ *
+ */
 export function getProjectIndexFiles(project: ProjectDefinition): Path[] {
   const paths = getTargetsByBuilderName(project, defaultTargetBuilders.build)
     .filter(t => t.options?.index)

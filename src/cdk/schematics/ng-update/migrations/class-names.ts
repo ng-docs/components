@@ -24,20 +24,36 @@ import {getVersionUpgradeData, UpgradeData} from '../upgrade-data';
 /**
  * Migration that walks through every identifier that is part of Angular Material or thr CDK
  * and replaces the outdated name with the new one if specified in the upgrade data.
+ *
+ * 本迁移将遍历作为 Angular Material 或 CDK 一部分的每个标识符，并按升级数据的规定，用新的标识符替换过时的名称。
+ *
  */
 // TODO: rework this rule to identify symbols using the import identifier resolver. This
 // makes it more robust, less AST convoluted and is more TypeScript AST idiomatic. COMP-300.
 export class ClassNamesMigration extends Migration<UpgradeData> {
-  /** Change data that upgrades to the specified target version. */
+  /**
+   * Change data that upgrades to the specified target version.
+   *
+   * 要升级到指定目标版本的更改数据。
+   *
+   */
   data: ClassNameUpgradeData[] = getVersionUpgradeData(this, 'classNames');
 
   /**
    * List of identifier names that have been imported from `@angular/material` or `@angular/cdk`
    * in the current source file and therefore can be considered trusted.
+   *
+   * 从 `@angular/material` 或 `@angular/cdk` 导入的标识符名称列表，因此可以认为是受信任的。
+   *
    */
   trustedIdentifiers: Set<string> = new Set();
 
-  /** List of namespaces that have been imported from `@angular/material` or `@angular/cdk`. */
+  /**
+   * List of namespaces that have been imported from `@angular/material` or `@angular/cdk`.
+   *
+   * 从 `@angular/material` 或 `@angular/cdk` 导入的命名空间列表。
+   *
+   */
   trustedNamespaces: Set<string> = new Set();
 
   // Only enable the migration rule if there is upgrade data.
@@ -49,7 +65,12 @@ export class ClassNamesMigration extends Migration<UpgradeData> {
     }
   }
 
-  /** Method that is called for every identifier inside of the specified project. */
+  /**
+   * Method that is called for every identifier inside of the specified project.
+   *
+   * 针对指定项目内的每个标识符调用的方法。
+   *
+   */
   private _visitIdentifier(identifier: ts.Identifier) {
     // For identifiers that aren't listed in the className data, the whole check can be
     // skipped safely.
@@ -94,7 +115,12 @@ export class ClassNamesMigration extends Migration<UpgradeData> {
     }
   }
 
-  /** Creates a failure and replacement for the specified identifier. */
+  /**
+   * Creates a failure and replacement for the specified identifier.
+   *
+   * 创建一个针对指定的标识符的失败规则和替换规则。
+   *
+   */
   private _createFailureWithReplacement(identifier: ts.Identifier) {
     const classData = this.data.find(data => data.replace === identifier.text)!;
     const filePath = this.fileSystem.resolve(identifier.getSourceFile().fileName);

@@ -29,11 +29,29 @@ import * as ts from 'typescript';
 /**
  * Add Import `import { symbolName } from fileName` if the import doesn't exit
  * already. Assumes fileToEdit can be resolved and accessed.
+ *
+ * 如果导入尚不存在，则添加一个导入 `import { symbolName } from fileName`。这里假设可以解析和访问 fileToEdit。
+ *
  * @param fileToEdit (file we want to add import to)
+ *
+ * （我们要把导入添加到的文件）
+ *
  * @param symbolName (item to import)
+ *
+ * （要导入的项目）
+ *
  * @param fileName (path to the file)
+ *
+ * （文件路径）
+ *
  * @param isDefault (if true, import follows style for importing default exports)
+ *
+ * （如果为 true，则导入会遵循默认的导出样式）
+ *
  * @return Change
+ *
+ * 更改
+ *
  */
 export function insertImport(source: ts.SourceFile, fileToEdit: string, symbolName: string,
                              fileName: string, isDefault = false): Change {
@@ -106,12 +124,24 @@ export function insertImport(source: ts.SourceFile, fileToEdit: string, symbolNa
 
 /**
  * Find all nodes from the AST in the subtree of node of SyntaxKind kind.
+ *
+ * 在 SyntaxKind kind 的节点的子树中找到 AST 中的所有节点。
+ *
  * @param node
  * @param kind
  * @param max The maximum number of items to return.
+ *
+ * 返回的最大项目数。
+ *
  * @param recursive Continue looking for nodes of kind recursive until end
  * the last child even when node of kind has been found.
+ *
+ * 继续递归查找 kind 的节点，直到找到最后一个子节点为止，即使找到了该类型的节点也是如此。
+ *
  * @return all nodes of kind, or \[] if none is found
+ *
+ * 所有种类的节点；如果没有找到，则为\[]
+ *
  */
 export function findNodes(node: ts.Node, kind: ts.SyntaxKind, max = Infinity, recursive = false): ts.Node[] {
   if (!node || max == 0) {
@@ -143,8 +173,17 @@ export function findNodes(node: ts.Node, kind: ts.SyntaxKind, max = Infinity, re
 
 /**
  * Get all the nodes from a source.
+ *
+ * 从源获取所有节点。
+ *
  * @param sourceFile The source file object.
+ *
+ * 源文件对象。
+ *
  * @returns {Observable<ts.Node>} An observable of all the nodes in the source.
+ *
+ * 源中所有节点的可观察对象。
+ *
  */
 export function getSourceNodes(sourceFile: ts.SourceFile): ts.Node[] {
   const nodes: ts.Node[] = [sourceFile];
@@ -180,7 +219,13 @@ export function findNode(node: ts.Node, kind: ts.SyntaxKind, text: string): ts.N
 
 /**
  * Helper for sorting nodes.
+ *
+ * 排序节点的助手。
+ *
  * @return function to sort nodes in increasing order of position in sourceFile
+ *
+ * 用于按源文件中位置的升序对节点进行排序的函数
+ *
  */
 function nodesByPosition(first: ts.Node, second: ts.Node): number {
   return first.getStart() - second.getStart();
@@ -190,13 +235,36 @@ function nodesByPosition(first: ts.Node, second: ts.Node): number {
  * Insert `toInsert` after the last occurence of `ts.SyntaxKind[nodes[i].kind]`
  * or after the last of occurence of `syntaxKind` if the last occurence is a sub child
  * of ts.SyntaxKind\[nodes[i].kind] and save the changes in file.
+ *
+ * 在最后一次出现 `ts.SyntaxKind\[nodes[i].kind]` 或 `syntaxKind`（如果最后一次出现是在 ts.SyntaxKind\[nodes[i].kind] 的子节点中）后插入 `toInsert`，并把更改保存在文件中。
+ *
  * @param nodes insert after the last occurence of nodes
+ *
+ * 在最后出现的节点之后插入
+ *
  * @param toInsert string to insert
+ *
+ * 要插入的字符串
+ *
  * @param file file to insert changes into
+ *
+ * 要插入更改的文件
+ *
  * @param fallbackPos position to insert if toInsert happens to be the first occurence
+ *
+ * 如果 toInsert 是第一次出现，则插入此位置
+ *
  * @param syntaxKind the ts.SyntaxKind of the subchildren to insert after
+ *
+ * 要插入其后的 ts.SyntaxKind
+ *
  * @return Change instance
+ *
+ * 更改实例
+ *
  * @throw Error if toInsert is first occurence but fall back is not set
+ *
+ * 如果 toInsert 是第一次出现，并且没有回退值，则出错
  */
 export function insertAfterLastOccurrence(nodes: ts.Node[],
                                           toInsert: string,
@@ -457,6 +525,9 @@ export function addSymbolToNgModuleMetadata(
 /**
  * Custom function to insert a declaration (component, pipe, directive)
  * into NgModule declarations. It also imports the component.
+ *
+ * 用于将声明（组件，管道，指令）插入到 NgModule `declarations` 中的自定义函数。它还会导入组件。
+ *
  */
 export function addDeclarationToModule(source: ts.SourceFile,
                                        modulePath: string, classifiedName: string,
@@ -467,6 +538,9 @@ export function addDeclarationToModule(source: ts.SourceFile,
 
 /**
  * Custom function to insert an NgModule into NgModule imports. It also imports the module.
+ *
+ * 用于将 NgModule 插入 NgModule `imports` 中的自定义函数。它还会导入模块。
+ *
  */
 export function addImportToModule(source: ts.SourceFile,
                                   modulePath: string, classifiedName: string,
@@ -477,6 +551,9 @@ export function addImportToModule(source: ts.SourceFile,
 
 /**
  * Custom function to insert an export into NgModule. It also imports it.
+ *
+ * 自定义函数，用于将导出插入到 NgModule 中。它还会导入它。
+ *
  */
 export function addExportToModule(source: ts.SourceFile,
                                   modulePath: string, classifiedName: string,
@@ -486,7 +563,13 @@ export function addExportToModule(source: ts.SourceFile,
 
 /**
  * Custom function to insert an entryComponent into NgModule. It also imports it.
+ *
+ * 用于将 entryComponent 插入 NgModule 中的自定义函数。它还会导入它。
+ *
  * @deprecated - Since version 9.0.0 with Ivy, entryComponents is no longer necessary.
+ *
+ *   从带有 Ivy 的 9.0.0 版本开始，不再需要 entryComponents。
+ *
  */
 export function addEntryComponentToModule(source: ts.SourceFile,
                                           modulePath: string, classifiedName: string,

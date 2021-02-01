@@ -8,7 +8,12 @@
 
 import {Tree} from '@angular-devkit/schematics';
 
-/** Gets the content of a specified file from a schematic tree. */
+/**
+ * Gets the content of a specified file from a schematic tree.
+ *
+ * 从原理图树中获取指定文件的内容。
+ *
+ */
 export function getFileContent(tree: Tree, filePath: string): string {
   const contentBuffer = tree.read(filePath);
 

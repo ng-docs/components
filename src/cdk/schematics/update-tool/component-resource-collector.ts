@@ -19,20 +19,48 @@ import {
 import {getPropertyNameText} from './utils/property-name';
 
 export interface ResolvedResource {
-  /** Class declaration that contains this resource. */
+  /**
+   * Class declaration that contains this resource.
+   *
+   * 包含此资源的类声明。
+   *
+   */
   container: ts.ClassDeclaration|null;
-  /** File content of the given template. */
+  /**
+   * File content of the given template.
+   *
+   * 给定模板的文件内容。
+   *
+   */
   content: string;
-  /** Start offset of the resource content (e.g. in the inline source file) */
+  /**
+   * Start offset of the resource content (e.g. in the inline source file)
+   *
+   * 资源内容的起始偏移量（例如，内联源文件中的偏移量）
+   *
+   */
   start: number;
-  /** Whether the given resource is inline or not. */
+  /**
+   * Whether the given resource is inline or not.
+   *
+   * 给定资源是否为内联。
+   *
+   */
   inline: boolean;
-  /** Path to the file that contains this resource. */
+  /**
+   * Path to the file that contains this resource.
+   *
+   * 包含此资源的文件的路径。
+   *
+   */
   filePath: WorkspacePath;
   /**
    * Gets the character and line of a given position index in the resource.
    * If the resource is declared inline within a TypeScript source file, the line and
    * character are based on the full source file content.
+   *
+   * 获取资源中给定位置索引的字符和行。如果在 TypeScript 源文件中将资源声明为内联的，则行和字符是基于全部源文件内容的。
+   *
    */
   getCharacterAndLineOfPosition: (pos: number) => LineAndCharacter;
 }
@@ -40,6 +68,9 @@ export interface ResolvedResource {
 /**
  * Collector that can be used to find Angular templates and stylesheets referenced within
  * given TypeScript source files (inline or external referenced files)
+ *
+ * 本收集器可用于查找在给定 TypeScript 源文件（内联或外部引用文件）中引用的 Angular 模板和样式表
+ *
  */
 export class ComponentResourceCollector {
   resolvedTemplates: ResolvedResource[] = [];
@@ -170,7 +201,12 @@ export class ComponentResourceCollector {
     });
   }
 
-  /** Resolves an external stylesheet by reading its content and computing line mappings. */
+  /**
+   * Resolves an external stylesheet by reading its content and computing line mappings.
+   *
+   * 通过读取其内容并计算行映射来解析外部样式表。
+   *
+   */
   resolveExternalStylesheet(filePath: WorkspacePath, container: ts.ClassDeclaration|null):
       ResolvedResource|null {
     const fileContent = this._fileSystem.read(filePath);

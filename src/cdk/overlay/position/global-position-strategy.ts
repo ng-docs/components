@@ -138,8 +138,10 @@ export class GlobalPositionStrategy implements PositionStrategy {
    * @param value New width for the overlay
    *
    * 浮层的新宽度
-   *
    * @deprecated Pass the `width` through the `OverlayConfig`.
+   *
+   * 通过 `OverlayConfig` 传递 `width` 。
+   *
    * @breaking-change 8.0.0
    */
   width(value: string = ''): this {
@@ -160,8 +162,10 @@ export class GlobalPositionStrategy implements PositionStrategy {
    * @param value New height for the overlay
    *
    * 浮层的新高度
-   *
    * @deprecated Pass the `height` through the `OverlayConfig`.
+   *
+   * 通过 `OverlayConfig` 传递 `height` 。
+   *
    * @breaking-change 8.0.0
    */
   height(value: string = ''): this {
@@ -210,6 +214,9 @@ export class GlobalPositionStrategy implements PositionStrategy {
 
   /**
    * Apply the position to the element.
+   *
+   * 将此位置应用于元素。
+   *
    * @docs-private
    */
   apply(): void {
@@ -258,6 +265,9 @@ export class GlobalPositionStrategy implements PositionStrategy {
 
   /**
    * Cleans up the DOM changes from the position strategy.
+   *
+   * 从定位策略中清除 DOM 更改。
+   *
    * @docs-private
    */
   dispose(): void {

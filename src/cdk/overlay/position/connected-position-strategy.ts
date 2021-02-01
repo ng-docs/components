@@ -34,11 +34,17 @@ import {PositionStrategy} from './position-strategy';
  * 放置浮层的策略。使用此策略，可以为浮层提供相对于某原点元素的隐式位置。此相对位置是指浮层元素上的点相对于所连接的原点元素上的点。例如，一个基本的下拉列表将其原点的左下角连接到此浮层的左上角。
  *
  * @deprecated Use `FlexibleConnectedPositionStrategy` instead.
+ *
+ * 请改用 `FlexibleConnectedPositionStrategy` 。
+ *
  * @breaking-change 8.0.0
  */
 export class ConnectedPositionStrategy implements PositionStrategy {
   /**
    * Reference to the underlying position strategy to which all the API calls are proxied.
+   *
+   * 所有 API 调用所基于的底层定位策略的引用。
+   *
    * @docs-private
    */
   _positionStrategy: FlexibleConnectedPositionStrategy;
@@ -131,6 +137,9 @@ export class ConnectedPositionStrategy implements PositionStrategy {
   /**
    * Updates the position of the overlay element, using whichever preferred position relative
    * to the origin fits on-screen.
+   *
+   * 使用屏幕上适合于原点的任何首选位置来更新浮层元素的位置。
+   *
    * @docs-private
    */
   apply(): void {

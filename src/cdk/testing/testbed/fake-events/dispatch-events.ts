@@ -17,6 +17,9 @@ import {
 
 /**
  * Utility to dispatch any event on a Node.
+ *
+ * 在节点上派发任何事件的实用工具。
+ *
  * @docs-private
  */
 export function dispatchEvent<T extends Event>(node: Node | Window, event: T): T {
@@ -26,6 +29,9 @@ export function dispatchEvent<T extends Event>(node: Node | Window, event: T): T
 
 /**
  * Shorthand to dispatch a fake event on a specified node.
+ *
+ * 在指定节点上派发假事件的简写形式。
+ *
  * @docs-private
  */
 export function dispatchFakeEvent(node: Node | Window, type: string, canBubble?: boolean): Event {
@@ -35,6 +41,9 @@ export function dispatchFakeEvent(node: Node | Window, type: string, canBubble?:
 /**
  * Shorthand to dispatch a keyboard event with a specified key code and
  * optional modifiers.
+ *
+ * 派发带有指定键码和可选修饰符的键盘事件的简写形式。
+ *
  * @docs-private
  */
 export function dispatchKeyboardEvent(node: Node, type: string, keyCode?: number, key?: string,
@@ -45,6 +54,9 @@ export function dispatchKeyboardEvent(node: Node, type: string, keyCode?: number
 
 /**
  * Shorthand to dispatch a mouse event on the specified coordinates.
+ *
+ * 在指定坐标上派发鼠标事件的简写形式。
+ *
  * @docs-private
  */
 export function dispatchMouseEvent( node: Node, type: string, clientX = 0, clientY = 0,
@@ -54,6 +66,9 @@ export function dispatchMouseEvent( node: Node, type: string, clientX = 0, clien
 
 /**
  * Shorthand to dispatch a pointer event on the specified coordinates.
+ *
+ * 在指定坐标上派发指针事件的简写形式。
+ *
  * @docs-private
  */
 export function dispatchPointerEvent(node: Node, type: string, clientX = 0, clientY = 0,
@@ -63,6 +78,9 @@ export function dispatchPointerEvent(node: Node, type: string, clientX = 0, clie
 
 /**
  * Shorthand to dispatch a touch event on the specified coordinates.
+ *
+ * 在指定坐标上派发触摸事件的简写形式。
+ *
  * @docs-private
  */
 export function dispatchTouchEvent(node: Node, type: string, x = 0, y = 0) {

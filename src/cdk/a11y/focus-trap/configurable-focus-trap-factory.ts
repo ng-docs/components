@@ -65,6 +65,9 @@ export class ConfigurableFocusTrapFactory {
 
   /**
    * @deprecated Pass a config object instead of the `deferCaptureElements` flag.
+   *
+   * 传递一个配置对象，而不是 `deferCaptureElements` 标志。
+   *
    * @breaking-change 11.0.0
    */
   create(element: HTMLElement, deferCaptureElements: boolean): ConfigurableFocusTrap;

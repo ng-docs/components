@@ -10,7 +10,12 @@ import {chain, noop, Rule, Tree} from '@angular-devkit/schematics';
 import {addModuleImportToModule, buildComponent, findModuleFromOptions} from '../../utils';
 import {Schema} from './schema';
 
-/** Scaffolds a new Angular component that uses the Drag and Drop module. */
+/**
+ * Scaffolds a new Angular component that uses the Drag and Drop module.
+ *
+ * 建立使用拖放模块的新 Angular 组件。
+ *
+ */
 export default function(options: Schema): Rule {
   return chain([
     buildComponent({...options}, {
@@ -22,7 +27,12 @@ export default function(options: Schema): Rule {
   ]);
 }
 
-/** Adds the required modules to the main module of the CLI project. */
+/**
+ * Adds the required modules to the main module of the CLI project.
+ *
+ * 将所需的模块添加到 CLI 项目的主模块中。
+ *
+ */
 function addDragDropModulesToModule(options: Schema) {
   return async (host: Tree) => {
     const modulePath = await findModuleFromOptions(host, options);

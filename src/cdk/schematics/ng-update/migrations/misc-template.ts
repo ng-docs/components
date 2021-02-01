@@ -15,6 +15,9 @@ import {UpgradeData} from '../upgrade-data';
 /**
  * Migration that walks through every template and reports if there are
  * instances of outdated Angular CDK API that can't be migrated automatically.
+ *
+ * 本迁移会遍历每个模板，并报告是否存在无法自动迁移的过时 Angular CDK API 实例。
+ *
  */
 export class MiscTemplateMigration extends Migration<UpgradeData> {
 

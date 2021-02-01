@@ -11,6 +11,9 @@ import {DefaultTreeDocument, DefaultTreeElement, parseFragment} from 'parse5';
 /**
  * Parses a HTML fragment and traverses all AST nodes in order find elements that
  * include the specified attribute.
+ *
+ * 解析 HTML 片段并遍历所有 AST 节点，以查找包含指定属性的元素。
+ *
  */
 export function findElementsWithAttribute(html: string, attributeName: string) {
   const document = parseFragment(html, {sourceCodeLocationInfo: true}) as DefaultTreeDocument;
@@ -36,6 +39,9 @@ export function findElementsWithAttribute(html: string, attributeName: string) {
 /**
  * Finds elements with explicit tag names that also contain the specified attribute. Returns the
  * attribute start offset based on the specified HTML.
+ *
+ * 查找具有显式标签名称的元素，该名称也包含指定的属性。根据指定的 HTML 返回属性起始偏移量。
+ *
  */
 export function findAttributeOnElementWithTag(html: string, name: string, tagNames: string[]) {
   return findElementsWithAttribute(html, name)
@@ -46,6 +52,9 @@ export function findAttributeOnElementWithTag(html: string, name: string, tagNam
 /**
  * Finds elements that contain the given attribute and contain at least one of the other
  * specified attributes. Returns the primary attribute's start offset based on the specified HTML.
+ *
+ * 查找包含给定属性且包含至少一个其他指定属性的元素。根据指定的 HTML 返回主要属性的起始偏移量。
+ *
  */
 export function findAttributeOnElementWithAttrs(html: string, name: string, attrs: string[]) {
   return findElementsWithAttribute(html, name)
@@ -53,12 +62,22 @@ export function findAttributeOnElementWithAttrs(html: string, name: string, attr
       .map(element => getStartOffsetOfAttribute(element, name));
 }
 
-/** Shorthand function that checks if the specified element contains the given attribute. */
+/**
+ * Shorthand function that checks if the specified element contains the given attribute.
+ *
+ * 检查指定元素是否包含给定属性的简写函数。
+ *
+ */
 function hasElementAttribute(element: DefaultTreeElement, attributeName: string): boolean {
   return element.attrs && element.attrs.some(attr => attr.name === attributeName.toLowerCase());
 }
 
-/** Gets the start offset of the given attribute from a Parse5 element. */
+/**
+ * Gets the start offset of the given attribute from a Parse5 element.
+ *
+ * 从 Parse5 元素获取给定属性的起始偏移量。
+ *
+ */
 export function getStartOffsetOfAttribute(element: any, attributeName: string): number {
   return element.sourceCodeLocation.attrs[attributeName.toLowerCase()].startOffset;
 }

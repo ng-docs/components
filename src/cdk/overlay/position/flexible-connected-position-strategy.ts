@@ -139,7 +139,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   /**
    * Cached overlay dimensions
    *
-   * 缓存的浮层尺寸
+   * 缓存的浮层规格
    *
    */
   private _overlayRect: ClientRect;
@@ -147,7 +147,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   /**
    * Cached viewport dimensions
    *
-   * 缓存的视口尺寸
+   * 缓存的视口规格
    *
    */
   private _viewportRect: ClientRect;
@@ -334,15 +334,31 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * Updates the position of the overlay element, using whichever preferred position relative
    * to the origin best fits on-screen.
    *
+   * 使用相对于屏幕最适合原点的首选位置来更新叠加元素的位置。
+   *
    * The selection of a position goes as follows:
+   *
+   * 位置的选择逻辑如下：
    *
    * - If any positions fit completely within the viewport as-is,
    *     choose the first position that does so.
+   *
+   *   如果任何位置能完全按原样放置在视口中，请选择第一个适合的位置。
+   *
    * - If flexible dimensions are enabled and at least one satifies the given minimum width/height,
    *     choose the position with the greatest available size modified by the positions' weight.
+   *
+   *   如果启用了灵活规格，并且其中至少有一个满足给定的最小宽度/高度，请选择最大的可用规格（根据位置的权重修订）的位置。
+   *
    * - If pushing is enabled, take the position that went off-screen the least and push it
    *     on-screen.
+   *
+   *   如果启用了推入功能，则让离开屏幕的位置尽可能少，然后将其推入屏幕。
+   *
    * - If none of the previous criteria were met, use the position that goes off-screen the least.
+   *
+   *   如果没有满足先前的条件，就使用屏幕外部分最少的位置。
+   *
    * @docs-private
    */
   apply(): void {
@@ -851,7 +867,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    *
    * @param overlay Dimensions of the overlay.
    *
-   * 浮层的尺寸。
+   * 浮层的规格。
    *
    * @param scrollPosition Current viewport scroll position.
    *
@@ -1587,7 +1603,7 @@ interface BoundingBoxRect {
 /**
  * Record of measures determining how well a given position will fit with flexible dimensions.
  *
- * 确定指定位置与灵活尺寸的适应程度的测量记录。
+ * 确定指定位置与灵活规格的适应程度的测量记录。
  *
  */
 interface FlexibleFit {

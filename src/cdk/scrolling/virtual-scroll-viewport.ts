@@ -548,7 +548,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
   /**
    * Update the viewport dimensions and re-render.
    *
-   * 更新视口尺寸并重新渲染。
+   * 更新视口规格并重新渲染。
    *
    */
   checkViewportSize() {

@@ -20,9 +20,17 @@ import {getVersionUpgradeData, UpgradeData} from '../upgrade-data';
 /**
  * Migration that walks through every inline or external HTML template and switches
  * changed output binding names to the proper new output name.
+ *
+ * 本迁移会遍历每个内联或外部 HTML 模板并将更改的输出绑定名称切换为正确的新输出名称。
+ *
  */
 export class OutputNamesMigration extends Migration<UpgradeData> {
-  /** Change data that upgrades to the specified target version. */
+  /**
+   * Change data that upgrades to the specified target version.
+   *
+   * 升级到指定目标版本的更改数据。
+   *
+   */
   data: OutputNameUpgradeData[] = getVersionUpgradeData(this, 'outputNames');
 
   // Only enable the migration rule if there is upgrade data.

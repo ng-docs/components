@@ -11,7 +11,12 @@ import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
 import {SchematicsException} from '@angular-devkit/schematics';
 import {getProjectTargetOptions} from './project-targets';
 
-/** Looks for the main TypeScript file in the given project and returns its path. */
+/**
+ * Looks for the main TypeScript file in the given project and returns its path.
+ *
+ * 在给定的项目中查找主要的 TypeScript 文件并返回其路径。
+ *
+ */
 export function getProjectMainFile(project: ProjectDefinition): Path {
   const buildOptions = getProjectTargetOptions(project, 'build');
 

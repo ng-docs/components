@@ -12,6 +12,9 @@ import {Point} from './actions';
 /**
  * Normalizes either turning a selector into an
  * ElementFinder or returning the finder itself.
+ *
+ * 规范化将选择器变成 ElementFinder 或返回查找器本身。
+ *
  */
 export function getElement(el: FinderResult): ElementFinder {
   return typeof el === 'string' ? element(by.css(el)) : el;
@@ -19,6 +22,9 @@ export function getElement(el: FinderResult): ElementFinder {
 
 /**
  * Waits for an element to be rendered.
+ *
+ * 等待元素被渲染。
+ *
  */
 export async function waitForElement(selector: string) {
   return await browser.isElementPresent(by.css(selector));
@@ -26,6 +32,9 @@ export async function waitForElement(selector: string) {
 
 /**
  * Determines the current scroll position of the page.
+ *
+ * 确定页面的当前滚动位置。
+ *
  */
 export async function getScrollPosition(): Promise<Point> {
   const snippet = `

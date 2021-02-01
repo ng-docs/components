@@ -43,7 +43,7 @@ export class ViewportRuler implements OnDestroy {
   /**
    * Cached viewport dimensions.
    *
-   * 缓存的视口尺寸。
+   * 缓存的视口规格。
    *
    */
   private _viewportSize: {width: number; height: number};

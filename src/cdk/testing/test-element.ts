@@ -243,7 +243,7 @@ export interface TestElement {
   /**
    * Gets the dimensions of the element.
    *
-   * 获取该元素的尺寸。
+   * 获取该元素的规格。
    *
    */
   getDimensions(): Promise<ElementDimensions>;

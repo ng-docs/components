@@ -10,15 +10,28 @@ import {isJsonArray, normalize} from '@angular-devkit/core';
 import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
 import {getProjectTargetOptions} from './project-targets';
 
-/** Regular expression that matches all possible Angular CLI default style files. */
+/**
+ * Regular expression that matches all possible Angular CLI default style files.
+ *
+ * 与所有可能的 Angular CLI 默认样式文件匹配的正则表达式。
+ *
+ */
 const defaultStyleFileRegex = /styles\.(c|le|sc)ss/;
 
-/** Regular expression that matches all files that have a proper stylesheet extension. */
+/**
+ * Regular expression that matches all files that have a proper stylesheet extension.
+ *
+ * 与具有正确样式表扩展名的所有文件匹配的正则表达式。
+ *
+ */
 const validStyleFileRegex = /\.(c|le|sc)ss/;
 
 /**
  * Gets a style file with the given extension in a project and returns its path. If no
  * extension is specified, any style file with a valid extension will be returned.
+ *
+ * 在项目中获取具有给定扩展名的样式文件，并返回其路径。如果未指定扩展名，则将返回任何具有有效扩展名的样式文件。
+ *
  */
 export function getProjectStyleFile(project: ProjectDefinition, extension?: string): string | null {
   const buildOptions = getProjectTargetOptions(project, 'build');

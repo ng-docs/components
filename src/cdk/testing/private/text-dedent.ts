@@ -9,6 +9,9 @@
 /**
  * Template string function that can be used to dedent a given string
  * literal. The smallest common indentation will be omitted.
+ *
+ * 模板字符串函数，可用于确定给定的字符串文字。最小的公共缩进将被省略。
+ *
  */
 export function dedent(strings: TemplateStringsArray, ...values: any[]) {
   let joinedString = '';

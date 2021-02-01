@@ -8,6 +8,11 @@
 
 export interface Schema {
 
-  /** Name of the project to target. */
+  /**
+   * Name of the project to target.
+   *
+   * 要定位的项目名称。
+   *
+   */
   project: string;
 }

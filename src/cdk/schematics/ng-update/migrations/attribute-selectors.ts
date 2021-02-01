@@ -17,9 +17,17 @@ import {getVersionUpgradeData, UpgradeData} from '../upgrade-data';
 /**
  * Migration that walks through every string literal, template and stylesheet
  * in order to switch deprecated attribute selectors to the updated selector.
+ *
+ * 本迁移遍历每个字符串文字，模板和样式表，以便将已弃用的属性选择器切换到更新的选择器。
+ *
  */
 export class AttributeSelectorsMigration extends Migration<UpgradeData> {
-  /** Required upgrade changes for specified target version. */
+  /**
+   * Required upgrade changes for specified target version.
+   *
+   * 指定目标版本的必要升级变更。
+   *
+   */
   data = getVersionUpgradeData(this, 'attributeSelectors');
 
   // Only enable the migration rule if there is upgrade data.

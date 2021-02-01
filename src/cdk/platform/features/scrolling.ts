@@ -6,32 +6,61 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** The possible ways the browser may handle the horizontal scroll axis in RTL languages. */
+/**
+ * The possible ways the browser may handle the horizontal scroll axis in RTL languages.
+ *
+ * 浏览器可能以 RTL 语言处理水平滚动轴的几种可能方式。
+ *
+ */
 export const enum RtlScrollAxisType {
   /**
    * scrollLeft is 0 when scrolled all the way left and (scrollWidth - clientWidth) when scrolled
    * all the way right.
+   *
+   * 一直向左滚动时，scrollLeft 为 0；向右滚动时，为 (scrollWidth - clientWidth)。
+   *
    */
   NORMAL,
   /**
    * scrollLeft is -(scrollWidth - clientWidth) when scrolled all the way left and 0 when scrolled
    * all the way right.
+   *
+   * 一直向左滚动时，scrollLeft 为 -(scrollWidth - clientWidth)；向右滚动时，为 0。
+   *
    */
   NEGATED,
   /**
    * scrollLeft is (scrollWidth - clientWidth) when scrolled all the way left and 0 when scrolled
    * all the way right.
+   *
+   * 一直向左滚动时，scrollLeft 为 (scrollWidth - clientWidth)；向右滚动时，scrollLeft 是 0。
+   *
    */
   INVERTED
 }
 
-/** Cached result of the way the browser handles the horizontal scroll axis in RTL mode. */
+/**
+ * Cached result of the way the browser handles the horizontal scroll axis in RTL mode.
+ *
+ * 浏览器在 RTL 模式下处理水平滚动轴的方式的缓存结果。
+ *
+ */
 let rtlScrollAxisType: RtlScrollAxisType|undefined;
 
-/** Cached result of the check that indicates whether the browser supports scroll behaviors. */
+/**
+ * Cached result of the check that indicates whether the browser supports scroll behaviors.
+ *
+ * 检查的缓存结果，指示浏览器是否支持滚动行为。
+ *
+ */
 let scrollBehaviorSupported: boolean|undefined;
 
-/** Check whether the browser supports scroll behaviors. */
+/**
+ * Check whether the browser supports scroll behaviors.
+ *
+ * 检查浏览器是否支持滚动行为。
+ *
+ */
 export function supportsScrollBehavior(): boolean {
   if (scrollBehaviorSupported == null) {
     // If we're not in the browser, it can't be supported.
@@ -66,6 +95,9 @@ export function supportsScrollBehavior(): boolean {
 /**
  * Checks the type of RTL scroll axis used by this browser. As of time of writing, Chrome is NORMAL,
  * Firefox & Safari are NEGATED, and IE & Edge are INVERTED.
+ *
+ * 检查此浏览器使用的 RTL 滚动轴的类型。在撰写本文时，Chrome 浏览器为 NORMAL（正常），Firefox 和 Safari 为 NEGATED（否），而 IE＆Edge 为 INVERTED（反向）。
+ *
  */
 export function getRtlScrollAxisType(): RtlScrollAxisType {
   // We can't check unless we're on the browser. Just assume 'normal' if we're not.

@@ -23,7 +23,7 @@ interface ScrollPosition {
 /**
  * Keeps track of the scroll position and dimensions of the parents of an element.
  *
- * 跟踪元素父级的滚动位置和尺寸。
+ * 跟踪元素父级的滚动位置和规格。
  *
  */
 export class ParentPositionTracker {

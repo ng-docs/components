@@ -14,16 +14,36 @@ import {basename, extname, join, relative, sep} from 'path';
 import {EMPTY} from 'rxjs';
 import {createTestApp} from './test-app';
 
-/** Suffix that indicates whether a given file is a test case input. */
+/**
+ * Suffix that indicates whether a given file is a test case input.
+ *
+ * 指示给定文件是否为测试用例输入的后缀。
+ *
+ */
 const TEST_CASE_INPUT_SUFFIX = '_input.ts';
 
-/** Suffix that indicates whether a given file is an expected output of a test case. */
+/**
+ * Suffix that indicates whether a given file is an expected output of a test case.
+ *
+ * 指示给定文件是否为测试用例的预期输出的后缀。
+ *
+ */
 const TEST_CASE_OUTPUT_SUFFIX = '_expected_output.ts';
 
-/** Name of the folder that can contain test case files which should not run automatically. */
+/**
+ * Name of the folder that can contain test case files which should not run automatically.
+ *
+ * 包含不应自动运行的测试用例文件的文件夹的名称。
+ *
+ */
 const MISC_FOLDER_NAME = 'misc';
 
-/** Reads the UTF8 content of the specified file. Normalizes the path and ensures that */
+/**
+ * Reads the UTF8 content of the specified file. Normalizes the path and ensures that
+ *
+ * 读取指定文件的 UTF8 内容。将路径规范化。
+ *
+ */
 export function readFileContent(filePath: string): string {
   return readFileSync(filePath, 'utf8');
 }
@@ -34,6 +54,9 @@ export function readFileContent(filePath: string): string {
  * find source files within the tsconfig project.
  * TODO(devversion): we should be able to make the TypeScript config parsing respect the
  * schematic tree. This would allow us to fully take advantage of the virtual file system.
+ *
+ * 创建一个测试应用程序原理图树，该树将被复制到真实的文件系统位置。这是必需的，否则 TypeScript 编译器 API 将无法在 tsconfig 项目中找到源文件。
+ *
  */
 export async function createFileSystemTestApp(runner: SchematicTestRunner) {
   const hostTree = new HostTree();
@@ -112,6 +135,9 @@ export async function createTestCaseSetup(migrationName: string, collectionPath:
  * Resolves all test cases for specified path using Bazel's runfile manifest. Note that we
  * cannot just use "glob" since the test case files are not copied to the Bazel bin directory
  * and are just runfiles.
+ *
+ * 使用 Bazel 的 runfile 清单解析指定路径下的所有测试用例。请注意，我们不能仅使用 “glob”，因为测试用例文件不会复制到 Bazel 的 bin 目录中，而只是 runfiles。
+ *
  */
 export function findBazelVersionTestCases(basePath: string) {
   const testCasesMap = new Map<string, string[]>();
@@ -163,6 +189,9 @@ export function findBazelVersionTestCases(basePath: string) {
 /**
  * Sets up the specified test cases using Jasmine by creating the appropriate jasmine
  * spec definitions. This should be used within a "describe" jasmine closure.
+ *
+ * 通过创建适当的 Jasmine 规约定义，使用 Jasmine 设置指定的测试用例。这应该在 Jasmine 的 "describe" 闭包中使用。
+ *
  */
 export function defineJasmineTestCases(versionName: string, collectionFile: string,
                                 inputFiles: string[] | undefined) {
@@ -201,6 +230,9 @@ export function defineJasmineTestCases(versionName: string, collectionFile: stri
  * Patches the specified virtual file system tree to be able to read the TypeScript
  * default library typings. These need to be readable in unit tests because otherwise
  * type checking within migration rules is not working as in real applications.
+ *
+ * patch 指定的虚拟文件系统树，以便能够读取 TypeScript 的默认库类型。这些在单元测试中必须是可读的，否则迁移规则中的类型检查将不能像在实际应用程序中那样起作用。
+ *
  */
 export function _patchTypeScriptDefaultLib(tree: Tree) {
   const _originalRead = tree.read;

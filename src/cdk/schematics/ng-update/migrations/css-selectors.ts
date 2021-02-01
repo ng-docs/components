@@ -17,9 +17,17 @@ import {getVersionUpgradeData, UpgradeData} from '../upgrade-data';
 /**
  * Migration that walks through every string literal, template and stylesheet in
  * order to migrate outdated CSS selectors to the new selector.
+ *
+ * 遍历每个字符串文字、模板和样式表的迁移，以便将过时的 CSS 选择器迁移到新的选择器。
+ *
  */
 export class CssSelectorsMigration extends Migration<UpgradeData> {
-  /** Change data that upgrades to the specified target version. */
+  /**
+   * Change data that upgrades to the specified target version.
+   *
+   * 升级到指定目标版本的更改数据。
+   *
+   */
   data: CssSelectorUpgradeData[] = getVersionUpgradeData(this, 'cssSelectors');
 
   // Only enable the migration rule if there is upgrade data.

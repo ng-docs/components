@@ -10,13 +10,23 @@ import {ProjectDefinition, TargetDefinition} from '@angular-devkit/core/src/work
 import {JsonValue} from '@angular-devkit/core';
 import {SchematicsException} from '@angular-devkit/schematics';
 
-/** Object that maps a CLI target to its default builder name. */
+/**
+ * Object that maps a CLI target to its default builder name.
+ *
+ * 将 CLI 目标映射到其默认构建器名称的对象。
+ *
+ */
 export const defaultTargetBuilders = {
   build: '@angular-devkit/build-angular:browser',
   test: '@angular-devkit/build-angular:karma',
 };
 
-/** Resolves the architect options for the build target of the given project. */
+/**
+ * Resolves the architect options for the build target of the given project.
+ *
+ * 解析给定项目的构建目标的建筑师选项。
+ *
+ */
 export function getProjectTargetOptions(project: ProjectDefinition, buildTarget: string):
   Record<string, JsonValue | undefined> {
   const options = project.targets?.get(buildTarget)?.options;
@@ -29,7 +39,12 @@ export function getProjectTargetOptions(project: ProjectDefinition, buildTarget:
   return options;
 }
 
-/** Gets all targets from the given project that match the specified builder name. */
+/**
+ * Gets all targets from the given project that match the specified builder name.
+ *
+ * 从给定项目中获取与指定构建器名称匹配的所有目标。
+ *
+ */
 export function getTargetsByBuilderName(
     project: ProjectDefinition, builderName: string): TargetDefinition[] {
   return Array.from(project.targets.keys())

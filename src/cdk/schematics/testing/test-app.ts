@@ -11,7 +11,12 @@ import {SchematicTestRunner, UnitTestTree} from '@angular-devkit/schematics/test
 
 import {createTestProject} from './test-project';
 
-/** Create a base app used for testing. */
+/**
+ * Create a base app used for testing.
+ *
+ * 创建用于测试的基本应用程序。
+ *
+ */
 export async function createTestApp(runner: SchematicTestRunner, appOptions = {}, tree?: Tree):
     Promise<UnitTestTree> {
   return createTestProject(runner, 'application', appOptions, tree);

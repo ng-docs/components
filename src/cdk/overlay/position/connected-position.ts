@@ -13,7 +13,7 @@ export type HorizontalConnectionPos = 'start' | 'center' | 'end';
 /**
  * Vertical dimension of a connection point on the perimeter of the origin or overlay element.
  *
- * 在原点周边或浮层元素上的连接点的垂直尺寸。
+ * 在原点周边或浮层元素上的连接点的垂直规格。
  *
  */
 export type VerticalConnectionPos = 'top' | 'center' | 'bottom';
@@ -97,31 +97,32 @@ export class ConnectionPositionPair {
  * Set of properties regarding the position of the origin and overlay relative to the viewport
  * with respect to the containing Scrollable elements.
  *
+ * 一组属性，表示原点和浮层相对于包含可滚动元素的视口的位置。
+ *
  * The overlay and origin are clipped if any part of their bounding client rectangle exceeds the
  * bounds of any one of the strategy's Scrollable's bounding client rectangle.
+ *
+ * 如果浮层和原点的边界矩形的任何部分超出了本策略的可滚动边界矩形，则将对其进行裁剪。
  *
  * The overlay and origin are outside view if there is no overlap between their bounding client
  * rectangle and any one of the strategy's Scrollable's bounding client rectangle.
  *
- * ```
- *   -----------                    -----------
- *   | outside |                    | clipped |
- *   |  view   |              --------------------------
- *   |         |              |     |         |        |
- *   ----------               |     -----------        |
- * ```
+ * 如果浮层和原点的边界矩形与本策略的可滚动对象边界矩形中的任何一个都没有重叠，则浮层和原点位于外部视图中。
  *
- *  \--------------------------    \|                        \|
+ *       -----------                    -----------
+ *       | outside |                    | clipped |
+ *       |  view   |              --------------------------
+ *       |         |              |     |         |        |
+ *       ----------               |     -----------        |
+ *  --------------------------    |                        |
  *  |                        |    |      Scrollable        |
- *  \|                        \|    \|                        \|
- *  \|                        \|     --------------------------
+ *  |                        |    |                        |
+ *  |                        |     --------------------------
  *  |      Scrollable        |
- *  \|                        \|
+ *  |                        |
+ *  --------------------------
  *
- * \-------------------------- | | | | | Scrollable | | | | | | | -------------------------- | Scrollable | | |
- *
- * * * *
- * @docs-private
+ *  @docs-private
  */
 export class ScrollingVisibility {
   isOriginClipped: boolean;
@@ -133,7 +134,7 @@ export class ScrollingVisibility {
 /**
  * The change event emitted by the strategy when a fallback position is used.
  *
- * 使用后备位置时，本策略发出的更改事件。
+ * 使用回退位置时，本策略发出的更改事件。
  *
  */
 export class ConnectedOverlayPositionChange {
@@ -146,8 +147,17 @@ export class ConnectedOverlayPositionChange {
 
 /**
  * Validates whether a vertical position property matches the expected values.
+ *
+ * 验证垂直位置属性是否与期望值匹配。
+ *
  * @param property Name of the property being validated.
+ *
+ * 要验证的属性的名称。
+ *
  * @param value Value of the property being validated.
+ *
+ * 待验证属性的值。
+ *
  * @docs-private
  */
 export function validateVerticalPosition(property: string, value: VerticalConnectionPos) {
@@ -159,8 +169,17 @@ export function validateVerticalPosition(property: string, value: VerticalConnec
 
 /**
  * Validates whether a horizontal position property matches the expected values.
+ *
+ * 验证水平位置属性是否与期望值匹配。
+ *
  * @param property Name of the property being validated.
+ *
+ * 要验证的属性的名称。
+ *
  * @param value Value of the property being validated.
+ *
+ * 待验证属性的值。
+ *
  * @docs-private
  */
 export function validateHorizontalPosition(property: string, value: HorizontalConnectionPos) {

@@ -10,7 +10,12 @@ import {SchematicsException, Tree} from '@angular-devkit/schematics';
 import {getChildElementIndentation} from './parse5-element';
 import {DefaultTreeDocument, DefaultTreeElement, parse as parseHtml} from 'parse5';
 
-/** Appends the given element HTML fragment to the `<head>` element of the specified HTML file. */
+/**
+ * Appends the given element HTML fragment to the `<head>` element of the specified HTML file.
+ *
+ * 将给定的元素 HTML 片段追加到指定 HTML 文件的 `&lt;head>` 元素下。
+ *
+ */
 export function appendHtmlElementToHead(host: Tree, htmlFilePath: string, elementHtml: string) {
   const htmlFileBuffer = host.read(htmlFilePath);
 
@@ -43,12 +48,22 @@ export function appendHtmlElementToHead(host: Tree, htmlFilePath: string, elemen
   host.commitUpdate(recordedChange);
 }
 
-/** Parses the given HTML file and returns the head element if available. */
+/**
+ * Parses the given HTML file and returns the head element if available.
+ *
+ * 解析给定的 HTML 文件并返回 head 元素（如果有）。
+ *
+ */
 export function getHtmlHeadTagElement(htmlContent: string): DefaultTreeElement | null {
   return getElementByTagName('head', htmlContent);
 }
 
-/** Adds a class to the body of the document. */
+/**
+ * Adds a class to the body of the document.
+ *
+ * 在文档的 body 中添加一个类。
+ *
+ */
 export function addBodyClass(host: Tree, htmlFilePath: string, className: string): void {
   const htmlFileBuffer = host.read(htmlFilePath);
 
@@ -83,7 +98,12 @@ export function addBodyClass(host: Tree, htmlFilePath: string, className: string
   }
 }
 
-/** Finds an element by its tag name. */
+/**
+ * Finds an element by its tag name.
+ *
+ * 通过标签名称查找元素。
+ *
+ */
 function getElementByTagName(tagName: string, htmlContent: string):
   DefaultTreeElement | null {
   const document = parseHtml(htmlContent, {sourceCodeLocationInfo: true}) as DefaultTreeDocument;

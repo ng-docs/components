@@ -50,6 +50,9 @@ let _uniqueIdCounter = 0;
 /**
  * Internal compile-time-only representation of a `CdkDropList`.
  * Used to avoid circular import issues between the `CdkDropList` and the `CdkDrag`.
+ *
+ * `CdkDropList` 内部的仅编译时表示法。 用来解决 `CdkDropList` 和 `CdkDrag` 之间的循环导入问题。
+ *
  * @docs-private
  */
 export interface CdkDropListInternal extends CdkDropList {}

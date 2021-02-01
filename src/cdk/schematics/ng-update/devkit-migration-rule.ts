@@ -32,7 +32,12 @@ import {OutputNamesMigration} from './migrations/output-names';
 import {PropertyNamesMigration} from './migrations/property-names';
 import {UpgradeData} from './upgrade-data';
 
-/** List of migrations which run for the CDK update. */
+/**
+ * List of migrations which run for the CDK update.
+ *
+ * 为 CDK 更新运行的迁移列表。
+ *
+ */
 export const cdkMigrations: MigrationCtor<UpgradeData>[] = [
   AttributeSelectorsMigration,
   ClassInheritanceMigration,
@@ -55,6 +60,9 @@ type PostMigrationFn =
 /**
  * Creates a Angular schematic rule that runs the upgrade for the
  * specified target version.
+ *
+ * 创建一个 Angular 原理图规则，该规则针对指定的目标版本运行升级。
+ *
  */
 export function createMigrationSchematicRule(
     targetVersion: TargetVersion, extraMigrations: NullableDevkitMigration[],
@@ -124,7 +132,12 @@ export function createMigrationSchematicRule(
       onMigrationCompleteFn(context, targetVersion, hasFailures);
     }
 
-    /** Runs the migrations for the specified workspace project. */
+    /**
+     * Runs the migrations for the specified workspace project.
+     *
+     * 运行指定工作空间项目的迁移。
+     *
+     */
     function runMigrations(project: ProjectDefinition, projectName: string,
                            tsconfigPath: WorkspacePath, additionalStylesheetPaths: string[],
                            isTestTarget: boolean) {
@@ -157,7 +170,12 @@ export function createMigrationSchematicRule(
   };
 }
 
-/** Whether the given migration type refers to a devkit migration */
+/**
+ * Whether the given migration type refers to a devkit migration
+ *
+ * 给定的迁移类型是否涉及 devkit 迁移
+ *
+ */
 export function isDevkitMigration(value: MigrationCtor<any, any>)
     : value is DevkitMigrationCtor<any> {
   return DevkitMigration.isPrototypeOf(value);

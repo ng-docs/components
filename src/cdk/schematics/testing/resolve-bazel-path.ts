@@ -13,6 +13,9 @@ import * as path from 'path';
  * Usually `require.resolve` could just be used for resolving runfiles relatively, but support
  * for this has been removed and absolute manifest paths or the runfile helpers are now needed
  * on Windows. This helper provides a resolution method that works the same on all platforms.
+ *
+ * 在指定的父目录的同时解析通过 Bazel 给定的路径。通常 `require.resolve` 只能用于相对解析运行文件，但是对此的支持已删除，现在 Windows 上需要绝对清单路径或运行文件助手。该助手提供了一种在所有平台上都一样的解析方法。
+ *
  */
 export function resolveBazelPath(parent: string, relativePath: string) {
   if (process.env['RUNFILES_MANIFEST_ONLY'] !== '1') {

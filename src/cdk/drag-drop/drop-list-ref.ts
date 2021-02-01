@@ -61,7 +61,7 @@ interface CachedItemPosition {
   /**
    * Dimensions of the item.
    *
-   * 此条目的尺寸。
+   * 此条目的规格。
    *
    */
   clientRect: ClientRect;
@@ -246,7 +246,7 @@ export class DropListRef<T = any> {
   /**
    * Cache of the dimensions of all the items inside the container.
    *
-   * 缓存容器内所有条目的尺寸。
+   * 缓存容器内所有条目的规格。
    *
    */
   private _itemPositions: CachedItemPosition[] = [];
@@ -1478,7 +1478,7 @@ function incrementHorizontalScroll(node: HTMLElement | Window, amount: number) {
  *
  * @param clientRect Dimensions of the node.
  *
- * 该节点的尺寸。
+ * 该节点的规格。
  *
  * @param pointerY Position of the user's pointer along the y axis.
  *
@@ -1505,7 +1505,7 @@ function getVerticalScrollDirection(clientRect: ClientRect, pointerY: number) {
  *
  * @param clientRect Dimensions of the node.
  *
- * 该节点的尺寸。
+ * 该节点的规格。
  *
  * @param pointerX Position of the user's pointer along the x axis.
  *

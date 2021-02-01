@@ -15,9 +15,17 @@ import {getVersionUpgradeData, UpgradeData} from '../upgrade-data';
 /**
  * Migration that visits every TypeScript method call expression and checks if the
  * argument count is invalid and needs to be *manually* updated.
+ *
+ * 本迁移会访问每个 TypeScript 方法调用表达式，并检查参数计数是否无效并且需要*手动*更新。
+ *
  */
 export class MethodCallArgumentsMigration extends Migration<UpgradeData> {
-  /** Change data that upgrades to the specified target version. */
+  /**
+   * Change data that upgrades to the specified target version.
+   *
+   * 升级到指定目标版本的更改数据。
+   *
+   */
   data: MethodCallUpgradeData[] = getVersionUpgradeData(this, 'methodCallChecks');
 
   // Only enable the migration rule if there is upgrade data.

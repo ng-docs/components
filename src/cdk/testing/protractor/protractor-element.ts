@@ -17,7 +17,12 @@ import {
 } from '@angular/cdk/testing';
 import {browser, Button, by, ElementFinder, Key} from 'protractor';
 
-/** Maps the `TestKey` constants to Protractor's `Key` constants. */
+/**
+ * Maps the `TestKey` constants to Protractor's `Key` constants.
+ *
+ * 将 `TestKey` 常量映射到 Protractor 的 `Key` 常量。
+ *
+ */
 const keyMap = {
   [TestKey.BACKSPACE]: Key.BACK_SPACE,
   [TestKey.TAB]: Key.TAB,
@@ -51,7 +56,12 @@ const keyMap = {
   [TestKey.META]: Key.META
 };
 
-/** Converts a `ModifierKeys` object to a list of Protractor `Key`s. */
+/**
+ * Converts a `ModifierKeys` object to a list of Protractor `Key`s.
+ *
+ * 将 `ModifierKeys` 对象转换为 Protractor `Key` 的列表。
+ *
+ */
 function toProtractorModifierKeys(modifiers: ModifierKeys): string[] {
   const result: string[] = [];
   if (modifiers.control) {
@@ -69,7 +79,12 @@ function toProtractorModifierKeys(modifiers: ModifierKeys): string[] {
   return result;
 }
 
-/** A `TestElement` implementation for Protractor. */
+/**
+ * A `TestElement` implementation for Protractor.
+ *
+ * 用于 Protractor 的 `TestElement`
+ *
+ */
 export class ProtractorElement implements TestElement {
   constructor(readonly element: ElementFinder) {}
 
@@ -202,7 +217,12 @@ export class ProtractorElement implements TestElement {
     return browser.executeScript(_dispatchEvent, name, this.element, data);
   }
 
-  /** Dispatches all the events that are part of a click event sequence. */
+  /**
+   * Dispatches all the events that are part of a click event sequence.
+   *
+   * 分派属于 click 事件序列一部分的所有事件。
+   *
+   */
   private async _dispatchClickEventSequence(
     args: [ModifierKeys?] | ['center', ModifierKeys?] |
       [number, number, ModifierKeys?],
@@ -238,6 +258,9 @@ export class ProtractorElement implements TestElement {
  * Dispatches an event with a particular name and data to an element.
  * Note that this needs to be a pure function, because it gets stringified by
  * Protractor and is executed inside the browser.
+ *
+ * 将具有特定名称和数据的事件分派到元素。请注意，这必须是纯函数，因为它会由 Protractor 进行字符串化并在浏览器中执行。
+ *
  */
 function _dispatchEvent(name: string, element: ElementFinder, data?: Record<string, EventData>) {
   const event = document.createEvent('Event');

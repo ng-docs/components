@@ -10,9 +10,19 @@ import {TargetVersion} from '../../update-tool/target-version';
 import {VersionChanges} from '../../update-tool/version-changes';
 
 export interface ClassNameUpgradeData {
-  /** The Class name to replace. */
+  /**
+   * The Class name to replace.
+   *
+   * 要替换的类名称。
+   *
+   */
   replace: string;
-  /** The new name for the Class. */
+  /**
+   * The new name for the Class.
+   *
+   * 类的新名称。
+   *
+   */
   replaceWith: string;
 }
 

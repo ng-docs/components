@@ -15,6 +15,9 @@ import * as path from 'path';
  * File system that leverages the virtual tree from the CLI devkit. This file
  * system is commonly used by `ng update` migrations that run as part of the
  * Angular CLI.
+ *
+ * 利用 CLI devkit 中的虚拟树的文件系统。在 Angular CLI 中运行 `ng update` 迁移时通常会使用此文件系统。
+ *
  */
 export class DevkitFileSystem extends FileSystem {
   private _updateRecorderCache = new Map<string, UpdateRecorder>();

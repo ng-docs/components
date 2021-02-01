@@ -12,6 +12,9 @@ import {triggerFocus} from './element-focus';
 
 /**
  * Checks whether the given Element is a text input element.
+ *
+ * 检查给定的元素是否文本输入元素。
+ *
  * @docs-private
  */
 export function isTextInput(element: Element): element is HTMLInputElement | HTMLTextAreaElement {
@@ -22,8 +25,17 @@ export function isTextInput(element: Element): element is HTMLInputElement | HTM
 /**
  * Focuses an input, sets its value and dispatches
  * the `input` event, simulating the user typing.
+ *
+ * 让输入获得焦点，设置其值并分派 `input` 事件，以模拟用户键入。
+ *
  * @param element Element onto which to set the value.
+ *
+ * 要在其上设置值的元素。
+ *
  * @param keys The keys to send to the element.
+ *
+ * 要发送到此元素的按键。
+ *
  * @docs-private
  */
 export function typeInElement(
@@ -32,9 +44,21 @@ export function typeInElement(
 /**
  * Focuses an input, sets its value and dispatches
  * the `input` event, simulating the user typing.
+ *
+ * 让输入获得焦点，设置其值并派发 `input` 事件，以模拟用户键入。
+ *
  * @param element Element onto which to set the value.
+ *
+ * 要在其上设置值的元素。
+ *
  * @param modifiers Modifier keys that are held while typing.
+ *
+ * 键入时按住的修饰键。
+ *
  * @param keys The keys to send to the element.
+ *
+ * 要发送到元素的按键。
+ *
  * @docs-private
  */
 export function typeInElement(element: HTMLElement, modifiers: ModifierKeys,
@@ -70,6 +94,9 @@ export function typeInElement(element: HTMLElement, ...modifiersAndKeys: any) {
 
 /**
  * Clears the text in an input or textarea element.
+ *
+ * 清除 input 或 textarea 元素中的文本。
+ *
  * @docs-private
  */
 export function clearElement(element: HTMLInputElement | HTMLTextAreaElement) {

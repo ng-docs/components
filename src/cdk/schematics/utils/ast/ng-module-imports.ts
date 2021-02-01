@@ -11,6 +11,9 @@ import * as ts from 'typescript';
 
 /**
  * Whether the Angular module in the given path imports the specified module class name.
+ *
+ * 给定路径中的 Angular 模块是否导入指定的模块类名称。
+ *
  */
 export function hasNgModuleImport(tree: Tree, modulePath: string, className: string): boolean {
   const moduleFileContent = tree.read(modulePath);
@@ -44,6 +47,9 @@ export function hasNgModuleImport(tree: Tree, modulePath: string, className: str
 /**
  * Resolves the last identifier that is part of the given expression. This helps resolving
  * identifiers of nested property access expressions (e.g. myNamespace.core.NgModule).
+ *
+ * 解析作为给定表达式一部分的最后一个标识符。这有助于解析嵌套属性访问表达式的标识符（例如 myNamespace.core.NgModule）。
+ *
  */
 function resolveIdentifierOfExpression(expression: ts.Expression): ts.Identifier | null {
   if (ts.isIdentifier(expression)) {
@@ -58,6 +64,9 @@ function resolveIdentifierOfExpression(expression: ts.Expression): ts.Identifier
  * Finds a NgModule declaration within the specified TypeScript node and returns the
  * corresponding metadata for it. This function searches breadth first because
  * NgModule's are usually not nested within other expressions or declarations.
+ *
+ * 在指定的 TypeScript 节点内查找 NgModule 声明，并为其返回相应的元数据。该函数为广度优先搜索，因为 NgModule 通常不嵌套在其他表达式或声明中。
+ *
  */
 function findNgModuleMetadata(rootNode: ts.Node): ts.ObjectLiteralExpression | null {
   // Add immediate child nodes of the root node to the queue.
@@ -77,7 +86,12 @@ function findNgModuleMetadata(rootNode: ts.Node): ts.ObjectLiteralExpression | n
   return null;
 }
 
-/** Whether the specified call expression is referring to a NgModule definition. */
+/**
+ * Whether the specified call expression is referring to a NgModule definition.
+ *
+ * 指定的调用表达式是否引用 NgModule 定义。
+ *
+ */
 function isNgModuleCallExpression(callExpression: ts.CallExpression): boolean {
   if (!callExpression.arguments.length ||
       !ts.isObjectLiteralExpression(callExpression.arguments[0])) {

@@ -9,7 +9,12 @@
 import {SchematicsException} from '@angular-devkit/schematics';
 import {DefaultTreeElement} from 'parse5';
 
-/** Determines the indentation of child elements for the given Parse5 element. */
+/**
+ * Determines the indentation of child elements for the given Parse5 element.
+ *
+ * 确定给定 Parse5 元素的子元素的缩进。
+ *
+ */
 export function getChildElementIndentation(element: DefaultTreeElement) {
   const childElement = element.childNodes
     .find(node => node['tagName']) as DefaultTreeElement | null;

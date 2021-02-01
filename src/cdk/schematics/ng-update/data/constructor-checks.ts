@@ -15,6 +15,9 @@ export type ConstructorChecksUpgradeData = string;
  * List of class names for which the constructor signature has been changed. The new constructor
  * signature types don't need to be stored here because the signature will be determined
  * automatically through type checking.
+ *
+ * 已改变构造函数签名的类名列表。不需要在此处存储新的构造函数签名类型，因为签名将通过类型检查自动确定。
+ *
  */
 export const constructorChecks: VersionChanges<ConstructorChecksUpgradeData> = {
   [TargetVersion.V11]: [

@@ -77,7 +77,7 @@ export function toggleNativeDragInteractions(element: HTMLElement, enable: boole
 /**
  * Toggles whether an element is visible while preserving its dimensions.
  *
- * 在保留元素尺寸的同时，切换元素是否可见。
+ * 在保留元素规格的同时，切换元素是否可见。
  *
  * @param element Element whose visibility to toggle
  *

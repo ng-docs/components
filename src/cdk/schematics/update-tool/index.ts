@@ -22,6 +22,9 @@ import {createFileSystemCompilerHost} from './utils/virtual-host';
  * context is usually not used by migrations, but in some cases migrations rely on
  * specifics from the tool that performs the update (e.g. the Angular CLI). In those cases,
  * the context can provide the necessary specifics to the migrations in a type-safe way.
+ *
+ * 可以针对单个迁移运行的更新项目。更新项目可以接受提供给所有迁移的一个 TypeScript 程序和上下文。迁移通常不使用上下文，但是在某些情况下，迁移依赖于执行更新工具（例如 Angular CLI）中的细节。在这些情况下，上下文可以以类型安全的方式为迁移提供必要的细节。
+ *
  */
 export class UpdateProject<Context> {
   private readonly _typeChecker: ts.TypeChecker = this._program.getTypeChecker();
@@ -42,11 +45,26 @@ export class UpdateProject<Context> {
 
   /**
    * Migrates the project to the specified target version.
+   *
+   * 将项目迁移到指定的目标版本。
+   *
    * @param migrationTypes Migrations that should be run.
+   *
+   * 应该运行的迁移。
+   *
    * @param target Version the project should be updated to.
+   *
+   * 项目应更新到的版本。
+   *
    * @param data Upgrade data that is passed to all migration rules.
+   *
+   * 要传递到所有迁移规则的升级数据。
+   *
    * @param additionalStylesheetPaths Additional stylesheets that should be migrated, if not
    *   referenced in an Angular component. This is helpful for global stylesheets in a project.
+   *
+   * 如果未在 Angular 组件中引用，则应迁移的其他样式表。这对于项目中的全局样式表很有帮助。
+   *
    */
   migrate<Data>(migrationTypes: MigrationCtor<Data, Context>[], target: TargetVersion, data: Data,
       additionalStylesheetPaths?: string[]): {hasFailures: boolean} {
@@ -145,6 +163,9 @@ export class UpdateProject<Context> {
   /**
    * Creates instances of the given migrations with the specified target
    * version and data.
+   *
+   * 使用指定的目标版本和数据创建给定迁移的实例。
+   *
    */
   private _createMigrations<Data>(types: MigrationCtor<Data, Context>[], target: TargetVersion,
                                   data: Data): Migration<Data, Context>[] {
@@ -163,6 +184,9 @@ export class UpdateProject<Context> {
   /**
    * Creates a program form the specified tsconfig and patches the host
    * to read files and directories through the given file system.
+   *
+   * 从指定的 tsconfig 创建一个程序，并 patch 宿主以通过给定的文件系统读取文件和目录。
+   *
    */
   static createProgramFromTsconfig(tsconfigPath: WorkspacePath, fs: FileSystem): ts.Program {
     const parsed = parseTsconfigFile(fs.resolve(tsconfigPath), fs);

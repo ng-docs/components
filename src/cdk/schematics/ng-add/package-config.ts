@@ -10,13 +10,24 @@ import {Tree} from '@angular-devkit/schematics';
 
 /**
  * Sorts the keys of the given object.
+ *
+ * 对给定对象的键进行排序。
+ *
  * @returns A new object instance with sorted keys
+ *
+ * 具有已排序键的新对象实例
+ *
  */
 function sortObjectByKeys(obj: object) {
   return Object.keys(obj).sort().reduce((result, key) => (result[key] = obj[key]) && result, {});
 }
 
-/** Adds a package to the package.json in the given host tree. */
+/**
+ * Adds a package to the package.json in the given host tree.
+ *
+ * 将包添加到给定宿主树的 package.json 中。
+ *
+ */
 export function addPackageToPackageJson(host: Tree, pkg: string, version: string): Tree {
 
   if (host.exists('package.json')) {
@@ -38,7 +49,12 @@ export function addPackageToPackageJson(host: Tree, pkg: string, version: string
   return host;
 }
 
-/** Gets the version of the specified package by looking at the package.json in the given tree. */
+/**
+ * Gets the version of the specified package by looking at the package.json in the given tree.
+ *
+ * 通过查看给定树中的 package.json 获取指定软件包的版本。
+ *
+ */
 export function getPackageVersionFromPackageJson(tree: Tree, name: string): string | null {
   if (!tree.exists('package.json')) {
     return null;

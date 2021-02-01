@@ -10,9 +10,19 @@ import {TargetVersion} from '../../update-tool/target-version';
 import {VersionChanges} from '../../update-tool/version-changes';
 
 export interface AttributeSelectorUpgradeData {
-  /** The attribute name to replace. */
+  /**
+   * The attribute name to replace.
+   *
+   * 要替换的属性名称。
+   *
+   */
   replace: string;
-  /** The new name for the attribute. */
+  /**
+   * The new name for the attribute.
+   *
+   * 属性的新名称。
+   *
+   */
   replaceWith: string;
 }
 

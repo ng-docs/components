@@ -15,6 +15,8 @@ import {UpgradeData} from '../upgrade-data';
  * List of diagnostic codes that refer to pre-emit diagnostics which indicate invalid
  * new expression or super call signatures. See the list of diagnostics here:
  *
+ * 诊断代码列表，代表发出前诊断信息，它会指出无效的新表达式或 super 调用签名。请在此处查看诊断列表：
+ *
  * <https://github.com/Microsoft/TypeScript/blob/master/src/compiler/diagnosticMessages.json>
  */
 const signatureErrorDiagnostics = [
@@ -30,6 +32,9 @@ const signatureErrorDiagnostics = [
 /**
  * Migration that visits every TypeScript new expression or super call and checks if
  * the parameter type signature is invalid and needs to be updated manually.
+ *
+ * 此迁移将访问每个 TypeScript new 表达式或 super 调用，并检查参数类型签名是否无效并且需要手动更新。
+ *
  */
 export class ConstructorSignatureMigration extends Migration<UpgradeData> {
   // Note that the data for this rule is not distinguished based on the target version because
@@ -51,9 +56,14 @@ export class ConstructorSignatureMigration extends Migration<UpgradeData> {
    * properly determine invalid constructor signatures, we take advantage of the pre-emit
    * diagnostics from TypeScript.
    *
+   * 将针对升级项目的每个源文件调用的方法。为了正确确定无效的构造函数签名，我们利用了 TypeScript 的发出前诊断功能。
+   *
    * By using the diagnostics, the migration can handle type assignability. Not using
    * diagnostics would mean that we need to use simple type equality checking which is
    * too strict. See related issue: <https://github.com/Microsoft/TypeScript/issues/9879>
+   *
+   * 通过使用这些诊断，本迁移可以处理类型的赋值兼容。不使用诊断程序意味着我们需要使用简单类型相等性检查，那样就过于严格了。请参阅相关问题：<https://github.com/Microsoft/TypeScript/issues/9879>
+   *
    */
   private _visitSourceFile(sourceFile: ts.SourceFile) {
     // List of classes of which the constructor signature has changed.
@@ -108,7 +118,12 @@ export class ConstructorSignatureMigration extends Migration<UpgradeData> {
   }
 }
 
-/** Resolves the type for each parameter in the specified signature. */
+/**
+ * Resolves the type for each parameter in the specified signature.
+ *
+ * 解析指定签名中每个参数的类型。
+ *
+ */
 function getParameterTypesFromSignature(
     signature: ts.Signature, typeChecker: ts.TypeChecker): ts.Type[] {
   return signature.getParameters().map(
@@ -118,6 +133,9 @@ function getParameterTypesFromSignature(
 /**
  * Walks through each node of a source file in order to find a new-expression node or super-call
  * expression node that is captured by the specified diagnostic.
+ *
+ * 遍历源文件的每个节点，以查找由指定诊断捕获的 new 表达式节点或 super 调用表达式节点。
+ *
  */
 function findConstructorNode(
     diagnostic: ts.Diagnostic, sourceFile: ts.SourceFile): ts.CallExpression|ts.NewExpression|null {
@@ -141,7 +159,12 @@ function findConstructorNode(
   return resolvedNode;
 }
 
-/** Determines the class declaration of the specified construct signature. */
+/**
+ * Determines the class declaration of the specified construct signature.
+ *
+ * 确定指定构造签名的类声明。
+ *
+ */
 function getClassDeclarationOfSignature(signature: ts.Signature): ts.ClassDeclaration|null {
   let node: ts.Node = signature.getDeclaration();
   // Handle signatures which don't have an actual declaration. This happens if a class

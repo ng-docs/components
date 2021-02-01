@@ -10,20 +10,45 @@ import {HarnessEnvironment, HarnessLoader, TestElement} from '@angular/cdk/testi
 import {by, element as protractorElement, ElementArrayFinder, ElementFinder} from 'protractor';
 import {ProtractorElement} from './protractor-element';
 
-/** Options to configure the environment. */
+/**
+ * Options to configure the environment.
+ *
+ * 用于配置环境的选项。
+ *
+ */
 export interface ProtractorHarnessEnvironmentOptions {
-  /** The query function used to find DOM elements. */
+  /**
+   * The query function used to find DOM elements.
+   *
+   * 用于查找 DOM 元素的查询功能。
+   *
+   */
   queryFn: (selector: string, root: ElementFinder) => ElementArrayFinder;
 }
 
-/** The default environment options. */
+/**
+ * The default environment options.
+ *
+ * 默认环境选项。
+ *
+ */
 const defaultEnvironmentOptions: ProtractorHarnessEnvironmentOptions = {
   queryFn: (selector: string, root: ElementFinder) => root.all(by.css(selector))
 };
 
-/** A `HarnessEnvironment` implementation for Protractor. */
+/**
+ * A `HarnessEnvironment` implementation for Protractor.
+ *
+ * Protractor 的 `HarnessEnvironment` 实现。
+ *
+ */
 export class ProtractorHarnessEnvironment extends HarnessEnvironment<ElementFinder> {
-  /** The options for this environment. */
+  /**
+   * The options for this environment.
+   *
+   * 此环境的选项。
+   *
+   */
   private _options: ProtractorHarnessEnvironmentOptions;
 
   protected constructor(
@@ -32,12 +57,22 @@ export class ProtractorHarnessEnvironment extends HarnessEnvironment<ElementFind
     this._options = {...defaultEnvironmentOptions, ...options};
   }
 
-  /** Creates a `HarnessLoader` rooted at the document root. */
+  /**
+   * Creates a `HarnessLoader` rooted at the document root.
+   *
+   * 创建一个以文档根为根的 `HarnessLoader`
+   *
+   */
   static loader(options?: ProtractorHarnessEnvironmentOptions): HarnessLoader {
     return new ProtractorHarnessEnvironment(protractorElement(by.css('body')), options);
   }
 
-  /** Gets the ElementFinder corresponding to the given TestElement. */
+  /**
+   * Gets the ElementFinder corresponding to the given TestElement.
+   *
+   * 获取与给定 TestElement 对应的 ElementFinder。
+   *
+   */
   static getNativeElement(el: TestElement): ElementFinder {
     if (el instanceof ProtractorElement) {
       return el.element;

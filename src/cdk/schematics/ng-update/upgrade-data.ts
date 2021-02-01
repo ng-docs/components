@@ -29,7 +29,12 @@ import {
   PropertyNameUpgradeData,
 } from './data';
 
-/** Upgrade data for the Angular CDK. */
+/**
+ * Upgrade data for the Angular CDK.
+ *
+ * Angular CDK 的升级数据。
+ *
+ */
 export const cdkUpgradeData: UpgradeData = {
   attributeSelectors,
   classNames,
@@ -45,6 +50,9 @@ export const cdkUpgradeData: UpgradeData = {
 /**
  * Interface that describes the upgrade data that needs to be defined when using the CDK
  * upgrade rules.
+ *
+ * 描述使用 CDK 升级规则时需要定义的升级数据的接口。
+ *
  */
 export interface UpgradeData {
   attributeSelectors: VersionChanges<AttributeSelectorUpgradeData>;
@@ -62,6 +70,9 @@ export interface UpgradeData {
  * Gets the reduced upgrade data for the specified data key. The function reads out the
  * target version and upgrade data object from the migration and resolves the specified
  * data portion that is specifically tied to the target version.
+ *
+ * 获取指定数据键的简化升级数据。该函数从迁移中读取目标版本和升级数据对象，并解析特定于目标版本的指定数据部分。
+ *
  */
 export function
 getVersionUpgradeData<T extends keyof UpgradeData, U = ValueOfChanges<UpgradeData[T]>>(

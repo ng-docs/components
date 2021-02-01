@@ -13,8 +13,13 @@ import {isJsonObject, JsonObject} from '@angular-devkit/core';
  * Returns the default options for the `@schematics/angular:component` schematic which would
  * have been specified at project initialization (ng new or ng init).
  *
+ * `@schematics/angular:component` 原理图的默认选项，该选项在项目初始化时已指定（ng new 或 ng init）。
+ *
  * This is necessary because the Angular CLI only exposes the default values for the "--style",
  * "--inlineStyle", "--skipTests" and "--inlineTemplate" options to the "component" schematic.
+ *
+ * 这是必需的，因为 Angular CLI 仅向“组件”原理图暴露 "--style"、"--inlineStyle"、"--skipTests" 和 "--inlineTemplate" 选项的默认值。
+ *
  */
 export function getDefaultComponentOptions(project: ProjectDefinition) {
   // Note: Not all options which are available when running "ng new" will be stored in the
@@ -41,6 +46,9 @@ export function getDefaultComponentOptions(project: ProjectDefinition) {
  * Gets the default value for the specified option. The default options will be determined
  * by looking at the stored schematic options for `@schematics/angular:component` in the
  * CLI workspace configuration.
+ *
+ * 获取指定选项的默认值。默认选项将通过查看 CLI 工作区配置中 `@schematics/angular:component` 的已存储原理图选项来确定。
+ *
  */
 function getDefaultComponentOption<T>(project: ProjectDefinition, optionNames: string[],
                                       fallbackValue: T): T {

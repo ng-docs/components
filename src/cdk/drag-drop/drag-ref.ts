@@ -1728,7 +1728,7 @@ export class DragRef<T = any> {
   /**
    * Cleans up any cached element dimensions that we don't need after dragging has stopped.
    *
-   * 清理拖动停止后我们不再需要的所有缓存元素尺寸。
+   * 清理拖动停止后我们不再需要的所有缓存元素规格。
    *
    */
   private _cleanupCachedDimensions() {
@@ -1986,7 +1986,7 @@ function getRootNode(viewRef: EmbeddedViewRef<any>, _document: Document): HTMLEl
  *
  * @param sourceRect Dimensions of the source element.
  *
- * 源元素的尺寸。
+ * 源元素的规格。
  *
  */
 function matchElementSize(target: HTMLElement, sourceRect: ClientRect): void {

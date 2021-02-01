@@ -9,10 +9,20 @@
 import {join} from '@angular-devkit/core';
 import {Tree} from '@angular-devkit/schematics';
 
-/** Regular expression that matches stylesheet paths */
+/**
+ * Regular expression that matches stylesheet paths
+ *
+ * 与样式表路径匹配的正则表达式
+ *
+ */
 const STYLESHEET_REGEX = /.*\.(css|scss)/;
 
-/** Finds stylesheets in the given directory from within the specified tree. */
+/**
+ * Finds stylesheets in the given directory from within the specified tree.
+ *
+ * 从指定树中查找给定目录中的样式表。
+ *
+ */
 export function findStylesheetFiles(tree: Tree, baseDir: string): string[] {
   const result: string[] = [];
   const visitDir = dirPath => {

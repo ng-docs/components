@@ -15,9 +15,17 @@ import {getVersionUpgradeData, UpgradeData} from '../upgrade-data';
 /**
  * Migration that walks through every property access expression and updates
  * accessed properties that have been updated to a new name.
+ *
+ * 本迁移会遍历每个属性访问表达式并更新已更新为新名称的访问属性。
+ *
  */
 export class PropertyNamesMigration extends Migration<UpgradeData> {
-  /** Change data that upgrades to the specified target version. */
+  /**
+   * Change data that upgrades to the specified target version.
+   *
+   * 升级到指定目标版本的更改数据。
+   *
+   */
   data: PropertyNameUpgradeData[] = getVersionUpgradeData(this, 'propertyNames');
 
   // Only enable the migration rule if there is upgrade data.

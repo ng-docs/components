@@ -12,6 +12,9 @@ import {Point} from './actions';
 
 /**
  * Asserts that an element exists.
+ *
+ * 断言某个元素存在。
+ *
  */
 export async function expectToExist(selector: string, expected = true) {
   await waitForElement(selector).then((isPresent: boolean) => {
@@ -21,6 +24,9 @@ export async function expectToExist(selector: string, expected = true) {
 
 /**
  * Asserts that an element is focused.
+ *
+ * 断言某个元素拥有焦点。
+ *
  */
 export async function expectFocusOn(element: FinderResult, expected = true) {
   expect(await browser.driver.switchTo().activeElement().getId()).toBe(
@@ -29,6 +35,9 @@ export async function expectFocusOn(element: FinderResult, expected = true) {
 
 /**
  * Asserts that an element has a certain location.
+ *
+ * 断言元素占有特定的位置。
+ *
  */
 export async function expectLocation(element: FinderResult, {x, y}: Point) {
   await getElement(element).getLocation().then((location: Point) => {
@@ -39,6 +48,9 @@ export async function expectLocation(element: FinderResult, {x, y}: Point) {
 
 /**
  * Asserts that one element is aligned with another.
+ *
+ * 断言一个元素与另一个元素对齐。
+ *
  */
 export async function expectAlignedWith(element: FinderResult, otherElement: FinderResult) {
   await getElement(otherElement).getLocation().then((location: Point) => {

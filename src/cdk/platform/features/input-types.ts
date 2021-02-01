@@ -6,10 +6,20 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Cached result Set of input types support by the current browser. */
+/**
+ * Cached result Set of input types support by the current browser.
+ *
+ * 缓存当前浏览器支持的输入类型的结果集。
+ *
+ */
 let supportedInputTypes: Set<string>;
 
-/** Types of `<input>` that *might* be supported. */
+/**
+ * Types of `<input>` that *might* be supported.
+ *
+ * *可能*支持的 `&lt;input>` 类型。
+ *
+ */
 const candidateInputTypes = [
   // `color` must come first. Chrome 56 shows a warning if we change the type to `color` after
   // first changing it to something else:
@@ -39,7 +49,12 @@ const candidateInputTypes = [
   'week',
 ];
 
-/** @returns The input types supported by this browser. */
+/**
+ * @returns The input types supported by this browser.
+ *
+ * 该浏览器支持的输入类型。
+ *
+ */
 export function getSupportedInputTypes(): Set<string> {
   // Result is cached.
   if (supportedInputTypes) {

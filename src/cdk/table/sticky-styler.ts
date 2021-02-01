@@ -60,7 +60,7 @@ export class StickyStyler {
    * @param _positionListener A listener that is notified of changes to sticky rows/columns
    *     and their dimensions.
    *
-   * 接收粘性行/列及其尺寸变更通知的监听器。
+   * 接收粘性行/列及其规格变更通知的监听器。
    */
   constructor(private _isNativeHtmlTable: boolean,
               private _stickCellCss: string,

@@ -633,7 +633,7 @@ export class MatSlider extends _MatSliderMixinBase
   /**
    * The dimensions of the slider.
    *
-   * 滑杆的尺寸。
+   * 滑杆的规格。
    *
    */
   private _sliderDimensions: ClientRect | null = null;

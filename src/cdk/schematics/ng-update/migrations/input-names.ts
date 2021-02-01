@@ -20,10 +20,20 @@ import {getVersionUpgradeData, UpgradeData} from '../upgrade-data';
  * names to the new input name. Selectors in stylesheets could also target input
  * bindings declared as static attribute. See for example:
  *
+ * 迁移将遍历每个模板或样式表，并将过时的输入名称替换为新的输入名称。样式表中的选择器还可以定位为声明成静态属性的输入绑定。参见例子：
+ *
  * e.g. `<my-component color="primary">` becomes `my-component[color]`
+ *
+ * 例如， `&lt;my-component color="primary">` 会变成 `my-component[color]`
+ *
  */
 export class InputNamesMigration extends Migration<UpgradeData> {
-  /** Change data that upgrades to the specified target version. */
+  /**
+   * Change data that upgrades to the specified target version.
+   *
+   * 升级到指定目标版本的变更数据。
+   *
+   */
   data: InputNameUpgradeData[] = getVersionUpgradeData(this, 'inputNames');
 
   // Only enable the migration rule if there is upgrade data.

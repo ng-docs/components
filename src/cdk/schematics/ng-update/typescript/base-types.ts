@@ -8,7 +8,12 @@
 
 import * as ts from 'typescript';
 
-/** Determines the base types of the specified class declaration. */
+/**
+ * Determines the base types of the specified class declaration.
+ *
+ * 确定指定类声明的基本类型。
+ *
+ */
 export function determineBaseTypes(node: ts.ClassDeclaration): string[]|null {
   if (!node.heritageClauses) {
     return null;

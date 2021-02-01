@@ -10,9 +10,19 @@ import {TargetVersion} from '../../update-tool/target-version';
 import {VersionChanges} from '../../update-tool/version-changes';
 
 export interface ElementSelectorUpgradeData {
-  /** The element name to replace. */
+  /**
+   * The element name to replace.
+   *
+   * 要替换的元素名称。
+   *
+   */
   replace: string;
-  /** The new name for the element. */
+  /**
+   * The new name for the element.
+   *
+   * 元素的新名称。
+   *
+   */
   replaceWith: string;
 }
 
