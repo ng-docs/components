@@ -48,7 +48,7 @@ interface DialogAnimationEvent {
  * Throws an exception for the case when a ComponentPortal is
  * attached to a DomPortalOutlet without an origin.
  *
- * 当 ComponentPortal 被附着到一个没有原点（origin）的 DomPortalOutlet 时会引发异常。
+ * 当 ComponentPortal 被附加到一个没有原点（origin）的 DomPortalOutlet 时会引发异常。
  *
  * @docs-private
  */
@@ -150,7 +150,7 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
   /**
    * Initializes the dialog container with the attached content.
    *
-   * 初始化带有附着内容的对话框容器。
+   * 初始化带有附加内容的对话框容器。
    *
    */
   _initializeWithAttachedContent() {
@@ -166,11 +166,11 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
   /**
    * Attach a ComponentPortal as content to this dialog container.
    *
-   * 把 ComponentPortal 作为内容附着到这个对话框的容器中。
+   * 把 ComponentPortal 作为内容附加到这个对话框的容器中。
    *
    * @param portal Portal to be attached as the dialog content.
    *
-   * 要作为对话框内容进行附着的传送点（Portal）。
+   * 要作为对话框内容进行附加的传送点（Portal）。
    *
    */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
@@ -184,11 +184,11 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
   /**
    * Attach a TemplatePortal as content to this dialog container.
    *
-   * 把 TemplatePortal 作为内容附着到这个对话框的容器中。
+   * 把 TemplatePortal 作为内容附加到这个对话框的容器中。
    *
    * @param portal Portal to be attached as the dialog content.
    *
-   * 要作为对话框内容进行附着的传送点。
+   * 要作为对话框内容进行附加的传送点。
    *
    */
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
@@ -202,11 +202,11 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
   /**
    * Attaches a DOM portal to the dialog container.
    *
-   * 把 DOM 传送点附着到对话框容器中。
+   * 把 DOM 传送点附加到对话框容器中。
    *
    * @param portal Portal to be attached.
    *
-   * 要附着的传送点。
+   * 要附加的传送点。
    *
    * @deprecated To be turned into a method.
    *

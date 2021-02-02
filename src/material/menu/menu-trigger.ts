@@ -509,7 +509,7 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
    * This method creates the overlay from the provided menu's template and saves its
    * OverlayRef so that it can be attached to the DOM when openMenu is called.
    *
-   * 这个方法从提供的菜单模板中创建了 overlay，并保存了 OverlayRef，以便在调用 openMenu 时把它附着到 DOM 上。
+   * 这个方法从提供的菜单模板中创建了 overlay，并保存了 OverlayRef，以便在调用 openMenu 时把它附加到 DOM 上。
    *
    */
   private _createOverlay(): OverlayRef {
@@ -738,7 +738,7 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
   /**
    * Gets the portal that should be attached to the overlay.
    *
-   * 获取应该附着到浮层的传送点。
+   * 获取应该附加到浮层的传送点。
    *
    */
   private _getPortal(): TemplatePortal {

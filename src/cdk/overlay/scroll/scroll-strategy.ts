@@ -18,7 +18,7 @@ export interface ScrollStrategy {
   /**
    * Enable this scroll strategy (called when the attached overlay is attached to a portal).
    *
-   * 启用此滚动策略（将已附着的浮层附着到传送点 Portal 时调用）。
+   * 启用此滚动策略（将已附加的浮层附加到传送点 Portal 时调用）。
    *
    */
   enable: () => void;
@@ -26,7 +26,7 @@ export interface ScrollStrategy {
   /**
    * Disable this scroll strategy (called when the attached overlay is detached from a portal).
    *
-   * 禁用此滚动策略（当已附着的浮层从传送点 Portal 拆除时调用）。
+   * 禁用此滚动策略（当已附加的浮层从传送点 Portal 拆除时调用）。
    *
    */
   disable: () => void;
@@ -34,7 +34,7 @@ export interface ScrollStrategy {
   /**
    * Attaches this `ScrollStrategy` to an overlay.
    *
-   * 将此 `ScrollStrategy` 附着到浮层。
+   * 将此 `ScrollStrategy` 附加到浮层。
    *
    */
   attach: (overlayRef: OverlayReference) => void;
@@ -51,7 +51,7 @@ export interface ScrollStrategy {
 /**
  * Returns an error to be thrown when attempting to attach an already-attached scroll strategy.
  *
- * 返回一个错误，它将在尝试附着到已附着的滚动策略时引发。
+ * 返回一个错误，它将在尝试附加到已附加的滚动策略时引发。
  *
  */
 export function getMatScrollStrategyAlreadyAttachedError(): Error {

@@ -173,7 +173,7 @@ export class MatSnackBarContainer extends BasePortalOutlet
   /**
    * Attach a component portal as content to this snack bar container.
    *
-   * 把一个组件传送点作为内容附着到这个快餐栏容器中。
+   * 把一个组件传送点作为内容附加到这个快餐栏容器中。
    *
    */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
@@ -185,7 +185,7 @@ export class MatSnackBarContainer extends BasePortalOutlet
   /**
    * Attach a template portal as content to this snack bar container.
    *
-   * 把模板传送点作为内容附着到这个快餐栏容器中。
+   * 把模板传送点作为内容附加到这个快餐栏容器中。
    *
    */
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
@@ -197,7 +197,7 @@ export class MatSnackBarContainer extends BasePortalOutlet
   /**
    * Attaches a DOM portal to the snack bar container.
    *
-   * 把 DOM 传送点附着到这个快餐栏容器中。
+   * 把 DOM 传送点附加到这个快餐栏容器中。
    *
    * @deprecated To be turned into a method.
    * @breaking-change 10.0.0
@@ -327,7 +327,7 @@ export class MatSnackBarContainer extends BasePortalOutlet
   /**
    * Asserts that no content is already attached to the container.
    *
-   * 断言没有任何内容附着到了容器上。
+   * 断言没有任何内容附加到了容器上。
    *
    */
   private _assertNotAttached() {

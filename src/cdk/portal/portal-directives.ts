@@ -27,7 +27,7 @@ import {BasePortalOutlet, ComponentPortal, Portal, TemplatePortal, DomPortal} fr
  * Directive version of a `TemplatePortal`. Because the directive *is* a TemplatePortal,
  * the directive instance itself can be attached to a host, enabling declarative use of portals.
  *
- * `TemplatePortal` 的指令版本。由于该指令*是*一个 TemplatePortal，所以该指令实例本身也可以附着到一个宿主上，从而能够声明式地使用这些传送点。
+ * `TemplatePortal` 的指令版本。由于该指令*是*一个 TemplatePortal，所以该指令实例本身也可以附加到一个宿主上，从而能够声明式地使用这些传送点。
  *
  */
 @Directive({
@@ -62,7 +62,7 @@ export class TemplatePortalDirective extends CdkPortal {}
 /**
  * Possible attached references to the CdkPortalOutlet.
  *
- * 可能附着于此 CdkPortalOutlet 上的引用。
+ * 可能附加于此 CdkPortalOutlet 上的引用。
  *
  */
 export type CdkPortalOutletAttachedRef = ComponentRef<any> | EmbeddedViewRef<any> | null;
@@ -71,7 +71,7 @@ export type CdkPortalOutletAttachedRef = ComponentRef<any> | EmbeddedViewRef<any
  * Directive version of a PortalOutlet. Because the directive *is* a PortalOutlet, portals can be
  * directly attached to it, enabling declarative use.
  *
- * PortalOutlet 的指令版本。由于该指令*是*一个 PortalOutlet，因此可以直接把传送点附着到这里，从而实现声明式使用。
+ * PortalOutlet 的指令版本。由于该指令*是*一个 PortalOutlet，因此可以直接把传送点附加到这里，从而实现声明式使用。
  *
  * Usage:
  * `<ng-template [cdkPortalOutlet]="greeting"></ng-template>`
@@ -98,7 +98,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
   /**
    * Reference to the currently-attached component/view ref.
    *
-   * 对当前附着上来的组件/视图引用的引用。
+   * 对当前附加上来的组件/视图引用的引用。
    *
    */
   private _attachedRef: CdkPortalOutletAttachedRef;
@@ -158,7 +158,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
   /**
    * Component or view reference that is attached to the portal.
    *
-   * 附着了传送点的组件或视图的引用。
+   * 附加了传送点的组件或视图的引用。
    *
    */
   get attachedRef(): CdkPortalOutletAttachedRef {
@@ -182,7 +182,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
    *
    * @param portal Portal to be attached to the portal outlet.
    *
-   * 要附着到传送点出口地标的传送点。
+   * 要附加到传送点出口地标的传送点。
    *
    * @returns Reference to the created component.
    *
@@ -222,11 +222,11 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
   /**
    * Attach the given TemplatePortal to this PortalHost as an embedded View.
    *
-   * 把这个指定的 TemplatePortal 作为嵌入式视图附着到这个 PortalHost 中。
+   * 把这个指定的 TemplatePortal 作为嵌入式视图附加到这个 PortalHost 中。
    *
    * @param portal Portal to be attached.
    *
-   * 要附着的传送点
+   * 要附加的传送点
    *
    * @returns Reference to the created embedded view.
    *
@@ -248,11 +248,11 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
   /**
    * Attaches the given DomPortal to this PortalHost by moving all of the portal content into it.
    *
-   * 把所有的传送点内容都移入到指定的 DomPortal 中，以把它附着到这个 PortalHost 上。
+   * 把所有的传送点内容都移入到指定的 DomPortal 中，以把它附加到这个 PortalHost 上。
    *
    * @param portal Portal to be attached.
    *
-   * 要附着的传送点
+   * 要附加的传送点
    *
    * @deprecated To be turned into a method.
    *

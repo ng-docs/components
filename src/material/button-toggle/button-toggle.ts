@@ -567,7 +567,7 @@ export class MatButtonToggle extends _MatButtonToggleMixinBase implements OnInit
    * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
    * take precedence so this may be omitted.
    *
-   * 附着在宿主元素上的 aria-label 属性。在大多数情况下，aria-labelledby 优先，所以可省略。
+   * 附加在宿主元素上的 aria-label 属性。在大多数情况下，aria-labelledby 优先，所以可省略。
    *
    */
   @Input('aria-label') ariaLabel: string;

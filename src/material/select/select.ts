@@ -1142,7 +1142,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Callback that is invoked when the overlay panel has been attached.
    *
-   * 附着到浮层面板时调用的回调函数。
+   * 附加到浮层面板时调用的回调函数。
    *
    */
   _onAttached(): void {

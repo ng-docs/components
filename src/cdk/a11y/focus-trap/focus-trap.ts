@@ -121,7 +121,7 @@ export class FocusTrap {
    * @returns Whether the focus trap managed to attach successfuly. This may not be the case
    * if the target element isn't currently in the DOM.
    *
-   * 焦点陷阱是否成功附着。如果目标元素当前不在 DOM 中，则可能不是这种情况。
+   * 焦点陷阱是否成功附加。如果目标元素当前不在 DOM 中，则可能不是这种情况。
    *
    */
   attachAnchors(): boolean {
@@ -331,7 +331,7 @@ export class FocusTrap {
   /**
    * Checks whether the focus trap has successfully been attached.
    *
-   * 检查焦点陷阱是否已附着成功。
+   * 检查焦点陷阱是否已附加成功。
    *
    */
   hasAttached(): boolean {

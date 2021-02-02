@@ -19,7 +19,7 @@ import {BasePortalOutlet, ComponentPortal, TemplatePortal, DomPortal} from './po
  * A PortalOutlet for attaching portals to an arbitrary DOM element outside of the Angular
  * application context.
  *
- * PortalOutlet，用于把传送点附着到 Angular 应用上下文之外的任意一个 DOM 元素上。
+ * PortalOutlet，用于把传送点附加到 Angular 应用上下文之外的任意一个 DOM 元素上。
  *
  */
 export class DomPortalOutlet extends BasePortalOutlet {
@@ -48,7 +48,7 @@ export class DomPortalOutlet extends BasePortalOutlet {
    *
    * @param portal Portal to be attached
    *
-   * 要附着到的传送点
+   * 要附加到的传送点
    *
    * @returns Reference to the created component.
    *
@@ -89,11 +89,11 @@ export class DomPortalOutlet extends BasePortalOutlet {
   /**
    * Attaches a template portal to the DOM as an embedded view.
    *
-   * 把一个模板传送点作为嵌入式视图附着到 DOM 上。
+   * 把一个模板传送点作为嵌入式视图附加到 DOM 上。
    *
    * @param portal Portal to be attached.
    *
-   * 要附着到的传送点。
+   * 要附加到的传送点。
    *
    * @returns Reference to the created embedded view.
    *
@@ -129,11 +129,11 @@ export class DomPortalOutlet extends BasePortalOutlet {
   /**
    * Attaches a DOM portal by transferring its content into the outlet.
    *
-   * 通过把其内容传入指定的地标来附着到 DOM 传送点。
+   * 通过把其内容传入指定的地标来附加到 DOM 传送点。
    *
    * @param portal Portal to be attached.
    *
-   * 要附着到的传送点。
+   * 要附加到的传送点。
    *
    * @deprecated To be turned into a method.
    *

@@ -397,7 +397,7 @@ export class MatFormField extends _MatFormFieldMixinBase
    * Gets an ElementRef for the element that a overlay attached to the form-field should be
    * positioned relative to.
    *
-   * 获取一个 ElementRef 元素，它为附着到表单字段上的浮层提供相对于该元素定位。
+   * 获取一个 ElementRef 元素，它为附加到表单字段上的浮层提供相对于该元素定位。
    *
    */
   getConnectedOverlayOrigin(): ElementRef {
@@ -754,7 +754,7 @@ export class MatFormField extends _MatFormFieldMixinBase
   /**
    * Checks whether the form field is attached to the DOM.
    *
-   * 检查表单字段是否已附着到 DOM。
+   * 检查表单字段是否已附加到 DOM。
    *
    */
   private _isAttachedToDOM(): boolean {

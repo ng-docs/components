@@ -61,7 +61,7 @@ export class CloseScrollStrategy implements ScrollStrategy {
   /**
    * Enables the closing of the attached overlay on scroll.
    *
-   * 启用“滚动时关闭已附着浮层”。
+   * 启用“滚动时关闭已附加浮层”。
    *
    */
   enable() {
@@ -91,7 +91,7 @@ export class CloseScrollStrategy implements ScrollStrategy {
   /**
    * Disables the closing the attached overlay on scroll.
    *
-   * 禁用“滚动时关闭已附着浮层”。
+   * 禁用“滚动时关闭已附加浮层”。
    *
    */
   disable() {

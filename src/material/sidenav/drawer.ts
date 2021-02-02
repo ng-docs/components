@@ -173,7 +173,7 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
   /**
    * The side that the drawer is attached to.
    *
-   * 抽屉附着到的一侧。
+   * 抽屉附加到的一侧。
    *
    */
   @Input()

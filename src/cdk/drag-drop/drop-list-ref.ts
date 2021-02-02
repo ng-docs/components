@@ -110,7 +110,7 @@ export class DropListRef<T = any> {
   /**
    * Element that the drop list is attached to.
    *
-   * 投放表附着到的元素
+   * 投放表附加到的元素
    *
    */
   element: HTMLElement | ElementRef<HTMLElement>;

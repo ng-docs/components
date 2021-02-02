@@ -151,7 +151,7 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
   /**
    * Attach a component portal as content to this bottom sheet container.
    *
-   * 把组件传送点作为内容附着到这个底部操作表容器中。
+   * 把组件传送点作为内容附加到这个底部操作表容器中。
    *
    */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
@@ -164,7 +164,7 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
   /**
    * Attach a template portal as content to this bottom sheet container.
    *
-   * 把模板传送点作为内容附着到这个底部操作表容器中。
+   * 把模板传送点作为内容附加到这个底部操作表容器中。
    *
    */
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {

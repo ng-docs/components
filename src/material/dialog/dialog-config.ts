@@ -72,7 +72,7 @@ export class MatDialogConfig<D = any> {
    * component instantiated inside of the dialog. This does not affect where the dialog
    * content will be rendered.
    *
-   * 附着到组件应该位于 Angular 的*逻辑*组件树中。这会影响注入时的可用内容以及在对话框中实例化的组件的变更检测顺序。这不会影响对象内容的渲染位置。
+   * 附加到组件应该位于 Angular 的*逻辑*组件树中。这会影响注入时的可用内容以及在对话框中实例化的组件的变更检测顺序。这不会影响对象内容的渲染位置。
    *
    */
   viewContainerRef?: ViewContainerRef;
