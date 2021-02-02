@@ -34,7 +34,7 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
   /**
    * The attached viewport.
    *
-   * 附着的视口。
+   * 附加的视口。
    *
    */
   private _viewport: CdkVirtualScrollViewport | null = null;

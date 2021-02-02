@@ -49,7 +49,7 @@ export class MatMenuContent implements OnDestroy {
   /**
    * Emits when the menu content has been attached.
    *
-   * 菜单内容已附着时会触发。
+   * 菜单内容已附加时会触发。
    *
    */
   _attached = new Subject<void>();
@@ -66,7 +66,7 @@ export class MatMenuContent implements OnDestroy {
   /**
    * Attaches the content with a particular context.
    *
-   * 使用特定的上下文来附着内容。
+   * 使用特定的上下文来附加内容。
    *
    * @docs-private
    */

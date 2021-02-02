@@ -305,7 +305,7 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
   /**
    * Attaches a dialog container to a dialog's already-created overlay.
    *
-   * 把一个对话框容器附着到一个已经创建过的对话框中。
+   * 把一个对话框容器附加到一个已经创建过的对话框中。
    *
    * @param overlay Reference to the dialog's underlying overlay.
    *
@@ -317,7 +317,7 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
    *
    * @returns A promise resolving to a ComponentRef for the attached container.
    *
-   * 一个 Promise，会解析为所附着容器的 ComponentRef。
+   * 一个 Promise，会解析为所附加容器的 ComponentRef。
    */
   private _attachDialogContainer(overlay: OverlayRef, config: MatDialogConfig): C {
     const userInjector = config && config.viewContainerRef && config.viewContainerRef.injector;
@@ -336,7 +336,7 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
   /**
    * Attaches the user-provided component to the already-created dialog container.
    *
-   * 把用户提供的组件附着到已创建的对话框中。
+   * 把用户提供的组件附加到已创建的对话框中。
    *
    * @param componentOrTemplateRef The type of component being loaded into the dialog,
    *     or a TemplateRef to instantiate as the content.

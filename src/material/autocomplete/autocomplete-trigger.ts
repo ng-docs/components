@@ -242,7 +242,7 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
   /**
    * The autocomplete panel to be attached to this trigger.
    *
-   * 要附着到此触发器的自动完成面板。
+   * 要附加到此触发器的自动完成面板。
    *
    */
   @Input('matAutocomplete') autocomplete: _MatAutocompleteBase;

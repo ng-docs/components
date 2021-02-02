@@ -40,7 +40,7 @@ export class BlockScrollStrategy implements ScrollStrategy {
   /**
    * Blocks page-level scroll while the attached overlay is open.
    *
-   * 打开已附着的浮层时阻止页面级滚动。
+   * 打开已附加的浮层时阻止页面级滚动。
    *
    */
   enable() {
@@ -65,7 +65,7 @@ export class BlockScrollStrategy implements ScrollStrategy {
   /**
    * Unblocks page-level scroll while the attached overlay is open.
    *
-   * 打开已附着的浮层时，取消阻止页面级滚动。
+   * 打开已附加的浮层时，取消阻止页面级滚动。
    *
    */
   disable() {

@@ -207,7 +207,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
   /**
    * the currently attached CdkVirtualScrollRepeater.
    *
-   * 当前已附着的 CdkVirtualScrollRepeater。
+   * 当前已附加的 CdkVirtualScrollRepeater。
    *
    */
   private _forOf: CdkVirtualScrollRepeater<any> | null;
@@ -312,7 +312,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
   /**
    * Attaches a `CdkVirtualScrollRepeater` to this viewport.
    *
-   * 把 `CdkVirtualScrollRepeater` 附着到这个视口。
+   * 把 `CdkVirtualScrollRepeater` 附加到这个视口。
    *
    */
   attach(forOf: CdkVirtualScrollRepeater<any>) {

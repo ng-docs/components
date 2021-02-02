@@ -37,11 +37,11 @@ export interface VirtualScrollStrategy {
   /**
    * Attaches this scroll strategy to a viewport.
    *
-   * 把这个滚动策略附着到视口中。
+   * 把这个滚动策略附加到视口中。
    *
    * @param viewport The viewport to attach this strategy to.
    *
-   * 要把此策略附着到的视口。
+   * 要把此策略附加到的视口。
    *
    */
   attach(viewport: CdkVirtualScrollViewport): void;

@@ -9,7 +9,7 @@
 /**
  * Throws an exception when attempting to attach a null portal to a host.
  *
- * 当试图把空的传送点附着到宿主上时抛出异常。
+ * 当试图把空的传送点附加到宿主上时抛出异常。
  *
  * @docs-private
  */
@@ -20,7 +20,7 @@ export function throwNullPortalError() {
 /**
  * Throws an exception when attempting to attach a portal to a host that is already attached.
  *
- * 当试图把传送点附着到已经附着过的宿主上时，会抛出异常。
+ * 当试图把传送点附加到已经附加过的宿主上时，会抛出异常。
  *
  * @docs-private
  */
@@ -65,7 +65,7 @@ export function throwNullPortalOutletError() {
 /**
  * Throws an exception when attempting to detach a portal that is not attached.
  *
- * 当试图拆除未附着过的传送点时抛出异常。
+ * 当试图拆除未附加过的传送点时抛出异常。
  *
  * @docs-private
  */

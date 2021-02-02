@@ -181,7 +181,7 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
    * elements in the Shadow DOM the style tags are attached to the shadow root, rather
    * than the document head.
    *
-   * 跟踪现有实例的直径，以便对生成的样式进行重复数据删除（默认 d = 100）。我们需要跟踪这个直径已附着到哪些元素，因为对于 Shadow DOM 中的元素，样式标签会附着到 Shadow DOM 根上，而不是 document 头中。
+   * 跟踪现有实例的直径，以便对生成的样式进行重复数据删除（默认 d = 100）。我们需要跟踪这个直径已附加到哪些元素，因为对于 Shadow DOM 中的元素，样式标签会附加到 Shadow DOM 根上，而不是 document 头中。
    *
    */
   private static _diameters = new WeakMap<Node, Set<number>>();

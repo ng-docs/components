@@ -38,7 +38,7 @@ export interface ComponentType<T> {
  * A `Portal` is something that you want to render somewhere else.
  * It can be attach to / detached from a `PortalOutlet`.
  *
- * 你希望在其它地方渲染的 `Portal`。它可以附着到 `PortalOutlet` 或从那里拆除。
+ * 你希望在其它地方渲染的 `Portal`。它可以附加到 `PortalOutlet` 或从那里拆除。
  *
  */
 export abstract class Portal<T> {
@@ -47,7 +47,7 @@ export abstract class Portal<T> {
   /**
    * Attach this portal to a host.
    *
-   * 把这个传送点附着到宿主上
+   * 把这个传送点附加到宿主上
    *
    */
   attach(host: PortalOutlet): T {
@@ -85,7 +85,7 @@ export abstract class Portal<T> {
   /**
    * Whether this portal is attached to a host.
    *
-   * 此传送点是否已附着到宿主上。
+   * 此传送点是否已附加到宿主上。
    *
    */
   get isAttached(): boolean {
@@ -124,7 +124,7 @@ export class ComponentPortal<T> extends Portal<ComponentRef<T>> {
    * This is different from where the component *renders*, which is determined by the PortalOutlet.
    * The origin is necessary when the host is outside of the Angular application context.
    *
-   * [可选] 附着组件应该放在 Angular 的*逻辑*组件树中。这与组件*渲染的*位置不同，后者由 PortalOutlet 决定。当宿主在 Angular 应用的上下文之外时，这个原点是必需的。
+   * [可选] 附加组件应该放在 Angular 的*逻辑*组件树中。这与组件*渲染的*位置不同，后者由 PortalOutlet 决定。当宿主在 Angular 应用的上下文之外时，这个原点是必需的。
    *
    */
   viewContainerRef?: ViewContainerRef | null;
@@ -141,7 +141,7 @@ export class ComponentPortal<T> extends Portal<ComponentRef<T>> {
    * Alternate `ComponentFactoryResolver` to use when resolving the associated component.
    * Defaults to using the resolver from the outlet that the portal is attached to.
    *
-   * 在解析相关组件时要用到的 `ComponentFactoryResolver` 替代品。默认使用来自传送点所附着的出口地标的解析器。
+   * 在解析相关组件时要用到的 `ComponentFactoryResolver` 替代品。默认使用来自传送点所附加的出口地标的解析器。
    *
    */
   componentFactoryResolver?: ComponentFactoryResolver | null;
@@ -225,7 +225,7 @@ export class TemplatePortal<C = any> extends Portal<EmbeddedViewRef<C>> {
  * in the DOM and moved into a portal outlet, when it is attached. On detach, the content
  * will be restored to its original position.
  *
- * `DomPortal` 是一个传送点，它的 DOM 元素会从 DOM 中的当前位置获取，并在附着到传送点时移入其中。在拆除时，内容将恢复到其原来的位置。
+ * `DomPortal` 是一个传送点，它的 DOM 元素会从 DOM 中的当前位置获取，并在附加到传送点时移入其中。在拆除时，内容将恢复到其原来的位置。
  *
  */
 export class DomPortal<T = HTMLElement> extends Portal<T> {
@@ -261,7 +261,7 @@ export interface PortalOutlet {
   /**
    * Detaches the currently attached portal from this outlet.
    *
-   * 从当前出口地标上拆除已经附着上的传送点。
+   * 从当前出口地标上拆除已经附加上的传送点。
    *
    */
   detach(): any;
@@ -298,14 +298,14 @@ export type PortalHost = PortalOutlet;
  * Partial implementation of PortalOutlet that handles attaching
  * ComponentPortal and TemplatePortal.
  *
- * PortalOutlet 的部分实现，用于处理附着的 ComponentPortal 和 TemplatePortal。
+ * PortalOutlet 的部分实现，用于处理附加的 ComponentPortal 和 TemplatePortal。
  *
  */
 export abstract class BasePortalOutlet implements PortalOutlet {
   /**
    * The portal currently attached to the host.
    *
-   * 这个传送点已经附着到了宿主上。
+   * 这个传送点已经附加到了宿主上。
    *
    */
   protected _attachedPortal: Portal<any> | null;
@@ -329,7 +329,7 @@ export abstract class BasePortalOutlet implements PortalOutlet {
   /**
    * Whether this host has an attached portal.
    *
-   * 该宿主是否有附着的传送点。
+   * 该宿主是否有附加的传送点。
    *
    */
   hasAttached(): boolean {
@@ -343,7 +343,7 @@ export abstract class BasePortalOutlet implements PortalOutlet {
   /**
    * Attaches a portal.
    *
-   * 附着一个传送点。
+   * 附加一个传送点。
    *
    */
   attach(portal: Portal<any>): any {
@@ -388,7 +388,7 @@ export abstract class BasePortalOutlet implements PortalOutlet {
   /**
    * Detaches a previously attached portal.
    *
-   * 拆除以前附着过的传送点。
+   * 拆除以前附加过的传送点。
    *
    */
   detach(): void {

@@ -337,7 +337,7 @@ export interface MatDatepickerControl<D> {
 /**
  * A datepicker that can be attached to a {@link MatDatepickerControl}.
  *
- * 一个可以附着到 {@link MatDatepickerControl} 上的日期选择器。
+ * 一个可以附加到 {@link MatDatepickerControl} 上的日期选择器。
  *
  */
 export interface MatDatepickerPanel<C extends MatDatepickerControl<D>, S,

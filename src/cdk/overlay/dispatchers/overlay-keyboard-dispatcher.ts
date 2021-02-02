@@ -16,7 +16,7 @@ import {BaseOverlayDispatcher} from './base-overlay-dispatcher';
  * if any. It maintains a list of attached overlays to determine best suited overlay based
  * on event target and order of overlay opens.
  *
- * 本服务用于将落在 body 上的键盘事件派发到适当的浮层引用（如果有）。它维护一个已附着的浮层列表，以便根据事件目标和浮层打开顺序确定最适合的浮层。
+ * 本服务用于将落在 body 上的键盘事件派发到适当的浮层引用（如果有）。它维护一个已附加的浮层列表，以便根据事件目标和浮层打开顺序确定最适合的浮层。
  *
  */
 @Injectable({providedIn: 'root'})
@@ -29,7 +29,7 @@ export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
   /**
    * Add a new overlay to the list of attached overlay refs.
    *
-   * 将新的浮层添加到已附着的浮层引用列表中。
+   * 将新的浮层添加到已附加的浮层引用列表中。
    *
    */
   add(overlayRef: OverlayReference): void {
@@ -58,7 +58,7 @@ export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
   /**
    * Keyboard event listener that will be attached to the body.
    *
-   * 键盘事件监听器，将被附着到 body 上。
+   * 键盘事件监听器，将被附加到 body 上。
    *
    */
   private _keydownListener = (event: KeyboardEvent) => {

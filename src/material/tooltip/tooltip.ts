@@ -82,7 +82,7 @@ export const SCROLL_THROTTLE_MS = 20;
 /**
  * CSS class that will be attached to the overlay panel.
  *
- * 那些要附着到浮层面板上的 CSS 类。
+ * 那些要附加到浮层面板上的 CSS 类。
  *
  */
 export const TOOLTIP_PANEL_CLASS = 'mat-tooltip-panel';
@@ -175,7 +175,7 @@ export function MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(): MatTooltipDefaultOptions 
  * Directive that attaches a material design tooltip to the host element. Animates the showing and
  * hiding of a tooltip provided position (defaults to below the element).
  *
- * 把 Material Design 工具提示附着到宿主元素上的指令。会在工具提示指定的位置（默认在元素下方）进行动画显示和隐藏。
+ * 把 Material Design 工具提示附加到宿主元素上的指令。会在工具提示指定的位置（默认在元素下方）进行动画显示和隐藏。
  *
  * <https://material.io/design/components/tooltips.html>
  */
@@ -574,7 +574,7 @@ export class MatTooltip implements OnDestroy, AfterViewInit {
   /**
    * Detaches the currently-attached tooltip.
    *
-   * 拆除当前附着的工具提示。
+   * 拆除当前附加的工具提示。
    *
    */
   private _detach() {
