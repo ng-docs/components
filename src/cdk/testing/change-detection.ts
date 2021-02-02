@@ -36,7 +36,7 @@ export interface AutoChangeDetectionStatus {
 /**
  * Subject used to dispatch and listen for changes to the auto change detection status .
  *
- * 一个主体对象，用于分派和监听自动变更检测状态的变化。
+ * 一个主体对象，用于派发和监听自动变更检测状态的变化。
  *
  */
 const autoChangeDetectionSubject = new BehaviorSubject<AutoChangeDetectionStatus>({

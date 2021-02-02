@@ -15,7 +15,7 @@ import {OverlayReference} from '../overlay-reference';
  * if any. It maintains a list of attached overlays to determine best suited overlay based
  * on event target and order of overlay opens.
  *
- * 本服务用于将落在主体上的事件分派到适当的浮层引用（如果有）。它维护一个已附着的浮层列表，以便根据事件目标和浮层打开的顺序确定最适合的浮层。
+ * 本服务用于将落在主体上的事件派发到适当的浮层引用（如果有）。它维护一个已附着的浮层列表，以便根据事件目标和浮层打开的顺序确定最适合的浮层。
  *
  */
 @Injectable({providedIn: 'root'})

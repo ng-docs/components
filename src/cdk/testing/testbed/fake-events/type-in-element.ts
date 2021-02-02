@@ -26,7 +26,7 @@ export function isTextInput(element: Element): element is HTMLInputElement | HTM
  * Focuses an input, sets its value and dispatches
  * the `input` event, simulating the user typing.
  *
- * 让输入获得焦点，设置其值并分派 `input` 事件，以模拟用户键入。
+ * 让输入获得焦点，设置其值并派发 `input` 事件，以模拟用户键入。
  *
  * @param element Element onto which to set the value.
  *

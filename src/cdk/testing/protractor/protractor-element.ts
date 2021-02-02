@@ -220,7 +220,7 @@ export class ProtractorElement implements TestElement {
   /**
    * Dispatches all the events that are part of a click event sequence.
    *
-   * 分派属于 click 事件序列一部分的所有事件。
+   * 派发属于 click 事件序列一部分的所有事件。
    *
    */
   private async _dispatchClickEventSequence(
@@ -259,7 +259,7 @@ export class ProtractorElement implements TestElement {
  * Note that this needs to be a pure function, because it gets stringified by
  * Protractor and is executed inside the browser.
  *
- * 将具有特定名称和数据的事件分派到元素。请注意，这必须是纯函数，因为它会由 Protractor 进行字符串化并在浏览器中执行。
+ * 将具有特定名称和数据的事件派发到元素。请注意，这必须是纯函数，因为它会由 Protractor 进行字符串化并在浏览器中执行。
  *
  */
 function _dispatchEvent(name: string, element: ElementFinder, data?: Record<string, EventData>) {
