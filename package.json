@@ -87,7 +87,7 @@
     "@bazel/ibazel": "^0.14.0",
     "@bazel/jasmine": "^2.3.2",
     "@bazel/karma": "^2.3.2",
-    "@bazel/protractor": "^2.3.2",
+    "@bazel/protractor": "^3.2.0",
     "@bazel/rollup": "^2.3.2",
     "@bazel/terser": "^2.3.2",
     "@bazel/typescript": "^2.3.2",
