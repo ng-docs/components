@@ -15,7 +15,12 @@ import {map, take} from 'rxjs/operators';
  * Tree flattener to convert a normal type of node to node with children & level information.
  * Transform nested nodes of type `T` to flattened nodes of type `F`.
  *
+ * 树展平器，用于将普通类型的节点转换为具有子级和级别信息的节点。把 `T` 型嵌套节点转换为 `F` 型扁平节点。
+ *
  * For example, the input data of type `T` is nested, and contains its children data:
+ *
+ * 例如，类型为 `T` 的输入数据是嵌套的，并包含其子数据：
+ *
  *   SomeNode: {
  *     key: 'Fruits',
  *     children: [
@@ -27,7 +32,11 @@ import {map, take} from 'rxjs/operators';
  *      }
  *    ]
  *  }
+ *
  *  After flattener flatten the tree, the structure will become
+ *
+ * 当展平之后，其结构变为：
+ *
  *  SomeNode: {
  *    key: 'Fruits',
  *    expandable: true,
@@ -43,9 +52,9 @@ import {map, take} from 'rxjs/operators';
  *   expandable: false,
  *   level: 2
  * }
+ *
  * and the output flattened type is `F` with additional information.
  *
- * For example, the input data of type `T` is nested, and contains its children data: SomeNode: { key: 'Fruits', children: \[ NodeOne: { key: 'Apple', }, NodeTwo: { key: 'Pear', } ] } After flattener flatten the tree, the structure will become SomeNode: { key: 'Fruits', expandable: true, level: 1 }, NodeOne: { key: 'Apple', expandable: false, level: 2 }, NodeTwo: { key: 'Pear', expandable: false, level: 2 } and the output flattened type is `F` with additional information.
  *
  */
 export class MatTreeFlattener<T, F, K = F> {
@@ -89,6 +98,9 @@ export class MatTreeFlattener<T, F, K = F> {
    * Flatten a list of node type T to flattened version of node F.
    * Please note that type T may be nested, and the length of `structuredData` may be different
    * from that of returned list `F[]`.
+   *
+   * 将节点类型为 T 的列表展平为节点类型为 F 的展平版本。请注意，类型 T 可能是嵌套的，而 `structuredData` 的长度可能与返回列表 `F[]` 的长度不同。
+   *
    */
   flattenNodes(structuredData: T[]): F[] {
     let resultNodes: F[] = [];
@@ -99,6 +111,9 @@ export class MatTreeFlattener<T, F, K = F> {
   /**
    * Expand flattened node with current expansion status.
    * The returned list may have different length.
+   *
+   * 根据当前展开状态展开已展平的节点。返回的列表长度可能不同。
+   *
    */
   expandFlattenedNodes(nodes: F[], treeControl: TreeControl<F, K>): F[] {
     let results: F[] = [];
@@ -127,6 +142,9 @@ export class MatTreeFlattener<T, F, K = F> {
  * to `MatTree`.
  * The nested tree nodes of type `T` are flattened through `MatTreeFlattener`, and converted
  * to type `F` for `MatTree` to consume.
+ *
+ * 扁平树的数据源。数据源需要处理树节点的展开/折叠，并将数据提更改为 `MatTree`。`T` 型的嵌套树节点由 `MatTreeFlattener` 展平，并转换为 `F` 型，供 `MatTree` 使用。
+ *
  */
 export class MatTreeFlatDataSource<T, F, K = F> extends DataSource<F> {
   _flattenedData = new BehaviorSubject<F[]>([]);

@@ -22,7 +22,12 @@ export type TextTree = {
  *
  */
 export class MatTreeHarness extends ComponentHarness {
-  /** The selector for the host element of a `MatTableHarness` instance. */
+  /**
+   * The selector for the host element of a `MatTableHarness` instance.
+   *
+   * `MatTableHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-tree';
 
   /**
@@ -31,6 +36,9 @@ export class MatTreeHarness extends ComponentHarness {
    * 获取一个可用来使用指定属性搜索树的 `HarnessPredicate`。
    *
    * @param options Options for narrowing the search
+   *
+   * 缩小搜索范围的选项
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -39,7 +47,12 @@ export class MatTreeHarness extends ComponentHarness {
     return new HarnessPredicate(MatTreeHarness, options);
   }
 
-  /** Gets all of the nodes in the tree. */
+  /**
+   * Gets all of the nodes in the tree.
+   *
+   * 获取树中的所有节点。
+   *
+   */
   async getNodes(filter: TreeNodeHarnessFilters = {}): Promise<MatTreeNodeHarness[]> {
     return this.locatorForAll(MatTreeNodeHarness.with(filter))();
   }
@@ -49,6 +62,9 @@ export class MatTreeHarness extends ComponentHarness {
    * If a node is under an unexpanded node it will not be included.
    * Eg.
    * Tree (all nodes expanded):
+   *
+   * 获取可见树结构的对象表示形式。如果某个节点位于未展开的节点之下，则不会包含该节点。例如下面这棵树（所有节点都已展开）：
+   *
    * `<mat-tree>
    *   <mat-tree-node>Node 1<mat-tree-node>
    *   <mat-nested-tree-node>
@@ -66,7 +82,10 @@ export class MatTreeHarness extends ComponentHarness {
    * </mat-tree>`
    *
    * Tree structure:
-   * {
+   *
+   * 树结构：
+   *
+   * `{
    *  children: \[
    *    {
    *      text: 'Node 1',
@@ -84,7 +103,7 @@ export class MatTreeHarness extends ComponentHarness {
    *      ]
    *    }
    *  ]
-   * };
+   * };`
    */
   async getTreeStructure(): Promise<TextTree> {
     const nodes = await this.getNodes();
@@ -96,9 +115,21 @@ export class MatTreeHarness extends ComponentHarness {
 
   /**
    * Recursively collect the structured text of the tree nodes.
+   *
+   * 递归收集树节点的结构化文本。
+   *
    * @param nodes A list of tree nodes
+   *
+   * 树节点列表
+   *
    * @param level The level of nodes that are being accounted for during this iteration
+   *
+   * 在此迭代期间要考虑的各个节点的级别
+   *
    * @param parentExpanded Whether the parent of the first node in param nodes is expanded
+   *
+   * 参数节点中第一个节点的父节点是否已展开
+   *
    */
   private _getTreeStructure(nodes: [number, string, boolean][], level: number,
                                      parentExpanded: boolean): TextTree {
