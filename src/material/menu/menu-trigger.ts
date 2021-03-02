@@ -66,7 +66,7 @@ export const MAT_MENU_SCROLL_STRATEGY_FACTORY_PROVIDER = {
 /**
  * Default top padding of the menu panel.
  *
- * 菜单面板的默认顶部填充。
+ * 菜单面板的默认顶部衬距。
  *
  */
 export const MENU_PANEL_TOP_PADDING = 8;

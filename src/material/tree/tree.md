@@ -82,7 +82,7 @@ Additional features can be built on top of the tree by adding behavior inside no
 (e.g., padding and toggle). Interactions that affect the
 rendered data (such as expand/collapse) should be propagated through the table's data source.
 
-`<mat-tree>` 本身只关心树形结构的渲染工作。通过在节点模板内添加行为（比如填充 `padding` 和切换 `toggle`），可以在标准树的基础上构建附加功能。
+`<mat-tree>` 本身只关心树形结构的渲染工作。通过在节点模板内添加行为（比如衬距 `padding` 和切换 `toggle`），可以在标准树的基础上构建附加功能。
 那些能影响渲染数据的交互（比如展开/折叠）应该能通过表格的数据源进行传播。
 
 ### TreeControl
@@ -117,7 +117,7 @@ The toggle can be placed anywhere in the tree node, and is only toggled by `clic
 
 ### Padding (Flat tree only)
 
-### 填充（只对扁平树）
+### 衬距（只对扁平树）
 
 The `matTreeNodePadding` can be placed in a flat tree's node template to display the `level`
 information of a flat tree node.
@@ -127,7 +127,7 @@ information of a flat tree node.
 Nested tree does not need this padding since padding can be easily added to the hierarchy
 structure in DOM.
 
-嵌套树不需要进行填充，因为 DOM 中的层次结构就能很容易地加上它。
+嵌套树不需要进行衬距，因为 DOM 中的层次结构就能很容易地加上它。
 
 ### Accessibility
 

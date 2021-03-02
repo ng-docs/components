@@ -147,7 +147,7 @@ For best accessibility, `cdkTreeNodeToggle` should be on a button element and ha
 
 #### Padding (Flat tree only)
 
-#### 填充（仅限扁平树）
+#### 衬距（仅限扁平树）
 
 The cdkTreeNodePadding can be placed in a flat tree's node template to display the level
 information of a flat tree node.
@@ -163,7 +163,7 @@ information of a flat tree node.
 Nested tree does not need this padding since padding can be easily added to the hierarchy structure
 in DOM.
 
-嵌套树不需要这种填充，因为 `padding` 可以很容易地添加到 DOM 中的层次结构上。
+嵌套树不需要这种衬距，因为 `padding` 可以很容易地添加到 DOM 中的层次结构上。
 
 #### Conditional template
 
