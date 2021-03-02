@@ -87,7 +87,7 @@ rendered data (such as expand/collapse) should be propagated through the table's
 
 ### TreeControl
 
-### 树控件 TreeControl
+### 树控制器
 
 The `TreeControl` controls the expand/collapse state of tree nodes. Users can expand/collapse a tree
 node recursively through tree control. For nested tree node, `getChildren` function need to pass to
