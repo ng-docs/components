@@ -160,20 +160,31 @@ automatically trigger an update to the rows each time a new data array is emitte
 
 #### DataSource
 
-For most real-world applications, providing the table a DataSource instance will be the best way to
-manage data. The DataSource is meant to serve a place to encapsulate any sorting, filtering,
+For most real-world applications, providing the table a `DataSource` instance will be the best way to
+manage data. The `DataSource` is meant to serve as a place to encapsulate any sorting, filtering,
 pagination, and data retrieval logic specific to the application.
 
-对于大多数真实世界中的应用，为表格提供一个 DataSource 实例都会是管理数据的最佳方式。
-DataSource 旨在封装此应用特有的排序、过滤、分页和数据接收逻辑。
+对于大多数真实世界中的应用，为表格提供一个 `DataSource` 实例都会是管理数据的最佳方式。
+`DataSource` 旨在封装此应用特有的排序、过滤、分页和数据接收逻辑。
 
-A DataSource is simply a base class that has two functions: `connect` and `disconnect`. The
-`connect` function will be called by the table to receive a stream that emits the data array that
-should be rendered. The table will call `disconnect` when the table is destroyed, which may be the
-right time to clean up any subscriptions that may have been registered during the connect process.
+A `DataSource` is simply a class that has at a minimum the following methods: `connect` and 
+`disconnect`. The `connect` method will be called by the table to provide an `Observable` that emits 
+the data array that should be rendered. The table will call `disconnect` when the table is destroyed,
+which may be the right time to clean up any subscriptions that may have been registered in the 
+`connect` method. 
 
-DataSource 是一个拥有两个函数的基类：`connect` 和 `disconnect`。
+DataSource 是一个至少拥有两个函数的类：`connect` 和 `disconnect`。
 表格会调用 `connect` 函数，以接收一个流，流中会发出要渲染的数组型数据。当表格销毁时，就会调用 `disconnect`，它是清理 `connect` 期间所做的各种订阅的最佳时机。
+
+Although Angular Material provides a ready-made table `DataSource` class, `MatTableDataSource`, you may
+want to create your own custom `DataSource` class for more complex use cases. This can be done by 
+extending the abstract `DataSource` class with a custom `DataSource` class that then implements the 
+`connect` and `disconnect` methods. For use cases where the custom `DataSource` must also inherit 
+functionality by extending a different base class, the `DataSource` base class can be 
+implemented instead (`MyCustomDataSource extends SomeOtherBaseClass implements DataSource`) to
+respect Typescript's restriction to only implement one base class.
+
+虽然 Angular Material 提供了现成的表格 `DataSource` 类 `MatTableDataSource`，但是你可能希望针对更复杂的用例创建自己的 `DataSource` 类。你可以用一个自定义的 `DataSource` 类来扩展抽象类 `DataSource`，然后实现其 `connect` 和 `disconnect` 方法。对于这些复杂用例，自定义 `DataSource` 必须通过扩展其他基类（ `MyCustomDataSource extends SomeOtherBaseClass implements DataSource` ）来继承其功能，以遵守 Typescript 的限制，即只能实现一个基类。
 
 ### Features
 

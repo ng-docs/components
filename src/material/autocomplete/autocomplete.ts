@@ -209,9 +209,9 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
   abstract optionGroups: QueryList<_MatOptgroupBase>;
 
   /**
-   * Aria label of the select. If not specified, the placeholder will be used as label.
+   * Aria label of the autocomplete.
    *
-   * 选择器的 Aria 标签。如果没有指定，占位符就会用作标签。
+   * 选择器的 Aria 标签。
    *
    */
   @Input('aria-label') ariaLabel: string;
@@ -410,12 +410,13 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
    * 获取此自动完成面板的 aria-labelledby。
    *
    */
-  _getPanelAriaLabelledby(labelId: string): string | null {
+  _getPanelAriaLabelledby(labelId: string | null): string | null {
     if (this.ariaLabel) {
       return null;
     }
 
-    return this.ariaLabelledby ? labelId + ' ' + this.ariaLabelledby : labelId;
+    const labelExpression = labelId ? labelId + ' ' : '';
+    return this.ariaLabelledby ? labelExpression + this.ariaLabelledby : labelId;
   }
 
   /**

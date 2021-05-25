@@ -58,7 +58,7 @@ export class ContentObserver implements OnDestroy {
    */
   private _observedElements = new Map<Element, {
     observer: MutationObserver | null,
-    stream: Subject<MutationRecord[]>,
+    readonly stream: Subject<MutationRecord[]>,
     count: number
   }>();
 
@@ -183,7 +183,7 @@ export class CdkObserveContent implements AfterContentInit, OnDestroy {
    * 针对元素内容中每个变化发出通知。
    *
    */
-  @Output('cdkObserveContent') event = new EventEmitter<MutationRecord[]>();
+  @Output('cdkObserveContent') readonly event = new EventEmitter<MutationRecord[]>();
 
   /**
    * Whether observing content is disabled. This option can be used

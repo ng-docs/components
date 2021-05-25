@@ -81,7 +81,7 @@ export class MatSnackBar implements OnDestroy {
   protected snackBarContainerComponent: Type<_SnackBarContainer> = MatSnackBarContainer;
 
   /**
-   * The CSS class to applie for handset mode.
+   * The CSS class to apply for handset mode.
    *
    * 适用于手机模式的 CSS 类。
    *

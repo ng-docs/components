@@ -32,6 +32,7 @@ import {
 import {
   CanColor,
   CanColorCtor,
+  CanDisable,
   CanDisableRipple,
   CanDisableRippleCtor,
   HasTabIndex,
@@ -44,7 +45,7 @@ import {
   RippleAnimationConfig,
   RippleGlobalOptions,
 } from '@angular/material-experimental/mdc-core';
-import {MDCChipAdapter, MDCChipFoundation} from '@material/chips';
+import {deprecated} from '@material/chips';
 import {numbers} from '@material/ripple';
 import {SPACE, ENTER, hasModifierKey} from '@angular/cdk/keycodes';
 import {Subject} from 'rxjs';
@@ -126,7 +127,7 @@ const _MatChipMixinBase:
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatChip extends _MatChipMixinBase implements AfterContentInit, AfterViewInit,
-  CanColor, CanDisableRipple, HasTabIndex, OnDestroy {
+  CanColor, CanDisableRipple, CanDisable, HasTabIndex, OnDestroy {
   /** The ripple animation configuration to use for the chip. */
   readonly _rippleAnimation: RippleAnimationConfig = RIPPLE_ANIMATION_CONFIG;
 
@@ -213,11 +214,8 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
   }
   protected _highlighted: boolean = false;
 
-  /** Emitted when the user interacts with the remove icon. */
-  @Output() removeIconInteraction = new EventEmitter<string>();
-
   /** Emitted when the user interacts with the chip. */
-  @Output() interaction = new EventEmitter<string>();
+  @Output() readonly interaction = new EventEmitter<string>();
 
   /** Emitted when the chip is destroyed. */
   @Output() readonly destroyed: EventEmitter<MatChipEvent> = new EventEmitter<MatChipEvent>();
@@ -226,13 +224,10 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
   @Output() readonly removed: EventEmitter<MatChipEvent> = new EventEmitter<MatChipEvent>();
 
   /** The MDC foundation containing business logic for MDC chip. */
-  _chipFoundation: MDCChipFoundation;
+  _chipFoundation: deprecated.MDCChipFoundation;
 
   /** The unstyled chip selector for this component. */
   protected basicChipAttrName = 'mat-basic-chip';
-
-  /** Subject that emits when the component has been destroyed. */
-  protected _destroyed = new Subject<void>();
 
   /** The chip's leading icon. */
   @ContentChild(MAT_CHIP_AVATAR) leadingIcon: MatChipAvatar;
@@ -250,7 +245,7 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
   * Implementation of the MDC chip adapter interface.
   * These methods are called by the chip foundation.
   */
-  protected _chipAdapter: MDCChipAdapter = {
+  protected _chipAdapter: deprecated.MDCChipAdapter = {
     addClass: (className) => this._setMdcClass(className, true),
     removeClass: (className) => this._setMdcClass(className, false),
     hasClass: (className) =>
@@ -276,17 +271,8 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
           // input.
         },
     notifyNavigation: () => this._notifyNavigation(),
-    notifyTrailingIconInteraction: () =>
-        this.removeIconInteraction.emit(this.id),
-    notifyRemoval:
-        () => {
-          this.removed.emit({chip: this});
-
-          // When MDC removes a chip it just transitions it to `width: 0px`
-          // which means that it's still in the DOM and it's still focusable.
-          // Make it `display: none` so users can't tab into it.
-          this._elementRef.nativeElement.style.display = 'none';
-        },
+    notifyTrailingIconInteraction: () => {},
+    notifyRemoval: () => this.remove(),
     notifyEditStart:
         () => {
           this._onEditStart();
@@ -358,7 +344,7 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
       @Optional() @Inject(MAT_RIPPLE_GLOBAL_OPTIONS)
         private _globalRippleOptions?: RippleGlobalOptions) {
     super(_elementRef);
-    this._chipFoundation = new MDCChipFoundation(this._chipAdapter);
+    this._chipFoundation = new deprecated.MDCChipFoundation(this._chipAdapter);
     this._animationsDisabled = animationMode === 'NoopAnimations';
     this._isBasicChip = _elementRef.nativeElement.hasAttribute(this.basicChipAttrName) ||
                         _elementRef.nativeElement.tagName.toLowerCase() === this.basicChipAttrName;
@@ -375,24 +361,17 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
 
   ngOnDestroy() {
     this.destroyed.emit({chip: this});
-    this._destroyed.next();
-    this._destroyed.complete();
     this._chipFoundation.destroy();
   }
 
   /** Sets up the remove icon chip foundation, and subscribes to remove icon events. */
-  _initRemoveIcon() {
+  private _initRemoveIcon() {
     if (this.removeIcon) {
       this._chipFoundation.setShouldRemoveOnTrailingIconClick(true);
-      this._listenToRemoveIconInteraction();
       this.removeIcon.disabled = this.disabled;
-    }
-  }
 
-  /** Handles interaction with the remove icon. */
-  _listenToRemoveIconInteraction() {
-    this.removeIcon.interaction
-        .pipe(takeUntil(this._destroyed))
+      this.removeIcon.interaction
+        .pipe(takeUntil(this.destroyed))
         .subscribe(event => {
           // The MDC chip foundation calls stopPropagation() for any trailing icon interaction
           // event, even ones it doesn't handle, so we want to avoid passing it keyboard events
@@ -405,7 +384,7 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
             return;
           }
 
-          this._chipFoundation.handleTrailingActionInteraction();
+          this.remove();
 
           if (isKeyboardEvent && !hasModifierKey(event as KeyboardEvent)) {
             const keyCode = (event as KeyboardEvent).keyCode;
@@ -416,6 +395,7 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
             }
           }
         });
+    }
   }
 
   /**
@@ -425,7 +405,7 @@ export class MatChip extends _MatChipMixinBase implements AfterContentInit, Afte
    */
   remove(): void {
     if (this.removable) {
-      this._chipFoundation.beginExit();
+      this.removed.emit({chip: this});
     }
   }
 

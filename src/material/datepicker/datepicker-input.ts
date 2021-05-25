@@ -12,6 +12,7 @@ import {
   forwardRef,
   Inject,
   Input,
+  OnDestroy,
   Optional,
 } from '@angular/core';
 import {
@@ -28,6 +29,7 @@ import {
 } from '@angular/material/core';
 import {MatFormField, MAT_FORM_FIELD} from '@angular/material/form-field';
 import {MAT_INPUT_VALUE_ACCESSOR} from '@angular/material/input';
+import {Subscription} from 'rxjs';
 import {MatDatepickerInputBase, DateFilterFn} from './datepicker-input-base';
 import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
 import {DateSelectionModelChange} from './date-selection-model';
@@ -77,7 +79,9 @@ export const MAT_DATEPICKER_VALIDATORS: any = {
   exportAs: 'matDatepickerInput',
 })
 export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
-  implements MatDatepickerControl<D | null> {
+  implements MatDatepickerControl<D | null>, OnDestroy {
+  private _closedSubscription = Subscription.EMPTY;
+
   /**
    * The datepicker that this input is associated with.
    *
@@ -88,6 +92,7 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
   set matDatepicker(datepicker: MatDatepickerPanel<MatDatepickerControl<D>, D | null, D>) {
     if (datepicker) {
       this._datepicker = datepicker;
+      this._closedSubscription = datepicker.closedStream.subscribe(() => this._onTouched());
       this._registerModel(datepicker.registerInput(this));
     }
   }
@@ -159,7 +164,7 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
       elementRef: ElementRef<HTMLInputElement>,
       @Optional() dateAdapter: DateAdapter<D>,
       @Optional() @Inject(MAT_DATE_FORMATS) dateFormats: MatDateFormats,
-      @Optional() @Inject(MAT_FORM_FIELD) private _formField: MatFormField) {
+      @Optional() @Inject(MAT_FORM_FIELD) private _formField?: MatFormField) {
     super(elementRef, dateAdapter, dateFormats);
     this._validator = Validators.compose(super._getValidators());
   }
@@ -175,6 +180,15 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
    */
   getConnectedOverlayOrigin(): ElementRef {
     return this._formField ? this._formField.getConnectedOverlayOrigin() : this._elementRef;
+  }
+
+  /** Gets the ID of an element that should be used a description for the calendar overlay. */
+  getOverlayLabelId(): string | null {
+    if (this._formField) {
+      return this._formField.getLabelId();
+    }
+
+    return this._elementRef.nativeElement.getAttribute('aria-labelledby');
   }
 
   /**
@@ -195,6 +209,11 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
    */
   getStartValue(): D | null {
     return this.value;
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this._closedSubscription.unsubscribe();
   }
 
   /**

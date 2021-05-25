@@ -51,7 +51,7 @@ export class ScrollDispatcher implements OnDestroy {
    * 用于通知某个已注册的可滚动对象所引用的元素发生滚动时的主体对象。
    *
    */
-  private _scrolled = new Subject<CdkScrollable|void>();
+  private readonly _scrolled = new Subject<CdkScrollable|void>();
 
   /**
    * Keeps track of the global `scroll` and `resize` subscriptions.

@@ -484,7 +484,7 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
    * 每当状态发生变化时，都会发出标头可能需要响应的信息。
    *
    */
-  stateChanges = new Subject<void>();
+  readonly stateChanges = new Subject<void>();
 
   constructor(_intl: MatDatepickerIntl,
               @Optional() private _dateAdapter: DateAdapter<D>,

@@ -22,12 +22,23 @@ const STYLESHEET_REGEX = /.*\.(css|scss)/;
  *
  * 从指定树中查找给定目录中的样式表。
  *
+ * @param tree Devkit tree where stylesheet files can be found in.
+ * @param startDirectory Optional start directory where stylesheets should be searched in.
+ *   This can be useful if only stylesheets within a given folder are relevant (to avoid
+ *   unnecessary iterations).
  */
-export function findStylesheetFiles(tree: Tree, baseDir: string): string[] {
+export function findStylesheetFiles(tree: Tree, startDirectory: string = '/'): string[] {
   const result: string[] = [];
   const visitDir = dirPath => {
     const {subfiles, subdirs} = tree.getDir(dirPath);
-    result.push(...subfiles.filter(f => STYLESHEET_REGEX.test(f)));
+
+    subfiles.forEach(fileName => {
+      if (STYLESHEET_REGEX.test(fileName)) {
+        result.push(join(dirPath, fileName));
+      }
+    });
+
+    // Visit directories within the current directory to find other stylesheets.
     subdirs.forEach(fragment => {
       // Do not visit directories or files inside node modules or `dist/` folders.
       if (fragment !== 'node_modules' && fragment !== 'dist') {
@@ -35,6 +46,6 @@ export function findStylesheetFiles(tree: Tree, baseDir: string): string[] {
       }
     });
   };
-  visitDir(baseDir);
+  visitDir(startDirectory);
   return result;
 }

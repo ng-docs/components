@@ -23,7 +23,11 @@ import {
 import {CanColor, CanColorCtor, mixinColor} from '@angular/material-experimental/mdc-core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {ProgressAnimationEnd} from '@angular/material/progress-bar';
-import {MDCLinearProgressAdapter, MDCLinearProgressFoundation} from '@material/linear-progress';
+import {
+  MDCLinearProgressAdapter,
+  MDCLinearProgressFoundation,
+  WithMDCResizeObserver,
+} from '@material/linear-progress';
 import {Subscription, fromEvent, Observable} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {Directionality} from '@angular/cdk/bidi';
@@ -46,9 +50,12 @@ export type ProgressBarMode = 'determinate' | 'indeterminate' | 'buffer' | 'quer
     'role': 'progressbar',
     'aria-valuemin': '0',
     'aria-valuemax': '100',
+    // set tab index to -1 so screen readers will read the aria-label
+    // Note: there is a known issue with JAWS that does not read progressbar aria labels on FireFox
+    'tabindex': '-1',
     '[attr.aria-valuenow]': '(mode === "indeterminate" || mode === "query") ? null : value',
     '[attr.mode]': 'mode',
-    'class': 'mat-mdc-progress-bar',
+    'class': 'mat-mdc-progress-bar mdc-linear-progress',
     '[class._mat-animation-noopable]': '_isNoopAnimation',
   },
   inputs: ['color'],
@@ -62,12 +69,15 @@ export class MatProgressBar extends _MatProgressBarMixinBase implements AfterVie
 
   constructor(public _elementRef: ElementRef<HTMLElement>,
               private _ngZone: NgZone,
-              @Optional() private _dir?: Directionality,
+              @Optional() dir?: Directionality,
               @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) {
     super(_elementRef);
     this._isNoopAnimation = _animationMode === 'NoopAnimations';
-    if (_dir) {
-      this._dirChangeSubscription = _dir.change.subscribe(() => this._syncFoundation());
+    if (dir) {
+      this._dirChangeSubscription = dir.change.subscribe(() => {
+        this._syncFoundation();
+        this._foundation?.restartAnimation();
+      });
     }
   }
 
@@ -76,12 +86,16 @@ export class MatProgressBar extends _MatProgressBarMixinBase implements AfterVie
 
   /** Adapter used by MDC to interact with the DOM. */
   private _adapter: MDCLinearProgressAdapter = {
-    addClass: (className: string) => this._rootElement.classList.add(className),
-    forceLayout: () => this._rootElement.offsetWidth,
-    removeAttribute: (name: string) => this._rootElement.removeAttribute(name),
-    setAttribute: (name: string, value: string) => this._rootElement.setAttribute(name, value),
-    hasClass: (className: string) => this._rootElement.classList.contains(className),
-    removeClass: (className: string) => this._rootElement.classList.remove(className),
+    addClass: (className: string) => this._elementRef.nativeElement.classList.add(className),
+    forceLayout: () => this._elementRef.nativeElement.offsetWidth,
+    removeAttribute: (name: string) => this._elementRef.nativeElement.removeAttribute(name),
+    setAttribute: (name: string, value: string) => {
+      if (name !== 'aria-valuenow') {
+        this._elementRef.nativeElement.setAttribute(name, value);
+      }
+    },
+    hasClass: (className: string) => this._elementRef.nativeElement.classList.contains(className),
+    removeClass: (className: string) => this._elementRef.nativeElement.classList.remove(className),
     setPrimaryBarStyle: (styleProperty: string, value: string) => {
       (this._primaryBar.style as any)[styleProperty] = value;
     },
@@ -89,14 +103,27 @@ export class MatProgressBar extends _MatProgressBarMixinBase implements AfterVie
       (this._bufferBar.style as any)[styleProperty] = value;
     },
     setStyle: (styleProperty: string, value: string) => {
-      (this._rootElement.style as any)[styleProperty] = value;
+      (this._elementRef.nativeElement.style as any)[styleProperty] = value;
     },
-    getWidth: () => this._rootElement.offsetWidth,
+    getWidth: () => this._elementRef.nativeElement.offsetWidth,
     attachResizeObserver: (callback) => {
-      if ((typeof window !== 'undefined') && window.ResizeObserver) {
-        const ro = new ResizeObserver(callback);
-        ro.observe(this._rootElement);
-        return ro;
+      const resizeObserverConstructor = (typeof window !== 'undefined') &&
+                                        (window as unknown as WithMDCResizeObserver).ResizeObserver;
+
+      if (resizeObserverConstructor) {
+        return this._ngZone.runOutsideAngular(() => {
+          const observer = new resizeObserverConstructor(callback);
+
+          // Internal client users found production errors where `observe` was not a function
+          // on the constructed `observer`. This should not happen, but adding this check for this
+          // edge case.
+          if (typeof observer.observe === 'function') {
+            observer.observe(this._elementRef.nativeElement);
+            return observer;
+          }
+
+          return null;
+        });
       }
 
       return null;
@@ -124,7 +151,6 @@ export class MatProgressBar extends _MatProgressBarMixinBase implements AfterVie
   }
   private _bufferValue = 0;
 
-  private _rootElement: HTMLElement;
   private _primaryBar: HTMLElement;
   private _bufferBar: HTMLElement;
 
@@ -133,7 +159,7 @@ export class MatProgressBar extends _MatProgressBarMixinBase implements AfterVie
    * be emitted when animations are disabled, nor will it be emitted for modes with continuous
    * animations (indeterminate and query).
    */
-  @Output() animationEnd = new EventEmitter<ProgressAnimationEnd>();
+  @Output() readonly animationEnd = new EventEmitter<ProgressAnimationEnd>();
 
   /** Reference to animation end subscription to be unsubscribed on destroy. */
   private _animationEndSubscription = Subscription.EMPTY;
@@ -161,7 +187,6 @@ export class MatProgressBar extends _MatProgressBarMixinBase implements AfterVie
   ngAfterViewInit() {
     const element = this._elementRef.nativeElement;
 
-    this._rootElement = element.querySelector('.mdc-linear-progress') as HTMLElement;
     this._primaryBar = element.querySelector('.mdc-linear-progress__primary-bar') as HTMLElement;
     this._bufferBar = element.querySelector('.mdc-linear-progress__buffer-bar') as HTMLElement;
 
@@ -196,10 +221,7 @@ export class MatProgressBar extends _MatProgressBarMixinBase implements AfterVie
     const foundation = this._foundation;
 
     if (foundation) {
-      const direction = this._dir ? this._dir.value : 'ltr';
       const mode = this.mode;
-
-      foundation.setReverse(direction === 'rtl' ? mode !== 'query' : mode === 'query');
       foundation.setDeterminate(mode !== 'indeterminate' && mode !== 'query');
 
       // Divide by 100 because MDC deals with values between 0 and 1.

@@ -260,7 +260,7 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
    * 当抽屉开始动画时，它会触发。
    *
    */
-  _animationStarted = new Subject<AnimationEvent>();
+  readonly _animationStarted = new Subject<AnimationEvent>();
 
   /**
    * Emits whenever the drawer is done animating.
@@ -268,7 +268,7 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
    * 抽屉做完动画后，就会触发。
    *
    */
-  _animationEnd = new Subject<AnimationEvent>();
+  readonly _animationEnd = new Subject<AnimationEvent>();
 
   /**
    * Current state of the sidenav animation.
@@ -279,7 +279,7 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
   // @HostBinding is used in the class as it is expected to be extended.  Since @Component decorator
   // metadata is not inherited by child classes, instead the host binding data is defined in a way
   // that can be inherited.
-  // tslint:disable:no-host-decorator-in-concrete
+  // tslint:disable-next-line:no-host-decorator-in-concrete
   @HostBinding('@transform')
   _animationState: 'open-instant' | 'open' | 'void' = 'void';
 
@@ -300,7 +300,7 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
    *
    */
   @Output('opened')
-  _openedStream = this.openedChange.pipe(filter(o => o), map(() => {}));
+  readonly _openedStream = this.openedChange.pipe(filter(o => o), map(() => {}));
 
   /**
    * Event emitted when the drawer has started opening.
@@ -321,7 +321,7 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
    *
    */
   @Output('closed')
-  _closedStream = this.openedChange.pipe(filter(o => !o), map(() => {}));
+  readonly _closedStream = this.openedChange.pipe(filter(o => !o), map(() => {}));
 
   /**
    * Event emitted when the drawer has started closing.
@@ -350,7 +350,7 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
    *
    */
   // tslint:disable-next-line:no-output-on-prefix
-  @Output('positionChanged') onPositionChanged: EventEmitter<void> = new EventEmitter<void>();
+  @Output('positionChanged') readonly onPositionChanged = new EventEmitter<void>();
 
   /**
    * An observable that emits when the drawer mode changes. This is used by the drawer container to

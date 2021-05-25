@@ -655,10 +655,11 @@ describe('MatSelectionList without forms', () => {
 
       expect(list.options.toArray().every(option => option.selected)).toBe(false);
 
-      list.selectAll();
+      const result = list.selectAll();
       fixture.detectChanges();
 
       expect(list.options.toArray().every(option => option.selected)).toBe(true);
+      expect(result).toEqual(list.options.toArray());
     });
 
     it('should be able to select all options, even if they are disabled', () => {
@@ -681,10 +682,11 @@ describe('MatSelectionList without forms', () => {
       list.options.forEach(option => option.toggle());
       expect(list.options.toArray().every(option => option.selected)).toBe(true);
 
-      list.deselectAll();
+      const result = list.deselectAll();
       fixture.detectChanges();
 
       expect(list.options.toArray().every(option => option.selected)).toBe(false);
+      expect(result).toEqual(list.options.toArray());
     });
 
     it('should be able to deselect all options, even if they are disabled', () => {
@@ -1339,6 +1341,33 @@ describe('MatSelectionList with forms', () => {
       expect(selectionListDebug.nativeElement.tabIndex).toBe(-1);
     });
 
+    it('should dispatch one change event per change when updating a single-selection list',
+      fakeAsync(() => {
+        fixture.destroy();
+        fixture = TestBed.createComponent(SelectionListWithModel);
+        fixture.componentInstance.multiple = false;
+        fixture.componentInstance.selectedOptions = ['opt3'];
+        fixture.detectChanges();
+        const options = fixture.debugElement.queryAll(By.directive(MatListOption))
+          .map(optionDebugEl => optionDebugEl.nativeElement);
+
+        expect(fixture.componentInstance.modelChangeSpy).not.toHaveBeenCalled();
+
+        options[0].click();
+        fixture.detectChanges();
+        tick();
+
+        expect(fixture.componentInstance.modelChangeSpy).toHaveBeenCalledTimes(1);
+        expect(fixture.componentInstance.selectedOptions).toEqual(['opt1']);
+
+        options[1].click();
+        fixture.detectChanges();
+        tick();
+
+        expect(fixture.componentInstance.modelChangeSpy).toHaveBeenCalledTimes(2);
+        expect(fixture.componentInstance.selectedOptions).toEqual(['opt2']);
+      }));
+
   });
 
   describe('and formControl', () => {
@@ -1640,13 +1669,17 @@ class SelectionListWithOnlyOneOption {
 
 @Component({
   template: `
-    <mat-selection-list [(ngModel)]="selectedOptions" (ngModelChange)="modelChangeSpy()">
+    <mat-selection-list
+      [(ngModel)]="selectedOptions"
+      (ngModelChange)="modelChangeSpy()"
+      [multiple]="multiple">
       <mat-list-option *ngFor="let option of options" [value]="option">{{option}}</mat-list-option>
     </mat-selection-list>`
 })
 class SelectionListWithModel {
   modelChangeSpy = jasmine.createSpy('model change spy');
   selectedOptions: string[] = [];
+  multiple = true;
   options = ['opt1', 'opt2', 'opt3'];
 }
 

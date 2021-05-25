@@ -83,7 +83,7 @@ describe('MatPaginator', () => {
     it('should re-render when the i18n labels change', () => {
       const fixture = createComponent(MatPaginatorApp);
       const label = fixture.nativeElement.querySelector('.mat-paginator-page-size-label');
-      const intl = TestBed.get<MatPaginatorIntl>(MatPaginatorIntl);
+      const intl = TestBed.inject(MatPaginatorIntl);
 
       intl.itemsPerPageLabel = '1337 items per page';
       intl.changes.next();
@@ -465,6 +465,12 @@ describe('MatPaginator', () => {
     expect(paginator.pageSizeOptions).toEqual([7, 14, 21]);
     expect(paginator.hidePageSize).toBe(true);
     expect(paginator.showFirstLastButtons).toBe(true);
+  });
+
+  it('should set `role="group"` on the host element', () => {
+    const fixture = createComponent(MatPaginatorApp);
+    const hostElement = fixture.nativeElement.querySelector('mat-paginator');
+    expect(hostElement.getAttribute('role')).toBe('group');
   });
 
 });

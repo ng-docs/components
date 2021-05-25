@@ -59,7 +59,7 @@ export class CdkDragHandle implements OnDestroy {
    * 手柄状态更改时退出。
    *
    */
-  _stateChanges = new Subject<CdkDragHandle>();
+  readonly _stateChanges = new Subject<CdkDragHandle>();
 
   /**
    * Whether starting to drag through this handle is disabled.

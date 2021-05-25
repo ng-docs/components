@@ -57,39 +57,6 @@ import {
 import {_MatAutocompleteOriginBase} from './autocomplete-origin';
 
 /**
- * The following style constants are necessary to save here in order
- * to properly calculate the scrollTop of the panel. Because we are not
- * actually focusing the active item, scroll must be handled manually.
- *
- * 为了正确计算面板的 scrollTop，下列样式常量需要保存。因为我们实际上没有为活动条目设置焦点，所以必须手动处理滚动。
- *
- */
-
-/**
- * The height of each autocomplete option.
- *
- * 每个自动完成选项的高度。
- *
- * @deprecated No longer being used. To be removed.
- *
- * 不用了。将来会删除
- * @breaking-change 12.0.0
- */
-export const AUTOCOMPLETE_OPTION_HEIGHT = 48;
-
-/**
- * The total height of the autocomplete panel.
- *
- * 自动完成面板的总高度。
- *
- * @deprecated No longer being used. To be removed.
- *
- * 不用了。将来会删除
- * @breaking-change 12.0.0
- */
-export const AUTOCOMPLETE_PANEL_HEIGHT = 256;
-
-/**
  * Injection token that determines the scroll handling while the autocomplete panel is open.
  *
  * 当自动完成面板打开时，注入令牌决定了滚动处理策略。
@@ -746,7 +713,7 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
     if (!overlayRef) {
       this._portal = new TemplatePortal(this.autocomplete.template,
         this._viewContainerRef,
-        {id: this._formField?._labelId});
+        {id: this._formField?.getLabelId()});
       overlayRef = this._overlay.create(this._getOverlayConfig());
       this._overlayRef = overlayRef;
 
@@ -937,7 +904,7 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
       // scroll the list to the top. This is better UX than scrolling the list to the
       // top of the option, because it allows the user to read the top group's label.
       autocomplete._setScrollTop(0);
-    } else {
+    } else if (autocomplete.panel) {
       const option = autocomplete.options.toArray()[index];
 
       if (option) {

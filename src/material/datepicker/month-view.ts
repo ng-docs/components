@@ -362,6 +362,8 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     }
 
     this._userSelection.emit({value: selectedDate, event: event.event});
+    this._previewStart = this._previewEnd = null;
+    this._changeDetectorRef.markForCheck();
   }
 
   /**

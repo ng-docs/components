@@ -23,7 +23,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {MatButton} from '@angular/material/button';
-import {merge, of as observableOf, Subscription} from 'rxjs';
+import {merge, Observable, of as observableOf, Subscription} from 'rxjs';
 import {MatDatepickerIntl} from './datepicker-intl';
 import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
 
@@ -44,15 +44,16 @@ export class MatDatepickerToggleIcon {}
   styleUrls: ['datepicker-toggle.css'],
   host: {
     'class': 'mat-datepicker-toggle',
-    // Always set the tabindex to -1 so that it doesn't overlap with any custom tabindex the
-    // consumer may have provided, while still being able to receive focus.
-    '[attr.tabindex]': 'disabled ? null : -1',
+    '[attr.tabindex]': 'null',
     '[class.mat-datepicker-toggle-active]': 'datepicker && datepicker.opened',
     '[class.mat-accent]': 'datepicker && datepicker.color === "accent"',
     '[class.mat-warn]': 'datepicker && datepicker.color === "warn"',
     // Used by the test harness to tie this toggle to its datepicker.
     '[attr.data-mat-calendar]': 'datepicker ? datepicker.id : null',
-    '(focus)': '_button.focus()',
+    // Bind the `click` on the host, rather than the inner `button`, so that we can call
+    // `stopPropagation` on it without affecting the user's `click` handlers. We need to stop
+    // it so that the input doesn't get focused automatically by the form field (See #21836).
+    '(click)': '_open($event)',
   },
   exportAs: 'matDatepickerToggle',
   encapsulation: ViewEncapsulation.None,
@@ -169,7 +170,7 @@ export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDe
     this._stateChanges.unsubscribe();
     this._stateChanges = merge(
       this._intl.changes,
-      datepickerStateChanged,
+      datepickerStateChanged as Observable<void>,
       inputStateChanged,
       datepickerToggled
     ).subscribe(() => this._changeDetectorRef.markForCheck());

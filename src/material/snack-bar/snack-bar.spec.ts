@@ -22,6 +22,7 @@ import {
   MatSnackBarRef,
   SimpleSnackBar,
 } from './index';
+import {Platform} from '@angular/cdk/platform';
 
 describe('MatSnackBar', () => {
   let snackBar: MatSnackBar;
@@ -157,6 +158,30 @@ describe('MatSnackBar', () => {
 
     expect(liveElement.getAttribute('aria-live'))
         .toBe('off', 'Expected snack bar container live region to have aria-live="off"');
+  });
+
+  it('should have role of `alert` with an `assertive` politeness (Firefox only)', () => {
+    const platform = TestBed.inject(Platform);
+    snackBar.openFromComponent(BurritosNotification, {politeness: 'assertive'});
+    viewContainerFixture.detectChanges();
+
+    const containerElement = overlayContainerElement.querySelector('snack-bar-container')!;
+    const liveElement = containerElement.querySelector('[aria-live]')!;
+
+    expect(liveElement.getAttribute('role'))
+      .toBe(platform.FIREFOX ? 'alert' : null);
+  });
+
+  it('should have role of `status` with an `polite` politeness (Firefox only)', () => {
+    const platform = TestBed.inject(Platform);
+    snackBar.openFromComponent(BurritosNotification, {politeness: 'polite'});
+    viewContainerFixture.detectChanges();
+
+    const containerElement = overlayContainerElement.querySelector('snack-bar-container')!;
+    const liveElement = containerElement.querySelector('[aria-live]')!;
+
+    expect(liveElement.getAttribute('role'))
+      .toBe(platform.FIREFOX ? 'status' : null);
   });
 
   it('should open and close a snackbar without a ViewContainerRef', fakeAsync(() => {
@@ -492,6 +517,20 @@ describe('MatSnackBar', () => {
     snackBar.open('content', 'test', config);
 
     setTimeout(() => snackBar.dismiss(), 500);
+
+    tick(600);
+    viewContainerFixture.detectChanges();
+    tick();
+
+    expect(viewContainerFixture.isStable()).toBe(true);
+  }));
+
+  it('should clear the dismiss timeout when dismissed with action', fakeAsync(() => {
+    let config = new MatSnackBarConfig();
+    config.duration = 1000;
+    const snackBarRef = snackBar.open('content', 'test', config);
+
+    setTimeout(() => snackBarRef.dismissWithAction(), 500);
 
     tick(600);
     viewContainerFixture.detectChanges();

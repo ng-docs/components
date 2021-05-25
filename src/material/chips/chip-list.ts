@@ -10,7 +10,6 @@ import {FocusKeyManager} from '@angular/cdk/a11y';
 import {Directionality} from '@angular/cdk/bidi';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {SelectionModel} from '@angular/cdk/collections';
-import {BACKSPACE} from '@angular/cdk/keycodes';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -131,7 +130,7 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
    * 主体对象，在组件被销毁后发出数据。
    *
    */
-  private _destroyed = new Subject<void>();
+  private readonly _destroyed = new Subject<void>();
 
   /**
    * Subscription to focus changes in the chips.
@@ -472,8 +471,7 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
    * 当纸片列表当前选择被用户改变时发出的事件。
    *
    */
-  @Output() readonly change: EventEmitter<MatChipListChange> =
-      new EventEmitter<MatChipListChange>();
+  @Output() readonly change = new EventEmitter<MatChipListChange>();
 
   /**
    * Event that emits whenever the raw value of the chip-list changes. This is here primarily
@@ -483,7 +481,7 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
    *
    * @docs-private
    */
-  @Output() readonly valueChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() readonly valueChange = new EventEmitter<any>();
 
   /**
    * The chip components contained within this chip list.
@@ -684,11 +682,7 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
   _keydown(event: KeyboardEvent) {
     const target = event.target as HTMLElement;
 
-    // If they are on an empty input and hit backspace, focus the last chip
-    if (event.keyCode === BACKSPACE && this._isInputEmpty(target)) {
-      this._keyManager.setLastItemActive();
-      event.preventDefault();
-    } else if (target && target.classList.contains('mat-chip')) {
+    if (target && target.classList.contains('mat-chip')) {
       this._keyManager.onKeydown(event);
       this.stateChanges.next();
     }
@@ -741,15 +735,6 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
    */
   private _isValidIndex(index: number): boolean {
     return index >= 0 && index < this.chips.length;
-  }
-
-  private _isInputEmpty(element: HTMLElement): boolean {
-    if (element && element.nodeName.toLowerCase() === 'input') {
-      let input = element as HTMLInputElement;
-      return !input.value;
-    }
-
-    return false;
   }
 
   _setSelectionByValue(value: any, isUserInput: boolean = true) {

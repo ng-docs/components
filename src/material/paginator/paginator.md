@@ -12,11 +12,11 @@ Each paginator instance requires:
 
 每个分页器实例都需要：
 
-- The number of items per page (default set to 50)
+* The number of items per page (default set to 50)
 
   每页的条目数（默认为 50）
 
-- The total number of items being paged
+* The total number of items being paged
 
   要分页的总条目数
 
@@ -55,10 +55,10 @@ This will allow you to change the following:
 1. The label for the length of each page.
 
    每页大小的标签。
-1. The range text displayed to the user.
+2. The range text displayed to the user.
 
    要显示给用户的范围文本。
-1. The tooltip messages on the navigation buttons.
+3. The tooltip messages on the navigation buttons.
 
    各个导航按钮上的提示信息。
 
@@ -66,6 +66,9 @@ This will allow you to change the following:
 
 ### 无障碍性
 
-The `aria-label`s for next page, previous page, first page and last page buttons can be set in `MatPaginatorIntl`.
+The paginator uses `role="group"` to semantically group its child controls. You must add an
+`aria-label` or `aria-labelledby` attribute to `<mat-paginator>` with a label that describes
+the content controlled by the pagination control.
 
-可以在 `MatPaginatorIntl` 中设置 "上一页"、"下一页"、"首页" 和 "尾页" 按钮的 `aria-label`。
+You can set the `aria-label` attributes for the button and select controls within the paginator in 
+`MatPaginatorIntl`.

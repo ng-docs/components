@@ -110,6 +110,9 @@ let progressbarId = 0;
     'role': 'progressbar',
     'aria-valuemin': '0',
     'aria-valuemax': '100',
+    // set tab index to -1 so screen readers will read the aria-label
+    // Note: there is a known issue with JAWS that does not read progressbar aria labels on FireFox
+    'tabindex': '-1',
     '[attr.aria-valuenow]': '(mode === "indeterminate" || mode === "query") ? null : value',
     '[attr.mode]': 'mode',
     'class': 'mat-progress-bar',
@@ -186,7 +189,7 @@ export class MatProgressBar extends _MatProgressBarMixinBase implements CanColor
    * 当主进度条的动画完成时会发出本事件。当禁用动画时，不会发出此事件，也不会为具有连续动画的模式（不定动画和查询动画）发出此事件。
    *
    */
-  @Output() animationEnd = new EventEmitter<ProgressAnimationEnd>();
+  @Output() readonly animationEnd = new EventEmitter<ProgressAnimationEnd>();
 
   /**
    * Reference to animation end subscription to be unsubscribed on destroy.

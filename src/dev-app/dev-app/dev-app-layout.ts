@@ -15,6 +15,8 @@ import {DOCUMENT} from '@angular/common';
 
 const isDarkThemeKey = 'ANGULAR_COMPONENTS_DEV_APP_DARK_THEME';
 
+export const ANIMATIONS_STORAGE_KEY = 'ANGULAR_COMPONENTS_ANIMATIONS_DISABLED';
+
 /** Root component for the dev-app demos. */
 @Component({
   selector: 'dev-app-layout',
@@ -96,6 +98,7 @@ export class DevAppLayout {
     {name: 'MDC Progress Bar', route: '/mdc-progress-bar'},
     {name: 'MDC Progress Spinner', route: '/mdc-progress-spinner'},
     {name: 'MDC Tabs', route: '/mdc-tabs'},
+    {name: 'MDC Tooltip', route: '/mdc-tooltip'},
     {name: 'MDC Select', route: '/mdc-select'},
     {name: 'MDC Sidenav', route: '/mdc-sidenav'},
     {name: 'MDC Slide Toggle', route: '/mdc-slide-toggle'},
@@ -109,6 +112,9 @@ export class DevAppLayout {
 
   /** List of possible global density scale values. */
   densityScales = [0, -1, -2, 'minimum', 'maximum'];
+
+  /** Whether animations are disabled. */
+  animationsDisabled = localStorage.getItem(ANIMATIONS_STORAGE_KEY) === 'true';
 
   constructor(
       private _element: ElementRef<HTMLElement>, public rippleOptions: DevAppRippleOptions,
@@ -180,6 +186,10 @@ export class DevAppLayout {
     }
   }
 
+  toggleAnimations() {
+    localStorage.setItem(ANIMATIONS_STORAGE_KEY, (!this.animationsDisabled) + '');
+    location.reload();
+  }
 
   /** Gets the index of the next density scale that can be selected. */
   getNextDensityIndex() {

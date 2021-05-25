@@ -66,6 +66,11 @@ export const HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS = 'cdk-high-contrast-active';
  */
 @Injectable({providedIn: 'root'})
 export class HighContrastModeDetector {
+  /**
+   * Figuring out the high contrast mode and adding the body classes can cause
+   * some expensive layouts. This flag is used to ensure that we only do it once.
+   */
+  private _hasCheckedHighContrastMode: boolean;
   private _document: Document;
 
   constructor(private _platform: Platform, @Inject(DOCUMENT) document: any) {
@@ -116,12 +121,13 @@ export class HighContrastModeDetector {
    *
    */
   _applyBodyHighContrastModeCssClasses(): void {
-    if (this._platform.isBrowser && this._document.body) {
+    if (!this._hasCheckedHighContrastMode && this._platform.isBrowser && this._document.body) {
       const bodyClasses = this._document.body.classList;
       // IE11 doesn't support `classList` operations with multiple arguments
       bodyClasses.remove(HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS);
       bodyClasses.remove(BLACK_ON_WHITE_CSS_CLASS);
       bodyClasses.remove(WHITE_ON_BLACK_CSS_CLASS);
+      this._hasCheckedHighContrastMode = true;
 
       const mode = this.getHighContrastMode();
       if (mode === HighContrastMode.BLACK_ON_WHITE) {

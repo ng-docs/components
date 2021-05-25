@@ -1,188 +1,259 @@
-# Angular Material typography
+# Customizing Typography
 
-# Angular Material 的排版
+## What is typography?
 
-### What is typography?
+Typography is a way of arranging type to make text legible, readable, and appealing when displayed.
+Angular Material's [theming system][theming-system] supports customizing the typography settings
+for the library's components. Additionally, Angular Material provides APIs for applying typography
+styles to elements in your own application.
 
-### 什么是排版？
+Angular Material's theming APIs are built with [Sass](https://sass-lang.com). This document assumes
+familiary with CSS and Sass basics, including variables, functions, and mixins.
 
-Typography is a way of arranging type to make text legible, readable, and appealing when displayed. Angular Material's typography is based on the guidelines from the [Material Design spec][1] and is arranged into typography levels. Each level has a `font-size`, `line-height` and `font-weight`. The available levels are:
+[theming-system]: https://material.angular.io/guide/theming
 
-排版是一种排列字型的方式，它让文本在显示时更加清晰、易读、富有吸引力。Angular Material 的排版基于 [Material Design 规范][1]中给出的指导原则，并按排版等级进行排列。每个等级都有自己的 `font-size`、`line-height` 和 `font-weight`。 有效的等级包括：
+## Including font assets
 
-| Name            | CSS classes                      | Description                                                                 |
-|-----------------|----------------------------------|-----------------------------------------------------------------------------|
-| 名称            | CSS 类                      | 说明                                                                 |
-| `display-4`     | `.mat-display-4`                 | Large, one-off header, usually at the top of the page (e.g. a hero header). |
-| `display-4`     | `.mat-display-4`                 | 大型的，只出现一次的头，通常位于页面的顶部（比如 hero 的头部） |
-| `display-3`     | `.mat-display-3`                 | Large, one-off header, usually at the top of the page (e.g. a hero header). |
-| `display-3`     | `.mat-display-3`                 | 大型的，只出现一次的头，通常位于页面的顶部（比如 hero 的头部） |
-| `display-2`     | `.mat-display-2`                 | Large, one-off header, usually at the top of the page (e.g. a hero header). |
-| `display-2`     | `.mat-display-2`                 | 大型的，只出现一次的头，通常位于页面的顶部（比如 hero 的头部） |
-| `display-1`     | `.mat-display-1`                 | Large, one-off header, usually at the top of the page (e.g. a hero header). |
-| `display-1`     | `.mat-display-1`                 | 大型的，只出现一次的头，通常位于页面的顶部（比如 hero 的头部） |
-| `headline`      | `.mat-h1`, `.mat-headline`       | Section heading corresponding to the `<h1>` tag.                            |
-| `headline`      | `.mat-h1`, `.mat-headline`       | 与 `<h1>` 标签对应的小节的头部 |
-| `title`         | `.mat-h2`, `.mat-title`          | Section heading corresponding to the `<h2>` tag.                            |
-| `title`         | `.mat-h2`, `.mat-title`          | 与 `<h2>` 标签对应的小节的头部 |
-| `subheading-2`  | `.mat-h3`, `.mat-subheading-2`   | Section heading corresponding to the `<h3>` tag.                            |
-| `subheading-2`  | `.mat-h3`, `.mat-subheading-2`   | 与 `<h3>` 标签对应的小节的头部 |
-| `subheading-1`  | `.mat-h4`, `.mat-subheading-1`   | Section heading corresponding to the `<h4>` tag.                            |
-| `subheading-1`  | `.mat-h4`, `.mat-subheading-1`   | 与 `<h4>` 标签对应的小节的头部 |
-| `body-1`        | `.mat-body`, `.mat-body-1`       | Base body text.                                                             |
-| `body-1`        | `.mat-body`, `.mat-body-1`       | 基本的正文文本。 |
-| `body-2`        | `.mat-body-strong`, `.mat-body-2`| Bolder body text.                                                           |
-| `body-2`        | `.mat-body-strong`, `.mat-body-2`| 较粗的正文文本。 |
-| `caption`       | `.mat-small`, `.mat-caption`     | Smaller body and hint text.                                                 |
-| `caption`       | `.mat-small`, `.mat-caption`     | 较小的正文文本和提示文本。 |
-| `button`        | None. Used only in components.   | Buttons and anchors.                                                        |
-| `button`        | 无。只用于组件中。  | 按钮与链接。 |
-| `input`         | None. Used only in components.   | Form input fields.                                                          |
-| `input`         | 无。只用于组件中。 | 表单输入字段。 |
-
-The typography levels are collected into a typography config which is used to generate the CSS.
-
-这些排版等级都收集到了一个用来生成 CSS 的排版配置对象中。
-
-### Usage
-
-### 用法
-
-To get started, you first include the `Roboto` font with the 300, 400 and 500 weights. You can host it yourself or include it from [Google Fonts][2]:
-
-在开始之前，你要先把 300、400 和 500 磅字重的 `Roboto` 字体包含进来。 你可以自己提供它，也可以从 [Google Fonts][2] 中包含它。
+Angular Material's typography APIs lets you specify any font-face. The default font-face value is
+configured to [Google's Roboto font][roboto] with the 300, 400, and 500 font-weight styles. To use
+Roboto, your application must load the font, which is not included with Angular Material. The
+easiest way to load Roboto, or any other custom font, is by using Google Fonts. The following
+snippet can be placed in your application's `<head>` to load Roboto from Google Fonts.
 
 ```html
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 ```
 
-Now you can add the appropriate CSS classes to the elements that you want to style:
+See [Getting Started with the Google Fonts API][fonts-api] for more about using Google Fonts. Also
+note that, by default, [the Angular CLI inlines assets from Google Fonts to reduce render-blocking
+requests][font-inlining].
 
-现在，你就可以为想设置样式的元素添加一些适当的 CSS 类了。
+[roboto]: https://fonts.google.com/share?selection.family=Roboto:wght@300;400;500
+[fonts-api]: https://developers.google.com/fonts/docs/getting_started
+[font-inlining]: https://angular.io/guide/workspace-config#fonts-optimization-options
 
-```html
-<h1 class="mat-display-1">Jackdaws love my big sphinx of quartz.</h1>
-<h2 class="mat-h2">The quick brown fox jumps over the lazy dog.</h2>
-```
+## Typography levels
 
-By default, Angular Material doesn't apply any global CSS. To apply the library's typographic styles more broadly, you can take advantage of the `mat-typography` CSS class. This class will style all descendant native elements.
+A **typography level** is a collection of typographic styles that corresponds to a specific
+part of an application's structure, such as a header. Each level includes styles for font family,
+font weight, font size, and letter spacing. Angular Material uses the [typography levels
+from the 2014 version of the Material Design specification][2014-typography], outlined in the
+table below.
 
-默认情况下，Angular Material 不会应用任何全局 CSS。要更广泛的应用本库中的排版风格，你可以使用 `mat-typography` CSS 类。 这个类会为所有下属的原生元素设置样式。
+| Name            | Description                                                                 |
+|-----------------|-----------------------------------------------------------------------------|
+| `display-4`     | 112px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `display-3`     |  56px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `display-2`     |  45px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `display-1`     |  34px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `headline`      | Section heading corresponding to the `<h1>` tag.                            |
+| `title`         | Section heading corresponding to the `<h2>` tag.                            |
+| `subheading-2`  | Section heading corresponding to the `<h3>` tag.                            |
+| `subheading-1`  | Section heading corresponding to the `<h4>` tag.                            |
+| `body-1`        | Base body text.                                                             |
+| `body-2`        | Bolder body text.                                                           |
+| `caption`       | Smaller body and hint text.                                                 |
+| `button`        | Buttons and anchors.                                                        |
+| `input`         | Form input fields.                                                          |
 
-```html
-<!-- By default, Angular Material applies no global styles to native elements. -->
-<h1>This header is unstyled</h1>
+[2014-typography]: https://material.io/archive/guidelines/style/typography.html#typography-styles
 
-<!-- Applying the mat-tyography class adds styles for native elements. -->
-<section class="mat-typography">
-  <h1>This header will be styled</h1>
-</section>
-```
+### Define a level
 
-### Customization
-
-### 自定义
-
-Typography customization is an extension of Angular Material's Sass-based theming. Similar to creating a custom theme, you can create a custom **typography configuration**.
-
-排版定制是 Angular Material 的一个基于 Sass 的扩展方式。 和创建自定义主题类似，你也可以创建一个自定义的**排版配置**。
+You can define a typography level with the `define-typography-config` Sass function. This function
+accepts, in order, CSS values for `font-size`, `line-height`, `font-weight`, `font-family`, and
+`letter-spacing`. You can also specify the parameters by name, as demonstrated in the example below.
 
 ```scss
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
-// Define a custom typography config that overrides the font-family as well as the
-// `headlines` and `body-1` levels.
-$custom-typography: mat-typography-config(
-  $font-family: 'Roboto, monospace',
-  $headline: mat-typography-level(32px, 48px, 700),
-  $body-1: mat-typography-level(16px, 24px, 500)
+$my-custom-level: mat.define-typography-level(
+  $font-family: Roboto,
+  $font-weight: 400,
+  $font-size: 1rem,
+  $line-height: 1,
+  $letter-spacing: normal,
 );
 ```
 
-As the above example demonstrates, a typography configuration is created by using the
-`mat-typography-config` function, which is given both the font-family and the set of typographic levels described earlier. Each typographic level is defined by the `mat-typography-level` function, which requires a `font-size`, `line-height`, and `font-weight`. **Note** that the `font-family`
-has to be in quotes.
+## Typography config
 
-正如上面这个例子所演示的，排版配置是使用 `mat-typography-config` 函数创建的，它会同时给出字体家族和一组前面讲过的排版等级。 每个排版等级都是用 `mat-typography-level` 函数定义的，它需要 `font-size`、`line-height` 和 `font-weight`。
-**注意**，`font-family` 的值必须带引号。
-
-Once the custom typography definition is created, it can be consumed to generate styles via different Sass mixins.
-
-一旦创建了自定义的排版定义对象，就可以借助不同的 Sass 混入器来用它生成样式了。
+A **typography config** is a collection of all typography levels. Angular Material represents this
+config as a Sass map. This map contains the styles for each level, keyed by name. You can create
+a typography config with the `define-typography-config` Sass function. Every parameter for
+`define-typography-config` is optional; the styles for a level will default to Material Design's
+baseline if unspecified.
 
 ```scss
-// Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
-@include mat-base-typography($custom-typography);
+@use '~@angular/material' as mat;
 
-// Override typography for a specific Angular Material components.
-@include mat-checkbox-typography($custom-typography);
-
-// Override typography for all Angular Material, including mat-base-typography and all components.
-@include angular-material-typography($custom-typography);
+$my-custom-typography-config: mat.define-typography-config(
+  $display-4: mat.define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+  $display-3: mat.define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+  $display-2: mat.define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+  $display-1: mat.define-typography-level(34px, 40px, 400),
+  $headline:  mat.define-typography-level(24px, 32px, 400),
+  // ...
+);
 ```
 
-If you're using Material's theming, you can also pass in your typography config to the
-`mat-core` mixin:
-
-如果你在使用 Material 的主题，还可以把你的排版配置对象传给 `mat-core` 混入器：
+To customize component typography for your entire application, you can pass your custom typography
+config to the `core` mixin described in the [theming guide][theming-system].
 
 ```scss
-// Override the typography in the core CSS.
-@include mat-core($custom-typography);
+@use '~@angular/material' as mat;
+
+$my-custom-typography: mat.define-typography-config(
+  $headline:  mat.define-typography-level(3rem, 1, 700),
+);
+
+@include mat.core($my-custom-typography);
 ```
 
-For more details about the typography functions and default config, see the
-[source](https://github.com/angular/components/blob/master/src/material/core/typography/_typography.scss).
+Passing your typography config to `core` mixin will apply your specified values to all Angular
+Material components. If a config is not specified, `core` will emit the default Material Design
+typography styles.
 
-要了解排版函数的详情及其默认配置，参见[源码](https://github.com/angular/material2/blob/master/src/lib/core/typography/_typography.scss)。
+### Typography configs and theming
 
-### Material typography in your custom CSS
+In addition to the `core` mixin, you can specify your typography config when including any `theme`
+mixin, as described in the [theming guide][theming-system]. Because the `core` mixin always emits
+typography styles, specifying a typography config to a theme mixin results in duplicate typography
+CSS. You should only provide a typography config when applying your theme if you need to specify
+multiple typography styles that are conditionally applied based on your application's behavior.
 
-### 在自定义 CSS 中使用 Material 排版
-
-Angular Material includes typography utility mixins and functions that you can use to customize your own components:
-
-Angular Material 包含一些排版工具的混入器和函数，你可以用它们来定制自己的组件：
-
-* `mat-font-size($config, $level)` - Gets the `font-size`, based on the provided config and level.
-
-  `mat-font-size($config, $level)` - 根据所提供的配置和等级，获取 `font-size`。
-
-* `mat-font-family($config)` - Gets the `font-family`, based on the provided config.
-
-  `mat-font-family($config)` - 根据所提供的配置，获取 `font-family`。
-
-* `mat-line-height($config, $level)` - Gets the `line-height`, based on the provided config and level.
-
-  `mat-line-height($config, $level)` - 根据所提供的配置和等级，获取 `line-height`。
-
-* `mat-font-weight($config, $level)` - Gets the `font-weight`, based on the provided config and level.
-
-  `mat-font-weight($config, $level)` - 根据所提供的配置和等级，获取 `font-weight`。
-
-* `mat-typography-level-to-styles($config, $level)` - Mixin that takes in a configuration object and a typography level, and outputs a short-hand CSS `font` declaration.
-
-  `mat-typography-level-to-styles($config, $level)` - 这个混入器接受一个配置对象和一个排版等级，并输出一个简短的 CSS `font` 声明。
+The following example shows a typical theme definition and a "kids theme" that only applies when
+the `".kids-theme"` CSS class is present. You can [see the theming guide for more guidance on
+defining multiple themes](https://material.angular.io/guide/theming#defining-multiple-themes).
 
 ```scss
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
-// Create a config with the default typography levels.
-$config: mat-typography-config();
+@include mat.core();
 
-// Custom header that uses only the Material `font-size` and `font-family`.
-.unicorn-header {
-  font-size: mat-font-size($config, headline);
-  font-family: mat-font-family($config);
+$my-primary: mat.define-palette(mat.$indigo-palette, 500);
+$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+ )
+));
+
+@include mat.all-component-themes($my-theme);
+
+.kids-theme {
+  $kids-primary: mat.define-palette(mat.$cyan-palette);
+  $kids-accent: mat.define-palette(mat.$yellow-palette);
+  $kids-typography: mat.define-typography-config(
+    // Specify "Comic Sans" as the default font family for all levels.
+    $font-family: 'Comic Sans',
+  );
+
+  $kids-theme: mat.define-light-theme((
+   color: (
+     primary: $my-primary,
+     accent: $my-accent,
+   ),
+   typography: $kids-typography,
+  ));
+
+  @include mat.all-component-themes($kids-theme);
 }
-
-// Custom title that uses all of the typography styles from the `title` level.
-.unicorn-title {
-  @include mat-typography-level-to-styles($config, title);
-}
 ```
 
+Each component also has a `typography` mixin that emits only the typography styles for that
+component, based on a provided typography config. The following example demonstrates applying
+typography styles only for the button component.
 
-[1]: https://material.io/archive/guidelines/style/typography.html
-[2]: https://fonts.google.com/
+```scss
+@use '~@angular/material' as mat;
+
+$kids-typography: mat.define-typography-config(
+  // Specify "Comic Sans" as the default font family for all levels.
+  $font-family: 'Comic Sans',
+);
+
+// Now we have sweet buttons with Comic Sans.
+@include mat.button-typography($kids-typography);
+```
+
+## Using typography styles in your application
+
+In addition to styles shared between components, the `core` mixin includes CSS classes for styling
+your application. These CSS classes correspond to the typography levels in your typography config.
+This mixin also emits styles for native header elements scoped within the `.mat-typography` CSS
+class. The table below lists the CSS classes emitted and the native elements styled.
+
+| CSS class                           | Level name     | Native elements |
+|-------------------------------------|----------------|-----------------|
+| `.mat-display-4`                    | `display-4`    | None            |
+| `.mat-display-3`                    | `display-3`    | None            |
+| `.mat-display-2`                    | `display-2`    | None            |
+| `.mat-display-1`                    | `display-1`    | None            |
+| `.mat-h1` or `.mat-headline`        | `headline`     | `<h1>`          |
+| `.mat-h2` or `.mat-title`           | `title`        | `<h2>`          |
+| `.mat-h3` or `.mat-subheading-2`    | `subheading-2` | `<h3>`          |
+| `.mat-h4` or `.mat-subheading-1`    | `subheading-1` | `<h4>`          |
+| `.mat-h5`                           | None           | `<h5>`          |
+| `.mat-h6`                           | None           | `<h6>`          |
+| `.mat-body` or `.mat-body-1`        | `body-1`       | Body text       |
+| `.mat-body-strong` or `.mat-body-2` | `body-2`       | None            |
+| `.mat-small` or `.mat-caption`      | `caption`      | None            |
+
+In addition to the typographic styles, these style rules also include a `margin-bottom` for
+headers and paragraphs. For `body-1` styles, text is styled within the provided CSS selector.
+
+The `.mat-h5` and `.mat-h6` styles don't directly correspond to a specific Material Design
+typography level. The `.mat-h5` style uses the `body-1` level with the font-size scaled down by
+`0.83`. The `.mat-h6` style uses the `body-1` level with the font-size scaled down by `0.67`.
+
+The `button` and `input` typography levels do not map to CSS classes.
+
+The following example demonstrates usage of the typography styles emitted by the `core` mixin.
+
+```html
+<body>
+  <!-- This header will *not* be styled because it is outside `.mat-typography` -->
+  <h1>Top header</h1>
+
+  <!-- This paragraph will be styled as `body-1` via the `.mat-body` CSS class applied -->
+  <p class="mat-body">Introductory text</p>
+
+  <div class="mat-typography">
+    <!-- This header will be styled as `title` because it is inside `.mat-typography` -->
+    <h2>Inner header</h2>
+
+    <!-- This paragraph will be styled as `body-1` because it is inside `.mat-typography` -->
+    <p>Some inner text</p>
+  </div>
+</body>
+```
+
+### Reading typography values from a config
+
+You can read typography style values from a typography config via the following Sass functions. Each
+accepts a typography config and a level.
+
+| Function      | Example usage                         |
+|---------------|---------------------------------------|
+| `font-size`   | `mat.font-size($config, 'body-1');`   |
+| `font-family` | `mat.font-family($config, 'body-1');` |
+| `font-weight` | `mat.font-weight($config, 'body-1');` |
+| `line-height` | `mat.line-height($config, 'body-1');` |
+
+Additionally, you can use the `typography-level` Sass mixin to directly emit the CSS styles for a
+given typography level.
+
+```scss
+@use '~@angular/material' as mat;
+
+// Use the default configuration.
+$my-typography: mat.define-typography-config();
+
+.some-class-name {
+  @include mat.typography-level($my-typography, 'body-1');
+}
+```

@@ -38,6 +38,10 @@ be configured globally using the `MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS` injection t
 
 <!-- example(button-toggle-appearance) -->
 
+### Use with `@angular/forms`
+`<mat-button-toggle-group>` is compatible with `@angular/forms` and supports both `FormsModule`
+and `ReactiveFormsModule`.
+
 ### Accessibility
 
 ### 无障碍性

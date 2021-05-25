@@ -2,9 +2,9 @@
 
 # Angular Material 的双向文字
 
-### Setting a text-direction for your application
+## Setting a text-direction for your application
 
-### 设置应用的文字方向
+## 设置应用的文字方向
 
 The [`dir` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir)
 is typically applied to `<html>` or `<body>` element of a page. However, it can be used on any element, within your Angular app, to apply a text-direction to a smaller subset of the page.
@@ -15,7 +15,7 @@ All Angular Material components automatically reflect the LTR/RTL direction of t
 
 所有 Angular Material 组件都会自动跟随其容器的 LTR/RTL 方向。
 
-### Reading the text-direction in your own components
+## Reading the text-direction in your own components
 
 ### 在自己的组件中读取文字方向
 
@@ -35,10 +35,9 @@ All Angular Material components automatically reflect the LTR/RTL direction of t
 
   `change` 一个 `Observable`，当文字方向改变时就会发出事件。注意，它只会捕获*Angular 应用上下文内部*的 `dir` 属性变更。 它不会报告 `<html>` 和 `<body>` 上的 `dir` 属性的变更，我们可以假设它们都是静态的。
 
-#### Example
+### Example
 
-#### 范例
-
+### 范例
 ```ts
 @Component({ /* ... */ })
 export class MyCustomComponent {
@@ -48,7 +47,7 @@ export class MyCustomComponent {
     this.dir = directionality.value;
 
     directionality.change.subscribe(() => {
-       this.dir = directionality.value;
+      this.dir = directionality.value;
     });
   }
 }

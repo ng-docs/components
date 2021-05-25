@@ -118,7 +118,7 @@ In the `app.component.css` file we can now style the stepper however we want:
 
 ## 使用我们新的自定义步进器组件
 
-Now we are ready to use our new custom stepper component and fill it with steps. Therefore we can, for example, add it to our `app.component.html` and define some steps:
+Now we are ready to use our new custom stepper component and fill it with steps. Therefore, we can, for example, add it to our `app.component.html` and define some steps:
 
 现在，我们已准备好使用新的自定义步进器组件了，并且用一些步骤填充它。我们可以把它添加到 `app.component.html` 中，并定义一些步骤：
 

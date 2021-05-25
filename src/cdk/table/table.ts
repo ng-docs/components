@@ -12,6 +12,7 @@ import {
   CollectionViewer,
   DataSource,
   _DisposeViewRepeaterStrategy,
+  _RecycleViewRepeaterStrategy,
   isDataSource,
   _VIEW_REPEATER_STRATEGY,
   _ViewRepeater,
@@ -82,6 +83,19 @@ import {
 import {STICKY_POSITIONING_LISTENER, StickyPositioningListener} from './sticky-position-listener';
 import {CDK_TABLE} from './tokens';
 
+
+/**
+ * Enables the recycle view repeater strategy, which reduces rendering latency. Not compatible with
+ * tables that animate rows.
+ */
+@Directive({
+  selector: 'cdk-table[recycleRows], table[cdk-table][recycleRows]',
+  providers: [
+    {provide: _VIEW_REPEATER_STRATEGY, useClass: _RecycleViewRepeaterStrategy},
+  ],
+})
+export class CdkRecycleRows {}
+
 /**
  * Interface used to provide an outlet for rows to be inserted into.
  *
@@ -100,7 +114,7 @@ export interface RowOutlet {
  * @docs-private
  */
 type CdkTableDataSourceInput<T> =
-    DataSource<T>|Observable<ReadonlyArray<T>|T[]>|ReadonlyArray<T>|T[];
+    readonly T[]|DataSource<T>|Observable<readonly T[]>;
 
 /**
  * Provides a handle for the table to grab the view container's ng-container to insert data rows.
@@ -256,7 +270,7 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
    * 数据源提供的最新数据。
    *
    */
-  protected _data: T[]|ReadonlyArray<T>;
+  protected _data: readonly T[];
 
   /**
    * Subject that emits when the component has been destroyed.
@@ -264,7 +278,7 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
    * 组件被销毁后发出通知的主体对象。
    *
    */
-  private _onDestroy = new Subject<void>();
+  private readonly _onDestroy = new Subject<void>();
 
   /**
    * List of the rendered rows as identified by their `RenderRow` object.
@@ -618,7 +632,7 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
    *
    * @docs-private
    */
-  viewChange: BehaviorSubject<{start: number, end: number}> =
+  readonly viewChange =
       new BehaviorSubject<{start: number, end: number}>({start: 0, end: Number.MAX_VALUE});
 
   // Outlets in the table's template where the header, data rows, and footer will be inserted.
@@ -678,22 +692,17 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
       protected readonly _elementRef: ElementRef, @Attribute('role') role: string,
       @Optional() protected readonly _dir: Directionality, @Inject(DOCUMENT) _document: any,
       private _platform: Platform,
-
+      @Inject(_VIEW_REPEATER_STRATEGY)
+        protected readonly _viewRepeater: _ViewRepeater<T, RenderRow<T>, RowContext<T>>,
+      @Inject(_COALESCED_STYLE_SCHEDULER)
+        protected readonly _coalescedStyleScheduler: _CoalescedStyleScheduler,
+      private readonly _viewportRuler: ViewportRuler,
       /**
-       * @deprecated `_coalescedStyleScheduler`, `_viewRepeater` and `_viewportRuler`
-       *    parameters to become required.
-       * @breaking-change 11.0.0
+       * @deprecated `_stickyPositioningListener` parameter to become required.
+       * @breaking-change 13.0.0
        */
-      @Optional() @Inject(_VIEW_REPEATER_STRATEGY)
-        protected readonly _viewRepeater?: _ViewRepeater<T, RenderRow<T>, RowContext<T>>,
-      @Optional() @Inject(_COALESCED_STYLE_SCHEDULER)
-        protected readonly _coalescedStyleScheduler?: _CoalescedStyleScheduler,
       @Optional() @SkipSelf() @Inject(STICKY_POSITIONING_LISTENER)
-      protected readonly _stickyPositioningListener?: StickyPositioningListener,
-      // Optional for backwards compatibility. The viewport ruler is provided in root. Therefore,
-      // this property will never be null.
-      // tslint:disable-next-line: lightweight-tokens
-      @Optional() private readonly _viewportRuler?: ViewportRuler) {
+        protected readonly _stickyPositioningListener: StickyPositioningListener) {
     if (!role) {
       this._elementRef.nativeElement.setAttribute('role', 'grid');
     }
@@ -716,14 +725,9 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
       return this.trackBy ? this.trackBy(dataRow.dataIndex, dataRow.data) : dataRow;
     });
 
-    // Table cell dimensions may change after resizing the window. Signal the sticky styler to
-    // refresh its cache of cell widths the next time sticky styles are updated.
-    // @breaking-change 11.0.0 Remove null check for _viewportRuler once it's a required parameter.
-    if (this._viewportRuler) {
-      this._viewportRuler.change().pipe(takeUntil(this._onDestroy)).subscribe(() => {
-        this._forceRecalculateCellWidths = true;
-      });
-    }
+    this._viewportRuler.change().pipe(takeUntil(this._onDestroy)).subscribe(() => {
+      this._forceRecalculateCellWidths = true;
+    });
   }
 
   ngAfterContentChecked() {
@@ -809,38 +813,16 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
     }
     const viewContainer = this._rowOutlet.viewContainer;
 
-    // @breaking-change 11.0.0 Remove null check for `_viewRepeater` and the
-    // `else` clause once `_viewRepeater` is turned into a required parameter.
-    if (this._viewRepeater) {
-      this._viewRepeater.applyChanges(
-          changes,
-          viewContainer,
-          (record: IterableChangeRecord<RenderRow<T>>,
-           _adjustedPreviousIndex: number|null,
-           currentIndex: number|null) => this._getEmbeddedViewArgs(record.item, currentIndex!),
-          (record) => record.item.data,
-          (change: _ViewRepeaterItemChange<RenderRow<T>, RowContext<T>>) => {
-            if (change.operation === _ViewRepeaterOperation.INSERTED && change.context) {
-              this._renderCellTemplateForItem(change.record.item.rowDef, change.context);
-            }
-          });
-    } else {
-      changes.forEachOperation(
-        (record: IterableChangeRecord<RenderRow<T>>, prevIndex: number|null,
-         currentIndex: number|null) => {
-          if (record.previousIndex == null) {
-            const renderRow = record.item;
-            const rowDef = renderRow.rowDef;
-            const context: RowContext<T> = {$implicit: renderRow.data};
-            this._renderRow(this._rowOutlet, rowDef, currentIndex!, context);
-          } else if (currentIndex == null) {
-            viewContainer.remove(prevIndex!);
-          } else {
-            const view = <RowViewRef<T>>viewContainer.get(prevIndex!);
-            viewContainer.move(view!, currentIndex);
-          }
-        });
-    }
+    this._viewRepeater.applyChanges(changes, viewContainer,
+      (record: IterableChangeRecord<RenderRow<T>>,
+        _adjustedPreviousIndex: number|null,
+        currentIndex: number|null) => this._getEmbeddedViewArgs(record.item, currentIndex!),
+      (record) => record.item.data,
+      (change: _ViewRepeaterItemChange<RenderRow<T>, RowContext<T>>) => {
+        if (change.operation === _ViewRepeaterOperation.INSERTED && change.context) {
+          this._renderCellTemplateForItem(change.record.item.rowDef, change.context);
+        }
+      });
 
     // Update the meta context of a row's context data (index, count, first, last, ...)
     this._updateRowIndexContext();
@@ -1250,7 +1232,7 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
       return;
     }
 
-    let dataStream: Observable<T[]|ReadonlyArray<T>>|undefined;
+    let dataStream: Observable<readonly T[]>|undefined;
 
     if (isDataSource(this.dataSource)) {
       dataStream = this.dataSource.connect(this);

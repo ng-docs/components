@@ -9,6 +9,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {
   MapCircle,
+  MapDirectionsService,
   MapInfoWindow,
   MapMarker,
   MapPolygon,
@@ -39,7 +40,7 @@ const CIRCLE_RADIUS = 500000;
 @Component({
   selector: 'google-map-demo',
   templateUrl: 'google-map-demo.html',
-  styleUrls: ['google-map-demo.css']
+  styleUrls: ['google-map-demo.css'],
 })
 export class GoogleMapDemo {
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
@@ -56,6 +57,10 @@ export class GoogleMapDemo {
   isPolylineDisplayed = false;
   polylineOptions:
       google.maps.PolylineOptions = {path: POLYLINE_PATH, strokeColor: 'grey', strokeOpacity: 0.8};
+
+  heatmapData = this._getHeatmapData(5, 1);
+  heatmapOptions = {radius: 50};
+  isHeatmapDisplayed = false;
 
   isPolygonDisplayed = false;
   polygonOptions:
@@ -97,6 +102,10 @@ export class GoogleMapDemo {
 
   markerClustererImagePath =
       'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m';
+
+  directionsResult?: google.maps.DirectionsResult;
+
+  constructor(private readonly _mapDirectionsService: MapDirectionsService) {}
 
   handleClick(event: google.maps.MapMouseEvent) {
     this.markerPositions.push(event.latLng.toJSON());
@@ -189,5 +198,34 @@ export class GoogleMapDemo {
 
   toggleBicyclingLayerDisplay() {
     this.isBicyclingLayerDisplayed = !this.isBicyclingLayerDisplayed;
+  }
+
+  calculateDirections() {
+    if (this.markerPositions.length >= 2) {
+      const request: google.maps.DirectionsRequest = {
+        destination: this.markerPositions[1],
+        origin: this.markerPositions[0],
+        travelMode: google.maps.TravelMode.DRIVING,
+      };
+      this._mapDirectionsService.route(request).subscribe(response => {
+        this.directionsResult = response.result;
+      });
+    }
+  }
+
+  toggleHeatmapLayerDisplay() {
+    this.isHeatmapDisplayed = !this.isHeatmapDisplayed;
+  }
+
+  private _getHeatmapData(offset: number, increment: number) {
+    const result: google.maps.LatLngLiteral[] = [];
+
+    for (let lat = this.center.lat - offset; lat < this.center.lat + offset; lat += increment) {
+      for (let lng = this.center.lng - offset; lng < this.center.lng + offset; lng += increment) {
+        result.push({lat, lng});
+      }
+    }
+
+    return result;
   }
 }

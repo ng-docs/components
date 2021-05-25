@@ -67,7 +67,7 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
   private _activeItemIndex = -1;
   private _activeItem: T | null = null;
   private _wrap = false;
-  private _letterKeyStream = new Subject<string>();
+  private readonly _letterKeyStream = new Subject<string>();
   private _typeaheadSubscription = Subscription.EMPTY;
   private _vertical = true;
   private _horizontal: 'ltr' | 'rtl' | null;
@@ -111,7 +111,7 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
    * 只要按下 TAB 键，流就会发出通知，因此当焦点从列表移开时，组件可以做出反应。
    *
    */
-  tabOut: Subject<void> = new Subject<void>();
+  readonly tabOut = new Subject<void>();
 
   /**
    * Stream that emits whenever the active item of the list manager changes.
@@ -119,7 +119,7 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
    * 每当列表管理器的活动条目更改时发出通知的流。
    *
    */
-  change = new Subject<number>();
+  readonly change = new Subject<number>();
 
   /**
    * Sets the predicate function that determines which items should be skipped by the

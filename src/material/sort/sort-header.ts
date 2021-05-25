@@ -59,7 +59,7 @@ export type ArrowViewState = SortDirection | 'hint' | 'active';
  */
 export interface ArrowViewStateTransition {
   fromState?: ArrowViewState;
-  toState: ArrowViewState;
+  toState?: ArrowViewState;
 }
 
 /**
@@ -136,7 +136,7 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    * 如果当前禁用了动画，则会删除 fromState，以免显示任何动画。
    *
    */
-  _viewState: ArrowViewStateTransition;
+  _viewState: ArrowViewStateTransition = { };
 
   /**
    * The direction the arrow should be facing according to the current state.
@@ -190,7 +190,12 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
   set disableClear(v) { this._disableClear = coerceBooleanProperty(v); }
   private _disableClear: boolean;
 
-  constructor(public _intl: MatSortHeaderIntl,
+  constructor(
+              /**
+               * @deprecated `_intl` parameter isn't being used anymore and it'll be removed.
+               * @breaking-change 13.0.0
+               */
+              public _intl: MatSortHeaderIntl,
               private _changeDetectorRef: ChangeDetectorRef,
               // `MatSort` is not optionally injected, but just asserted manually w/ better error.
               // tslint:disable-next-line: lightweight-tokens
@@ -209,20 +214,7 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
       throw getSortHeaderNotContainedWithinSortError();
     }
 
-    this._rerenderSubscription = merge(_sort.sortChange, _sort._stateChanges, _intl.changes)
-        .subscribe(() => {
-          if (this._isSorted()) {
-            this._updateArrowDirection();
-          }
-
-          // If this header was recently active and now no longer sorted, animate away the arrow.
-          if (!this._isSorted() && this._viewState && this._viewState.toState === 'active') {
-            this._disableViewStateAnimation = false;
-            this._setAnimationTransitionState({fromState: 'active', toState: this._arrowDirection});
-          }
-
-          _changeDetectorRef.markForCheck();
-        });
+    this._handleStateChanges();
   }
 
   ngOnInit() {
@@ -288,7 +280,7 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    *
    */
   _setAnimationTransitionState(viewState: ArrowViewStateTransition) {
-    this._viewState = viewState;
+    this._viewState = viewState || { };
 
     // If the animation for arrow position state (opacity/translation) should be disabled,
     // remove the fromState so that it jumps right to the toState.
@@ -304,27 +296,17 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    *
    */
   _toggleOnInteraction() {
-
     this._sort.sort(this);
 
     // Do not show the animation if the header was already shown in the right position.
     if (this._viewState.toState === 'hint' || this._viewState.toState === 'active') {
       this._disableViewStateAnimation = true;
     }
-
-    // If the arrow is now sorted, animate the arrow into place. Otherwise, animate it away into
-    // the direction it is facing.
-    const viewState: ArrowViewStateTransition = this._isSorted() ?
-        {fromState: this._arrowDirection, toState: 'active'} :
-        {fromState: 'active', toState: this._arrowDirection};
-    this._setAnimationTransitionState(viewState);
-
-    this._showIndicatorHint = false;
   }
 
   _handleClick() {
     if (!this._isDisabled()) {
-      this._toggleOnInteraction();
+      this._sort.sort(this);
     }
   }
 
@@ -419,6 +401,32 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    */
   _renderArrow() {
     return !this._isDisabled() || this._isSorted();
+  }
+
+  /** Handles changes in the sorting state. */
+  private _handleStateChanges() {
+    this._rerenderSubscription =
+      merge(this._sort.sortChange, this._sort._stateChanges, this._intl.changes).subscribe(() => {
+        if (this._isSorted()) {
+          this._updateArrowDirection();
+
+          // Do not show the animation if the header was already shown in the right position.
+          if (this._viewState.toState === 'hint' || this._viewState.toState === 'active') {
+            this._disableViewStateAnimation = true;
+          }
+
+          this._setAnimationTransitionState({fromState: this._arrowDirection, toState: 'active'});
+          this._showIndicatorHint = false;
+        }
+
+        // If this header was recently active and now no longer sorted, animate away the arrow.
+        if (!this._isSorted() && this._viewState && this._viewState.toState === 'active') {
+          this._disableViewStateAnimation = false;
+          this._setAnimationTransitionState({fromState: 'active', toState: this._arrowDirection});
+        }
+
+        this._changeDetectorRef.markForCheck();
+      });
   }
 
   static ngAcceptInputType_disableClear: BooleanInput;

@@ -330,7 +330,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
    * 单击背景板时发出的事件。
    *
    */
-  @Output() backdropClick = new EventEmitter<MouseEvent>();
+  @Output() readonly backdropClick = new EventEmitter<MouseEvent>();
 
   /**
    * Event emitted when the position has changed.
@@ -338,7 +338,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
    * 当定位发生变化时会发出本事件。
    *
    */
-  @Output() positionChange = new EventEmitter<ConnectedOverlayPositionChange>();
+  @Output() readonly positionChange = new EventEmitter<ConnectedOverlayPositionChange>();
 
   /**
    * Event emitted when the overlay has been attached.
@@ -346,7 +346,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
    * 连接浮层时会发出本事件。
    *
    */
-  @Output() attach = new EventEmitter<void>();
+  @Output() readonly attach = new EventEmitter<void>();
 
   /**
    * Event emitted when the overlay has been detached.
@@ -354,7 +354,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
    * 解除浮层时会发出本事件。
    *
    */
-  @Output() detach = new EventEmitter<void>();
+  @Output() readonly detach = new EventEmitter<void>();
 
   /**
    * Emits when there are keyboard events that are targeted at the overlay.
@@ -362,7 +362,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
    * 键盘事件的目标是本浮层会触发。
    *
    */
-  @Output() overlayKeydown = new EventEmitter<KeyboardEvent>();
+  @Output() readonly overlayKeydown = new EventEmitter<KeyboardEvent>();
 
   /**
    * Emits when there are mouse outside click events that are targeted at the overlay.
@@ -370,7 +370,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
    * 当本浮层的外部发生鼠标点击事件时会触发。
    *
    */
-  @Output() overlayOutsideClick = new EventEmitter<MouseEvent>();
+  @Output() readonly overlayOutsideClick = new EventEmitter<MouseEvent>();
 
   // TODO(jelbourn): inputs for size, scroll behavior, animation, etc.
 

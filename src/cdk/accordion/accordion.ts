@@ -88,7 +88,9 @@ export class CdkAccordion implements OnDestroy, OnChanges {
    *
    */
   openAll(): void {
-    this._openCloseAll(true);
+    if (this._multi) {
+      this._openCloseAllActions.next(true);
+    }
   }
 
   /**
@@ -98,7 +100,7 @@ export class CdkAccordion implements OnDestroy, OnChanges {
    *
    */
   closeAll(): void {
-    this._openCloseAll(false);
+    this._openCloseAllActions.next(false);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -107,12 +109,7 @@ export class CdkAccordion implements OnDestroy, OnChanges {
 
   ngOnDestroy() {
     this._stateChanges.complete();
-  }
-
-  private _openCloseAll(expanded: boolean): void {
-    if (this.multi) {
-      this._openCloseAllActions.next(expanded);
-    }
+    this._openCloseAllActions.complete();
   }
 
   static ngAcceptInputType_multi: BooleanInput;

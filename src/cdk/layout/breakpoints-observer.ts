@@ -87,7 +87,7 @@ export class BreakpointObserver implements OnDestroy {
    * 供所有其他可观察对象的 takeUntil 使用的主体对象（Subject）。
    *
    */
-  private _destroySubject = new Subject<void>();
+  private readonly _destroySubject = new Subject<void>();
 
   constructor(private _mediaMatcher: MediaMatcher, private _zone: NgZone) {}
 

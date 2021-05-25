@@ -52,7 +52,7 @@ export class MatMenuContent implements OnDestroy {
    * 菜单内容已附加时会触发。
    *
    */
-  _attached = new Subject<void>();
+  readonly _attached = new Subject<void>();
 
   constructor(
     private _template: TemplateRef<any>,

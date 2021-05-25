@@ -65,7 +65,7 @@ export class Dir implements Directionality, AfterContentInit, OnDestroy {
    * 当方向发生变化时会触发本事件。
    *
    */
-  @Output('dirChange') change = new EventEmitter<Direction>();
+  @Output('dirChange') readonly change = new EventEmitter<Direction>();
 
   /** @docs-private */
   @Input()

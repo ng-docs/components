@@ -8,7 +8,7 @@
 
 import {_isNumberValue} from '@angular/cdk/coercion';
 import {DataSource} from '@angular/cdk/table';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
 import {
   BehaviorSubject,
@@ -30,8 +30,22 @@ import {map} from 'rxjs/operators';
  */
 const MAX_SAFE_INTEGER = 9007199254740991;
 
-interface Paginator {
-  page: Subject<PageEvent>;
+/**
+ * Interface that matches the required API parts for the MatPaginator's PageEvent.
+ * Decoupled so that users can depend on either the legacy or MDC-based paginator.
+ */
+export interface MatTableDataSourcePageEvent {
+  pageIndex: number;
+  pageSize: number;
+  length: number;
+}
+
+/**
+ * Interface that matches the required API parts of the MatPaginator.
+ * Decoupled so that users can depend on either the legacy or MDC-based paginator.
+ */
+export interface MatTableDataSourcePaginator {
+  page: Subject<MatTableDataSourcePageEvent>;
   pageIndex: number;
   initialized: Observable<void>;
   pageSize: number;
@@ -44,7 +58,9 @@ interface Paginator {
  * 与基于 MDC 实现共享的基类。
  *
  */
-export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
+export class _MatTableDataSource<T,
+    P extends MatTableDataSourcePaginator = MatTableDataSourcePaginator>
+    extends DataSource<T> {
   /**
    * Stream that emits when a new data array is set on the data source.
    *
@@ -105,7 +121,14 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    *
    */
   get data() { return this._data.value; }
-  set data(data: T[]) { this._data.next(data); }
+  set data(data: T[]) {
+    this._data.next(data);
+    // Normally the `filteredData` is updated by the re-render
+    // subscription, but that won't happen if it's inactive.
+    if (!this._renderChangesSubscription) {
+      this._filterData(data);
+    }
+  }
 
   /**
    * Filter term that should be used to filter out objects from the data array. To override how
@@ -116,7 +139,14 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
    *
    */
   get filter(): string { return this._filter.value; }
-  set filter(filter: string) { this._filter.next(filter); }
+  set filter(filter: string) {
+    this._filter.next(filter);
+    // Normally the `filteredData` is updated by the re-render
+    // subscription, but that won't happen if it's inactive.
+    if (!this._renderChangesSubscription) {
+      this._filterData(this.data);
+    }
+  }
 
   /**
    * Instance of the MatSort directive used by the table to control its sorting. Sort changes
@@ -312,12 +342,12 @@ export class _MatTableDataSource<T, P extends Paginator> extends DataSource<T> {
     const sortChange: Observable<Sort|null|void> = this._sort ?
         merge(this._sort.sortChange, this._sort.initialized) as Observable<Sort|void> :
         observableOf(null);
-    const pageChange: Observable<PageEvent|null|void> = this._paginator ?
+    const pageChange: Observable<MatTableDataSourcePageEvent|null|void> = this._paginator ?
         merge(
           this._paginator.page,
           this._internalPageChanges,
           this._paginator.initialized
-        ) as Observable<PageEvent|void> :
+        ) as Observable<MatTableDataSourcePageEvent|void> :
         observableOf(null);
     const dataStream = this._data;
     // Watch for base data or filter changes to provide a filtered set of data.

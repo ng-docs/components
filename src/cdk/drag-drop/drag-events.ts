@@ -62,6 +62,8 @@ export interface CdkDragEnd<T = any> {
    *
    */
   distance: {x: number, y: number};
+  /** Position where the pointer was when the item was dropped */
+  dropPoint: {x: number, y: number};
 }
 
 /**
@@ -174,6 +176,8 @@ export interface CdkDragDrop<T, O = T> {
    *
    */
   distance: {x: number, y: number};
+  /** Position where the pointer was when the item was dropped */
+  dropPoint: {x: number, y: number};
 }
 
 /**

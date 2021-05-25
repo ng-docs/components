@@ -83,9 +83,10 @@ A component can use `@ViewChild` or `@ViewChildren` to get a reference to a
 ##### `ComponentPortal`
 
 Used to create a portal from a component type. When a component is dynamically created using
-portals, it must be included in the `entryComponents` of its `NgModule`.
+portals, it must be included in the `entryComponents` of its `NgModule`if your project uses ViewEngine. Projects
+using Angular Ivy don't need `entryComponents`.
 
-用于从某个组件类创建传送点。当使用传送点动态创建组件时，必须把该组件包含在 `NgModule` 的 `entryComponents` 中。
+用于从某个组件类创建传送点。当使用传送点动态创建组件时，如果你的项目使用 ViewEngine，就必须把该组件包含在 `NgModule` 的 `entryComponents` 中。而那些使用 Angular Ivy 的项目不需要 `entryComponents`。
 
 Usage:
 
@@ -124,7 +125,7 @@ ngAfterViewInit() {
 
 ##### `DomPortal`
 
-You can create a `DomPortal` from any native DOM element. `DomPortal` allows you to take any arbitrary DOM content and render it somewhere else. `DomPortal` moves content *as is*, so elements with Angular features like bindings or directives may no longer update if moved via `DomPortal`.
+You can create a `DomPortal` from any native DOM element. `DomPortal` allows you to take any arbitrary DOM content and render it somewhere else. `DomPortal` moves content _as is_, so elements with Angular features like bindings or directives may no longer update if moved via `DomPortal`.
 
 你可以从任何的 native DOM 元素 `DomPortal` `DomPortal` 允许你把任意 DOM 内容带到其它地方。 `DomPortal`*如*移动内容，因此，如果经由移动，角元件设有像绑定或指令可能不再更新 `DomPortal` 。
 

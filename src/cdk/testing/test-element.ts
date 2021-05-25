@@ -153,14 +153,10 @@ export interface TestElement {
    *
    * @param modifiers Modifier keys held while clicking
    *
-   * 单击时会按住的修饰键
-   *
-   * @breaking-change 11.0.0 To become a required method.
-   *
-   * 11.0.0 会成为必备方法
+   * 单击时按住的修饰键
    *
    */
-  rightClick?(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
+  rightClick(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
 
   /**
    * Focus the element.
@@ -277,12 +273,8 @@ export interface TestElement {
    *
    * 设置输入框的属性值。
    *
-   * @breaking-change 11.0.0 To become a required method.
-   *
-   * 11.0.0 成为必备方法
-   *
    */
-  setInputValue?(value: string): Promise<void>;
+  setInputValue(value: string): Promise<void>;
 
   // Note that ideally here we'd be selecting options based on their value, rather than their
   // index, but we're limited by `@angular/forms` which will modify the option value in some cases.
@@ -293,12 +285,8 @@ export interface TestElement {
    *
    * 选择 `select` 元素中指定索引处的选项。
    *
-   * @breaking-change 12.0.0 To become a required method.
-   *
-   * 12.0.0 成为必备方法
-   *
    */
-  selectOptions?(...optionIndexes: number[]): Promise<void>;
+  selectOptions(...optionIndexes: number[]): Promise<void>;
 
   /**
    * Dispatches an event with a particular name.
@@ -309,12 +297,8 @@ export interface TestElement {
    *
    * 要派发的事件名称。
    *
-   * @breaking-change 12.0.0 To be a required method.
-   *
-   * 12.0.0 是必备方法。
-   *
    */
-  dispatchEvent?(name: string, data?: Record<string, EventData>): Promise<void>;
+  dispatchEvent(name: string, data?: Record<string, EventData>): Promise<void>;
 }
 
 export interface TextOptions {

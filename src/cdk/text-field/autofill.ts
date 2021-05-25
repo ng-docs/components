@@ -50,7 +50,7 @@ export type AutofillEvent = {
  *
  */
 type MonitoredElementInfo = {
-  subject: Subject<AutofillEvent>;
+  readonly subject: Subject<AutofillEvent>;
   unlisten: () => void;
 };
 
@@ -210,7 +210,7 @@ export class CdkAutofill implements OnDestroy, OnInit {
    * 元素的自动填充状态发生变化时触发。
    *
    */
-  @Output() cdkAutofill: EventEmitter<AutofillEvent> = new EventEmitter<AutofillEvent>();
+  @Output() readonly cdkAutofill = new EventEmitter<AutofillEvent>();
 
   constructor(private _elementRef: ElementRef<HTMLElement>,
               private _autofillMonitor: AutofillMonitor) {}

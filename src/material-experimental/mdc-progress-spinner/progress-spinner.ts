@@ -58,6 +58,9 @@ const BASE_STROKE_WIDTH = 10;
   host: {
     'role': 'progressbar',
     'class': 'mat-mdc-progress-spinner mdc-circular-progress',
+    // set tab index to -1 so screen readers will read the aria-label
+    // Note: there is a known issue with JAWS that does not read progressbar aria labels on FireFox
+    'tabindex': '-1',
     '[class._mat-animation-noopable]': `_noopAnimations`,
     '[style.width.px]': 'diameter',
     '[style.height.px]': 'diameter',
@@ -92,8 +95,14 @@ export class MatProgressSpinner extends _MatProgressSpinnerMixinBase implements 
     hasClass: (className: string) => this._elementRef.nativeElement.classList.contains(className),
     removeClass: (className: string) => this._elementRef.nativeElement.classList.remove(className),
     removeAttribute: (name: string) => this._elementRef.nativeElement.removeAttribute(name),
-    setAttribute: (name: string, value: string) =>
-      this._elementRef.nativeElement.setAttribute(name, value),
+    setAttribute: (name, value) => {
+      if (name !== 'aria-valuenow') {
+        // MDC deals with values between 0 and 1 but Angular Material deals with values between
+        // 0 and 100 so the aria-valuenow should be set through the attr binding in the host
+        // instead of by the MDC adapter
+        this._elementRef.nativeElement.setAttribute(name, value);
+      }
+    },
     getDeterminateCircleAttribute: (attributeName: string) =>
       this._determinateCircle.nativeElement.getAttribute(attributeName),
     setDeterminateCircleAttribute: (attributeName: string, value: string) =>

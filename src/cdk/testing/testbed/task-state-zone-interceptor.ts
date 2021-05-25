@@ -61,7 +61,7 @@ export class TaskStateZoneInterceptor {
    * 可用于发出新状态更改的主体对象。
    *
    */
-  private _stateSubject: BehaviorSubject<TaskState> = new BehaviorSubject<TaskState>(
+  private readonly _stateSubject = new BehaviorSubject<TaskState>(
       this._lastState ? this._getTaskStateFromInternalZoneState(this._lastState) : {stable: true});
 
   /**

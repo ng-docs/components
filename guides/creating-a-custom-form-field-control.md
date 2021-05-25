@@ -49,6 +49,7 @@ class MyTel {
       outline: none;
       font: inherit;
       text-align: center;
+      color: currentColor;
     }
   `],
 })
@@ -78,9 +79,9 @@ export class MyTelInput {
 }
 ```
 
-### Providing our component as a MatFormFieldControl
+## Providing our component as a MatFormFieldControl
 
-### 把我们的组件作为 MatFormFieldControl 提供出来
+## 把我们的组件作为 MatFormFieldControl 提供出来
 
 The first step is to provide our new component as an implementation of the `MatFormFieldControl`
 interface that the `<mat-form-field>` knows how to work with. To do this, we will have our class implement `MatFormFieldControl`. Since this is a generic interface, we'll need to include a type parameter indicating the type of data our control will work with, in this case `MyTel`. We then add a provider to our component so that the form field will be able to inject it as a
@@ -91,16 +92,14 @@ interface that the `<mat-form-field>` knows how to work with. To do this, we wil
 ```ts
 @Component({
     ...
-            providers:
-[{ provide: MatFormFieldControl, useExisting: MyTelInput }],
-})
+    providers: [{provide: MatFormFieldControl, useExisting: MyTelInput}],
 
 export class MyTelInput implements MatFormFieldControl<MyTel> {
 ...
 }
 ```
 
-This sets up our component so it can work with `<mat-form-field>`, but now we need to implement the various methods and properties declared by the interface we just implemented. To learn more about the `MatFormFieldControl` interface, see the
+This sets up our component, so it can work with `<mat-form-field>`, but now we need to implement the various methods and properties declared by the interface we just implemented. To learn more about the `MatFormFieldControl` interface, see the
 [form field API documentation](https://material.angular.io/components/form-field/api).
 
 这将准备好我们的组件，以便它能和 `<mat-form-field>` 协作。接下来我们还要实现该接口中声明的各个方法和属性。 要深入了解 `MatFormFieldControl` 接口，参见[表单字段的 API 文档](/components/form-field/api)。
@@ -125,18 +124,12 @@ make sure to complete `stateChanges` when our component is destroyed.
 ```ts
 stateChanges = new Subject<void>();
 
-set
-value(tel
-:
-MyTel | null
-)
-{
+set value(tel: MyTel | null) {
 ...
     this.stateChanges.next();
 }
 
-ngOnDestroy()
-{
+ngOnDestroy() {
     this.stateChanges.complete();
 }
 ```
@@ -149,11 +142,9 @@ This property should return the ID of an element in the component's template tha
 该属性应该返回元素在组件模板中的 ID，这样 `<mat-form-field>` 才能把它所有的标签和提示都与我们的控件关联起来。 这种情况下，我们可以使用宿主元素，并自动为它生成一个具有唯一性的 ID。
 
 ```ts
-static
-nextId = 0;
+static nextId = 0;
 
-@HostBinding()
-id = `example-tel-input-${MyTelInput.nextId++}`;
+@HostBinding() id = `example-tel-input-${MyTelInput.nextId++}`;
 ```
 
 #### `placeholder`
@@ -164,19 +155,14 @@ This property allows us to tell the `<mat-form-field>` what to use as a placehol
 
 ```ts
 @Input()
-get
-placeholder()
-{
+get placeholder() {
     return this._placeholder;
 }
-set
-placeholder(plh)
-{
+set placeholder(plh) {
     this._placeholder = plh;
     this.stateChanges.next();
 }
-private
-_placeholder: string;
+private _placeholder: string;
 ```
 
 #### `ngControl`
@@ -201,17 +187,13 @@ The easy way is to add it as a public property to your constructor and let depen
 ```ts
 constructor(
         ...,
-        @Optional() @Self()
-public
-ngControl: NgControl,
+        @Optional() @Self() public ngControl: NgControl,
 ...,
-)
-{
-}
+) { }
 ```
 
 Note that if your component implements `ControlValueAccessor`, it may already be set up to provide
-`NG_VALUE_ACCESSOR` (in the `providers` part of the component's decorator, or possibly in a module declaration). If so you may get a *cannot instantiate cyclic dependency* error.
+`NG_VALUE_ACCESSOR` (in the `providers` part of the component's decorator, or possibly in a module declaration). If so, you may get a *cannot instantiate cyclic dependency* error.
 
 注意，如果你的组件实现了 `ControlValueAccessor`，那么它可能已经作为 `NG_VALUE_ACCESSOR` 提供出去了（在组件装饰器的 `providers` 部分，或模块声明中）。如果是这样，可能会导致*cannot instantiate cyclic dependency（不能实例化循环依赖）*错误。
 
@@ -232,7 +214,7 @@ To resolve this, remove the `NG_VALUE_ACCESSOR` provider and instead set the val
     // },
   ],
 })
-export class MyTelInput implements MatFormFieldControl<MyTel> {
+export class MyTelInput implements MatFormFieldControl<MyTel>, ControlValueAccessor {
   constructor(
     ...,
     @Optional() @Self() public ngControl: NgControl,
@@ -255,7 +237,7 @@ For additional information about `ControlValueAccessor` see the [API docs](https
 
 #### `focused`
 
-This property indicates whether or not the form field control should be considered to be in a focused state. When it is in a focused state, the form field is displayed with a solid color underline. For the purposes of our component, we want to consider it focused if any of the part inputs are focused. We can use the `FocusMonitor` from `@angular/cdk` to easily check this. We also need to remember to emit on the `stateChanges` stream so change detection can happen.
+This property indicates whether the form field control should be considered to be in a focused state. When it is in a focused state, the form field is displayed with a solid color underline. For the purposes of our component, we want to consider it focused if any of the part inputs are focused. We can use the `FocusMonitor` from `@angular/cdk` to easily check this. We also need to remember to emit on the `stateChanges` stream so change detection can happen.
 
 该属性表示该表单字段控件是否要被视为有焦点状态。当处于有焦点状态时，表单字段会显示一个实下划线。 对于这个组件，我们希望当其中的任何一个输入框拥有焦点时，我们就认为该组件拥有焦点。我们可以使用来自 `@angular/cdk` 中的
 `FocusMonitor` 来轻松地检查它。另外，别忘了在 `stateChanges` 流上发出事件，以便触发变更检测。
@@ -263,15 +245,9 @@ This property indicates whether or not the form field control should be consider
 ```ts
 focused = false;
 
-constructor(fb
-:
-FormBuilder, private
-fm: FocusMonitor, private
-elRef: ElementRef<HTMLElement>
-)
-{
+constructor(fb: FormBuilder, private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) {
 ...
-    fm.monitor(elRef.nativeElement, true).subscribe(origin => {
+    fm.monitor(elRef, true).subscribe(origin => {
         this.focused = !!origin;
         this.stateChanges.next();
     });
@@ -279,20 +255,18 @@ elRef: ElementRef<HTMLElement>
 
 ngOnDestroy() {
 ...
-    this.fm.stopMonitoring(this.elRef.nativeElement);
+    this.fm.stopMonitoring(this.elRef);
 }
 ```
 
 #### `empty`
 
-This property indicates whether the form field control is empty. For our control, we'll consider it empty if all of the parts are empty.
+This property indicates whether the form field control is empty. For our control, we'll consider it empty if all the parts are empty.
 
 该属性表示这个表单字段控件是否空的。对于这个控件来说，当它所有的部分都是空的时，我们才认为它是空的。
 
 ```ts
-get
-empty()
-{
+get empty() {
     let n = this.parts.value;
     return !n.area && !n.exchange && !n.subscriber;
 }
@@ -300,19 +274,16 @@ empty()
 
 #### `shouldLabelFloat`
 
-This property is used to indicate whether the label should be in the floating position. We'll use the same logic as `matInput` and float the placeholder when the input is focused or non-empty. Since the placeholder will be overlapping our control when when it's not floating, we should hide the `–` characters when it's not floating.
+This property is used to indicate whether the label should be in the floating position. We'll use the same logic as `matInput` and float the placeholder when the input is focused or non-empty. Since the placeholder will be overlapping our control when it's not floating, we should hide the `–` characters when it's not floating.
 
 该属性表示是否应该把标签显示在浮动位置。它和 `matInput` 在输入框有焦点或非空时上浮占位符的逻辑是一样的。 当不浮动时，该占位符将会遮住我们的控件，所以这种情况下我们应该隐藏 `-` 字符。
 
 ```ts
 @HostBinding('class.floating')
-get
-shouldLabelFloat()
-{
+get shouldLabelFloat() {
     return this.focused || !this.empty;
 }
 ```
-
 ```css
 span {
     opacity: 0;
@@ -331,19 +302,14 @@ This property is used to indicate whether the input is required. `<mat-form-fiel
 
 ```ts
 @Input()
-get
-required()
-{
+get required() {
     return this._required;
 }
-set
-required(req)
-{
+set required(req) {
     this._required = coerceBooleanProperty(req);
     this.stateChanges.next();
 }
-private
-_required = false;
+private _required = false;
 ```
 
 #### `disabled`
@@ -354,25 +320,13 @@ This property tells the form field when it should be in the disabled state. In a
 
 ```ts
 @Input()
-get
-disabled()
-:
-boolean
-{
-    return this._disabled;
-}
-set
-disabled(value
-:
-boolean
-)
-{
+get disabled(): boolean { return this._disabled; }
+set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
     this._disabled ? this.parts.disable() : this.parts.enable();
     this.stateChanges.next();
 }
-private
-_disabled = false;
+private _disabled = false;
 ```
 
 #### `errorState`
@@ -388,7 +342,7 @@ errorState = false;
 #### `controlType`
 
 This property allows us to specify a unique string for the type of control in form field. The
-`<mat-form-field>` will add an additional class based on this type that can be used to easily apply special styles to a `<mat-form-field>` that contains a specific type of control. In this example we'll use `example-tel-input` as our control type which will result in the form field adding the class `mat-form-field-type-example-tel-input`.
+`<mat-form-field>` will add a class based on this type that can be used to easily apply special styles to a `<mat-form-field>` that contains a specific type of control. In this example we'll use `example-tel-input` as our control type which will result in the form field adding the class `mat-form-field-type-example-tel-input`.
 
 该属性可以让我们指定一个具有唯一性的字符串，以便在表单字段中表示该控件的类型。
 `<mat-form-field>` 将会据此添加一个附加类，可用于为包含指定控件类型的 `<mat-form-field>` 指定一些特殊样式。 在这个例子中，我们要用 `my-tel-input` 作为我们的控件类型，这将给包含它的表单字段加上 `mat-form-field-my-tel-input` 类。
@@ -443,11 +397,7 @@ This method will be called when the form field is clicked on. It allows your com
 当用户点击表单字段时就会调用该方法。它让你的组件可以按需挂接并处理点击事件。该方法只有一个参数，也就是点击时的 `MouseEvent`。 在这个例子中，如果用户没有直接点击某一个 `<input>`，则我们只要对第一个 `<input>` 设置焦点就可以了。
 
 ```ts
-onContainerClick(event
-:
-MouseEvent
-)
-{
+onContainerClick(event: MouseEvent) {
     if ((event.target as Element).tagName.toLowerCase() != 'input') {
         this.elRef.nativeElement.querySelector('input').focus();
     }
@@ -503,23 +453,21 @@ template: `
 
 ### 试试看
 
-Now that we've fully implemented the interface, we're ready to try our component out! All we need to do is place it inside of a `<mat-form-field>`
+Now that we've fully implemented the interface, we're ready to try our component out! All we need to do is place it inside a `<mat-form-field>`
 
 现在，我们已经完整的实现了该接口，来试试它！我们要做的一切就是把它扔进 `<mat-form-field>` 中：
 
 ```html
-
 <mat-form-field>
     <example-tel-input></example-tel-input>
 </mat-form-field>
 ```
 
-We also get all of the features that come with `<mat-form-field>` such as floating placeholder, prefix, suffix, hints, and errors (if we've given the form field an `NgControl` and correctly report the error state).
+We also get all the features that come with `<mat-form-field>` such as floating placeholder, prefix, suffix, hints, and errors (if we've given the form field an `NgControl` and correctly report the error state).
 
 我们还获得了 `<mat-form-field>` 的所有特性，比如上浮占位符、前缀、后缀、提示和错误（前提是我们给了表单字段一个 `NgControl`，并正确的报告了错误状态）。
 
 ```html
-
 <mat-form-field>
     <example-tel-input placeholder="Phone number" required></example-tel-input>
     <mat-icon matPrefix>phone</mat-icon>

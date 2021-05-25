@@ -199,6 +199,23 @@ describe('MatDateRangeInput', () => {
     expect(end.nativeElement.getAttribute('aria-labelledby')).toBeFalsy();
   });
 
+  it('should set aria-labelledby of the overlay to the form field label', fakeAsync(() => {
+    const fixture = createComponent(StandardRangePicker);
+    fixture.detectChanges();
+
+    const label: HTMLElement = fixture.nativeElement.querySelector('.mat-form-field-label');
+    expect(label).toBeTruthy();
+    expect(label.getAttribute('id')).toBeTruthy();
+
+    fixture.componentInstance.rangePicker.open();
+    fixture.detectChanges();
+    tick();
+
+    const popup = document.querySelector('.cdk-overlay-pane')!;
+    expect(popup).toBeTruthy();
+    expect(popup.getAttribute('aria-labelledby')).toBe(label.getAttribute('id'));
+  }));
+
   it('should float the form field label when either input is focused', () => {
     const fixture = createComponent(StandardRangePicker);
     fixture.detectChanges();
@@ -636,6 +653,36 @@ describe('MatDateRangeInput', () => {
     expect(endModel.dirty).toBe(true);
   }));
 
+  it('should mark both inputs as touched when the range picker is closed', fakeAsync(() => {
+    const fixture = createComponent(RangePickerNgModel);
+    fixture.detectChanges();
+    flush();
+    const {startModel, endModel, rangePicker} = fixture.componentInstance;
+
+    expect(startModel.dirty).toBe(false);
+    expect(startModel.touched).toBe(false);
+    expect(endModel.dirty).toBe(false);
+    expect(endModel.touched).toBe(false);
+
+    rangePicker.open();
+    fixture.detectChanges();
+    flush();
+
+    expect(startModel.dirty).toBe(false);
+    expect(startModel.touched).toBe(false);
+    expect(endModel.dirty).toBe(false);
+    expect(endModel.touched).toBe(false);
+
+    rangePicker.close();
+    fixture.detectChanges();
+    flush();
+
+    expect(startModel.dirty).toBe(false);
+    expect(startModel.touched).toBe(true);
+    expect(endModel.dirty).toBe(false);
+    expect(endModel.touched).toBe(true);
+  }));
+
   it('should move focus to the start input when pressing backspace on an empty end input', () => {
     const fixture = createComponent(StandardRangePicker);
     fixture.detectChanges();
@@ -835,6 +882,60 @@ describe('MatDateRangeInput', () => {
     expect(endInput.errorStateMatcher).toBe(matcher);
   });
 
+
+  it('should only update model for input that changed', fakeAsync(() => {
+    const fixture = createComponent(RangePickerNgModel);
+
+    fixture.detectChanges();
+    tick();
+
+    expect(fixture.componentInstance.startDateModelChangeCount).toBe(0);
+    expect(fixture.componentInstance.endDateModelChangeCount).toBe(0);
+
+    fixture.componentInstance.rangePicker.open();
+    fixture.detectChanges();
+    tick();
+
+    const fromDate = new Date(2020, 0, 1);
+    const toDate = new Date(2020, 0, 2);
+    fixture.componentInstance.rangePicker.select(fromDate);
+    fixture.detectChanges();
+    tick();
+
+    expect(fixture.componentInstance.startDateModelChangeCount).toBe(1, 'Start Date set once');
+    expect(fixture.componentInstance.endDateModelChangeCount).toBe(0, 'End Date not set');
+
+    fixture.componentInstance.rangePicker.select(toDate);
+    fixture.detectChanges();
+    tick();
+
+    expect(fixture.componentInstance.startDateModelChangeCount).toBe(1,
+      'Start Date unchanged (set once)');
+    expect(fixture.componentInstance.endDateModelChangeCount).toBe(1, 'End Date set once');
+
+    fixture.componentInstance.rangePicker.open();
+    fixture.detectChanges();
+    tick();
+
+    const fromDate2 = new Date(2021, 0, 1);
+    const toDate2 = new Date(2021, 0, 2);
+    fixture.componentInstance.rangePicker.select(fromDate2);
+    fixture.detectChanges();
+    tick();
+
+    expect(fixture.componentInstance.startDateModelChangeCount).toBe(2, 'Start Date set twice');
+    expect(fixture.componentInstance.endDateModelChangeCount).toBe(2,
+      'End Date set twice (nulled)');
+
+    fixture.componentInstance.rangePicker.select(toDate2);
+    fixture.detectChanges();
+    tick();
+
+    expect(fixture.componentInstance.startDateModelChangeCount).toBe(2,
+      'Start Date unchanged (set twice)');
+    expect(fixture.componentInstance.endDateModelChangeCount).toBe(3, 'End date set three times');
+  }));
+
 });
 
 @Component({
@@ -928,8 +1029,25 @@ class RangePickerNgModel {
   @ViewChild(MatEndDate, {read: NgModel}) endModel: NgModel;
   @ViewChild(MatStartDate, {read: ElementRef}) startInput: ElementRef<HTMLInputElement>;
   @ViewChild(MatEndDate, {read: ElementRef}) endInput: ElementRef<HTMLInputElement>;
-  start: Date | null = null;
-  end: Date | null = null;
+  @ViewChild(MatDateRangePicker) rangePicker: MatDateRangePicker<Date>;
+  private _start: Date|null = null;
+  get start(): Date|null {
+    return this._start;
+  }
+  set start(aStart: Date|null) {
+    this.startDateModelChangeCount++;
+    this._start = aStart;
+  }
+  private _end: Date|null = null;
+  get end(): Date|null {
+    return this._end;
+  }
+  set end(anEnd: Date|null) {
+    this.endDateModelChangeCount++;
+    this._end = anEnd;
+  }
+  startDateModelChangeCount = 0;
+  endDateModelChangeCount = 0;
 }
 
 

@@ -46,6 +46,7 @@ sass_binary(
         "external/npm/node_modules",
     ],
     deps = [
+        "//src/material:theming_bundle",
         "//src/material-experimental/mdc-theming:all_themes",
         "//src/material-experimental/mdc-typography:all_typography",
         "//src/material/core:theming_scss_lib",
@@ -60,4 +61,9 @@ nodejs_test(
         ":theme_scss",
     ],
     entry_point = ":prerender.ts",
+    templated_args = [
+        # TODO(josephperrott): update dependency usages to no longer need bazel patch module resolver
+        # See: https://github.com/bazelbuild/rules_nodejs/wiki#--bazel_patch_module_resolver-now-defaults-to-false-2324
+        "--bazel_patch_module_resolver",
+    ],
 )

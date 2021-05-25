@@ -60,7 +60,7 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
   protected _multiple: boolean;
 
   /** Emits when selection changes. */
-  @Output('cdkSelectionChange') change = new EventEmitter<SelectionChange<T>>();
+  @Output('cdkSelectionChange') readonly change = new EventEmitter<SelectionChange<T>>();
 
   /** Latest data provided by the data source. */
   private _data: T[]|readonly T[];
@@ -93,7 +93,7 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
       return;
     }
 
-    let dataStream: Observable<T[]|ReadonlyArray<T>>|undefined;
+    let dataStream: Observable<readonly T[]>|undefined;
 
     if (isDataSource(this._dataSource)) {
       dataStream = this._dataSource.connect(this);
@@ -138,7 +138,7 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
 
   /** Toggles selection for a given value. `index` is required if `trackBy` is used. */
   toggleSelection(value: T, index?: number) {
-    if (this.trackByFn && index == null && (typeof ngDevMode === 'undefined' || ngDevMode)) {
+    if (!!this.trackByFn && index == null && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw Error('CdkSelection: index required when trackBy is used');
     }
 
@@ -167,7 +167,7 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
 
   /** Checks whether a value is selected. `index` is required if `trackBy` is used. */
   isSelected(value: T, index?: number) {
-    if (this.trackByFn && index == null && (typeof ngDevMode === 'undefined' || ngDevMode)) {
+    if (!!this.trackByFn && index == null && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw Error('CdkSelection: index required when trackBy is used');
     }
 
@@ -219,4 +219,4 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
 }
 
 type SelectAllState = 'all'|'none'|'partial';
-type TableDataSource<T> = DataSource<T>|Observable<ReadonlyArray<T>|T[]>|ReadonlyArray<T>|T[];
+type TableDataSource<T> = DataSource<T>|Observable<readonly T[]>|readonly T[];

@@ -16,9 +16,8 @@ import {
   mixinDisabled,
   mixinTabIndex,
 } from '@angular/material-experimental/mdc-core';
-import {MDCChipTrailingActionAdapter, MDCChipTrailingActionFoundation} from '@material/chips';
+import {deprecated} from '@material/chips';
 import {Subject} from 'rxjs';
-
 
 /**
  * Injection token that can be used to reference instances of `MatChipAvatar`. It serves as
@@ -73,8 +72,8 @@ export const MAT_CHIP_TRAILING_ICON =
   providers: [{provide: MAT_CHIP_TRAILING_ICON, useExisting: MatChipTrailingIcon}],
 })
 export class MatChipTrailingIcon implements OnDestroy {
-  private _foundation: MDCChipTrailingActionFoundation;
-  private _adapter: MDCChipTrailingActionAdapter = {
+  private _foundation: deprecated.MDCChipTrailingActionFoundation;
+  private _adapter: deprecated.MDCChipTrailingActionAdapter = {
     focus: () => this._elementRef.nativeElement.focus(),
     getAttribute: (name: string) =>
         this._elementRef.nativeElement.getAttribute(name),
@@ -106,7 +105,7 @@ export class MatChipTrailingIcon implements OnDestroy {
       // method is removed, we can't use the chip here, because it causes a
       // circular import. private _chip: MatChip
   ) {
-    this._foundation = new MDCChipTrailingActionFoundation(this._adapter);
+    this._foundation = new deprecated.MDCChipTrailingActionFoundation(this._adapter);
   }
 
   ngOnDestroy() {
@@ -173,7 +172,7 @@ const _MatChipRemoveMixinBase:
         mdc-chip__icon mdc-chip__icon--trailing`,
     '[tabIndex]': 'tabIndex',
     'role': 'button',
-    '(click)': 'interaction.next($event)',
+    '(click)': '_handleClick($event)',
     '(keydown)': 'interaction.next($event)',
 
     // We need to remove this explicitly, because it gets inherited from MatChipTrailingIcon.
@@ -186,7 +185,7 @@ export class MatChipRemove extends _MatChipRemoveMixinBase implements CanDisable
    * Emits when the user interacts with the icon.
    * @docs-private
    */
-  interaction: Subject<MouseEvent | KeyboardEvent> = new Subject<MouseEvent | KeyboardEvent>();
+  readonly interaction = new Subject<MouseEvent | KeyboardEvent>();
 
   constructor(elementRef: ElementRef) {
     super(elementRef);
@@ -194,6 +193,17 @@ export class MatChipRemove extends _MatChipRemoveMixinBase implements CanDisable
     if (elementRef.nativeElement.nodeName === 'BUTTON') {
       elementRef.nativeElement.setAttribute('type', 'button');
     }
+  }
+
+  /** Emits a MouseEvent when the user clicks on the remove icon. */
+  _handleClick(event: MouseEvent): void {
+    this.interaction.next(event);
+
+    event.stopPropagation();
+  }
+
+  focus() {
+    this._elementRef.nativeElement.focus();
   }
 
   static ngAcceptInputType_disabled: BooleanInput;

@@ -15,6 +15,8 @@ import {Subject} from 'rxjs';
  *
  * 要修改显示的标签和文本，就要创建一个 MatSortHeaderIntl 的新实例，并把它包含在自定义提供者中。
  *
+ * @deprecated No longer being used. To be removed.
+ * @breaking-change 13.0.0
  */
 @Injectable({providedIn: 'root'})
 export class MatSortHeaderIntl {
@@ -26,19 +28,8 @@ export class MatSortHeaderIntl {
    *
    */
   readonly changes: Subject<void> = new Subject<void>();
-
-  /**
-   * ARIA label for the sorting button.
-   *
-   * 排序按钮的 ARIA 标签。
-   *
-   * @deprecated Not used anymore. To be removed.
-   * @breaking-change 8.0.0
-   */
-  sortButtonLabel = (id: string) => {
-    return `Change sorting for ${id}`;
-  }
 }
+
 /** @docs-private */
 export function MAT_SORT_HEADER_INTL_PROVIDER_FACTORY(parentIntl: MatSortHeaderIntl) {
   return parentIntl || new MatSortHeaderIntl();

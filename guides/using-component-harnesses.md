@@ -203,7 +203,7 @@ real user could perform or to inspect component state that a real user might per
 example, `MatButtonHarness` has methods to click, focus, and blur the `mat-button`, as well as
 methods to get the text of the button and its disabled state. Because `MatButton` is a very simple
 component, these harness methods might not seem very different from working directly with the DOM.
-However more complex harnesses like `MatSelectHarness` have methods like `open` and `isOpen` which
+However, more complex harnesses like `MatSelectHarness` have methods like `open` and `isOpen` which
 capture more knowledge about the component's internals.
 
 Angular Material 组件通常会暴露这些方法，以执行真实用户可以执行的动作，或者检查真实用户可感知到的组件状态。例如， `MatButtonHarness` 有一些方法来对这个 `mat-button` 进行点击、设置焦点或取消焦点，还有一些获取该按钮的文本及其禁用状态的方法。因为 `MatButton` 是一个非常简单的组件，所以这些测试工具的方法可能和直接使用 DOM 的方式差别不大。而 `MatSelectHarness` 这样更复杂的测试工具具有 `open` 和 `isOpen` 这样的方法，可以捕获更多有关该组件内部结构的知识。
@@ -311,11 +311,11 @@ self-explanatory.
 
 上面的代码表明，在测试中采用这些测试工具可以让它们更容易理解。具体到这个例子中，它让 "open the mat-select" 逻辑变得更加明显。一个不太熟悉的读者可能不知道点击 `.mat-select-trigger` 会有什么用，但 `await select.open()` 是不言自明的。
 
-The harnesses also make clear which option should be selected. Without the harness, you need a
-comment explaining what `options[1]` means, but with the `MatSelectHarness` you can use the `text`
-filter rather than the index and the code becomes self-documenting.
+The harnesses also make clear which option should be selected. Without the harness, you need a comment that
+explains what `options[1]` means. With `MatSelectHarness`, however, the filter API makes the code
+self-documenting.
 
-这些测试工具还明确了应该选择哪个选项。如果没有这些工具，你需要用注释来解释 `options[1]` 含义，但是使用 `MatSelectHarness` 你可以使用 `text` 过滤器而不是索引，代码就会变成自文档化的。
+这些测试工具还明确了应该选择哪个选项。如果没有这些工具，你需要用注释来解释 `options[1]` 的含义，但是使用 `MatSelectHarness`，其过滤器 API 就会让代码就会变成自文档化的。
 
 Finally, the repeated calls to `detectChanges` and `whenStable()` can obfuscate the underlying
 intent of the test. By using the harness APIs, you eliminate these calls, making the test more

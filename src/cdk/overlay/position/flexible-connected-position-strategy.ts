@@ -223,7 +223,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 位置改变时触发的主体对象。
    *
    */
-  private _positionChanges = new Subject<ConnectedOverlayPositionChange>();
+  private readonly _positionChanges = new Subject<ConnectedOverlayPositionChange>();
 
   /**
    * Subscription to viewport size changes.

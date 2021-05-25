@@ -1,0 +1,12 @@
+load("//tools:defaults.bzl", "ts_library")
+
+package(default_visibility = ["//visibility:public"])
+
+ts_library(
+    name = "test_runner_lib",
+    srcs = ["test-runner.ts"],
+    deps = [
+        "@npm//@bazel/runfiles",
+        "@npm//@types/node",
+    ],
+)

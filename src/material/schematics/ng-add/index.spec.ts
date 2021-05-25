@@ -10,8 +10,12 @@ import {
 } from '@angular/cdk/schematics';
 import {createTestApp, createTestLibrary, getFileContent} from '@angular/cdk/schematics/testing';
 import {getWorkspace} from '@schematics/angular/utility/workspace';
-import {COLLECTION_PATH} from '../index.spec';
+import {COLLECTION_PATH} from '../paths';
 import {addPackageToPackageJson} from './package-config';
+
+interface PackageJson {
+  dependencies: Record<string, string>;
+}
 
 describe('ng-add schematic', () => {
   let runner: SchematicTestRunner;
@@ -43,7 +47,7 @@ describe('ng-add schematic', () => {
 
   /** Removes the specified dependency from the /package.json in the given tree. */
   function removePackageJsonDependency(tree: Tree, dependencyName: string) {
-    const packageContent = JSON.parse(getFileContent(tree, '/package.json'));
+    const packageContent = JSON.parse(getFileContent(tree, '/package.json')) as PackageJson;
     delete packageContent.dependencies[dependencyName];
     tree.overwrite('/package.json', JSON.stringify(packageContent, null, 2));
   }
@@ -55,7 +59,7 @@ describe('ng-add schematic', () => {
     removePackageJsonDependency(appTree, '@angular/animations');
 
     const tree = await runner.runSchematicAsync('ng-add', {}, appTree).toPromise();
-    const packageJson = JSON.parse(getFileContent(tree, '/package.json'));
+    const packageJson = JSON.parse(getFileContent(tree, '/package.json')) as PackageJson;
     const dependencies = packageJson.dependencies;
     const angularCoreVersion = dependencies['@angular/core'];
 
@@ -87,7 +91,7 @@ describe('ng-add schematic', () => {
     addPackageToPackageJson(appTree, '@angular/material', '^9.0.0');
 
     const tree = await runner.runSchematicAsync('ng-add', {}, appTree).toPromise();
-    const packageJson = JSON.parse(getFileContent(tree, '/package.json'));
+    const packageJson = JSON.parse(getFileContent(tree, '/package.json')) as PackageJson;
     const dependencies = packageJson.dependencies;
 
     expect(dependencies['@angular/material']).toBe('^9.0.0');
@@ -118,8 +122,8 @@ describe('ng-add schematic', () => {
     const buffer = tree.read(expectedStylesPath);
     const themeContent = buffer!.toString();
 
-    expect(themeContent).toContain(`@import '~@angular/material/theming';`);
-    expect(themeContent).toContain(`$app-primary: mat-palette(`);
+    expect(themeContent).toContain(`@use '~@angular/material' as mat;`);
+    expect(themeContent).toContain(`$app-primary: mat.define-palette(`);
   });
 
   it('should create a custom theme file if no SCSS file could be found', async () => {

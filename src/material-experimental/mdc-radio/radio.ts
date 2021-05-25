@@ -97,7 +97,9 @@ export class MatRadioGroup extends _MatRadioGroupBase<MatRadioButton> {
     '[class.mat-primary]': 'color === "primary"',
     '[class.mat-accent]': 'color === "accent"',
     '[class.mat-warn]': 'color === "warn"',
-    '[attr.tabindex]': 'disabled ? null : -1',
+    '[class._mat-animation-noopable]': '_noopAnimations',
+    // Needs to be removed since it causes some a11y issues (see #21266).
+    '[attr.tabindex]': 'null',
     '[attr.aria-label]': 'null',
     '[attr.aria-labelledby]': 'null',
     '[attr.aria-describedby]': 'null',
@@ -125,10 +127,11 @@ export class MatRadioButton extends _MatRadioButtonBase implements AfterViewInit
   };
 
   /** Configuration for the underlying ripple. */
-  _rippleAnimation: RippleAnimationConfig = RIPPLE_ANIMATION_CONFIG;
+  _rippleAnimation: RippleAnimationConfig;
 
   _radioFoundation = new MDCRadioFoundation(this._radioAdapter);
   _classes: {[key: string]: boolean} = {};
+  _noopAnimations: boolean;
 
   constructor(@Optional() @Inject(MAT_RADIO_GROUP) radioGroup: MatRadioGroup,
               elementRef: ElementRef,
@@ -141,6 +144,9 @@ export class MatRadioButton extends _MatRadioButtonBase implements AfterViewInit
               @Attribute('tabindex') tabIndex?: string) {
     super(radioGroup, elementRef, _changeDetector, _focusMonitor,
         _radioDispatcher, _animationMode, _providerOverride, tabIndex);
+    this._noopAnimations = _animationMode === 'NoopAnimations';
+    this._rippleAnimation =
+        this._noopAnimations ? {enterDuration: 0, exitDuration: 0} : RIPPLE_ANIMATION_CONFIG;
   }
 
   ngAfterViewInit() {

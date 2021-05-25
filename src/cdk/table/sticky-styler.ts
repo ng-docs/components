@@ -65,11 +65,7 @@ export class StickyStyler {
   constructor(private _isNativeHtmlTable: boolean,
               private _stickCellCss: string,
               public direction: Direction,
-              /**
-               * @deprecated `_coalescedStyleScheduler` parameter to become required.
-               * @breaking-change 11.0.0
-               */
-              private _coalescedStyleScheduler?: _CoalescedStyleScheduler,
+              private _coalescedStyleScheduler: _CoalescedStyleScheduler,
               private _isBrowser = true,
               private readonly _needsPositionStickyOnElement = true,
               private readonly _positionListener?: StickyPositioningListener) {
@@ -112,7 +108,7 @@ export class StickyStyler {
     }
 
     // Coalesce with sticky row/column updates (and potentially other changes like column resize).
-    this._scheduleStyleChanges(() => {
+    this._coalescedStyleScheduler.schedule(() => {
       for (const element of elementsToClear) {
         this._removeStickyStyle(element, stickyDirections);
       }
@@ -169,7 +165,7 @@ export class StickyStyler {
     const firstStickyEnd = stickyEndStates.indexOf(true);
 
     // Coalesce with sticky row updates (and potentially other changes like column resize).
-    this._scheduleStyleChanges(() => {
+    this._coalescedStyleScheduler.schedule(() => {
       const isRtl = this.direction === 'rtl';
       const start = isRtl ? 'right' : 'left';
       const end = isRtl ? 'left' : 'right';
@@ -246,12 +242,11 @@ export class StickyStyler {
     const stickyCellHeights: (number|undefined)[] = [];
     const elementsToStick: HTMLElement[][] = [];
     for (let rowIndex = 0, stickyOffset = 0; rowIndex < rows.length; rowIndex++) {
-      stickyOffsets[rowIndex] = stickyOffset;
-
       if (!states[rowIndex]) {
         continue;
       }
 
+      stickyOffsets[rowIndex] = stickyOffset;
       const row = rows[rowIndex];
       elementsToStick[rowIndex] = this._isNativeHtmlTable ?
           Array.from(row.children) as HTMLElement[] : [row];
@@ -265,7 +260,7 @@ export class StickyStyler {
 
     // Coalesce with other sticky row updates (top/bottom), sticky columns updates
     // (and potentially other changes like column resize).
-    this._scheduleStyleChanges(() => {
+    this._coalescedStyleScheduler.schedule(() => {
       for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
         if (!states[rowIndex]) {
           continue;
@@ -279,9 +274,11 @@ export class StickyStyler {
       }
 
       if (position === 'top') {
-        this._positionListener?.stickyHeaderRowsUpdated({sizes: stickyCellHeights});
+        this._positionListener?.stickyHeaderRowsUpdated(
+            {sizes: stickyCellHeights, offsets: stickyOffsets, elements: elementsToStick});
       } else {
-        this._positionListener?.stickyFooterRowsUpdated({sizes: stickyCellHeights});
+        this._positionListener?.stickyFooterRowsUpdated(
+            {sizes: stickyCellHeights, offsets: stickyOffsets, elements: elementsToStick});
       }
     });
   }
@@ -304,7 +301,7 @@ export class StickyStyler {
     const tfoot = tableElement.querySelector('tfoot')!;
 
     // Coalesce with other sticky updates (and potentially other changes like column resize).
-    this._scheduleStyleChanges(() => {
+    this._coalescedStyleScheduler.schedule(() => {
       if (stickyStates.some(state => !state)) {
         this._removeStickyStyle(tfoot, ['bottom']);
       } else {
@@ -468,24 +465,5 @@ export class StickyStyler {
     }
 
     return positions;
-  }
-
-  /**
-   * Schedules styles to be applied when the style scheduler deems appropriate.
-   *
-   * 当样式调度程序认为合适时，调度要应用的样式。
-   *
-   * @breaking-change 11.0.0 This method can be removed in favor of calling
-   * `CoalescedStyleScheduler.schedule` directly once the scheduler is a required parameter.
-   *
-   * 当调度程序是一个必需参数时，可以删除此方法，改为直接调用 `CoalescedStyleScheduler.schedule`。
-   *
-   */
-  private _scheduleStyleChanges(changes: () => void) {
-    if (this._coalescedStyleScheduler) {
-      this._coalescedStyleScheduler.schedule(changes);
-    } else {
-      changes();
-    }
   }
 }

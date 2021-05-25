@@ -1,0 +1,21 @@
+@use 'sass:map';
+@use '../theming/theming';
+
+@mixin color($config-or-theme) {
+  $config: theming.get-color-config($config-or-theme);
+  $border-color: theming.get-color-from-palette(map.get($config, primary));
+
+  .mat-focus-indicator::before {
+    border-color: $border-color;
+  }
+}
+
+@mixin theme($theme-or-color-config) {
+  $theme: theming.private-legacy-get-theme($theme-or-color-config);
+  @include theming.private-check-duplicate-theme-styles($theme, 'mat-focus-indicators') {
+    $color: theming.get-color-config($theme);
+    @if $color != null {
+      @include color($color);
+    }
+  }
+}

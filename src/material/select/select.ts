@@ -112,53 +112,16 @@ let nextUniqueId = 0;
  *
  */
 
-/**
- * The max height of the select's overlay panel.
- *
- * 选择器浮层面板的最大高度。
- *
- * @deprecated To be turned into a private variable.
- *
- * 要变成一个私有变量。
- *
- * @breaking-change 12.0.0
- */
+/** The max height of the select's overlay panel. */
 export const SELECT_PANEL_MAX_HEIGHT = 256;
 
-/**
- * The panel's padding on the x-axis.
- *
- * 面板在 x 轴上的衬距。
- *
- * @deprecated To be turned into a private variable.
- *
- * 要变成一个私有变量。
- * @breaking-change 12.0.0
- */
+/** The panel's padding on the x-axis. */
 export const SELECT_PANEL_PADDING_X = 16;
 
-/**
- * The panel's x axis padding if it is indented (e.g. there is an option group).
- *
- * 面板的 x 轴上的衬距（如果它是缩进的）（比如有一个选项组）。
- *
- * @deprecated To be turned into a private variable.
- *
- * 要变成一个私有变量。
- * @breaking-change 12.0.0
- */
+/** The panel's x axis padding if it is indented (e.g. there is an option group). */
 export const SELECT_PANEL_INDENT_PADDING_X = SELECT_PANEL_PADDING_X * 2;
 
-/**
- * The height of the select items in `em` units.
- *
- * 选择器条目以 `em` 为单位的高度。
- *
- * @deprecated To be turned into a private variable.
- *
- * 要变成一个私有变量。
- * @breaking-change 12.0.0
- */
+/** The height of the select items in `em` units. */
 export const SELECT_ITEM_HEIGHT_EM = 3;
 
 // TODO(josephperrott): Revert to a constant after 2018 spec updates are fully merged.
@@ -172,26 +135,12 @@ export const SELECT_ITEM_HEIGHT_EM = 3;
  * (SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40
  * The padding is multiplied by 1.5 because the checkbox's margin is half the padding.
  * The checkbox width is 16px.
- *
- * 计算公式为：(SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40
- * 衬距值要乘以 1.5，因为复选框的边距是衬距的一半。复选框的宽度是 16px。
- * @deprecated To be turned into a private variable.
- *
- * 要变成一个私有变量。
- * @breaking-change 12.0.0
  */
 export const SELECT_MULTIPLE_PANEL_PADDING_X = SELECT_PANEL_PADDING_X * 1.5 + 16;
 
 /**
  * The select panel will only "fit" inside the viewport if it is positioned at
  * this value or more away from the viewport boundary.
- *
- * 当选择器面板位于此值或远离视口边界时，它只会“适应”视口的内部。
- *
- * @deprecated To be turned into a private variable.
- *
- * 要变成一个私有变量。
- * @breaking-change 12.0.0
  */
 export const SELECT_PANEL_VIEWPORT_PADDING = 8;
 
@@ -475,7 +424,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    * 当面板元素完成转换时会触发。
    *
    */
-  _panelDoneAnimatingStream = new Subject<string>();
+  readonly _panelDoneAnimatingStream = new Subject<string>();
 
   /**
    * Strategy that will be used to handle scrolling while the select panel is open.
@@ -522,18 +471,9 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    */
   @ViewChild('panel') panel: ElementRef;
 
-  /**
-   * Overlay pane containing the options.
-   *
-   * 包含各个选项的浮层窗格。
-   *
-   * @deprecated To be turned into a private API.
-   *
-   * 要变成私有 API。
-   * @breaking-change 10.0.0
-   * @docs-private
-   */
-  @ViewChild(CdkConnectedOverlay) overlayDir: CdkConnectedOverlay;
+  /** Overlay pane containing the options. */
+  @ViewChild(CdkConnectedOverlay)
+  protected _overlayDir: CdkConnectedOverlay;
 
   /**
    * Classes to be passed to the select panel. Supports the same syntax as `ngClass`.
@@ -631,7 +571,8 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   @Input()
   get value(): any { return this._value; }
   set value(newValue: any) {
-    if (newValue !== this._value) {
+    // Always re-assign an array, because it might have been mutated.
+    if (newValue !== this._value || (this._multiple && Array.isArray(newValue))) {
       if (this.options) {
         this._setSelectionByValue(newValue);
       }
@@ -641,12 +582,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   }
   private _value: any;
 
-  /**
-   * Aria label of the select. If not specified, the placeholder will be used as label.
-   *
-   * 此选择器的 Aria 标签。如果没有指定，占位符就会用作此标签。
-   *
-   */
+  /** Aria label of the select. */
   @Input('aria-label') ariaLabel: string = '';
 
   /**
@@ -1146,7 +1082,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    *
    */
   _onAttached(): void {
-    this.overlayDir.positionChange.pipe(take(1)).subscribe(() => {
+    this._overlayDir.positionChange.pipe(take(1)).subscribe(() => {
       this._changeDetectorRef.detectChanges();
       this._positioningSettled();
     });
@@ -1227,6 +1163,12 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    */
   private _selectValue(value: any): MatOption | undefined {
     const correspondingOption = this.options.find((option: MatOption) => {
+      // Skip options that are already in the model. This allows us to handle cases
+      // where the same primitive value is selected multiple times.
+      if (this._selectionModel.isSelected(option)) {
+        return false;
+      }
+
       try {
         // Treat null as a special reset value.
         return option.value != null && this._compareWith(option.value,  value);
@@ -1446,8 +1388,9 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
       return null;
     }
 
-    const labelId = this._getLabelId();
-    return this.ariaLabelledby ? labelId + ' ' + this.ariaLabelledby : labelId;
+    const labelId = this._parentFormField?.getLabelId();
+    const labelExpression = (labelId ? labelId + ' ' : '');
+    return this.ariaLabelledby ? labelExpression + this.ariaLabelledby : labelId;
   }
 
   /**
@@ -1464,28 +1407,14 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
     return null;
   }
 
-  /**
-   * Gets the ID of the element that is labelling the select.
-   *
-   * 获取那个作为此选择器标签的元素的 ID。
-   *
-   */
-  private _getLabelId(): string {
-    return this._parentFormField?.getLabelId() || '';
-  }
-
-  /**
-   * Gets the aria-labelledby of the select component trigger.
-   *
-   * 获取此选择器的组件触发器的 aria-labelledby。
-   *
-   */
+  /** Gets the aria-labelledby of the select component trigger. */
   private _getTriggerAriaLabelledby(): string | null {
     if (this.ariaLabel) {
       return null;
     }
 
-    let value = this._getLabelId() + ' ' + this._valueId;
+    const labelId = this._parentFormField?.getLabelId();
+    let value = (labelId ? labelId + ' ' : '') + this._valueId;
 
     if (this.ariaLabelledby) {
       value += ' ' + this.ariaLabelledby;
@@ -1535,7 +1464,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    * @docs-private
    */
   get shouldLabelFloat(): boolean {
-    return this._panelOpen || !this.empty;
+    return this._panelOpen || !this.empty || (this._focused && !!this._placeholder);
   }
 
   static ngAcceptInputType_required: BooleanInput;
@@ -1704,9 +1633,9 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
 
       // Set the font size on the panel element once it exists.
       this._ngZone.onStable.pipe(take(1)).subscribe(() => {
-        if (this._triggerFontSize && this.overlayDir.overlayRef &&
-            this.overlayDir.overlayRef.overlayElement) {
-          this.overlayDir.overlayRef.overlayElement.style.fontSize = `${this._triggerFontSize}px`;
+        if (this._triggerFontSize && this._overlayDir.overlayRef &&
+            this._overlayDir.overlayRef.overlayElement) {
+          this._overlayDir.overlayRef.overlayElement.style.fontSize = `${this._triggerFontSize}px`;
         }
       });
     }
@@ -1739,7 +1668,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     if (this.panelOpen) {
       this._scrollTop = 0;
     } else {
-      this.overlayDir.offsetX = 0;
+      this._overlayDir.offsetX = 0;
       this._changeDetectorRef.markForCheck();
     }
 
@@ -1762,7 +1691,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
    *
    */
   private _calculateOverlayOffsetX(): void {
-    const overlayRect = this.overlayDir.overlayRef.overlayElement.getBoundingClientRect();
+    const overlayRect = this._overlayDir.overlayRef.overlayElement.getBoundingClientRect();
     const viewportSize = this._viewportRuler.getViewportSize();
     const isRtl = this._isRtl();
     const paddingWidth = this.multiple ? SELECT_MULTIPLE_PANEL_PADDING_X + SELECT_PANEL_PADDING_X :
@@ -1772,6 +1701,8 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     // Adjust the offset, depending on the option padding.
     if (this.multiple) {
       offsetX = SELECT_MULTIPLE_PANEL_PADDING_X;
+    } else if (this.disableOptionCentering) {
+      offsetX = SELECT_PANEL_PADDING_X;
     } else {
       let selected = this._selectionModel.selected[0] || this.options.first;
       offsetX = selected && selected.group ? SELECT_PANEL_INDENT_PADDING_X : SELECT_PANEL_PADDING_X;
@@ -1797,8 +1728,8 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     // Set the offset directly in order to avoid having to go through change detection and
     // potentially triggering "changed after it was checked" errors. Round the value to avoid
     // blurry content in some browsers.
-    this.overlayDir.offsetX = Math.round(offsetX);
-    this.overlayDir.overlayRef.updatePosition();
+    this._overlayDir.offsetX = Math.round(offsetX);
+    this._overlayDir.overlayRef.updatePosition();
   }
 
   /**

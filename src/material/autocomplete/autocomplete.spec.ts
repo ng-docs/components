@@ -1500,6 +1500,17 @@ describe('MatAutocomplete', () => {
       expect(panel.hasAttribute('aria-label')).toBe(false);
     });
 
+    it('should trim aria-labelledby if the input does not have a label', () => {
+      fixture.componentInstance.hasLabel = false;
+      fixture.detectChanges();
+      fixture.componentInstance.ariaLabelledby = 'myLabelId';
+      fixture.componentInstance.trigger.openPanel();
+      fixture.detectChanges();
+
+      const panel = fixture.debugElement.query(By.css('.mat-autocomplete-panel'))!.nativeElement;
+      expect(panel.getAttribute('aria-labelledby')).toBe(`myLabelId`);
+    });
+
     it('should clear aria-labelledby from the panel if an aria-label is set', () => {
       fixture.componentInstance.ariaLabel = 'My label';
       fixture.componentInstance.trigger.openPanel();
@@ -1507,6 +1518,16 @@ describe('MatAutocomplete', () => {
 
       const panel = fixture.debugElement.query(By.css('.mat-autocomplete-panel'))!.nativeElement;
       expect(panel.getAttribute('aria-label')).toBe('My label');
+      expect(panel.hasAttribute('aria-labelledby')).toBe(false);
+    });
+
+    it('should clear aria-labelledby if the form field does not have a label', () => {
+      fixture.componentInstance.hasLabel = false;
+      fixture.detectChanges();
+      fixture.componentInstance.trigger.openPanel();
+      fixture.detectChanges();
+
+      const panel = fixture.debugElement.query(By.css('.mat-autocomplete-panel'))!.nativeElement;
       expect(panel.hasAttribute('aria-labelledby')).toBe(false);
     });
 
@@ -2422,6 +2443,21 @@ describe('MatAutocomplete', () => {
       expect(fixture.componentInstance.selectedValue).toBe(1337);
     }));
 
+    it('should not focus the option when DOWN key is pressed', fakeAsync(() => {
+      const fixture = createComponent(SimpleAutocomplete);
+      const input = fixture.debugElement.query(By.css('input'))!.nativeElement;
+      fixture.detectChanges();
+      const spy = spyOn(console, 'error');
+
+      dispatchKeyboardEvent(input, 'keydown', DOWN_ARROW);
+      dispatchKeyboardEvent(input, 'keydown', DOWN_ARROW);
+      fixture.detectChanges();
+
+      // Note: for some reason the error here gets logged using console.error, rather than being
+      // thrown, hence why we use a spy to assert against it, rather than `.not.toThrow`.
+      expect(spy).not.toHaveBeenCalled();
+    }));
+
   });
 
   it('should have correct width when opened', () => {
@@ -2760,9 +2796,9 @@ describe('MatAutocomplete', () => {
 
 const SIMPLE_AUTOCOMPLETE_TEMPLATE = `
   <mat-form-field [floatLabel]="floatLabel" [style.width.px]="width">
+    <mat-label *ngIf="hasLabel">State</mat-label>
     <input
       matInput
-      placeholder="State"
       [matAutocomplete]="auto"
       [matAutocompletePosition]="position"
       [matAutocompleteDisabled]="autocompleteDisabled"
@@ -2792,6 +2828,7 @@ class SimpleAutocomplete implements OnDestroy {
   width: number;
   disableRipple = false;
   autocompleteDisabled = false;
+  hasLabel = true;
   ariaLabel: string;
   ariaLabelledby: string;
   panelClass = 'class-one class-two';

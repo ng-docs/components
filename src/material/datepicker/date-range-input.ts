@@ -25,7 +25,8 @@ import {
 import {MatFormFieldControl, MatFormField, MAT_FORM_FIELD} from '@angular/material/form-field';
 import {ThemePalette, DateAdapter} from '@angular/material/core';
 import {NgControl, ControlContainer} from '@angular/forms';
-import {Subject, merge} from 'rxjs';
+import {Subject, merge, Subscription} from 'rxjs';
+import {FocusOrigin} from '@angular/cdk/a11y';
 import {coerceBooleanProperty, BooleanInput} from '@angular/cdk/coercion';
 import {
   MatStartDate,
@@ -68,6 +69,8 @@ let nextUniqueId = 0;
 export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   MatDatepickerControl<D>, MatDateRangeInputParent<D>, MatDateRangePickerInput<D>,
   AfterContentInit, OnChanges, OnDestroy {
+  private _closedSubscription = Subscription.EMPTY;
+
   /**
    * Current value of the range input.
    *
@@ -138,6 +141,11 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
     if (rangePicker) {
       this._model = rangePicker.registerInput(this);
       this._rangePicker = rangePicker;
+      this._closedSubscription.unsubscribe();
+      this._closedSubscription = rangePicker.closedStream.subscribe(() => {
+        this._startInput?._onTouched();
+        this._endInput?._onTouched();
+      });
       this._registerModel(this._model!);
     }
   }
@@ -324,7 +332,7 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
    * 当输入框状态发生变化时触发。
    *
    */
-  stateChanges = new Subject<void>();
+  readonly stateChanges = new Subject<void>();
 
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,
@@ -335,6 +343,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
 
     if (!_dateAdapter && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw createMissingDateImplError('DateAdapter');
+    }
+
+    // The datepicker module can be used both with MDC and non-MDC form fields. We have
+    // to conditionally add the MDC input class so that the range picker looks correctly.
+    if (_formField?._elementRef.nativeElement.classList.contains('mat-mdc-form-field')) {
+      _elementRef.nativeElement.classList.add('mat-mdc-input-element');
     }
 
     // TODO(crisbeto): remove `as any` after #18206 lands.
@@ -398,6 +412,7 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   }
 
   ngOnDestroy() {
+    this._closedSubscription.unsubscribe();
     this.stateChanges.complete();
   }
 
@@ -429,6 +444,11 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
    */
   getConnectedOverlayOrigin(): ElementRef {
     return this._formField ? this._formField.getConnectedOverlayOrigin() : this._elementRef;
+  }
+
+  /** Gets the ID of an element that should be used a description for the calendar overlay. */
+  getOverlayLabelId(): string | null {
+    return this._formField ? this._formField.getLabelId() : null;
   }
 
   /**
@@ -481,7 +501,8 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
    *
    */
   _shouldHideSeparator() {
-    return (!this._formField || this._formField._hideControlPlaceholder()) && this.empty;
+    return (!this._formField || (this._formField.getLabelId() &&
+      !this._formField._shouldLabelFloat())) && this.empty;
   }
 
   /**
@@ -493,6 +514,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   _getAriaLabelledby() {
     const formField = this._formField;
     return formField && formField._hasFloatingLabel() ? formField._labelId : null;
+  }
+
+  /** Updates the focused state of the range input. */
+  _updateFocus(origin: FocusOrigin) {
+    this.focused = origin !== null;
+    this.stateChanges.next();
   }
 
   /**

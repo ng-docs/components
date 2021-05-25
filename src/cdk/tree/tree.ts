@@ -79,7 +79,7 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
    * 组件被销毁后发出的主体对象。
    *
    */
-  private _onDestroy = new Subject<void>();
+  private readonly _onDestroy = new Subject<void>();
 
   /**
    * Differ used to find the changes in the data provided by the data source.
@@ -174,7 +174,7 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
    * 这个流包含哪些节点正显示在屏幕上的最新信息。可以被数据源用作该提供哪些数据的线索。
    *
    */
-  viewChange =
+  readonly viewChange =
     new BehaviorSubject<{start: number, end: number}>({start: 0, end: Number.MAX_VALUE});
 
   constructor(private _differs: IterableDiffers,
@@ -255,7 +255,7 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
    *
    */
   private _observeRenderChanges() {
-    let dataStream: Observable<T[] | ReadonlyArray<T>> | undefined;
+    let dataStream: Observable<readonly T[]> | undefined;
 
     if (isDataSource(this._dataSource)) {
       dataStream = this._dataSource.connect(this);
@@ -279,7 +279,7 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
    * 检查数据所做的更改，并渲染每个更改（添加/删除/移动节点）。
    *
    */
-  renderNodeChanges(data: T[] | ReadonlyArray<T>, dataDiffer: IterableDiffer<T> = this._dataDiffer,
+  renderNodeChanges(data: readonly T[], dataDiffer: IterableDiffer<T> = this._dataDiffer,
                     viewContainer: ViewContainerRef = this._nodeOutlet.viewContainer,
                     parentData?: T) {
     const changes = dataDiffer.diff(data);
@@ -409,7 +409,7 @@ export class CdkTreeNode<T, K = T> implements DoCheck, FocusableOption, OnDestro
    * 组件被销毁后发出通知的主体对象。
    *
    */
-  protected _destroyed = new Subject<void>();
+  protected readonly _destroyed = new Subject<void>();
 
   /**
    * Emits when the node's data has changed.
@@ -417,7 +417,7 @@ export class CdkTreeNode<T, K = T> implements DoCheck, FocusableOption, OnDestro
    * 当节点数据发生变化时触发。
    *
    */
-  _dataChanges = new Subject<void>();
+  readonly _dataChanges = new Subject<void>();
 
   private _parentNodeAriaLevel: number;
 

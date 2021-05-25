@@ -230,7 +230,10 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
 
     if (isSelected !== this._selected) {
       this._setSelected(isSelected);
-      this.selectionList._reportValueChange();
+
+      if (isSelected || this.selectionList.multiple) {
+        this.selectionList._reportValueChange();
+      }
     }
   }
 
@@ -558,7 +561,7 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
    * 当列表被销毁时就会触发。
    *
    */
-  private _destroyed = new Subject<void>();
+  private readonly _destroyed = new Subject<void>();
 
   /**
    * View to model callback that should be called if the list or its options lost focus.
@@ -673,23 +676,23 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
   }
 
   /**
-   * Selects all of the options.
+   * Selects all of the options. Returns the options that changed as a result.
    *
-   * 选择所有选项。
+   * 选择所有选项。返回变化过的选项。
    *
    */
-  selectAll() {
-    this._setAllOptionsSelected(true);
+  selectAll(): MatListOption[] {
+    return this._setAllOptionsSelected(true);
   }
 
   /**
-   * Deselects all of the options.
+   * Deselects all of the options. Returns the options that changed as a result.
    *
-   * 取消选定所有选项。
+   * 取消选定所有选项。返回变化过的选项。
    *
    */
-  deselectAll() {
-    this._setAllOptionsSelected(false);
+  deselectAll(): MatListOption[] {
+    return this._setAllOptionsSelected(false);
   }
 
   /**
@@ -894,13 +897,13 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
    * Sets the selected state on all of the options
    * and emits an event if anything changed.
    *
-   * 在所有选项上设置选定状态，并在发生任何变化时发出本事件。
+   * 在所有选项上设置选定状态，并在发生任何变化时发出一个事件。
    *
    */
   private _setAllOptionsSelected(
     isSelected: boolean,
     skipDisabled?: boolean,
-    isUserInput?: boolean) {
+    isUserInput?: boolean): MatListOption[] {
     // Keep track of whether anything changed, because we only want to
     // emit the changed event when something actually changed.
     const changedOptions: MatListOption[] = [];
@@ -918,6 +921,8 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
         this._emitChangeEvent(changedOptions);
       }
     }
+
+    return changedOptions;
   }
 
   /**

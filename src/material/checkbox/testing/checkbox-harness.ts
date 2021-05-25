@@ -7,52 +7,17 @@
  */
 
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  AsyncFactoryFn,
+  ComponentHarness,
+  HarnessPredicate,
+  TestElement,
+} from '@angular/cdk/testing';
 import {CheckboxHarnessFilters} from './checkbox-harness-filters';
 
-/**
- * Harness for interacting with a standard mat-checkbox in tests.
- *
- * 在测试中与标准 mat-checkbox 进行交互的测试工具。
- *
- */
-export class MatCheckboxHarness extends ComponentHarness {
-  /**
-   * The selector for the host element of a `MatCheckbox` instance.
-   *
-   * `MatCheckbox` 实例的宿主元素选择器。
-   *
-   */
-  static hostSelector = '.mat-checkbox';
-
-  /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatCheckboxHarness` that meets
-   * certain criteria.
-   *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索符合条件 `MatCheckboxHarness`
-   *
-   * @param options Options for filtering which checkbox instances are considered a match.
-   *
-   * 一个选项，用来过滤哪些复选框实例是匹配的。
-   *
-   * @return a `HarnessPredicate` configured with the given options.
-   *
-   * 一个使用指定选项配置过的 `HarnessPredicate`。
-   */
-  static with(options: CheckboxHarnessFilters = {}): HarnessPredicate<MatCheckboxHarness> {
-    return new HarnessPredicate(MatCheckboxHarness, options)
-        .addOption(
-            'label', options.label,
-            (harness, label) => HarnessPredicate.stringMatches(harness.getLabelText(), label))
-        // We want to provide a filter option for "name" because the name of the checkbox is
-        // only set on the underlying input. This means that it's not possible for developers
-        // to retrieve the harness of a specific checkbox with name through a CSS selector.
-        .addOption('name', options.name, async (harness, name) => await harness.getName() === name);
-  }
-
-  private _label = this.locatorFor('.mat-checkbox-label');
-  private _input = this.locatorFor('input');
-  private _inputContainer = this.locatorFor('.mat-checkbox-inner-container');
+export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
+  protected abstract _input: AsyncFactoryFn<TestElement>;
+  protected abstract _label: AsyncFactoryFn<TestElement>;
 
   /**
    * Whether the checkbox is checked.
@@ -201,9 +166,7 @@ export class MatCheckboxHarness extends ComponentHarness {
    * 注意：当用户点击时，这会尝试按用户的意图切换复选框。因此，如果你使用 `MAT_CHECKBOX_DEFAULT_OPTIONS` 改变过点击时的行为，那么调用这个方法可能产生预料之外的效果。
    *
    */
-  async toggle(): Promise<void> {
-    return (await this._inputContainer()).click();
-  }
+  abstract toggle(): Promise<void>;
 
   /**
    * Puts the checkbox in a checked state by toggling it if it is currently unchecked, or doing
@@ -241,5 +204,36 @@ export class MatCheckboxHarness extends ComponentHarness {
     if (await this.isChecked()) {
       await this.toggle();
     }
+  }
+}
+
+/** Harness for interacting with a standard mat-checkbox in tests. */
+export class MatCheckboxHarness extends _MatCheckboxHarnessBase {
+  /** The selector for the host element of a `MatCheckbox` instance. */
+  static hostSelector = '.mat-checkbox';
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a `MatCheckboxHarness` that meets
+   * certain criteria.
+   * @param options Options for filtering which checkbox instances are considered a match.
+   * @return a `HarnessPredicate` configured with the given options.
+   */
+  static with(options: CheckboxHarnessFilters = {}): HarnessPredicate<MatCheckboxHarness> {
+    return new HarnessPredicate(MatCheckboxHarness, options)
+        .addOption(
+            'label', options.label,
+            (harness, label) => HarnessPredicate.stringMatches(harness.getLabelText(), label))
+        // We want to provide a filter option for "name" because the name of the checkbox is
+        // only set on the underlying input. This means that it's not possible for developers
+        // to retrieve the harness of a specific checkbox with name through a CSS selector.
+        .addOption('name', options.name, async (harness, name) => await harness.getName() === name);
+  }
+
+  protected _input = this.locatorFor('input');
+  protected _label = this.locatorFor('.mat-checkbox-label');
+  private _inputContainer = this.locatorFor('.mat-checkbox-inner-container');
+
+  async toggle(): Promise<void> {
+    return (await this._inputContainer()).click();
   }
 }

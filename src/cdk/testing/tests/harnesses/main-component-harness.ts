@@ -8,6 +8,8 @@
 
 import {ComponentHarness} from '../../component-harness';
 import {TestElement, TestKey} from '../../test-element';
+import {CompoundSelectorHarness} from './compound-selector-harness';
+import {QuotedCommaSelectorHarness} from './quoted-comma-selector-harness';
 import {SubComponentHarness, SubComponentSpecialHarness} from './sub-component-harness';
 
 export class WrongComponentHarness extends ComponentHarness {
@@ -35,6 +37,8 @@ export class MainComponentHarness extends ComponentHarness {
   readonly multiSelect = this.locatorFor('#multi-select');
   readonly multiSelectValue = this.locatorFor('#multi-select-value');
   readonly multiSelectChangeEventCounter = this.locatorFor('#multi-select-change-counter');
+  readonly numberInput = this.locatorFor('#number-input');
+  readonly numberInputValue = this.locatorFor('#number-input-value');
   readonly contextmenuTestResult = this.locatorFor('.contextmenu-test-result');
   // Allow null for element
   readonly nullItem = this.locatorForOptional('wrong locator');
@@ -79,6 +83,10 @@ export class MainComponentHarness extends ComponentHarness {
       this.locatorForAll(SubComponentHarness.with({ancestor: '.other, .subcomponents'}));
   readonly directAncestorSelectorSubcomponent =
       this.locatorForAll(SubComponentHarness.with({ancestor: '.other >'}));
+  readonly compoundSelectorWithAncestor =
+      this.locatorForAll(CompoundSelectorHarness.with({ancestor: '.parent'}));
+  readonly quotedContentSelectorWithAncestor =
+      this.locatorFor(QuotedCommaSelectorHarness.with({ancestor: '.quoted-comma-parent'}));
 
   readonly subcomponentHarnessesAndElements =
       this.locatorForAll('#counter', SubComponentHarness);

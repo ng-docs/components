@@ -39,9 +39,9 @@ export type ImmutableObject<T> = {
  */
 export class OverlayRef implements PortalOutlet, OverlayReference {
   private _backdropElement: HTMLElement | null = null;
-  private _backdropClick: Subject<MouseEvent> = new Subject();
-  private _attachments = new Subject<void>();
-  private _detachments = new Subject<void>();
+  private readonly _backdropClick = new Subject<MouseEvent>();
+  private readonly _attachments = new Subject<void>();
+  private readonly _detachments = new Subject<void>();
   private _positionStrategy: PositionStrategy | undefined;
   private _scrollStrategy: ScrollStrategy | undefined;
   private _locationChanges: SubscriptionLike = Subscription.EMPTY;
@@ -62,7 +62,7 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
    * 派发给此浮层的 keydown 事件流。
    *
    */
-  _keydownEvents = new Subject<KeyboardEvent>();
+  readonly _keydownEvents = new Subject<KeyboardEvent>();
 
   /**
    * Stream of mouse outside events dispatched to this overlay.
@@ -70,7 +70,7 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
    * 将浮层外鼠标传给此浮层的事件流。
    *
    */
-  _outsidePointerEvents = new Subject<MouseEvent>();
+  readonly _outsidePointerEvents = new Subject<MouseEvent>();
 
   constructor(
       private _portalOutlet: PortalOutlet,
@@ -508,7 +508,7 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
    *
    */
   private _togglePointerEvents(enablePointer: boolean) {
-    this._pane.style.pointerEvents = enablePointer ? 'auto' : 'none';
+    this._pane.style.pointerEvents = enablePointer ? '' : 'none';
   }
 
   /**

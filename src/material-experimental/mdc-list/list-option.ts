@@ -62,11 +62,11 @@ export interface SelectionList extends MatListBase {
   exportAs: 'matListOption',
   styleUrls: ['list-option.css'],
   host: {
-    'class': 'mat-mdc-list-item mat-mdc-list-option mdc-list-item',
+    'class': 'mat-mdc-list-item mat-mdc-list-option mdc-deprecated-list-item',
     'role': 'option',
     // As per MDC, only list items in single selection mode should receive the `--selected`
     // class. For multi selection, the checkbox is used as indicator.
-    '[class.mdc-list-item--selected]': 'selected && !_selectionList.multiple',
+    '[class.mdc-deprecated-list-item--selected]': 'selected && !_selectionList.multiple',
     '[class.mat-mdc-list-item-with-avatar]': '_hasIconOrAvatar()',
     '[class.mat-accent]': 'color !== "primary" && color !== "warn"',
     '[class.mat-warn]': 'color === "warn"',
@@ -121,7 +121,10 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
 
     if (isSelected !== this._selected) {
       this._setSelected(isSelected);
-      this._selectionList._reportValueChange();
+
+      if (isSelected || this._selectionList.multiple) {
+        this._selectionList._reportValueChange();
+      }
     }
   }
   private _selected = false;

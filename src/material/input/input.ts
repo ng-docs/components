@@ -88,8 +88,10 @@ const _MatInputMixinBase: CanUpdateErrorStateCtor & typeof MatInputBase =
     '[disabled]': 'disabled',
     '[required]': 'required',
     '[attr.readonly]': 'readonly && !_isNativeSelect || null',
-    '[attr.aria-invalid]': 'errorState',
-    '[attr.aria-required]': 'required.toString()',
+    // Only mark the input as invalid for assistive technology if it has a value since the
+    // state usually overlaps with `aria-required` when the input is empty and can be redundant.
+    '[attr.aria-invalid]': 'errorState && !empty',
+    '[attr.aria-required]': 'required',
   },
   providers: [{provide: MatFormFieldControl, useExisting: MatInput}],
 })
@@ -123,6 +125,9 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
    *
    */
   readonly _isTextarea: boolean;
+
+  /** Whether the input is inside of a form field. */
+  readonly _isInFormField: boolean;
 
   /**
    * Implemented as part of MatFormFieldControl.
@@ -344,6 +349,7 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
     this._isServer = !this._platform.isBrowser;
     this._isNativeSelect = nodeName === 'select';
     this._isTextarea = nodeName === 'textarea';
+    this._isInFormField = !!_formField;
 
     if (this._isNativeSelect) {
       this.controlType = (element as HTMLSelectElement).multiple ? 'mat-native-select-multiple' :

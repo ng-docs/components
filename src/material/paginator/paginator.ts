@@ -525,6 +525,7 @@ export abstract class _MatPaginatorBase<O extends {
   inputs: ['disabled'],
   host: {
     'class': 'mat-paginator',
+    'role': 'group',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

@@ -9,7 +9,7 @@
 import {FormControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {ErrorStateMatcher} from '../error/error-options';
-import {Constructor} from './constructor';
+import {AbstractConstructor, Constructor} from './constructor';
 
 /** @docs-private */
 export interface CanUpdateErrorState {
@@ -20,7 +20,8 @@ export interface CanUpdateErrorState {
 }
 
 /** @docs-private */
-export type CanUpdateErrorStateCtor = Constructor<CanUpdateErrorState>;
+export type CanUpdateErrorStateCtor = Constructor<CanUpdateErrorState> &
+                                      AbstractConstructor<CanUpdateErrorState>;
 
 /** @docs-private */
 export interface HasErrorState {
@@ -34,8 +35,10 @@ export interface HasErrorState {
  * Mixin to augment a directive with updateErrorState method.
  * For component with `errorState` and need to update `errorState`.
  */
-export function mixinErrorState<T extends Constructor<HasErrorState>>(base: T)
-: CanUpdateErrorStateCtor & T {
+export function mixinErrorState<T extends AbstractConstructor<HasErrorState>>(base: T):
+  CanUpdateErrorStateCtor & T;
+export function mixinErrorState<T extends Constructor<HasErrorState>>(base: T):
+  CanUpdateErrorStateCtor & T {
   return class extends base {
     /** Whether the component is in an error state. */
     errorState: boolean = false;

@@ -67,6 +67,7 @@ ng_module(
         "//src/dev-app/mdc-snack-bar",
         "//src/dev-app/mdc-table",
         "//src/dev-app/mdc-tabs",
+        "//src/dev-app/mdc-tooltip",
         "//src/dev-app/menu",
         "//src/dev-app/menubar",
         "//src/dev-app/paginator",
@@ -106,12 +107,8 @@ sass_binary(
         "external/npm/node_modules",
     ],
     deps = [
-        "//src/material-experimental/column-resize:column_resize_scss_lib",
-        "//src/material-experimental/mdc-color:all_color",
-        "//src/material-experimental/mdc-density:all_density",
-        "//src/material-experimental/mdc-theming:all_themes",
-        "//src/material-experimental/mdc-typography:all_typography",
-        "//src/material-experimental/popover-edit:popover_edit_scss_lib",
+        "//src/material:theming_bundle",
+        "//src/material-experimental:theming_bundle",
         "//src/material/core:theming_scss_lib",
     ],
 )
@@ -119,6 +116,14 @@ sass_binary(
 create_system_config(
     name = "system-config",
     output_name = "system-config.js",
+)
+
+# Variables that are going to be inlined into the dev app index.html.
+filegroup(
+    name = "variables",
+    # Note that we need the * in the pattern, because there's a lint rule which
+    # doesn't allow single files in a `glob`. We have to use a glob, because the file is optional.
+    srcs = glob(["*variables.json"]),
 )
 
 # File group for all static files which are needed to serve the dev-app. These files are
@@ -131,6 +136,7 @@ filegroup(
         "index.html",
         ":system-config",
         ":theme",
+        ":variables",
         "//src/dev-app/icon:icon_demo_assets",
         "//tools:system-rxjs-operators.js",
         "@npm//:node_modules/@material/animation/dist/mdc.animation.js",
@@ -163,8 +169,8 @@ filegroup(
         "@npm//:node_modules/@material/tab-scroller/dist/mdc.tabScroller.js",
         "@npm//:node_modules/@material/tab/dist/mdc.tab.js",
         "@npm//:node_modules/@material/textfield/dist/mdc.textfield.js",
+        "@npm//:node_modules/@material/tooltip/dist/mdc.tooltip.js",
         "@npm//:node_modules/@material/top-app-bar/dist/mdc.topAppBar.js",
-        "@npm//:node_modules/@webcomponents/custom-elements/custom-elements.min.js",
         "@npm//:node_modules/core-js-bundle/index.js",
         "@npm//:node_modules/moment/min/moment-with-locales.min.js",
         "@npm//:node_modules/rxjs/bundles/rxjs.umd.min.js",

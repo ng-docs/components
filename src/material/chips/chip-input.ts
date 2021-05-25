@@ -7,8 +7,18 @@
  */
 
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {hasModifierKey, TAB} from '@angular/cdk/keycodes';
-import {Directive, ElementRef, EventEmitter, Inject, Input, OnChanges, Output} from '@angular/core';
+import {BACKSPACE, hasModifierKey, TAB} from '@angular/cdk/keycodes';
+import {
+  AfterContentInit,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output
+} from '@angular/core';
 import {MatChipsDefaultOptions, MAT_CHIPS_DEFAULT_OPTIONS} from './chip-default-options';
 import {MatChipList} from './chip-list';
 import {MatChipTextControl} from './chip-text-control';
@@ -25,6 +35,8 @@ export interface MatChipInputEvent {
    *
    * 触发该事件的原生 `<input>`
    *
+   * @deprecated Use `MatChipInputEvent#chipInput.inputElement` instead.
+   * @breaking-change 13.0.0 This property will be removed.
    */
   input: HTMLInputElement;
 
@@ -35,6 +47,12 @@ export interface MatChipInputEvent {
    *
    */
   value: string;
+
+  /**
+   * Reference to the chip input that emitted the event.
+   * @breaking-change 13.0.0 This property will be made required.
+   */
+  chipInput?: MatChipInput;
 }
 
 // Increasing integer for generating unique ids.
@@ -53,6 +71,7 @@ let nextUniqueId = 0;
   host: {
     'class': 'mat-chip-input mat-input-element',
     '(keydown)': '_keydown($event)',
+    '(keyup)': '_keyup($event)',
     '(blur)': '_blur()',
     '(focus)': '_focus()',
     '(input)': '_onInput()',
@@ -63,7 +82,10 @@ let nextUniqueId = 0;
     '[attr.aria-required]': '_chipList && _chipList.required || null',
   }
 })
-export class MatChipInput implements MatChipTextControl, OnChanges {
+export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, AfterContentInit {
+  /** Used to prevent focus moving to chips while user is holding backspace */
+  private _focusLastChipOnBackspace: boolean;
+
   /**
    * Whether the control is focused.
    *
@@ -118,8 +140,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges {
    * 当要添加纸片时会触发。
    *
    */
-  @Output('matChipInputTokenEnd')
-  chipEnd: EventEmitter<MatChipInputEvent> = new EventEmitter<MatChipInputEvent>();
+  @Output('matChipInputTokenEnd') readonly chipEnd = new EventEmitter<MatChipInputEvent>();
 
   /**
    * The input's placeholder text.
@@ -154,7 +175,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges {
    * 输入框是否为空。
    *
    */
-  get empty(): boolean { return !this._inputElement.value; }
+  get empty(): boolean { return !this.inputElement.value; }
 
   /**
    * The native input element to which this directive is attached.
@@ -162,16 +183,24 @@ export class MatChipInput implements MatChipTextControl, OnChanges {
    * 该指令所附属的原生输入框元素。
    *
    */
-  protected _inputElement: HTMLInputElement;
+  readonly inputElement: HTMLInputElement;
 
   constructor(
     protected _elementRef: ElementRef<HTMLInputElement>,
     @Inject(MAT_CHIPS_DEFAULT_OPTIONS) private _defaultOptions: MatChipsDefaultOptions) {
-    this._inputElement = this._elementRef.nativeElement as HTMLInputElement;
+    this.inputElement = this._elementRef.nativeElement as HTMLInputElement;
   }
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     this._chipList.stateChanges.next();
+  }
+
+  ngOnDestroy(): void {
+    this.chipEnd.complete();
+  }
+
+  ngAfterContentInit(): void {
+    this._focusLastChipOnBackspace = this.empty;
   }
 
   /**
@@ -181,13 +210,37 @@ export class MatChipInput implements MatChipTextControl, OnChanges {
    *
    */
   _keydown(event?: KeyboardEvent) {
-    // Allow the user's focus to escape when they're tabbing forward. Note that we don't
-    // want to do this when going backwards, because focus should go back to the first chip.
-    if (event && event.keyCode === TAB && !hasModifierKey(event, 'shiftKey')) {
-      this._chipList._allowFocusEscape();
+    if (event) {
+      // Allow the user's focus to escape when they're tabbing forward. Note that we don't
+      // want to do this when going backwards, because focus should go back to the first chip.
+      if (event.keyCode === TAB && !hasModifierKey(event, 'shiftKey')) {
+        this._chipList._allowFocusEscape();
+      }
+
+      // To prevent the user from accidentally deleting chips when pressing BACKSPACE continuously,
+      // We focus the last chip on backspace only after the user has released the backspace button,
+      // and the input is empty (see behaviour in _keyup)
+      if (event.keyCode === BACKSPACE && this._focusLastChipOnBackspace) {
+        this._chipList._keyManager.setLastItemActive();
+        event.preventDefault();
+        return;
+      } else {
+        this._focusLastChipOnBackspace = false;
+      }
     }
 
     this._emitChipEnd(event);
+  }
+
+  /**
+   * Pass events to the keyboard manager. Available here for tests.
+   */
+  _keyup(event: KeyboardEvent) {
+    // Allow user to move focus to chips next time he presses backspace
+    if (!this._focusLastChipOnBackspace && event.keyCode === BACKSPACE && this.empty) {
+      this._focusLastChipOnBackspace = true;
+      event.preventDefault();
+    }
   }
 
   /**
@@ -220,15 +273,18 @@ export class MatChipInput implements MatChipTextControl, OnChanges {
    *
    */
   _emitChipEnd(event?: KeyboardEvent) {
-    if (!this._inputElement.value && !!event) {
+    if (!this.inputElement.value && !!event) {
       this._chipList._keydown(event);
     }
-    if (!event || this._isSeparatorKey(event)) {
-      this.chipEnd.emit({ input: this._inputElement, value: this._inputElement.value });
 
-      if (event) {
-        event.preventDefault();
-      }
+    if (!event || this._isSeparatorKey(event)) {
+      this.chipEnd.emit({
+        input: this.inputElement,
+        value: this.inputElement.value,
+        chipInput: this,
+      });
+
+      event?.preventDefault();
     }
   }
 
@@ -244,7 +300,13 @@ export class MatChipInput implements MatChipTextControl, OnChanges {
    *
    */
   focus(options?: FocusOptions): void {
-    this._inputElement.focus(options);
+    this.inputElement.focus(options);
+  }
+
+  /** Clears the input */
+  clear(): void {
+    this.inputElement.value = '';
+    this._focusLastChipOnBackspace = true;
   }
 
   /**

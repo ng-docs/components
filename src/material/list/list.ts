@@ -92,7 +92,7 @@ export class MatNavList extends _MatListMixinBase implements CanDisable, CanDisa
    * 当列表状态发生变化时发出通知。
    *
    */
-  _stateChanges = new Subject<void>();
+  readonly _stateChanges = new Subject<void>();
 
   ngOnChanges() {
     this._stateChanges.next();
@@ -127,7 +127,7 @@ export class MatList extends _MatListMixinBase implements CanDisable, CanDisable
    * 当列表状态发生变化时发出通知。
    *
    */
-  _stateChanges = new Subject<void>();
+  readonly _stateChanges = new Subject<void>();
 
   constructor(private _elementRef: ElementRef<HTMLElement>) {
     super();
@@ -227,7 +227,7 @@ export class MatListItem extends _MatListItemMixinBase implements AfterContentIn
     CanDisableRipple, OnDestroy {
   private _isInteractiveList: boolean = false;
   private _list?: MatNavList | MatList;
-  private _destroyed = new Subject<void>();
+  private readonly _destroyed = new Subject<void>();
 
   @ContentChildren(MatLine, {descendants: true}) _lines: QueryList<MatLine>;
   @ContentChild(MatListAvatarCssMatStyler) _avatar: MatListAvatarCssMatStyler;

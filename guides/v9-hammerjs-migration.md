@@ -8,14 +8,14 @@ enable use of HammerJS events in templates.
 
 在版本 9 中，Angular Material 的任何组件都不再需要 HammerJS。以前依赖于 HammerJS 的组件不再提供[`HAMMER_GESTURE_CONFIG`][1]，以便能在模板中使用 HammerJS 事件。 
 
-Additionally the `GestureConfig` export from `@angular/material/core` has been marked as
+Additionally, the `GestureConfig` export from `@angular/material/core` has been marked as
 deprecated and will be removed in version 10.
 
 此外，来自 `@angular/material/core` 的 `GestureConfig` 导出已被标记为弃用，并将在版本 10 中删除。
 
-### Why is a migration needed?
+## Why is a migration needed?
 
-### 为何需要进行迁移？
+## 为何需要进行迁移？
 
 Since HammerJS previously was a requirement for a few Angular Material components, projects might
 have installed `HammerJS` exclusively for Angular Material. Since HammerJS is no longer needed when
@@ -31,9 +31,9 @@ these HammerJS events.
 
 在某些情况下，项目会在模板中使用 HammerJS 事件，从而依赖 Angular Material 模块来设置 HammerJS 事件插件。由于版本 9 中情况发生了变化，所以这些项目需要手动配置 HammerJS 事件插件才能继续使用这些 HammerJS 事件。
 
-### What does the migration do?
+## What does the migration do?
 
-### 本迁移是做什么的？
+## 本迁移是做什么的？
 
 The migration automatically removes HammerJS from your project if HammerJS is not used.
 
@@ -60,9 +60,9 @@ are required. Read more [in the dedicated section](#the-migration-reported-ambig
 
 如果你的应用提供了一个自定义的 [`HAMMER_GESTURE_CONFIG`][1]，并且引用了那个已弃用的 Angular Material `GestureConfig`，那么本迁移就会打印一个关于有歧义用法的警告。本迁移无法自动迁移该项目，需要手动修改。欲知详情，参见[专门的章节](#the-migration-reported-ambiguous-usage-what-should-i-do)。
 
-### How does the schematic remove HammerJS?
+## How does the schematic remove HammerJS?
 
-### 原理图如何去掉 HammerJS？
+## 原理图如何去掉 HammerJS？
 
 HammerJS can be set up in many ways. The migration handles the most common cases, covering
 approaches recommended by Angular Material in the past. The migration performs the following steps:
@@ -103,9 +103,9 @@ the test setup and resolve any test issues. Read more in a
 
 迁移不能自动从测试中删除 HammerJS。请手动清理测试的设置代码并解决所有测试问题。阅读[专题文章](#how-to-migrate-my-tests)以了解测试迁移的更多内容。
 
-### How do I migrate references to the deprecated `GestureConfig`?
+## How do I migrate references to the deprecated `GestureConfig`?
 
-### 如何迁移到已弃用的 `GestureConfig` 的引用？
+## 如何迁移到已弃用的 `GestureConfig` 的引用？
 
 The `GestureConfig` can be consumed in multiple ways. The migration covers the most common cases.
 The most common case is that an `NgModule` in your application directly provides `GestureConfig`:
@@ -143,9 +143,9 @@ automatically, but the migration will report such patterns and ask you to perfor
 还有一些模式对弃用的 `GestureConfig`进行了扩展、注入或与其他自定义手势配置组合使用。这些模式无法自动处理，但是本迁移会报告这些模式，并要求你进行手动清理。
 
 <a name="test-migration"></a>
-### How to migrate my tests?
+## How to migrate my tests?
 
-### 如何迁移我的测试？
+## 如何迁移我的测试？
 
 Components in your project might use Angular Material components which previously depended
 upon HammerJS. There might be unit tests for these components which also test gesture functionality
@@ -173,13 +173,13 @@ import 'hammerjs';
 ```
 
 <a name="what-to-do-ambiguous-usage"></a>
-### The migration reported ambiguous usage. What should I do?
+## The migration reported ambiguous usage. What should I do?
 
-### 本迁移报告了“有歧义用法”。我该怎么办？
+## 本迁移报告了“有歧义用法”。我该怎么办？
 
 **Case 1**: It detected that a HammerJS event provided by the deprecated `GestureConfig` is
 used in a component template. This is because the migration relies on static analysis to detect
-event bindings and can never guarantee that a event binding is bound to the Hammer gesture
+event bindings and can never guarantee that an event binding is bound to the Hammer gesture
 plugin, or to an actual `@Output`. For example:
 
 **案例 1**：它检测到组件模板中使用了已弃用的 `GestureConfig` 所提供的 HammerJS 事件。这是因为本迁移依赖于静态分析来检测事件绑定，并且永远不能保证没有事件绑定用到了 Hammer 手势插件，或者绑定到实际的 `@Output`。例如：

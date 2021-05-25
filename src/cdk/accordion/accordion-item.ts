@@ -60,21 +60,21 @@ export class CdkAccordionItem implements OnDestroy {
    * 每次关闭此条目时都会发出本事件。
    *
    */
-  @Output() closed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() readonly closed: EventEmitter<void> = new EventEmitter<void>();
   /**
    * Event emitted every time the AccordionItem is opened.
    *
    * 每次打开此条目时都会发出本事件。
    *
    */
-  @Output() opened: EventEmitter<void> = new EventEmitter<void>();
+  @Output() readonly opened: EventEmitter<void> = new EventEmitter<void>();
   /**
    * Event emitted when the AccordionItem is destroyed.
    *
    * 当此条目被销毁时会发出本事件。
    *
    */
-  @Output() destroyed: EventEmitter<void> = new EventEmitter<void>();
+  @Output() readonly destroyed: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * Emits whenever the expanded state of the accordion changes.
@@ -84,7 +84,7 @@ export class CdkAccordionItem implements OnDestroy {
    *
    * @docs-private
    */
-  @Output() expandedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() readonly expandedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
    * The unique AccordionItem id.
@@ -101,8 +101,8 @@ export class CdkAccordionItem implements OnDestroy {
    *
    */
   @Input()
-  get expanded(): any { return this._expanded; }
-  set expanded(expanded: any) {
+  get expanded(): boolean { return this._expanded; }
+  set expanded(expanded: boolean) {
     expanded = coerceBooleanProperty(expanded);
 
     // Only emit events and update the internal value if the value changes.
@@ -139,9 +139,9 @@ export class CdkAccordionItem implements OnDestroy {
    *
    */
   @Input()
-  get disabled() { return this._disabled; }
-  set disabled(disabled: any) { this._disabled = coerceBooleanProperty(disabled); }
-  private _disabled: boolean = false;
+  get disabled(): boolean { return this._disabled; }
+  set disabled(disabled: boolean) { this._disabled = coerceBooleanProperty(disabled); }
+  private _disabled = false;
 
   /**
    * Unregister function for \_expansionDispatcher.

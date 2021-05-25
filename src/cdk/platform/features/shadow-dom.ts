@@ -29,7 +29,7 @@ export function _supportsShadowDom(): boolean {
  * 获取元素的 Shadow DOM 根（如果支持并且该元素在 Shadow DOM 内）。
  *
  */
-export function _getShadowRoot(element: HTMLElement): Node | null {
+export function _getShadowRoot(element: HTMLElement): ShadowRoot | null {
   if (_supportsShadowDom()) {
     const rootNode = element.getRootNode ? element.getRootNode() : null;
 

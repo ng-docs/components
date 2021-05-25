@@ -29,6 +29,7 @@ import {
 import {
   CanColor,
   CanColorCtor,
+  CanDisable,
   CanDisableRipple,
   CanDisableRippleCtor,
   HasTabIndex,
@@ -177,7 +178,7 @@ export class MatChipTrailingIcon {}
   },
 })
 export class MatChip extends _MatChipMixinBase implements FocusableOption, OnDestroy, CanColor,
-  CanDisableRipple, RippleTarget, HasTabIndex {
+  CanDisableRipple, RippleTarget, HasTabIndex, CanDisable {
 
   /**
    * Reference to the RippleRenderer for the chip.

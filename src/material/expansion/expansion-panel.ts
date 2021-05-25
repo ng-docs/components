@@ -169,7 +169,7 @@ export class MatExpansionPanel extends CdkAccordionItem implements AfterContentI
    * 面板体展开动画发生后触发的事件。
    *
    */
-  @Output() afterExpand = new EventEmitter<void>();
+  @Output() readonly afterExpand = new EventEmitter<void>();
 
   /**
    * An event emitted after the body's collapse animation happens.
@@ -177,7 +177,7 @@ export class MatExpansionPanel extends CdkAccordionItem implements AfterContentI
    * 面板体折叠动画发生后触发的事件。。
    *
    */
-  @Output() afterCollapse = new EventEmitter<void>();
+  @Output() readonly afterCollapse = new EventEmitter<void>();
 
   /**
    * Stream that emits for changes in `@Input` properties.
@@ -233,7 +233,7 @@ export class MatExpansionPanel extends CdkAccordionItem implements AfterContentI
    * 面板体动画完成的事件流。
    *
    */
-  _bodyAnimationDone = new Subject<AnimationEvent>();
+  readonly _bodyAnimationDone = new Subject<AnimationEvent>();
 
   constructor(@Optional() @SkipSelf() @Inject(MAT_ACCORDION) accordion: MatAccordionBase,
               _changeDetectorRef: ChangeDetectorRef,
@@ -323,7 +323,7 @@ export class MatExpansionPanel extends CdkAccordionItem implements AfterContentI
     if (this._lazyContent) {
       // Render the content as soon as the panel becomes open.
       this.opened.pipe(
-        startWith(null!),
+        startWith(null),
         filter(() => this.expanded && !this._portal),
         take(1)
       ).subscribe(() => {
@@ -359,8 +359,6 @@ export class MatExpansionPanel extends CdkAccordionItem implements AfterContentI
   }
 
   static ngAcceptInputType_hideToggle: BooleanInput;
-  static ngAcceptInputType_expanded: BooleanInput;
-  static ngAcceptInputType_disabled: BooleanInput;
 }
 
 /**

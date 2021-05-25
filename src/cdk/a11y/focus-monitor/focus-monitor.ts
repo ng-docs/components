@@ -23,7 +23,10 @@ import {
 import {Observable, of as observableOf, Subject, Subscription} from 'rxjs';
 import {coerceElement} from '@angular/cdk/coercion';
 import {DOCUMENT} from '@angular/common';
-import {isFakeMousedownFromScreenReader} from '../fake-mousedown';
+import {
+  isFakeMousedownFromScreenReader,
+  isFakeTouchstartFromScreenReader,
+} from '../fake-event-detection';
 
 // This is the value used by AngularJS Material. Through trial and error (on iPhone 6S) they found
 // that a value of around 650ms seems appropriate.
@@ -95,8 +98,8 @@ export const FOCUS_MONITOR_DEFAULT_OPTIONS =
 
 type MonitoredElementInfo = {
   checkChildren: boolean,
-  subject: Subject<FocusOrigin>,
-  rootNode: HTMLElement|Document
+  readonly subject: Subject<FocusOrigin>,
+  rootNode: HTMLElement|ShadowRoot|Document
 };
 
 /**
@@ -200,7 +203,7 @@ export class FocusMonitor implements OnDestroy {
    * 跟踪我们当前已将焦点/失焦处理器绑定到的根节点，以及它们包含的受监视元素的数量。我们必须将焦点/失焦处理程序与其余事件区别对待，因为当焦点移到 Shadow DOM 根内部时，浏览器不会向文档发出事件。
    *
    */
-  private _rootNodeFocusListenerCount = new Map<HTMLElement|Document, number>();
+  private _rootNodeFocusListenerCount = new Map<HTMLElement|Document|ShadowRoot, number>();
 
   /**
    * The specified detection mode, used for attributing the origin of a focus
@@ -250,15 +253,21 @@ export class FocusMonitor implements OnDestroy {
    *
    */
   private _documentTouchstartListener = (event: TouchEvent) => {
-    // When the touchstart event fires the focus event is not yet in the event queue. This means
-    // we can't rely on the trick used above (setting timeout of 1ms). Instead we wait 650ms to
-    // see if a focus happens.
-    if (this._touchTimeoutId != null) {
-      clearTimeout(this._touchTimeoutId);
-    }
+    // Some screen readers will fire a fake `touchstart` event if an element is activated using
+    // the keyboard while on a device with a touchsreen. Consider such events as keyboard focus.
+    if (!isFakeTouchstartFromScreenReader(event)) {
+      // When the touchstart event fires the focus event is not yet in the event queue. This means
+      // we can't rely on the trick used above (setting timeout of 1ms). Instead we wait 650ms to
+      // see if a focus happens.
+      if (this._touchTimeoutId != null) {
+        clearTimeout(this._touchTimeoutId);
+      }
 
-    this._lastTouchTarget = getTarget(event);
-    this._touchTimeoutId = setTimeout(() => this._lastTouchTarget = null, TOUCH_BUFFER_MS);
+      this._lastTouchTarget = getTarget(event);
+      this._touchTimeoutId = setTimeout(() => this._lastTouchTarget = null, TOUCH_BUFFER_MS);
+    } else if (!this._lastTouchTarget) {
+      this._setOriginForCurrentEventQueue('keyboard');
+    }
   }
 
   /**
@@ -364,7 +373,7 @@ export class FocusMonitor implements OnDestroy {
     // If the element is inside the shadow DOM, we need to bind our focus/blur listeners to
     // the shadow root, rather than the `document`, because the browser won't emit focus events
     // to the `document`, if focus is moving within the same shadow root.
-    const rootNode = (_getShadowRoot(nativeElement) as HTMLElement|null) || this._getDocument();
+    const rootNode = _getShadowRoot(nativeElement) || this._getDocument();
     const cachedInfo = this._elementInfo.get(nativeElement);
 
     // Check if we're already monitoring this element.
@@ -834,7 +843,7 @@ function getTarget(event: Event): HTMLElement|null {
 })
 export class CdkMonitorFocus implements AfterViewInit, OnDestroy {
   private _monitorSubscription: Subscription;
-  @Output() cdkFocusChange = new EventEmitter<FocusOrigin>();
+  @Output() readonly cdkFocusChange = new EventEmitter<FocusOrigin>();
 
   constructor(private _elementRef: ElementRef<HTMLElement>, private _focusMonitor: FocusMonitor) {}
 

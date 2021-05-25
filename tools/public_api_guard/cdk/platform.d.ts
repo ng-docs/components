@@ -1,4 +1,4 @@
-export declare function _getShadowRoot(element: HTMLElement): Node | null;
+export declare function _getShadowRoot(element: HTMLElement): ShadowRoot | null;
 
 export declare function _supportsShadowDom(): boolean;
 
@@ -19,13 +19,14 @@ export declare class Platform {
     WEBKIT: boolean;
     isBrowser: boolean;
     constructor(_platformId: Object);
-    static ɵfac: i0.ɵɵFactoryDef<Platform, never>;
-    static ɵprov: i0.ɵɵInjectableDef<Platform>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<Platform, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<Platform>;
 }
 
 export declare class PlatformModule {
-    static ɵinj: i0.ɵɵInjectorDef<PlatformModule>;
-    static ɵmod: i0.ɵɵNgModuleDefWithMeta<PlatformModule, never, never, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<PlatformModule, never>;
+    static ɵinj: i0.ɵɵInjectorDeclaration<PlatformModule>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<PlatformModule, never, never, never>;
 }
 
 export declare const enum RtlScrollAxisType {

@@ -12,13 +12,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="theme.css" rel="stylesheet">
 
-  <script>
-    if (window.customElements) {
-      window.customElements.forcePolyfill = true;
-    }
-  </script>
-  <script src="@webcomponents/custom-elements/custom-elements.min.js"></script>
-
   <!-- FontAwesome for mat-icon demo. -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
@@ -30,8 +23,15 @@
   <script src="systemjs/dist/system.js"></script>
   <script src="system-config.js"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
-  <script src="https://maps.googleapis.com/maps/api/js"></script>
   <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
+  <script>
+    (function loadGoogleMaps(key) {
+      var script = document.createElement('script');
+      script.src = 'https://maps.googleapis.com/maps/api/js?libraries=visualization' +
+        (key ? '&key=' + key : '');
+      document.body.appendChild(script);
+    })(window.DEV_APP_VARIABLES.GOOGLE_MAPS_KEY);
+  </script>
   <script>
     System.config({
       map: {

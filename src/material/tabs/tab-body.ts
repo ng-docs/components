@@ -26,7 +26,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {AnimationEvent} from '@angular/animations';
-import {TemplatePortal, CdkPortalOutlet, PortalHostDirective} from '@angular/cdk/portal';
+import {TemplatePortal, CdkPortalOutlet} from '@angular/cdk/portal';
 import {Directionality, Direction} from '@angular/cdk/bidi';
 import {DOCUMENT} from '@angular/common';
 import {Subscription, Subject} from 'rxjs';
@@ -172,7 +172,7 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
    * 选项卡的动画完成时发出通知。
    *
    */
-  _translateTabComplete = new Subject<AnimationEvent>();
+  readonly _translateTabComplete = new Subject<AnimationEvent>();
 
   /**
    * Event emitted when the tab begins to animate towards the center as the active tab.
@@ -212,7 +212,7 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
     * 这个容器里面的传送点宿主，选项卡本体的内容会加载到此处。
     *
     */
-  abstract _portalHost: PortalHostDirective;
+  abstract _portalHost: CdkPortalOutlet;
 
   /**
    * The tab body content to display.
@@ -381,7 +381,7 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
   }
 })
 export class MatTabBody extends _MatTabBodyBase {
-  @ViewChild(PortalHostDirective) _portalHost: PortalHostDirective;
+  @ViewChild(CdkPortalOutlet) _portalHost: CdkPortalOutlet;
 
   constructor(elementRef: ElementRef<HTMLElement>,
               @Optional() dir: Directionality,

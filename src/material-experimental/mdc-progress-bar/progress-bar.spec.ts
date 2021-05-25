@@ -17,6 +17,19 @@ describe('MDC-based MatProgressBar', () => {
     return TestBed.createComponent<T>(componentType);
   }
 
+  // All children need to be hidden for screen readers in order to support ChromeVox.
+  // More context in the issue: https://github.com/angular/components/issues/22165.
+  it('should have elements wrapped in aria-hidden div', () => {
+    const fixture = createComponent(BasicProgressBar);
+    const host = fixture.nativeElement as Element;
+    const element = host.children[0];
+    const children = element.children;
+    expect(children.length).toBe(3);
+
+    const ariaHidden = Array.from(children).map(child => child.getAttribute('aria-hidden'));
+    expect(ariaHidden).toEqual(['true', 'true', 'true']);
+  });
+
   describe('with animation', () => {
     describe('basic progress-bar', () => {
       it('should apply a mode of "determinate" if no mode is provided.', () => {

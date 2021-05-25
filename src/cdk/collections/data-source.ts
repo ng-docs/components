@@ -27,7 +27,7 @@ export abstract class DataSource<T> {
    * 可观察对象，当数据发生变化时会发出新值。
    *
    */
-  abstract connect(collectionViewer: CollectionViewer): Observable<T[] | ReadonlyArray<T>>;
+  abstract connect(collectionViewer: CollectionViewer): Observable<readonly T[]>;
 
   /**
    * Disconnects a collection viewer (such as a data-table) from this data source. Can be used

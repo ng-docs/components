@@ -215,8 +215,7 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
    * 当选择新值时会发出通知。
    *
    */
-  @Output() readonly selectedValueChange: EventEmitter<MatCalendarUserEvent<number>> =
-      new EventEmitter<MatCalendarUserEvent<number>>();
+  @Output() readonly selectedValueChange = new EventEmitter<MatCalendarUserEvent<number>>();
 
   /**
    * Emits when the preview has changed as a result of a user action.
@@ -224,7 +223,8 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
    * 当预览因用户操作而发生变化时发出通知。
    *
    */
-  @Output() previewChange = new EventEmitter<MatCalendarUserEvent<MatCalendarCell | null>>();
+  @Output() readonly previewChange =
+    new EventEmitter<MatCalendarUserEvent<MatCalendarCell | null>>();
 
   /**
    * The number of blank cells to put at the beginning for the first row.

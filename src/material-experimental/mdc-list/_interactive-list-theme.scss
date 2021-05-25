@@ -1,33 +1,34 @@
-@import '@material/ripple/variables.import';
-@import '../mdc-helpers/mdc-helpers';
+@use '@material/ripple' as mdc-ripple;
+@use 'sass:map';
+@use '../../material/core/theming/theming';
 
 // Mixin that provides colors for the various states of an interactive list-item. MDC
 // has integrated styles for these states but relies on their complex ripples for it.
-@mixin mat-mdc-private-interactive-list-item-state-colors($config) {
-  $is-dark-theme: map-get($config, is-dark);
+@mixin private-interactive-list-item-state-colors($config) {
+  $is-dark-theme: map.get($config, is-dark);
   $state-opacities:
-    if($is-dark-theme, $mdc-ripple-light-ink-opacities, $mdc-ripple-dark-ink-opacities);
+    if($is-dark-theme, mdc-ripple.$light-ink-opacities, mdc-ripple.$dark-ink-opacities);
 
   .mat-mdc-list-item-interactive {
     &::before {
       background: if($is-dark-theme, white, black);
     }
 
-    &.mdc-list-item--selected::before {
-      background: mat-color(map-get($config, primary));
-      opacity: map-get($state-opacities, selected);
+    &.mdc-deprecated-list-item--selected::before {
+      background: theming.get-color-from-palette(map.get($config, primary));
+      opacity: map.get($state-opacities, selected);
     }
 
     &:focus::before {
-      opacity: map-get($state-opacities, focus);
+      opacity: map.get($state-opacities, focus);
     }
   }
 
   // MDC still shows focus/selected state if the option is disabled. Just the hover
   // styles should not show up.
-  .mat-mdc-list-item-interactive:not(.mdc-list-item--disabled) {
+  .mat-mdc-list-item-interactive:not(.mdc-deprecated-list-item--disabled) {
     &:hover::before {
-      opacity: map-get($state-opacities, hover);
+      opacity: map.get($state-opacities, hover);
     }
   }
 }

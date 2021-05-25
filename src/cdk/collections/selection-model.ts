@@ -67,7 +67,7 @@ export class SelectionModel<T> {
    * 当值发生变化时会发出本事件。
    *
    */
-  changed: Subject<SelectionChange<T>> = new Subject();
+  readonly changed = new Subject<SelectionChange<T>>();
 
   constructor(
     private _multiple = false,

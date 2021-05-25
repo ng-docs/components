@@ -91,6 +91,7 @@ describe('MatSelect', () => {
    * that we're only compiling the necessary test components for each test in order to speed up
    * overall test time.
    * @param declarations Components to declare for this block
+   * @param providers Additional providers for this block
    */
   function configureMatSelectTestingModule(declarations: any[], providers: Provider[] = []) {
     TestBed.configureTestingModule({
@@ -212,6 +213,16 @@ describe('MatSelect', () => {
           const labelId = fixture.nativeElement.querySelector('.mat-form-field-label').id;
           const valueId = fixture.nativeElement.querySelector('.mat-select-value').id;
           expect(select.getAttribute('aria-labelledby')).toBe(`${labelId} ${valueId}`);
+        }));
+
+        it('should trim the trigger aria-labelledby when there is no label', fakeAsync(() => {
+          // Reset the `placeholder` which also controls the label of the form field.
+          fixture.componentInstance.select.placeholder = '';
+          fixture.detectChanges();
+
+          // Note that we assert that there are no spaces around the value.
+          const valueId = fixture.nativeElement.querySelector('.mat-select-value').id;
+          expect(select.getAttribute('aria-labelledby')).toBe(`${valueId}`);
         }));
 
         it('should set the tabindex of the select to 0 by default', fakeAsync(() => {
@@ -978,6 +989,19 @@ describe('MatSelect', () => {
           expect(panel.getAttribute('aria-labelledby')).toBe(`${labelId} myLabelId`);
         }));
 
+        it('should trim the custom panel aria-labelledby when there is no label', fakeAsync(() => {
+          // Reset the `placeholder` which also controls the label of the form field.
+          fixture.componentInstance.select.placeholder = '';
+          fixture.componentInstance.ariaLabelledby = 'myLabelId';
+          fixture.componentInstance.select.open();
+          fixture.detectChanges();
+          flush();
+
+          // Note that we assert that there are no spaces around the value.
+          const panel = document.querySelector('.mat-select-panel')!;
+          expect(panel.getAttribute('aria-labelledby')).toBe(`myLabelId`);
+        }));
+
         it('should clear aria-labelledby from the panel if an aria-label is set', fakeAsync(() => {
           fixture.componentInstance.ariaLabel = 'My label';
           fixture.componentInstance.select.open();
@@ -1088,7 +1112,7 @@ describe('MatSelect', () => {
 
             options[1].click();
             fixture.detectChanges();
-            trigger.click();
+            fixture.componentInstance.select.open();
             fixture.detectChanges();
             flush();
 
@@ -1098,9 +1122,12 @@ describe('MatSelect', () => {
 
             fixture.componentInstance.control.setValue(fixture.componentInstance.foods[7].value);
             fixture.detectChanges();
-            trigger.click();
+            fixture.componentInstance.select.close();
             fixture.detectChanges();
             flush();
+
+            fixture.componentInstance.select.open();
+            fixture.detectChanges();
 
             activeOptions = options.filter(option => option.classList.contains('mat-active'));
             expect(activeOptions).toEqual([options[7]],
@@ -1129,7 +1156,7 @@ describe('MatSelect', () => {
 
         it('should set the `aria-labelledby` attribute', fakeAsync(() => {
           let group = groups[0];
-          let label = group.querySelector('label')!;
+          let label = group.querySelector('span')!;
 
           expect(label.getAttribute('id')).toBeTruthy('Expected label to have an id.');
           expect(group.getAttribute('aria-labelledby'))
@@ -2374,7 +2401,7 @@ describe('MatSelect', () => {
           .toBe(true, 'Label should be floating');
     }));
 
-    it ('should default to global floating label type', fakeAsync(() => {
+    it('should default to global floating label type', fakeAsync(() => {
       fixture.destroy();
 
       TestBed.resetTestingModule();
@@ -2402,6 +2429,19 @@ describe('MatSelect', () => {
 
       expect(formField.classList.contains('mat-form-field-can-float'))
           .toBe(true, 'Label should be able to float');
+      expect(formField.classList.contains('mat-form-field-should-float'))
+          .toBe(true, 'Label should be floating');
+    }));
+
+    it('should float the label on focus if it has a placeholder', fakeAsync(() => {
+      expect(fixture.componentInstance.placeholder).toBeTruthy();
+
+      fixture.componentInstance.floatLabel = 'auto';
+      fixture.detectChanges();
+
+      dispatchFakeEvent(fixture.nativeElement.querySelector('.mat-select'), 'focus');
+      fixture.detectChanges();
+
       expect(formField.classList.contains('mat-form-field-should-float'))
           .toBe(true, 'Label should be floating');
     }));
@@ -2952,7 +2992,7 @@ describe('MatSelect', () => {
 
           expect(fixture.componentInstance.control.value).toBeNull();
           expect(fixture.componentInstance.select.selected).toBeFalsy();
-          expect(formField.classList).not.toContain('mat-formf-field-should-float');
+          expect(formField.classList).not.toContain('mat-form-field-should-float');
           expect(trigger.textContent).not.toContain('Null');
           expect(trigger.textContent).not.toContain('Undefined');
         }));
@@ -3159,6 +3199,7 @@ describe('MatSelect', () => {
       const select = fixture.debugElement.nativeElement.querySelector('mat-select');
 
       fixture.detectChanges();
+      select.focus(); // Focus manually since the programmatic click might not do it.
       fixture.debugElement.query(By.css('.mat-select-trigger'))!.nativeElement.click();
       fixture.detectChanges();
       flush();
@@ -4225,6 +4266,25 @@ describe('MatSelect', () => {
               .toBe(Math.floor(triggerTop), 'Expected trigger to align with the first option.');
         }
       }));
+
+      it('should not adjust if option centering is disabled any option under a group is selected',
+        fakeAsync(() => {
+          groupFixture.componentInstance.select.disableOptionCentering = true;
+          groupFixture.componentInstance.control.setValue('oddish-1');
+          groupFixture.detectChanges();
+
+          trigger.click();
+          groupFixture.detectChanges();
+          flush();
+
+          const selected = document.querySelector('.cdk-overlay-pane mat-option.mat-selected')!;
+          const selectedOptionLeft = selected.getBoundingClientRect().left;
+          const triggerLeft = trigger.getBoundingClientRect().left;
+
+          // 16px is the default option padding
+          expect(Math.floor(selectedOptionLeft)).toEqual(Math.floor(triggerLeft - 16));
+        })
+      );
     });
   });
 
@@ -4621,6 +4681,54 @@ describe('MatSelect', () => {
       }).not.toThrow();
     }));
 
+    it('should be able to programmatically set an array with duplicate values', fakeAsync(() => {
+      testInstance.foods = [
+        { value: 'steak-0', viewValue: 'Steak' },
+        { value: 'pizza-1', viewValue: 'Pizza' },
+        { value: 'pizza-1', viewValue: 'Pizza' },
+        { value: 'pizza-1', viewValue: 'Pizza' },
+        { value: 'pizza-1', viewValue: 'Pizza' },
+        { value: 'pizza-1', viewValue: 'Pizza' },
+      ];
+      fixture.detectChanges();
+      testInstance.control.setValue(['steak-0', 'pizza-1', 'pizza-1', 'pizza-1']);
+      fixture.detectChanges();
+
+      trigger.click();
+      fixture.detectChanges();
+
+      const optionNodes = Array.from(overlayContainerElement.querySelectorAll('mat-option'));
+      const optionInstances = testInstance.options.toArray();
+
+      expect(optionNodes.map(node => node.classList.contains('mat-selected')))
+        .toEqual([true, true, true, true, false, false]);
+
+      expect(optionInstances.map(instance => instance.selected))
+        .toEqual([true, true, true, true, false, false]);
+    }));
+
+    it('should update the option selected state if the same array is mutated and passed back in',
+      fakeAsync(() => {
+        const value: string[] = [];
+        trigger.click();
+        testInstance.control.setValue(value);
+        fixture.detectChanges();
+
+        const optionNodes =
+            Array.from<HTMLElement>(overlayContainerElement.querySelectorAll('mat-option'));
+        const optionInstances = testInstance.options.toArray();
+
+        expect(optionNodes.some(option => option.classList.contains('mat-selected'))).toBe(false);
+        expect(optionInstances.some(option => option.selected)).toBe(false);
+
+        value.push('eggs-5');
+        testInstance.control.setValue(value);
+        fixture.detectChanges();
+
+        expect(optionNodes[5].classList).toContain('mat-selected');
+        expect(optionInstances[5].selected).toBe(true);
+      }));
+
   });
 
   it('should be able to provide default values through an injection token', fakeAsync(() => {
@@ -4920,7 +5028,7 @@ class BasicSelectOnPushPreselected {
   selector: 'floating-label-select',
   template: `
     <mat-form-field [floatLabel]="floatLabel">
-      <mat-select placeholder="Food I want to eat right now" [formControl]="control">
+      <mat-select [placeholder]="placeholder" [formControl]="control">
         <mat-option *ngFor="let food of foods" [value]="food.value">
           {{ food.viewValue }}
         </mat-option>
@@ -4930,6 +5038,7 @@ class BasicSelectOnPushPreselected {
 })
 class FloatLabelSelect {
   floatLabel: FloatLabelType | null = 'auto';
+  placeholder = 'Food I want to eat right now';
   control = new FormControl();
   foods: any[] = [
     { value: 'steak-0', viewValue: 'Steak' },
@@ -5034,7 +5143,7 @@ class BasicSelectWithTheming {
   selector: 'reset-values-select',
   template: `
     <mat-form-field>
-      <mat-select placeholder="Food" [formControl]="control">
+      <mat-select [formControl]="control">
         <mat-option *ngFor="let food of foods" [value]="food.value">
           {{ food.viewValue }}
         </mat-option>

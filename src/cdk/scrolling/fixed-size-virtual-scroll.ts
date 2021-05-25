@@ -20,7 +20,7 @@ import {CdkVirtualScrollViewport} from './virtual-scroll-viewport';
  *
  */
 export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
-  private _scrolledIndexChange = new Subject<number>();
+  private readonly _scrolledIndexChange = new Subject<number>();
 
   /**
    *

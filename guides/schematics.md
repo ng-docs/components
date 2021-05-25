@@ -1,16 +1,18 @@
+# Installation and Code Generation
+
 Angular Material comes packaged with Angular CLI schematics to make creating Material applications easier.
 
 Angular Material 带了一份供 Angular CLI 使用的原理图（schematic），可以让创建 Material 应用更简单些。
 
-### Install Schematics
+## Install Schematics
 
-### 安装原理图
+## 安装原理图
 
 Schematics are included with both `@angular/cdk` and `@angular/material`. Once you install the npm packages, they will be available through the Angular CLI.
 
 Angular Material 附带了一些原理图，一旦你安装了这个 npm 包，就可以通过 Angular CLI 来使用这些原理图了。
 
-Using the command below will install Angular Material, the [Component Dev Kit](https://material.angular.io/cdk) (CDK), and [Angular Animations](https://angular.io/guide/animations) in your project. Then it will run the install schematic.
+Using the command below will install Angular Material, the [Component Dev Kit](https://material.angular.io/cdk) (CDK), and [Angular Animations](https://angular.io/guide/animations) in your project. Then it will run the installation schematic.
 
 运行下列命令可以自动为你的项目安装 Angular Material、[组件开发工具](/cdk) (CDK) 和 [Angular 动画库](/guide/animations)，并运行代码原理图。
 
@@ -26,7 +28,7 @@ In case you just want to install the `@angular/cdk`, there are also schematics f
 ng add @angular/cdk
 ```
 
-The Angular Material `ng add` schematic helps you setup an Angular CLI project that uses Material. Running `ng add` will:
+The Angular Material `ng add` schematic helps you set up an Angular CLI project that uses Material. Running `ng add` will:
 
 Angular Material 的 `ng add` 原理图会帮助你的 Angular CLI 项目配置 Angular Material。运行 `ng add` 将会：
 
@@ -74,7 +76,8 @@ Angular Material 的 `ng add` 原理图会帮助你的 Angular CLI 项目配置 
 
 ## 组件原理图
 
-In addition to the install schematic, Angular Material comes with multiple schematics that can be used to easily generate Material Design components:
+In addition to the installation schematic, Angular Material comes with multiple schematics that can be
+used to easily generate Material Design components:
 
 除了用于安装的 schematic 之外，Angular Material 还带有多个原理图，用于轻松生成 Material Design 组件：
 
@@ -92,7 +95,7 @@ In addition to the install schematic, Angular Material comes with multiple schem
 | `tree`         | Component that interactively visualizes a nested folder structure by using the `<mat-tree>` component  |
 | `tree`         | 该组件以 `<mat-tree>` 组件来展示一个可交互的文件夹式结构 |
 
-Additionally the Angular CDK also comes with a collection of component schematics:
+Additionally, the Angular CDK also comes with a collection of component schematics:
 
 此外，Angular CDK 也给出了一些组件的原理图：
 
@@ -102,9 +105,9 @@ Additionally the Angular CDK also comes with a collection of component schematic
 | `drag-drop`    | Component that uses the `@angular/cdk/drag-drop` directives for creating an interactive to-do list |
 | `drag-drop`    | 该组件使用 `@angular/cdk/drag-drop` 指令来创建一个可交互的 to-do 列表 |
 
-#### Address form schematic
+### Address form schematic
 
-#### 地址表单原理图
+### 地址表单原理图
 
 Running the `address-form` schematic generates a new Angular component that can be used to get started with a Material Design form group consisting of:
 
@@ -126,11 +129,12 @@ Running the `address-form` schematic generates a new Angular component that can 
 ng generate @angular/material:address-form <component-name>
 ```
 
-#### Navigation schematic
+### Navigation schematic
 
-#### 导航原理图
+### 导航原理图
 
-The `navigation` schematic will create a new component that includes a toolbar with the app name and a responsive side nav based on Material breakpoints.
+The `navigation` schematic will create a new component that includes a toolbar with the app name, and a responsive side nav based on Material
+breakpoints.
 
 `navigation` 原理图将会创建一个包括应用名的工具栏和一个能自适应 Material 的断点的侧边栏。
 
@@ -138,9 +142,9 @@ The `navigation` schematic will create a new component that includes a toolbar w
 ng generate @angular/material:navigation <component-name>
 ```
 
-#### Table schematic
+### Table schematic
 
-#### 表格原理图
+### 表格原理图
 
 The table schematic will create a component that renders an Angular Material `<table>` which has been pre-configured with a datasource for sorting and pagination.
 
@@ -150,9 +154,9 @@ The table schematic will create a component that renders an Angular Material `<t
 ng generate @angular/material:table <component-name>
 ```
 
-#### Dashboard schematic
+### Dashboard schematic
 
-#### 仪表盘原理图
+### 仪表盘原理图
 
 The `dashboard` schematic will create a new component that contains a dynamic grid list of Material Design cards.
 
@@ -162,9 +166,9 @@ The `dashboard` schematic will create a new component that contains a dynamic gr
 ng generate @angular/material:dashboard <component-name>
 ```
 
-#### Tree schematic
+### Tree schematic
 
-#### 树原理图
+### 树原理图
 
 The `tree` schematic can be used to quickly generate an Angular component that uses the Angular Material `<mat-tree>` component to visualize a nested folder structure.
 
@@ -174,9 +178,9 @@ The `tree` schematic can be used to quickly generate an Angular component that u
 ng generate @angular/material:tree <component-name>
 ```
 
-#### Drag and Drop schematic
+### Drag and Drop schematic
 
-#### 拖放原理图
+### 拖放原理图
 
 The `drag-drop` schematic is provided by the `@angular/cdk` and can be used to generate a component that uses the CDK drag and drop directives.
 

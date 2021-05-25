@@ -152,7 +152,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
    * 当传送点连接到此出口地标时，会发出通知。
    *
    */
-  @Output() attached: EventEmitter<CdkPortalOutletAttachedRef> =
+  @Output() readonly attached: EventEmitter<CdkPortalOutletAttachedRef> =
       new EventEmitter<CdkPortalOutletAttachedRef>();
 
   /**
@@ -280,6 +280,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
     portal.setAttachedHost(this);
     element.parentNode!.insertBefore(anchorNode, element);
     this._getRootNode().appendChild(element);
+    this._attachedPortal = portal;
 
     super.setDisposeFn(() => {
       if (anchorNode.parentNode) {

@@ -141,22 +141,6 @@ export const STEP_STATE = {
 export const STEPPER_GLOBAL_OPTIONS = new InjectionToken<StepperOptions>('STEPPER_GLOBAL_OPTIONS');
 
 /**
- * InjectionToken that can be used to specify the global stepper options.
- *
- * 这个注入令牌可以用来指定全局的步进器选项。
- *
- * @deprecated Use `STEPPER_GLOBAL_OPTIONS` instead.
- *
- * 请改用 `STEPPER_GLOBAL_OPTIONS` 。
- *
- * @breaking-change 8.0.0.
- *
- * 8.0.0
- *
- */
-export const MAT_STEPPER_GLOBAL_OPTIONS = STEPPER_GLOBAL_OPTIONS;
-
-/**
  * Configurable options for stepper.
  *
  * 步进器的可配置选项。
@@ -192,7 +176,6 @@ export interface StepperOptions {
 })
 export class CdkStep implements OnChanges {
   private _stepperOptions: StepperOptions;
-  _showError: boolean;
   _displayDefaultIndicatorType: boolean;
 
   /**
@@ -220,12 +203,16 @@ export class CdkStep implements OnChanges {
   @Input() stepControl: AbstractControlLike;
 
   /**
-   * Whether user has seen the expanded step content or not.
+   * Whether user has attempted to move away from the step.
    *
-   * 用户是否看过展开后的步骤内容。
+   * 用户是否试图从这一步离开。
    *
    */
   interacted = false;
+
+  /** Emits when the user has attempted to move away from the step. */
+  @Output('interacted')
+  readonly interactedStream: EventEmitter<CdkStep> = new EventEmitter<CdkStep>();
 
   /**
    * Plain text label of the step.
@@ -336,19 +323,11 @@ export class CdkStep implements OnChanges {
     return this.stepControl && this.stepControl.invalid && this.interacted;
   }
 
-  /**
-   *
-   * @breaking-change 8.0.0 remove the `?` after `stepperOptions`
-   *
-   * 8.0.0 删除 `stepperOptions` 后的 `?`
-   *
-   */
   constructor(
       @Inject(forwardRef(() => CdkStepper)) public _stepper: CdkStepper,
       @Optional() @Inject(STEPPER_GLOBAL_OPTIONS) stepperOptions?: StepperOptions) {
     this._stepperOptions = stepperOptions ? stepperOptions : {};
     this._displayDefaultIndicatorType = this._stepperOptions.displayDefaultIndicatorType !== false;
-    this._showError = !!this._stepperOptions.showError;
   }
 
   /**
@@ -389,6 +368,20 @@ export class CdkStep implements OnChanges {
     this._stepper._stateChanged();
   }
 
+  _markAsInteracted() {
+    if (!this.interacted) {
+      this.interacted = true;
+      this.interactedStream.emit(this);
+    }
+  }
+
+  /** Determines whether the error state can be shown. */
+  _showError(): boolean {
+    // We want to show the error state either if the user opted into/out of it using the
+    // global options, or if they've explicitly set it through the `hasError` input.
+    return this._stepperOptions.showError ?? this._customError != null;
+  }
+
   static ngAcceptInputType_editable: BooleanInput;
   static ngAcceptInputType_hasError: BooleanInput;
   static ngAcceptInputType_optional: BooleanInput;
@@ -406,7 +399,7 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    * 当组件被销毁时会触发。
    *
    */
-  protected _destroyed = new Subject<void>();
+  protected readonly _destroyed = new Subject<void>();
 
   /**
    * Used for managing keyboard focus.
@@ -416,15 +409,7 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    */
   private _keyManager: FocusKeyManager<FocusableOption>;
 
-  /**
-   *
-   * @breaking-change 8.0.0 Remove `| undefined` once the `_document`
-   * constructor param is required.
-   *
-   * 8.0.0 删除 `| undefined` 构造函数中的 `_document` 参数是必要的。
-   *
-   */
-  private _document: Document|undefined;
+  private _document: Document;
 
   /**
    * Full list of steps inside the stepper, including inside nested steppers.
@@ -447,14 +432,8 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    *
    * 步进器中各步骤的步骤头列表。
    *
-   * @deprecated Type to be changed to `QueryList<CdkStepHeader>`.
-   *
-   * 输入属性要改为 `QueryList<CdkStepHeader>` 。
-   *
-   * @breaking-change 8.0.0
-   *
    */
-  @ContentChildren(CdkStepHeader, {descendants: true}) _stepHeader: QueryList<FocusableOption>;
+  @ContentChildren(CdkStepHeader, {descendants: true}) _stepHeader: QueryList<CdkStepHeader>;
 
   /**
    * Whether the validity of previous steps should be checked or not.
@@ -490,6 +469,8 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
         throw Error('cdkStepper: Cannot assign out-of-bounds value to `selectedIndex`.');
       }
 
+      this.selected?._markAsInteracted();
+
       if (this._selectedIndex !== newIndex && !this._anyControlsInvalidOrPending(newIndex) &&
           (newIndex >= this._selectedIndex || this.steps.toArray()[newIndex].editable)) {
         this._updateSelectedItemIndex(index);
@@ -507,12 +488,11 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    *
    */
   @Input()
-  get selected(): CdkStep {
-    // @breaking-change 8.0.0 Change return type to `CdkStep | undefined`.
-    return this.steps ? this.steps.toArray()[this.selectedIndex] : undefined!;
+  get selected(): CdkStep | undefined {
+    return this.steps ? this.steps.toArray()[this.selectedIndex] : undefined;
   }
-  set selected(step: CdkStep) {
-    this.selectedIndex = this.steps ? this.steps.toArray().indexOf(step) : -1;
+  set selected(step: CdkStep | undefined) {
+    this.selectedIndex = (step && this.steps) ? this.steps.toArray().indexOf(step) : -1;
   }
 
   /**
@@ -521,8 +501,7 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    * 选定的步骤发生变化时发出的事件。
    *
    */
-  @Output()
-  selectionChange: EventEmitter<StepperSelectionEvent> = new EventEmitter<StepperSelectionEvent>();
+  @Output() readonly selectionChange = new EventEmitter<StepperSelectionEvent>();
 
   /**
    * Used to track unique ID for each stepper component.
@@ -532,12 +511,27 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    */
   _groupId: number;
 
+  /** Orientation of the stepper. */
+  @Input()
+  get orientation(): StepperOrientation { return this._orientation; }
+  set orientation(value: StepperOrientation) {
+    // This is a protected method so that `MatSteppter` can hook into it.
+    this._orientation = value;
+
+    if (this._keyManager) {
+      this._keyManager.withVerticalOrientation(value === 'vertical');
+    }
+  }
+
+  /**
+   * @deprecated To be turned into a private property. Use `orientation` instead.
+   * @breaking-change 13.0.0
+   */
   protected _orientation: StepperOrientation = 'horizontal';
 
   constructor(
       @Optional() private _dir: Directionality, private _changeDetectorRef: ChangeDetectorRef,
-      // @breaking-change 8.0.0 `_elementRef` and `_document` parameters to become required.
-      private _elementRef?: ElementRef<HTMLElement>, @Inject(DOCUMENT) _document?: any) {
+      private _elementRef: ElementRef<HTMLElement>, @Inject(DOCUMENT) _document: any) {
     this._groupId = nextId++;
     this._document = _document;
   }
@@ -680,7 +674,7 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
   }
 
   private _getDefaultIndicatorLogic(step: CdkStep, isCurrentStep: boolean): StepState {
-    if (step._showError && step.hasError && !isCurrentStep) {
+    if (step._showError() && step.hasError && !isCurrentStep) {
       return STEP_STATE.ERROR;
     } else if (!step.completed || isCurrentStep) {
       return STEP_STATE.NUMBER;
@@ -691,7 +685,7 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
 
   private _getGuidelineLogic(
       step: CdkStep, isCurrentStep: boolean, state: StepState = STEP_STATE.NUMBER): StepState {
-    if (step._showError && step.hasError && !isCurrentStep) {
+    if (step._showError() && step.hasError && !isCurrentStep) {
       return STEP_STATE.ERROR;
     } else if (step.completed && !isCurrentStep) {
       return STEP_STATE.DONE;
@@ -753,12 +747,8 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
   }
 
   private _anyControlsInvalidOrPending(index: number): boolean {
-    const steps = this.steps.toArray();
-
-    steps[this._selectedIndex].interacted = true;
-
     if (this._linear && index >= 0) {
-      return steps.slice(0, index).some(step => {
+      return this.steps.toArray().slice(0, index).some(step => {
         const control = step.stepControl;
         const isIncomplete =
             control ? (control.invalid || control.pending || !step.interacted) : !step.completed;
@@ -780,10 +770,6 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    *
    */
   private _containsFocus(): boolean {
-    if (!this._document || !this._elementRef) {
-      return false;
-    }
-
     const stepperElement = this._elementRef.nativeElement;
     const focusedElement = this._document.activeElement;
     return stepperElement === focusedElement || stepperElement.contains(focusedElement);
@@ -827,14 +813,14 @@ interface AbstractControlLike {
   pristine: boolean;
   root: AbstractControlLike;
   status: string;
-  statusChanges: Observable<any>;
+  readonly statusChanges: Observable<any>;
   touched: boolean;
   untouched: boolean;
   updateOn: any;
   valid: boolean;
   validator: ((control: any) => any) | null;
   value: any;
-  valueChanges: Observable<any>;
+  readonly valueChanges: Observable<any>;
   clearAsyncValidators(): void;
   clearValidators(): void;
   disable(opts?: any): void;

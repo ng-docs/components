@@ -34,6 +34,11 @@ the positions `before` and `after` should be used instead of `left` and `right`,
 | `after` | Display to the right in left-to-right layout and to the left in right-to-left layout |
 | `after` | 在 LTR 布局下显示在右侧，RTL 布局下显示在左侧 |
 
+Based on the position in which the tooltip is shown, the `.mat-tooltip-panel` element will receive a
+CSS class that can be used for style (e.g. to add an arrow). The possible classes are
+`mat-tooltip-panel-above`, `mat-tooltip-panel-below`, `mat-tooltip-panel-left`,
+`mat-tooltip-panel-right`.
+
 <!-- example(tooltip-position) -->
 
 ### Showing and hiding

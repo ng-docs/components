@@ -56,7 +56,7 @@ export class ParentPositionTracker {
    * 缓存这些位置。应该在拖曳序列开始时调用。
    *
    */
-  cache(elements: HTMLElement[] | ReadonlyArray<HTMLElement>) {
+  cache(elements: readonly HTMLElement[]) {
     this.clear();
     this.positions.set(this._document, {
       scrollPosition: this._viewportRuler.getViewportScrollPosition(),

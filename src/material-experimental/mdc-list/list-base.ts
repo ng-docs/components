@@ -29,6 +29,7 @@ import {
   RippleTarget,
   setLines,
 } from '@angular/material-experimental/mdc-core';
+import {numbers} from '@material/ripple';
 import {Subscription} from 'rxjs';
 import {startWith} from 'rxjs/operators';
 import {MatListAvatarCssMatStyler, MatListIconCssMatStyler} from './list-styling';
@@ -64,6 +65,7 @@ export abstract class MatListItemBase implements AfterContentInit, OnDestroy, Ri
   private _disableRipple: boolean = false;
 
   /** Whether the list-item is disabled. */
+  @HostBinding('class.mdc-deprecated-list-item--disabled')
   @HostBinding('class.mdc-list-item--disabled')
   @HostBinding('attr.aria-disabled')
   @Input()
@@ -90,8 +92,18 @@ export abstract class MatListItemBase implements AfterContentInit, OnDestroy, Ri
               private _listBase: MatListBase, private _platform: Platform,
               @Optional() @Inject(MAT_RIPPLE_GLOBAL_OPTIONS)
                   globalRippleOptions?: RippleGlobalOptions) {
+    // We have to clone the object, because we don't want to mutate a global value when we assign
+    // the `animation` further down. The downside of doing this is that the ripple renderer won't
+    // pick up dynamic changes to `disabled`, but it's not something we officially support.
+    this.rippleConfig = {...(globalRippleOptions || {})};
     this._hostElement = this._elementRef.nativeElement;
-    this.rippleConfig = globalRippleOptions || {};
+
+    if (!this.rippleConfig.animation) {
+      this.rippleConfig.animation = {
+        enterDuration: numbers.DEACTIVATION_TIMEOUT_MS,
+        exitDuration: numbers.FG_DEACTIVATION_MS
+      };
+    }
 
     if (!this._listBase._isNonInteractive) {
       this._initInteractiveListItem();
@@ -145,8 +157,9 @@ export abstract class MatListItemBase implements AfterContentInit, OnDestroy, Ri
             toggleClass(this._hostElement, 'mat-mdc-list-item-single-line', lines.length <= 1);
             lines.forEach((line: ElementRef<Element>, index: number) => {
               toggleClass(line.nativeElement,
-                  'mdc-list-item__primary-text', index === 0 && lines.length > 1);
-              toggleClass(line.nativeElement, 'mdc-list-item__secondary-text', index !== 0);
+                  'mdc-deprecated-list-item__primary-text', index === 0 && lines.length > 1);
+              toggleClass(
+                  line.nativeElement, 'mdc-deprecated-list-item__secondary-text', index !== 0);
             });
             setLines(lines, this._elementRef, 'mat-mdc');
           }));

@@ -18,8 +18,11 @@ export const STICKY_POSITIONING_LISTENER =
     new InjectionToken<StickyPositioningListener>('CDK_SPL');
 
 export type StickySize = number|null|undefined;
+export type StickyOffset = number|null|undefined;
 
 export interface StickyUpdate {
+  elements?: readonly (HTMLElement[]|undefined)[];
+  offsets?: StickyOffset[];
   sizes: StickySize[];
 }
 

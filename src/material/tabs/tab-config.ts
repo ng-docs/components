@@ -47,6 +47,9 @@ export interface MatTabsConfig {
    *
    */
   dynamicHeight?: boolean;
+
+  /** `tabindex` to be set on the inner element that wraps the tab content. */
+  contentTabIndex?: number;
 }
 
 /**

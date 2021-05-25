@@ -5,6 +5,12 @@ another object.
 徽章是对 UI 元素的小型状态描述器。徽章包括一个小圆圈，通常还包括一个数字或一组其它短字符。
 徽章通常会出现在另一个对象附近。
 
+Badges must always be applied to [block-level elements][block-level].
+
+徽章必须应用于[块级元素][block-level]。
+
+[block-level]: https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
+
 <!-- example(badge-overview) -->
 
 ### Badge position

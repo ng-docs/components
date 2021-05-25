@@ -1,8 +1,9 @@
-@import '@material/list/mixins.import';
-@import '@material/list/variables.import';
-@import '../mdc-helpers/mdc-helpers';
+@use '@material/list' as mdc-list;
+@use '../mdc-helpers/mdc-helpers';
+@use '../../material/core/style/layout-common';
+@use '../../cdk/a11y';
 
-@include mdc-list-without-ripple($query: $mat-base-styles-query);
+@include mdc-list.deprecated-without-ripple($query: mdc-helpers.$mat-base-styles-query);
 
 // MDC expects the list element to be a `<ul>`, since we use `<mat-list>` instead we need to
 // explicitly set `display: block`
@@ -10,14 +11,14 @@
   display: block;
 }
 
-// .mdc-list-item__primary-text adds its own margin settings, so only reset if it doesn't have that
-// class
-.mat-mdc-list-base .mdc-list-item__text > :not(.mdc-list-item__primary-text),
-.mat-mdc-list-base .mdc-list-item__text > :not(.mdc-list-item__primary-text) {
+// .mdc-deprecated-list-item__primary-text adds its own margin settings, so only reset if it doesn't
+// have that class
+.mat-mdc-list-base .mdc-deprecated-list-item__text > :not(.mdc-deprecated-list-item__primary-text),
+.mat-mdc-list-base .mdc-deprecated-list-item__text > :not(.mdc-deprecated-list-item__primary-text) {
   margin: 0;
 
   // Fixes the gap between the 2nd & 3rd lines.
-  &.mdc-list-item__secondary-text {
+  &.mdc-deprecated-list-item__secondary-text {
     margin-top: -3px;
   }
 }
@@ -28,7 +29,7 @@
 .mat-mdc-2-line {
   height: 72px;
 
-  .mdc-list-item__text {
+  .mdc-deprecated-list-item__text {
     align-self: flex-start;
   }
 }
@@ -37,7 +38,7 @@
 .mat-mdc-3-line {
   height: 88px;
 
-  .mdc-list-item__text {
+  .mdc-deprecated-list-item__text {
     align-self: flex-start;
   }
 }
@@ -45,20 +46,20 @@
 // MDC supports avatars, but it's a per-list setting, whereas ours applies to individual
 // items. Therefore, we need to add our own styles.
 .mat-mdc-list-avatar {
-  // Styles here come from `$mdc-list-graphic-size_`:
+  // Styles here come from `mdc-list.$graphic-size_`:
   // https://github.com/material-components/material-components-web/blob/3ca8c4c45a3d2a654ef3cb8fc7525bcde37badf0/packages/mdc-list/_mixins.scss#L538
   $size: 40px;
-  $margin-value: 72px - $mdc-list-side-padding - $size;
+  $margin-value: 72px - mdc-list.$deprecated-side-padding - $size;
 
   width: $size;
   height: $size;
   border-radius: 50%;
 
-  // Avatars that come before the text have the .mdc-list-item__graphic class.
-  // MDC's .mdc-list--avatar-list class would normally apply overrides to set the appropriate
-  // margins for avatar images, but since ours is a per-list-item setting we need to add similar
-  // styles ourselves.
-  &.mdc-list-item__graphic {
+  // Avatars that come before the text have the .mdc-deprecated-list-item__graphic class.
+  // MDC's .mdc-deprecated-list--avatar-list class would normally apply overrides to set the
+  // appropriate margins for avatar images, but since ours is a per-list-item setting we need to add
+  // similar styles ourselves.
+  &.mdc-deprecated-list-item__graphic {
     margin-left: 0;
     margin-right: $margin-value;
 
@@ -106,14 +107,14 @@
 // MDC's hover and focus state styles are included with their ripple which we don't use.
 // Instead we add the focus, hover and selected styles ourselves using this pseudo-element
 .mat-mdc-list-item-interactive::before {
-  @include mat-fill();
+  @include layout-common.fill();
   content: '';
   opacity: 0;
 }
 
 // MDC always sets the cursor to `pointer`. We do not want to show this for non-interactive
 // lists. See: https://github.com/material-components/material-components-web/issues/6443
-.mat-mdc-list-non-interactive .mdc-list-item {
+.mat-mdc-list-non-interactive .mdc-deprecated-list-item {
   cursor: default;
 }
 
@@ -121,6 +122,38 @@
 // focus/selected/hover state. Hence, we need to have a separate list-item spanning
 // element that can be used for strong focus indicators.
 .mat-mdc-list-item > .mat-mdc-focus-indicator {
-  @include mat-fill();
+  @include layout-common.fill();
   pointer-events: none;
+}
+
+
+@include a11y.high-contrast(active, off) {
+  .mat-mdc-list-option,
+  .mat-mdc-nav-list .mat-mdc-list-item,
+  .mat-mdc-action-list .mat-mdc-list-item {
+    &:hover, &:focus {
+      outline: dotted 1px;
+    }
+  }
+
+  // In single selection mode, the selected option is indicated by changing its
+  // background color, but that doesn't work in high contrast mode. We add an
+  // alternate indication by rendering out a circle.
+  .mat-mdc-list-option.mdc-list-item--selected::after {
+    $size: 10px;
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: mdc-list.$deprecated-side-padding;
+    transform: translateY(-50%);
+    width: $size;
+    height: 0;
+    border-bottom: solid $size;
+    border-radius: $size;
+  }
+
+  [dir='rtl'] .mat-mdc-list-option.mdc-list-item--selected::after {
+    right: auto;
+    left: mdc-list.$deprecated-side-padding;
+  }
 }

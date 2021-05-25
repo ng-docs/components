@@ -27,7 +27,7 @@ export interface NgDecorator {
  *
  */
 export function getAngularDecorators(
-    typeChecker: ts.TypeChecker, decorators: ReadonlyArray<ts.Decorator>): NgDecorator[] {
+    typeChecker: ts.TypeChecker, decorators: readonly ts.Decorator[]): readonly NgDecorator[] {
   return decorators.map(node => ({node, importData: getCallDecoratorImport(typeChecker, node)}))
       .filter(({importData}) => importData && importData.moduleName.startsWith('@angular/'))
       .map(

@@ -31,18 +31,12 @@ import {InteractivityChecker} from '../interactivity-checker/interactivity-check
  *
  * This class currently uses a relatively simple approach to focus trapping.
  * It assumes that the tab order is the same as DOM order, which is not necessarily true.
- * Things like `tabIndex > 0`, flex `order`, and shadow roots can cause the two to misalign.
+ * Things like `tabIndex > 0`, flex `order`, and shadow roots can cause the two to be misaligned.
  *
  * 此类当前使用相对简单的方法进行焦点捕获。它假定 tab 顺序与 DOM 顺序相同，但这不一定正确。和 `tabIndex > 0` 一样，flex `order` 和 Shadow DOM 之类的都可能导致两者未对齐。
  *
  * @deprecated Use `ConfigurableFocusTrap` instead.
- *
- * 用 `ConfigurableFocusTrap` 代替。
- *
- * @breaking-change for 11.0.0 Remove this class.
- *
- * 11.0.0 删除此类。
- *
+ * @breaking-change 11.0.0
  */
 export class FocusTrap {
   private _startAnchor: HTMLElement | null;
@@ -118,7 +112,7 @@ export class FocusTrap {
    *
    * 将这些锚点插入 DOM。这通常是在构造函数中自动完成的，但是对于诸如 `*ngIf` 之类的指令，可以将其推迟。
    *
-   * @returns Whether the focus trap managed to attach successfuly. This may not be the case
+   * @returns Whether the focus trap managed to attach successfully. This may not be the case
    * if the target element isn't currently in the DOM.
    *
    * 焦点陷阱是否成功附加。如果目标元素当前不在 DOM 中，则可能不是这种情况。
@@ -163,9 +157,9 @@ export class FocusTrap {
    * 返回一个解析为布尔值的 promise，具体取决于焦点是否成功移动。
    *
    */
-  focusInitialElementWhenReady(): Promise<boolean> {
+  focusInitialElementWhenReady(options?: FocusOptions): Promise<boolean> {
     return new Promise<boolean>(resolve => {
-      this._executeOnStable(() => resolve(this.focusInitialElement()));
+      this._executeOnStable(() => resolve(this.focusInitialElement(options)));
     });
   }
 
@@ -181,9 +175,9 @@ export class FocusTrap {
    * 返回一个解析为布尔值的 promise，具体取决于焦点是否成功移动。
    *
    */
-  focusFirstTabbableElementWhenReady(): Promise<boolean> {
+  focusFirstTabbableElementWhenReady(options?: FocusOptions): Promise<boolean> {
     return new Promise<boolean>(resolve => {
-      this._executeOnStable(() => resolve(this.focusFirstTabbableElement()));
+      this._executeOnStable(() => resolve(this.focusFirstTabbableElement(options)));
     });
   }
 
@@ -199,9 +193,9 @@ export class FocusTrap {
    * 返回一个解析为布尔值的 promise，具体取决于焦点是否成功移动。
    *
    */
-  focusLastTabbableElementWhenReady(): Promise<boolean> {
+  focusLastTabbableElementWhenReady(options?: FocusOptions): Promise<boolean> {
     return new Promise<boolean>(resolve => {
-      this._executeOnStable(() => resolve(this.focusLastTabbableElement()));
+      this._executeOnStable(() => resolve(this.focusLastTabbableElement(options)));
     });
   }
 
@@ -255,7 +249,7 @@ export class FocusTrap {
    * 焦点是否成功移动。
    *
    */
-  focusInitialElement(): boolean {
+  focusInitialElement(options?: FocusOptions): boolean {
     // Contains the deprecated version of selector, for temporary backwards comparability.
     const redirectToElement = this._element.querySelector(`[cdk-focus-initial], ` +
                                                           `[cdkFocusInitial]`) as HTMLElement;
@@ -277,15 +271,15 @@ export class FocusTrap {
 
       if (!this._checker.isFocusable(redirectToElement)) {
         const focusableChild = this._getFirstTabbableElement(redirectToElement) as HTMLElement;
-        focusableChild?.focus();
+        focusableChild?.focus(options);
         return !!focusableChild;
       }
 
-      redirectToElement.focus();
+      redirectToElement.focus(options);
       return true;
     }
 
-    return this.focusFirstTabbableElement();
+    return this.focusFirstTabbableElement(options);
   }
 
   /**
@@ -298,11 +292,11 @@ export class FocusTrap {
    * 焦点是否成功移动。
    *
    */
-  focusFirstTabbableElement(): boolean {
+  focusFirstTabbableElement(options?: FocusOptions): boolean {
     const redirectToElement = this._getRegionBoundary('start');
 
     if (redirectToElement) {
-      redirectToElement.focus();
+      redirectToElement.focus(options);
     }
 
     return !!redirectToElement;
@@ -318,11 +312,11 @@ export class FocusTrap {
    * 焦点是否成功移动。
    *
    */
-  focusLastTabbableElement(): boolean {
+  focusLastTabbableElement(options?: FocusOptions): boolean {
     const redirectToElement = this._getRegionBoundary('end');
 
     if (redirectToElement) {
-      redirectToElement.focus();
+      redirectToElement.focus(options);
     }
 
     return !!redirectToElement;
@@ -463,13 +457,7 @@ export class FocusTrap {
  * 允许轻松实例化焦点陷阱的工厂。
  *
  * @deprecated Use `ConfigurableFocusTrapFactory` instead.
- *
- * 使用 `ConfigurableFocusTrapFactory` 代替。
- *
- * @breaking-change for 11.0.0 Remove this class.
- *
- * 11.0.0 删除此类。
- *
+ * @breaking-change 11.0.0
  */
 @Injectable({providedIn: 'root'})
 export class FocusTrapFactory {
@@ -603,7 +591,11 @@ export class CdkTrapFocus implements OnDestroy, AfterContentInit, OnChanges, DoC
   }
 
   private _captureFocus() {
-    this._previouslyFocusedElement = this._document.activeElement as HTMLElement;
+    // If the `activeElement` is inside a shadow root, `document.activeElement` will
+    // point to the shadow root so we have to descend into it ourselves.
+    const activeElement = this._document?.activeElement as HTMLElement|null;
+    this._previouslyFocusedElement =
+      activeElement?.shadowRoot?.activeElement as HTMLElement || activeElement;
     this.focusTrap.focusInitialElementWhenReady();
   }
 

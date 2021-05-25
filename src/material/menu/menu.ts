@@ -125,23 +125,14 @@ export function MAT_MENU_DEFAULT_OPTIONS_FACTORY(): MatMenuDefaultOptions {
     backdropClass: 'cdk-overlay-transparent-backdrop',
   };
 }
-/**
- * Start elevation for the menu panel.
- *
- * 菜单面板的起始纵深。
- *
- * @docs-private
- */
-const MAT_MENU_BASE_ELEVATION = 4;
 
 let menuPanelUid = 0;
 
-/**
- * Base class with all of the `MatMenu` functionality.
- *
- * 具备所有 `MatMenu` 功能的基类。
- *
- */
+/** Reason why the menu was closed. */
+export type MenuCloseReason = void | 'click' | 'keydown' | 'tab';
+
+
+/** Base class with all of the `MatMenu` functionality. */
 @Directive()
 export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>, OnInit,
   OnDestroy {
@@ -149,6 +140,8 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
   private _xPosition: MenuPositionX = this._defaultOptions.xPosition;
   private _yPosition: MenuPositionY = this._defaultOptions.yPosition;
   private _previousElevation: string;
+  protected _elevationPrefix: string;
+  protected _baseElevation: number;
 
   /**
    * All items inside the menu. Includes items nested inside another menu.
@@ -196,7 +189,7 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
    * 只要菜单上的动画完成，就会发出通知。
    *
    */
-  _animationDone = new Subject<AnimationEvent>();
+  readonly _animationDone = new Subject<AnimationEvent>();
 
   /**
    * Whether the menu is animating.
@@ -400,8 +393,7 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
    * 当菜单关闭时会发出本事件。
    *
    */
-  @Output() readonly closed: EventEmitter<void | 'click' | 'keydown' | 'tab'> =
-      new EventEmitter<void | 'click' | 'keydown' | 'tab'>();
+  @Output() readonly closed: EventEmitter<MenuCloseReason> = new EventEmitter<MenuCloseReason>();
 
   /**
    * Event emitted when the menu is closed.
@@ -413,7 +405,7 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
    * 切换到 `closed`
    * @breaking-change 8.0.0
    */
-  @Output() close: EventEmitter<void | 'click' | 'keydown' | 'tab'> = this.closed;
+  @Output() readonly close: EventEmitter<MenuCloseReason> = this.closed;
 
   readonly panelId = `mat-menu-panel-${menuPanelUid++}`;
 
@@ -434,13 +426,13 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
       .withHomeAndEnd();
     this._tabSubscription = this._keyManager.tabOut.subscribe(() => this.closed.emit('tab'));
 
-    // If a user manually (programatically) focuses a menu item, we need to reflect that focus
+    // If a user manually (programmatically) focuses a menu item, we need to reflect that focus
     // change back to the key manager. Note that we don't need to unsubscribe here because _focused
     // is internal and we know that it gets completed on destroy.
     this._directDescendantItems.changes.pipe(
       startWith(this._directDescendantItems),
-      switchMap(items => merge<MatMenuItem>(...items.map((item: MatMenuItem) => item._focused)))
-    ).subscribe(focusedItem => this._keyManager.updateActiveItem(focusedItem));
+      switchMap(items => merge(...items.map((item: MatMenuItem) => item._focused)))
+    ).subscribe(focusedItem => this._keyManager.updateActiveItem(focusedItem as MatMenuItem));
   }
 
   ngOnDestroy() {
@@ -599,9 +591,11 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
   setElevation(depth: number): void {
     // The elevation starts at the base and increases by one for each level.
     // Capped at 24 because that's the maximum elevation defined in the Material design spec.
-    const elevation = Math.min(MAT_MENU_BASE_ELEVATION + depth, 24);
-    const newElevation = `mat-elevation-z${elevation}`;
-    const customElevation = Object.keys(this._classList).find(c => c.startsWith('mat-elevation-z'));
+    const elevation = Math.min(this._baseElevation + depth, 24);
+    const newElevation = `${this._elevationPrefix}${elevation}`;
+    const customElevation = Object.keys(this._classList).find(className => {
+      return className.startsWith(this._elevationPrefix);
+    });
 
     if (!customElevation || customElevation === this._previousElevation) {
       if (this._previousElevation) {
@@ -728,6 +722,9 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
   ]
 })
 export class MatMenu extends _MatMenuBase {
+  protected _elevationPrefix = 'mat-elevation-z';
+  protected _baseElevation = 4;
+
   constructor(elementRef: ElementRef<HTMLElement>, ngZone: NgZone,
       @Inject(MAT_MENU_DEFAULT_OPTIONS) defaultOptions: MatMenuDefaultOptions) {
     super(elementRef, ngZone, defaultOptions);

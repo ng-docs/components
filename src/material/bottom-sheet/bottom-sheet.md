@@ -66,6 +66,8 @@ export class HobbitSheet {
 ```
 
 ### Configuring bottom sheet content via `entryComponents`
+**You only need to specify `entryComponents` if your project uses ViewEngine. Projects
+using Angular Ivy don't need `entryComponents`.**
 
 ### 通过 `entryComponents` 配置底部操作表的内容
 

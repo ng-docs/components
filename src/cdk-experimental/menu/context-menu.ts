@@ -31,7 +31,7 @@ import {coerceBooleanProperty, BooleanInput} from '@angular/cdk/coercion';
 import {Subject, merge} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {CdkMenuPanel} from './menu-panel';
-import {MenuStack, MenuStackItem} from './menu-stack';
+import {MenuStack} from './menu-stack';
 import {throwExistingMenuStackError} from './menu-errors';
 import {isClickInsideMenuOverlay} from './menu-item-trigger';
 
@@ -129,7 +129,7 @@ export class CdkContextMenuTrigger implements OnDestroy {
   private _panelContent: TemplatePortal;
 
   /** Emits when the element is destroyed. */
-  private readonly _destroyed: Subject<void> = new Subject();
+  private readonly _destroyed = new Subject<void>();
 
   /** The menu stack for this trigger and its associated menus. */
   private readonly _menuStack = new MenuStack();
@@ -271,7 +271,7 @@ export class CdkContextMenuTrigger implements OnDestroy {
 
   /** Subscribe to the menu stack close events and close this menu when requested. */
   private _setMenuStackListener() {
-    this._menuStack.closed.pipe(takeUntil(this._destroyed)).subscribe((item: MenuStackItem) => {
+    this._menuStack.closed.pipe(takeUntil(this._destroyed)).subscribe(item => {
       if (item === this._menuPanel._menu && this.isOpen()) {
         this.closed.next();
         this._overlayRef!.detach();

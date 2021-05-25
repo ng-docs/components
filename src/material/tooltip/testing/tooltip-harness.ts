@@ -6,42 +6,37 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  AsyncFactoryFn,
+  ComponentHarness,
+  HarnessPredicate,
+  TestElement,
+} from '@angular/cdk/testing';
 import {TooltipHarnessFilters} from './tooltip-harness-filters';
 
-/**
- * Harness for interacting with a standard mat-tooltip in tests.
- *
- * 在测试中用来与标准 mat-tooltip 进行交互的测试工具。
- *
- */
-export class MatTooltipHarness extends ComponentHarness {
-  private _optionalPanel = this.documentRootLocatorFactory().locatorForOptional('.mat-tooltip');
-  static hostSelector = '.mat-tooltip-trigger';
-
-  /**
-   * Gets a `HarnessPredicate` that can be used to search
-   * for a tooltip trigger with specific attributes.
-   * @param options Options for narrowing the search.
-   *
-   * 用来收窄搜索范围的选项。
-   *
-   * @return a `HarnessPredicate` configured with the given options.
-   *
-   * 用指定选项配置过的 `HarnessPredicate` 服务。
-   */
-  static with(options: TooltipHarnessFilters = {}): HarnessPredicate<MatTooltipHarness> {
-    return new HarnessPredicate(MatTooltipHarness, options);
-  }
+export abstract class _MatTooltipHarnessBase extends ComponentHarness {
+  protected abstract _optionalPanel: AsyncFactoryFn<TestElement | null>;
 
   /** Shows the tooltip. */
   async show(): Promise<void> {
-    return (await this.host()).hover();
+    const host = await this.host();
+
+    // We need to dispatch both `touchstart` and a hover event, because the tooltip binds
+    // different events depending on the device. The `changedTouches` is there in case the
+    // element has ripples.
+    // @breaking-change 12.0.0 Remove null assertion from `dispatchEvent`.
+    await host.dispatchEvent?.('touchstart', {changedTouches: []});
+    await host.hover();
   }
 
   /** Hides the tooltip. */
   async hide(): Promise<void> {
     const host = await this.host();
+
+    // We need to dispatch both `touchstart` and a hover event, because
+    // the tooltip binds different events depending on the device.
+    // @breaking-change 12.0.0 Remove null assertion from `dispatchEvent`.
+    await host.dispatchEvent?.('touchend');
     await host.mouseAway();
     await this.forceStabilize(); // Needed in order to flush the `hide` animation.
   }
@@ -55,5 +50,21 @@ export class MatTooltipHarness extends ComponentHarness {
   async getTooltipText(): Promise<string> {
     const panel = await this._optionalPanel();
     return panel ? panel.text() : '';
+  }
+}
+
+/** Harness for interacting with a standard mat-tooltip in tests. */
+export class MatTooltipHarness extends _MatTooltipHarnessBase {
+  protected _optionalPanel = this.documentRootLocatorFactory().locatorForOptional('.mat-tooltip');
+  static hostSelector = '.mat-tooltip-trigger';
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search
+   * for a tooltip trigger with specific attributes.
+   * @param options Options for narrowing the search.
+   * @return a `HarnessPredicate` configured with the given options.
+   */
+  static with(options: TooltipHarnessFilters = {}): HarnessPredicate<MatTooltipHarness> {
+    return new HarnessPredicate(MatTooltipHarness, options);
   }
 }

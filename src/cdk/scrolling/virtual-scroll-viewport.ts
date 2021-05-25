@@ -88,7 +88,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
    * 当视口从 CdkVirtualForOf 上拆除时，就会触发。
    *
    */
-  private _detachedSubject = new Subject<void>();
+  private readonly _detachedSubject = new Subject<void>();
 
   /**
    * Emits when the rendered range changes.
@@ -96,7 +96,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
    * 当渲染范围发生变化时触发。
    *
    */
-  private _renderedRangeSubject = new Subject<ListRange>();
+  private readonly _renderedRangeSubject = new Subject<ListRange>();
 
   /**
    * The direction the viewport scrolls.
@@ -126,10 +126,10 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
    * 当视口中可见的第一个元素的索引发生变化时触发。
    *
    */
-  @Output() scrolledIndexChange: Observable<number> =
-      new Observable((observer: Observer<number>) =>
-        this._scrollStrategy.scrolledIndexChange.subscribe(index =>
-            Promise.resolve().then(() => this.ngZone.run(() => observer.next(index)))));
+  @Output()
+  readonly scrolledIndexChange: Observable<number> = new Observable(
+      (observer: Observer<number>) => this._scrollStrategy.scrolledIndexChange.subscribe(
+          index => Promise.resolve().then(() => this.ngZone.run(() => observer.next(index)))));
 
   /**
    * The element that wraps the rendered content.
@@ -145,7 +145,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
    * 每当渲染范围发生变化时都会发出通知的流。
    *
    */
-  renderedRangeStream: Observable<ListRange> = this._renderedRangeSubject;
+  readonly renderedRangeStream: Observable<ListRange> = this._renderedRangeSubject;
 
   /**
    * The total size of all content (in pixels), including content that is not currently rendered.
@@ -286,7 +286,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
       this.elementScrolled()
           .pipe(
               // Start off with a fake scroll event so we properly detect our initial position.
-              startWith(null!),
+              startWith(null),
               // Collect multiple events into one until the next animation frame. This way if
               // there are multiple scroll events in the same frame we only need to recheck
               // our layout once.

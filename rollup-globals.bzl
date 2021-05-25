@@ -40,6 +40,9 @@ ROLLUP_GLOBALS = {
     "@material/animation": "mdc.animation",
     "@material/auto-init": "mdc.autoInit",
     "@material/base": "mdc.base",
+    # This UMD module name would not match with anything that MDC provides, but we just
+    # add this to make the linter happy. This module resolves to a type-only file anyways.
+    "@material/base/types": "mdc.base.types",
     "@material/checkbox": "mdc.checkbox",
     "@material/circular-progress": "mdc.circularProgress",
     "@material/chips": "mdc.chips",
@@ -67,6 +70,7 @@ ROLLUP_GLOBALS = {
     "@material/tab-indicator": "mdc.tabIndicator",
     "@material/tab-scroller": "mdc.tabScroller",
     "@material/textfield": "mdc.textfield",
+    "@material/tooltip": "mdc.tooltip",
     "@material/top-app-bar": "mdc.topAppBar",
 
     # Third-party libraries.
@@ -75,6 +79,7 @@ ROLLUP_GLOBALS = {
     "protractor": "protractor",
     "rxjs": "rxjs",
     "rxjs/operators": "rxjs.operators",
+    "selenium-webdriver": "selenium-webdriver",
 }
 
 # Converts a string from dash-case to lower camel case.

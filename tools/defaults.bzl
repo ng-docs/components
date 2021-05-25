@@ -3,7 +3,7 @@
 load("@io_bazel_rules_sass//:defs.bzl", _sass_binary = "sass_binary", _sass_library = "sass_library")
 load("@npm//@angular/bazel:index.bzl", _ng_module = "ng_module", _ng_package = "ng_package")
 load("@npm//@bazel/jasmine:index.bzl", _jasmine_node_test = "jasmine_node_test")
-load("@npm//@bazel/karma:index.bzl", _karma_web_test = "karma_web_test", _karma_web_test_suite = "karma_web_test_suite")
+load("@npm//@bazel/concatjs:index.bzl", _karma_web_test = "karma_web_test", _karma_web_test_suite = "karma_web_test_suite")
 load("@npm//@bazel/protractor:index.bzl", _protractor_web_test_suite = "protractor_web_test_suite")
 load("@npm//@bazel/typescript:index.bzl", _ts_library = "ts_library")
 load("//:packages.bzl", "VERSION_PLACEHOLDER_REPLACEMENTS", "getAngularUmdTargets")
@@ -90,6 +90,10 @@ def ng_module(
         srcs = srcs,
         module_name = module_name,
         flat_module_out_file = flat_module_out_file,
+        compilation_mode = select({
+            "//tools:partial_compilation_enabled": "partial",
+            "//conditions:default": "",
+        }),
         deps = local_deps,
         tsconfig = tsconfig,
         testonly = testonly,
@@ -125,6 +129,7 @@ def ng_package(name, data = [], deps = [], globals = ROLLUP_GLOBALS, readme_md =
     )
 
 def jasmine_node_test(**kwargs):
+    kwargs["templated_args"] = ["--bazel_patch_module_resolver"] + kwargs.get("templated_args", [])
     _jasmine_node_test(**kwargs)
 
 def ng_test_library(deps = [], tsconfig = None, **kwargs):
@@ -165,8 +170,8 @@ def karma_web_test_suite(name, **kwargs):
         kwargs["browsers"] = [
             # Note: when changing the browser names here, also update the "yarn test"
             # script to reflect the new browser names.
-            "@npm_angular_dev_infra_private//browsers/chromium:chromium",
-            "@npm_angular_dev_infra_private//browsers/firefox:firefox",
+            "@npm//@angular/dev-infra-private/browsers/chromium:chromium",
+            "@npm//@angular/dev-infra-private/browsers/firefox:firefox",
         ]
 
     for opt_name in kwargs.keys():
@@ -200,11 +205,11 @@ def karma_web_test_suite(name, **kwargs):
 
 def protractor_web_test_suite(**kwargs):
     _protractor_web_test_suite(
-        browsers = ["@npm_angular_dev_infra_private//browsers/chromium:chromium"],
+        browsers = ["@npm//@angular/dev-infra-private/browsers/chromium:chromium"],
         **kwargs
     )
 
-def ng_web_test_suite(deps = [], static_css = [], bootstrap = [], **kwargs):
+def ng_web_test_suite(deps = [], static_css = [], bootstrap = [], exclude_init_script = False, **kwargs):
     # Always include a prebuilt theme in the test suite because otherwise tests, which depend on CSS
     # that is needed for measuring, will unexpectedly fail. Also always adding a prebuilt theme
     # reduces the amount of setup that is needed to create a test suite Bazel target. Note that the
@@ -245,9 +250,7 @@ def ng_web_test_suite(deps = [], static_css = [], bootstrap = [], **kwargs):
 
     karma_web_test_suite(
         # Depend on our custom test initialization script. This needs to be the first dependency.
-        deps = [
-            "//test:angular_test_init",
-        ] + deps,
+        deps = deps if exclude_init_script else ["//test:angular_test_init"] + deps,
         bootstrap = [
             # This matches the ZoneJS bundles used in default CLI projects. See:
             # https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/application/files/src/polyfills.ts.template#L58

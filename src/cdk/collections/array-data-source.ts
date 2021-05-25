@@ -16,11 +16,11 @@ import {DataSource} from './data-source';
  *
  */
 export class ArrayDataSource<T> extends DataSource<T> {
-  constructor(private _data: T[] | ReadonlyArray<T> | Observable<T[] | ReadonlyArray<T>>) {
+  constructor(private _data: readonly T[] | Observable<readonly T[]>) {
     super();
   }
 
-  connect(): Observable<T[] | ReadonlyArray<T>> {
+  connect(): Observable<readonly T[]> {
     return isObservable(this._data) ? this._data : observableOf(this._data);
   }
 

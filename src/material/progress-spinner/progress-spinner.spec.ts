@@ -421,7 +421,7 @@ describe('MatProgressSpinner', () => {
     fixture.detectChanges();
 
     const spinner = fixture.debugElement.query(By.css('mat-progress-spinner'))!.nativeElement;
-    const shadowRoot = _getShadowRoot(spinner) as HTMLElement;
+    const shadowRoot = _getShadowRoot(spinner)!;
 
     expect(shadowRoot.querySelector('style[mat-spinner-animation="27"]')).toBeTruthy();
 
@@ -442,7 +442,7 @@ describe('MatProgressSpinner', () => {
     fixture.detectChanges();
 
     const spinner = fixture.debugElement.query(By.css('mat-progress-spinner'))!.nativeElement;
-    const shadowRoot = _getShadowRoot(spinner) as HTMLElement;
+    const shadowRoot = _getShadowRoot(spinner)!;
 
     expect(shadowRoot.querySelectorAll('style[mat-spinner-animation="39"]').length).toBe(1);
 
@@ -473,7 +473,7 @@ describe('MatProgressSpinner', () => {
       fixture.detectChanges();
 
       const spinner = fixture.componentInstance.spinner.nativeElement;
-      const shadowRoot = _getShadowRoot(spinner) as HTMLElement;
+      const shadowRoot = _getShadowRoot(spinner)!;
 
       expect(shadowRoot.querySelector('style[mat-spinner-animation="27"]')).toBeTruthy();
 
@@ -482,6 +482,17 @@ describe('MatProgressSpinner', () => {
 
       expect(shadowRoot.querySelector('style[mat-spinner-animation="27"]')).toBeTruthy();
     });
+
+  it('should apply aria-hidden to child nodes', () => {
+    const fixture = TestBed.createComponent(BasicProgressSpinner);
+    fixture.detectChanges();
+
+    const progressElement = fixture.nativeElement.querySelector('mat-progress-spinner');
+    const children = Array.from<HTMLElement>(progressElement.children);
+
+    expect(children.length).toBeGreaterThan(0);
+    expect(children.every(child => child.getAttribute('aria-hidden') === 'true')).toBe(true);
+  });
 
 });
 

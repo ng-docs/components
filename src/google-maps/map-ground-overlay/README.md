@@ -1,8 +1,8 @@
 # MapGroundOverlay
 
-The `MapGroundOverlay` component wraps the [`google.maps.BicyclingLayer` class](https://developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay) from the Google Maps JavaScript API. A url and a bounds are required.
+The `MapGroundOverlay` component wraps the [`google.maps.GroundOverlay` class](https://developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay) from the Google Maps JavaScript API. A url and a bounds are required.
 
-`MapGroundOverlay` 组件包装了来自 Google Maps JavaScript API 的 [`google.maps.BicyclingLayer`](https://developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay)  类。其 url 和 bound 属性是必填的。
+`MapGroundOverlay` 组件包装了来自 Google Maps JavaScript API 的 [`google.maps.GroundOverlay`](https://developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay)  类。其 url 和 bound 属性是必填的。
 
 ## Example
 

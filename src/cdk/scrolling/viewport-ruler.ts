@@ -54,7 +54,7 @@ export class ViewportRuler implements OnDestroy {
    * 视口变化的事件流。
    *
    */
-  private _change = new Subject<Event>();
+  private readonly _change = new Subject<Event>();
 
   /**
    * Event listener that will be used to handle the viewport change events.

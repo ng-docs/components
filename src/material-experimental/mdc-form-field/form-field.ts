@@ -53,6 +53,7 @@ import {MatFormFieldNotchedOutline} from './directives/notched-outline';
 import {MAT_PREFIX, MatPrefix} from './directives/prefix';
 import {MAT_SUFFIX, MatSuffix} from './directives/suffix';
 import {DOCUMENT} from '@angular/common';
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 
 /** Type for the available floatLabel values. */
 export type FloatLabelType = 'always' | 'auto';
@@ -102,6 +103,8 @@ const FLOATING_LABEL_DEFAULT_DOCKED_TRANSFORM = `translateY(-50%)`;
   host: {
     'class': 'mat-mdc-form-field',
     '[class.mat-mdc-form-field-label-always-float]': '_shouldAlwaysFloat()',
+    '[class.mat-mdc-form-field-has-icon-prefix]': '_hasIconPrefix',
+    '[class.mat-mdc-form-field-has-icon-suffix]': '_hasIconSuffix',
 
     // Note that these classes reuse the same names as the non-MDC version, because they can be
     // considered a public API since custom form controls may use them to style themselves.
@@ -134,7 +137,8 @@ const FLOATING_LABEL_DEFAULT_DOCKED_TRANSFORM = `translateY(-50%)`;
 export class MatFormField implements AfterViewInit, OnDestroy, AfterContentChecked,
     AfterContentInit {
   @ViewChild('textField') _textField: ElementRef<HTMLElement>;
-  @ViewChild('prefixContainer') _prefixContainer: ElementRef<HTMLElement>;
+  @ViewChild('iconPrefixContainer') _iconPrefixContainer: ElementRef<HTMLElement>;
+  @ViewChild('textPrefixContainer') _textPrefixContainer: ElementRef<HTMLElement>;
   @ViewChild(MatFormFieldFloatingLabel) _floatingLabel: MatFormFieldFloatingLabel|undefined;
   @ViewChild(MatFormFieldNotchedOutline) _notchedOutline: MatFormFieldNotchedOutline|undefined;
   @ViewChild(MatFormFieldLineRipple) _lineRipple: MatFormFieldLineRipple|undefined;
@@ -148,7 +152,12 @@ export class MatFormField implements AfterViewInit, OnDestroy, AfterContentCheck
   @ContentChildren(MatHint, {descendants: true}) _hintChildren: QueryList<MatHint>;
 
   /** Whether the required marker should be hidden. */
-  @Input() hideRequiredMarker: boolean = false;
+  @Input()
+  get hideRequiredMarker(): boolean { return this._hideRequiredMarker; }
+  set hideRequiredMarker(value: boolean) {
+    this._hideRequiredMarker = coerceBooleanProperty(value);
+  }
+  private _hideRequiredMarker: boolean;
 
   /** The color palette for the form-field. */
   @Input() color: ThemePalette = 'primary';
@@ -196,6 +205,11 @@ export class MatFormField implements AfterViewInit, OnDestroy, AfterContentCheck
   }
   private _hintLabel = '';
 
+  _hasIconPrefix = false;
+  _hasTextPrefix = false;
+  _hasIconSuffix = false;
+  _hasTextSuffix = false;
+
   // Unique id for the internal form field label.
   readonly _labelId = `mat-mdc-form-field-label-${nextUniqueId++}`;
 
@@ -206,7 +220,7 @@ export class MatFormField implements AfterViewInit, OnDestroy, AfterContentCheck
   _subscriptAnimationState = '';
 
   /** Width of the outline notch. */
-  _outlineNotchWidth: number;
+  _outlineNotchWidth = 0;
 
   /** Gets the current form field control */
   get _control(): MatFormFieldControl<any> {
@@ -313,9 +327,9 @@ export class MatFormField implements AfterViewInit, OnDestroy, AfterContentCheck
               @Inject(DOCUMENT) private _document?: any) {
     if (_defaults && _defaults.appearance) {
       this.appearance = _defaults.appearance;
-    } else if (_defaults && _defaults.hideRequiredMarker) {
-      this.hideRequiredMarker = true;
     }
+
+    this._hideRequiredMarker = _defaults?.hideRequiredMarker ?? false;
   }
 
   ngAfterViewInit() {
@@ -435,13 +449,24 @@ export class MatFormField implements AfterViewInit, OnDestroy, AfterContentCheck
     }
   }
 
+  private _checkPrefixAndSuffixTypes() {
+    this._hasIconPrefix = !!this._prefixChildren.find(p => !p._isText);
+    this._hasTextPrefix = !!this._prefixChildren.find(p => p._isText);
+    this._hasIconSuffix = !!this._suffixChildren.find(s => !s._isText);
+    this._hasTextSuffix = !!this._suffixChildren.find(s => s._isText);
+  }
+
   /** Initializes the prefix and suffix containers. */
   private _initializePrefixAndSuffix() {
+    this._checkPrefixAndSuffixTypes();
     // Mark the form-field as dirty whenever the prefix or suffix children change. This
     // is necessary because we conditionally display the prefix/suffix containers based
     // on whether there is projected content.
     merge(this._prefixChildren.changes, this._suffixChildren.changes)
-      .subscribe(() => this._changeDetectorRef.markForCheck());
+      .subscribe(() => {
+        this._checkPrefixAndSuffixTypes();
+        this._changeDetectorRef.markForCheck();
+      });
   }
 
   /**
@@ -654,7 +679,7 @@ export class MatFormField implements AfterViewInit, OnDestroy, AfterContentCheck
     const floatingLabel = this._floatingLabel.element;
     // If no prefix is displayed, reset the outline label offset from potential
     // previous label offset updates.
-    if (!this._prefixContainer) {
+    if (!(this._iconPrefixContainer || this._textPrefixContainer)) {
       floatingLabel.style.transform = '';
       return;
     }
@@ -664,11 +689,19 @@ export class MatFormField implements AfterViewInit, OnDestroy, AfterContentCheck
       this._needsOutlineLabelOffsetUpdateOnStable = true;
       return;
     }
-    const prefixContainer = this._prefixContainer.nativeElement as HTMLElement;
+    const iconPrefixContainer = this._iconPrefixContainer?.nativeElement;
+    const textPrefixContainer = this._textPrefixContainer?.nativeElement;
     // If the directionality is RTL, the x-axis transform needs to be inverted. This
     // is because `transformX` does not change based on the page directionality.
     const labelHorizontalOffset =
-      (this._dir.value === 'rtl' ? -1 : 1) * prefixContainer.getBoundingClientRect().width;
+      (this._dir.value === 'rtl' ? -1 : 1) * (
+          (iconPrefixContainer ?
+              // If there's an icon prefix, we disable the default 16px padding,
+              // so make sure to account for that.
+              (iconPrefixContainer?.getBoundingClientRect().width ?? 0) - 16 : 0
+          ) +
+          (textPrefixContainer?.getBoundingClientRect().width ?? 0)
+      );
 
     // Update the transform the floating label to account for the prefix container. Note
     // that we do not want to overwrite the default transform for docked floating labels.
@@ -689,4 +722,6 @@ export class MatFormField implements AfterViewInit, OnDestroy, AfterContentCheck
     // shadow DOM, however browser that support shadow DOM should support `getRootNode` as well.
     return document.documentElement!.contains(element);
   }
+
+  static ngAcceptInputType_hideRequiredMarker: BooleanInput;
 }

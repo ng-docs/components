@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {FactoryProvider, Injectable, Optional, SkipSelf, OnDestroy, Directive} from '@angular/core';
+import {FactoryProvider, Injectable, Optional, SkipSelf, OnDestroy} from '@angular/core';
 import {DateAdapter} from '@angular/material/core';
 import {Observable, Subject} from 'rxjs';
 
@@ -48,6 +48,7 @@ export type ExtractDateTypeFromSelection<T> = T extends DateRange<infer D> ? D :
  *
  * 日期选择模型在选择模型改变时发出的事件。
  *
+ * @docs-private
  */
 export interface DateSelectionModelChange<S> {
   /**
@@ -65,6 +66,9 @@ export interface DateSelectionModelChange<S> {
    *
    */
   source: unknown;
+
+  /** Previous value */
+  oldValue?: S;
 }
 
 /**
@@ -72,11 +76,12 @@ export interface DateSelectionModelChange<S> {
  *
  * 包含选定日期的选择模型。
  *
+ * @docs-private
  */
-@Directive()
+@Injectable()
 export abstract class MatDateSelectionModel<S, D = ExtractDateTypeFromSelection<S>>
     implements OnDestroy {
-  private _selectionChanged = new Subject<DateSelectionModelChange<S>>();
+  private readonly _selectionChanged = new Subject<DateSelectionModelChange<S>>();
 
   /**
    * Emits when the selection has changed.
@@ -108,8 +113,9 @@ export abstract class MatDateSelectionModel<S, D = ExtractDateTypeFromSelection<
    *
    */
   updateSelection(value: S, source: unknown) {
+    const oldValue = (this as {selection: S}).selection;
     (this as {selection: S}).selection = value;
-    this._selectionChanged.next({selection: value, source});
+    this._selectionChanged.next({selection: value, source, oldValue});
   }
 
   ngOnDestroy() {
@@ -149,25 +155,16 @@ export abstract class MatDateSelectionModel<S, D = ExtractDateTypeFromSelection<
    *
    * 克隆选择模型。
    *
-   * @deprecated To be turned into an abstract method.
-   *
-   * 将会变成一个抽象方法。
-   * @breaking-change 12.0.0
    */
-  clone(): MatDateSelectionModel<S, D> {
-    if (typeof ngDevMode === 'undefined' || ngDevMode) {
-      throw Error('Not implemented');
-    }
-
-    return null!;
-  }
+  abstract clone(): MatDateSelectionModel<S, D>;
 }
 
 /**
- *  A selection model that contains a single date.
+ * A selection model that contains a single date.
  *
  * 包含单个日期的选择模型。
  *
+ * @docs-private
  */
 @Injectable()
 export class MatSingleDateSelectionModel<D> extends MatDateSelectionModel<D | null, D> {
@@ -221,10 +218,8 @@ export class MatSingleDateSelectionModel<D> extends MatDateSelectionModel<D | nu
 }
 
 /**
- *  A selection model that contains a date range.
- *
- * 一个包含日期范围的选择模型。
- *
+ * A selection model that contains a date range.
+ * @docs-private
  */
 @Injectable()
 export class MatRangeDateSelectionModel<D> extends MatDateSelectionModel<DateRange<D>, D> {
@@ -312,9 +307,7 @@ export function MAT_SINGLE_DATE_SELECTION_MODEL_FACTORY(
 
 /**
  * Used to provide a single selection model to a component.
- *
- * 用于为组件提供单选模型。
- *
+ * @docs-private
  */
 export const MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER: FactoryProvider = {
   provide: MatDateSelectionModel,
@@ -330,9 +323,7 @@ export function MAT_RANGE_DATE_SELECTION_MODEL_FACTORY(
 
 /**
  * Used to provide a range selection model to a component.
- *
- * 用于为组件提供范围选择模型。
- *
+ * @docs-private
  */
 export const MAT_RANGE_DATE_SELECTION_MODEL_PROVIDER: FactoryProvider = {
   provide: MatDateSelectionModel,

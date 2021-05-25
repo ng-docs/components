@@ -21,6 +21,7 @@ import {
   MatSnackBarModule,
   MatSnackBarRef,
 } from './index';
+import {Platform} from '@angular/cdk/platform';
 
 describe('MatSnackBar', () => {
   let snackBar: MatSnackBar;
@@ -161,6 +162,30 @@ describe('MatSnackBar', () => {
         .toBe('off', 'Expected snack bar container live region to have aria-live="off"');
   });
 
+  it('should have role of `alert` with an `assertive` politeness (Firefox only)', () => {
+    const platform = TestBed.inject(Platform);
+    snackBar.openFromComponent(BurritosNotification, {politeness: 'assertive'});
+    viewContainerFixture.detectChanges();
+
+    const containerElement = overlayContainerElement.querySelector('mat-mdc-snack-bar-container')!;
+    const liveElement = containerElement.querySelector('[aria-live]')!;
+
+    expect(liveElement.getAttribute('role'))
+      .toBe(platform.FIREFOX ? 'alert' : null);
+  });
+
+  it('should have role of `status` with an `polite` politeness (Firefox only)', () => {
+    const platform = TestBed.inject(Platform);
+    snackBar.openFromComponent(BurritosNotification, {politeness: 'polite'});
+    viewContainerFixture.detectChanges();
+
+    const containerElement = overlayContainerElement.querySelector('mat-mdc-snack-bar-container')!;
+    const liveElement = containerElement.querySelector('[aria-live]')!;
+
+    expect(liveElement.getAttribute('role'))
+      .toBe(platform.FIREFOX ? 'status' : null);
+  });
+
   it('should have exactly one MDC label element when opened through simple snack bar', () => {
     let config: MatSnackBarConfig = {viewContainerRef: testViewContainerRef};
     snackBar.open(simpleMessage, simpleActionLabel, config);
@@ -201,7 +226,7 @@ describe('MatSnackBar', () => {
     expect(messageElement.textContent)
         .toContain(simpleMessage, `Expected the snack bar message to be '${simpleMessage}'`);
 
-    let buttonElement = overlayContainerElement.querySelector('button.mat-button')!;
+    let buttonElement = overlayContainerElement.querySelector('button.mat-mdc-button')!;
     expect(buttonElement.tagName)
         .toBe('BUTTON', 'Expected snack bar action label to be a <button>');
     expect((buttonElement.textContent || '').trim())
@@ -224,7 +249,7 @@ describe('MatSnackBar', () => {
     let messageElement = overlayContainerElement.querySelector('mat-mdc-snack-bar-container')!;
     expect(messageElement.textContent)
         .toContain(simpleMessage, `Expected the snack bar message to be '${simpleMessage}'`);
-    expect(overlayContainerElement.querySelector('button.mat-button'))
+    expect(overlayContainerElement.querySelector('button.mat-mdc-button'))
         .toBeNull('Expected the query selection for action label to be null');
   });
 
@@ -363,7 +388,7 @@ describe('MatSnackBar', () => {
         snackBarRef.onAction().subscribe({complete: actionCompleteSpy});
 
         let actionButton =
-            overlayContainerElement.querySelector('button.mat-button') as HTMLButtonElement;
+            overlayContainerElement.querySelector('button.mat-mdc-button') as HTMLButtonElement;
         actionButton.click();
         viewContainerFixture.detectChanges();
         flush();
@@ -437,6 +462,20 @@ describe('MatSnackBar', () => {
 
     tick(600);
     flush();
+
+    expect(viewContainerFixture.isStable()).toBe(true);
+  }));
+
+  it('should clear the dismiss timeout when dismissed with action', fakeAsync(() => {
+    let config = new MatSnackBarConfig();
+    config.duration = 1000;
+    const snackBarRef = snackBar.open('content', 'test', config);
+
+    setTimeout(() => snackBarRef.dismissWithAction(), 500);
+
+    tick(600);
+    viewContainerFixture.detectChanges();
+    tick();
 
     expect(viewContainerFixture.isStable()).toBe(true);
   }));

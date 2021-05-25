@@ -129,14 +129,15 @@ the `MatSnackBarConfig`.
 
 快餐栏消息会通过 `aria-live` 进行声明。默认情况下，它会设置为 `polite`。虽然建议使用 `polite`，但是也可以通过设置 `MatSnackBarConfig` 的 `politeness` 属性进行定制。
 
-Focus is not, and should not be, moved to the snack-bar element. Moving the focus would be
-disruptive to a user in the middle of a workflow. It is recommended that, for any action offered
-in the snack-bar, the application offers the user an alternative way to perform the action.
+Focus is not moved to the snack-bar element as that would be disruptive to a user in the middle of a workflow. 
+It is recommended that, for any action offered in the snack-bar, the application offers the user an 
+alternative way to perform the action.
 Alternative interactions are typically keyboard shortcuts or menu options. When the action is
-performed in this way, the snack-bar should be dismissed.
+performed in this way, the snack-bar should be dismissed. A snack-bar can contain a single action. 
+"Dismiss" or "cancel" actions are optional.
 
-焦点不会也不应该自动移到快餐栏元素上，否则会打断用户的工作流。建议的方式是，对于快餐栏中提供的任何操作，
-都应该为用户提供一种替代途径来触发 —— 通常会用键盘快捷键或菜单项。当用这些方式执行完之后，应该自动关闭快餐栏。
+焦点不会自动移到快餐栏元素上，否则会打断用户的工作流。建议的方式是，对于快餐栏中提供的任何操作，
+都应该为用户提供一种替代途径来触发 —— 通常会用键盘快捷键或菜单项。当用这些方式执行完之后，应该自动关闭快餐栏。快餐栏可以只包含一个动作。“关闭”或“取消”之类的操作是可选的。
 
 Snack-bars that have an action available should not be given a `duration`, as to accommodate
 screen-reader users that want to navigate to the snack-bar element to activate the action. If the
@@ -145,8 +146,3 @@ based on the application context when the snack-bar is dismissed.
 
 具有可用动作的快餐栏不应该指定持续时间（`duration`），以支持那些希望导航到快餐栏中进行操作的屏幕阅读器用户。
 如果用户手动把焦点移到了快餐栏中，那么当快餐栏关闭时，焦点应该根据应用上下文移到某些有意义的元素上。
-
-Don't use "Dismiss" as a snack-bar-action, instead preferring to use a `duration` when there is
-no additional action associated with the notification. 
-
-当没有与该通知有关的操作时，不要把 "关闭" 作为快餐栏的标准操作，而应该优先使用 `duration` 来自动关闭它。

@@ -113,7 +113,8 @@ abstract class MatDateRangeInputPartBase<D>
     // itself. Usually we can work around it for the CVA, but there's no API to do it for the
     // validator. We work around it here by injecting the `NgControl` in `ngOnInit`, after
     // everything has been resolved.
-    const ngControl = this._injector.get(NgControl, null, InjectFlags.Self);
+    // tslint:disable-next-line:no-bitwise
+    const ngControl = this._injector.get(NgControl, null, InjectFlags.Self | InjectFlags.Optional);
 
     if (ngControl) {
       this.ngControl = ngControl;
@@ -322,6 +323,16 @@ export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements
     return modelValue.start;
   }
 
+  protected _shouldHandleChangeEvent(change: DateSelectionModelChange<DateRange<D>>): boolean {
+    if (!super._shouldHandleChangeEvent(change)) {
+      return false;
+    } else {
+      return !change.oldValue?.start ? !!change.selection.start :
+        !change.selection.start ||
+        !!this._dateAdapter.compareDate(change.oldValue.start, change.selection.start);
+    }
+  }
+
   protected _assignValueToModel(value: D | null) {
     if (this._model) {
       const range = new DateRange(value, this._model.selection.end);
@@ -438,6 +449,16 @@ export class MatEndDate<D> extends _MatDateRangeInputBase<D> implements
 
   protected _getValueFromModel(modelValue: DateRange<D>) {
     return modelValue.end;
+  }
+
+  protected _shouldHandleChangeEvent(change: DateSelectionModelChange<DateRange<D>>): boolean {
+    if (!super._shouldHandleChangeEvent(change)) {
+      return false;
+    } else {
+      return !change.oldValue?.end ? !!change.selection.end :
+        !change.selection.end ||
+        !!this._dateAdapter.compareDate(change.oldValue.end, change.selection.end);
+    }
   }
 
   protected _assignValueToModel(value: D | null) {

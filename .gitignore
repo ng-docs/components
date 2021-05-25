@@ -43,3 +43,6 @@ testem.log
 *.log
 .ng-dev.user*
 .husky/_
+
+# Variables that are inlined into the dev app index.html
+/src/dev-app/variables.json

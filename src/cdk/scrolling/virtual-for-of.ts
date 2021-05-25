@@ -146,7 +146,7 @@ export class CdkVirtualForOf<T> implements
    * 当渲染的数据视图发生变化时触发。
    *
    */
-  viewChange = new Subject<ListRange>();
+  readonly viewChange = new Subject<ListRange>();
 
   /**
    * Subject that emits when a new DataSource instance is given.
@@ -154,7 +154,7 @@ export class CdkVirtualForOf<T> implements
    * 在指定新的 DataSource 实例时发出通知的主体对象。
    *
    */
-  private _dataSourceChanges = new Subject<DataSource<T>>();
+  private readonly _dataSourceChanges = new Subject<DataSource<T>>();
 
   /**
    * The DataSource to display.
@@ -233,10 +233,10 @@ export class CdkVirtualForOf<T> implements
    * 只要当前 DataSource 中的数据发生变化，就会发出通知。
    *
    */
-  dataStream: Observable<T[] | ReadonlyArray<T>> = this._dataSourceChanges
+  readonly dataStream: Observable<readonly T[]> = this._dataSourceChanges
   .pipe(
       // Start off with null `DataSource`.
-      startWith(null!),
+      startWith(null),
       // Bundle up the previous and current data sources so we can work with both.
       pairwise(),
       // Use `_changeDataSource` to disconnect from the previous data source and connect to the
@@ -260,7 +260,7 @@ export class CdkVirtualForOf<T> implements
    * 从 DataSource 发出的最新数据。
    *
    */
-  private _data: T[] | ReadonlyArray<T>;
+  private _data: readonly T[];
 
   /**
    * The currently rendered items.
@@ -286,7 +286,7 @@ export class CdkVirtualForOf<T> implements
    */
   private _needsUpdate = false;
 
-  private _destroyed = new Subject<void>();
+  private readonly _destroyed = new Subject<void>();
 
   constructor(
       /** The view container to add items to. */
@@ -419,7 +419,7 @@ export class CdkVirtualForOf<T> implements
    *
    */
   private _changeDataSource(oldDs: DataSource<T> | null, newDs: DataSource<T> | null):
-      Observable<T[] | ReadonlyArray<T>> {
+      Observable<readonly T[]> {
 
     if (oldDs) {
       oldDs.disconnect(this);

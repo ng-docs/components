@@ -162,7 +162,7 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    * 当内部状态发生变化时触发
    *
    */
-  stateChanges = new Subject<void>();
+  readonly stateChanges = new Subject<void>();
 
   _onTouched = () => {};
   _validatorOnChange = () => {};

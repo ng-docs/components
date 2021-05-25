@@ -561,25 +561,6 @@ export function addExportToModule(source: ts.SourceFile,
   return addSymbolToNgModuleMetadata(source, modulePath, 'exports', classifiedName, importPath);
 }
 
-/**
- * Custom function to insert an entryComponent into NgModule. It also imports it.
- *
- * 用于将 entryComponent 插入 NgModule 中的自定义函数。它还会导入它。
- *
- * @deprecated - Since version 9.0.0 with Ivy, entryComponents is no longer necessary.
- *
- *   从带有 Ivy 的 9.0.0 版本开始，不再需要 entryComponents。
- *
- */
-export function addEntryComponentToModule(source: ts.SourceFile,
-                                          modulePath: string, classifiedName: string,
-                                          importPath: string): Change[] {
-  return addSymbolToNgModuleMetadata(
-    source, modulePath,
-    'entryComponents', classifiedName, importPath,
-  );
-}
-
 export function findBootstrapModuleCall(host: Tree, mainPath: string): ts.CallExpression | null {
   const mainBuffer = host.read(mainPath);
   if (!mainBuffer) {

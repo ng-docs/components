@@ -46,7 +46,7 @@ export class CdkTreeNodePadding<T, K = T> implements OnDestroy {
    * 组件销毁后发出通知的主体对象。
    *
    */
-  private _destroyed = new Subject<void>();
+  private readonly _destroyed = new Subject<void>();
 
   /**
    * CSS units used for the indentation value.

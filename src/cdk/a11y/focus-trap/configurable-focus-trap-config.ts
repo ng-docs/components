@@ -7,19 +7,16 @@
  */
 
 /**
- * Configuration for creating a ConfigurableFocusTrap.
+ * Options for creating a ConfigurableFocusTrap.
  *
- * 用于创建 ConfigurableFocusTrap 的配置。
+ * 用于创建 ConfigurableFocusTrap 的选项。
  *
  */
-export class ConfigurableFocusTrapConfig {
+export interface ConfigurableFocusTrapConfig {
   /**
-   * Whether to defer the creation of FocusTrap elements to be
-   * done manually by the user. Default is to create them
-   * automatically.
+   * Whether to defer the creation of FocusTrap elements to be done manually by the user.
    *
-   * 是否推迟由用户手动完成 FocusTrap 元素的创建。默认是自动创建它们。
-   *
+   * 是否推迟到由用户手动完成 FocusTrap 元素的创建。
    */
-  defer: boolean = false;
+  defer: boolean;
 }

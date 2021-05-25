@@ -1,74 +1,92 @@
-Angular Material's elevation classes and mixins allow you to add separation between elements along the z-axis. All material design elements have resting elevations. In addition, some elements may change their elevation in response to user interaction. The
-[Material Design spec](https://material.io/design/environment/elevation.html)
-explains how to best use elevation.
+# Applying Elevation
 
-Angular Material 的纵深（elevation）类和混入器（mixin）让你可以沿着 Z 轴区分开各个元素。所有的 Material Design 元素都有一个静止状态的纵深。此外，有些元素可能会改变它们的纵深，以响应用户操作。
-[Material Design 规范](https://material.io/design/environment/elevation.html)解释了关于纵深的最佳实践。
+# 应用纵深
 
-Angular Material provides two ways to control the elevation of elements: predefined CSS classes and mixins.
+[The Material Design specification][material-elevation] gives guidance on expressing elevation on
+UI elements by adding shadows. Angular Material provides CSS classes and Sass mixins for adding
+these shadows.
 
-Angular Material 提供了两种方式来控制元素的纵深：预定义的 CSS 类和混入器。
+[Material Design 规范][material-elevation]提供了关于如何通过添加阴影在 UI 元素上表达纵深的指导。 Angular Material 提供了一些 CSS 类和 Sass mixins，用来添加这些阴影。
 
-### Predefined CSS classes
+[material-elevation]: https://material.io/design/environment/elevation.html
 
-### 预定义 CSS 类
+## Elevation CSS classes
 
-The easiest way to add elevation to an element is to simply add one of the predefined CSS classes
-`mat-elevation-z#` where `#` is the elevation number you want, 0-24. Dynamic elevation can be achieved by switching elevation classes:
+## 表示纵深的 CSS 类
 
-为元素添加纵深的最简单方式是为其添加预定义的 CSS 类 `mat-elevation-z#`，这里的 `#` 是你要用的纵深数字，介于 0~24 之间。 可以通过切换纵深类来实现动态纵深：
+The `core-theme` Sass mixin, described in the [theming guide][], emits CSS classes for applying
+elevation. These classes follow the pattern `mat-elevation-z#`, where `#` is the elevation number
+you want, from 0 to 24. These predefined classes use the CSS `box-shadow` settings defined by the
+Material Design specification.
+
+[主题指南][theming-guide]中所讲的 `core-theme` Sass mixin，会生成用于控制纵深的 CSS 类。这些类遵循统一的模式 `mat-elevation-z#` ，其中 `#` 是你想用的纵深数字，范围从 0 到 24。这些预定义的类使用 Material Design 规范定义的 `box-shadow` 设置。
+
+You can dynamically change elevation on an element by swapping elevation CSS classes.
+
+你可以通过更换纵深 CSS 类来动态更改元素的纵深。
 
 ```html
-
 <div [class.mat-elevation-z2]="!isActive" [class.mat-elevation-z8]="isActive"></div>
 ```
 
 <!-- example(elevation-overview) -->
 
-### Mixins
+[theming-guide]: https://material.angular.io/guide/theming#applying-a-theme-to-components
 
-### 混入器
+## Elevation Sass mixins
 
-Elevations can also be added in CSS via the `mat-elevation` mixin, which takes a number 0-24 indicating the elevation of the element as well as optional arguments for the elevation shadow's color tone and opacity.
+## 纵深 Sass mixin
 
-还可以在 CSS 中使用 `mat-elevation` 混入器来添加纵深，它接受一个介于 0~24 之间的纵深数，还有一个可选的参数用于表示纵深投影的色调和透明度。
+In addition to the predefined CSS classes, you can apply elevation styles using the `elevation`
+Sass mixin. This mixin accepts a `$zValue` and an optional `$color`. The `$zValue` is a number from
+0 to 24, representing the semantic elevation of the element, that controls the intensity of the
+box-shadow. You can use the `$color` parameter to further customize the shadow appearance.
 
-Since an elevation shadow consists of multiple shadow components of varying opacities, the
-`$opacity` argument of the mixin is considered a factor by which to scale these initial values rather than an absolute value.
-
-纵深投影由多个具有不同透明度的投影组件构成，这个混入器的 `$opacity` 参数会作为一个缩放初始值的因子，而不是作为绝对值。
-
-In order to use the mixin, you must import `~@angular/material/theming`:
-
-要使用这个混入器，你必须导入 `~@angular/material/theming`：
+除了预定义的 CSS 类之外，你还可以使用 `elevation` Sass mixin 来应用纵深样式。此 mixin 接受 `$zValue` 和可选的 `$color` 参数。`$zValue` 是一个从 0 到 24 的数字，代表元素的语义化纵深，它会控制盒子阴影的强度。你可以使用 `$color` 参数进一步自定义阴影外观。
 
 ```scss
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 .my-class-with-default-shadow {
     // Adds a shadow for elevation level 2 with default color and full opacity:
-    @include mat-elevation(2);
+    @include mat.elevation(2);
 }
 
 .my-class-with-custom-shadow {
     // Adds a shadow for elevation level 2 with color #e91e63 and 80% of the default opacity:
-    @include mat-elevation(2, #e91e63, 0.8);
+    @include mat.elevation(2, #e91e63, 0.8);
 }
 ```
 
-For convenience, you can use the `mat-elevation-transition` mixin to add a transition when the elevation changes:
+### Overridable elevation
 
-当纵深变化时，你可以用 `mat-elevation-transition` 混入器来简便的添加转场动画：
+### 可覆盖的纵深
+
+When authoring a component, you may want to specify a default elevation that the component consumer
+can override. You can accomplish this by using the `overridable-elevation` Sass mixin. This behaves
+identically to the `elevation` mixin, except that the styles only apply when the element does not
+have a CSS class matching the pattern `mat-elevation-z#`, as described in
+[Elevation CSS classes](#elevation-css-classes) above.
+
+在创作组件时，你可能需要指定一个默认纵深，而组件的使用者可以覆盖它。你可以使用 `overridable-elevation` Sass Mixin 来完成此操作。此行为与 `elevation` mixin 的行为相同，但是这些样式只有在元素上没有符合 `mat-elevation-z#` 模式的 CSS 类时才适用，如上面的[纵深 CSS 类](#elevation-css-classes)中所述。
+
+### Animating elevation
+
+### 动画纵深
+
+You can use the `elevation-transition` mixin to add a transition when elevation changes.
+
+你可以使用 `elevation-transition` Mixin 来添加纵深变化时的转场动画。
 
 ```scss
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 .my-class {
-    @include mat-elevation-transition;
-    @include mat-elevation(2);
+    @include mat.elevation-transition();
+    @include mat.elevation(2);
 
     &:active {
-        @include mat-elevation(8);
+        @include mat.elevation(8);
   }
 }
 ```

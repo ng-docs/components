@@ -9,8 +9,8 @@
 import {
   ComponentHarnessConstructor,
   HarnessPredicate,
-  ComponentHarness,
 } from '@angular/cdk/testing';
+import {MatFormFieldControlHarness} from '@angular/material/form-field/testing/control';
 import {DatepickerInputHarnessFilters} from './datepicker-harness-filters';
 
 /** Sets up the filter predicates for a datepicker input harness. */
@@ -28,7 +28,7 @@ export function getInputPredicate<T extends MatDatepickerInputHarnessBase>(
 }
 
 /** Base class for datepicker input harnesses. */
-export abstract class MatDatepickerInputHarnessBase extends ComponentHarness {
+export abstract class MatDatepickerInputHarnessBase extends MatFormFieldControlHarness {
   /**
    * Whether the input is disabled.
    *
@@ -75,10 +75,7 @@ export abstract class MatDatepickerInputHarnessBase extends ComponentHarness {
       await inputEl.sendKeys(newValue);
     }
 
-    // @breaking-change 12.0.0 Remove null check once `dispatchEvent` is a required method.
-    if (inputEl.dispatchEvent) {
-      await inputEl.dispatchEvent('change');
-    }
+    await inputEl.dispatchEvent('change');
   }
 
   /**

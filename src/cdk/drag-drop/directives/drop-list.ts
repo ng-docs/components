@@ -96,7 +96,7 @@ export class CdkDropList<T = any> implements OnDestroy {
    * 列表销毁后触发。
    *
    */
-  private _destroyed = new Subject<void>();
+  private readonly _destroyed = new Subject<void>();
 
   /**
    * Whether the element's scrollable parents have been resolved.
@@ -238,7 +238,7 @@ export class CdkDropList<T = any> implements OnDestroy {
    *
    */
   @Output('cdkDropListDropped')
-  dropped: EventEmitter<CdkDragDrop<T, any>> = new EventEmitter<CdkDragDrop<T, any>>();
+  readonly dropped: EventEmitter<CdkDragDrop<T, any>> = new EventEmitter<CdkDragDrop<T, any>>();
 
   /**
    * Emits when the user has moved a new drag item into this container.
@@ -247,7 +247,7 @@ export class CdkDropList<T = any> implements OnDestroy {
    *
    */
   @Output('cdkDropListEntered')
-  entered: EventEmitter<CdkDragEnter<T>> = new EventEmitter<CdkDragEnter<T>>();
+  readonly entered: EventEmitter<CdkDragEnter<T>> = new EventEmitter<CdkDragEnter<T>>();
 
   /**
    * Emits when the user removes an item from the container
@@ -257,7 +257,7 @@ export class CdkDropList<T = any> implements OnDestroy {
    *
    */
   @Output('cdkDropListExited')
-  exited: EventEmitter<CdkDragExit<T>> = new EventEmitter<CdkDragExit<T>>();
+  readonly exited: EventEmitter<CdkDragExit<T>> = new EventEmitter<CdkDragExit<T>>();
 
   /**
    * Emits as the user is swapping items while actively dragging.
@@ -266,7 +266,7 @@ export class CdkDropList<T = any> implements OnDestroy {
    *
    */
   @Output('cdkDropListSorted')
-  sorted: EventEmitter<CdkDragSortEvent<T>> = new EventEmitter<CdkDragSortEvent<T>>();
+  readonly sorted: EventEmitter<CdkDragSortEvent<T>> = new EventEmitter<CdkDragSortEvent<T>>();
 
   /**
    * Keeps track of the items that are registered with this container. Historically we used to
@@ -487,7 +487,8 @@ export class CdkDropList<T = any> implements OnDestroy {
         container: event.container.data,
         item: event.item.data,
         isPointerOverContainer: event.isPointerOverContainer,
-        distance: event.distance
+        distance: event.distance,
+        dropPoint: event.dropPoint
       });
 
       // Mark for check since all of these events run outside of change

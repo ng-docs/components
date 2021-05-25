@@ -37,16 +37,25 @@ To install, run `npm install @angular/google-maps`.
 <!doctype html>
 <head>
   ...
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY">
-  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
 </head>
+```
+
+**Note:**
+If you're using the `<map-heatmap-layer>` directive, you also have to include the `visualization`
+library when loading the Google Maps API. To do so, you can add `&libraries=visualization` to the
+script URL:
+
+```html
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization"></script>
 ```
 
 ## Lazy Loading the API
 
 ## 惰性加载 API
 
-The API can be loaded when the component is actually used by using the Angular HttpClient jsonp method to make sure that the component doesn't load until after the API has loaded.
+The API can be loaded when the component is actually used by using the Angular HttpClient jsonp
+method to make sure that the component doesn't load until after the API has loaded.
 
 当实际使用组件时，可以通过使用 Angular HttpClient 的 jsonp 方法来加载此 API，以确保该组件会在 API 加载完之后再加载。
 
@@ -125,12 +134,24 @@ export class GoogleMapsDemoComponent {
 - [`MapTrafficLayer`](./map-traffic-layer/README.md)
 - [`MapTransitLayer`](./map-transit-layer/README.md)
 - [`MapBicyclingLayer`](./map-bicycling-layer/README.md)
+- [`MapDirectionsRenderer`](./map-directions-renderer/README.md)
+- [`MapHeatmapLayer`](./map-heatmap-layer/README.md)
+
+## Services
+
+## 服务
+
+- [`MapGeocoder`](./map-geocoder/README.md)
+
 
 ## The Options Input
 
 ## 输入属性 `options`
 
-The Google Maps components implement all of the options for their respective objects from the Google Maps JavaScript API through an `options` input, but they also have specific inputs for some of the most common options. For example, the Google Maps component could have its options set either in with a google.maps.MapOptions object:
+The Google Maps components implement all of the options for their respective objects from the
+Google Maps JavaScript API through an `options` input, but they also have specific inputs for some
+of the most common options. For example, the Google Maps component could have its options set either
+in with a google.maps.MapOptions object:
 
 Google Maps 组件通过输入属性 `options` 为 Google Maps JavaScript API 中的所有选项实现了相应的对象，但它们也为一些最常用的选项提供了专门的输入属性。例如，Google Maps 组件可以使用 google.maps.MapOptions 对象设置其选项：
 
@@ -159,6 +180,7 @@ center: google.maps.LatLngLiteral = {lat: 40, lng: -20};
 zoom = 4;
 ```
 
-Not every option has its own input. See the API for each component to see if the option has a dedicated input or if it should be set in the options input.
+Not every option has its own input. See the API for each component to see if the option has a
+dedicated input or if it should be set in the options input.
 
 并非每个选项都有自己的输入属性。查看每个组件的 API，了解该选项是否具有专用输入属性，还是应该在输入属性 options 中进行设置。

@@ -23,7 +23,7 @@ import {
   isInsideClientRect,
 } from './client-rect';
 import {ParentPositionTracker} from './parent-position-tracker';
-import {DragCSSStyleDeclaration} from './drag-styling';
+import {combineTransforms, DragCSSStyleDeclaration} from './drag-styling';
 
 /**
  * Proximity, as a ratio to width/height, at which a
@@ -72,6 +72,8 @@ interface CachedItemPosition {
    *
    */
   offset: number;
+  /** Inline transform that the drag item had when dragging started. */
+  initialTransform: string;
 }
 
 /**
@@ -179,7 +181,7 @@ export class DropListRef<T = any> {
    * 在拖动开始之前触发。
    *
    */
-  beforeStarted = new Subject<void>();
+  readonly beforeStarted = new Subject<void>();
 
   /**
    * Emits when the user has moved a new drag item into this container.
@@ -187,7 +189,7 @@ export class DropListRef<T = any> {
    * 当用户把一个新的拖动条目移到这个容器中时，就会触发。
    *
    */
-  entered = new Subject<{item: DragRef, container: DropListRef, currentIndex: number}>();
+  readonly entered = new Subject<{item: DragRef, container: DropListRef, currentIndex: number}>();
 
   /**
    * Emits when the user removes an item from the container
@@ -196,7 +198,7 @@ export class DropListRef<T = any> {
    * 当用户把条目拖到另一个容器中并从当前容器中删除该条目时触发。
    *
    */
-  exited = new Subject<{item: DragRef, container: DropListRef}>();
+  readonly exited = new Subject<{item: DragRef, container: DropListRef}>();
 
   /**
    * Emits when the user drops an item inside the container.
@@ -204,7 +206,7 @@ export class DropListRef<T = any> {
    * 当用户把一个条目投放进该容器时就会触发。
    *
    */
-  dropped = new Subject<{
+  readonly dropped = new Subject<{
     item: DragRef,
     currentIndex: number,
     previousIndex: number,
@@ -212,6 +214,7 @@ export class DropListRef<T = any> {
     previousContainer: DropListRef,
     isPointerOverContainer: boolean,
     distance: Point;
+    dropPoint: Point;
   }>();
 
   /**
@@ -220,7 +223,7 @@ export class DropListRef<T = any> {
    * 当用户正在主动拖动以交换条目时，就会触发。
    *
    */
-  sorted = new Subject<{
+  readonly sorted = new Subject<{
     previousIndex: number,
     currentIndex: number,
     container: DropListRef,
@@ -293,7 +296,7 @@ export class DropListRef<T = any> {
    * 容器中的可拖动条目。
    *
    */
-  private _draggables: ReadonlyArray<DragRef> = [];
+  private _draggables: readonly DragRef[] = [];
 
   /**
    * Drop lists that are connected to the current one.
@@ -301,7 +304,7 @@ export class DropListRef<T = any> {
    * 删除那些连接到当前列表的投放列表。
    *
    */
-  private _siblings: ReadonlyArray<DropListRef> = [];
+  private _siblings: readonly DropListRef[] = [];
 
   /**
    * Direction in which the list is oriented.
@@ -365,7 +368,7 @@ export class DropListRef<T = any> {
    * 用于发信号以通知当前自动滚动序列何时停止。
    *
    */
-  private _stopScrollTimers = new Subject<void>();
+  private readonly _stopScrollTimers = new Subject<void>();
 
   /**
    * Shadow root of the current element. Necessary for `elementFromPoint` to resolve correctly.
@@ -589,7 +592,7 @@ export class DropListRef<T = any> {
    *
    */
   drop(item: DragRef, currentIndex: number, previousIndex: number, previousContainer: DropListRef,
-    isPointerOverContainer: boolean, distance: Point): void {
+    isPointerOverContainer: boolean, distance: Point, dropPoint: Point): void {
     this._reset();
     this.dropped.next({
       item,
@@ -598,7 +601,8 @@ export class DropListRef<T = any> {
       container: this,
       previousContainer,
       isPointerOverContainer,
-      distance
+      distance,
+      dropPoint
     });
   }
 
@@ -700,7 +704,7 @@ export class DropListRef<T = any> {
    * 获取在这个投放容器中注册的可滚动父类。
    *
    */
-  getScrollableParents(): ReadonlyArray<HTMLElement> {
+  getScrollableParents(): readonly HTMLElement[] {
     return this._scrollableElements;
   }
 
@@ -824,10 +828,12 @@ export class DropListRef<T = any> {
       if (isHorizontal) {
         // Round the transforms since some browsers will
         // blur the elements, for sub-pixel transforms.
-        elementToOffset.style.transform = `translate3d(${Math.round(sibling.offset)}px, 0, 0)`;
+        elementToOffset.style.transform = combineTransforms(
+          `translate3d(${Math.round(sibling.offset)}px, 0, 0)`, sibling.initialTransform);
         adjustClientRect(sibling.clientRect, 0, offset);
       } else {
-        elementToOffset.style.transform = `translate3d(0, ${Math.round(sibling.offset)}px, 0)`;
+        elementToOffset.style.transform = combineTransforms(
+          `translate3d(0, ${Math.round(sibling.offset)}px, 0)`, sibling.initialTransform);
         adjustClientRect(sibling.clientRect, offset, 0);
       }
     });
@@ -962,7 +968,12 @@ export class DropListRef<T = any> {
 
     this._itemPositions = this._activeDraggables.map(drag => {
       const elementToMeasure = drag.getVisibleElement();
-      return {drag, offset: 0, clientRect: getMutableClientRect(elementToMeasure)};
+      return {
+        drag,
+        offset: 0,
+        initialTransform: elementToMeasure.style.transform || '',
+        clientRect: getMutableClientRect(elementToMeasure),
+      };
     }).sort((a, b) => {
       return isHorizontal ? a.clientRect.left - b.clientRect.left :
                             a.clientRect.top - b.clientRect.top;
@@ -986,7 +997,9 @@ export class DropListRef<T = any> {
       const rootElement = item.getRootElement();
 
       if (rootElement) {
-        rootElement.style.transform = '';
+        const initialTransform = this._itemPositions
+          .find(current => current.drag === item)?.initialTransform;
+        rootElement.style.transform = initialTransform || '';
       }
     });
     this._siblings.forEach(sibling => sibling._stopReceiving(this));
@@ -1379,7 +1392,7 @@ export class DropListRef<T = any> {
    */
   private _getShadowRoot(): DocumentOrShadowRoot {
     if (!this._cachedShadowRoot) {
-      const shadowRoot = _getShadowRoot(coerceElement(this.element)) as ShadowRoot | null;
+      const shadowRoot = _getShadowRoot(coerceElement(this.element));
       this._cachedShadowRoot = shadowRoot || this._document;
     }
 
