@@ -28,7 +28,7 @@ example, be sure to import `ReactiveFormsModule` from `@angular/forms` into your
 If you are unfamiliar with using reactive forms, you can read more about the subject in the
 [Angular documentation](https://angular.io/guide/reactive-forms).
 >
-> 注意：如果你愿意，也可以用模板驱动表单代替。我们在这个例子中使用响应式表单，是因为这样比较容易订阅输入值的变化。在这个例子中，要确保你的 `NgModule` 从 `@angular/forms` 中导入了 `ReactiveFormsModule` 。
+> 注意：如果你愿意，也可以用模板驱动表单代替。我们在这个例子中使用响应式表单，是因为这样比较容易订阅输入值的变化。在这个例子中，要确保你的 `NgModule` 从 `@angular/forms` 中导入了 `ReactiveFormsModule`。
 > 如果你对使用响应式表单还不熟，可以阅读 [Angular 官方文档](https://angular.cn/guide/reactive-forms) 中的相关主题。
 
 

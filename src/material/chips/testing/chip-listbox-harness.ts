@@ -24,7 +24,7 @@ export class MatChipListboxHarness extends _MatChipListHarnessBase {
   /**
    * The selector for the host element of a `MatChipList` instance.
    *
-   * `MatChipList` 实例的宿主元素的选择器。
+   * `MatChipList` 实例的宿主元素选择器。
    *
    */
   static hostSelector = '.mat-chip-list';
@@ -33,7 +33,7 @@ export class MatChipListboxHarness extends _MatChipListHarnessBase {
    * Gets a `HarnessPredicate` that can be used to search for a `MatChipListHarness` that meets
    * certain criteria.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索满足一定条件的 `MatChipListHarness`
+   * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件的 `MatChipListHarness`
    *
    * @param options Options for filtering which chip list instances are considered a match.
    *

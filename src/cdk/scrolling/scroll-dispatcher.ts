@@ -211,7 +211,7 @@ export class ScrollDispatcher implements OnDestroy {
   /**
    * Use defaultView of injected document if available or fallback to global window reference
    *
-   * 如果可用，则使用注入的 document 的 defaultView ，否则回退到全局 window 引用
+   * 如果可用，则使用注入的 document 的 defaultView，否则回退到全局 window 引用
    *
    */
   private _getWindow(): Window {

@@ -46,9 +46,18 @@ import {GridFocusKeyManager} from './grid-focus-key-manager';
 /** Change event object that is emitted when the chip grid value has changed. */
 export class MatChipGridChange {
   constructor(
-    /** Chip grid that emitted the event. */
+    /**
+     * Chip grid that emitted the event.
+     *
+     * 发出此事件的纸片网格。
+     *
+     */
     public source: MatChipGrid,
-    /** Value of the chip grid when the event was emitted. */
+    /**
+     * Value of the chip grid when the event was emitted.
+     *
+     * 当发出本事件时的纸片网格的值。
+     */
     public value: any) { }
 }
 

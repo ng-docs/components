@@ -48,7 +48,12 @@ export interface MatTabsConfig {
    */
   dynamicHeight?: boolean;
 
-  /** `tabindex` to be set on the inner element that wraps the tab content. */
+  /**
+   * `tabindex` to be set on the inner element that wraps the tab content.
+   *
+   * 在包装制表符内容的内部元素上设置的 `tabindex`
+   *
+   */
   contentTabIndex?: number;
 }
 

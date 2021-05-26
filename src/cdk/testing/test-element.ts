@@ -86,7 +86,7 @@ export interface TestElement {
   /**
    * Blur the element.
    *
-   * 让元素失去焦点。
+   * 让元素失焦。
    *
    */
   blur(): Promise<void>;
@@ -105,7 +105,7 @@ export interface TestElement {
    * `click(x, y)` instead.
    *
    * 单击当前环境下位于默认位置的元素。
-   * 如果你需要保证在某个特定的位置单击该元素，可以考虑 `click('center')` 或 `click(x, y)` 。
+   * 如果你需要保证在某个特定的位置单击该元素，可以考虑 `click('center')` 或 `click(x, y)`。
    *
    */
   click(modifiers?: ModifierKeys): Promise<void>;
@@ -185,7 +185,7 @@ export interface TestElement {
   /**
    * Moves the mouse away from the element.
    *
-   * 让鼠标远离元素。
+   * 将鼠标从此元素移开。
    *
    */
   mouseAway(): Promise<void>;

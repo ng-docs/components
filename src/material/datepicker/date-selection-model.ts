@@ -28,9 +28,17 @@ export class DateRange<D> {
   private _disableStructuralEquivalency: never;
 
   constructor(
-    /** The start date of the range. */
+    /**
+     * The start date of the range.
+     *
+     * 此范围的起始日期。
+     */
     readonly start: D | null,
-    /** The end date of the range. */
+    /**
+     * The end date of the range.
+     *
+     * 此范围的截止日期。
+     */
     readonly end: D | null) {}
 }
 
@@ -67,7 +75,12 @@ export interface DateSelectionModelChange<S> {
    */
   source: unknown;
 
-  /** Previous value */
+  /**
+   * Previous value
+   *
+   * 先前值
+   *
+   */
   oldValue?: S;
 }
 
@@ -92,7 +105,11 @@ export abstract class MatDateSelectionModel<S, D = ExtractDateTypeFromSelection<
   selectionChanged: Observable<DateSelectionModelChange<S>> = this._selectionChanged;
 
   protected constructor(
-    /** The current selection. */
+    /**
+     * The current selection.
+     *
+     * 当前选择结果。
+     */
     readonly selection: S,
     protected _adapter: DateAdapter<D>) {
     this.selection = selection;
@@ -219,6 +236,9 @@ export class MatSingleDateSelectionModel<D> extends MatDateSelectionModel<D | nu
 
 /**
  * A selection model that contains a date range.
+ *
+ * 包含日期范围的选择模型。
+ *
  * @docs-private
  */
 @Injectable()
@@ -307,6 +327,9 @@ export function MAT_SINGLE_DATE_SELECTION_MODEL_FACTORY(
 
 /**
  * Used to provide a single selection model to a component.
+ *
+ * 用于为组件提供单选模型。
+ *
  * @docs-private
  */
 export const MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER: FactoryProvider = {
@@ -323,6 +346,9 @@ export function MAT_RANGE_DATE_SELECTION_MODEL_FACTORY(
 
 /**
  * Used to provide a range selection model to a component.
+ *
+ * 用于为组件提供范围选择模型。
+ *
  * @docs-private
  */
 export const MAT_RANGE_DATE_SELECTION_MODEL_PROVIDER: FactoryProvider = {

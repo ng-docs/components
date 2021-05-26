@@ -8,7 +8,12 @@
 
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/** A set of criteria that can be used to filter a list of `MatRadioGroupHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatRadioGroupHarness` instances.
+ *
+ * 一组可用于过滤 `MatRadioGroupHarness` 实例列表的条件。
+ *
+ */
 export interface RadioGroupHarnessFilters extends BaseHarnessFilters {
   /**
    * Only find instances whose name attribute is the given value.
@@ -19,7 +24,12 @@ export interface RadioGroupHarnessFilters extends BaseHarnessFilters {
   name?: string;
 }
 
-/** A set of criteria that can be used to filter a list of `MatRadioButtonHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatRadioButtonHarness` instances.
+ *
+ * 一组可用于过滤 `MatRadioButtonHarness` 实例列表的条件。
+ *
+ */
 export interface RadioButtonHarnessFilters extends BaseHarnessFilters {
   /**
    * Only find instances whose label matches the given value.

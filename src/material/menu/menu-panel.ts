@@ -48,12 +48,18 @@ export interface MatMenuPanel<T = any> {
 
   /**
    * @deprecated To be removed.
+   *
+   * 即将被删除。
+   *
    * @breaking-change 8.0.0
    */
   addItem?: (item: T) => void;
 
   /**
    * @deprecated To be removed.
+   *
+   * 即将被删除。
+   *
    * @breaking-change 8.0.0
    */
   removeItem?: (item: T) => void;

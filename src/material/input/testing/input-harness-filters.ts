@@ -8,7 +8,12 @@
 
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/** A set of criteria that can be used to filter a list of `MatInputHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatInputHarness` instances.
+ *
+ * 一组可用于过滤 `MatInputHarness` 实例列表的条件。
+ *
+ */
 export interface InputHarnessFilters extends BaseHarnessFilters {
   /**
    * Filters based on the value of the input.

@@ -43,7 +43,7 @@ the content. Directly calling `copy` may fail in this case, so you can pre-load 
 the text that was buffered. Please note, if you call `beginCopy`, you must clean up the
 `PendingCopy` object by calling `destroy` on it after you are finished.
 
-但是，对于更长的文本，浏览器需要时间来填充一个临时 textarea 元素并复制内容。在这种情况下，直接调用 `copy` 可能会失败，所以你可以通过调用 `beginCopy` 来预加载该文本。这个方法会返回一个 `PendingCopy` 对象，它有一个 `copy` 方法来真正复制缓存的文本。请注意，如果你调用过 `beginCopy` ，就必须在完成后调用 `destroy` 来清理这个 `PendingCopy` 对象。
+但是，对于更长的文本，浏览器需要时间来填充一个临时 textarea 元素并复制内容。在这种情况下，直接调用 `copy` 可能会失败，所以你可以通过调用 `beginCopy` 来预加载该文本。这个方法会返回一个 `PendingCopy` 对象，它有一个 `copy` 方法来真正复制缓存的文本。请注意，如果你调用过 `beginCopy`，就必须在完成后调用 `destroy` 来清理这个 `PendingCopy` 对象。
 
 ```typescript
 class HeroProfile {

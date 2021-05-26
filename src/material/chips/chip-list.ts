@@ -64,9 +64,18 @@ let nextUniqueId = 0;
  */
 export class MatChipListChange {
   constructor(
-    /** Chip list that emitted the event. */
+    /**
+     * Chip list that emmited the event.
+     *
+     * 发出此事件的纸片列表。
+     *
+     */
     public source: MatChipList,
-    /** Value of the chip list when the event was emitted. */
+    /**
+     * Value of the chip list when the event was emitted.
+     *
+     * 当此事件发出时，此纸片列表的值。
+     */
     public value: any) { }
 }
 
@@ -898,7 +907,7 @@ export class MatChipList extends _MatChipListMixinBase implements MatFormFieldCo
    * user to tab out of it. This prevents the list from capturing focus and redirecting
    * it back to the first chip, creating a focus trap, if it user tries to tab away.
    *
-   * 从纸片列表中删除 `tabindex` ，然后重置它，以便用户可以跳出去。这会阻止该列表捕获焦点并将其重定向回第一个纸片，如果用户试图离开，就会创建一个焦点陷阱。
+   * 从纸片列表中删除 `tabindex`，然后重置它，以便用户可以跳出去。这会阻止该列表捕获焦点并将其重定向回第一个纸片，如果用户试图离开，就会创建一个焦点陷阱。
    *
    */
   _allowFocusEscape() {

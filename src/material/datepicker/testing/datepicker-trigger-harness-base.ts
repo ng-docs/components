@@ -10,7 +10,12 @@ import {ComponentHarness, LocatorFactory, parallel, TestElement} from '@angular/
 import {CalendarHarnessFilters} from './datepicker-harness-filters';
 import {MatCalendarHarness} from './calendar-harness';
 
-/** Interface for a test harness that can open and close a calendar. */
+/**
+ * Interface for a test harness that can open and close a calendar.
+ *
+ * 可以打开和关闭日历的测试工具的接口。
+ *
+ */
 export interface DatepickerTrigger {
   isCalendarOpen(): Promise<boolean>;
   openCalendar(): Promise<void>;
@@ -19,19 +24,44 @@ export interface DatepickerTrigger {
   getCalendar(filter?: CalendarHarnessFilters): Promise<MatCalendarHarness>;
 }
 
-/** Base class for harnesses that can trigger a calendar. */
+/**
+ * Base class for harnesses that can trigger a calendar.
+ *
+ * 可以触发日历的测试工具的基类。
+ *
+ */
 export abstract class DatepickerTriggerHarnessBase extends ComponentHarness implements
   DatepickerTrigger {
-  /** Whether the trigger is disabled. */
+  /**
+   * Whether the trigger is disabled.
+   *
+   * 触发器是否已禁用。
+   *
+   */
   abstract isDisabled(): Promise<boolean>;
 
-  /** Whether the calendar associated with the trigger is open. */
+  /**
+   * Whether the calendar associated with the trigger is open.
+   *
+   * 与触发器关联的日历是否打开。
+   *
+   */
   abstract isCalendarOpen(): Promise<boolean>;
 
-  /** Opens the calendar associated with the trigger. */
+  /**
+   * Opens the calendar associated with the trigger.
+   *
+   * 打开与触发器关联的日历。
+   *
+   */
   protected abstract _openCalendar(): Promise<void>;
 
-  /** Opens the calendar if the trigger is enabled and it has a calendar. */
+  /**
+   * Opens the calendar if the trigger is enabled and it has a calendar.
+   *
+   * 如果启用了触发器并且有关联日历，则打开日历。
+   *
+   */
   async openCalendar(): Promise<void> {
     const [isDisabled, hasCalendar] = await parallel(() => [this.isDisabled(), this.hasCalendar()]);
 
@@ -40,7 +70,12 @@ export abstract class DatepickerTriggerHarnessBase extends ComponentHarness impl
     }
   }
 
-  /** Closes the calendar if it is open. */
+  /**
+   * Closes the calendar if it is open.
+   *
+   * 如果日历已打开，则将其关闭。
+   *
+   */
   async closeCalendar(): Promise<void> {
     if (await this.isCalendarOpen()) {
       await closeCalendar(getCalendarId(this.host()), this.documentRootLocatorFactory());
@@ -49,26 +84,47 @@ export abstract class DatepickerTriggerHarnessBase extends ComponentHarness impl
     }
   }
 
-  /** Gets whether there is a calendar associated with the trigger. */
+  /**
+   * Gets whether there is a calendar associated with the trigger.
+   *
+   * 获取是否有与触发器关联的日历。
+   *
+   */
   async hasCalendar(): Promise<boolean> {
     return (await getCalendarId(this.host())) != null;
   }
 
   /**
    * Gets the `MatCalendarHarness` that is associated with the trigger.
+   *
+   * 获取与触发器关联的 `MatCalendarHarness`。
+   *
    * @param filter Optionally filters which calendar is included.
+   *
+   * （可选）用于筛选包含的日历的可选过滤器。
+   *
    */
   async getCalendar(filter: CalendarHarnessFilters = {}): Promise<MatCalendarHarness> {
     return getCalendar(filter, this.host(), this.documentRootLocatorFactory());
   }
 }
 
-/** Gets the ID of the calendar that a particular test element can trigger. */
+/**
+ * Gets the ID of the calendar that a particular test element can trigger.
+ *
+ * 获取可以被特定测试元素触发的日历的 ID。
+ *
+ */
 export async function getCalendarId(host: Promise<TestElement>): Promise<string | null> {
   return (await host).getAttribute('data-mat-calendar');
 }
 
-/** Closes the calendar with a specific ID. */
+/**
+ * Closes the calendar with a specific ID.
+ *
+ * 关闭具有特定 ID 的日历。
+ *
+ */
 export async function closeCalendar(
   calendarId: Promise<string | null>,
   documentLocator: LocatorFactory) {
@@ -82,7 +138,12 @@ export async function closeCalendar(
   return (await documentLocator.locatorFor(backdropSelector)()).click();
 }
 
-/** Gets the test harness for a calendar associated with a particular host. */
+/**
+ * Gets the test harness for a calendar associated with a particular host.
+ *
+ * 获取与特定宿主相关联的日历的测试工具。
+ *
+ */
 export async function getCalendar(
   filter: CalendarHarnessFilters,
   host: Promise<TestElement>,

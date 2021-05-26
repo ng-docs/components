@@ -36,7 +36,7 @@ export class AsyncFunctionsProcessor implements Processor {
 
       // Add a JSDoc @returns description for void asynchronous functions.
       if (!doc.returns && typeString === 'Promise<void>') {
-        doc.returns = {description: 'Promise that resolves when the action completes.'};
+        doc.returns = {description: '当此动作完成时解析的 Promise。'};
       }
     });
   }

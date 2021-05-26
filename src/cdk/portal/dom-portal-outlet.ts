@@ -26,7 +26,12 @@ export class DomPortalOutlet extends BasePortalOutlet {
   private _document: Document;
 
   constructor(
-      /** Element into which the content is projected. */
+      /**
+       * Element into which the content is projected.
+       *
+       * 此内容要投影进的元素。
+       *
+       */
       public outletElement: Element,
       private _componentFactoryResolver: ComponentFactoryResolver,
       private _appRef: ApplicationRef,
@@ -201,7 +206,7 @@ export class DomPortalOutlet extends BasePortalOutlet {
  *
  * @deprecated Use `DomPortalOutlet` instead.
  *
- * 请改用 `DomPortalOutlet` 。
+ * 请改用 `DomPortalOutlet`。
  *
  * @breaking-change 9.0.0
  *

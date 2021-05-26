@@ -87,6 +87,9 @@ import {CDK_TABLE} from './tokens';
 /**
  * Enables the recycle view repeater strategy, which reduces rendering latency. Not compatible with
  * tables that animate rows.
+ *
+ * 启用复写器的视图回收策略，从而减少渲染延迟。与为各个表行设置动画的表格不兼容。
+ *
  */
 @Directive({
   selector: 'cdk-table[recycleRows], table[cdk-table][recycleRows]',
@@ -462,7 +465,7 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
   /**
    * Whether the table is applied to a native `<table>`.
    *
-   * 表格是否应用于原生 `<table>` 。
+   * 表格是否应用于原生 `<table>`。
    *
    */
   protected _isNativeHtmlTable: boolean;
@@ -606,7 +609,7 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
    * Whether to use a fixed table layout. Enabling this option will enforce consistent column widths
    * and optimize rendering sticky styles for native tables. No-op for flex tables.
    *
-   * 是否使用固定（fixed）表格布局。启用此选项会强制让所有列宽一致，并优化渲染原生表格的粘性样式。 对弹性（flex）表格无效。
+   * 是否使用固定（fixed）表格布局。启用此选项会强制让所有列宽一致，并优化渲染原生表格的粘性样式。对弹性（flex）表格无效。
    *
    */
   @Input()

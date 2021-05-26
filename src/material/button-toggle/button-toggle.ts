@@ -114,10 +114,18 @@ let uniqueIdCounter = 0;
  */
 export class MatButtonToggleChange {
   constructor(
-    /** The MatButtonToggle that emits the event. */
+    /**
+     * The MatButtonToggle that emits the event.
+     *
+     * 发出此事件的 MatButtonToggle。
+     */
     public source: MatButtonToggle,
 
-    /** The value assigned to the MatButtonToggle. */
+    /**
+     * The value assigned to the MatButtonToggle.
+     *
+     * 赋值给此 MatButtonToggle 的值。
+     */
     public value: any) {}
 }
 
@@ -581,7 +589,12 @@ export class MatButtonToggle extends _MatButtonToggleMixinBase implements OnInit
    */
   @Input('aria-labelledby') ariaLabelledby: string | null = null;
 
-  /** Underlying native `button` element. */
+  /**
+   * Underlying native `button` element.
+   *
+   * 幕后的原生 `button` 元素。
+   *
+   */
   @ViewChild('button') _buttonElement: ElementRef<HTMLButtonElement>;
 
   /**
@@ -674,7 +687,7 @@ export class MatButtonToggle extends _MatButtonToggleMixinBase implements OnInit
   /**
    * Whether the button is disabled.
    *
-   * 此按钮是否被禁用。
+   * 此按钮是否已禁用。
    *
    */
   @Input()

@@ -7,7 +7,12 @@
  */
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/** A set of criteria that can be used to filter a list of `MatTabHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatTabHarness` instances.
+ *
+ * 一组可用于过滤 `MatTabHarness` 实例列表的条件。
+ *
+ */
 export interface TabHarnessFilters extends BaseHarnessFilters {
   /**
    * Only find instances whose label matches the given value.
@@ -18,13 +23,28 @@ export interface TabHarnessFilters extends BaseHarnessFilters {
   label?: string | RegExp;
 }
 
-/** A set of criteria that can be used to filter a list of `MatTabGroupHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatTabGroupHarness` instances.
+ *
+ * 一组可用于过滤 `MatTabGroupHarness` 实例列表的条件。
+ *
+ */
 export interface TabGroupHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose selected tab label matches the given value. */
+  /**
+   * Only find instances whose selected tab label matches the given value.
+   *
+   * 仅查找其选定选项卡标签与给定值匹配的实例。
+   *
+   */
   selectedTabLabel?: string | RegExp;
 }
 
-/** A set of criteria that can be used to filter a list of `MatTabLinkHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatTabLinkHarness` instances.
+ *
+ * 一组可用于过滤 `MatTabLinkHarness` 实例列表的条件。
+ *
+ */
 export interface TabLinkHarnessFilters extends BaseHarnessFilters {
   /**
    * Only find instances whose label matches the given value.
@@ -35,5 +55,10 @@ export interface TabLinkHarnessFilters extends BaseHarnessFilters {
   label?: string | RegExp;
 }
 
-/** A set of criteria that can be used to filter a list of `MatTabNavBarHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatTabNavBarHarness` instances.
+ *
+ * 一组可用于过滤 `MatTabNavBarHarness` 实例列表的条件。
+ *
+ */
 export interface TabNavBarHarnessFilters extends BaseHarnessFilters {}

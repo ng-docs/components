@@ -85,7 +85,7 @@ export class MatBadge extends _MatBadgeMixinBase implements OnDestroy, OnChanges
   /**
    * The color of the badge. Can be `primary`, `accent`, or `warn`.
    *
-   * 徽章的颜色。可以是 `primary`、`accent` 或 `warn` 。
+   * 徽章的颜色。可以是 `primary`、`accent` 或 `warn`。
    *
    */
   @Input('matBadgeColor')

@@ -10,7 +10,12 @@ import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {SortHarnessFilters, SortHeaderHarnessFilters} from './sort-harness-filters';
 import {MatSortHeaderHarness} from './sort-header-harness';
 
-/** Harness for interacting with a standard `mat-sort` in tests. */
+/**
+ * Harness for interacting with a standard `mat-sort` in tests.
+ *
+ * 用于在测试中与 `mat-sort` 进行交互的测试工具。
+ *
+ */
 export class MatSortHarness extends ComponentHarness {
   static hostSelector = '.mat-sort';
 
@@ -31,12 +36,22 @@ export class MatSortHarness extends ComponentHarness {
     return new HarnessPredicate(MatSortHarness, options);
   }
 
-  /** Gets all of the sort headers in the `mat-sort`. */
+  /**
+   * Gets all of the sort headers in the `mat-sort`.
+   *
+   * 此 `mat-sort` 中的所有排序标题。
+   *
+   */
   async getSortHeaders(filter: SortHeaderHarnessFilters = {}): Promise<MatSortHeaderHarness[]> {
     return this.locatorForAll(MatSortHeaderHarness.with(filter))();
   }
 
-  /** Gets the selected header in the `mat-sort`. */
+  /**
+   * Gets the selected header in the `mat-sort`.
+   *
+   * 此 `mat-sort` 中的已选标题。
+   *
+   */
   async getActiveHeader(): Promise<MatSortHeaderHarness|null> {
     const headers = await this.getSortHeaders();
     for (let i = 0; i < headers.length; i++) {

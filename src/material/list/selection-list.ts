@@ -75,7 +75,12 @@ export const MAT_SELECTION_LIST_VALUE_ACCESSOR: any = {
  */
 export class MatSelectionListChange {
   constructor(
-    /** Reference to the selection list that emitted the event. */
+    /**
+     * Reference to the selection list that emmited the event.
+     *
+     * 到发出此事件的选择列表的引用。
+     *
+     */
     public source: MatSelectionList,
     /**
      * Reference to the option that has been changed.
@@ -203,7 +208,7 @@ export class MatListOption extends _MatListOptionMixinBase implements AfterConte
   /**
    * Whether the option is disabled.
    *
-   * 该选项是否被禁用。
+   * 该选项是否已禁用。
    *
    */
   @Input()
@@ -566,7 +571,7 @@ export class MatSelectionList extends _MatSelectionListMixinBase implements CanD
   /**
    * View to model callback that should be called if the list or its options lost focus.
    *
-   * 如果列表或其选项失去焦点，应该调用的视图到模型回调。
+   * 如果列表或其选项失焦，应该调用的视图到模型回调。
    *
    */
   _onTouched: () => void = () => {};

@@ -22,7 +22,7 @@ export class MatBadgeHarness extends ComponentHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a badge with specific attributes.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索具有特定属性的徽章。
+   * 获取一个 `HarnessPredicate`，它可以用来搜索具有特定属性的徽章。
    *
    * @param options Options for narrowing the search:
    *

@@ -37,13 +37,23 @@ export class MatAccordionHarness extends ComponentHarness {
     return new HarnessPredicate(MatAccordionHarness, options);
   }
 
-  /** Gets all expansion panels which are part of the accordion. */
+  /**
+   * Gets all expansion panels which are part of the accordion.
+   *
+   * 获取属于此手风琴的所有可展开面板。
+   *
+   */
   async getExpansionPanels(filter: ExpansionPanelHarnessFilters = {}):
       Promise<MatExpansionPanelHarness[]> {
     return this.locatorForAll(MatExpansionPanelHarness.with(filter))();
   }
 
-  /** Whether the accordion allows multiple expanded panels simultaneously. */
+  /**
+   * Whether the accordion allows multiple expanded panels simultaneously.
+   *
+   * 此手风琴是否允许同时展开多个可展开面板。
+   *
+   */
   async isMulti(): Promise<boolean> {
     return (await this.host()).hasClass('mat-accordion-multi');
   }

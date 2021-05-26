@@ -15,7 +15,12 @@ import {
 import {RowHarnessFilters, CellHarnessFilters} from './table-harness-filters';
 import {MatCellHarness, MatHeaderCellHarness, MatFooterCellHarness} from './cell-harness';
 
-/** Text extracted from a table row organized by columns. */
+/**
+ * Text extracted from a table row organized by columns.
+ *
+ * 从按列组织的表行中提取的文本。
+ *
+ */
 export interface MatRowHarnessColumnsText {
   [columnName: string]: string;
 }
@@ -27,18 +32,33 @@ export abstract class _MatRowHarnessBase<
 > extends ComponentHarness {
   protected abstract _cellHarness: CellType;
 
-  /** Gets a list of `MatCellHarness` for all cells in the row. */
+  /**
+   * Gets a list of `MatCellHarness` for all cells in the row.
+   *
+   * 获取此行中所有单元格的 `MatCellHarness` 列表。
+   *
+   */
   async getCells(filter: CellHarnessFilters = {}): Promise<Cell[]> {
     return this.locatorForAll(this._cellHarness.with(filter))();
   }
 
-  /** Gets the text of the cells in the row. */
+  /**
+   * Gets the text of the cells in the row.
+   *
+   * 获取此行中单元格的文本。
+   *
+   */
   async getCellTextByIndex(filter: CellHarnessFilters = {}): Promise<string[]> {
     const cells = await this.getCells(filter);
     return parallel(() => cells.map(cell => cell.getText()));
   }
 
-  /** Gets the text inside the row organized by columns. */
+  /**
+   * Gets the text inside the row organized by columns.
+   *
+   * 获取按列组织的此行内的文本。
+   *
+   */
   async getCellTextByColumnName(): Promise<MatRowHarnessColumnsText> {
     const output: MatRowHarnessColumnsText = {};
     const cells = await this.getCells();
@@ -50,9 +70,19 @@ export abstract class _MatRowHarnessBase<
   }
 }
 
-/** Harness for interacting with a standard Angular Material table row. */
+/**
+ * Harness for interacting with a standard Angular Material table row.
+ *
+ * 与标准 Angular Material 表行进行交互的测试工具。
+ *
+ */
 export class MatRowHarness extends _MatRowHarnessBase<typeof MatCellHarness, MatCellHarness> {
-  /** The selector for the host element of a `MatRowHarness` instance. */
+  /**
+   * The selector for the host element of a `MatRowHarness` instance.
+   *
+   * `MatRowHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-row';
   protected _cellHarness = MatCellHarness;
 
@@ -62,6 +92,9 @@ export class MatRowHarness extends _MatRowHarnessBase<typeof MatCellHarness, Mat
    * 获取一个可用来使用指定属性搜索表行的 `HarnessPredicate`。
    *
    * @param options Options for narrowing the search
+   *
+   * 收窄搜索范围的选项
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -71,17 +104,33 @@ export class MatRowHarness extends _MatRowHarnessBase<typeof MatCellHarness, Mat
   }
 }
 
-/** Harness for interacting with a standard Angular Material table header row. */
+/**
+ * Harness for interacting with a standard Angular Material table header row.
+ *
+ * 与标准 Angular Material 表标题行进行交互的测试工具。
+ *
+ */
 export class MatHeaderRowHarness extends _MatRowHarnessBase<
   typeof MatHeaderCellHarness, MatHeaderCellHarness> {
-  /** The selector for the host element of a `MatHeaderRowHarness` instance. */
+  /**
+   * The selector for the host element of a `MatHeaderRowHarness` instance.
+   *
+   * `MatHeaderRowHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-header-row';
   protected _cellHarness = MatHeaderCellHarness;
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for
    * a table header row with specific attributes.
+   *
+   * 获取 `HarnessPredicate`，该 HarnessPredicate 可用于搜索具有特定属性的表标题行。
+   *
    * @param options Options for narrowing the search
+   *
+   * 收窄搜索范围的选项
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -91,17 +140,33 @@ export class MatHeaderRowHarness extends _MatRowHarnessBase<
   }
 }
 
-/** Harness for interacting with a standard Angular Material table footer row. */
+/**
+ * Harness for interacting with a standard Angular Material table footer row.
+ *
+ * 与标准 Angular Material 表的页脚行进行交互的测试工具。
+ *
+ */
 export class MatFooterRowHarness extends _MatRowHarnessBase<
   typeof MatFooterCellHarness, MatFooterCellHarness> {
-  /** The selector for the host element of a `MatFooterRowHarness` instance. */
+  /**
+   * The selector for the host element of a `MatFooterRowHarness` instance.
+   *
+   * `MatFooterRowHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-footer-row';
   protected _cellHarness = MatFooterCellHarness;
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for
    * a table footer row cell with specific attributes.
+   *
+   * 获取 `HarnessPredicate`，该 HarnessPredicate 可用于搜索具有特定属性的表格页脚行单元格。
+   *
    * @param options Options for narrowing the search
+   *
+   * 收窄搜索范围的选项
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。

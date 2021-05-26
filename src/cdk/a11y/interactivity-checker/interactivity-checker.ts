@@ -44,7 +44,7 @@ export class InteractivityChecker {
   /**
    * Gets whether an element is disabled.
    *
-   * 获取元素是否被禁用。
+   * 获取元素是否已禁用。
    *
    * @param element Element to be checked.
    *
@@ -52,7 +52,7 @@ export class InteractivityChecker {
    *
    * @returns Whether the element is disabled.
    *
-   * 元素是否被禁用。
+   * 元素是否已禁用。
    *
    */
   isDisabled(element: HTMLElement): boolean {
@@ -240,7 +240,7 @@ function isNativeFormElement(element: Node) {
 /**
  * Gets whether an element is an `<input type="hidden">`.
  *
- * 获取元素是否为 `&lt;input type="hidden">` 。
+ * 获取元素是否为 `&lt;input type="hidden">`。
  *
  */
 function isHiddenInput(element: HTMLElement): boolean {

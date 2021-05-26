@@ -19,7 +19,12 @@ import {MapEventManager} from '../map-event-manager';
 /**
  * Angular component that renders a Google Maps Ground Overlay via the Google Maps JavaScript API.
  *
+ * 通过 Google Maps JavaScript API 渲染 Google Maps Ground Overlay 的 Angular 组件。
+ *
  * See developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay
+ *
+ * 请参阅 developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay
+ *
  */
 @Directive({
   selector: 'map-ground-overlay',
@@ -38,17 +43,32 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
   /**
    * The underlying google.maps.GroundOverlay object.
    *
+   * 基础 google.maps.GroundOverlay 对象。
+   *
    * See developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay
+   *
    */
   groundOverlay?: google.maps.GroundOverlay;
 
-  /** URL of the image that will be shown in the overlay. */
+  /**
+   * URL of the image that will be shown in the overlay.
+   *
+   * 将在此浮层中显示的图像的 URL。
+   *
+   */
   @Input()
   set url(url: string) {
     this._url.next(url);
   }
 
-  /** Bounds for the overlay. */
+  /**
+   * Bounds for the overlay.
+   *
+   * 此浮层的边界。
+   *
+   */
   @Input()
   get bounds(): google.maps.LatLngBounds|google.maps.LatLngBoundsLiteral {
     return this._bounds.value!;
@@ -57,10 +77,20 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
     this._bounds.next(bounds);
   }
 
-  /** Whether the overlay is clickable */
+  /**
+   * Whether the overlay is clickable
+   *
+   * 此浮层是否可点击
+   *
+   */
   @Input() clickable: boolean = false;
 
-  /** Opacity of the overlay. */
+  /**
+   * Opacity of the overlay.
+   *
+   * 此浮层的不透明度。
+   *
+   */
   @Input()
   set opacity(opacity: number) {
     this._opacity.next(opacity);
@@ -69,6 +99,9 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay.click
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay.click
+   *
    */
   @Output() readonly mapClick: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('click');
@@ -77,6 +110,9 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
    * See
    * developers.google.com/maps/documentation/javascript/reference/image-overlay
    * \#GroundOverlay.dblclick
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/image-overlay＃GroundOverlay.dblclick
+   *
    */
   @Output() readonly mapDblclick: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dblclick');
@@ -128,6 +164,9 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
    * See
    * developers.google.com/maps/documentation/javascript/reference/image-overlay
    * \#GroundOverlay.getBounds
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/image-overlay＃GroundOverlay.getBounds
+   *
    */
   getBounds(): google.maps.LatLngBounds {
     this._assertInitialized();
@@ -138,6 +177,9 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
    * See
    * developers.google.com/maps/documentation/javascript/reference/image-overlay
    * \#GroundOverlay.getOpacity
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/image-overlay＃GroundOverlay.getOpacity
+   *
    */
   getOpacity(): number {
     this._assertInitialized();
@@ -148,6 +190,9 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
    * See
    * developers.google.com/maps/documentation/javascript/reference/image-overlay
    * \#GroundOverlay.getUrl
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/image-overlay＃GroundOverlay.getUrl
+   *
    */
   getUrl(): string {
     this._assertInitialized();

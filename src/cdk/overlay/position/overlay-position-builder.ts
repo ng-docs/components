@@ -53,7 +53,7 @@ export class OverlayPositionBuilder {
    * @param overlayPos
    * @deprecated Use `flexibleConnectedTo` instead.
    *
-   * 请改用 `flexibleConnectedTo` 。
+   * 请改用 `flexibleConnectedTo`。
    *
    * @breaking-change 8.0.0
    */

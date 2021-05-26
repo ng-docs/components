@@ -11,8 +11,13 @@
 /**
  * Class for clustering markers on a Google Map.
  *
+ * 用于在 Google Map 上对标记进行聚类的类。
+ *
  * See
  * googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.markerclusterer.html
+ *
+ * 参见 googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.markerclusterer.html
+ *
  */
 declare class MarkerClusterer {
   constructor(
@@ -88,7 +93,11 @@ declare class MarkerClusterer {
 /**
  * Cluster class from the @google/markerclustererplus library.
  *
+ * @google/markerclustererplus 库中的聚类类。
+ *
  * See googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.cluster.html
+ *
+ * 参见 googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.cluster.html
  */
 declare class Cluster {
   constructor(markerClusterer: MarkerClusterer);
@@ -101,9 +110,14 @@ declare class Cluster {
 /**
  * Options for constructing a MarkerClusterer from the @google/markerclustererplus library.
  *
+ * 从 @google/markerclustererplus 库构造 MarkerClusterer 的选项。
+ *
  * See
  * googlemaps.github.io/v3-utility-library/classes/
  * \_google_markerclustererplus.markerclustereroptions.html
+ *
+ * 参见 googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.markerclustereroptions.html
+ *
  */
 declare interface MarkerClustererOptions {
   ariaLabelFn?: AriaLabelFn;
@@ -129,9 +143,14 @@ declare interface MarkerClustererOptions {
 /**
  * Style interface for a marker cluster icon.
  *
+ * 标记聚类图标的样式界面。
+ *
  * See
  * googlemaps.github.io/v3-utility-library/interfaces/
  * \_google_markerclustererplus.clustericonstyle.html
+ *
+ * 参见 googlemaps.github.io/v3-utility-library/interfaces/ \_google_markerclustererplus.clustericonstyle.html
+ *
  */
 declare interface ClusterIconStyle {
   anchorIcon?: [number, number];
@@ -153,9 +172,14 @@ declare interface ClusterIconStyle {
 /**
  * Info interface for a marker cluster icon.
  *
+ * 标记聚类图标的信息界面。
+ *
  * See
  * googlemaps.github.io/v3-utility-library/interfaces/
  * \_google_markerclustererplus.clustericoninfo.html
+ *
+ * 参见 googlemaps.github.io/v3-utility-library/interfaces/ \_google_markerclustererplus.clustericoninfo.html
+ *
  */
 declare interface ClusterIconInfo {
   index: number;
@@ -166,14 +190,24 @@ declare interface ClusterIconInfo {
 /**
  * Function type alias for determining the aria label on a Google Maps marker cluster.
  *
+ * 函数类型别名，用于确定 Google Maps 标记聚类上的 aria 标签。
+ *
  * See googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#arialabelfn
+ *
+ * 参见 googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#arialabelfn
+ *
  */
 declare type AriaLabelFn = (text: string) => string;
 
 /**
  * Function type alias for calculating how a marker cluster is displayed.
  *
+ * 函数类型别名，用于计算标记簇的显示方式。
+ *
  * See googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#calculator
+ *
+ * 参见 googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#calculator
+ *
  */
 declare type Calculator =
     (markers: google.maps.Marker[], clusterIconStylesCount: number) => ClusterIconInfo;

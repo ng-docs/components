@@ -126,7 +126,12 @@ export class MatInput extends _MatInputMixinBase implements MatFormFieldControl<
    */
   readonly _isTextarea: boolean;
 
-  /** Whether the input is inside of a form field. */
+  /**
+   * Whether the input is inside of a form field.
+   *
+   * 此输入框是否在表单字段内。
+   *
+   */
   readonly _isInFormField: boolean;
 
   /**

@@ -51,16 +51,29 @@ import {MatPaginatedTabHeader, MatPaginatedTabHeaderItem} from '../paginated-tab
 
 /**
  * Base class with all of the `MatTabNav` functionality.
+ *
+ * 具有所有 `MatTabNav` 功能的基类。
+ *
  * @docs-private
  */
 @Directive()
 export abstract class _MatTabNavBase extends MatPaginatedTabHeader implements AfterContentChecked,
   AfterContentInit, OnDestroy {
 
-  /** Query list of all tab links of the tab navigation. */
+  /**
+   * Query list of all tab links of the tab navigation.
+   *
+   * 此标签导航的所有标签链接的查询列表。
+   *
+   */
   abstract _items: QueryList<MatPaginatedTabHeaderItem & {active: boolean}>;
 
-  /** Background color of the tab nav. */
+  /**
+   * Background color of the tab nav.
+   *
+   * 此标签导航的背景颜色。
+   *
+   */
   @Input()
   get backgroundColor(): ThemePalette { return this._backgroundColor; }
   set backgroundColor(value: ThemePalette) {
@@ -75,13 +88,23 @@ export abstract class _MatTabNavBase extends MatPaginatedTabHeader implements Af
   }
   private _backgroundColor: ThemePalette;
 
-  /** Whether the ripple effect is disabled or not. */
+  /**
+   * Whether the ripple effect is disabled or not.
+   *
+   * 是否已禁用涟漪效果。
+   *
+   */
   @Input()
   get disableRipple() { return this._disableRipple; }
   set disableRipple(value: any) { this._disableRipple = coerceBooleanProperty(value); }
   private _disableRipple: boolean = false;
 
-  /** Theme color of the nav bar. */
+  /**
+   * Theme color of the nav bar.
+   *
+   * 此导航栏的主题颜色。
+   *
+   */
   @Input() color: ThemePalette = 'primary';
 
   constructor(elementRef: ElementRef,
@@ -108,7 +131,12 @@ export abstract class _MatTabNavBase extends MatPaginatedTabHeader implements Af
     super.ngAfterContentInit();
   }
 
-  /** Notifies the component that the active link has been changed. */
+  /**
+   * Notifies the component that the active link has been changed.
+   *
+   * 通知组件此活动链接已更改。
+   *
+   */
   updateActiveLink() {
     if (!this._items) {
       return;
@@ -133,6 +161,9 @@ export abstract class _MatTabNavBase extends MatPaginatedTabHeader implements Af
 /**
  * Navigation component matching the styles of the tab group header.
  * Provides anchored navigation with animated ink bar.
+ *
+ * 与选项卡组标题样式匹配的导航组件。提供带有动画墨水栏的链接导航。
+ *
  */
 @Component({
   selector: '[mat-tab-nav-bar]',
@@ -179,15 +210,30 @@ const _MatTabLinkMixinBase:
     HasTabIndexCtor & CanDisableRippleCtor & CanDisableCtor & typeof MatTabLinkMixinBase =
         mixinTabIndex(mixinDisableRipple(mixinDisabled(MatTabLinkMixinBase)));
 
-/** Base class with all of the `MatTabLink` functionality. */
+/**
+ * Base class with all of the `MatTabLink` functionality.
+ *
+ * 具有所有 `MatTabLink` 功能的基类。
+ *
+ */
 @Directive()
 export class _MatTabLinkBase extends _MatTabLinkMixinBase implements AfterViewInit, OnDestroy,
   CanDisable, CanDisableRipple, HasTabIndex, RippleTarget, FocusableOption {
 
-  /** Whether the tab link is active or not. */
+  /**
+   * Whether the tab link is active or not.
+   *
+   * 此选项卡链接是否处于活动状态。
+   *
+   */
   protected _isActive: boolean = false;
 
-  /** Whether the link is active. */
+  /**
+   * Whether the link is active.
+   *
+   * 此链接是否处于活动状态。
+   *
+   */
   @Input()
   get active(): boolean { return this._isActive; }
   set active(value: boolean) {
@@ -203,12 +249,18 @@ export class _MatTabLinkBase extends _MatTabLinkMixinBase implements AfterViewIn
    * Ripple configuration for ripples that are launched on pointer down. The ripple config
    * is set to the global ripple options since we don't have any configurable options for
    * the tab link ripples.
+   *
+   * 用于在指针设备按下时发出涟漪的涟漪配置。由于我们没有用于标签链接涟漪的任何可配置选项，所以此涟漪配置被设置为全局涟漪选项。
+   *
    * @docs-private
    */
   rippleConfig: RippleConfig & RippleGlobalOptions;
 
   /**
    * Whether ripples are disabled on interaction.
+   *
+   * 交互中是否禁用了涟漪。
+   *
    * @docs-private
    */
   get rippleDisabled(): boolean {
@@ -232,7 +284,12 @@ export class _MatTabLinkBase extends _MatTabLinkMixinBase implements AfterViewIn
     }
   }
 
-  /** Focuses the tab link. */
+  /**
+   * Focuses the tab link.
+   *
+   * 让此选项卡链接获得焦点。
+   *
+   */
   focus() {
     this.elementRef.nativeElement.focus();
   }
@@ -253,6 +310,9 @@ export class _MatTabLinkBase extends _MatTabLinkMixinBase implements AfterViewIn
 
 /**
  * Link inside of a `mat-tab-nav-bar`.
+ *
+ * 链接到 `mat-tab-nav-bar`。
+ *
  */
 @Directive({
   selector: '[mat-tab-link], [matTabLink]',
@@ -268,7 +328,12 @@ export class _MatTabLinkBase extends _MatTabLinkMixinBase implements AfterViewIn
   }
 })
 export class MatTabLink extends _MatTabLinkBase implements OnDestroy {
-  /** Reference to the RippleRenderer for the tab-link. */
+  /**
+   * Reference to the RippleRenderer for the tab-link.
+   *
+   * 对此选项卡链接的 RippleRenderer 的引用。
+   *
+   */
   private _tabLinkRipple: RippleRenderer;
 
   constructor(

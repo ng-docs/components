@@ -60,9 +60,17 @@ export const MAT_SLIDE_TOGGLE_VALUE_ACCESSOR: any = {
  */
 export class MatSlideToggleChange {
   constructor(
-    /** The source MatSlideToggle of the event. */
+    /**
+     * The source MatSlideToggle of the event.
+     *
+     * 发出此事件的源 MatSlideToggle。
+     */
     public source: MatSlideToggle,
-    /** The new `checked` value of the MatSlideToggle. */
+    /**
+     * The new `checked` value of the MatSlideToggle.
+     *
+     * 此 MatSlideToggle 的新 `checked` 值。
+     */
     public checked: boolean) { }
 }
 

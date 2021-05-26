@@ -78,41 +78,69 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
   /**
    * Whether custom HammerJS events provided by the Material gesture
    * config are used in a template.
+   *
+   * 是否在模板中使用了 Material 手势配置提供的自定义 HammerJS 事件。
+   *
    */
   private _customEventsUsedInTemplate = false;
 
-  /** Whether standard HammerJS events are used in a template. */
+  /**
+   * Whether standard HammerJS events are used in a template.
+   *
+   * 模板中是否使用了标准 HammerJS 事件。
+   *
+   */
   private _standardEventsUsedInTemplate = false;
 
-  /** Whether HammerJS is accessed at runtime. */
+  /**
+   * Whether HammerJS is accessed at runtime.
+   *
+   * 是否在运行时访问了 HammerJS。
+   *
+   */
   private _usedInRuntime = false;
 
   /**
    * List of imports that make "hammerjs" available globally. We keep track of these
    * since we might need to remove them if Hammer is not used.
+   *
+   * 使 “hammerjs” 在全局可用的导入清单。我们会跟踪这些信息，因为如果不使用 Hammer，可能需要将其删除。
+   *
    */
   private _installImports: ts.ImportDeclaration[] = [];
 
   /**
    * List of identifiers which resolve to the gesture config from Angular Material.
+   *
+   * 标识符列表，这些标识符可解析为来自 Angular Material 的手势配置。
+   *
    */
   private _gestureConfigReferences: IdentifierReference[] = [];
 
   /**
    * List of identifiers which resolve to the "HAMMER_GESTURE_CONFIG" token from
    * "@angular/platform-browser".
+   *
+   * 标识符列表，可由来自 "@angular/platform-browser" 的 “HAMMER_GESTURE_CONFIG” 令牌解析。
+   *
    */
   private _hammerConfigTokenReferences: IdentifierReference[] = [];
 
   /**
    * List of identifiers which resolve to the "HammerModule" from
    * "@angular/platform-browser".
+   *
+   * 标识符列表，可由来自 “@angular/platform-browser” 的 “HammerModule” 解析。
+   *
    */
   private _hammerModuleReferences: IdentifierReference[] = [];
 
   /**
    * List of identifiers that have been deleted from source files. This can be
    * used to determine if certain imports are still used or not.
+   *
+   * 从源文件中删除的标识符列表。这可用于确定是否仍在使用某些导入。
+   *
    */
   private _deletedIdentifiers: ts.Identifier[] = [];
 
@@ -241,6 +269,13 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
    *      new gesture config.
    *   3) Setup the HAMMER_GESTURE_CONFIG in the root app module (if not done already).
    *   4) Setup the "HammerModule" in the root app module (if not done already).
+   *
+   * 在当前项目中设置锤子手势配置。为此，请执行以下步骤：
+   * 1）创建 Angular Material 手势配置的副本。
+   * 2）将对 Angular Material 手势配置的所有引用重写为新的手势配置。
+   * 3）在根应用程序模块中设置 HAMMER_GESTURE_CONFIG（如果以前没有）。
+   * 4）在根应用程序模块中设置 HammerModule（如果以前没有）。
+   *
    */
   private _setupHammerWithCustomEvents() {
     const project = this.context.project;
@@ -270,6 +305,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
   /**
    * Sets up the standard hammer module in the project and removes all
    * references to the deprecated Angular Material gesture config.
+   *
+   * 在项目中设置标准的 Hammer 模块，并删除对已废弃的 Angular Material 手势配置的所有引用。
+   *
    */
   private _setupHammerWithStandardEvents() {
     // Setup the HammerModule. The HammerModule enables support for
@@ -283,6 +321,12 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
    *   1) Delete all TypeScript imports to "hammerjs".
    *   2) Remove references to the Angular Material gesture config.
    *   3) Remove "hammerjs" from all index HTML files of the current project.
+   *
+   * 从当前项目中删除 Hammer。执行以下步骤：
+   * 1）从所有 TypeScript 中删除对 “hammerjs” 的导入。
+   * 2）删除对 Angular Material 手势配置的引用。
+   * 3）从当前项目的所有索引 HTML 文件中删除 hammerjs。
+   *
    */
   private _removeHammerSetup() {
     this._installImports.forEach(i => this._importManager.deleteImportByDeclaration(i));
@@ -296,6 +340,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
    * Removes the gesture config setup by deleting all found references to the Angular
    * Material gesture config. Additionally, unused imports to the hammer gesture config
    * token from "@angular/platform-browser" will be removed as well.
+   *
+   * 通过删除所有已找到的对 Angular Material 手势配置的引用来删除手势配置的设置代码。此外，还将删除未使用的从 "@angular/platform-browser" 导入的 hammer 手势配置令牌的导入。
+   *
    */
   private _removeMaterialGestureConfigSetup() {
     this._gestureConfigReferences.forEach(r => this._removeGestureConfigReference(r));
@@ -307,7 +354,12 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
     });
   }
 
-  /** Removes all references to the "HammerModule" from "@angular/platform-browser". */
+  /**
+   * Removes all references to the "HammerModule" from "@angular/platform-browser".
+   *
+   * 从 "@angular/platform-browser" 中删除所有对 “HammerModule” 的引用。
+   *
+   */
   private _removeHammerModuleReferences() {
     this._hammerModuleReferences.forEach(({node, isImport, importData}) => {
       const sourceFile = node.getSourceFile();
@@ -349,6 +401,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
   /**
    * Checks if the given node is a reference to the hammer gesture config
    * token from platform-browser. If so, keeps track of the reference.
+   *
+   * 检查给定节点是否是对平台浏览器中的 hammer 手势配置令牌的引用。如果是这样，请跟踪此引用。
+   *
    */
   private _checkForHammerGestureConfigToken(node: ts.Node) {
     if (ts.isIdentifier(node)) {
@@ -364,6 +419,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
   /**
    * Checks if the given node is a reference to the HammerModule from
    * "@angular/platform-browser". If so, keeps track of the reference.
+   *
+   * 检查给定节点是否是 "@angular/platform-browser" 对 HammerModule 的引用。如果是这样，请跟踪此引用。
+   *
    */
   private _checkForHammerModuleReference(node: ts.Node) {
     if (ts.isIdentifier(node)) {
@@ -544,6 +602,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
    * its containing source file. Imports will be always removed, but in some cases,
    * where it's not guaranteed that a removal can be performed safely, we just
    * create a migration failure (and add a TODO if possible).
+   *
+   * 从其包含的源文件中删除给定的手势配置参考及其相应的导入。导入将始终被删除，但是在某些情况下，如果不能保证可以安全地执行删除操作，我们只会造成迁移失败（并在可能的情况下添加 TODO）。
+   *
    */
   private _removeGestureConfigReference({node, importData, isImport}: IdentifierReference) {
     const sourceFile = node.getSourceFile();
@@ -626,7 +687,12 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
     }
   }
 
-  /** Removes Hammer from all index HTML files of the current project. */
+  /**
+   * Removes Hammer from all index HTML files of the current project.
+   *
+   * 从当前项目的所有索引 HTML 文件中删除 Hammer。
+   *
+   */
   private _removeHammerFromIndexFile() {
     const indexFilePaths = getProjectIndexFiles(this.context.project);
     indexFilePaths.forEach(filePath => {

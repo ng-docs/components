@@ -101,7 +101,7 @@ export class MatDatepickerIntl {
   /**
    * A label for the 'switch to month view' button (used by screen readers).
    *
-   * “切换到月视图”按钮的标签（由屏幕阅读器使用）。
+   * “切换到月份视图”按钮的标签（由屏幕阅读器使用）。
    *
    */
   switchToMonthViewLabel: string = 'Choose date';
@@ -109,7 +109,7 @@ export class MatDatepickerIntl {
   /**
    * A label for the 'switch to year view' button (used by screen readers).
    *
-   * “切换到年视图”按钮的标签（由屏幕阅读器使用）。
+   * “切换到年份视图”按钮的标签（由屏幕阅读器使用）。
    *
    */
   switchToMultiYearViewLabel: string = 'Choose month and year';

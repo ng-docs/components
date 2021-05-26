@@ -25,11 +25,23 @@ import {MatChip} from './chip';
 /** Event object emitted by MatChipOption when selected or deselected. */
 export class MatChipSelectionChange {
   constructor(
-    /** Reference to the chip that emitted the event. */
+    /**
+     * Reference to the chip that emitted the event.
+     *
+     * 对发出此事件的纸片的引用。
+     */
     public source: MatChipOption,
-    /** Whether the chip that emitted the event is selected. */
+    /**
+     * Whether the chip that emitted the event is selected.
+     *
+     * 发出此事件的纸片是否已选中。
+     */
     public selected: boolean,
-    /** Whether the selection change was a result of a user interaction. */
+    /**
+     * Whether the selection change was a result of a user interaction.
+     *
+     * 选择结果的变化是否来自用户交互。
+     */
     public isUserInput = false) { }
 }
 

@@ -89,7 +89,7 @@ You must wrap pop-up menus with an `ng-template` with the `cdkMenuPanel` directi
 variable which must be of type `cdkMenuPanel`. Further, the `cdkMenu` must also reference the
 `cdkMenuPanel`.
 
-你必须使用带有 `cdkMenuPanel` 指令的 `ng-template` 来包装弹出菜单，并且其引用变量必须是 `cdkMenuPanel` 类型的。此外， `cdkMenu` 也必须引用这个 `cdkMenuPanel` 。
+你必须使用带有 `cdkMenuPanel` 指令的 `ng-template` 来包装弹出菜单，并且其引用变量必须是 `cdkMenuPanel` 类型的。此外，`cdkMenu` 也必须引用这个 `cdkMenuPanel`。
 
 ```html
 <ng-template cdkMenuPanel #panel="cdkMenuPanel">
@@ -129,7 +129,7 @@ container element with the `cdkContextMenuTriggerFor`, which behaves like `cdkMe
 that it responds to the browser's native `contextmenu` event. Custom context menus appear next to
 the cursor, similarly to native context menus.
 
-当用户右键单击某个容器元素时，就会打开一个上下文菜单。`cdkContextMenuTriggerFor` 标记一个容器元素，它的行为类似于 `cdkMenuTriggerFor` ，不过它会响应浏览器的原生事件 `contextmenu`。自定义上下文菜单会出现在光标旁边，类似于原生的上下文菜单。
+当用户右键单击某个容器元素时，就会打开一个上下文菜单。`cdkContextMenuTriggerFor` 标记一个容器元素，它的行为类似于 `cdkMenuTriggerFor`，不过它会响应浏览器的原生事件 `contextmenu`。自定义上下文菜单会出现在光标旁边，类似于原生的上下文菜单。
 
 <!-- example({
   "example": "cdk-menu-context",

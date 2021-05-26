@@ -18,7 +18,12 @@ import {GoogleMap} from '../google-map/google-map';
 /**
  * Angular component that renders a Google Maps Traffic Layer via the Google Maps JavaScript API.
  *
+ * 通过 Google Maps JavaScript API 渲染 Google Maps Traffic Layer 的 Angular 组件。
+ *
  * See developers.google.com/maps/documentation/javascript/reference/map#TrafficLayer
+ *
+ * 请参阅 developers.google.com/maps/documentation/javascript/reference/map#TrafficLayer
+ *
  */
 @Directive({
   selector: 'map-traffic-layer',
@@ -31,12 +36,20 @@ export class MapTrafficLayer implements OnInit, OnDestroy {
   /**
    * The underlying google.maps.TrafficLayer object.
    *
+   * 基础 google.maps.TrafficLayer 对象。
+   *
    * See developers.google.com/maps/documentation/javascript/reference/map#TrafficLayer
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/map#TrafficLayer
+   *
    */
   trafficLayer?: google.maps.TrafficLayer;
 
   /**
    * Whether the traffic layer refreshes with updated information automatically.
+   *
+   * 流量层是否自动使用更新的信息刷新。
+   *
    */
   @Input()
   set autoRefresh(autoRefresh: boolean) {

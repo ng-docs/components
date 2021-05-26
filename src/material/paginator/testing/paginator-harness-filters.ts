@@ -8,6 +8,11 @@
 
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/** A set of criteria that can be used to filter a list of `MatPaginatorHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatPaginatorHarness` instances.
+ *
+ * 一组可用于过滤 `MatPaginatorHarness` 实例列表的条件。
+ *
+ */
 export interface PaginatorHarnessFilters extends BaseHarnessFilters {
 }

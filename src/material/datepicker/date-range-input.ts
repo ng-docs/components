@@ -228,7 +228,7 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
   /**
    * Whether the input is disabled.
    *
-   * 输入框是否被禁用。
+   * 输入框是否已禁用。
    *
    */
   @Input()
@@ -446,7 +446,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
     return this._formField ? this._formField.getConnectedOverlayOrigin() : this._elementRef;
   }
 
-  /** Gets the ID of an element that should be used a description for the calendar overlay. */
+  /**
+   * Gets the ID of an element that should be used a description for the calendar overlay.
+   *
+   * 获取元素的 ID，该元素的 ID 用作日历浮层的描述。
+   *
+   */
   getOverlayLabelId(): string | null {
     return this._formField ? this._formField.getLabelId() : null;
   }
@@ -516,7 +521,12 @@ export class MatDateRangeInput<D> implements MatFormFieldControl<DateRange<D>>,
     return formField && formField._hasFloatingLabel() ? formField._labelId : null;
   }
 
-  /** Updates the focused state of the range input. */
+  /**
+   * Updates the focused state of the range input.
+   *
+   * 更新范围输入的焦点状态。
+   *
+   */
   _updateFocus(origin: FocusOrigin) {
     this.focused = origin !== null;
     this.stateChanges.next();

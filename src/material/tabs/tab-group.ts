@@ -211,6 +211,9 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
    * accessibility when the tab does not have focusable elements or if it has scrollable content.
    * The `tabindex` will be removed automatically for inactive tabs.
    * Read more at https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html
+   *
+   * 在包装制表符内容的内部元素上设置的 `tabindex` 当标签没有聚焦元素或者它具有可滚动的内容时，可用于改进的可访问性。对于无效的标签页，`tabindex` 将会被自动移除。到 https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html 了解更多信息。
+   *
    */
   @Input()
   get contentTabIndex(): number | null { return this._contentTabIndex; }
@@ -427,7 +430,13 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
 
   /**
    * Sets focus to a particular tab.
+   *
+   * 将焦点设置到特定选项卡。
+   *
    * @param index Index of the tab to be focused.
+   *
+   * 要设置焦点的选项卡的索引。
+   *
    */
   focusTab(index: number) {
     const header = this._tabHeader;
@@ -561,7 +570,12 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
     return this.selectedIndex === idx ? 0 : -1;
   }
 
-  /** Callback for when the focused state of a tab has changed. */
+  /**
+   * Callback for when the focused state of a tab has changed.
+   *
+   * 选项卡的焦点状态更改时的回调。
+   *
+   */
   _tabFocusChanged(focusOrigin: FocusOrigin, index: number) {
     if (focusOrigin) {
       this._tabHeader.focusIndex = index;

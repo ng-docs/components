@@ -12,7 +12,12 @@
 // would mean that `window` is not assignable to our testing window.
 declare var window: Window;
 
-/** Window interface for testing */
+/**
+ * Window interface for testing
+ *
+ * 用于测试的 Window 接口
+ *
+ */
 export interface TestingWindow extends Window {
   google?: {
     maps: {
@@ -40,7 +45,12 @@ export interface TestingWindow extends Window {
   MarkerClusterer?: jasmine.Spy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.Map. */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.Map.
+ *
+ * 为 google.maps.Map 创建一个 jasmine.SpyObj。
+ *
+ */
 export function createMapSpy(options: google.maps.MapOptions): jasmine.SpyObj<google.maps.Map> {
   const mapSpy = jasmine.createSpyObj('google.maps.Map', [
     'setOptions', 'setCenter', 'setZoom', 'setMap', 'addListener', 'fitBounds', 'panBy', 'panTo',
@@ -51,7 +61,12 @@ export function createMapSpy(options: google.maps.MapOptions): jasmine.SpyObj<go
   return mapSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.Map. */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.Map.
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.Map 的构造函数。
+ *
+ */
 export function createMapConstructorSpy(
     mapSpy: jasmine.SpyObj<google.maps.Map>, apiLoaded = true): jasmine.Spy {
   const mapConstructorSpy =
@@ -69,7 +84,12 @@ export function createMapConstructorSpy(
   return mapConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.Marker */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.Marker
+ *
+ * 为 google.maps.Marker 创建一个 jasmine.SpyObj
+ *
+ */
 export function createMarkerSpy(options: google.maps.MarkerOptions):
     jasmine.SpyObj<google.maps.Marker> {
   const markerSpy = jasmine.createSpyObj('google.maps.Marker', [
@@ -81,7 +101,12 @@ export function createMarkerSpy(options: google.maps.MarkerOptions):
   return markerSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.Marker */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.Marker
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.Marker 的构造函数
+ *
+ */
 export function createMarkerConstructorSpy(markerSpy: jasmine.SpyObj<google.maps.Marker>):
     jasmine.Spy {
   const markerConstructorSpy =
@@ -101,7 +126,12 @@ export function createMarkerConstructorSpy(markerSpy: jasmine.SpyObj<google.maps
   return markerConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.InfoWindow */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.InfoWindow
+ *
+ * 为 google.maps.InfoWindow 创建 jasmine.SpyObj
+ *
+ */
 export function createInfoWindowSpy(options: google.maps.InfoWindowOptions):
     jasmine.SpyObj<google.maps.InfoWindow> {
   let anchor: any;
@@ -115,7 +145,12 @@ export function createInfoWindowSpy(options: google.maps.InfoWindowOptions):
   return infoWindowSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.InfoWindow */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.InfoWindow
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.InfoWindow 的构造函数
+ *
+ */
 export function createInfoWindowConstructorSpy(
     infoWindowSpy: jasmine.SpyObj<google.maps.InfoWindow>): jasmine.Spy {
   const infoWindowConstructorSpy =
@@ -135,7 +170,12 @@ export function createInfoWindowConstructorSpy(
   return infoWindowConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.Polyline */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.Polyline
+ *
+ * 为 google.maps.Polyline 创建一个 jasmine.SpyObj
+ *
+ */
 export function createPolylineSpy(options: google.maps.PolylineOptions):
     jasmine.SpyObj<google.maps.Polyline> {
   const polylineSpy = jasmine.createSpyObj('google.maps.Polyline', [
@@ -146,7 +186,12 @@ export function createPolylineSpy(options: google.maps.PolylineOptions):
   return polylineSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.Polyline */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.Polyline
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.Polyline 的构造函数
+ *
+ */
 export function createPolylineConstructorSpy(polylineSpy: jasmine.SpyObj<google.maps.Polyline>):
     jasmine.Spy {
   const polylineConstructorSpy =
@@ -166,7 +211,12 @@ export function createPolylineConstructorSpy(polylineSpy: jasmine.SpyObj<google.
   return polylineConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.Polygon */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.Polygon
+ *
+ * 为 google.maps.Polygon 创建一个 jasmine.SpyObj
+ *
+ */
 export function createPolygonSpy(options: google.maps.PolygonOptions):
     jasmine.SpyObj<google.maps.Polygon> {
   const polygonSpy = jasmine.createSpyObj('google.maps.Polygon', [
@@ -177,7 +227,12 @@ export function createPolygonSpy(options: google.maps.PolygonOptions):
   return polygonSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.Polygon */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.Polygon
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.Polygon 的构造函数
+ *
+ */
 export function createPolygonConstructorSpy(polygonSpy: jasmine.SpyObj<google.maps.Polygon>):
     jasmine.Spy {
   const polygonConstructorSpy =
@@ -197,7 +252,12 @@ export function createPolygonConstructorSpy(polygonSpy: jasmine.SpyObj<google.ma
   return polygonConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.Rectangle */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.Rectangle
+ *
+ * 为 google.maps.Rectangle 创建一个 jasmine.SpyObj
+ *
+ */
 export function createRectangleSpy(options: google.maps.RectangleOptions):
     jasmine.SpyObj<google.maps.Rectangle> {
   const rectangleSpy = jasmine.createSpyObj('google.maps.Rectangle', [
@@ -208,7 +268,12 @@ export function createRectangleSpy(options: google.maps.RectangleOptions):
   return rectangleSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.Rectangle */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.Rectangle
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.Rectangle 的构造函数
+ *
+ */
 export function createRectangleConstructorSpy(rectangleSpy: jasmine.SpyObj<google.maps.Rectangle>):
     jasmine.Spy {
   const rectangleConstructorSpy =
@@ -228,7 +293,12 @@ export function createRectangleConstructorSpy(rectangleSpy: jasmine.SpyObj<googl
   return rectangleConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.Circle */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.Circle
+ *
+ * 为 google.maps.Circle 创建一个 jasmine.SpyObj
+ *
+ */
 export function createCircleSpy(options: google.maps.CircleOptions):
     jasmine.SpyObj<google.maps.Circle> {
   const circleSpy = jasmine.createSpyObj('google.maps.Circle', [
@@ -239,7 +309,12 @@ export function createCircleSpy(options: google.maps.CircleOptions):
   return circleSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.Circle */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.Circle
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.Circle 的构造函数
+ *
+ */
 export function createCircleConstructorSpy(circleSpy: jasmine.SpyObj<google.maps.Circle>):
     jasmine.Spy {
   const circleConstructorSpy =
@@ -259,7 +334,12 @@ export function createCircleConstructorSpy(circleSpy: jasmine.SpyObj<google.maps
   return circleConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.GroundOverlay */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.GroundOverlay
+ *
+ * 为 google.maps.GroundOverlay 创建一个 jasmine.SpyObj
+ *
+ */
 export function createGroundOverlaySpy(
     url: string, bounds: google.maps.LatLngBoundsLiteral,
     options?: google.maps.GroundOverlayOptions): jasmine.SpyObj<google.maps.GroundOverlay> {
@@ -278,7 +358,12 @@ export function createGroundOverlaySpy(
   return groundOverlaySpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.GroundOverlay */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.GroundOverlay
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.GroundOverlay 的构造函数
+ *
+ */
 export function createGroundOverlayConstructorSpy(
     groundOverlaySpy: jasmine.SpyObj<google.maps.GroundOverlay>): jasmine.Spy {
   const groundOverlayConstructorSpy = jasmine.createSpy(
@@ -300,7 +385,12 @@ export function createGroundOverlayConstructorSpy(
   return groundOverlayConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.KmlLayer */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.KmlLayer
+ *
+ * 为 google.maps.KmlLayer 创建一个 jasmine.SpyObj
+ *
+ */
 export function createKmlLayerSpy(options?: google.maps.KmlLayerOptions):
     jasmine.SpyObj<google.maps.KmlLayer> {
   const kmlLayerSpy = jasmine.createSpyObj('google.maps.KmlLayer', [
@@ -318,7 +408,12 @@ export function createKmlLayerSpy(options?: google.maps.KmlLayerOptions):
   return kmlLayerSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.KmlLayer */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.KmlLayer
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.KmlLayer 的构造函数
+ *
+ */
 export function createKmlLayerConstructorSpy(kmlLayerSpy: jasmine.SpyObj<google.maps.KmlLayer>):
     jasmine.Spy {
   const kmlLayerConstructorSpy =
@@ -338,7 +433,12 @@ export function createKmlLayerConstructorSpy(kmlLayerSpy: jasmine.SpyObj<google.
   return kmlLayerConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.TrafficLayer */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.TrafficLayer
+ *
+ * 为 google.maps.TrafficLayer 创建一个 jasmine.SpyObj
+ *
+ */
 export function createTrafficLayerSpy(options?: google.maps.TrafficLayerOptions):
     jasmine.SpyObj<google.maps.TrafficLayer> {
   const trafficLayerSpy = jasmine.createSpyObj('google.maps.TrafficLayer', [
@@ -348,7 +448,12 @@ export function createTrafficLayerSpy(options?: google.maps.TrafficLayerOptions)
   return trafficLayerSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.TrafficLayer */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.TrafficLayer
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.TrafficLayer 的构造函数
+ *
+ */
 export function createTrafficLayerConstructorSpy(
     trafficLayerSpy: jasmine.SpyObj<google.maps.TrafficLayer>): jasmine.Spy {
   const trafficLayerConstructorSpy =
@@ -368,7 +473,12 @@ export function createTrafficLayerConstructorSpy(
   return trafficLayerConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.TransitLayer */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.TransitLayer
+ *
+ * 为 google.maps.TransitLayer 创建一个 jasmine.SpyObj
+ *
+ */
 export function createTransitLayerSpy(): jasmine.SpyObj<google.maps.TransitLayer> {
   const transitLayerSpy = jasmine.createSpyObj('google.maps.TransitLayer', [
     'setMap',
@@ -376,7 +486,12 @@ export function createTransitLayerSpy(): jasmine.SpyObj<google.maps.TransitLayer
   return transitLayerSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.TransitLayer */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.TransitLayer
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.TransitLayer 的构造函数
+ *
+ */
 export function createTransitLayerConstructorSpy(
     transitLayerSpy: jasmine.SpyObj<google.maps.TransitLayer>): jasmine.Spy {
   const transitLayerConstructorSpy = jasmine.createSpy('TransitLayer constructor', () => {
@@ -395,7 +510,12 @@ export function createTransitLayerConstructorSpy(
   return transitLayerConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a google.maps.BicyclingLayer */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.BicyclingLayer
+ *
+ * 为 google.maps.BicyclingLayer 创建一个 jasmine.SpyObj
+ *
+ */
 export function createBicyclingLayerSpy(): jasmine.SpyObj<google.maps.BicyclingLayer> {
   const bicylingLayerSpy = jasmine.createSpyObj('google.maps.BicyclingLayer', [
     'setMap',
@@ -403,7 +523,12 @@ export function createBicyclingLayerSpy(): jasmine.SpyObj<google.maps.BicyclingL
   return bicylingLayerSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.BicyclingLayer */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.BicyclingLayer
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.BicyclingLayer 的构造函数
+ *
+ */
 export function createBicyclingLayerConstructorSpy(
     bicylingLayerSpy: jasmine.SpyObj<google.maps.BicyclingLayer>): jasmine.Spy {
   const bicylingLayerConstructorSpy = jasmine.createSpy('BicyclingLayer constructor', () => {
@@ -422,7 +547,12 @@ export function createBicyclingLayerConstructorSpy(
   return bicylingLayerConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a MarkerClusterer */
+/**
+ * Creates a jasmine.SpyObj for a MarkerClusterer
+ *
+ * 为 MarkerClusterer 创建一个 jasmine.SpyObj
+ *
+ */
 export function createMarkerClustererSpy(): jasmine.SpyObj<MarkerClusterer> {
   const markerClustererSpy = jasmine.createSpyObj('MarkerClusterer', ['addListener',
     'addMarkers', 'fitMapToMarkers', 'getAverageCenter', 'getBatchSizeIE',
@@ -440,7 +570,12 @@ export function createMarkerClustererSpy(): jasmine.SpyObj<MarkerClusterer> {
   return markerClustererSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a MarkerClusterer */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a MarkerClusterer
+ *
+ * 创建一个 jasmine.Spy 来监视 MarkerClusterer 的构造函数
+ *
+ */
 export function createMarkerClustererConstructorSpy(
   markerClustererSpy: jasmine.SpyObj<MarkerClusterer>): jasmine.Spy {
   const markerClustererConstructorSpy = jasmine.createSpy('MarkerClusterer constructor',
@@ -452,7 +587,12 @@ export function createMarkerClustererConstructorSpy(
   return markerClustererConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for DirectionsRenderer */
+/**
+ * Creates a jasmine.SpyObj for DirectionsRenderer
+ *
+ * 为 DirectionsRenderer 创建一个 jasmine.SpyObj
+ *
+ */
 export function createDirectionsRendererSpy(options: google.maps.DirectionsRendererOptions):
     jasmine.SpyObj<google.maps.DirectionsRenderer> {
   const directionsRendererSpy = jasmine.createSpyObj('google.maps.DirectionsRenderer',
@@ -462,7 +602,12 @@ export function createDirectionsRendererSpy(options: google.maps.DirectionsRende
   return directionsRendererSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a DirectionsRenderer */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a DirectionsRenderer
+ *
+ * 创建一个 jasmine.Spy 来监视 DirectionsRenderer 的构造函数
+ *
+ */
 export function createDirectionsRendererConstructorSpy(
     directionsRendererSpy: jasmine.SpyObj<google.maps.DirectionsRenderer>): jasmine.Spy {
   const directionsRendererConstructorSpy = jasmine.createSpy('DirectionsRenderer constructor',
@@ -482,13 +627,23 @@ export function createDirectionsRendererConstructorSpy(
   return directionsRendererConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for the DirectionsService */
+/**
+ * Creates a jasmine.SpyObj for the DirectionsService
+ *
+ * 为 DirectionsService 创建一个 jasmine.SpyObj
+ *
+ */
 export function createDirectionsServiceSpy(): jasmine.SpyObj<google.maps.DirectionsService> {
   const directionsServiceSpy = jasmine.createSpyObj('google.maps.DirectionsService', ['route']);
   return directionsServiceSpy;
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of the DirectionsService */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of the DirectionsService
+ *
+ * 创建一个 jasmine.Spy 来监视 DirectionsService 的构造函数
+ *
+ */
 export function createDirectionsServiceConstructorSpy(
     directionsServiceSpy: jasmine.SpyObj<google.maps.DirectionsService>): jasmine.Spy {
   const directionsServiceConstructorSpy =
@@ -506,7 +661,12 @@ export function createDirectionsServiceConstructorSpy(
   return directionsServiceConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for a `google.maps.visualization.HeatmapLayer`. */
+/**
+ * Creates a jasmine.SpyObj for a `google.maps.visualization.HeatmapLayer`.
+ *
+ * `google.maps.visualization.HeatmapLayer` 创建一个 jasmine.SpyObj。
+ *
+ */
 export function createHeatmapLayerSpy(): jasmine.SpyObj<google.maps.visualization.HeatmapLayer> {
   const heatmapLayerSpy = jasmine.createSpyObj('google.maps.visualization.HeatmapLayer', [
     'setMap', 'setOptions', 'setData', 'getData'
@@ -517,6 +677,9 @@ export function createHeatmapLayerSpy(): jasmine.SpyObj<google.maps.visualizatio
 /**
  * Creates a jasmine.Spy to watch for the constructor
  * of a `google.maps.visualization.HeatmapLayer`.
+ *
+ * 创建一个 jasmine.Spy 来监视 `google.maps.visualization.HeatmapLayer` 的构造函数。
+ *
  */
 export function createHeatmapLayerConstructorSpy(
     heatmapLayerSpy: jasmine.SpyObj<google.maps.visualization.HeatmapLayer>): jasmine.Spy {
@@ -542,12 +705,22 @@ export function createHeatmapLayerConstructorSpy(
 }
 
 
-/** Creates a jasmine.SpyObj for a google.maps.LatLng. */
+/**
+ * Creates a jasmine.SpyObj for a google.maps.LatLng.
+ *
+ * 为 google.maps.LatLng 创建一个 jasmine.SpyObj。
+ *
+ */
 export function createLatLngSpy(): jasmine.SpyObj<google.maps.LatLng> {
   return jasmine.createSpyObj('google.maps.LatLng', ['equals', 'lat', 'lng']);
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of a google.maps.LatLng */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of a google.maps.LatLng
+ *
+ * 创建一个 jasmine.Spy 来监视 google.maps.LatLng 的构造函数
+ *
+ */
 export function createLatLngConstructorSpy(
   latLngSpy: jasmine.SpyObj<google.maps.LatLng>): jasmine.Spy {
   const latLngConstructorSpy = jasmine.createSpy('LatLng constructor', () => latLngSpy);
@@ -564,12 +737,22 @@ export function createLatLngConstructorSpy(
   return latLngConstructorSpy;
 }
 
-/** Creates a jasmine.SpyObj for the Geocoder */
+/**
+ * Creates a jasmine.SpyObj for the Geocoder
+ *
+ * 为 Geocoder 创建一个 jasmine.SpyObj
+ *
+ */
 export function createGeocoderSpy(): jasmine.SpyObj<google.maps.Geocoder> {
   return jasmine.createSpyObj('google.maps.Geocoder', ['geocode']);
 }
 
-/** Creates a jasmine.Spy to watch for the constructor of the Geocoder. */
+/**
+ * Creates a jasmine.Spy to watch for the constructor of the Geocoder.
+ *
+ * 创建一个 jasmine.Spy 来监视 Geocoder 的构造函数。
+ *
+ */
 export function createGeocoderConstructorSpy(
     geocoderSpy: jasmine.SpyObj<google.maps.Geocoder>): jasmine.Spy {
   const geocoderConstructorSpy = jasmine.createSpy('Geocoder constructor', () => geocoderSpy);

@@ -10,6 +10,9 @@ import {Directive, TemplateRef} from '@angular/core';
 
 /**
  * Content for a `mat-step` that will be rendered lazily.
+ *
+ * `mat-step` 的内容，它将被延迟渲染。
+ *
  */
 @Directive({
   selector: 'ng-template[matStepContent]'

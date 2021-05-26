@@ -24,7 +24,7 @@ import {getVersionUpgradeData, UpgradeData} from '../upgrade-data';
  *
  * e.g. `<my-component color="primary">` becomes `my-component[color]`
  *
- * 例如， `&lt;my-component color="primary">` 会变成 `my-component[color]`
+ * 例如，`&lt;my-component color="primary">` 会变成 `my-component[color]`
  *
  */
 export class InputNamesMigration extends Migration<UpgradeData> {

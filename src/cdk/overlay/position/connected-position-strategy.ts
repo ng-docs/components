@@ -35,7 +35,7 @@ import {PositionStrategy} from './position-strategy';
  *
  * @deprecated Use `FlexibleConnectedPositionStrategy` instead.
  *
- * 请改用 `FlexibleConnectedPositionStrategy` 。
+ * 请改用 `FlexibleConnectedPositionStrategy`。
  *
  * @breaking-change 8.0.0
  */

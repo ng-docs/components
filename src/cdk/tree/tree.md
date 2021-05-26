@@ -134,7 +134,7 @@ The toggle can be placed anywhere in the tree node, and is only toggled by click
 For best accessibility, `cdkTreeNodeToggle` should be on a button element and have an appropriate
 `aria-label`.
 
-这个切换开关可以放在树节点中的任意位置，而且只能通过点击动作进行切换。为了获得最佳的无障碍性，`cdkTreeNodeToggle` 应该放在一个 button 元素上，并拥有一个合适的 `aria-label` 。
+这个切换开关可以放在树节点中的任意位置，而且只能通过点击动作进行切换。为了获得最佳的无障碍性，`cdkTreeNodeToggle` 应该放在一个 button 元素上，并拥有一个合适的 `aria-label`。
 
 ```html
 <cdk-tree-node *cdkNodeDef="let node">

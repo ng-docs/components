@@ -32,7 +32,12 @@ export abstract class _MatMenuHarnessBase<
 
   // TODO: potentially extend MatButtonHarness
 
-  /** Whether the menu is disabled. */
+  /**
+   * Whether the menu is disabled.
+   *
+   * 菜单是否已禁用。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     const disabled = (await this.host()).getAttribute('disabled');
     return coerceBooleanProperty(await disabled);
@@ -48,22 +53,42 @@ export abstract class _MatMenuHarnessBase<
     return !!(await this._getMenuPanel());
   }
 
-  /** Gets the text of the menu's trigger element. */
+  /**
+   * Gets the text of the menu's trigger element.
+   *
+   * 获取菜单的触发元素的文本。
+   *
+   */
   async getTriggerText(): Promise<string> {
     return (await this.host()).text();
   }
 
-  /** Focuses the menu. */
+  /**
+   * Focuses the menu.
+   *
+   * 让此菜单获得焦点。
+   *
+   */
   async focus(): Promise<void> {
     return (await this.host()).focus();
   }
 
-  /** Blurs the menu. */
+  /**
+   * Blurs the menu.
+   *
+   * 让此菜单失焦。
+   *
+   */
   async blur(): Promise<void> {
     return (await this.host()).blur();
   }
 
-  /** Whether the menu is focused. */
+  /**
+   * Whether the menu is focused.
+   *
+   * 菜单是否拥有焦点。
+   *
+   */
   async isFocused(): Promise<boolean> {
     return (await this.host()).isFocused();
   }
@@ -95,7 +120,13 @@ export abstract class _MatMenuHarnessBase<
 
   /**
    * Gets a list of `MatMenuItemHarness` representing the items in the menu.
+   *
+   * 获取代表菜单项的 `MatMenuItemHarness`。
+   *
    * @param filters Optionally filters which menu items are included.
+   *
+   * （可选）过滤包含哪些菜单项。
+   *
    */
   async getItems(filters?: Omit<ItemFilters, 'ancestor'>): Promise<Item[]> {
     const panelId = await this._getPanelId();
@@ -110,11 +141,20 @@ export abstract class _MatMenuHarnessBase<
 
   /**
    * Clicks an item in the menu, and optionally continues clicking items in subsequent sub-menus.
+   *
+   * 单击菜单中的菜单项，然后有选择地继续单击后续子菜单中的菜单项。
+   *
    * @param itemFilter A filter used to represent which item in the menu should be clicked. The
    *     first matching menu item will be clicked.
+   *
+   * 用于表示应单击菜单中哪个菜单项的过滤器。将单击第一个匹配的菜单项。
+   *
    * @param subItemFilters A list of filters representing the items to click in any subsequent
    *     sub-menus. The first item in the sub-menu matching the corresponding filter in
    *     `subItemFilters` will be clicked.
+   *
+   * 代表要在任何后续子菜单中单击的菜单项的过滤器列表。将单击与 `subItemFilters` 的相应过滤器匹配的第一项。
+   *
    */
   async clickItem(
       itemFilter: Omit<ItemFilters, 'ancestor'>,
@@ -141,13 +181,23 @@ export abstract class _MatMenuHarnessBase<
     return this.documentRootLocatorFactory().harnessLoaderFor(`#${panelId}`);
   }
 
-  /** Gets the menu panel associated with this menu. */
+  /**
+   * Gets the menu panel associated with this menu.
+   *
+   * 获取与此菜单关联的菜单面板。
+   *
+   */
   private async _getMenuPanel(): Promise<TestElement | null> {
     const panelId = await this._getPanelId();
     return panelId ? this._documentRootLocator.locatorForOptional(`#${panelId}`)() : null;
   }
 
-  /** Gets the id of the menu panel associated with this menu. */
+  /**
+   * Gets the id of the menu panel associated with this menu.
+   *
+   * 获取与此菜单关联的菜单面板的 ID。
+   *
+   */
   private async _getPanelId(): Promise<string | null> {
     const panelId = await (await this.host()).getAttribute('aria-controls');
     return panelId || null;
@@ -160,13 +210,23 @@ export abstract class _MatMenuItemHarnessBase<
 > extends ContentContainerComponentHarness<string> {
   protected abstract _menuClass: MenuType;
 
-  /** Whether the menu is disabled. */
+  /**
+   * Whether the menu is disabled.
+   *
+   * 此菜单是否已禁用。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     const disabled = (await this.host()).getAttribute('disabled');
     return coerceBooleanProperty(await disabled);
   }
 
-  /** Gets the text of the menu item. */
+  /**
+   * Gets the text of the menu item.
+   *
+   * 获取此菜单项的文本。
+   *
+   */
   async getText(): Promise<string> {
     return (await this.host()).text();
   }
@@ -181,27 +241,52 @@ export abstract class _MatMenuItemHarnessBase<
     return (await this.host()).focus();
   }
 
-  /** Blurs the menu item. */
+  /**
+   * Blurs the menu item.
+   *
+   * 让此菜单项失焦。
+   *
+   */
   async blur(): Promise<void> {
     return (await this.host()).blur();
   }
 
-  /** Whether the menu item is focused. */
+  /**
+   * Whether the menu item is focused.
+   *
+   * 此菜单项是否具有焦点。
+   *
+   */
   async isFocused(): Promise<boolean> {
     return (await this.host()).isFocused();
   }
 
-  /** Clicks the menu item. */
+  /**
+   * Clicks the menu item.
+   *
+   * 单击此菜单项。
+   *
+   */
   async click(): Promise<void> {
     return (await this.host()).click();
   }
 
-  /** Whether this item has a submenu. */
+  /**
+   * Whether this item has a submenu.
+   *
+   * 此菜单项是否具有子菜单。
+   *
+   */
   async hasSubmenu(): Promise<boolean> {
     return (await this.host()).matchesSelector(this._menuClass.hostSelector);
   }
 
-  /** Gets the submenu associated with this menu item, or null if none. */
+  /**
+   * Gets the submenu associated with this menu item, or null if none.
+   *
+   * 获取与此菜单项关联的子菜单；如果没有，则为 null。
+   *
+   */
   async getSubmenu(): Promise<Menu | null> {
     if (await this.hasSubmenu()) {
       return new this._menuClass(this.locatorFactory);
@@ -211,18 +296,37 @@ export abstract class _MatMenuItemHarnessBase<
 }
 
 
-/** Harness for interacting with a standard mat-menu in tests. */
+/**
+ * Harness for interacting with a standard mat-menu in tests.
+ *
+ * 在测试中可与标准 mat-menu 进行交互的测试工具。
+ *
+ */
 export class MatMenuHarness extends _MatMenuHarnessBase<
   typeof MatMenuItemHarness, MatMenuItemHarness, MenuItemHarnessFilters> {
-  /** The selector for the host element of a `MatMenu` instance. */
+  /**
+   * The selector for the host element of a `MatMenu` instance.
+   *
+   * `MatMenu` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-menu-trigger';
   protected _itemClass = MatMenuItemHarness;
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatMenuHarness` that meets certain
    * criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatMenuHarness`。
+   *
    * @param options Options for filtering which menu instances are considered a match.
+   *
+   * 用于过滤哪些菜单实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`
+   *
    */
   static with(options: MenuHarnessFilters = {}): HarnessPredicate<MatMenuHarness> {
     return new HarnessPredicate(MatMenuHarness, options)
@@ -231,18 +335,37 @@ export class MatMenuHarness extends _MatMenuHarnessBase<
   }
 }
 
-/** Harness for interacting with a standard mat-menu-item in tests. */
+/**
+ * Harness for interacting with a standard mat-menu-item in tests.
+ *
+ * 在测试中可与标准 mat-menu-item 进行交互的测试工具。
+ *
+ */
 export class MatMenuItemHarness extends
   _MatMenuItemHarnessBase<typeof MatMenuHarness, MatMenuHarness> {
-  /** The selector for the host element of a `MatMenuItem` instance. */
+  /**
+   * The selector for the host element of a `MatMenuItem` instance.
+   *
+   * `MatMenuItem` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-menu-item';
   protected _menuClass = MatMenuHarness;
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatMenuItemHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatMenuItemHarness`。
+   *
    * @param options Options for filtering which menu item instances are considered a match.
+   *
+   * 用于过滤哪些菜单项实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`
+   *
    */
   static with(options: MenuItemHarnessFilters = {}): HarnessPredicate<MatMenuItemHarness> {
     return new HarnessPredicate(MatMenuItemHarness, options)

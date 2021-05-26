@@ -28,11 +28,11 @@ built upon.
 | ------ | ----------- |
 | 方法 | 说明 |
 | `attach(PortalOutlet): T` | Attaches the portal to a host. |
-| `attach(PortalOutlet): T` | 把此传送点附着到宿主上。 |
+| `attach(PortalOutlet): T` | 把此传送点附着到宿主上。|
 | `detach(): void` | Detaches the portal from its host. |
-| `detach(): void` | 把此传送点从宿主上拆除。 |
+| `detach(): void` | 把此传送点从宿主上拆除。|
 | `isAttached: boolean` | Whether the portal is attached. |
-| `isAttached: boolean` | 此传送点是否已附着上。 |
+| `isAttached: boolean` | 此传送点是否已附着上。|
 
 ##### `PortalOutlet`
 
@@ -40,13 +40,13 @@ built upon.
 | ------ | ----------- |
 | 方法 | 说明 |
 | `attach(Portal): any` | Attaches a portal to the host. |
-| `attach(Portal): any` | 把指定的传送点添加到此宿主上。 |
+| `attach(Portal): any` | 把指定的传送点添加到此宿主上。|
 | `detach(): any` | Detaches the portal from the host. |
-| `detach(): any` | 把指定的传送点从此宿主上拆除。 |
+| `detach(): any` | 把指定的传送点从此宿主上拆除。|
 | `dispose(): void` | Permanently dispose the host. |
-| `dispose(): void` | 永久销毁此宿主。 |
+| `dispose(): void` | 永久销毁此宿主。|
 | `hasAttached: boolean` | Whether a portal is attached to the host. |
-| `hasAttached: boolean` | 判断是否有传送点附着在此宿主上。 |
+| `hasAttached: boolean` | 判断是否有传送点附着在此宿主上。|
 
 #### Portals in practice
 
@@ -56,7 +56,7 @@ built upon.
 
 Used to get a portal from an `<ng-template>`. `CdkPortal` *is* a `Portal`.
 
-用于从某个 `<ng-template>` 获取传送点。 `CdkPortal` *是*一个 `Portal`。
+用于从某个 `<ng-template>` 获取传送点。`CdkPortal` *是*一个 `Portal`。
 
 Usage:
 
@@ -102,7 +102,7 @@ ngAfterViewInit() {
 
 You can create a `TemplatePortal` from an `<ng-template>`. `TemplatePortal` allows you to take Angular content within one template and render it somewhere else.
 
-你可以从 `<ng-template>` `TemplatePortal` 。 `TemplatePortal` 允许你在一个模板中获取 Angular 的内容，并把它渲染到其他地方。
+你可以从 `<ng-template>` `TemplatePortal`。`TemplatePortal` 允许你在一个模板中获取 Angular 的内容，并把它渲染到其他地方。
 
 Usage:
 
@@ -127,7 +127,7 @@ ngAfterViewInit() {
 
 You can create a `DomPortal` from any native DOM element. `DomPortal` allows you to take any arbitrary DOM content and render it somewhere else. `DomPortal` moves content _as is_, so elements with Angular features like bindings or directives may no longer update if moved via `DomPortal`.
 
-你可以从任何的 native DOM 元素 `DomPortal` `DomPortal` 允许你把任意 DOM 内容带到其它地方。 `DomPortal`*如*移动内容，因此，如果经由移动，角元件设有像绑定或指令可能不再更新 `DomPortal` 。
+你可以从任何的 native DOM 元素 `DomPortal` `DomPortal` 允许你把任意 DOM 内容带到其它地方。`DomPortal`*如*移动内容，因此，如果经由移动，角元件设有像绑定或指令可能不再更新 `DomPortal`。
 
 Usage:
 
@@ -148,7 +148,7 @@ ngAfterViewInit() {
 
 Used to add a portal outlet to a template. `CdkPortalOutlet` *is* a `PortalOutlet`.
 
-用于向模板中添加一个传送点出口（Portal Outlet）。 `CdkPortalOutlet` *是*一个 `PortalOutlet`。
+用于向模板中添加一个传送点出口（Portal Outlet）。`CdkPortalOutlet` *是*一个 `PortalOutlet`。
 
 Usage:
 

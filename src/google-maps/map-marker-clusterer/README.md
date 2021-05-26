@@ -2,7 +2,7 @@
 
 The `MapMarkerClusterer` component wraps the [`MarkerClusterer` class](https://googlemaps.github.io/js-markerclustererplus/classes/markerclusterer.html) from the [Google Maps JavaScript MarkerClustererPlus Library](https://github.com/googlemaps/js-markerclustererplus). The `MapMarkerClusterer` component displays a cluster of markers that are children of the `<map-marker-clusterer>` tag. Unlike the other Google Maps components, MapMarkerClusterer does not have an `options` input, so any input (listed in the [documentation](https://googlemaps.github.io/js-markerclustererplus/index.html) for the `MarkerClusterer` class) should be set directly.
 
-这个 `MapMarkerClusterer` 组件包装了来自 [Google Maps JavaScript MarkerClustererPlus 库中](https://github.com/googlemaps/js-markerclustererplus)的 [`MarkerClusterer` 类](https://googlemaps.github.io/js-markerclustererplus/classes/markerclusterer.html)。 `MapMarkerClusterer` 组件会显示一组标记，它们是 `<map-marker-clusterer>` 标记的子标记。与其他 Google Maps 组件不同，MapMarkerClusterer 没有输入属性 `options`，所以任何输入属性（列在 `MarkerClusterer` 类的[文档](https://googlemaps.github.io/js-markerclustererplus/index.html)中）都应直接设置。
+这个 `MapMarkerClusterer` 组件包装了来自 [Google Maps JavaScript MarkerClustererPlus 库中](https://github.com/googlemaps/js-markerclustererplus)的 [`MarkerClusterer` 类](https://googlemaps.github.io/js-markerclustererplus/classes/markerclusterer.html)。`MapMarkerClusterer` 组件会显示一组标记，它们是 `<map-marker-clusterer>` 标记的子标记。与其他 Google Maps 组件不同，MapMarkerClusterer 没有输入属性 `options`，所以任何输入属性（列在 `MarkerClusterer` 类的[文档](https://googlemaps.github.io/js-markerclustererplus/index.html)中）都应直接设置。
 
 ## Loading the Library
 
@@ -18,7 +18,7 @@ Like the Google Maps JavaScript API, the MarkerClustererPlus library needs to be
 
 Additional information can be found by looking at [Marker Clustering](https://developers.google.com/maps/documentation/javascript/marker-clustering) in the Google Maps JavaScript API documentation.
 
-通过查看 Google Maps JavaScript API 文档中的 [“标记簇”](https://developers.google.com/maps/documentation/javascript/marker-clustering) ，可以找到更多信息。
+通过查看 Google Maps JavaScript API 文档中的 [“标记簇”](https://developers.google.com/maps/documentation/javascript/marker-clustering)，可以找到更多信息。
 
 ## Example
 

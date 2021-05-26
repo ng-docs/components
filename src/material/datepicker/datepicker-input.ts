@@ -182,7 +182,12 @@ export class MatDatepickerInput<D> extends MatDatepickerInputBase<D | null, D>
     return this._formField ? this._formField.getConnectedOverlayOrigin() : this._elementRef;
   }
 
-  /** Gets the ID of an element that should be used a description for the calendar overlay. */
+  /**
+   * Gets the ID of an element that should be used a description for the calendar overlay.
+   *
+   * 获取元素的 ID，该元素的 ID 用作日历浮层的描述。
+   *
+   */
   getOverlayLabelId(): string | null {
     if (this._formField) {
       return this._formField.getLabelId();

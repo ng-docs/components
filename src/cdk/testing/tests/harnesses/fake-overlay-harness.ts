@@ -11,7 +11,12 @@ import {ComponentHarness} from '../../component-harness';
 export class FakeOverlayHarness extends ComponentHarness {
   static readonly hostSelector = '.fake-overlay';
 
-  /** Gets the description of the fake overlay. */
+  /**
+   * Gets the description of the fake overlay.
+   *
+   * 获取此伪浮层的描述。
+   *
+   */
   async getDescription(): Promise<string> {
     return (await this.host()).text();
   }

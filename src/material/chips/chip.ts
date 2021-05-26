@@ -71,11 +71,24 @@ export interface MatChipEvent {
  */
 export class MatChipSelectionChange {
   constructor(
-    /** Reference to the chip that emitted the event. */
+    /**
+     * Reference to the chip that emmited the event.
+     *
+     * 到发出此事件的the chip的引用。
+     *
+     */
     public source: MatChip,
-    /** Whether the chip that emitted the event is selected. */
+    /**
+     * Whether the chip that emitted the event is selected.
+     *
+     * 发出此事件的纸片是否已选中。
+     */
     public selected: boolean,
-    /** Whether the selection change was a result of a user interaction. */
+    /**
+     * Whether the selection change was a result of a user interaction.
+     *
+     * 此选中结果的变化是否由用户交互导致的。
+     */
     public isUserInput = false) { }
 }
 
@@ -337,7 +350,7 @@ export class MatChip extends _MatChipMixinBase implements FocusableOption, OnDes
   /**
    * Whether the chip is disabled.
    *
-   * 该纸片是否被禁用了。
+   * 该纸片是否已禁用了。
    *
    */
   @Input()

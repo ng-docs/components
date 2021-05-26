@@ -142,15 +142,27 @@ export interface Point {
 
 /**
  * Possible places into which the preview of a drag item can be inserted.
+ *
+ * 可以在其中插入拖动条目预览的可能位置。
+ *
  * - `global` - Preview will be inserted at the bottom of the `<body>`. The advantage is that
- * you don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain
- * its inherited styles.
+ *   you don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain
+ *   its inherited styles.
+ *
+ *   `global` —— 预览将插入在 `<body>` 的底部。优点是你不必担心 `overflow: hidden` 或 `z-index`，但条目不会保留其继承的样式。
+ *
  * - `parent` - Preview will be inserted into the parent of the drag item. The advantage is that
- * inherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be
- * visible due to `z-index`. Furthermore, the preview is going to have an effect over selectors
- * like `:nth-child` and some flexbox configurations.
+ *   inherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be
+ *   visible due to `z-index`. Furthermore, the preview is going to have an effect over selectors
+ *   like `:nth-child` and some flexbox configurations.
+ *
+ *   `parent` —— 预览将插入到拖动条目的父级中。优点是已继承的样式将被保留，但可能会被 `overflow: hidden` 裁剪，由于 `z-index` 而变得不可见。此外，该预览将对选择器如 `:nth-child` 和一些 flexbox 配置产生影响。
+ *
  * - `ElementRef<HTMLElement> | HTMLElement` - Preview will be inserted into a specific element.
- * Same advantages and disadvantages as `parent`.
+ *   Same advantages and disadvantages as `parent`.
+ *
+ *   `ElementRef<HTMLElement> | HTMLElement` 预览将插入到特定元素中。具有和 `parent` 一样的优点和缺点。
+ *
  */
 export type PreviewContainer = 'global' | 'parent' | ElementRef<HTMLElement> | HTMLElement;
 
@@ -177,7 +189,12 @@ export class DragRef<T = any> {
    */
   private _previewRef: EmbeddedViewRef<any> | null;
 
-  /** Container into which to insert the preview. */
+  /**
+   * Container into which to insert the preview.
+   *
+   * 要将预览插入其中的容器。
+   *
+   */
   private _previewContainer: PreviewContainer | undefined;
 
   /**
@@ -483,7 +500,12 @@ export class DragRef<T = any> {
    */
   private _direction: Direction = 'ltr';
 
-  /** Ref that the current drag item is nested in. */
+  /**
+   * Ref that the current drag item is nested in.
+   *
+   * 嵌套了当前拖动项的引用。
+   *
+   */
   private _parentDragRef: DragRef<unknown> | null;
 
   /**
@@ -788,7 +810,12 @@ export class DragRef<T = any> {
     return this;
   }
 
-  /** Sets the parent ref that the ref is nested in.  */
+  /**
+   * Sets the parent ref that the ref is nested in.
+   *
+   * 设置嵌套引用的父引用。
+   *
+   */
   withParent(parent: DragRef<unknown> | null): this {
     this._parentDragRef = parent;
     return this;
@@ -945,7 +972,13 @@ export class DragRef<T = any> {
 
   /**
    * Sets the container into which to insert the preview element.
+   *
+   * 设置要在其中插入预览元素的容器。
+   *
    * @param value Container into which to insert the preview.
+   *
+   * 要将预览插入其中的容器。
+   *
    */
   withPreviewContainer(value: PreviewContainer): this {
     this._previewContainer = value;
@@ -1736,7 +1769,7 @@ export class DragRef<T = any> {
   /**
    * Applies a `transform` to the root element, taking into account any existing transforms on it.
    *
-   * 对根元素应用一个 `transform` ，包括它上面的所有转换。
+   * 对根元素应用一个 `transform`，包括它上面的所有转换。
    *
    * @param x New transform value along the X axis.
    *
@@ -1764,8 +1797,17 @@ export class DragRef<T = any> {
 
   /**
    * Applies a `transform` to the preview, taking into account any existing transforms on it.
+   *
+   * 应用一个 `transform` 到预览对象，计入其任何现有的转换。
+   *
    * @param x New transform value along the X axis.
+   *
+   * 沿 X 轴的新变换值。
+   *
    * @param y New transform value along the Y axis.
+   *
+   * 沿 Y 轴的新变换值。
+   *
    */
   private _applyPreviewTransform(x: number, y: number) {
     // Only apply the initial transform if the preview is a clone of the original element, otherwise
@@ -1948,7 +1990,12 @@ export class DragRef<T = any> {
     return this._cachedShadowRoot;
   }
 
-  /** Gets the element into which the drag preview should be inserted. */
+  /**
+   * Gets the element into which the drag preview should be inserted.
+   *
+   * 获取应将拖动预览插入其中的元素。
+   *
+   */
   private _getPreviewInsertionPoint(initialParent: HTMLElement,
                                     shadowRoot: ShadowRoot | null): HTMLElement {
     const previewContainer = this._previewContainer || 'global';

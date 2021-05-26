@@ -180,7 +180,7 @@ export class MatTab extends _MatTabMixinBase implements OnInit, CanDisable, OnCh
    * View Engine doesn't support property rename inheritance.
    * TS 4.0 doesn't allow properties to override accessors or vice-versa.
    *
-   * 由于 TS 4 和 VE 的原因，它已被提取成了一个工具函数。 View Engine 不支持继承时进行属性重命名。 TS 4.0 不允许改写属性访问器，反之亦然。
+   * 由于 TS 4 和 VE 的原因，它已被提取成了一个工具函数。View Engine 不支持继承时进行属性重命名。TS 4.0 不允许改写属性访问器，反之亦然。
    *
    * @docs-private
    */

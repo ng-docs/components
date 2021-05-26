@@ -20,6 +20,9 @@ export interface MapGeocoderResponse {
 /**
  * Angular service that wraps the Google Maps Geocoder from the Google Maps JavaScript API.
  * See developers.google.com/maps/documentation/javascript/reference/geocoder#Geocoder
+ *
+ * Angular 服务，用于包装 Google Maps JavaScript API 中的 Google Maps Geocoder。请参阅 developers.google.com/maps/documentation/javascript/reference/geocoder#Geocoder
+ *
  */
 @Injectable({providedIn: 'root'})
 export class MapGeocoder {
@@ -29,6 +32,9 @@ export class MapGeocoder {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/geocoder#Geocoder.geocode
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/geocoder#Geocoder.geocode
+   *
    */
   geocode(request: google.maps.GeocoderRequest): Observable<MapGeocoderResponse> {
     return new Observable(observer => {

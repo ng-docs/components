@@ -172,7 +172,12 @@ export abstract class _MatAutocompleteHarnessBase<
   }
 }
 
-/** Harness for interacting with a standard mat-autocomplete in tests. */
+/**
+ * Harness for interacting with a standard mat-autocomplete in tests.
+ *
+ * 在测试中与标准 mat-autocomplete 进行交互的测试工具。
+ *
+ */
 export class MatAutocompleteHarness extends _MatAutocompleteHarnessBase<
   typeof MatOptionHarness, MatOptionHarness, OptionHarnessFilters,
   typeof MatOptgroupHarness, MatOptgroupHarness, OptgroupHarnessFilters
@@ -181,14 +186,28 @@ export class MatAutocompleteHarness extends _MatAutocompleteHarnessBase<
   protected _optionClass = MatOptionHarness;
   protected _optionGroupClass = MatOptgroupHarness;
 
-  /** The selector for the host element of a `MatAutocomplete` instance. */
+  /**
+   * The selector for the host element of a `MatAutocomplete` instance.
+   *
+   * `MatAutocomplete` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-autocomplete-trigger';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatAutocompleteHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatAutocompleteHarness`。
+   *
    * @param options Options for filtering which autocomplete instances are considered a match.
+   *
+   * 用于过滤哪些自动完成实例应该视为匹配的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(options: AutocompleteHarnessFilters = {}): HarnessPredicate<MatAutocompleteHarness> {
     return new HarnessPredicate(MatAutocompleteHarness, options)

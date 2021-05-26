@@ -59,7 +59,12 @@ export class MatDatepickerInputEvent<D, S = unknown> {
   value: D | null;
 
   constructor(
-      /** Reference to the datepicker input component that emitted the event. */
+      /**
+       * Reference to the datepicker input component that emmited the event.
+       *
+       * 到发出此事件的日期选择器输入框控件的引用。
+       *
+       */
       public target: MatDatepickerInputBase<S, D>,
       /** Reference to the native input element associated with the datepicker input. */
       public targetElement: HTMLElement) {
@@ -111,7 +116,7 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   /**
    * Whether the datepicker-input is disabled.
    *
-   * datepicker-input 是否被禁用了。
+   * datepicker-input 是否已禁用了。
    *
    */
   @Input()
@@ -503,7 +508,7 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    * Checks whether a parent control is disabled. This is in place so that it can be overridden
    * by inputs extending this one which can be placed inside of a group that can be disabled.
    *
-   * 检查父控件是否被禁用。输入框可以通过扩展这个值来改写它，可以把它放在一个可禁用的控件组中。
+   * 检查父控件是否已禁用。输入框可以通过扩展这个值来改写它，可以把它放在一个可禁用的控件组中。
    *
    */
   protected _parentDisabled() {

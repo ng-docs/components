@@ -152,7 +152,7 @@ const _MatCheckboxMixinBase:
  * have the checkbox be accessible, you may supply an [aria-label] input.
  * See: <https://material.io/design/components/selection-controls.html>
  *
- * 一种 Material Design 复选框。支持 HTML5 复选框的所有功能，并公开类似的 API。 MatCheckbox 可以是选定、未选定、未决或禁用的。请注意，该组件会处理所有其它无障碍属性，因此无需自行提供。但是，如果你想省略一个标签并仍然让该复选框满足无障碍性，你可以提供一个 [aria-label] 输入属性。请参阅：<https://material.io/design/components/selection-controls.html>
+ * 一种 Material Design 复选框。支持 HTML5 复选框的所有功能，并公开类似的 API。MatCheckbox 可以是选定、未选定、未决或禁用的。请注意，该组件会处理所有其它无障碍属性，因此无需自行提供。但是，如果你想省略一个标签并仍然让该复选框满足无障碍性，你可以提供一个 [aria-label] 输入属性。请参阅：<https://material.io/design/components/selection-controls.html>
  *
  */
 @Component({
@@ -364,7 +364,7 @@ export class MatCheckbox extends _MatCheckboxMixinBase implements ControlValueAc
    * Whether the checkbox is disabled. This fully overrides the implementation provided by
    * mixinDisabled, but the mixin is still required because mixinTabIndex requires it.
    *
-   * 该复选框是否已被禁用。这完全取代了 mixinDisabled 提供的实现，但 mixin 仍然是必需的，因为 mixinTabIndex 需要它。
+   * 该复选框是否已禁用。这完全取代了 mixinDisabled 提供的实现，但 mixin 仍然是必需的，因为 mixinTabIndex 需要它。
    *
    */
   @Input()
@@ -627,7 +627,7 @@ export class MatCheckbox extends _MatCheckboxMixinBase implements ControlValueAc
    * HTMLInputElement doesn't have an `indeterminate` property so Ivy will warn during
    * server-side rendering.
    *
-   * 我们要直接从 DOM 节点同步 `indeterminate` 值，因为在 Ivy 中，检查一个元素是否支持某属性，会归结为代码 `if (propName in element)` 。 Domino 引擎的 HTMLInputElement 上没有 `indeterminate` 属性，所以 Ivy 会在服务端渲染过程中发出警告。
+   * 我们要直接从 DOM 节点同步 `indeterminate` 值，因为在 Ivy 中，检查一个元素是否支持某属性，会归结为代码 `if (propName in element)`。Domino 引擎的 HTMLInputElement 上没有 `indeterminate` 属性，所以 Ivy 会在服务端渲染过程中发出警告。
    *
    */
   private _syncIndeterminate(value: boolean) {

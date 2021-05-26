@@ -17,7 +17,12 @@ import {
   getCalendar,
 } from './datepicker-trigger-harness-base';
 
-/** Harness for interacting with a standard Material datepicker inputs in tests. */
+/**
+ * Harness for interacting with a standard Material datepicker inputs in tests.
+ *
+ * 与测试中的标准 Material datepicker 输入框进行交互的测试工具。
+ *
+ */
 export class MatDatepickerInputHarness extends MatDatepickerInputHarnessBase implements
   DatepickerTrigger {
   static hostSelector = '.mat-datepicker-input';
@@ -25,7 +30,13 @@ export class MatDatepickerInputHarness extends MatDatepickerInputHarnessBase imp
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatDatepickerInputHarness`
    * that meets certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatDatepickerInputHarness`。
+   *
    * @param options Options for filtering which input instances are considered a match.
+   *
+   * 用于过滤哪些输入框实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -35,7 +46,12 @@ export class MatDatepickerInputHarness extends MatDatepickerInputHarnessBase imp
     return getInputPredicate(MatDatepickerInputHarness, options);
   }
 
-  /** Gets whether the calendar associated with the input is open. */
+  /**
+   * Gets whether the calendar associated with the input is open.
+   *
+   * 获取与输入框关联的日历是否已打开。
+   *
+   */
   async isCalendarOpen(): Promise<boolean> {
     // `aria-owns` is set only if there's an open datepicker so we can use it as an indicator.
     const host = await this.host();
@@ -58,7 +74,12 @@ export class MatDatepickerInputHarness extends MatDatepickerInputHarnessBase imp
     }
   }
 
-  /** Closes the calendar associated with the input. */
+  /**
+   * Closes the calendar associated with the input.
+   *
+   * 关闭与输入关联框的日历。
+   *
+   */
   async closeCalendar(): Promise<void> {
     if (await this.isCalendarOpen()) {
       await closeCalendar(getCalendarId(this.host()), this.documentRootLocatorFactory());
@@ -67,14 +88,25 @@ export class MatDatepickerInputHarness extends MatDatepickerInputHarnessBase imp
     }
   }
 
-  /** Whether a calendar is associated with the input. */
+  /**
+   * Whether a calendar is associated with the input.
+   *
+   * 日历是否与输入框关联。
+   *
+   */
   async hasCalendar(): Promise<boolean> {
     return (await getCalendarId(this.host())) != null;
   }
 
   /**
    * Gets the `MatCalendarHarness` that is associated with the trigger.
+   *
+   * 获取与触发器关联的 `MatCalendarHarness`。
+   *
    * @param filter Optionally filters which calendar is included.
+   *
+   * （可选）决定要包含哪个日历的过滤器。
+   *
    */
   async getCalendar(filter: CalendarHarnessFilters = {}): Promise<MatCalendarHarness> {
     return getCalendar(filter, this.host(), this.documentRootLocatorFactory());

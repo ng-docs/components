@@ -342,7 +342,12 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
     return element === activeElement || element.contains(activeElement);
   }
 
-  /** Gets the currently-focused element on the page. */
+  /**
+   * Gets the currently-focused element on the page.
+   *
+   * 获取页面上当前拥有焦点的元素。
+   *
+   */
   private _getActiveElement(): Element | null {
     // If the `activeElement` is inside a shadow root, `document.activeElement` will
     // point to the shadow root so we have to descend into it ourselves.
@@ -355,7 +360,7 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
  * Internal component that wraps user-provided dialog content.
  * Animation is based on <https://material.io/guidelines/motion/choreography.html>.
  *
- * 包装用户提供的对话框内容的内部组件。动画基于 <https://material.io/guidelines/motion/choreography.html> 。
+ * 包装用户提供的对话框内容的内部组件。动画基于 <https://material.io/guidelines/motion/choreography.html>。
  *
  * @docs-private
  */

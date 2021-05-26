@@ -27,7 +27,7 @@ export const MAT_CHECKBOX_REQUIRED_VALIDATOR: Provider = {
  * Current CheckboxRequiredValidator only work with `input type=checkbox` and does not
  * work with `mat-checkbox`.
  *
- * 一个验证器，用于验证 Material 复选框在模板驱动复选框中的必填属性。目前 CheckboxRequiredValidator 只能用于 `input type=checkbox` ，而且不能用于 `mat-checkbox` 。
+ * 一个验证器，用于验证 Material 复选框在模板驱动复选框中的必填属性。目前 CheckboxRequiredValidator 只能用于 `input type=checkbox`，而且不能用于 `mat-checkbox`。
  *
  */
 @Directive({

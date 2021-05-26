@@ -16,6 +16,9 @@ import {Subject} from 'rxjs';
  * 要修改显示的标签和文本，就要创建一个 MatSortHeaderIntl 的新实例，并把它包含在自定义提供者中。
  *
  * @deprecated No longer being used. To be removed.
+ *
+ * 不再使用。即将被删除。
+ *
  * @breaking-change 13.0.0
  */
 @Injectable({providedIn: 'root'})

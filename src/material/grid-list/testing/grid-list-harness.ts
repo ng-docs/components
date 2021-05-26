@@ -11,15 +11,31 @@ import {ɵTileCoordinator as TileCoordinator} from '@angular/material/grid-list'
 import {GridListHarnessFilters, GridTileHarnessFilters} from './grid-list-harness-filters';
 import {MatGridTileHarness} from './grid-tile-harness';
 
-/** Harness for interacting with a standard `MatGridList` in tests. */
+/**
+ * Harness for interacting with a standard `MatGridList` in tests.
+ *
+ * 在测试中与标准 `MatGridList` 进行交互的测试工具。
+ *
+ */
 export class MatGridListHarness extends ComponentHarness {
-  /** The selector for the host element of a `MatGridList` instance. */
+  /**
+   * The selector for the host element of a `MatGridList` instance.
+   *
+   * `MatGridList` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-grid-list';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatGridListHarness`
    * that meets certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatGridListHarness`。
+   *
    * @param options Options for filtering which dialog instances are considered a match.
+   *
+   * 用于过滤哪些对话框实例应该视为匹配的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -32,23 +48,45 @@ export class MatGridListHarness extends ComponentHarness {
    * Tile coordinator that is used by the "MatGridList" for computing
    * positions of tiles. We leverage the coordinator to provide an API
    * for retrieving tiles based on visual tile positions.
+   *
+   * 被 “MatGridList” 用于计算图块位置的图块协调器。我们利用协调器提供一个 API，用于根据可视图块的位置检索图块。
+   *
    */
   private _tileCoordinator = new TileCoordinator();
 
-  /** Gets all tiles of the grid-list. */
+  /**
+   * Gets all tiles of the grid-list.
+   *
+   * 获取网格列表的所有图块。
+   *
+   */
   async getTiles(filters: GridTileHarnessFilters = {}): Promise<MatGridTileHarness[]> {
     return await this.locatorForAll(MatGridTileHarness.with(filters))();
   }
 
-  /** Gets the amount of columns of the grid-list. */
+  /**
+   * Gets the amount of columns of the grid-list.
+   *
+   * 获取网格列表的列数。
+   *
+   */
   async getColumns(): Promise<number> {
     return Number(await (await this.host()).getAttribute('cols'));
   }
 
   /**
    * Gets a tile of the grid-list that is located at the given location.
+   *
+   * 获取位于给定位置的网格列表的图块。
+   *
    * @param row Zero-based row index.
+   *
+   * 从零开始的行索引。
+   *
    * @param column Zero-based column index.
+   *
+   * 从零开始的列索引。
+   *
    */
   async getTileAtPosition({row, column}: {row: number, column: number}):
       Promise<MatGridTileHarness> {

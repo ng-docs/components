@@ -15,7 +15,12 @@ import {
 import {getWorkspace} from '@schematics/angular/utility/workspace';
 import {Schema} from '../schema';
 
-/** Adds the Material Design fonts to the index HTML file. */
+/**
+ * Adds the Material Design fonts to the index HTML file.
+ *
+ * 将 Material Design 字体添加到索引 HTML 文件。
+ *
+ */
 export function addFontsToIndex(options: Schema): Rule {
   return async (host: Tree) => {
     const workspace = await getWorkspace(host);

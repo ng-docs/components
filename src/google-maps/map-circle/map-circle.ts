@@ -18,6 +18,9 @@ import {MapEventManager} from '../map-event-manager';
 
 /**
  * Angular component that renders a Google Maps Circle via the Google Maps JavaScript API.
+ *
+ * 通过 Google Maps JavaScript API 渲染 Google Maps Circle 的 Angular 组件。
+ *
  * @see developers.google.com/maps/documentation/javascript/reference/polygon#Circle
  */
 @Directive({
@@ -35,6 +38,8 @@ export class MapCircle implements OnInit, OnDestroy {
 
   /**
    * Underlying google.maps.Circle object.
+   *
+   * 底层 google.maps.Circle 对象。
    *
    * @see developers.google.com/maps/documentation/javascript/reference/polygon#Circle
    */

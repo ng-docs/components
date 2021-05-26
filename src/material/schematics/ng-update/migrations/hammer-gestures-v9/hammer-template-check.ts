@@ -8,7 +8,12 @@
 
 import {parse5} from '@angular/cdk/schematics';
 
-/** List of known events which are supported by the "HammerGesturesPlugin". */
+/**
+ * List of known events which are supported by the "HammerGesturesPlugin".
+ *
+ * “HammerGesturesPlugin” 支持的已知事件列表。
+ *
+ */
 const STANDARD_HAMMERJS_EVENTS = [
   // Events supported by the "HammerGesturesPlugin". See:
   // angular/angular/blob/0119f46d/packages/platform-browser/src/dom/events/hammer_gestures.ts#L19
@@ -19,7 +24,12 @@ const STANDARD_HAMMERJS_EVENTS = [
   'swipeleft', 'swiperight',  'swipeup',    'swipedown', 'tap',
 ];
 
-/** List of events which are provided by the deprecated Angular Material "GestureConfig". */
+/**
+ * List of events which are provided by the deprecated Angular Material "GestureConfig".
+ *
+ * 已弃用的 Angular Material GestureConfig 提供的事件列表。
+ *
+ */
 const CUSTOM_MATERIAL_HAMMERJS_EVENS =
     ['longpress', 'slide', 'slidestart', 'slideend', 'slideright', 'slideleft'];
 
@@ -27,6 +37,9 @@ const CUSTOM_MATERIAL_HAMMERJS_EVENS =
  * Parses the specified HTML and searches for elements with Angular outputs listening to
  * one of the known HammerJS events. This check naively assumes that the bindings never
  * match on a component output, but only on the Hammer plugin.
+ *
+ * 解析指定的 HTML 并通过侦听已知 HammerJS 事件之一的 Angular 输出属性来搜索元素。这项检查假定绑定永远不会匹配组件的输出属性，而只会匹配 Hammer 插件。
+ *
  */
 export function isHammerJsUsedInTemplate(html: string):
     {standardEvents: boolean, customEvents: boolean} {

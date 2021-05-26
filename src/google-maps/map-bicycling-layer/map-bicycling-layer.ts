@@ -16,7 +16,12 @@ import {MapBaseLayer} from '../map-base-layer';
 /**
  * Angular component that renders a Google Maps Bicycling Layer via the Google Maps JavaScript API.
  *
+ * 通过 Google Maps JavaScript API 渲染 Google Maps 自行车图层的 Angular 组件。
+ *
  * See developers.google.com/maps/documentation/javascript/reference/map#BicyclingLayer
+ *
+ * 请参阅 developers.google.com/maps/documentation/javascript/reference/map#BicyclingLayer
+ *
  */
 @Directive({
   selector: 'map-bicycling-layer',
@@ -26,7 +31,12 @@ export class MapBicyclingLayer extends MapBaseLayer {
   /**
    * The underlying google.maps.BicyclingLayer object.
    *
+   * 底层 google.maps.BicyclingLayer 对象。
+   *
    * See developers.google.com/maps/documentation/javascript/reference/map#BicyclingLayer
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/map#BicyclingLayer
+   *
    */
   bicyclingLayer?: google.maps.BicyclingLayer;
 

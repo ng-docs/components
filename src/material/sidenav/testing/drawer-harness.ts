@@ -11,21 +11,39 @@ import {DrawerHarnessFilters} from './drawer-harness-filters';
 
 /**
  * Base class for the drawer harness functionality.
+ *
+ * 抽屉测试工具功能的基类。
+ *
  * @docs-private
  */
 export class MatDrawerHarnessBase extends ContentContainerComponentHarness<string> {
-  /** Whether the drawer is open. */
+  /**
+   * Whether the drawer is open.
+   *
+   * 此抽屉是否已打开。
+   *
+   */
   async isOpen(): Promise<boolean> {
     return (await this.host()).hasClass('mat-drawer-opened');
   }
 
-  /** Gets the position of the drawer inside its container. */
+  /**
+   * Gets the position of the drawer inside its container.
+   *
+   * 获取此抽屉在其容器内的位置。
+   *
+   */
   async getPosition(): Promise<'start'|'end'> {
     const host = await this.host();
     return (await host.hasClass('mat-drawer-end')) ? 'end' : 'start';
   }
 
-  /** Gets the mode that the drawer is in. */
+  /**
+   * Gets the mode that the drawer is in.
+   *
+   * 获取此抽屉所在的模式。
+   *
+   */
   async getMode(): Promise<'over'|'push'|'side'> {
     const host = await this.host();
 
@@ -48,13 +66,24 @@ export class MatDrawerHarnessBase extends ContentContainerComponentHarness<strin
  *
  */
 export class MatDrawerHarness extends MatDrawerHarnessBase {
-  /** The selector for the host element of a `MatDrawer` instance. */
+  /**
+   * The selector for the host element of a `MatDrawer` instance.
+   *
+   * `MatDrawer` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-drawer';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatDrawerHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatDrawerHarness`。
+   *
    * @param options Options for filtering which drawer instances are considered a match.
+   *
+   * 用于过滤哪些抽屉实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。

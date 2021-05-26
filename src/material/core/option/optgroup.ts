@@ -49,13 +49,28 @@ let _uniqueOptgroupIdCounter = 0;
 
 @Directive()
 export class _MatOptgroupBase extends _MatOptgroupMixinBase implements CanDisable {
-  /** Label for the option group. */
+  /**
+   * Label for the option group.
+   *
+   * 此选项组的标签。
+   *
+   */
   @Input() label: string;
 
-  /** Unique id for the underlying label. */
+  /**
+   * Unique id for the underlying label.
+   *
+   * 底层标签的唯一 ID。
+   *
+   */
   _labelId: string = `mat-optgroup-label-${_uniqueOptgroupIdCounter++}`;
 
-  /** Whether the group is in inert a11y mode. */
+  /**
+   * Whether the group is in inert a11y mode.
+   *
+   * 该组是否处于惰性 a11y 模式。
+   *
+   */
   _inert: boolean;
 
   constructor(@Inject(MAT_OPTION_PARENT_COMPONENT) @Optional() parent?: MatOptionParentComponent) {
@@ -70,11 +85,17 @@ export class _MatOptgroupBase extends _MatOptgroupMixinBase implements CanDisabl
  * Injection token that can be used to reference instances of `MatOptgroup`. It serves as
  * alternative token to the actual `MatOptgroup` class which could cause unnecessary
  * retention of the class and its component metadata.
+ *
+ * `MatOptgroup` 实例的注入令牌。它用作实际 `MatOptgroup` 类的替代令牌，这可能会导致不必要地保留该类及其组件元数据。
+ *
  */
 export const MAT_OPTGROUP = new InjectionToken<MatOptgroup>('MatOptgroup');
 
 /**
  * Component that is used to group instances of `mat-option`.
+ *
+ * `mat-option` 实例进行分组的组件。
+ *
  */
 @Component({
   selector: 'mat-optgroup',

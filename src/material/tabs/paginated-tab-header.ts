@@ -45,7 +45,7 @@ const passiveEventListenerOptions =
  * will scroll the header towards the end of the tabs list and 'before' will scroll towards the
  * beginning of the list.
  *
- * 当标头上的选项卡超出标头宽度时，可以滚动的方向。 'after' 会把标头滚动到选项卡列表的末尾，'before' 会滚动到列表的开头。
+ * 当标头上的选项卡超出标头宽度时，可以滚动的方向。'after' 会把标头滚动到选项卡列表的末尾，'before' 会滚动到列表的开头。
  *
  */
 export type ScrollDirection = 'after' | 'before';
@@ -765,6 +765,9 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    * 要滚动的位置
    *
    * @returns Information on the current scroll distance and the maximum.
+   *
+   * 有关当前滚动距离和最大滚动距离的信息。
+   *
    */
   private _scrollTo(position: number) {
     if (this.disablePagination) {

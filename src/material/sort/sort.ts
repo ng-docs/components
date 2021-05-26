@@ -91,13 +91,28 @@ export interface Sort {
   direction: SortDirection;
 }
 
-/** Default options for `mat-sort`.  */
+/**
+ * Default options for `mat-sort`.
+ *
+ * `mat-sort` 的默认选项。
+ *
+ */
 export interface MatSortDefaultOptions {
-  /** Whether to disable clearing the sorting state. */
+  /**
+   * Whether to disable clearing the sorting state.
+   *
+   * 是否禁止清除排序状态。
+   *
+   */
   disableClear?: boolean;
 }
 
-/** Injection token to be used to override the default options for `mat-sort`. */
+/**
+ * Injection token to be used to override the default options for `mat-sort`.
+ *
+ * `mat-sort` 的默认选项的注入令牌。
+ *
+ */
 export const MAT_SORT_DEFAULT_OPTIONS =
     new InjectionToken<MatSortDefaultOptions>('MAT_SORT_DEFAULT_OPTIONS');
 

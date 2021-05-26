@@ -91,7 +91,7 @@ should use the `ProtractorHarnessEnvironment`. Additional environments require c
 alternate test environments.
 
 这些类对应于组件工具体系的不同实现，并绑定到特定的测试环境。任何一种测试都只能导入*其中一个*类。
-基于 Karma 的单元测试应该使用 `TestbedHarnessEnvironment` ，而基于 Protractor 的端到端测试应该使用 `ProtractorHarnessEnvironment`。
+基于 Karma 的单元测试应该使用 `TestbedHarnessEnvironment`，而基于 Protractor 的端到端测试应该使用 `ProtractorHarnessEnvironment`。
 其他环境会要求自定义绑定；给参见[测试工具环境作者的 API](#api-for-harness-environment-authors)，以了解有关备用测试环境的更多信息。
 
 These classes are primarily used to create a `HarnessLoader` instance, and in certain cases, to
@@ -228,7 +228,7 @@ provide convenience methods on their `ComponentHarness` subclass to facilitate t
 `HarnessPredicate` instances. However, if the harness author's API is not sufficient, they can be
 created manually.
 
-调用 `getHarness` 和 `getAllHarnesses` 的参数可以是 `ComponentHarness` 的子类或 `HarnessPredicate`。 `HarnessPredicate` 对搜索应用了额外的限制（比如搜索一些带有特定文本的按钮等）。[`HarnessPredicate`](#filtering-harness-instances-with-harnesspredicate) 的[详细信息](#filtering-harness-instances-with-harnesspredicate)在[组件工具作者](#api-for-component-harness-authors)的 API 部分讨论。组件工具的作者应该在 `ComponentHarness` 子类中提供了一些创建 `HarnessPredicate` 实例的便利方法。但是，如果测试工具作者提供的 API 不够用，你也可以手动创建它们。
+调用 `getHarness` 和 `getAllHarnesses` 的参数可以是 `ComponentHarness` 的子类或 `HarnessPredicate`。`HarnessPredicate` 对搜索应用了额外的限制（比如搜索一些带有特定文本的按钮等）。[`HarnessPredicate`](#filtering-harness-instances-with-harnesspredicate) 的[详细信息](#filtering-harness-instances-with-harnesspredicate)在[组件工具作者](#api-for-component-harness-authors)的 API 部分讨论。组件工具的作者应该在 `ComponentHarness` 子类中提供了一些创建 `HarnessPredicate` 实例的便利方法。但是，如果测试工具作者提供的 API 不够用，你也可以手动创建它们。
 
 #### Change detection
 
@@ -278,7 +278,7 @@ the operations. The parallel function works similarly to `Promise.all`, while al
 detection, so it is not run an excessive number of times. The following code demonstrates how you
 can read multiple properties from a harness with `parallel`:
 
-注意， `await` 语句会阻塞测试的执行，直到相关的 `Promise` 被解析为止。有时，你可能希望同时执行多个动作，并等待它们全部完成，而不是按顺序执行每个动作。例如，从单个组件中读取多个属性。在这种情况下，请使用 `parallel` 函数来并行处理这些操作。 parallel 函数与 `Promise.all` 工作方式类似，但同时优化了变更检测，因此它的运行次数不会太多。以下代码演示如何通过 `parallel` 从测试工具中读取多个属性：
+注意，`await` 语句会阻塞测试的执行，直到相关的 `Promise` 被解析为止。有时，你可能希望同时执行多个动作，并等待它们全部完成，而不是按顺序执行每个动作。例如，从单个组件中读取多个属性。在这种情况下，请使用 `parallel` 函数来并行处理这些操作。parallel 函数与 `Promise.all` 工作方式类似，但同时优化了变更检测，因此它的运行次数不会太多。以下代码演示如何通过 `parallel` 从测试工具中读取多个属性：
 
 ```ts
 it('reads properties in parallel', async () => {
@@ -380,7 +380,7 @@ functions ensures that tests always reference the current state of the DOM.
 | `locatorFor(selector: string): () => Promise<TestElement>` | Creates a function that returns a `Promise` for the first element matching the given selector when called. If no matching element is found, the `Promise` rejects. |
 | `locatorFor(selector: string): () => Promise<TestElement>` | 创建一个函数，该函数在被调用时会返回与指定选择器匹配的第一个元素的 `Promise`。如果找不到匹配的元素，`Promise` 就会拒绝。 |
 | `locatorForOptional(selector: string): () => Promise<TestElement \| null>` | Creates a function that returns a `Promise` for the first element matching the given selector when called. If no matching element is found, the `Promise` is resolved with `null`. |
-| `locatorForOptional(selector: string): () => Promise<TestElement \| null>` | 创建一个函数，该函数在被调用时会返回与指定选择器匹配的第一个元素的 `Promise`。如果找不到匹配的元素，则会解析成携带 `null` 的 `Promise` 。 |
+| `locatorForOptional(selector: string): () => Promise<TestElement \| null>` | 创建一个函数，该函数在被调用时会返回与指定选择器匹配的第一个元素的 `Promise`。如果找不到匹配的元素，则会解析成携带 `null` 的 `Promise`。 |
 | `locatorForAll(selector: string): () => Promise<TestElement[]>` | Creates a function that returns a `Promise` for a list of all elements matching the given selector when called. |
 | `locatorForAll(selector: string): () => Promise<TestElement[]>` | 创建一个函数，它返回一个 `Promise` 以便在调用时返回与指定选择器匹配的所有元素的列表。 |
 
@@ -414,7 +414,7 @@ The functions created with the locator methods described above all return `TestE
 | ------ | ----------- |
 | 方法 | 说明 |
 | `blur(): Promise<void>` | Blurs the element. |
-| `blur(): Promise<void>` | 让此元素失去焦点。 |
+| `blur(): Promise<void>` | 让此元素失焦。 |
 | `clear(): Promise<void>` | Clears the text in the element (intended for `<input>` and `<textarea>` only). |
 | `clear(): Promise<void>` | 清除此元素中的文本（仅适用于 `<input>` 和 `<textarea>` ）。 |
 | `click(relativeX?: number, relativeY?: number): Promise<void>` | Clicks the element (at the given position relative to the element's top-left corner). |
@@ -503,7 +503,7 @@ earlier has an alternate signature that can be used for locating sub-harnesses r
 | `locatorFor<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T>` | Creates a function that returns a `Promise` for the first harness matching the given harness type when called. If no matching harness is found, the `Promise` rejects. |
 | `locatorFor<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T>` | 创建一个函数，该函数在被调用时返回第一个匹配指定测试工具类型的测试工具的 `Promise`；如果找不到匹配的测试工具，`Promise` 就会拒绝。 |
 | `locatorForOptional<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T \| null>` | Creates a function that returns a `Promise` for the first harness matching the given harness type when called. If no matching harness is found, the `Promise` is resolved with `null`. |
-| `locatorForOptional<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T \| null>` | 创建一个函数，该函数在被调用时返回第一个匹配指定测试工具类型的测试工具的 `Promise`；如果找不到匹配的工具，就会解析成携带 `null` 的 `Promise` 。 |
+| `locatorForOptional<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T \| null>` | 创建一个函数，该函数在被调用时返回第一个匹配指定测试工具类型的测试工具的 `Promise`；如果找不到匹配的工具，就会解析成携带 `null` 的 `Promise`。 |
 | `locatorForAll<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T[]>` | Creates a function that returns a `Promise` for a list of all harnesses matching the given harness type when called. |
 | `locatorForAll<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T[]>` | 创建一个函数，该函数在被调用时返回一个`Promise`，携带匹配到指定测试工具类型的所有测试工具列表。 |
 
@@ -568,7 +568,7 @@ class can capture criteria like this for a `ComponentHarness` subclass. While th
 test author is able to construct `HarnessPredicate` instances manually, it's easier when the
 `ComponentHarness` subclass provides a helper method to construct predicates for common filters.
 
-当一个页面包含特定组件的多个实例时，你可能需要根据该组件的某些属性进行过滤，以得到一个特定的组件实例。例如，你可能想要一个带有特定文本的按钮，或一个带有特定 ID 的菜单。 `HarnessPredicate` 可以为 `ComponentHarness` 的子类按一定的标准捕获它们。虽然测试作者也能手动构建 `HarnessPredicate` 实例，但 `ComponentHarness` 子类提供了一个辅助方法来为常用的过滤器构造谓词，这更容易。
+当一个页面包含特定组件的多个实例时，你可能需要根据该组件的某些属性进行过滤，以得到一个特定的组件实例。例如，你可能想要一个带有特定文本的按钮，或一个带有特定 ID 的菜单。`HarnessPredicate` 可以为 `ComponentHarness` 的子类按一定的标准捕获它们。虽然测试作者也能手动构建 `HarnessPredicate` 实例，但 `ComponentHarness` 子类提供了一个辅助方法来为常用的过滤器构造谓词，这更容易。
 
 The recommended approach to providing this helper is to create a static `with` method on each
 `ComponentHarness` subclass that returns a `HarnessPredicate` for that class. This allows test
@@ -691,7 +691,7 @@ several APIs that can be used to create `HarnessLoader` instances for cases like
 | `harnessLoaderFor(selector: string): Promise<HarnessLoader>` | Gets a `Promise` for a `HarnessLoader` rooted at the first element matching the given selector, if no element is found the `Promise` rejects. |
 | `harnessLoaderFor(selector: string): Promise<HarnessLoader>` | 获取一个 `Promise`，它解析为以指定的选择器相匹配的第一个元素为根的 `HarnessLoader`；如果没有找到此组件，则 `Promise` 会拒绝。 |
 | `harnessLoaderForOptional(selector: string): Promise<HarnessLoader \| null>` | Gets a `Promise` for a `HarnessLoader` rooted at the first element matching the given selector, if no element is found the `Promise` resolves to `null`. |
-| `harnessLoaderForOptional(selector: string): Promise<HarnessLoader \| null>` | 获取一个 `Promise`，它解析为与指定选择器匹配的第一个元素，如果没有找到此元素，则 `Promise` 会解析为 `null` 。 |
+| `harnessLoaderForOptional(selector: string): Promise<HarnessLoader \| null>` | 获取一个 `Promise`，它解析为与指定选择器匹配的第一个元素，如果没有找到此元素，则 `Promise` 会解析为 `null`。 |
 | `harnessLoaderForAll(selector: string): Promise<HarnessLoader[]>` | Gets a `Promise` for a list of `HarnessLoader`, one rooted at each element matching the given selector. |
 | `harnessLoaderForAll(selector: string): Promise<HarnessLoader[]>` | 获取一个 `Promise`，它是一个以和指定选择器匹配的每个元素为根的 `HarnessLoader` 列表 |
 
@@ -762,7 +762,7 @@ subsequent `NgZone` stabilization before animation events are fully flushed. In 
 needed, the `ComponentHarness` offers a `forceStabilize()` method that can be called to do the
 second round.
 
-在某些情况下，在完全刷新动画事件之前，Angular 动画可能还需要第二个变化检测循环和等待 `NgZone` 进入稳定状态。
+在某些情况下，在完全刷新动画事件之前，Angular 动画可能还需要第二个变更检测循环和等待 `NgZone` 进入稳定状态。
 如果需要这样做，`ComponentHarness` 提供了一个 `forceStabilize()` 方法，可以调用它来进行第二轮测试。
 
 Additionally, some components may intentionally schedule tasks *outside* of `NgZone`, this is
@@ -804,13 +804,13 @@ Because some environments don't support interacting with DOM elements synchronou
 (e.g. webdriver), all of the `TestElement` methods are asynchronous, returning a `Promise` with the
 result of the operation.
 
-添加对新测试环境的支持的第一步是创建一个 `TestElement` 实现。 `TestElement` 接口用作 DOM 元素的环境无关表示形式。它能让测试工具与 DOM 元素进行交互，而不用管底层环境如何。由于某些环境不支持与 DOM 元素的同步交互（比如 webdriver），因此所有的 `TestElement` 方法都是异步的，返回一个包含该操作结果的 `Promise`
+添加对新测试环境的支持的第一步是创建一个 `TestElement` 实现。`TestElement` 接口用作 DOM 元素的环境无关表示形式。它能让测试工具与 DOM 元素进行交互，而不用管底层环境如何。由于某些环境不支持与 DOM 元素的同步交互（比如 webdriver），因此所有的 `TestElement` 方法都是异步的，返回一个包含该操作结果的 `Promise`
 
 | Method | Description |
 | ------ | ----------- |
 | 方法 | 说明 |
 | `blur(): Promise<void>` | Blurs the element. |
-| `blur(): Promise<void>` | 让此元素失去焦点。 |
+| `blur(): Promise<void>` | 让此元素失焦。 |
 | `clear(): Promise<void>` | Clears the text from an element (only applies for `<input>` and `<textarea>`). |
 | `clear(): Promise<void>` | 从此元素中清除文本（仅适用于 `<input>` 和 `<textarea>` ）。 |
 | `click(relativeX?: number, relativeY?: number): Promise<void>` | Clicks an element at a point relative to it's top-left corner. |
@@ -851,7 +851,7 @@ implementing the `sendKeys` method, is that the key codes in the `TestKey`
 enum likely differ from the key codes used in the test environment. Environment authors should
 maintain a mapping from `TestKey` codes to the codes used in the particular testing environment.
 
-`TestElement` 接口包含类似 `HTMLElement` 方法的大部分方法。在大多数测试环境中都存在类似的方法，这使得实现这些方法相当简单。使用 `sendKeys` 方法时要注意的一个重要区别是， `TestKey` 枚举中的键码可能与测试环境中使用的键码有所不同。环境作者应该坚持从 `TestKey` 代码映射到特定测试环境中的代码。
+`TestElement` 接口包含类似 `HTMLElement` 方法的大部分方法。在大多数测试环境中都存在类似的方法，这使得实现这些方法相当简单。使用 `sendKeys` 方法时要注意的一个重要区别是，`TestKey` 枚举中的键码可能与测试环境中使用的键码有所不同。环境作者应该坚持从 `TestKey` 代码映射到特定测试环境中的代码。
 
 The
 [`UnitTestElement`](https://github.com/angular/components/blob/master/src/cdk/testing/testbed/unit-test-element.ts#L57)
@@ -879,7 +879,7 @@ You will notice that `HarnessEnvironment` has a generic type parameter: `Harness
 This parameter, `E`, represents the raw element type of the environment. For example, this parameter
 is `Element` for unit test environments.
 
-你会发现 `HarnessEnvironment` 有一个泛型类型参数：`HarnessEnvironment<E>` 。这个参数 `E` 就表示环境的原始元素类型。例如，这个参数在单元测试环境下是 `Element`。
+你会发现 `HarnessEnvironment` 有一个泛型类型参数：`HarnessEnvironment<E>`。这个参数 `E` 就表示环境的原始元素类型。例如，这个参数在单元测试环境下是 `Element`。
 
 The following are the abstract methods that must be implemented:
 
@@ -911,7 +911,7 @@ require arguments to be passed. (e.g. the `loader` method on `TestbedHarnessEnvi
 `harnessForFixture`).
 
 除了实现所缺的方法之外，这个类还应该为测试作者提供一种获取 `ComponentHarness` 实例的方法。
-推荐的方法是具有一个受保护的构造函数，并提供一个名为 `loader` 的静态方法来返回一个 `HarnessLoader` 的实例。这让测试作者可以编写如下代码：`SomeHarnessEnvironment.loader().getHarness(...)`。根据特定环境的需要，该类可以提供几种不同的静态方法，或者要求传递参数。（例如， `TestbedHarnessEnvironment` 的 `loader` 方法接受了一个 `ComponentFixture`，该类还提供了另外一些名为 `documentRootLoader` 和 `harnessForFixture` 静态方法）。
+推荐的方法是具有一个受保护的构造函数，并提供一个名为 `loader` 的静态方法来返回一个 `HarnessLoader` 的实例。这让测试作者可以编写如下代码：`SomeHarnessEnvironment.loader().getHarness(...)`。根据特定环境的需要，该类可以提供几种不同的静态方法，或者要求传递参数。（例如，`TestbedHarnessEnvironment` 的 `loader` 方法接受了一个 `ComponentFixture`，该类还提供了另外一些名为 `documentRootLoader` 和 `harnessForFixture` 静态方法）。
 
 The
 [`TestbedHarnessEnvironment`](https://github.com/angular/components/blob/master/src/cdk/testing/testbed/testbed-harness-environment.ts#L20)
@@ -928,7 +928,7 @@ Angular CDK 中的 [`TestbedHarnessEnvironment`](https://github.com/angular/comp
 In order to support the `manualChangeDetection` and `parallel` APIs, your environment should install
 a handler for the auto change detection status.
 
-为了支持 `manualChangeDetection` 和 `parallel` API，你的环境应该为自动更改检测状态安装一个处理器。
+为了支持 `manualChangeDetection` 和 `parallel` API，你的环境应该为自动变更检测状态安装一个处理器。
 
 When your environment wants to start handling the auto change detection status it can call
 `handleAutoChangeDetectionStatus(handler)`. The handler function will receive a 
@@ -950,5 +950,5 @@ When your environment wants to start handling the auto change detection status i
 If your environment wants to stop handling auto change detection status it can call
 `stopHandlingAutoChangeDetectionStatus()`.
 
-如果你的环境要停止处理自动变更检测的状态，可以调用 `stopHandlingAutoChangeDetectionStatus()` 。
+如果你的环境要停止处理自动变更检测的状态，可以调用 `stopHandlingAutoChangeDetectionStatus()`。
 

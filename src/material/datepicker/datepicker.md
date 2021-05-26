@@ -187,7 +187,7 @@ the locale of the browser running the code.
 As with other types of `<input>`, the datepicker works with `@angular/forms` directives such as
 `formGroup`, `formControl`, `ngModel`, etc.
 
-像 `<input>` 的其它类型一样，日期选择器也能和 `@angular/forms` 中的指令协同工作，比如 `formGroup`、`formControl`、`ngModel` 等。 
+像 `<input>` 的其它类型一样，日期选择器也能和 `@angular/forms` 中的指令协同工作，比如 `formGroup`、`formControl`、`ngModel` 等。
 
 <!-- example(datepicker-value) -->
 
@@ -275,7 +275,7 @@ date from the calendar. The `(dateChange)` event will fire whenever the user fin
 (on `<input>` blur), or when the user chooses a date from the calendar.
 
 每当用户正在输入或正在日历中点选日期时都会触发 `(dateInput)` 事件。
-而当用户结束了输入（`<input>` 失去焦点）或在日历中选好了日期时，就会触发 `(dateChange)` 事件。
+而当用户结束了输入（`<input>` 失焦）或在日历中选好了日期时，就会触发 `(dateChange)` 事件。
 
 <!-- example(datepicker-events) -->
 
@@ -336,7 +336,7 @@ you can provide the comparison range start and end dates to the `mat-date-range-
 within the calendar, but it will change colors to indicate which dates overlap with the user's
 selected range.
 
-如果你的用户需要把他们当前正在选择的日期范围与另一个范围进行比较，你可以使用 `comparisonStart` 和 `comparisonEnd` 绑定来为 `mat-date-range-input` 提供比较范围。比较范围会在日历中静态呈现，但会改变颜色，以便指示哪些日期与用户选定的范围重叠。
+如果你的用户需要把他们当前正在选择的日期范围与另一个范围进行比较，你可以使用 `comparisonStart` 和 `comparisonEnd` 绑定来为 `mat-date-range-input` 提供比较范围。比较范围会在日历中静态渲染，但会改变颜色，以便指示哪些日期与用户选定的范围重叠。
 
 <!-- example(date-range-picker-comparison) -->
 
@@ -553,7 +553,7 @@ being parsed incorrectly. You can change the default behaviour to
 [parse dates strictly](https://momentjs.com/guides/#/parsing/strict-mode/) by providing
 the `MAT_MOMENT_DATE_ADAPTER_OPTIONS` and setting it to `strict: true`.
 
-默认情况下， `MomentDateAdapter` 会以[宽容方式](https://momentjs.com/guides/#/parsing/forgiving-mode/)解析日期。这可能导致日期被错误解析。你可以通过提供 `MAT_MOMENT_DATE_ADAPTER_OPTIONS` 并把它设置为 `strict: true` 来修改默认行为以便[严格解析日期](https://momentjs.com/guides/#/parsing/strict-mode/)。
+默认情况下，`MomentDateAdapter` 会以[宽容方式](https://momentjs.com/guides/#/parsing/forgiving-mode/)解析日期。这可能导致日期被错误解析。你可以通过提供 `MAT_MOMENT_DATE_ADAPTER_OPTIONS` 并把它设置为 `strict: true` 来修改默认行为以便[严格解析日期](https://momentjs.com/guides/#/parsing/strict-mode/)。
 
 ```ts
 @NgModule({

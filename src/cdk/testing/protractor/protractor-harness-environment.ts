@@ -88,6 +88,9 @@ export class ProtractorHarnessEnvironment extends HarnessEnvironment<ElementFind
    * Flushes change detection and async tasks captured in the Angular zone.
    * In most cases it should not be necessary to call this manually. However, there may be some edge
    * cases where it is needed to fully flush animation events.
+   *
+   * 刷新在 Angular Zone 中捕获的变更检测和异步任务。在大多数情况下，没有必要手动调用此方法。但是，在某些极端情况下，需要完全刷新动画事件。
+   *
    */
   async forceStabilize(): Promise<void> {}
 
@@ -97,23 +100,41 @@ export class ProtractorHarnessEnvironment extends HarnessEnvironment<ElementFind
     // https://github.com/angular/components/issues/17412
   }
 
-  /** Gets the root element for the document. */
+  /**
+   * Gets the root element for the document.
+   *
+   * 获取此文档的根元素。
+   *
+   */
   protected getDocumentRoot(): ElementFinder {
     return protractorElement(by.css('body'));
   }
 
-  /** Creates a `TestElement` from a raw element. */
+  /**
+   * Creates a `TestElement` from a raw element.
+   *
+   * 从原始元素创建一个 `TestElement`。
+   *
+   */
   protected createTestElement(element: ElementFinder): TestElement {
     return new ProtractorElement(element);
   }
 
-  /** Creates a `HarnessLoader` rooted at the given raw element. */
+  /**
+   * Creates a `HarnessLoader` rooted at the given raw element.
+   *
+   * 创建一个以给定的原始元素为根的 `HarnessLoader`。
+   *
+   */
   protected createEnvironment(element: ElementFinder): HarnessEnvironment<ElementFinder> {
     return new ProtractorHarnessEnvironment(element, this._options);
   }
 
   /**
    * Gets a list of all elements matching the given selector under this environment's root element.
+   *
+   * 获取此环境的根元素下与给定选择器匹配的所有元素的列表。
+   *
    */
   protected async getAllRawElements(selector: string): Promise<ElementFinder[]> {
     const elementArrayFinder = this._options.queryFn(selector, this.rawRootElement);

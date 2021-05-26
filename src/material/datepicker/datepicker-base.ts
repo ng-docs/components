@@ -595,7 +595,7 @@ export abstract class MatDatepickerBase<C extends MatDatepickerControl<D>, S,
    * Classes to be passed to the date picker panel.
    * Supports string and string array values, similar to `ngClass`.
    *
-   * 要传递给日期选择器面板的类。支持字符串和字符串数组的值，类似于 `ngClass` 。
+   * 要传递给日期选择器面板的类。支持字符串和字符串数组的值，类似于 `ngClass`。
    *
    */
   @Input()
@@ -937,7 +937,12 @@ export abstract class MatDatepickerBase<C extends MatDatepickerControl<D>, S,
     instance._actionsPortal = this._actionsPortal;
   }
 
-  /** Opens the overlay with the calendar. */
+  /**
+   * Opens the overlay with the calendar.
+   *
+   * 打开带有日历的浮层。
+   *
+   */
   private _openOverlay(): void {
     this._destroyOverlay();
 
@@ -983,7 +988,12 @@ export abstract class MatDatepickerBase<C extends MatDatepickerControl<D>, S,
     }
   }
 
-  /** Destroys the current overlay. */
+  /**
+   * Destroys the current overlay.
+   *
+   * 销毁当前浮层。
+   *
+   */
   private _destroyOverlay() {
     if (this._overlayRef) {
       this._overlayRef.dispose();
@@ -991,12 +1001,22 @@ export abstract class MatDatepickerBase<C extends MatDatepickerControl<D>, S,
     }
   }
 
-  /** Gets a position strategy that will open the calendar as a dropdown. */
+  /**
+   * Gets a position strategy that will open the calendar as a dropdown.
+   *
+   * 获取将打开日历作为下拉列表的定位策略。
+   *
+   */
   private _getDialogStrategy() {
     return this._overlay.position().global().centerHorizontally().centerVertically();
   }
 
-  /** Gets a position strategy that will open the calendar as a dropdown. */
+  /**
+   * Gets a position strategy that will open the calendar as a dropdown.
+   *
+   * 获取将打开日历作为下拉列表的定位策略。
+   *
+   */
   private _getDropdownStrategy() {
     const strategy = this._overlay.position()
       .flexibleConnectedTo(this.datepickerInput.getConnectedOverlayOrigin())
@@ -1048,7 +1068,12 @@ export abstract class MatDatepickerBase<C extends MatDatepickerControl<D>, S,
     ]);
   }
 
-  /** Gets an observable that will emit when the overlay is supposed to be closed. */
+  /**
+   * Gets an observable that will emit when the overlay is supposed to be closed.
+   *
+   * 获取一个可观察对象，它会在应该关闭浮层时会发出事件。
+   *
+   */
   private _getCloseStream(overlayRef: OverlayRef) {
     return merge(
       overlayRef.backdropClick(),

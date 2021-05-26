@@ -12,6 +12,9 @@ import {ConstructorChecksUpgradeData, TargetVersion, VersionChanges} from '@angu
  * List of class names for which the constructor signature has been changed. The new constructor
  * signature types don't need to be stored here because the signature will be determined
  * automatically through type checking.
+ *
+ * 构造函数签名已更改过的类名称的列表。不需要在这里存储新的构造函数签名类型，因为签名将通过类型检查自动确定。
+ *
  */
 export const constructorChecks: VersionChanges<ConstructorChecksUpgradeData> = {
   [TargetVersion.V12]: [

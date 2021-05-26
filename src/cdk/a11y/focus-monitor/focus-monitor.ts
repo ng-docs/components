@@ -673,7 +673,7 @@ export class FocusMonitor implements OnDestroy {
    *
    * @param event The blur event.
    *
-   * 模糊事件。
+   * 失焦事件。
    *
    * @param element The monitored element.
    *

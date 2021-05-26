@@ -44,7 +44,7 @@ export class CdkPortal extends TemplatePortal {
  *
  * @deprecated Use `CdkPortal` instead.
  *
- * 请改用 `CdkPortal` 。
+ * 请改用 `CdkPortal`。
  *
  * @breaking-change 9.0.0
  *
@@ -311,7 +311,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
  *
  * @deprecated Use `CdkPortalOutlet` instead.
  *
- * 请改用 `CdkPortalOutlet` 。
+ * 请改用 `CdkPortalOutlet`。
  *
  * @breaking-change 9.0.0
  *

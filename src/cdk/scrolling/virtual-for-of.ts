@@ -183,7 +183,7 @@ export class CdkVirtualForOf<T> implements
    * The `TrackByFunction` to use for tracking changes. The `TrackByFunction` takes the index and
    * the item and produces a value to be used as the item's identity when tracking changes.
    *
-   * `TrackByFunction` 用于跟踪变更。 `TrackByFunction` 接受索引和条目，并在跟踪更改时产生一个值作为此条目的标识。
+   * `TrackByFunction` 用于跟踪变更。`TrackByFunction` 接受索引和条目，并在跟踪更改时产生一个值作为此条目的标识。
    *
    */
   @Input()
@@ -289,16 +289,38 @@ export class CdkVirtualForOf<T> implements
   private readonly _destroyed = new Subject<void>();
 
   constructor(
-      /** The view container to add items to. */
+      /**
+       * The view container to add items to.
+       *
+       * 要添加元素的视图容器。
+       *
+       */
       private _viewContainerRef: ViewContainerRef,
-      /** The template to use when stamping out new items. */
+      /**
+       * The template to use when stamping out new items.
+       *
+       * 当生成新条目时，要使用的模板。
+       *
+       */
       private _template: TemplateRef<CdkVirtualForOfContext<T>>,
-      /** The set of available differs. */
+      /**
+       * The set of available differs.
+       *
+       * 可用差分器的集合。
+       */
       private _differs: IterableDiffers,
-      /** The strategy used to render items in the virtual scroll viewport. */
+      /**
+       * The strategy used to render items in the virtual scroll viewport.
+       *
+       * 在虚拟滚动视口内渲染条目时使用的策略。
+       */
       @Inject(_VIEW_REPEATER_STRATEGY)
       private _viewRepeater: _RecycleViewRepeaterStrategy<T, T, CdkVirtualForOfContext<T>>,
-      /** The virtual scrolling viewport that these items are being rendered in. */
+      /**
+       * The virtual scrolling viewport that these items are being rendered in.
+       *
+       * 要把这些条目渲染到的虚拟滚动视口。
+       */
       @SkipSelf() private _viewport: CdkVirtualScrollViewport,
       ngZone: NgZone) {
     this.dataStream.subscribe(data => {

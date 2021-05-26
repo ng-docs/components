@@ -23,7 +23,12 @@ export function MATERIAL_SANITY_CHECKS_FACTORY(): SanityChecks {
   return true;
 }
 
-/** Injection token that configures whether the Material sanity checks are enabled. */
+/**
+ * Injection token that configures whether the Material sanity checks are enabled.
+ *
+ * 注入令牌，用于配置是否启用 Material 的完整性检查。
+ *
+ */
 export const MATERIAL_SANITY_CHECKS = new InjectionToken<SanityChecks>('mat-sanity-checks', {
   providedIn: 'root',
   factory: MATERIAL_SANITY_CHECKS_FACTORY,
@@ -32,10 +37,18 @@ export const MATERIAL_SANITY_CHECKS = new InjectionToken<SanityChecks>('mat-sani
 /**
  * Possible sanity checks that can be enabled. If set to
  * true/false, all checks will be enabled/disabled.
+ *
+ * 可以启用可能的完整性检查。如果设置为 true / false，则将启用/禁用所有检查。
+ *
  */
 export type SanityChecks = boolean | GranularSanityChecks;
 
-/** Object that can be used to configure the sanity checks granularly. */
+/**
+ * Object that can be used to configure the sanity checks granularly.
+ *
+ * 可用于对完整性检查进行精细配置的对象。
+ *
+ */
 export interface GranularSanityChecks {
   doctype: boolean;
   theme: boolean;
@@ -46,20 +59,40 @@ export interface GranularSanityChecks {
  * Module that captures anything that should be loaded and/or run for *all* Angular Material
  * components. This includes Bidi, etc.
  *
+ * 用来捕捉那些应该为*所有* Angular Material 组件加载和/或运行的内容的模块。包括 bidi（双向文字）等
+ *
  * This module should be imported to each top-level component module (e.g., MatTabsModule).
+ *
+ * 该模块应导入到每个顶级组件模块（例如 MatTabsModule）中。
+ *
  */
 @NgModule({
   imports: [BidiModule],
   exports: [BidiModule],
 })
 export class MatCommonModule {
-  /** Whether we've done the global sanity checks (e.g. a theme is loaded, there is a doctype). */
+  /**
+   * Whether we've done the global sanity checks (e.g. a theme is loaded, there is a doctype).
+   *
+   * 是否进行了全局完整性检查（例如，已加载了主题，具有 doctype 等）。
+   *
+   */
   private _hasDoneGlobalChecks = false;
 
-  /** Configured sanity checks. */
+  /**
+   * Configured sanity checks.
+   *
+   * 已配置的完整性检查。
+   *
+   */
   private _sanityChecks: SanityChecks;
 
-  /** Used to reference correct document/window */
+  /**
+   * Used to reference correct document/window
+   *
+   * 用于引用正确的 document/window
+   *
+   */
   protected _document: Document;
 
   constructor(
@@ -84,13 +117,23 @@ export class MatCommonModule {
     }
   }
 
-  /** Use defaultView of injected document if available or fallback to global window reference */
+  /**
+   * Use defaultView of injected document if available or fallback to global window reference
+   *
+   * 使用已注入的 document 中的 defaultView（如果可用）或回退到全局 window 引用
+   *
+   */
   private _getWindow(): Window | null {
     const win = this._document.defaultView || window;
     return typeof win === 'object' && win ? win : null;
   }
 
-  /** Whether any sanity checks are enabled. */
+  /**
+   * Whether any sanity checks are enabled.
+   *
+   * 是否启用任何完整性检查。
+   *
+   */
   private _checksAreEnabled(): boolean {
     // TODO(crisbeto): we can't use `ngDevMode` here yet, because ViewEngine apps might not support
     // it. Since these checks can have performance implications and they aren't tree shakeable
@@ -99,7 +142,12 @@ export class MatCommonModule {
     return isDevMode() && !this._isTestEnv();
   }
 
-  /** Whether the code is running in tests. */
+  /**
+   * Whether the code is running in tests.
+   *
+   * 代码是否正在测试中运行。
+   *
+   */
   private _isTestEnv() {
     const window = this._getWindow() as any;
     return window && (window.__karma__ || window.jasmine);
@@ -148,7 +196,12 @@ export class MatCommonModule {
     this._document.body.removeChild(testElement);
   }
 
-  /** Checks whether the material version matches the cdk version */
+  /**
+   * Checks whether the material version matches the cdk version
+   *
+   * 检查 Material 版本是否与 cdk 版本相匹配
+   *
+   */
   private _checkCdkVersionMatch(): void {
     const isEnabled = this._checksAreEnabled() &&
       (this._sanityChecks === true || (this._sanityChecks as GranularSanityChecks).version);

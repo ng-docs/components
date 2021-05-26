@@ -19,6 +19,9 @@ import {MatCommonModule} from '../common-behaviors/common-module';
  * Shared directive to count lines inside a text area, such as a list item.
  * Line elements can be extracted with a @ContentChildren(MatLine) query, then
  * counted by checking the query list's length.
+ *
+ * 共享指令，用于对文本区域（例如列表项）内的行进行计数。可以使用 @ContentChildren(MatLine) 查询来提取 MatLine 元素，然后通过检查查询列表的长度对其进行计数。
+ *
  */
 @Directive({
   selector: '[mat-line], [matLine]',
@@ -28,6 +31,9 @@ export class MatLine {}
 
 /**
  * Helper that takes a query list of lines and sets the correct class on the host.
+ *
+ * 获取 MatLine 的查询列表并在宿主上设置正确的类的辅助程序。
+ *
  * @docs-private
  */
 export function setLines(lines: QueryList<unknown>, element: ElementRef<HTMLElement>,
@@ -47,7 +53,12 @@ export function setLines(lines: QueryList<unknown>, element: ElementRef<HTMLElem
   });
 }
 
-/** Adds or removes a class from an element. */
+/**
+ * Adds or removes a class from an element.
+ *
+ * 从元素添加或删除类。
+ *
+ */
 function setClass(element: ElementRef<HTMLElement>, className: string, isAdd: boolean): void {
   const classList = element.nativeElement.classList;
   isAdd ? classList.add(className) : classList.remove(className);

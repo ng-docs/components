@@ -99,6 +99,9 @@ export function toggleVisibility(element: HTMLElement, enable: boolean) {
 /**
  * Combines a transform string with an optional other transform
  * that exited before the base transform was applied.
+ *
+ * 将转换字符串与另一个会在应用基本转换之前退出的可选转换组合起来。
+ *
  */
 export function combineTransforms(transform: string, initialTransform?: string): string {
   return initialTransform ? (transform + ' ' + initialTransform) : transform;

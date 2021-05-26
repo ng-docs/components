@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Mapping of Material mixins that should be renamed. */
+/**
+ * Mapping of Material mixins that should be renamed.
+ *
+ * 应该重命名的 Material mixins 的映射表。
+ *
+ */
 export const materialMixins: Record<string, string> = {
   'mat-core': 'core',
   'mat-core-color': 'core-color',
@@ -46,7 +51,12 @@ export const materialMixins: Record<string, string> = {
   materialMixins[`mat-${name}-typography`] = `${name}-typography`;
 });
 
-/** Mapping of Material functions that should be renamed. */
+/**
+ * Mapping of Material functions that should be renamed.
+ *
+ * 应该重命名的 Material 函数的映射表。
+ *
+ */
 export const materialFunctions: Record<string, string> = {
   'mat-color': 'get-color-from-palette',
   'mat-contrast': 'get-contrast-color-from-palette',
@@ -62,7 +72,12 @@ export const materialFunctions: Record<string, string> = {
   'mat-font-family': 'font-family',
 };
 
-/** Mapping of Material variables that should be renamed. */
+/**
+ * Mapping of Material variables that should be renamed.
+ *
+ * 应该重命名的 Material 变量的映射表。
+ *
+ */
 export const materialVariables: Record<string, string> = {
   'mat-light-theme-background': 'light-theme-background-palette',
   'mat-dark-theme-background': 'dark-theme-background-palette',
@@ -77,7 +92,12 @@ export const materialVariables: Record<string, string> = {
   'blue-grey', 'blue-gray'
 ].forEach(name => materialVariables[`mat-${name}`] = `${name}-palette`);
 
-/** Mapping of CDK variables that should be renamed. */
+/**
+ * Mapping of CDK variables that should be renamed.
+ *
+ * 应该重命名的 CDK 变量的映射表。
+ *
+ */
 export const cdkVariables: Record<string, string> = {
   'cdk-z-index-overlay-container': 'overlay-container-z-index',
   'cdk-z-index-overlay': 'overlay-z-index',
@@ -85,7 +105,12 @@ export const cdkVariables: Record<string, string> = {
   'cdk-overlay-dark-backdrop-background': 'overlay-backdrop-color',
 };
 
-/** Mapping of CDK mixins that should be renamed. */
+/**
+ * Mapping of CDK mixins that should be renamed.
+ *
+ * 应该重命名的 CDK mixin 的映射表。
+ *
+ */
 export const cdkMixins: Record<string, string> = {
   'cdk-overlay': 'overlay',
   'cdk-a11y': 'a11y-visually-hidden',
@@ -99,6 +124,9 @@ export const cdkMixins: Record<string, string> = {
 /**
  * Material variables that have been removed from the public API
  * and which should be replaced with their values.
+ *
+ * 已从公共 API 中删除的 Material 变量，应将其替换为它们的值。
+ *
  */
 export const removedMaterialVariables: Record<string, string> = {
   // Note: there's also a usage of a variable called `$pi`, but the name is short enough that
@@ -175,6 +203,9 @@ export const removedMaterialVariables: Record<string, string> = {
  * Material variables **without a `mat-` prefix** that have been removed from the public API
  * and which should be replaced with their values. These should be migrated only when there's a
  * Material import, because their names could conflict with other variables in the user's app.
+ *
+ * **不带 `mat-` 前缀**的 Material 变量已经从公共 API 中删除，应该用它们的值来代替。仅在导入 Material 时才应该迁移它们，因为它们的名称可能与用户应用程序中的其它变量冲突。
+ *
  */
 export const unprefixedRemovedVariables: Record<string, string> = {
   'z-index-fab': '20',

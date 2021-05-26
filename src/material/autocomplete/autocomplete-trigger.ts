@@ -189,7 +189,7 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
    * Event handler for when the window is blurred. Needs to be an
    * arrow function in order to preserve the context.
    *
-   * 窗口失去焦点时的事件处理函数。需要用箭头函数才能保留上下文。
+   * 窗口失焦时的事件处理函数。需要用箭头函数才能保留上下文。
    *
    */
   private _windowBlurHandler = () => {
@@ -221,7 +221,7 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
    * `above` or `below`, the panel will always be shown above or below the trigger. no matter
    * whether it fits completely in the viewport.
    *
-   * 自动完成面板相对于触发器元素的位置。`auto` 位置会让该面板在触发器下方渲染，前提是它有足够的空间放进本视口中，否则面板就会显示在它的上方。如果位置设为 `above` 或 `below` ，则面板将始终显示在触发器的上方或下方，无论它是否完全适合本视口。
+   * 自动完成面板相对于触发器元素的位置。`auto` 位置会让该面板在触发器下方渲染，前提是它有足够的空间放进本视口中，否则面板就会显示在它的上方。如果位置设为 `above` 或 `below`，则面板将始终显示在触发器的上方或下方，无论它是否完全适合本视口。
    *
    */
   @Input('matAutocompletePosition') position: 'auto' | 'above' | 'below' = 'auto';
@@ -385,7 +385,7 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
    * A stream of actions that should close the autocomplete panel, including
    * when an option is selected, on blur, and when TAB is pressed.
    *
-   * 会导致关闭自动完成面板的一系列动作，包括当选择了某个选项时、失去焦点时，以及当按下 TAB 时。
+   * 会导致关闭自动完成面板的一系列动作，包括当选择了某个选项时、失焦时，以及当按下 TAB 时。
    *
    */
   get panelClosingActions(): Observable<MatOptionSelectionChange|null> {
@@ -874,7 +874,7 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
   /**
    * Use defaultView of injected document if available or fallback to global window reference
    *
-   * 如果可用，则使用注入文档中的 defaultView ，否则回退到全局窗口引用
+   * 如果可用，则使用注入文档中的 defaultView，否则回退到全局窗口引用
    *
    */
   private _getWindow(): Window {

@@ -14,7 +14,7 @@ File any bugs against the [angular/components repo](https://github.com/angular/c
 
 To install, run `npm install @angular/google-maps`.
 
-要安装它，请运行 `npm install @angular/google-maps` 。
+要安装它，请运行 `npm install @angular/google-maps`。
 
 ## Loading the API
 
@@ -26,7 +26,7 @@ To install, run `npm install @angular/google-maps`.
 
 - Load the [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API).
 
-  加载 [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API) 。
+  加载 [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API)。
 
 - The Google Maps JavaScript API must be loaded before the `GoogleMap` component.
 

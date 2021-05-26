@@ -11,6 +11,9 @@ export type Constructor<T> = new(...args: any[]) => T;
 
 /**
  * This is a permissive type for abstract class constructors.
+ *
+ * 这是抽象类构造函数的允许类型。
+ *
  * @docs-private
  */
 export type AbstractConstructor<T = object> = abstract new (...args: any[]) => T;

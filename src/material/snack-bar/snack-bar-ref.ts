@@ -141,6 +141,9 @@ export class MatSnackBarRef<T> {
    * 标记某个快餐栏动作被点击过。
    *
    * @deprecated Use `dismissWithAction` instead.
+   *
+   * 请改用 `dismissWithAction`。
+   *
    * @breaking-change 8.0.0
    */
   closeWithAction(): void {

@@ -135,7 +135,7 @@ export class CdkAccordionItem implements OnDestroy {
   /**
    * Whether the AccordionItem is disabled.
    *
-   * 此条目是否被禁用了。
+   * 此条目是否已禁用了。
    *
    */
   @Input()

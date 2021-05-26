@@ -22,7 +22,7 @@ export class MatChipInputHarness extends ComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a `MatChipInputHarness` that meets
    * certain criteria.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索满足一定条件 `MatChipInputHarness`
+   * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件 `MatChipInputHarness`
    *
    * @param options Options for filtering which input instances are considered a match.
    *
@@ -45,7 +45,7 @@ export class MatChipInputHarness extends ComponentHarness {
   /**
    * Whether the input is disabled.
    *
-   * 输入框是否被禁用。
+   * 输入框是否已禁用。
    *
    */
   async isDisabled(): Promise<boolean> {

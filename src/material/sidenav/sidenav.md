@@ -328,4 +328,4 @@ This error is thrown if you have more than one sidenav or drawer in a given cont
 mark the `end` sidenav with `position="end"`.
 
 如果在指定容器的同一个 `position` 有多个侧边栏或抽屉，就会抛出本错误。
-由于 `position` 属性默认为 `start`，所以出现该问题可能只是因为你忘了给 `end` 侧边栏标记上 `position="end"`。 
+由于 `position` 属性默认为 `start`，所以出现该问题可能只是因为你忘了给 `end` 侧边栏标记上 `position="end"`。

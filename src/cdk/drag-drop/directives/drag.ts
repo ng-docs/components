@@ -203,15 +203,27 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
   /**
    * Configures the place into which the preview of the item will be inserted. Can be configured
    * globally through `CDK_DROP_LIST`. Possible values:
+   *
+   * 配置项目预览的插入位置。可以通过 `CDK_DROP_LIST` 进行全局配置。可能的值有：
+   *
    * - `global` - Preview will be inserted at the bottom of the `<body>`. The advantage is that
-   * you don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain
-   * its inherited styles.
+   *   you don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain
+   *   its inherited styles.
+   *
+   *   `global` —— 预览将插入在 `<body>` 的底部。其优点是你不必担心 `overflow: hidden` 或 `z-index`，但项目不会保留它继承的样式。
+   *
    * - `parent` - Preview will be inserted into the parent of the drag item. The advantage is that
-   * inherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be
-   * visible due to `z-index`. Furthermore, the preview is going to have an effect over selectors
-   * like `:nth-child` and some flexbox configurations.
+   *   inherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be
+   *   visible due to `z-index`. Furthermore, the preview is going to have an effect over selectors
+   *   like `:nth-child` and some flexbox configurations.
+   *
+   *   `parent` —— 预览将插入到拖动项的父级中。优点是已继承的样式将被保留，但可能会被 `overflow: hidden` 裁剪，或由于 `z-index` 而变得不可见。此外，该预览将对选择器如 `:nth-child` 和一些 flexbox 配置产生影响。
+   *
    * - `ElementRef<HTMLElement> | HTMLElement` - Preview will be inserted into a specific element.
-   * Same advantages and disadvantages as `parent`.
+   *   Same advantages and disadvantages as `parent`.
+   *
+   *   `ElementRef<HTMLElement> | HTMLElement` 预览将插入到特定元素中。具有和 `parent` 一样的优点和缺点。
+   *
    */
   @Input('cdkDragPreviewContainer') previewContainer: PreviewContainer;
 
@@ -292,9 +304,19 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
       });
 
   constructor(
-      /** Element that the draggable is attached to. */
+      /**
+       * Element that the draggable is attached to.
+       *
+       * 此可拖动对象要附着到的元素。
+       *
+       */
       public element: ElementRef<HTMLElement>,
-      /** Droppable container that the draggable is a part of. */
+      /**
+       * Droppable container that the draggable is a part of.
+       *
+       * 此可拖动对象所属的可拖动容器。
+       *
+       */
       @Inject(CDK_DROP_LIST) @Optional() @SkipSelf() public dropContainer: CdkDropList,
       /**
        * @deprecated `_document` parameter no longer being used and will be removed.

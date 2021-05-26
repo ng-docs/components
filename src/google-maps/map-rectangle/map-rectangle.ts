@@ -19,7 +19,12 @@ import {MapEventManager} from '../map-event-manager';
 /**
  * Angular component that renders a Google Maps Rectangle via the Google Maps JavaScript API.
  *
+ * 通过 Google Maps JavaScript API 渲染 Google Maps Rectangle 的 Angular 组件。
+ *
  * See developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle
+ *
+ * 参见 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle
+ *
  */
 @Directive({
   selector: 'map-rectangle',
@@ -37,7 +42,12 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * The underlying google.maps.Rectangle object.
    *
+   * 基础 google.maps.Rectangle 对象。
+   *
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle
+   *
+   * 参见 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle
+   *
    */
   rectangle?: google.maps.Rectangle;
 
@@ -54,12 +64,18 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.boundsChanged
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.boundsChanged
+   *
    */ @Output() readonly boundsChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('bounds_changed');
 
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.click
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.click
+   *
    */
   @Output() readonly rectangleClick: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('click');
@@ -67,6 +83,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.dblclick
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.dblclick
+   *
    */
   @Output() readonly rectangleDblclick: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dblclick');
@@ -74,6 +93,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.drag
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.drag
+   *
    */
   @Output() readonly rectangleDrag: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('drag');
@@ -81,6 +103,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.dragend
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.dragend
+   *
    */
   @Output() readonly rectangleDragend: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dragend');
@@ -88,6 +113,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.dragstart
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.dragstart
+   *
    */
   @Output() readonly rectangleDragstart: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dragstart');
@@ -95,6 +123,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.mousedown
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.mousedown
+   *
    */
   @Output() readonly rectangleMousedown: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mousedown');
@@ -102,6 +133,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.mousemove
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.mousemove
+   *
    */
   @Output() readonly rectangleMousemove: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mousemove');
@@ -109,6 +143,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.mouseout
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.mouseout
+   *
    */
   @Output() readonly rectangleMouseout: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseout');
@@ -116,6 +153,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.mouseover
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.mouseover
+   *
    */
   @Output() readonly rectangleMouseover: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseover');
@@ -123,6 +163,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.mouseup
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.mouseup
+   *
    */
   @Output() readonly rectangleMouseup: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseup');
@@ -130,6 +173,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.rightclick
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.rightclick
+   *
    */
   @Output() readonly rectangleRightclick: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('rightclick');
@@ -167,6 +213,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.getBounds
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.getBounds
+   *
    */
   getBounds(): google.maps.LatLngBounds {
     this._assertInitialized();
@@ -176,6 +225,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.getDraggable
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.getDraggable
+   *
    */
   getDraggable(): boolean {
     this._assertInitialized();
@@ -185,6 +237,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.getEditable
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.getEditable
+   *
    */
   getEditable(): boolean {
     this._assertInitialized();
@@ -194,6 +249,9 @@ export class MapRectangle implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.getVisible
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle.getVisible
+   *
    */
   getVisible(): boolean {
     this._assertInitialized();

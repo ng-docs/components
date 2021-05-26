@@ -37,7 +37,7 @@ use the desired font, or to an alias previously registered with
 
 默认情况下，`<mat-icon>` 需要 [Material 字体图标](http://google.github.io/material-design-icons/#icon-font-for-the-web)。
 （你可能还要在 HTML 中加载该字体及其 CSS 文件，像链接中所描述的那样）。
-你可以将输入属性 `fontSet` 设置为要应用的 CSS 所依赖的字体，也可以设置为以前通过 `MatIconRegistry.registerFontClassAlias` 注册的某个别名。 
+你可以将输入属性 `fontSet` 设置为要应用的 CSS 所依赖的字体，也可以设置为以前通过 `MatIconRegistry.registerFontClassAlias` 注册的某个别名。
 
 ### Font icons with CSS
 
@@ -76,7 +76,7 @@ change the color by setting the `color` style on the `mat-icon` element.
 In order to guard against XSS vulnerabilities, any SVG URLs and HTML strings passed to the
 `MatIconRegistry` must be marked as trusted by using Angular's `DomSanitizer` service.
 
-为了防范 XSS 漏洞， 传给 `MatIconRegistry` 的 SVG URL 和 HTML 字符串都必须使用 Angular 的 `DomSanitizer` 服务标记为可信的。
+为了防范 XSS 漏洞，传给 `MatIconRegistry` 的 SVG URL 和 HTML 字符串都必须使用 Angular 的 `DomSanitizer` 服务标记为可信的。
 
 `MatIconRegistry` fetches all remote SVG icons via Angular's `HttpClient` service. If you haven't
 included [`HttpClientModule` from the `@angular/common/http` package](https://angular.io/guide/http)
@@ -213,7 +213,7 @@ screen-readers. The most straightforward way to do this is to
 1. Add a `<span>` as an adjacent sibling to the `<mat-icon>` element with text that conveys the same
 information as the icon.
 
-   给 `<mat-icon>` 元素添加一个相邻的兄弟 `<span>`，用它传达与图标相同的信息。 
+   给 `<mat-icon>` 元素添加一个相邻的兄弟 `<span>`，用它传达与图标相同的信息。
 
 2. Add the `cdk-visually-hidden` class to the `<span>`. This will make the message invisible
 on-screen but still available to screen-reader users.

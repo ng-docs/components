@@ -25,7 +25,13 @@ export class MatInputHarness extends MatFormFieldControlHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatInputHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatInputHarness`。
+   *
    * @param options Options for filtering which input instances are considered a match.
+   *
+   * 用于过滤哪些输入实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -43,7 +49,7 @@ export class MatInputHarness extends MatFormFieldControlHarness {
   /**
    * Whether the input is disabled.
    *
-   * 输入框是否被禁用。
+   * 此输入框是否已禁用。
    *
    */
   async isDisabled(): Promise<boolean> {
@@ -53,14 +59,19 @@ export class MatInputHarness extends MatFormFieldControlHarness {
   /**
    * Whether the input is required.
    *
-   * 输入框是否为必需的。
+   * 此输入框是否为必需的。
    *
    */
   async isRequired(): Promise<boolean> {
     return (await this.host()).getProperty('required')!;
   }
 
-  /** Whether the input is readonly. */
+  /**
+   * Whether the input is readonly.
+   *
+   * 此输入框是否为只读。
+   *
+   */
   async isReadonly(): Promise<boolean> {
     return (await this.host()).getProperty('readOnly')!;
   }
@@ -68,7 +79,7 @@ export class MatInputHarness extends MatFormFieldControlHarness {
   /**
    * Gets the value of the input.
    *
-   * 获取输入框的值。
+   * 获取此输入框的值。
    *
    */
   async getValue(): Promise<string> {
@@ -76,7 +87,12 @@ export class MatInputHarness extends MatFormFieldControlHarness {
     return (await (await this.host()).getProperty('value'))!;
   }
 
-  /** Gets the name of the input. */
+  /**
+   * Gets the name of the input.
+   *
+   * 获取此输入框的名称。
+   *
+   */
   async getName(): Promise<string> {
     // The "name" property of the native input is never undefined.
     return (await (await this.host()).getProperty('name'))!;
@@ -85,6 +101,9 @@ export class MatInputHarness extends MatFormFieldControlHarness {
   /**
    * Gets the type of the input. Returns "textarea" if the input is
    * a textarea.
+   *
+   * 获取此输入框的类型。如果此输入框是一个 textarea，则返回 “textarea”。
+   *
    */
   async getType(): Promise<string> {
     // The "type" property of the native input is never undefined.
@@ -106,7 +125,12 @@ export class MatInputHarness extends MatFormFieldControlHarness {
     return nativePlaceholder || fallback || '';
   }
 
-  /** Gets the id of the input. */
+  /**
+   * Gets the id of the input.
+   *
+   * 获取此输入框的 ID。
+   *
+   */
   async getId(): Promise<string> {
     // The input directive always assigns a unique id to the input in
     // case no id has been explicitly specified.
@@ -116,6 +140,9 @@ export class MatInputHarness extends MatFormFieldControlHarness {
   /**
    * Focuses the input and returns a promise that indicates when the
    * action is complete.
+   *
+   * 让此输入框获得焦点并返回一个 Promise，指示操作何时完成。
+   *
    */
   async focus(): Promise<void> {
     return (await this.host()).focus();
@@ -124,6 +151,9 @@ export class MatInputHarness extends MatFormFieldControlHarness {
   /**
    * Blurs the input and returns a promise that indicates when the
    * action is complete.
+   *
+   * 让此输入框失焦并返回一个 Promise，指示操作何时完成。
+   *
    */
   async blur(): Promise<void> {
     return (await this.host()).blur();
@@ -132,7 +162,7 @@ export class MatInputHarness extends MatFormFieldControlHarness {
   /**
    * Whether the input is focused.
    *
-   * 输入框是否拥有焦点。
+   * 此输入框是否拥有焦点。
    *
    */
   async isFocused(): Promise<boolean> {
@@ -142,6 +172,9 @@ export class MatInputHarness extends MatFormFieldControlHarness {
   /**
    * Sets the value of the input. The value will be set by simulating
    * keypresses that correspond to the given value.
+   *
+   * 设置此输入框的值。该值将通过模拟与给定值相对应的按键来设置。
+   *
    */
   async setValue(newValue: string): Promise<void> {
     const inputEl = await this.host();

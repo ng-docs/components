@@ -54,7 +54,12 @@ export class Overlay {
   private _appRef: ApplicationRef;
 
   constructor(
-              /** Scrolling strategies that can be used when creating an overlay. */
+              /**
+               * Scrolling strategies that can be used when creating an overlay.
+               *
+               * 创建浮层时要用到的滚动策略。
+               *
+               */
               public scrollStrategies: ScrollStrategyOptions,
               private _overlayContainer: OverlayContainer,
               private _componentFactoryResolver: ComponentFactoryResolver,

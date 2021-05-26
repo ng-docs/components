@@ -22,6 +22,9 @@ import {
 /**
  * Enables the recycle view repeater strategy, which reduces rendering latency. Not compatible with
  * tables that animate rows.
+ *
+ * 启用复写器的视图回收策略，从而减少渲染延迟。与为行设置动画的表格不兼容。
+ *
  */
 @Directive({
   selector: 'mat-table[recycleRows], table[mat-table][recycleRows]',

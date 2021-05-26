@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Gets whether an event could be a faked `mousedown` event dispatched by a screen reader. */
+/**
+ * Gets whether an event could be a faked `mousedown` event dispatched by a screen reader.
+ *
+ * 获取某个事件是否可能是屏幕阅读器派发的伪 `mousedown` 事件。
+ *
+ */
 export function isFakeMousedownFromScreenReader(event: MouseEvent): boolean {
   // We can typically distinguish between these faked mousedown events and real mousedown events
   // using the "buttons" property. While real mousedowns will indicate the mouse button that was
@@ -15,7 +20,12 @@ export function isFakeMousedownFromScreenReader(event: MouseEvent): boolean {
   return event.buttons === 0;
 }
 
-/** Gets whether an event could be a faked `touchstart` event dispatched by a screen reader. */
+/**
+ * Gets whether an event could be a faked `touchstart` event dispatched by a screen reader.
+ *
+ * 获取某个事件是否可能是屏幕阅读器派发的伪 `touchstart` 事件。
+ *
+ */
 export function isFakeTouchstartFromScreenReader(event: TouchEvent): boolean {
   const touch: Touch | undefined = (event.touches && event.touches[0]) ||
                                    (event.changedTouches && event.changedTouches[0]);

@@ -58,7 +58,7 @@ logic provided by Angular Core.
 
 Finally, the table uses the list of operations and manipulates the rows through add/remove/move operations.
 
-最后，该表格会根据这个操作列表，通过添加/删除/移动操作来操纵这些行。
+最后，该表格会根据这个动作列表，通过添加/删除/移动操作来操纵这些行。
 
 ## Caching `RenderRow` objects
 

@@ -23,7 +23,12 @@ export interface MatSlideToggleDefaultOptions {
    */
   disableToggleValue?: boolean;
 
-  /** Default color for slide toggles. */
+  /**
+   * Default color for slide toggles.
+   *
+   * 滑块开关的默认颜色。
+   *
+   */
   color?: ThemePalette;
 }
 

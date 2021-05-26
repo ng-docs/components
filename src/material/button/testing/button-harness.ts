@@ -38,7 +38,7 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a `MatButtonHarness` that meets
    * certain criteria.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索符合条件 `MatButtonHarness`
+   * 获取一个 `HarnessPredicate`，它可以用来搜索符合条件 `MatButtonHarness`
    *
    * @param options Options for filtering which button instances are considered a match.
    *
@@ -90,7 +90,7 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
   /**
    * Whether the button is disabled.
    *
-   * 该按钮是否被禁用。
+   * 该按钮是否已禁用。
    *
    */
   async isDisabled(): Promise<boolean> {
@@ -121,7 +121,7 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
   /**
    * Blurs the button.
    *
-   * 让此按钮失去焦点。
+   * 让此按钮失焦。
    *
    */
   async blur(): Promise<void> {

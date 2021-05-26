@@ -29,7 +29,7 @@ export class MatChipHarness extends ComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a `MatChipHarness` that meets
    * certain criteria.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索满足一定条件 `MatChipHarness`
+   * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件 `MatChipHarness`
    *
    * @param options Options for filtering which chip instances are considered a match.
    *
@@ -65,6 +65,9 @@ export class MatChipHarness extends ComponentHarness {
    * 纸片是否被选定。
    *
    * @deprecated Use `MatChipOptionHarness.isSelected` instead.
+   *
+   * 请改用 `MatChipOptionHarness.isSelected`。
+   *
    * @breaking-change 12.0.0
    */
   async isSelected(): Promise<boolean> {
@@ -74,7 +77,7 @@ export class MatChipHarness extends ComponentHarness {
   /**
    * Whether the chip is disabled.
    *
-   * 纸片是否被禁用了。
+   * 纸片是否已禁用了。
    *
    */
   async isDisabled(): Promise<boolean> {
@@ -87,6 +90,9 @@ export class MatChipHarness extends ComponentHarness {
    * 选定指定的纸片。仅当它可选时才适用。
    *
    * @deprecated Use `MatChipOptionHarness.select` instead.
+   *
+   * 请改用 `MatChipOptionHarness.select`。
+   *
    * @breaking-change 12.0.0
    */
   async select(): Promise<void> {
@@ -101,6 +107,9 @@ export class MatChipHarness extends ComponentHarness {
    * 取消选定指定的纸片。仅当它可选时才适用。
    *
    * @deprecated Use `MatChipOptionHarness.deselect` instead.
+   *
+   * 请改用 `MatChipOptionHarness.deselect`。
+   *
    * @breaking-change 12.0.0
    */
   async deselect(): Promise<void> {
@@ -115,6 +124,9 @@ export class MatChipHarness extends ComponentHarness {
    * 切换指定纸片的选定状态。仅当它可选时才适用。
    *
    * @deprecated Use `MatChipOptionHarness.toggle` instead.
+   *
+   * 请改用 `MatChipOptionHarness.toggle`。
+   *
    * @breaking-change 12.0.0
    */
   async toggle(): Promise<void> {

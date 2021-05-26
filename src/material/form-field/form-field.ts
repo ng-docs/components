@@ -303,7 +303,7 @@ export class MatFormField extends _MatFormFieldMixinBase
    * the form field now supports both floating labels and placeholders. Therefore in the non-legacy
    * appearances the `never` option has been disabled in favor of just using the placeholder.
    *
-   * 注意：只有旧版外观支持 `never` 选项。 `never` 原本添加为让浮动标签模仿标准输入占位符行为的方法。但是，表单字段现在同时支持浮动标签和占位符。因此，在非遗留应用的外观中，只为了作为占位符使用的 `never` 选项已被禁用。
+   * 注意：只有旧版外观支持 `never` 选项。`never` 原本添加为让浮动标签模仿标准输入占位符行为的方法。但是，表单字段现在同时支持浮动标签和占位符。因此，在非遗留应用的外观中，只为了作为占位符使用的 `never` 选项已被禁用。
    *
    */
   @Input()
@@ -384,7 +384,7 @@ export class MatFormField extends _MatFormFieldMixinBase
   /**
    * Gets the id of the label element. If no label is present, returns `null`.
    *
-   * 获取 label 元素的 id。如果没有 label，则返回 `null` 。
+   * 获取 label 元素的 id。如果没有 label，则返回 `null`。
    *
    */
   getLabelId(): string|null {

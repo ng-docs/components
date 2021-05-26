@@ -16,7 +16,7 @@ In this mode, the `value` of the `mat-button-toggle-group` will reflect the valu
 button and `ngModel` is supported.
 
 默认情况下，`mat-button-toggle-group` 的表现很像单选按钮组 —— 只能选中一个元素。
-在这种模式下，`mat-button-toggle-group` 的 `value` 表示当前选中的按钮，还支持 `ngModel`。 
+在这种模式下，`mat-button-toggle-group` 的 `value` 表示当前选中的按钮，还支持 `ngModel`。
 
 Adding the `multiple` attribute allows multiple items to be selected (checkbox behavior). In this
 mode the values of the toggles are not used, the `mat-button-toggle-group` does not have a value, 
@@ -34,7 +34,7 @@ latest Material Design guidelines. If you want to, you can switch back to the ap
 following the previous Material Design spec by using the `appearance` input. The `appearance` can
 be configured globally using the `MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS` injection token.
 
-默认情况下，`mat-button-toggle-group` 和 `mat-button-toggle` 的外观将遵循最新的 Material 设计准则。如果需要，也可以使用输入属性 `appearance` 切换回上一版 Material Design 规范的外观。可以使用 `MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS` 注入令牌来全局配置 `appearance` 。
+默认情况下，`mat-button-toggle-group` 和 `mat-button-toggle` 的外观将遵循最新的 Material 设计准则。如果需要，也可以使用输入属性 `appearance` 切换回上一版 Material Design 规范的外观。可以使用 `MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS` 注入令牌来全局配置 `appearance`。
 
 <!-- example(button-toggle-appearance) -->
 
@@ -55,7 +55,7 @@ their toggled state. The button-toggle-group surrounding the individual buttons 
 For button toggles containing only icons, each button toggle should be given a meaningful label via
 `aria-label` or `aria-labelledby`.
 
-对于只包含图标的按钮开关，每个按钮开关都应该通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。 
+对于只包含图标的按钮开关，每个按钮开关都应该通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。
 
 For button toggle groups, each group should be given a meaningful label via `aria-label` or
 `aria-labelledby`.

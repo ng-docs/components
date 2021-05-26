@@ -140,7 +140,7 @@ export class GlobalPositionStrategy implements PositionStrategy {
    * 浮层的新宽度
    * @deprecated Pass the `width` through the `OverlayConfig`.
    *
-   * 通过 `OverlayConfig` 传递 `width` 。
+   * 通过 `OverlayConfig` 传递 `width`。
    *
    * @breaking-change 8.0.0
    */
@@ -164,7 +164,7 @@ export class GlobalPositionStrategy implements PositionStrategy {
    * 浮层的新高度
    * @deprecated Pass the `height` through the `OverlayConfig`.
    *
-   * 通过 `OverlayConfig` 传递 `height` 。
+   * 通过 `OverlayConfig` 传递 `height`。
    *
    * @breaking-change 8.0.0
    */

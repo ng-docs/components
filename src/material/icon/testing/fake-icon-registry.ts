@@ -17,6 +17,9 @@ type PublicApi<T> = {
 /**
  * A null icon registry that must be imported to allow disabling of custom
  * icons.
+ *
+ * 一个空的图标注册表，必须导入它才能禁用自定义图标。
+ *
  */
 @Injectable()
 export class FakeMatIconRegistry implements PublicApi<MatIconRegistry>, OnDestroy {
@@ -95,7 +98,12 @@ export class FakeMatIconRegistry implements PublicApi<MatIconRegistry>, OnDestro
   }
 }
 
-/** Import this module in tests to install the null icon registry. */
+/**
+ * Import this module in tests to install the null icon registry.
+ *
+ * 在测试中导入此模块以安装空的图标注册表。
+ *
+ */
 @NgModule({
   providers: [{provide: MatIconRegistry, useClass: FakeMatIconRegistry}]
 })

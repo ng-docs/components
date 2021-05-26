@@ -259,7 +259,7 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   /**
    * Handles keydown events on the calendar body when calendar is in year view.
    *
-   * 当日历显示年视图时，处理日历主体上的 keydown 事件。
+   * 当日历显示年份视图时，处理日历主体上的 keydown 事件。
    *
    */
   _handleCalendarBodyKeydown(event: KeyboardEvent): void {

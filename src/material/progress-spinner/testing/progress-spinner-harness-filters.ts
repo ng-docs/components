@@ -8,5 +8,10 @@
 
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/** A set of criteria that can be used to filter a list of `MatProgressSpinnerHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatProgressSpinnerHarness` instances.
+ *
+ * 一组可用于过滤 `MatProgressSpinnerHarness` 实例列表的条件。
+ *
+ */
 export interface ProgressSpinnerHarnessFilters extends BaseHarnessFilters {}

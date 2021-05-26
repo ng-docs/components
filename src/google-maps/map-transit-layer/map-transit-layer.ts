@@ -16,7 +16,12 @@ import {MapBaseLayer} from '../map-base-layer';
 /**
  * Angular component that renders a Google Maps Transit Layer via the Google Maps JavaScript API.
  *
+ * 通过 Google Maps JavaScript API 渲染 Google Maps Transit 图层的 Angular 组件。
+ *
  * See developers.google.com/maps/documentation/javascript/reference/map#TransitLayer
+ *
+ * 请参阅 developers.google.com/maps/documentation/javascript/reference/map#TransitLayer
+ *
  */
 @Directive({
   selector: 'map-transit-layer',
@@ -26,7 +31,12 @@ export class MapTransitLayer extends MapBaseLayer {
   /**
    * The underlying google.maps.TransitLayer object.
    *
+   * 基础 google.maps.TransitLayer 对象。
+   *
    * See developers.google.com/maps/documentation/javascript/reference/map#TransitLayer
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/map#TransitLayer
+   *
    */
   transitLayer?: google.maps.TransitLayer;
 

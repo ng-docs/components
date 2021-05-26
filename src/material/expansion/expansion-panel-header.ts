@@ -143,7 +143,7 @@ export class MatExpansionPanelHeader extends _MatExpansionPanelHeaderMixinBase i
   /**
    * Whether the associated panel is disabled. Implemented as a part of `FocusableOption`.
    *
-   * 相关面板是否被禁用。实现为 `FocusableOption` 的一部分。
+   * 相关面板是否已禁用。实现为 `FocusableOption` 的一部分。
    *
    * @docs-private
    */

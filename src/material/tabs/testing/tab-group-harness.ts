@@ -17,13 +17,24 @@ import {MatTabHarness} from './tab-harness';
  *
  */
 export class MatTabGroupHarness extends ComponentHarness {
-  /** The selector for the host element of a `MatTabGroup` instance. */
+  /**
+   * The selector for the host element of a `MatTabGroup` instance.
+   *
+   * `MatTabGroup` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-tab-group';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatTabGroupHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatTabGroupHarness`。
+   *
    * @param options Options for filtering which tab group instances are considered a match.
+   *
+   * 用于过滤哪些选项卡组实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -38,13 +49,24 @@ export class MatTabGroupHarness extends ComponentHarness {
 
   /**
    * Gets the list of tabs in the tab group.
+   *
+   * 获取此选项卡组中的选项卡列表。
+   *
    * @param filter Optionally filters which tabs are included.
+   *
+   * （可选）决定应该包括哪些选项卡的可选过滤器。
+   *
    */
   async getTabs(filter: TabHarnessFilters = {}): Promise<MatTabHarness[]> {
     return this.locatorForAll(MatTabHarness.with(filter))();
   }
 
-  /** Gets the selected tab of the tab group. */
+  /**
+   * Gets the selected tab of the tab group.
+   *
+   * 获取此选项卡组中的已选选项卡。
+   *
+   */
   async getSelectedTab(): Promise<MatTabHarness> {
     const tabs = await this.getTabs();
     const isSelected = await parallel(() => tabs.map(t => t.isSelected()));
@@ -58,8 +80,14 @@ export class MatTabGroupHarness extends ComponentHarness {
 
   /**
    * Selects a tab in this tab group.
+   *
+   * 在此选项卡组中选择一个选项卡。
+   *
    * @param filter An optional filter to apply to the child tabs. The first tab matching the filter
    *     will be selected.
+   *
+   * 应用于子选项卡的可选过滤器。将选择与过滤器匹配的第一个标签。
+   *
    */
   async selectTab(filter: TabHarnessFilters = {}): Promise<void> {
     const tabs = await this.getTabs(filter);

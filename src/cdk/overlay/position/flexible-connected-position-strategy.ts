@@ -1671,7 +1671,7 @@ function getPixelValue(input: number|string|null|undefined): number|null {
  * deviations in the `ClientRect` returned by the browser (e.g. when zoomed in with a percentage
  * size, see #21350).
  *
- * 获取元素边界 `ClientRect` 的版本，其中所有值均向下舍入到最接近的像素。 `ClientRect` 可能存在亚像素偏差的情况（例如，以百分比大小放大时，请参阅＃21350）。
+ * 获取元素边界 `ClientRect` 的版本，其中所有值均向下舍入到最接近的像素。`ClientRect` 可能存在亚像素偏差的情况（例如，以百分比大小放大时，请参阅＃21350）。
  *
  */
 function getRoundedBoundingClientRect(clientRect: ClientRect): ClientRect {

@@ -4,7 +4,7 @@
 See [the W3C's WAI-ARIA](https://www.w3.org/TR/wai-aria/states_and_properties#aria-live)
 for more information on aria-live regions.
 
-`LiveAnnouncer` 用于通过 `aria-live` 区域为屏幕阅读器用户播报信息。关于 `aria-live` 区域的详细信息，请参见 [W3C 的 WAI-ARIA](https://www.w3.org/TR/wai-aria/states_and_properties#aria-live) 。
+`LiveAnnouncer` 用于通过 `aria-live` 区域为屏幕阅读器用户播报信息。关于 `aria-live` 区域的详细信息，请参见 [W3C 的 WAI-ARIA](https://www.w3.org/TR/wai-aria/states_and_properties#aria-live)。
 
 #### Methods
 

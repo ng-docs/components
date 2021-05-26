@@ -103,23 +103,23 @@ by the directives:
 | -------- | ----------- |
 | 选择器 | 说明 |
 | `.cdk-drop-list` | Corresponds to the `cdkDropList` container. |
-| `.cdk-drop-list` | 对应于 `cdkDropList` 容器。 |
+| `.cdk-drop-list` | 对应于 `cdkDropList` 容器。|
 | `.cdk-drag` | Corresponds to a `cdkDrag` instance. |
-| `.cdk-drag` | 对应于 `cdkDrag` 实例。 |
+| `.cdk-drag` | 对应于 `cdkDrag` 实例。|
 | `.cdk-drag-disabled` | Class that is added to a disabled `cdkDrag`. |
-| `.cdk-drag-disabled` | 要添加到已禁用的 `cdkDrag` 上的类。 |
+| `.cdk-drag-disabled` | 要添加到已禁用的 `cdkDrag` 上的类。|
 | `.cdk-drag-handle` | Class that is added to the host element of the cdkDragHandle directive. |
-| `.cdk-drag-handle` | 要添加到 cdkDragHandle 指令的宿主元素上的类。 |
+| `.cdk-drag-handle` | 要添加到 cdkDragHandle 指令的宿主元素上的类。|
 | `.cdk-drag-preview` | This is the element that will be rendered next to the user's cursor as they're dragging an item in a sortable list. By default the element looks exactly like the element that is being dragged. |
-| `.cdk-drag-preview` | 这是当用户在可排序列表中拖动一个条目时，要渲染在用户光标附近的元素。默认情况下，该元素看上去和被拖动的元素完全一样。 |
+| `.cdk-drag-preview` | 这是当用户在可排序列表中拖动一个条目时，要渲染在用户光标附近的元素。默认情况下，该元素看上去和被拖动的元素完全一样。|
 | `.cdk-drag-placeholder` | This is element that will be shown instead of the real element as it's being dragged inside a `cdkDropList`. By default this will look exactly like the element that is being sorted. |
-| `.cdk-drag-placeholder` | 这是一个在拖入 `cdkDropList` 时要显示的元素，但不是真正的元素。默认情况下，它看上去和要排序的元素完全一样。 |
+| `.cdk-drag-placeholder` | 这是一个在拖入 `cdkDropList` 时要显示的元素，但不是真正的元素。默认情况下，它看上去和要排序的元素完全一样。|
 | `.cdk-drop-list-dragging` | A class that is added to `cdkDropList` while the user is dragging an item. |
-| `.cdk-drop-list-dragging` | 当用户拖动条目时，添加到 `cdkDropList` 上的类。 |
+| `.cdk-drop-list-dragging` | 当用户拖动条目时，添加到 `cdkDropList` 上的类。|
 | `.cdk-drop-list-disabled` | A class that is added to `cdkDropList` when it is disabled. |
-| `.cdk-drop-list-disabled` | 当 `cdkDropList` 禁用时添加的一个类。 |
+| `.cdk-drop-list-disabled` | 当 `cdkDropList` 禁用时添加的一个类。|
 | `.cdk-drop-list-receiving` | A class that is added to `cdkDropList` when it can receive an item that is being dragged inside a connected drop list. |
-| `.cdk-drop-list-receiving` | 当 `cdkDropList` 可以接受某个拖动进关联拖放列表时，添加到 `cdkDropList` 上的类。 |
+| `.cdk-drop-list-receiving` | 当 `cdkDropList` 可以接受某个拖动进关联拖放列表时，添加到 `cdkDropList` 上的类。|
 
 ### Animations
 
@@ -281,7 +281,7 @@ If you want more fine-grained control over which items can be dropped, you can u
 new container. Depending on whether the predicate returns `true` or `false`, the item may or may not
 be allowed into the new container.
 
-默认情况下，一个容器中的所有 `cdkDrag` 项都可以移动到另一个相连的容器中。如果你想对可拖放的条目进行更精细的控制，你可以使用 `cdkDropListEnterPredicate` ，它会在条目即将进入新容器时调用。根据它是返回的是 `true` 还是 `false`，可以允许或不允许该条目进入新容器。
+默认情况下，一个容器中的所有 `cdkDrag` 项都可以移动到另一个相连的容器中。如果你想对可拖放的条目进行更精细的控制，你可以使用 `cdkDropListEnterPredicate`，它会在条目即将进入新容器时调用。根据它是返回的是 `true` 还是 `false`，可以允许或不允许该条目进入新容器。
 
 <!-- example(cdk-drag-drop-enter-predicate) -->
 
@@ -323,7 +323,7 @@ cases like these you can delay the dragging sequence using the `cdkDragStartDela
 will wait for the user to hold down their pointer for the specified number of milliseconds before
 moving the element.
 
-默认情况下，只要用户把指针放在 `cdkDrag` ，就会启动拖动序列。这种对于触控设备上的全屏可拖动元素等情况可能并不理想，因为用户在滚动页面时可能会意外触发拖动。对于这类情况，你可以使用输入属性 `cdkDragStartDelay` 来延迟拖动，它会先等待用户按住指定的毫秒数之后才开始移动此元素。
+默认情况下，只要用户把指针放在 `cdkDrag`，就会启动拖动序列。这种对于触控设备上的全屏可拖动元素等情况可能并不理想，因为用户在滚动页面时可能会意外触发拖动。对于这类情况，你可以使用输入属性 `cdkDragStartDelay` 来延迟拖动，它会先等待用户按住指定的毫秒数之后才开始移动此元素。
 
 <!-- example(cdk-drag-drop-delay) -->
 
@@ -349,6 +349,6 @@ this behavior by setting a `cdkDropListSortPredicate`. The predicate function wi
 whenever an item is about to be moved into a new index. If the predicate returns `true`, the
 item will be moved into the new index, otherwise it will keep its current position.
 
-默认情况下，`cdkDrag` 的条目可以放到 `cdkDropList` 中的任意位置（序号）上。你可以通过设置 `cdkDropListSortPredicate` 来改变这种行为。每当一个条目要移到一个新的序号上时，就会调用一个谓词函数。如果该谓词返回 `true` ，则该项将被移入新序号，否则会保持当前位置。
+默认情况下，`cdkDrag` 的条目可以放到 `cdkDropList` 中的任意位置（序号）上。你可以通过设置 `cdkDropListSortPredicate` 来改变这种行为。每当一个条目要移到一个新的序号上时，就会调用一个谓词函数。如果该谓词返回 `true`，则该项将被移入新序号，否则会保持当前位置。
 
 <!-- example(cdk-drag-drop-sort-predicate) -->

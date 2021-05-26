@@ -23,7 +23,7 @@
  * Destroy must be called when no longer in use, regardless of whether `copy` is
  * called.
  *
- * 无论是否调用 `copy` ，都必须在不再使用时调用其 Destroy。
+ * 无论是否调用 `copy`，都必须在不再使用时调用其 Destroy。
  *
  */
 export class PendingCopy {

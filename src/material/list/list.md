@@ -262,4 +262,4 @@ accessibility treatment based on the specific workflow of your application.
 If the list is used to present a list of non-interactive content items, then the list element should
 be given `role="list"` and each list item should be given `role="listitem"`.
 
-如果列表组件用于呈现非交互式内容项的列表，那么列表元素应该带有 `role="list"` 属性，并且每个列表条目都应该带有 `role="listitem"` 属性。
+如果列表组件用于渲染非交互式内容项的列表，那么列表元素应该带有 `role="list"` 属性，并且每个列表条目都应该带有 `role="listitem"` 属性。

@@ -12,7 +12,7 @@ This component provides a simple angular wrapper around the embed [YouTube playe
 
 To install, run `npm install @angular/youtube-player`.
 
-要安装它，请运行 `npm install @angular/youtube-player` 。
+要安装它，请运行 `npm install @angular/youtube-player`。
 
 ## Usage
 

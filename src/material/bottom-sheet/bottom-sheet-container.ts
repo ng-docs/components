@@ -333,7 +333,12 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
     }
   }
 
-  /** Gets the currently-focused element on the page. */
+  /**
+   * Gets the currently-focused element on the page.
+   *
+   * 获取页面上当前具有焦点的元素。
+   *
+   */
   private _getActiveElement(): HTMLElement | null {
     // If the `activeElement` is inside a shadow root, `document.activeElement` will
     // point to the shadow root so we have to descend into it ourselves.

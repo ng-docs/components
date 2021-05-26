@@ -100,7 +100,7 @@ export class TaskStateZoneInterceptor {
    * Sets up the custom task state Zone interceptor in the  `ProxyZone`. Throws if
    * no `ProxyZone` could be found.
    *
-   * 在 `ProxyZone` 中设置自定义任务状态区域拦截器。 `ProxyZone` 抛出该异常。
+   * 在 `ProxyZone` 中设置自定义任务状态区域拦截器。`ProxyZone` 抛出该异常。
    *
    * @returns an observable that emits whenever the task state changes.
    *

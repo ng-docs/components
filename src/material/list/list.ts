@@ -261,7 +261,7 @@ export class MatListItem extends _MatListItemMixinBase implements AfterContentIn
   /**
    * Whether the option is disabled.
    *
-   * 该选项是否被禁用。
+   * 该选项是否已禁用。
    *
    */
   @Input()

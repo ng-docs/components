@@ -72,7 +72,7 @@ The built-in breakpoints based on [Google's Material Design
 specification](https://material.io/design/layout/responsive-layout-grid.html#breakpoints).
 The available values are:
 
-内置的断点基于 [Google 的 Material Design 规范](https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints) 。可用的值有：
+内置的断点基于 [Google 的 Material Design 规范](https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints)。可用的值有：
 
 - Handset
 

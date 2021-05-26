@@ -20,7 +20,7 @@ To associate an overlay with a scroll strategy, you have to pass in a function, 
 scroll strategy, to the `OverlayConfig`. By default, all overlays will use the `noop` strategy which
 doesn't do anything. The other available strategies are `reposition`, `block` and `close`:
 
-要把浮层与滚动策略相关联，就必须把一个返回滚动策略的函数传递给 `OverlayConfig` 。默认情况下，所有浮层都会使用 `noop` 策略，它不执行任何操作。其它可用的策略有 `reposition`、`block` 和 `close`：
+要把浮层与滚动策略相关联，就必须把一个返回滚动策略的函数传递给 `OverlayConfig`。默认情况下，所有浮层都会使用 `noop` 策略，它不执行任何操作。其它可用的策略有 `reposition`、`block` 和 `close`：
 
 ```ts
 let overlayConfig = new OverlayConfig({

@@ -403,7 +403,12 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
     return !this._isDisabled() || this._isSorted();
   }
 
-  /** Handles changes in the sorting state. */
+  /**
+   * Handles changes in the sorting state.
+   *
+   * 处理排序状态中的变更。
+   *
+   */
   private _handleStateChanges() {
     this._rerenderSubscription =
       merge(this._sort.sortChange, this._sort._stateChanges, this._intl.changes).subscribe(() => {

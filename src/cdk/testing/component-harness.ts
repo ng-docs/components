@@ -37,7 +37,7 @@ export type AsyncOptionPredicate<T, O> = (item: T, option: O) => Promise<boolean
  * A query for a `ComponentHarness`, which is expressed as either a `ComponentHarnessConstructor` or
  * a `HarnessPredicate`.
  *
- * `ComponentHarness` 的查询，它表示为一个 `ComponentHarnessConstructor` 或 `HarnessPredicate` 。
+ * `ComponentHarness` 的查询，它表示为一个 `ComponentHarnessConstructor` 或 `HarnessPredicate`。
  *
  */
 export type HarnessQuery<T extends ComponentHarness> =
@@ -61,7 +61,7 @@ export type HarnessQuery<T extends ComponentHarness> =
  *
  * - If one of the queries is for a `string`, it means that the result might be a `TestElement`.
  *
- *   如果其中一个查询是针对某个 `string`，那就意味着该结果可能是一个 `TestElement` 。
+ *   如果其中一个查询是针对某个 `string`，那就意味着该结果可能是一个 `TestElement`。
  *
  * Since we don't know for sure which query will match, the result type if the union of the types
  * for all possible results.
@@ -194,7 +194,7 @@ export interface HarnessLoader {
  * harnesses. This interface is used by `ComponentHarness` authors to create locator functions for
  * their `ComponentHarness` subclass.
  *
- * 用来创建异步定位器函数的接口，用于查找元素和组件测试工具。 这个接口供 `ComponentHarness` 的作者使用，用于为其 `ComponentHarness` 子类创建定位器函数。
+ * 用来创建异步定位器函数的接口，用于查找元素和组件测试工具。这个接口供 `ComponentHarness` 的作者使用，用于为其 `ComponentHarness` 子类创建定位器函数。
  *
  */
 export interface LocatorFactory {
@@ -209,7 +209,7 @@ export interface LocatorFactory {
   /**
    * The root element of this `LocatorFactory` as a `TestElement`.
    *
-   * `LocatorFactory` 的根元素是一个 `TestElement` 。
+   * `LocatorFactory` 的根元素是一个 `TestElement`。
    *
    */
   rootElement: TestElement;
@@ -243,12 +243,12 @@ export interface LocatorFactory {
    *   `Promise` rejects. The type that the `Promise` resolves to is a union of all result types for
    *   each query.
    *
-   * 一个异步定位器函数，用于搜索并返回满足指定搜索条件的第一个元素或测试工具的 `Promise`。匹配结果首先按照 DOM 中的顺序排序，然后按在查询列表中的顺序排序。如果找不到匹配条目， `Promise` 就会拒绝（reject）。 `Promise` 解析（resolve）成的类型是每个查询的所有结果类型的并集。
+   * 一个异步定位器函数，用于搜索并返回满足指定搜索条件的第一个元素或测试工具的 `Promise`。匹配结果首先按照 DOM 中的顺序排序，然后按在查询列表中的顺序排序。如果找不到匹配条目，`Promise` 就会拒绝（reject）。`Promise` 解析（resolve）成的类型是每个查询的所有结果类型的并集。
    *
    * e.g. Given the following DOM: `<div id="d1" /><div id="d2" />`, and assuming
    * `DivHarness.hostSelector === 'div'`:
    *
-   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />` ，并假设 `DivHarness.hostSelector === 'div'` ：
+   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />`，并假设 `DivHarness.hostSelector === 'div'` ：
    *
    * - `await lf.locatorFor(DivHarness, 'div')()` gets a `DivHarness` instance for `#d1`
    *
@@ -295,12 +295,12 @@ export interface LocatorFactory {
    *   `Promise` is resolved with `null`. The type that the `Promise` resolves to is a union of all
    *   result types for each query or null.
    *
-   * 一个异步定位器函数，用于搜索和返回与指定搜索条件匹配的第一个元素或测试工具的 `Promise`。匹配结果首先按照 DOM 中的顺序排序，然后按查询列表中的顺序排序。如果找不到匹配条目， `Promise` 就会被解析为 `null` 。 `Promise` 解析成的类型是每个查询的所有结果类型的并集，或 null。
+   * 一个异步定位器函数，用于搜索和返回与指定搜索条件匹配的第一个元素或测试工具的 `Promise`。匹配结果首先按照 DOM 中的顺序排序，然后按查询列表中的顺序排序。如果找不到匹配条目，`Promise` 就会被解析为 `null`。`Promise` 解析成的类型是每个查询的所有结果类型的并集，或 null。
    *
    * e.g. Given the following DOM: `<div id="d1" /><div id="d2" />`, and assuming
    * `DivHarness.hostSelector === 'div'`:
    *
-   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />` ，并假设 `DivHarness.hostSelector === 'div'` ：
+   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />`，并假设 `DivHarness.hostSelector === 'div'` ：
    *
    * - `await lf.locatorForOptional(DivHarness, 'div')()` gets a `DivHarness` instance for `#d1`
    *
@@ -312,7 +312,7 @@ export interface LocatorFactory {
    *
    * - `await lf.locatorForOptional('span')()` gets `null`.
    *
-   *   `await lf.locatorForOptional('span')()` 会得到 `null` 。
+   *   `await lf.locatorForOptional('span')()` 会得到 `null`。
    *
    */
   locatorForOptional<T extends (HarnessQuery<any> | string)[]>(...queries: T):
@@ -355,7 +355,7 @@ export interface LocatorFactory {
    * e.g. Given the following DOM: `<div id="d1" /><div id="d2" />`, and assuming
    * `DivHarness.hostSelector === 'div'` and `IdIsD1Harness.hostSelector === '#d1'`:
    *
-   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />` ，并假设 `DivHarness.hostSelector === 'div'` 和 `IdIsD1Harness.hostSelector === '#d1'` ：
+   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />`，并假设 `DivHarness.hostSelector === 'div'` 和 `IdIsD1Harness.hostSelector === '#d1'` ：
    *
    * - `await lf.locatorForAll(DivHarness, 'div')()` gets `[
    *     DivHarness, // for #d1
@@ -395,7 +395,7 @@ export interface LocatorFactory {
    *
    * - `await lf.locatorForAll('span')()` gets `[]`.
    *
-   *   `await lf.locatorForAll('span')()` 会得到 `[]` 。
+   *   `await lf.locatorForAll('span')()` 会得到 `[]`。
    *
    */
   locatorForAll<T extends (HarnessQuery<any> | string)[]>(...queries: T):
@@ -546,12 +546,12 @@ export abstract class ComponentHarness {
    *   `Promise` rejects. The type that the `Promise` resolves to is a union of all result types for
    *   each query.
    *
-   * 一个异步定位器函数，用于搜索和返回与指定搜索条件匹配的第一个元素或测试工具的 `Promise`。匹配结果首先按照 DOM 中的顺序排序，然后按查询列表中的顺序排序。如果找不到匹配条目， `Promise` 会拒绝。 `Promise` 解析成的类型是每个查询的所有结果类型的并集。
+   * 一个异步定位器函数，用于搜索和返回与指定搜索条件匹配的第一个元素或测试工具的 `Promise`。匹配结果首先按照 DOM 中的顺序排序，然后按查询列表中的顺序排序。如果找不到匹配条目，`Promise` 会拒绝。`Promise` 解析成的类型是每个查询的所有结果类型的并集。
    *
    * e.g. Given the following DOM: `<div id="d1" /><div id="d2" />`, and assuming
    * `DivHarness.hostSelector === 'div'`:
    *
-   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />` ，并假设 `DivHarness.hostSelector === 'div'` ：
+   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />`，并假设 `DivHarness.hostSelector === 'div'` ：
    *
    * - `await ch.locatorFor(DivHarness, 'div')()` gets a `DivHarness` instance for `#d1`
    *
@@ -601,12 +601,12 @@ export abstract class ComponentHarness {
    *   `Promise` is resolved with `null`. The type that the `Promise` resolves to is a union of all
    *   result types for each query or null.
    *
-   * 一个异步定位器函数，用于搜索和返回与指定搜索条件匹配的第一个元素或测试工具的 `Promise`。匹配结果首先按照 DOM 中的顺序排序，然后在查询列表中的顺序排序。如果找不到匹配条目， `Promise` 就会被解析为 `null` 。 `Promise` 解析成的类型是每个查询的所有结果类型的并集，或 null。
+   * 一个异步定位器函数，用于搜索和返回与指定搜索条件匹配的第一个元素或测试工具的 `Promise`。匹配结果首先按照 DOM 中的顺序排序，然后在查询列表中的顺序排序。如果找不到匹配条目，`Promise` 就会被解析为 `null`。`Promise` 解析成的类型是每个查询的所有结果类型的并集，或 null。
    *
    * e.g. Given the following DOM: `<div id="d1" /><div id="d2" />`, and assuming
    * `DivHarness.hostSelector === 'div'`:
    *
-   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />` ，并假设 `DivHarness.hostSelector === 'div'` ：
+   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />`，并假设 `DivHarness.hostSelector === 'div'` ：
    *
    * - `await ch.locatorForOptional(DivHarness, 'div')()` gets a `DivHarness` instance for `#d1`
    *
@@ -618,7 +618,7 @@ export abstract class ComponentHarness {
    *
    * - `await ch.locatorForOptional('span')()` gets `null`.
    *
-   *   `await ch.locatorForOptional('span')()` 得到 `null` 。
+   *   `await ch.locatorForOptional('span')()` 得到 `null`。
    *
    */
   protected locatorForOptional<T extends (HarnessQuery<any> | string)[]>(...queries: T):
@@ -658,12 +658,12 @@ export abstract class ComponentHarness {
    *   for that element. The type that the `Promise` resolves to is an array where each element is
    *   the union of all result types for each query.
    *
-   * 一个异步定位器函数，它会搜索和返回所有匹配指定搜索条件的元素和测试工具的 `Promise`。匹配结果首先按照 DOM 中的顺序排序，然后查询列表中的顺序排序。如果一个元素与多个 `ComponentHarness` 类匹配，那么该定位器会为同一个元素获取每个元素的实例。如果一个元素匹配多个 `string` 选择器，只会为该元素返回一个 `TestElement` 实例。 `Promise` 解析成的类型是一个数组，其中每个元素都是每个查询的所有结果类型的并集。
+   * 一个异步定位器函数，它会搜索和返回所有匹配指定搜索条件的元素和测试工具的 `Promise`。匹配结果首先按照 DOM 中的顺序排序，然后查询列表中的顺序排序。如果一个元素与多个 `ComponentHarness` 类匹配，那么该定位器会为同一个元素获取每个元素的实例。如果一个元素匹配多个 `string` 选择器，只会为该元素返回一个 `TestElement` 实例。`Promise` 解析成的类型是一个数组，其中每个元素都是每个查询的所有结果类型的并集。
    *
    * e.g. Given the following DOM: `<div id="d1" /><div id="d2" />`, and assuming
    * `DivHarness.hostSelector === 'div'` and `IdIsD1Harness.hostSelector === '#d1'`:
    *
-   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />` ，并假设 `DivHarness.hostSelector === 'div'` 和 `IdIsD1Harness.hostSelector === '#d1'` ：
+   * 例如，指定以下 DOM： `<div id="d1" /><div id="d2" />`，并假设 `DivHarness.hostSelector === 'div'` 和 `IdIsD1Harness.hostSelector === '#d1'` ：
    *
    * - `await ch.locatorForAll(DivHarness, 'div')()` gets `[
    *     DivHarness, // for #d1
@@ -703,7 +703,7 @@ export abstract class ComponentHarness {
    *
    * - `await ch.locatorForAll('span')()` gets `[]`.
    *
-   *   `await ch.locatorForAll('span')()` 会得到 `[]` 。
+   *   `await ch.locatorForAll('span')()` 会得到 `[]`。
    *
    */
   protected locatorForAll<T extends (HarnessQuery<any> | string)[]>(...queries: T):
@@ -846,7 +846,7 @@ export class HarnessPredicate<T extends ComponentHarness> {
    *   `value` is expected to match exactly. If `pattern` is a regex, a partial match is
    *   allowed. If `pattern` is `null`, the value is expected to be `null`.
    *
-   * 该值期望匹配的模式。如果 `pattern` 是一个字符串，那么该 `value` 肯定要完全匹配。如果 `pattern` 是正则表达式，则允许部分匹配。如果 `pattern` 为 `null` ，则该值应为 `null` 。
+   * 该值期望匹配的模式。如果 `pattern` 是一个字符串，那么该 `value` 肯定要完全匹配。如果 `pattern` 是正则表达式，则允许部分匹配。如果 `pattern` 为 `null`，则该值应为 `null`。
    *
    * @return Whether the value matches the pattern.
    *
@@ -1048,10 +1048,19 @@ function _valueAsString(value: unknown) {
  * Splits up a compound selector into its parts and escapes any quoted content. The quoted content
  * has to be escaped, because it can contain commas which will throw throw us off when trying to
  * split it.
+ *
+ * 将复合选择器拆分为多个部分，并转义所有引用的内容。带引号的内容必须转义，因为它可能包含逗号，那样当尝试拆分内容时就会抛出错误。
+ *
  * @param selector Selector to be split.
+ *
+ * 要拆分的选择器。
+ *
  * @returns The escaped string where any quoted content is replaced with a placeholder. E.g.
  * `[foo="bar"]` turns into `[foo=__cdkPlaceholder-0__]`. Use `_restoreSelector` to restore
  * the placeholders.
+ *
+ * 已转义的字符串，其中任何引用的内容均会被占位符替换。例如 `[foo="bar"]` 变成 `[foo=__cdkPlaceholder-0__]`。使用 `_restoreSelector` 来还原占位符。
+ *
  */
 function _splitAndEscapeSelector(selector: string): [parts: string[], placeholders: string[]] {
   const placeholders: string[] = [];
@@ -1070,7 +1079,12 @@ function _splitAndEscapeSelector(selector: string): [parts: string[], placeholde
   return [result.split(',').map(part => part.trim()), placeholders];
 }
 
-/** Restores a selector whose content was escaped in `_splitAndEscapeSelector`. */
+/**
+ * Restores a selector whose content was escaped in `_splitAndEscapeSelector`.
+ *
+ * 还原某个选择器，该选择器的内容已在 `_splitAndEscapeSelector` 中转义。
+ *
+ */
 function _restoreSelector(selector: string, placeholders: string[]): string {
   return selector.replace(/__cdkPlaceholder-(\d+)__/g, (_, index) => placeholders[+index]);
 }

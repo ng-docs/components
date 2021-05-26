@@ -9,7 +9,12 @@
 import {Injectable} from '@angular/core';
 import {FormGroupDirective, NgForm, FormControl} from '@angular/forms';
 
-/** Error state matcher that matches when a control is invalid and dirty. */
+/**
+ * Error state matcher that matches when a control is invalid and dirty.
+ *
+ * 当控件无效且已脏时会匹配的错误状态匹配器。
+ *
+ */
 @Injectable()
 export class ShowOnDirtyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,7 +22,12 @@ export class ShowOnDirtyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-/** Provider that defines how form controls behave with regards to displaying error messages. */
+/**
+ * Provider that defines how form controls behave with regards to displaying error messages.
+ *
+ * 一个提供者，用于定义表单控件在显示错误消息方面的行为。
+ *
+ */
 @Injectable({providedIn: 'root'})
 export class ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

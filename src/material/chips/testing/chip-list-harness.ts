@@ -25,7 +25,7 @@ export abstract class _MatChipListHarnessBase extends ComponentHarness {
   /**
    * Gets whether the chip list is disabled.
    *
-   * 获取纸片列表是否被禁用。
+   * 获取纸片列表是否已禁用。
    *
    */
   async isDisabled(): Promise<boolean> {
@@ -84,7 +84,7 @@ export class MatChipListHarness extends _MatChipListHarnessBase {
   /**
    * The selector for the host element of a `MatChipList` instance.
    *
-   * `MatChipList` 实例的宿主元素的选择器。
+   * `MatChipList` 实例的宿主元素选择器。
    *
    */
   static hostSelector = '.mat-chip-list';
@@ -93,7 +93,7 @@ export class MatChipListHarness extends _MatChipListHarnessBase {
    * Gets a `HarnessPredicate` that can be used to search for a `MatChipListHarness` that meets
    * certain criteria.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索满足一定条件 `MatChipListHarness`
+   * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件 `MatChipListHarness`
    *
    * @param options Options for filtering which chip list instances are considered a match.
    *
@@ -132,6 +132,9 @@ export class MatChipListHarness extends _MatChipListHarnessBase {
    * 一个可选的过滤器，适用于子纸片。所有与过滤器匹配的纸片都会被选定。
    *
    * @deprecated Use `MatChipListboxHarness.selectChips` instead.
+   *
+   * 请改用 `MatChipListboxHarness.selectChips`。
+   *
    * @breaking-change 12.0.0
    */
   async selectChips(filter: ChipHarnessFilters = {}): Promise<void> {

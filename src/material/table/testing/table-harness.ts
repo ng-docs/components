@@ -21,7 +21,12 @@ import {
   MatRowHarnessColumnsText,
 } from './row-harness';
 
-/** Text extracted from a table organized by columns. */
+/**
+ * Text extracted from a table organized by columns.
+ *
+ * 从按列组织的表中提取的文本。
+ *
+ */
 export interface MatTableHarnessColumnsText {
   [columnName: string]: {
     text: string[];
@@ -50,28 +55,53 @@ export abstract class _MatTableHarnessBase<
   protected abstract _rowHarness: RowType;
   protected abstract _footerRowHarness: FooterRowType;
 
-  /** Gets all of the header rows in a table. */
+  /**
+   * Gets all of the header rows in a table.
+   *
+   * 获取表中的所有标题行。
+   *
+   */
   async getHeaderRows(filter: RowHarnessFilters = {}): Promise<HeaderRow[]> {
     return this.locatorForAll(this._headerRowHarness.with(filter))();
   }
 
-  /** Gets all of the regular data rows in a table. */
+  /**
+   * Gets all of the regular data rows in a table.
+   *
+   * 获取表中的所有常规数据行。
+   *
+   */
   async getRows(filter: RowHarnessFilters = {}): Promise<Row[]> {
     return this.locatorForAll(this._rowHarness.with(filter))();
   }
 
-  /** Gets all of the footer rows in a table. */
+  /**
+   * Gets all of the footer rows in a table.
+   *
+   * 获取表中的所有表尾行。
+   *
+   */
   async getFooterRows(filter: RowHarnessFilters = {}): Promise<FooterRow[]> {
     return this.locatorForAll(this._footerRowHarness.with(filter))();
   }
 
-  /** Gets the text inside the entire table organized by rows. */
+  /**
+   * Gets the text inside the entire table organized by rows.
+   *
+   * 获取按行组织的整个表中的文本。
+   *
+   */
   async getCellTextByIndex(): Promise<string[][]> {
     const rows = await this.getRows();
     return parallel(() => rows.map(row => row.getCellTextByIndex()));
   }
 
-  /** Gets the text inside the entire table organized by columns. */
+  /**
+   * Gets the text inside the entire table organized by columns.
+   *
+   * 获取按列组织的整个表中的文本。
+   *
+   */
   async getCellTextByColumnName(): Promise<MatTableHarnessColumnsText> {
     const [headerRows, footerRows, dataRows] = await parallel(() => [
       this.getHeaderRows(),
@@ -106,13 +136,23 @@ export abstract class _MatTableHarnessBase<
   }
 }
 
-/** Harness for interacting with a standard mat-table in tests. */
+/**
+ * Harness for interacting with a standard mat-table in tests.
+ *
+ * 在测试中与标准 mat-table 进行交互的测试工具。
+ *
+ */
 export class MatTableHarness extends _MatTableHarnessBase<
   typeof MatHeaderRowHarness, MatHeaderRowHarness,
   typeof MatRowHarness, MatRowHarness,
   typeof MatFooterRowHarness, MatFooterRowHarness
 > {
-  /** The selector for the host element of a `MatTableHarness` instance. */
+  /**
+   * The selector for the host element of a `MatTableHarness` instance.
+   *
+   * `MatTableHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-table';
   protected _headerRowHarness = MatHeaderRowHarness;
   protected _rowHarness = MatRowHarness;
@@ -120,15 +160,29 @@ export class MatTableHarness extends _MatTableHarnessBase<
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a table with specific attributes.
+   *
+   * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索具有特定属性的表。
+   *
    * @param options Options for narrowing the search
+   *
+   * 收窄搜索范围的选项
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`
+   *
    */
   static with(options: TableHarnessFilters = {}): HarnessPredicate<MatTableHarness> {
     return new HarnessPredicate(MatTableHarness, options);
   }
 }
 
-/** Extracts the text of cells only under a particular column. */
+/**
+ * Extracts the text of cells only under a particular column.
+ *
+ * 仅提取特定列下的单元格文本。
+ *
+ */
 function getCellTextsByColumn(rowsData: MatRowHarnessColumnsText[], column: string): string[] {
   const columnTexts: string[] = [];
 

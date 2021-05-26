@@ -18,7 +18,7 @@ be positioned before or after the radio-button by setting the `labelPosition` pr
 or `'after'`.
 
 单选按钮的标签是通过 `<mat-radio-button>` 元素的内容提供的。
-该标签可以通过把 `labelPosition` 属性的值设置为 `'before'` 或 `'after'` 来把该标签定位在单选按钮的前面或后面。 
+该标签可以通过把 `labelPosition` 属性的值设置为 `'before'` 或 `'after'` 来把该标签定位在单选按钮的前面或后面。
 
 If you don't want the label to appear next to the radio-button, you can use
 [`aria-label`](https://www.w3.org/TR/wai-aria/states_and_properties#aria-label) or

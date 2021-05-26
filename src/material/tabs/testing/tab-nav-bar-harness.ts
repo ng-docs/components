@@ -17,13 +17,24 @@ import {MatTabLinkHarness} from './tab-link-harness';
  *
  */
 export class MatTabNavBarHarness extends ComponentHarness {
-  /** The selector for the host element of a `MatTabNavBar` instance. */
+  /**
+   * The selector for the host element of a `MatTabNavBar` instance.
+   *
+   * `MatTabNavBar` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-tab-nav-bar';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatTabNavBar` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatTabNavBar`。
+   *
    * @param options Options for filtering which tab nav bar instances are considered a match.
+   *
+   * 用于过滤哪些选项卡导航栏实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -34,13 +45,24 @@ export class MatTabNavBarHarness extends ComponentHarness {
 
   /**
    * Gets the list of links in the nav bar.
+   *
+   * 获取导航栏中的链接列表。
+   *
    * @param filter Optionally filters which links are included.
+   *
+   * （可选）过滤包含哪些链接。
+   *
    */
   async getLinks(filter: TabLinkHarnessFilters = {}): Promise<MatTabLinkHarness[]> {
     return this.locatorForAll(MatTabLinkHarness.with(filter))();
   }
 
-  /** Gets the active link in the nav bar. */
+  /**
+   * Gets the active link in the nav bar.
+   *
+   * 获取此导航栏中的活动链接。
+   *
+   */
   async getActiveLink(): Promise<MatTabLinkHarness> {
     const links = await this.getLinks();
     const isActive = await parallel(() => links.map(t => t.isActive()));
@@ -54,8 +76,14 @@ export class MatTabNavBarHarness extends ComponentHarness {
 
   /**
    * Clicks a link inside the nav bar.
+   *
+   * 单击此导航栏中的链接。
+   *
    * @param filter An optional filter to apply to the child link. The first link matching the filter
    *     will be clicked.
+   *
+   * 应用于子链接的可选过滤器。单击与此过滤器匹配的第一个链接。
+   *
    */
   async clickLink(filter: TabLinkHarnessFilters = {}): Promise<void> {
     const tabs = await this.getLinks(filter);

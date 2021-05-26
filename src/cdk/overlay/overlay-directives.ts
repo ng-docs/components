@@ -95,7 +95,11 @@ export const CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY =
 })
 export class CdkOverlayOrigin {
   constructor(
-      /** Reference to the element on which the directive is applied. */
+      /**
+       * Reference to the element on which the directive is applied.
+       *
+       * 对此指令要应用到的元素的引用。
+       */
       public elementRef: ElementRef) { }
 }
 

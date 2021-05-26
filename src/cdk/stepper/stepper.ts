@@ -210,7 +210,12 @@ export class CdkStep implements OnChanges {
    */
   interacted = false;
 
-  /** Emits when the user has attempted to move away from the step. */
+  /**
+   * Emits when the user has attempted to move away from the step.
+   *
+   * 当用户尝试离开此步骤时，将发出此信号。
+   *
+   */
   @Output('interacted')
   readonly interactedStream: EventEmitter<CdkStep> = new EventEmitter<CdkStep>();
 
@@ -375,7 +380,12 @@ export class CdkStep implements OnChanges {
     }
   }
 
-  /** Determines whether the error state can be shown. */
+  /**
+   * Determines whether the error state can be shown.
+   *
+   * 确定是否可以显示错误状态。
+   *
+   */
   _showError(): boolean {
     // We want to show the error state either if the user opted into/out of it using the
     // global options, or if they've explicitly set it through the `hasError` input.
@@ -511,7 +521,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    */
   _groupId: number;
 
-  /** Orientation of the stepper. */
+  /**
+   * Orientation of the stepper.
+   *
+   * 此步进器的方向。
+   *
+   */
   @Input()
   get orientation(): StepperOrientation { return this._orientation; }
   set orientation(value: StepperOrientation) {
@@ -525,6 +540,9 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
 
   /**
    * @deprecated To be turned into a private property. Use `orientation` instead.
+   *
+   * 被变成私有属性。请改用 `orientation`。
+   *
    * @breaking-change 13.0.0
    */
   protected _orientation: StepperOrientation = 'horizontal';

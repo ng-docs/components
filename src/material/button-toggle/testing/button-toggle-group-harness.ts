@@ -31,7 +31,7 @@ export class MatButtonToggleGroupHarness extends ComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a `MatButtonToggleGroupHarness`
    * that meets certain criteria.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索满足一定条件 `MatButtonToggleGroupHarness`
+   * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件 `MatButtonToggleGroupHarness`
    *
    * @param options Options for filtering which button toggle instances are considered a match.
    *

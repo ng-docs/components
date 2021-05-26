@@ -132,7 +132,12 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
    *
    */
   private _cachedLineHeight: number;
-  /** Cached height of a textarea with only the placeholder. */
+  /**
+   * Cached height of a textarea with only the placeholder.
+   *
+   * 仅有占位符的文本框的已缓存高度。
+   *
+   */
   private _cachedPlaceholderHeight?: number;
 
   /**

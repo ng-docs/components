@@ -32,7 +32,7 @@ an `<input>`. It has a `monitor` method that takes an element to monitor and ret
 emits every time the autofill state of the given `<input>` changes. Any element you monitor should
 eventually be unmonitored by calling `stopMonitoring` with the same element.
 
-`AutofillMonitor` 是一个可注入的服务，它允许用户监控 `<input>` 的自动填充状态。它有一个 `monitor` 方法，可以接受一个要监视的元素，并返回带有 `target` 和 `isAutofilled` 属性的 `Observable`。每当指定 `<input>` 的自动填充状态发生变化时，该可观察对就会发出事件。你所监控的任何元素最终都应该通过调用 `stopMonitoring` ，并传入同一个元素来停止监控。
+`AutofillMonitor` 是一个可注入的服务，它允许用户监控 `<input>` 的自动填充状态。它有一个 `monitor` 方法，可以接受一个要监视的元素，并返回带有 `target` 和 `isAutofilled` 属性的 `Observable`。每当指定 `<input>` 的自动填充状态发生变化时，该可观察对就会发出事件。你所监控的任何元素最终都应该通过调用 `stopMonitoring`，并传入同一个元素来停止监控。
 
 <!-- example(text-field-autofill-monitor) -->
 

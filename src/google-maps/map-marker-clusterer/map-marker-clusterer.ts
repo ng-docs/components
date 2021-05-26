@@ -32,13 +32,23 @@ import {GoogleMap} from '../google-map/google-map';
 import {MapEventManager} from '../map-event-manager';
 import {MapMarker} from '../map-marker/map-marker';
 
-/** Default options for a clusterer. */
+/**
+ * Default options for a clusterer.
+ *
+ * 聚类器的默认选项。
+ *
+ */
 const DEFAULT_CLUSTERER_OPTIONS: MarkerClustererOptions = {};
 
 /**
  * Angular component for implementing a Google Maps Marker Clusterer.
  *
+ * 用于实现 Google Maps Marker Clusterer 的 Angular 组件。
+ *
  * See <https://developers.google.com/maps/documentation/javascript/marker-clustering>
+ *
+ * 请参阅<https://developers.google.com/maps/documentation/javascript/marker-clustering>
+ *
  */
 @Component({
   selector: 'map-marker-clusterer',
@@ -52,7 +62,12 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
   private readonly _eventManager = new MapEventManager(this._ngZone);
   private readonly _destroy = new Subject<void>();
 
-  /** Whether the clusterer is allowed to be initialized. */
+  /**
+   * Whether the clusterer is allowed to be initialized.
+   *
+   * 是否允许初始化聚类器。
+   *
+   */
   private readonly _canInitialize: boolean;
 
   @Input()
@@ -166,6 +181,9 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
    * See
    * googlemaps.github.io/v3-utility-library/modules/
    * \_google_markerclustererplus.html#clusteringbegin
+   *
+   * 参见 googlemaps.github.io/v3-utility-library/modules/ \_google_markerclustererplus.html＃clusteringbegin
+   *
    */
   @Output() readonly clusteringbegin: Observable<void> =
       this._eventManager.getLazyEmitter<void>('clusteringbegin');
@@ -173,11 +191,19 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
   /**
    * See
    * googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#clusteringend
+   *
+   * 参见 googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#clusteringend
+   *
    */
   @Output() readonly clusteringend: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('clusteringend');
+      this._eventManager .getLazyEmitter<void>('clusteringend');
 
-  /** Emits when a cluster has been clicked. */
+  /**
+   * Emits when a cluster has been clicked.
+   *
+   * 单击聚类后退出。
+   *
+   */
   @Output()
   readonly clusterClick: Observable<Cluster> = this._eventManager.getLazyEmitter<Cluster>('click');
 
@@ -186,9 +212,14 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
   /**
    * The underlying MarkerClusterer object.
    *
+   * 基础 MarkerClusterer 对象。
+   *
    * See
    * googlemaps.github.io/v3-utility-library/classes/
    * \_google_markerclustererplus.markerclusterer.html
+   *
+   * 参见 googlemaps.github.io/v3-utility-library/classes/ \_google_markerclustererplus.markerclusterer.html
+   *
    */
   markerClusterer?: MarkerClusterer;
 

@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Create custom theme for the given application configuration. */
+/**
+ * Create custom theme for the given application configuration.
+ *
+ * 为给定的应用程序配置创建自定义主题。
+ *
+ */
 export function createCustomTheme(name: string = 'app') {
 return `
 // Custom Theming for Angular Material

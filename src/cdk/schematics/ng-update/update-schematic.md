@@ -70,7 +70,7 @@ In order to automatically migrate TypeScript source files, we take advantage of 
 Compiler API which allows us to parse and work with the AST of project source files. We built
 a small framework for analyzing and updating project source files that is called `update-tool`.
 
-为了自动迁移 TypeScript 源文件，我们利用了 TypeScript Compiler API，它允许我们解析和处理项目源文件的 AST。我们构建了一个用于分析和更新项目源文件的小框架，叫做 `update-tool` 。
+为了自动迁移 TypeScript 源文件，我们利用了 TypeScript Compiler API，它允许我们解析和处理项目源文件的 AST。我们构建了一个用于分析和更新项目源文件的小框架，叫做 `update-tool`。
 
 The `update-tool` has been specifically built with the goal of being extremely fast and
 flexible. This tool had to be built because our initial `ng update` implementation which
@@ -125,7 +125,7 @@ used `tslint` had various issues:
 All of these problems that `tslint` had, have been solved when we built the
 `update-tool`. The tool currently has the following differences compared to `tslint`:
 
-`update-tool` `tslint` 所遇到的所有这些问题都得到了解决。 `tslint` 相比，该工具目前存在以下差异：
+`update-tool` `tslint` 所遇到的所有这些问题都得到了解决。`tslint` 相比，该工具目前存在以下差异：
 
 - Abstraction of file system and ability to run migrations programmatically.
 
@@ -187,7 +187,7 @@ approaches below:
 | Regular Expressions | Too brittle. No type checking possible. Regular Expression *can* be used in combination with some real AST walking |
 | 正则表达式 | 太脆弱了。不能检查类型。正则表达式*可以*和一些真正的 AST walk 一起使用 |
 | TypeScript transforms (no emit) | This would be a good solution but there is no API to serialize the transformed AST into source code without using the `ts.Printer`. The printer can be used to serialize the AST but it breaks formatting, code style and more. This is not acceptable for a migration. |
-| TypeScript 转换（不发出声） | 这是一个很好的解决方案，但是如果没有使用 `ts.Printer` ，就没有把序列化 AST 转换成源代码的 API。该打印机可用于序列化 AST，但它会破坏格式化，代码风格等等。这对于迁移来说是不可接受的。 |
+| TypeScript 转换（不发出声） | 这是一个很好的解决方案，但是如果没有使用 `ts.Printer`，就没有把序列化 AST 转换成源代码的 API。该打印机可用于序列化 AST，但它会破坏格式化，代码风格等等。这对于迁移来说是不可接受的。 |
 
 ### Upgrade data for target versions
 
@@ -244,7 +244,7 @@ create a new migration that accepts upgrade data (as other configurable migratio
 **Scenario**: In Angular Material V7.0.0, we rename `MatRipple#color` to `MatRipple#newColor`.
 
 **示例**：为属性重命名添加升级数据  
-**场景**：在 Angular Material V7.0.0 中，我们把 `MatRipple#color` 重命名为 `MatRipple#newColor` 。
+**场景**：在 Angular Material V7.0.0 中，我们把 `MatRipple#color` 重命名为 `MatRipple#newColor`。
 
 First, look for an existing upgrade data file that covers similar breaking changes. In that case
 an existing upgrade data file for `property-names` already exists. Insert the new breaking change

@@ -18,6 +18,9 @@ import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
 /**
  * Possible states for a pseudo checkbox.
+ *
+ * 伪复选框的可能状态。
+ *
  * @docs-private
  */
 export type MatPseudoCheckboxState = 'unchecked' | 'checked' | 'indeterminate';
@@ -29,10 +32,15 @@ export type MatPseudoCheckboxState = 'unchecked' | 'checked' | 'indeterminate';
  * Note that theming is meant to be handled by the parent element, e.g.
  * `mat-primary .mat-pseudo-checkbox`.
  *
+ * 显示简化复选框而不包含任何“真实”复选框的组件。当复选框仅是装饰性的并且包含大量复选框时（例如，用于多选中的选项），将使用该方法。不使用 SVG 或复杂的动画。请注意，主题化应由父元素处理，例如 `mat-primary .mat-pseudo-checkbox`。
+ *
  * Note that this component will be completely invisible to screen-reader users. This is *not*
  * interchangeable with `<mat-checkbox>` and should *not* be used if the user would directly
  * interact with the checkbox. The pseudo-checkbox should only be used as an implementation detail
  * of more complex components that appropriately handle selected / checked state.
+ *
+ * 请注意，此组件对于屏幕阅读器用户完全不可见。这*不能*和 `<mat-checkbox>` 互换，并且如果用户将直接与复选框交互则*不*应当使用它。伪复选框只应该用作需要适当处理选定/检查状态的更复杂组件中的实现细节。
+ *
  * @docs-private
  */
 @Component({
@@ -50,13 +58,18 @@ export type MatPseudoCheckboxState = 'unchecked' | 'checked' | 'indeterminate';
   },
 })
 export class MatPseudoCheckbox {
-  /** Display state of the checkbox. */
+  /**
+   * Display state of the checkbox.
+   *
+   * 复选框的显示状态。
+   *
+   */
   @Input() state: MatPseudoCheckboxState = 'unchecked';
 
   /**
    * Whether the checkbox is disabled.
    *
-   * 该复选框是否已被禁用。
+   * 该复选框是否已禁用。
    *
    */
   @Input() disabled: boolean = false;

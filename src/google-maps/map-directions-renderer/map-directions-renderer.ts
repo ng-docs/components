@@ -27,7 +27,12 @@ import {MapEventManager} from '../map-event-manager';
  * Angular component that renders a Google Maps Directions Renderer via the Google Maps
  * JavaScript API.
  *
+ * 通过 Google Maps JavaScript API 渲染 Google Maps Directions 渲染器的 Angular 组件。
+ *
  * See developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRenderer
+ *
+ * 请参阅 developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRenderer
+ *
  */
 @Directive({
   selector: 'map-directions-renderer',
@@ -39,6 +44,9 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   /**
    * See developers.google.com/maps/documentation/javascript/reference/directions
    * #DirectionsRendererOptions.directions
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/directions＃DirectionsRendererOptions.directions
+   *
    */
   @Input()
   set directions(directions: google.maps.DirectionsResult) {
@@ -49,6 +57,9 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   /**
    * See developers.google.com/maps/documentation/javascript/reference/directions
    * #DirectionsRendererOptions
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/directions #DirectionsRendererOptions
+   *
    */
   @Input()
   set options(options: google.maps.DirectionsRendererOptions) {
@@ -59,12 +70,20 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   /**
    * See developers.google.com/maps/documentation/javascript/reference/directions
    * #DirectionsRenderer.directions_changed
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/directions＃DirectionsRenderer.directions_changed
+   *
    */
   @Output()
   readonly directionsChanged: Observable<void> =
       this._eventManager.getLazyEmitter<void>('directions_changed');
 
-  /** The underlying google.maps.DirectionsRenderer object. */
+  /**
+   * The underlying google.maps.DirectionsRenderer object.
+   *
+   * 基础 google.maps.DirectionsRenderer 对象。
+   *
+   */
   directionsRenderer?: google.maps.DirectionsRenderer;
 
   constructor(private readonly _googleMap: GoogleMap, private _ngZone: NgZone) {}
@@ -105,6 +124,9 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   /**
    * See developers.google.com/maps/documentation/javascript/reference/directions
    * #DirectionsRenderer.getDirections
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/directions＃DirectionsRenderer.getDirections
+   *
    */
   getDirections(): google.maps.DirectionsResult {
     this._assertInitialized();
@@ -114,6 +136,9 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   /**
    * See developers.google.com/maps/documentation/javascript/reference/directions
    * #DirectionsRenderer.getPanel
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/directions＃DirectionsRenderer.getPanel
+   *
    */
   getPanel(): Node {
     this._assertInitialized();
@@ -123,6 +148,9 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   /**
    * See developers.google.com/maps/documentation/javascript/reference/directions
    * #DirectionsRenderer.getRouteIndex
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/directions＃DirectionsRenderer.getRouteIndex
+   *
    */
   getRouteIndex(): number {
     this._assertInitialized();

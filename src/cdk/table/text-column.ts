@@ -97,7 +97,7 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
    * value defined by the data's `id` property.
    *
    * 访问器函数用来检索为要每个单元格渲染的数据。如果未设置此属性，数据单元格将渲染数据属性中与该列名匹配的值。
-   * 例如，如果列的名字是 `id` ，那么渲染的值就是 data 的 `id` 属性定义的值。
+   * 例如，如果列的名字是 `id`，那么渲染的值就是 data 的 `id` 属性定义的值。
    *
    */
   @Input() dataAccessor: (data: T, name: string) => string;

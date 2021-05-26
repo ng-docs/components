@@ -152,6 +152,9 @@ export class MatSnackBarContainer extends BasePortalOutlet
   /**
    * Role of the live region. This is only for Firefox as there is a known issue where Firefox +
    * JAWS does not read out aria-live message.
+   *
+   * 现场区域的角色。这仅适用于 Firefox，因为存在一个已知问题，即 Firefox + JAWS 无法读取 aria-live 消息。
+   *
    */
   _role?: 'status' | 'alert';
 
@@ -217,6 +220,9 @@ export class MatSnackBarContainer extends BasePortalOutlet
    * 把 DOM 传送点附加到这个快餐栏容器中。
    *
    * @deprecated To be turned into a method.
+   *
+   * 要变成一种方法。
+   *
    * @breaking-change 10.0.0
    */
   attachDomPortal = (portal: DomPortal) => {

@@ -72,7 +72,12 @@ interface CachedItemPosition {
    *
    */
   offset: number;
-  /** Inline transform that the drag item had when dragging started. */
+  /**
+   * Inline transform that the drag item had when dragging started.
+   *
+   * 开始拖动时，拖动项具有的内联变换。
+   *
+   */
   initialTransform: string;
 }
 
@@ -275,7 +280,7 @@ export class DropListRef<T = any> {
    * from `_draggables`, as well as any items that have been dragged in, but haven't
    * been dropped yet.
    *
-   * 当前在容器内处于活动状态的可拖动条目。 `_draggables` 的条目，以及那些已被拖入但尚未被删除的条目。
+   * 当前在容器内处于活动状态的可拖动条目。`_draggables` 的条目，以及那些已被拖入但尚未被删除的条目。
    *
    */
   private _activeDraggables: DragRef[];

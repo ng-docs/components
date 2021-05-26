@@ -27,6 +27,9 @@ export interface ChipHarnessFilters extends BaseHarnessFilters {
    * 只查找选定状态与指定值匹配的纸片实例。
    *
    * @deprecated Use `MatChipOptionHarness` together with `ChipOptionHarnessFilters`.
+   *
+   * 将 `MatChipOptionHarness` 和 `ChipOptionHarnessFilters` 一起使用。
+   *
    * @breaking-change 12.0.0
    */
   selected?: boolean;

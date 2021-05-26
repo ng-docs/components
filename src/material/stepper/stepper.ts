@@ -82,10 +82,20 @@ export class MatStep extends CdkStep implements ErrorStateMatcher, AfterContentI
    */
   @Input() color: ThemePalette;
 
-  /** Content that will be rendered lazily. */
+  /**
+   * Content that will be rendered lazily.
+   *
+   * 要延迟渲染的内容。
+   *
+   */
   @ContentChild(MatStepContent, {static: false}) _lazyContent: MatStepContent;
 
-  /** Currently-attached portal containing the lazy content. */
+  /**
+   * Currently-attached portal containing the lazy content.
+   *
+   * 当前附着到的门户网站，其中包含惰性渲染的内容。
+   *
+   */
   _portal: TemplatePortal;
 
   constructor(@Inject(forwardRef(() => MatStepper)) stepper: MatStepper,
@@ -133,7 +143,13 @@ export class MatStep extends CdkStep implements ErrorStateMatcher, AfterContentI
 /**
  * Proxies the public APIs from `MatStepper` to the deprecated `MatHorizontalStepper` and
  * `MatVerticalStepper`.
+ *
+ * 从 `MatStepper` 代理到已弃用的 `MatHorizontalStepper` 和 `MatVerticalStepper` 的公共 API。
+ *
  * @deprecated Use `MatStepper` instead.
+ *
+ * 请改用 `MatStepper`。
+ *
  * @breaking-change 13.0.0
  * @docs-private
  */
@@ -148,6 +164,9 @@ abstract class _MatProxyStepperBase extends CdkStepper {
 
 /**
  * @deprecated Use `MatStepper` instead.
+ *
+ * 请改用 `MatStepper`。
+ *
  * @breaking-change 13.0.0
  */
 @Directive({selector: 'mat-horizontal-stepper'})
@@ -155,6 +174,9 @@ export class MatHorizontalStepper extends _MatProxyStepperBase {}
 
 /**
  * @deprecated Use `MatStepper` instead.
+ *
+ * 请改用 `MatStepper`。
+ *
  * @breaking-change 13.0.0
  */
 @Directive({selector: 'mat-vertical-stepper'})
@@ -249,6 +271,9 @@ export class MatStepper extends CdkStepper implements AfterContentInit {
   /**
    * Whether the label should display in bottom or end position.
    * Only applies in the `horizontal` orientation.
+   *
+   * 标签应显示在底部还是尾部位置。仅适用于 `horizontal` 方向。
+   *
    */
   @Input()
   labelPosition: 'bottom' | 'end' = 'end';

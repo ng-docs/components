@@ -176,7 +176,7 @@ on `mat-step`.
 By default, steps are editable, which means users can return to previously completed steps and
 edit their responses. `editable="false"` can be set on `mat-step` to change the default.
 
-默认情况下，每个步骤都是可编辑的，也就是说用户可以回到前一个已经完成的步骤，并编辑他们的回复。可以设置 `mat-step` 的 `editable="true"` 来修改这种默认行为。 
+默认情况下，每个步骤都是可编辑的，也就是说用户可以回到前一个已经完成的步骤，并编辑他们的回复。可以设置 `mat-step` 的 `editable="true"` 来修改这种默认行为。
 
 <!-- example({"example": "stepper-editable",
               "file": "stepper-editable-example.html",

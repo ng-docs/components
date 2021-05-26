@@ -30,7 +30,7 @@ import {getTreeControlFunctionsMissingError} from './tree-errors';
  * be added in the `cdkTreeNodeOutlet` in tree node template.
  * The children of node will be automatically added to `cdkTreeNodeOutlet`.
  *
- * 嵌套节点是 `<cdk-tree>` 的子节点。它适用于嵌套树。通过在树节点模板中使用 `cdk-nested-tree-node` 组件，会把父节点的子节点添加到树节点模板的  `cdkTreeNodeOutlet` 中。 该节点的子节点会自动添加到 `cdkTreeNodeOutlet` 中。
+ * 嵌套节点是 `<cdk-tree>` 的子节点。它适用于嵌套树。通过在树节点模板中使用 `cdk-nested-tree-node` 组件，会把父节点的子节点添加到树节点模板的  `cdkTreeNodeOutlet` 中。该节点的子节点会自动添加到 `cdkTreeNodeOutlet` 中。
  *
  */
 @Directive({

@@ -44,7 +44,7 @@ export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
   /**
    * Whether the checkbox is disabled.
    *
-   * 该复选框是否已被禁用。
+   * 该复选框是否已禁用。
    *
    */
   async isDisabled(): Promise<boolean> {
@@ -207,16 +207,35 @@ export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
   }
 }
 
-/** Harness for interacting with a standard mat-checkbox in tests. */
+/**
+ * Harness for interacting with a standard mat-checkbox in tests.
+ *
+ * 与测试中的标准 mat-checkbox 交互的测试工具。
+ *
+ */
 export class MatCheckboxHarness extends _MatCheckboxHarnessBase {
-  /** The selector for the host element of a `MatCheckbox` instance. */
+  /**
+   * The selector for the host element of a `MatCheckbox` instance.
+   *
+   * `MatCheckbox` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-checkbox';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatCheckboxHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatCheckboxHarness`。
+   *
    * @param options Options for filtering which checkbox instances are considered a match.
+   *
+   * 用于过滤哪些复选框实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(options: CheckboxHarnessFilters = {}): HarnessPredicate<MatCheckboxHarness> {
     return new HarnessPredicate(MatCheckboxHarness, options)

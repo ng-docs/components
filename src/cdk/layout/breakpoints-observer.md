@@ -8,7 +8,7 @@ the matching state of a CSS Media Query.
 A set of breakpoints is provided based on the Material Design
 [breakpoint system](https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints).
 
-根据 Material Design [断点体系](https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints)，CDK 提供了一组[断点](https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints) 。
+根据 Material Design [断点体系](https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints)，CDK 提供了一组[断点](https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints)。
 
 #### Example
 

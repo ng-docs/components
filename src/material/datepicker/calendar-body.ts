@@ -99,7 +99,7 @@ export class MatCalendarBody implements OnChanges, OnDestroy {
   /**
    * The label for the table. (e.g. "Jan 2017").
    *
-   * 表格的标签。 （例如“2017 年 1 月”）。
+   * 表格的标签。（例如“2017 年 1 月”）。
    *
    */
   @Input() label: string;

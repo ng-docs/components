@@ -261,7 +261,7 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
    *
    * @returns A promise resolving to the OverlayRef for the created overlay.
    *
-   * 一个 Promise ，它会解析为 OverlayRef 所创建的浮层。
+   * 一个 Promise，它会解析为 OverlayRef 所创建的浮层。
    */
   private _createOverlay(config: MatDialogConfig): OverlayRef {
     const overlayConfig = this._getOverlayConfig(config);

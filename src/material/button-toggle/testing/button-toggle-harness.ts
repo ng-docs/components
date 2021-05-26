@@ -33,7 +33,7 @@ export class MatButtonToggleHarness extends ComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a `MatButtonToggleHarness` that meets
    * certain criteria.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索满足一定条件 `MatButtonToggleHarness`
+   * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件 `MatButtonToggleHarness`
    *
    * @param options Options for filtering which button toggle instances are considered a match.
    *
@@ -140,7 +140,7 @@ export class MatButtonToggleHarness extends ComponentHarness {
   /**
    * Blurs the toggle.
    *
-   * 让此开关失去焦点。
+   * 让此开关失焦。
    *
    */
   async blur(): Promise<void> {

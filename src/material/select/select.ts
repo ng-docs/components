@@ -112,16 +112,36 @@ let nextUniqueId = 0;
  *
  */
 
-/** The max height of the select's overlay panel. */
+/**
+ * The max height of the select's overlay panel.
+ *
+ * 所选内容的浮层面板的最大高度。
+ *
+ */
 export const SELECT_PANEL_MAX_HEIGHT = 256;
 
-/** The panel's padding on the x-axis. */
+/**
+ * The panel's padding on the x-axis.
+ *
+ * 此面板在 x 轴上的衬距。
+ *
+ */
 export const SELECT_PANEL_PADDING_X = 16;
 
-/** The panel's x axis padding if it is indented (e.g. there is an option group). */
+/**
+ * The panel's x axis padding if it is indented (e.g. there is an option group).
+ *
+ * 此面板的 x 轴衬距（如果有缩进）（例如选项组）。
+ *
+ */
 export const SELECT_PANEL_INDENT_PADDING_X = SELECT_PANEL_PADDING_X * 2;
 
-/** The height of the select items in `em` units. */
+/**
+ * The height of the select items in `em` units.
+ *
+ * 选择此条目的高度，以 `em` 为单位。
+ *
+ */
 export const SELECT_ITEM_HEIGHT_EM = 3;
 
 // TODO(josephperrott): Revert to a constant after 2018 spec updates are fully merged.
@@ -135,19 +155,26 @@ export const SELECT_ITEM_HEIGHT_EM = 3;
  * (SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40
  * The padding is multiplied by 1.5 because the checkbox's margin is half the padding.
  * The checkbox width is 16px.
+ *
+ * 计算公式为：(SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40。
+ * 衬距要乘以 1.5，因为复选框的外边距是衬距的一半。复选框的宽度为 16 像素。
+ *
  */
 export const SELECT_MULTIPLE_PANEL_PADDING_X = SELECT_PANEL_PADDING_X * 1.5 + 16;
 
 /**
  * The select panel will only "fit" inside the viewport if it is positioned at
  * this value or more away from the viewport boundary.
+ *
+ * 只有当选择面板位于视口内部且位于此值或距视口边界更远的位置时，才认为它“适合”视口。
+ *
  */
 export const SELECT_PANEL_VIEWPORT_PADDING = 8;
 
 /**
  * Injection token that determines the scroll handling while a select is open.
  *
- * 当选择器被打开时，本注入令牌决定滚动时的处理方式。
+ * 当选择框被打开时，本注入令牌决定滚动时的处理方式。
  *
  */
 export const MAT_SELECT_SCROLL_STRATEGY =
@@ -162,7 +189,7 @@ export function MAT_SELECT_SCROLL_STRATEGY_PROVIDER_FACTORY(overlay: Overlay):
 /**
  * Object that can be used to configure the default options for the select module.
  *
- * 可用于配置选择器模块默认选项的对象。
+ * 可用于配置选择框模块默认选项的对象。
  *
  */
 export interface MatSelectConfig {
@@ -194,7 +221,7 @@ export interface MatSelectConfig {
 /**
  * Injection token that can be used to provide the default options the select module.
  *
- * 这个注入令牌可以用来为选择器模块提供默认选项。
+ * 这个注入令牌可以用来为选择框模块提供默认选项。
  *
  */
 export const MAT_SELECT_CONFIG = new InjectionToken<MatSelectConfig>('MAT_SELECT_CONFIG');
@@ -209,14 +236,23 @@ export const MAT_SELECT_SCROLL_STRATEGY_PROVIDER = {
 /**
  * Change event object that is emitted when the select value has changed.
  *
- * 当选择器的值发生更改后触发的事件对象。
+ * 当选择框的值发生更改后触发的事件对象。
  *
  */
 export class MatSelectChange {
   constructor(
-    /** Reference to the select that emitted the change event. */
+    /**
+     * Reference to the select that emitted the change event.
+     *
+     * 对发出此变更事件的选择框的引用。
+     */
     public source: MatSelect,
-    /** Current value of the select that emitted the event. */
+    /**
+     * Current value of the select that emmited the event.
+     *
+     * 发出此事件的Current value of the select。
+     *
+     */
     public value: any) { }
 }
 
@@ -250,7 +286,7 @@ export const MAT_SELECT_TRIGGER = new InjectionToken<MatSelectTrigger>('MatSelec
 /**
  * Allows the user to customize the trigger that is displayed when the select has a value.
  *
- * 当选择器具有值时，允许用户自定义要显示的触发器。
+ * 当选择框具有值时，允许用户自定义要显示的触发器。
  *
  */
 @Directive({
@@ -273,7 +309,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * All of the defined select options.
    *
-   * 所有已定义的选择器选项。
+   * 所有已定义的选择框选项。
    *
    */
   abstract options: QueryList<_MatOptionBase>;
@@ -327,7 +363,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Creates a change event object that should be emitted by the select.
    *
-   * 创建一个应该由本选择器发出的 change 事件对象。
+   * 创建一个应该由本选择框发出的 change 事件对象。
    *
    */
   protected abstract _getChangeEvent(value: any): C;
@@ -335,7 +371,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Factory function used to create a scroll strategy for this select.
    *
-   * 这个工厂函数用于为这个选择器创建一个滚动策略。
+   * 这个工厂函数用于为这个选择框创建一个滚动策略。
    *
    */
   private _scrollStrategyFactory: () => ScrollStrategy;
@@ -367,7 +403,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Current `ariar-labelledby` value for the select trigger.
    *
-   * 此选择器触发器的当前 `aria-labelledby` 值。
+   * 此选择框触发器的当前 `aria-labelledby` 值。
    *
    */
   private _triggerAriaLabelledBy: string | null = null;
@@ -383,7 +419,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * The aria-describedby attribute on the select for improved a11y.
    *
-   * 此选择器的 aria-describedby 属性，用于提升无障碍性。
+   * 此选择框的 aria-describedby 属性，用于提升无障碍性。
    *
    */
   _ariaDescribedby: string;
@@ -413,7 +449,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * ID for the DOM node containing the select's value.
    *
-   * 包含选择器值的 DOM 节点的 ID。
+   * 包含选择框值的 DOM 节点的 ID。
    *
    */
   _valueId = `mat-select-value-${nextUniqueId++}`;
@@ -439,7 +475,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Whether the select is focused.
    *
-   * 此选择器是否拥有焦点。
+   * 此选择框是否拥有焦点。
    *
    */
   get focused(): boolean {
@@ -458,7 +494,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Trigger that opens the select.
    *
-   * 用于打开选择器的触发器。
+   * 用于打开选择框的触发器。
    *
    */
   @ViewChild('trigger') trigger: ElementRef;
@@ -466,19 +502,24 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Panel containing the select options.
    *
-   * 包含选择器选项的面板。
+   * 包含选择框选项的面板。
    *
    */
   @ViewChild('panel') panel: ElementRef;
 
-  /** Overlay pane containing the options. */
+  /**
+   * Overlay pane containing the options.
+   *
+   * 包含此选项的浮层窗格。
+   *
+   */
   @ViewChild(CdkConnectedOverlay)
   protected _overlayDir: CdkConnectedOverlay;
 
   /**
    * Classes to be passed to the select panel. Supports the same syntax as `ngClass`.
    *
-   * 要传递给选择器面板的类。语法与 `ngClass` 相同。
+   * 要传递给选择框面板的类。语法与 `ngClass` 相同。
    *
    */
   @Input() panelClass: string|string[]|Set<string>|{[key: string]: any};
@@ -565,7 +606,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Value of the select control.
    *
-   * 选择器控件的值。
+   * 选择框控件的值。
    *
    */
   @Input()
@@ -582,7 +623,12 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   }
   private _value: any;
 
-  /** Aria label of the select. */
+  /**
+   * Aria label of the select.
+   *
+   * 此选择框的 aria-label。
+   *
+   */
   @Input('aria-label') ariaLabel: string = '';
 
   /**
@@ -618,7 +664,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    * Function used to sort the values in a select in multiple mode.
    * Follows the same logic as `Array.prototype.sort`.
    *
-   * 函数用于对多选模式选择器中的值进行排序。与 `Array.prototype.sort` 的逻辑相同。
+   * 函数用于对多选模式选择框中的值进行排序。与 `Array.prototype.sort` 的逻辑相同。
    *
    */
   @Input() sortComparator: (a: MatOption, b: MatOption, options: MatOption[]) => number;
@@ -660,7 +706,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Event emitted when the select panel has been toggled.
    *
-   * 切换选择器面板时会发生事件。
+   * 切换选择框面板时会发生事件。
    *
    */
   @Output() readonly openedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -668,7 +714,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Event emitted when the select has been opened.
    *
-   * 当选择器被打开时会发出本事件。
+   * 当选择框被打开时会发出本事件。
    *
    */
   @Output('opened') readonly _openedStream: Observable<void> =
@@ -677,7 +723,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Event emitted when the select has been closed.
    *
-   * 选择器关闭后会触发的事件。
+   * 选择框关闭后会触发的事件。
    *
    */
   @Output('closed') readonly _closedStream: Observable<void> =
@@ -695,7 +741,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    * Event that emits whenever the raw value of the select changes. This is here primarily
    * to facilitate the two-way binding for the `value` input.
    *
-   * 每当选择器原始值发生变化时都会发出本事件。这主要是为了方便对 `value` 输入属性的双向绑定。
+   * 每当选择框原始值发生变化时都会发出本事件。这主要是为了方便对 `value` 输入属性的双向绑定。
    *
    * @docs-private
    */
@@ -848,7 +894,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    * Sets the select's value. Part of the ControlValueAccessor interface
    * required to integrate with Angular's core forms API.
    *
-   * 设置选择器的值。作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
+   * 设置选择框的值。作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
    *
    * @param value New value to be written to the model.
    *
@@ -864,7 +910,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    * changes from user input. Part of the ControlValueAccessor interface
    * required to integrate with Angular's core forms API.
    *
-   * 保存一个回调函数，并在选择器的值因为用户输入而改变时调用它。
+   * 保存一个回调函数，并在选择框的值因为用户输入而改变时调用它。
    * 作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
    *
    * @param fn Callback to be triggered when the value changes.
@@ -881,7 +927,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    * by the user. Part of the ControlValueAccessor interface required
    * to integrate with Angular's core forms API.
    *
-   * 保存一个回调函数，并在用户让此选择器失焦时调用它。作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
+   * 保存一个回调函数，并在用户让此选择框失焦时调用它。作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
    *
    * @param fn Callback to be triggered when the component has been touched.
    *
@@ -896,7 +942,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    * Disables the select. Part of the ControlValueAccessor interface required
    * to integrate with Angular's core forms API.
    *
-   * 禁用此选择器。作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
+   * 禁用此选择框。作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
    *
    * @param isDisabled Sets whether the component is disabled.
    *
@@ -967,7 +1013,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Handles all keydown events on the select.
    *
-   * 处理选择器中所有 keydown 事件。
+   * 处理选择框中所有 keydown 事件。
    *
    */
   _handleKeydown(event: KeyboardEvent): void {
@@ -979,7 +1025,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Handles keyboard events while the select is closed.
    *
-   * 此选择器关闭后，处理键盘事件。
+   * 此选择框关闭后，处理键盘事件。
    *
    */
   private _handleClosedKeydown(event: KeyboardEvent): void {
@@ -1011,7 +1057,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Handles keyboard events when the selected is open.
    *
-   * 当选择器打开时，处理键盘事件。
+   * 当选择框打开时，处理键盘事件。
    *
    */
   private _handleOpenKeydown(event: KeyboardEvent): void {
@@ -1062,7 +1108,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    * Calls the touched callback only if the panel is closed. Otherwise, the trigger will
    * "blur" to the panel when it opens, causing a false positive.
    *
-   * 只有当面板关闭时才调用“被接触过”回调。否则，触发器会在面板打开时“失去焦点”，造成误报。
+   * 只有当面板关闭时才调用“被接触过”回调。否则，触发器会在面板打开时“失焦”，造成误报。
    *
    */
   _onBlur() {
@@ -1101,7 +1147,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Whether the select has a value.
    *
-   * 此选择器是否有值。
+   * 此选择框是否有值。
    *
    */
   get empty(): boolean {
@@ -1121,7 +1167,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
    * Sets the selected option based on a value. If no option can be
    * found with the designated value, the select trigger is cleared.
    *
-   * 根据值设置选定的选项。如果找不到指定值的选项，就清除选择器的触发器。
+   * 根据值设置选定的选项。如果找不到指定值的选项，就清除选择框的触发器。
    *
    */
   private _setSelectionByValue(value: any | any[]): void {
@@ -1370,7 +1416,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Focuses the select element.
    *
-   * 让此选择器元素获得焦点。
+   * 让此选择框元素获得焦点。
    *
    */
   focus(options?: FocusOptions): void {
@@ -1380,7 +1426,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
   /**
    * Gets the aria-labelledby for the select panel.
    *
-   * 获取选择器面板的 aria-labelledby。
+   * 获取选择框面板的 aria-labelledby。
    *
    */
   _getPanelAriaLabelledby(): string | null {
@@ -1407,7 +1453,12 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
     return null;
   }
 
-  /** Gets the aria-labelledby of the select component trigger. */
+  /**
+   * Gets the aria-labelledby of the select component trigger.
+   *
+   * 获取此选择框组件触发器的 aria-labelledby。
+   *
+   */
   private _getTriggerAriaLabelledby(): string | null {
     if (this.ariaLabel) {
       return null;
@@ -1588,7 +1639,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
   /**
    * Calculates the scroll position of the select's overlay panel.
    *
-   * 计算选择器的浮层面板的滚动位置。
+   * 计算选择框的浮层面板的滚动位置。
    *
    * Attempts to center the selected option in the panel. If the option is
    * too high or too low in the panel to be scrolled to the center, it clamps the
@@ -1737,7 +1788,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
    * top start corner of the trigger. It has to be adjusted in order for the
    * selected option to be aligned over the trigger when the panel opens.
    *
-   * 计算选择器的浮层面板相对于触发器顶部起始角的 y 偏移量。必须对它进行调整，以便当面板打开时，选定的选项可以与触发器对齐。
+   * 计算选择框的浮层面板相对于触发器顶部起始角的 y 偏移量。必须对它进行调整，以便当面板打开时，选定的选项可以与触发器对齐。
    *
    */
   private _calculateOverlayOffsetY(selectedIndex: number, scrollBuffer: number,
@@ -1919,7 +1970,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
   /**
    * Calculates the height of the select's options.
    *
-   * 计算选择器选项的高度。
+   * 计算选择框选项的高度。
    *
    */
   private _getItemHeight(): number {
@@ -1929,7 +1980,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
   /**
    * Calculates the amount of items in the select. This includes options and group labels.
    *
-   * 计算选择器中的条目数量。包括选项和组标签。
+   * 计算选择框中的条目数量。包括选项和组标签。
    *
    */
   private _getItemCount(): number {

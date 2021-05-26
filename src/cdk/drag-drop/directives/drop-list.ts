@@ -51,7 +51,7 @@ let _uniqueIdCounter = 0;
  * Internal compile-time-only representation of a `CdkDropList`.
  * Used to avoid circular import issues between the `CdkDropList` and the `CdkDrag`.
  *
- * `CdkDropList` 内部的仅编译时表示法。 用来解决 `CdkDropList` 和 `CdkDrag` 之间的循环导入问题。
+ * `CdkDropList` 内部的仅编译时表示法。用来解决 `CdkDropList` 和 `CdkDrag` 之间的循环导入问题。
  *
  * @docs-private
  */
@@ -281,7 +281,12 @@ export class CdkDropList<T = any> implements OnDestroy {
   private _unsortedItems = new Set<CdkDrag>();
 
   constructor(
-      /** Element that the drop list is attached to. */
+      /**
+       * Element that the drop list is attached to.
+       *
+       * 拖放列表要附着到的元素。
+       *
+       */
       public element: ElementRef<HTMLElement>, dragDrop: DragDrop,
       private _changeDetectorRef: ChangeDetectorRef,
       private _scrollDispatcher: ScrollDispatcher,

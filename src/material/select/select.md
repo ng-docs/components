@@ -60,7 +60,7 @@ these features, see the
 [form field documentation](https://material.angular.io/components/form-field/overview).
 
 `<mat-form-field>` 的几个特性可以和任何 `<mat-select>` 一起使用。包括：错误信息、提示信息、前缀与后缀、主题。
-欲知详情，参见[表单字段的文档](/components/form-field/overview)。 
+欲知详情，参见[表单字段的文档](/components/form-field/overview)。
 
 <!-- example(select-hint-error) -->
 

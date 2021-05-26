@@ -11,10 +11,20 @@ import {ElementRef} from '@angular/core';
 
 /** @docs-private */
 export interface CanColor {
-  /** Theme color palette for the component. */
+  /**
+   * Theme color palette for the component.
+   *
+   * 此组件的主题调色板。
+   *
+   */
   color: ThemePalette;
 
-  /** Default color to fall back to if no value is set. */
+  /**
+   * Default color to fall back to if no value is set.
+   *
+   * 如果未设置任何值，则默认颜色恢复为原来的颜色。
+   *
+   */
   defaultColor: ThemePalette | undefined;
 }
 
@@ -26,10 +36,20 @@ export interface HasElementRef {
   _elementRef: ElementRef;
 }
 
-/** Possible color palette values. */
+/**
+ * Possible color palette values.
+ *
+ * 可能的调色板值。
+ *
+ */
 export type ThemePalette = 'primary' | 'accent' | 'warn' | undefined;
 
-/** Mixin to augment a directive with a `color` property. */
+/**
+ * Mixin to augment a directive with a `color` property.
+ *
+ * 混入 `color` 属性，以扩展指令。
+ *
+ */
 export function mixinColor<T extends AbstractConstructor<HasElementRef>>(
     base: T, defaultColor?: ThemePalette): CanColorCtor & T;
 export function mixinColor<T extends Constructor<HasElementRef>>(

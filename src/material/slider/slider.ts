@@ -433,7 +433,7 @@ export class MatSlider extends _MatSliderMixinBase
   /**
    * blur the host element
    *
-   * 让宿主元素失去焦点
+   * 让宿主元素失焦
    *
    */
   blur() {
@@ -912,7 +912,7 @@ export class MatSlider extends _MatSliderMixinBase
   /**
    * Called when the window has lost focus.
    *
-   * 当窗口失去焦点时调用。
+   * 当窗口失焦时调用。
    *
    */
   private _windowBlur = () => {

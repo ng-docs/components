@@ -8,15 +8,30 @@
 
 import {BaseTreeControl} from './base-tree-control';
 
-/** Optional set of configuration that can be provided to the FlatTreeControl. */
+/**
+ * Optional set of configuration that can be provided to the FlatTreeControl.
+ *
+ * 可以提供给 FlatTreeControl 的一组可选配置。
+ *
+ */
 export interface FlatTreeControlOptions<T, K> {
   trackBy?: (dataNode: T) => K;
 }
 
-/** Flat tree control. Able to expand/collapse a subtree recursively for flattened tree. */
+/**
+ * Flat tree control. Able to expand/collapse a subtree recursively for flattened tree.
+ *
+ * 扁平树控件。能够对扁平树中的子树进行递归地展开/折叠。
+ *
+ */
 export class FlatTreeControl<T, K = T> extends BaseTreeControl<T, K> {
 
-  /** Construct with flat tree data node functions getLevel and isExpandable. */
+  /**
+   * Construct with flat tree data node functions getLevel and isExpandable.
+   *
+   * 使用扁平树数据节点的 getLevel 和 isExpandable 函数进行构造。
+   *
+   */
   constructor(
       public getLevel: (dataNode: T) => number, public isExpandable: (dataNode: T) => boolean,
       public options?: FlatTreeControlOptions<T, K>) {
@@ -30,8 +45,13 @@ export class FlatTreeControl<T, K = T> extends BaseTreeControl<T, K> {
   /**
    * Gets a list of the data node's subtree of descendent data nodes.
    *
+   * 获取后代数据节点的数据节点子树的列表。
+   *
    * To make this working, the `dataNodes` of the TreeControl must be flattened tree nodes
    * with correct levels.
+   *
+   * 为了使它工作正常，`dataNodes` 节点必须展平为具有正确级别的树节点。
+   *
    */
   getDescendants(dataNode: T): T[] {
     const startIndex = this.dataNodes.indexOf(dataNode);
@@ -54,8 +74,13 @@ export class FlatTreeControl<T, K = T> extends BaseTreeControl<T, K> {
   /**
    * Expands all data nodes in the tree.
    *
+   * 展开树中的所有数据节点。
+   *
    * To make this working, the `dataNodes` variable of the TreeControl must be set to all flattened
    * data nodes of the tree.
+   *
+   * 为了使它起作用，`dataNodes` 变量必须设置为树的所有扁平化的数据节点。
+   *
    */
   expandAll(): void {
     this.expansionModel.select(...this.dataNodes.map(node => this._trackByValue(node)));

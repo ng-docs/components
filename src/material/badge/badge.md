@@ -70,7 +70,7 @@ The badge visibility can be toggled programmatically by defining `matBadgeHidden
 Badges can be colored in terms of the current theme using the `matBadgeColor` property to set the
 background color to `primary`, `accent`, or `warn`.
 
-徽章可以通过把 `matBadgeColor` 属性设置为 `primary`、`accent` 或 `warn` 之一来指定在它当前主题下的背景色。 
+徽章可以通过把 `matBadgeColor` 属性设置为 `primary`、`accent` 或 `warn` 之一来指定在它当前主题下的背景色。
 
 <!-- example({"example":"badge-overview",
               "file":"badge-overview-example.html", 

@@ -8,5 +8,10 @@
 
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/** A set of criteria that can be used to filter a list of `MatSnackBarHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatSnackBarHarness` instances.
+ *
+ * 一组可用于过滤 `MatSnackBarHarness` 实例列表的条件。
+ *
+ */
 export interface SnackBarHarnessFilters extends BaseHarnessFilters {}

@@ -128,11 +128,21 @@ export function MAT_MENU_DEFAULT_OPTIONS_FACTORY(): MatMenuDefaultOptions {
 
 let menuPanelUid = 0;
 
-/** Reason why the menu was closed. */
+/**
+ * Reason why the menu was closed.
+ *
+ * 菜单被关闭的原因。
+ *
+ */
 export type MenuCloseReason = void | 'click' | 'keydown' | 'tab';
 
 
-/** Base class with all of the `MatMenu` functionality. */
+/**
+ * Base class with all of the `MatMenu` functionality.
+ *
+ * 具有所有 `MatMenu` 功能的基类。
+ *
+ */
 @Directive()
 export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>, OnInit,
   OnDestroy {
@@ -379,7 +389,7 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
    *
    * @deprecated Use `panelClass` instead.
    *
-   * 请改用 `panelClass` 。
+   * 请改用 `panelClass`。
    *
    * @breaking-change 8.0.0
    */

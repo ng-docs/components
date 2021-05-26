@@ -36,9 +36,17 @@ import {MatChipSet} from './chip-set';
 /** Change event object that is emitted when the chip listbox value has changed. */
 export class MatChipListboxChange {
   constructor(
-    /** Chip listbox that emitted the event. */
+    /**
+     * Chip listbox that emitted the event.
+     *
+     * 发出此事件的纸片列表框。
+     */
     public source: MatChipListbox,
-    /** Value of the chip listbox when the event was emitted. */
+    /**
+     * Value of the chip listbox when the event was emitted.
+     *
+     * 发出本事件时纸片列表框的值。
+     */
     public value: any) { }
 }
 

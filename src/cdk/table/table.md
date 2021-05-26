@@ -161,7 +161,7 @@ to the CSS class (e.g. `*nameColumn!`). In these cases, the special characters w
 the `-` character. For example, cells container in a column named `*nameColumn!` will be given
 the class `cdk-column--nameColumn-`.    
 
-由于列的名字可以是任意字符串，所以它可能无法直接用在 CSS 类中（例如 `*nameColumn!` ）。此时，这些特殊字符将替换成 `-` 字符。例如， `*nameColumn!` 列中的单元格容器将会带有 `cdk-column--nameColumn-` 类。
+由于列的名字可以是任意字符串，所以它可能无法直接用在 CSS 类中（例如 `*nameColumn!` ）。此时，这些特殊字符将替换成 `-` 字符。例如，`*nameColumn!` 列中的单元格容器将会带有 `cdk-column--nameColumn-` 类。
 
 #### Connecting the table to a data source
 

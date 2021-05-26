@@ -19,7 +19,12 @@ import {SnackBarHarnessFilters} from './snack-bar-harness-filters';
 export class MatSnackBarHarness extends ContentContainerComponentHarness<string> {
   // Developers can provide a custom component or template for the
   // snackbar. The canonical snack-bar parent is the "MatSnackBarContainer".
-  /** The selector for the host element of a `MatSnackBar` instance. */
+  /**
+   * The selector for the host element of a `MatSnackBar` instance.
+   *
+   * `MatSnackBar` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-snack-bar-container';
   protected _messageSelector = '.mat-simple-snackbar > span';
   protected _simpleSnackBarSelector = '.mat-simple-snackbar';
@@ -29,7 +34,13 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatSnackBarHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatSnackBarHarness`。
+   *
    * @param options Options for filtering which snack bar instances are considered a match.
+   *
+   * 用于筛选哪些快餐栏实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -41,7 +52,13 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
   /**
    * Gets the role of the snack-bar. The role of a snack-bar is determined based
    * on the ARIA politeness specified in the snack-bar config.
+   *
+   * 获取快餐栏的角色。快餐栏的角色是根据快餐栏配置中指定的 ARIA politeness 来确定的。
+   *
    * @deprecated Use `getAriaLive` instead.
+   *
+   * 请改用 `getAriaLive`。
+   *
    * @breaking-change 13.0.0
    */
   async getRole(): Promise<'alert'|'status'|null> {
@@ -51,6 +68,9 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
   /**
    * Gets the aria-live of the snack-bar's live region. The aria-live of a snack-bar is
    * determined based on the ARIA politeness specified in the snack-bar config.
+   *
+   * 获取此快餐栏现场区域的 aria-live。快餐栏的 aria-live 是根据快餐栏配置中指定的 ARIA politeness 来确定的。
+   *
    */
   async getAriaLive(): Promise<AriaLivePoliteness> {
     return (await this._simpleSnackBarLiveRegion())
@@ -59,6 +79,9 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
 
   /**
    * Whether the snack-bar has an action. Method cannot be used for snack-bar's with custom content.
+   *
+   * 此快餐栏是否有动作。该方法不能用于具有自定义内容的快餐栏。
+   *
    */
   async hasAction(): Promise<boolean> {
     await this._assertSimpleSnackBar();
@@ -68,6 +91,9 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
   /**
    * Gets the description of the snack-bar. Method cannot be used for snack-bar's without action or
    * with custom content.
+   *
+   * 获取此快餐栏的描述。该方法不能用于没有动作或带有自定义内容的快餐栏。
+   *
    */
   async getActionDescription(): Promise<string> {
     await this._assertSimpleSnackBarWithAction();
@@ -77,6 +103,9 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
   /**
    * Dismisses the snack-bar by clicking the action button. Method cannot be used for snack-bar's
    * without action or with custom content.
+   *
+   * 通过单击动作按钮关闭快餐栏。该方法不能用于没有动作或带有自定义内容的快餐栏。
+   *
    */
   async dismissWithAction(): Promise<void> {
     await this._assertSimpleSnackBarWithAction();
@@ -85,13 +114,21 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
 
   /**
    * Gets the message of the snack-bar. Method cannot be used for snack-bar's with custom content.
+   *
+   * 获取此快餐栏的消息。该方法不能用于具有自定义内容的快餐栏。
+   *
    */
   async getMessage(): Promise<string> {
     await this._assertSimpleSnackBar();
     return (await this.locatorFor(this._messageSelector)()).text();
   }
 
-  /** Gets whether the snack-bar has been dismissed. */
+  /**
+   * Gets whether the snack-bar has been dismissed.
+   *
+   * 获取此快餐栏是否已关闭。
+   *
+   */
   async isDismissed(): Promise<boolean> {
     // We consider the snackbar dismissed if it's not in the DOM. We can assert that the
     // element isn't in the DOM by seeing that its width and height are zero.
@@ -110,6 +147,9 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
   /**
    * Asserts that the current snack-bar does not use custom content. Promise rejects if
    * custom content is used.
+   *
+   * 断言当前快餐栏不使用自定义内容。如果使用了自定义内容，则拒绝此 Promise。
+   *
    */
   private async _assertSimpleSnackBar(): Promise<void> {
     if (!await this._isSimpleSnackBar()) {
@@ -120,6 +160,9 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
   /**
    * Asserts that the current snack-bar does not use custom content and has
    * an action defined. Otherwise the promise will reject.
+   *
+   * 断言当前快餐栏不使用自定义内容，并且已定义操作。否则，拒绝此 Promise。
+   *
    */
   private async _assertSimpleSnackBarWithAction(): Promise<void> {
     await this._assertSimpleSnackBar();
@@ -128,12 +171,22 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
     }
   }
 
-  /** Whether the snack-bar is using the default content template. */
+  /**
+   * Whether the snack-bar is using the default content template.
+   *
+   * 此快餐栏是否正在使用默认内容模板。
+   *
+   */
   private async _isSimpleSnackBar(): Promise<boolean> {
     return await this.locatorForOptional(this._simpleSnackBarSelector)() !== null;
   }
 
-  /** Gets the simple snack bar action button. */
+  /**
+   * Gets the simple snack bar action button.
+   *
+   * 获取简单的快餐栏操作按钮。
+   *
+   */
   private async _getSimpleSnackBarActionButton() {
     return this.locatorForOptional(this._actionButtonSelector)();
   }

@@ -62,7 +62,12 @@ export interface CdkDragEnd<T = any> {
    *
    */
   distance: {x: number, y: number};
-  /** Position where the pointer was when the item was dropped */
+  /**
+   * Position where the pointer was when the item was dropped
+   *
+   * 放置项目时指针所处的位置
+   *
+   */
   dropPoint: {x: number, y: number};
 }
 
@@ -176,7 +181,12 @@ export interface CdkDragDrop<T, O = T> {
    *
    */
   distance: {x: number, y: number};
-  /** Position where the pointer was when the item was dropped */
+  /**
+   * Position where the pointer was when the item was dropped
+   *
+   * 放置条目时指针所处的位置
+   *
+   */
   dropPoint: {x: number, y: number};
 }
 
@@ -221,7 +231,7 @@ export interface CdkDragMove<T = any> {
    * whereas `-1` means that it's decreasing (they're moving to the left or upwards). `0` means
    * that the position hasn't changed.
    *
-   * 指示用户沿每个轴拖动元素的方向。 `1` 表示位置在增加（例如，用户向右或向下移动），而 `-1` 表示它正在减少（它们向左或向上移动）。 `0` 意味着该位置没有变化。
+   * 指示用户沿每个轴拖动元素的方向。`1` 表示位置在增加（例如，用户向右或向下移动），而 `-1` 表示它正在减少（它们向左或向上移动）。`0` 意味着该位置没有变化。
    *
    */
   delta: {x: -1 | 0 | 1, y: -1 | 0 | 1};

@@ -61,7 +61,7 @@ export const HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS = 'cdk-high-contrast-active';
  * Mode. This service does not detect high-contrast mode as added by the Chrome "High Contrast"
  * browser extension.
  *
- * 目前，IE、Edge 和 Firefox 支持此模式。 Chrome 浏览器不支持 Windows 高对比度模式。此服务无法检测到由 Chrome 的“高对比度” 扩展程序添加的高对比度模式。
+ * 目前，IE、Edge 和 Firefox 支持此模式。Chrome 浏览器不支持 Windows 高对比度模式。此服务无法检测到由 Chrome 的“高对比度” 扩展程序添加的高对比度模式。
  *
  */
 @Injectable({providedIn: 'root'})
@@ -69,6 +69,9 @@ export class HighContrastModeDetector {
   /**
    * Figuring out the high contrast mode and adding the body classes can cause
    * some expensive layouts. This flag is used to ensure that we only do it once.
+   *
+   * 检测高对比度模式并添加 body 上的类可能会导致某些昂贵的布局工作。此标志用于确保我们仅执行一次。
+   *
    */
   private _hasCheckedHighContrastMode: boolean;
   private _document: Document;

@@ -36,6 +36,9 @@ import {InteractivityChecker} from '../interactivity-checker/interactivity-check
  * 此类当前使用相对简单的方法进行焦点捕获。它假定 tab 顺序与 DOM 顺序相同，但这不一定正确。和 `tabIndex > 0` 一样，flex `order` 和 Shadow DOM 之类的都可能导致两者未对齐。
  *
  * @deprecated Use `ConfigurableFocusTrap` instead.
+ *
+ * 请改用 `ConfigurableFocusTrap`。
+ *
  * @breaking-change 11.0.0
  */
 export class FocusTrap {
@@ -457,6 +460,9 @@ export class FocusTrap {
  * 允许轻松实例化焦点陷阱的工厂。
  *
  * @deprecated Use `ConfigurableFocusTrapFactory` instead.
+ *
+ * 请改用 `ConfigurableFocusTrapFactory`。
+ *
  * @breaking-change 11.0.0
  */
 @Injectable({providedIn: 'root'})
@@ -474,7 +480,7 @@ export class FocusTrapFactory {
   /**
    * Creates a focus-trapped region around the given element.
    *
-   * 在指定元素周围创建一个焦点捕获 zone 。
+   * 在指定元素周围创建一个焦点捕获 zone。
    *
    * @param element The element around which focus will be trapped.
    *

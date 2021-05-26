@@ -285,7 +285,7 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
  * @param fixedSizeDir The instance of `CdkFixedSizeVirtualScroll` to extract the
  *     `FixedSizeVirtualScrollStrategy` from.
  *
- * `CdkFixedSizeVirtualScroll` 实例从中提取 `FixedSizeVirtualScrollStrategy` 。
+ * `CdkFixedSizeVirtualScroll` 实例从中提取 `FixedSizeVirtualScrollStrategy`。
  *
  */
 export function _fixedSizeVirtualScrollStrategyFactory(fixedSizeDir: CdkFixedSizeVirtualScroll) {

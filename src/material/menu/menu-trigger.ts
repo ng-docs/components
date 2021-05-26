@@ -118,7 +118,7 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
    * We're specifically looking for a `MatMenu` here since the generic `MatMenuPanel`
    * interface lacks some functionality around nested menus and animations.
    *
-   * 我们特意在 `MatMenu` ，因为通用的 `MatMenuPanel` 接口在嵌套的菜单和动画中缺乏一些功能。
+   * 我们特意在 `MatMenu`，因为通用的 `MatMenuPanel` 接口在嵌套的菜单和动画中缺乏一些功能。
    *
    */
   private _parentMaterialMenu: _MatMenuBase | undefined;
@@ -372,7 +372,7 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
   /**
    * Focuses the menu trigger.
    *
-   * 重点关注菜单触发器。
+   * 让此菜单触发器获得焦点。
    *
    * @param origin Source of the menu trigger's focus.
    *
@@ -389,12 +389,20 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
 
   /**
    * Updates the position of the menu to ensure that it fits all options within the viewport.
+   *
+   * 更新菜单的位置，以确保它适合视口内的所有选项。
+   *
    */
   updatePosition(): void {
     this._overlayRef?.updatePosition();
   }
 
-  /** Closes the menu and does the necessary cleanup. */
+  /**
+   * Closes the menu and does the necessary cleanup.
+   *
+   * 关闭菜单并进行必要的清理。
+   *
+   */
   private _destroyMenu(reason: MenuCloseReason) {
     if (!this._overlayRef || !this.menuOpen) {
       return;

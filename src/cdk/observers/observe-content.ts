@@ -189,7 +189,7 @@ export class CdkObserveContent implements AfterContentInit, OnDestroy {
    * Whether observing content is disabled. This option can be used
    * to disconnect the underlying MutationObserver until it is needed.
    *
-   * 对内容的观察是否被禁用。此选项可用于断开与底层 MutationObserver 的连接，直到需要它为止。
+   * 对内容的观察是否已禁用。此选项可用于断开与底层 MutationObserver 的连接，直到需要它为止。
    *
    */
   @Input('cdkObserveContentDisabled')

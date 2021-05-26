@@ -14,7 +14,7 @@ import {FocusOrigin} from '../focus-monitor/focus-monitor';
  * Each item must know how to focus itself, whether or not it is currently disabled
  * and be able to supply its label.
  *
- * 这是可获取焦点条目的接口（由 FocusKeyManager 使用）。每个条目都必须知道如何获取焦点，无论当前是否被禁用并能提供其标签。
+ * 这是可获取焦点条目的接口（由 FocusKeyManager 使用）。每个条目都必须知道如何获取焦点，无论当前是否已禁用并能提供其标签。
  *
  */
 export interface FocusableOption extends ListKeyManagerOption {

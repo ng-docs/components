@@ -17,7 +17,7 @@ import {Injector} from '@angular/core';
  * @docs-private
  * @deprecated Use `Injector.create` instead.
  *
- * 请改用 `Injector.create` 。
+ * 请改用 `Injector.create`。
  *
  * @breaking-change 11.0.0
  *

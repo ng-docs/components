@@ -297,7 +297,7 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   /**
    * Whether the calendar should be started in month or year view.
    *
-   * 日历应该开始于月视图还是年视图。
+   * 日历应该开始于月份视图还是年份视图。
    *
    */
   @Input() startView: MatCalendarView = 'month';
@@ -389,7 +389,7 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
    * Emits the year chosen in multiyear view.
    * This doesn't imply a change on the selected date.
    *
-   * 在多年视图中选择年份。这不会更改选定日期。
+   * 在多年份视图中选择年份。这不会更改选定日期。
    *
    */
   @Output() readonly yearSelected: EventEmitter<D> = new EventEmitter<D>();
@@ -440,7 +440,7 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   /**
    * Reference to the current multi-year view component.
    *
-   * 引用当前的多年视图组件。
+   * 引用当前的多年份视图组件。
    *
    */
   @ViewChild(MatMultiYearView) multiYearView: MatMultiYearView<D>;
@@ -590,7 +590,7 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   /**
    * Handles year selection in the multiyear view.
    *
-   * 在多年视图中处理年份选择。
+   * 在多年份视图中处理年份选择。
    *
    */
   _yearSelectedInMultiYearView(normalizedYear: D) {

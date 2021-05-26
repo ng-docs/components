@@ -88,6 +88,9 @@ export const SCROLL_THROTTLE_MS = 20;
  *
  * @deprecated
  * @breaking-change 13.0.0 remove this variable
+ *
+ * 删除此变量
+ *
  */
 export const TOOLTIP_PANEL_CLASS = 'mat-tooltip-panel';
 
@@ -602,7 +605,12 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase> implement
     ]);
   }
 
-  /** Adds the configured offset to a position. Used as a hook for child classes. */
+  /**
+   * Adds the configured offset to a position. Used as a hook for child classes.
+   *
+   * 将所配置的偏移量添加到位置。用作子类的钩子。
+   *
+   */
   protected _addOffset(position: ConnectedPosition): ConnectedPosition {
     return position;
   }
@@ -741,7 +749,12 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase> implement
     return {x, y};
   }
 
-  /** Updates the class on the overlay panel based on the current position of the tooltip. */
+  /**
+   * Updates the class on the overlay panel based on the current position of the tooltip.
+   *
+   * 根据工具提示的当前位置更新浮层面板上的类。
+   *
+   */
   private _updateCurrentPositionClass(connectionPair: ConnectionPositionPair): void {
     const {overlayY, originX, originY} = connectionPair;
     let newPosition: TooltipPosition;
@@ -911,6 +924,8 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase> implement
 /**
  * Directive that attaches a material design tooltip to the host element. Animates the showing and
  * hiding of a tooltip provided position (defaults to below the element).
+ *
+ * 将 Material Design 工具提示附加到主体元素的指令。对工具提示提供的位置的显示和隐藏进行动画处理（默认为元素下方）。
  *
  * https://material.io/design/components/tooltips.html
  */
@@ -1100,7 +1115,7 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    * material design spec.
    * <https://material.io/design/components/tooltips.html#behavior>
    *
-   * HTML 正文中的交互应该立即关闭工具提示，就像在 Material Design 规范中定义的那样。 <https://material.io/design/components/tooltips.html#behavior>
+   * HTML 正文中的交互应该立即关闭工具提示，就像在 Material Design 规范中定义的那样。<https://material.io/design/components/tooltips.html#behavior>
    */
   _handleBodyInteraction(): void {
     if (this._closeOnInteraction) {
@@ -1123,6 +1138,9 @@ export abstract class _TooltipComponentBase implements OnDestroy {
 
 /**
  * Internal component that wraps the tooltip's content.
+ *
+ * 包装工具提示内容的内部组件。
+ *
  * @docs-private
  */
 @Component({
@@ -1142,7 +1160,12 @@ export abstract class _TooltipComponentBase implements OnDestroy {
   }
 })
 export class TooltipComponent extends _TooltipComponentBase {
-  /** Stream that emits whether the user has a handset-sized display.  */
+  /**
+   * Stream that emits whether the user has a handset-sized display.
+   *
+   * 发出用户是否具有手机大小的显示器的流。
+   *
+   */
   _isHandset: Observable<BreakpointState> = this._breakpointObserver.observe(Breakpoints.Handset);
 
   constructor(

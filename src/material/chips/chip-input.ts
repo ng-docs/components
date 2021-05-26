@@ -36,7 +36,13 @@ export interface MatChipInputEvent {
    * 触发该事件的原生 `<input>`
    *
    * @deprecated Use `MatChipInputEvent#chipInput.inputElement` instead.
+   *
+   * 请改用 `MatChipInputEvent#chipInput.inputElement`。
+   *
    * @breaking-change 13.0.0 This property will be removed.
+   *
+   * 此属性将被删除。
+   *
    */
   input: HTMLInputElement;
 
@@ -50,7 +56,13 @@ export interface MatChipInputEvent {
 
   /**
    * Reference to the chip input that emitted the event.
+   *
+   * 对发出事件的纸片输入的引用。
+   *
    * @breaking-change 13.0.0 This property will be made required.
+   *
+   * 此属性为必填项。
+   *
    */
   chipInput?: MatChipInput;
 }
@@ -83,7 +95,12 @@ let nextUniqueId = 0;
   }
 })
 export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, AfterContentInit {
-  /** Used to prevent focus moving to chips while user is holding backspace */
+  /**
+   * Used to prevent focus moving to chips while user is holding backspace
+   *
+   * 用于防止在用户按住退格键时将焦点移到纸片上
+   *
+   */
   private _focusLastChipOnBackspace: boolean;
 
   /**
@@ -127,7 +144,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    *
    * Defaults to `[ENTER]`.
    *
-   * 默认为 `[ENTER]` 。
+   * 默认为 `[ENTER]`。
    *
    */
   @Input('matChipInputSeparatorKeyCodes')
@@ -161,7 +178,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
   /**
    * Whether the input is disabled.
    *
-   * 输入框是否被禁用。
+   * 输入框是否已禁用。
    *
    */
   @Input()
@@ -234,6 +251,9 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
 
   /**
    * Pass events to the keyboard manager. Available here for tests.
+   *
+   * 将事件传递给键盘管理器。这是为测试准备的。
+   *
    */
   _keyup(event: KeyboardEvent) {
     // Allow user to move focus to chips next time he presses backspace
@@ -303,7 +323,12 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
     this.inputElement.focus(options);
   }
 
-  /** Clears the input */
+  /**
+   * Clears the input
+   *
+   * 清除输入
+   *
+   */
   clear(): void {
     this.inputElement.value = '';
     this._focusLastChipOnBackspace = true;

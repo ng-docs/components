@@ -28,7 +28,12 @@ export abstract class _MatRadioGroupHarnessBase<
 > extends ComponentHarness {
   protected abstract _buttonClass: ButtonType;
 
-  /** Gets the name of the radio-group. */
+  /**
+   * Gets the name of the radio-group.
+   *
+   * 获取此单选组的名称。
+   *
+   */
   async getName(): Promise<string|null> {
     const hostName = await this._getGroupNameFromHost();
     // It's not possible to always determine the "name" of a radio-group by reading
@@ -50,12 +55,22 @@ export abstract class _MatRadioGroupHarnessBase<
     return radioNames[0]!;
   }
 
-  /** Gets the id of the radio-group. */
+  /**
+   * Gets the id of the radio-group.
+   *
+   * 获取此单选组的 ID。
+   *
+   */
   async getId(): Promise<string|null> {
     return (await this.host()).getProperty('id');
   }
 
-  /** Gets the checked radio-button in a radio-group. */
+  /**
+   * Gets the checked radio-button in a radio-group.
+   *
+   * 获取此单选组中选中的单选按钮。
+   *
+   */
   async getCheckedRadioButton(): Promise<Button|null> {
     for (let radioButton of await this.getRadioButtons()) {
       if (await radioButton.isChecked()) {
@@ -65,7 +80,12 @@ export abstract class _MatRadioGroupHarnessBase<
     return null;
   }
 
-  /** Gets the checked value of the radio-group. */
+  /**
+   * Gets the checked value of the radio-group.
+   *
+   * 获取此单选组的检查值。
+   *
+   */
   async getCheckedValue(): Promise<string|null> {
     const checkedRadio = await this.getCheckedRadioButton();
     if (!checkedRadio) {
@@ -76,7 +96,13 @@ export abstract class _MatRadioGroupHarnessBase<
 
   /**
    * Gets a list of radio buttons which are part of the radio-group.
+   *
+   * 获取属于此单选组的单选按钮的列表。
+   *
    * @param filter Optionally filters which radio buttons are included.
+   *
+   * （可选）过滤包含哪些单选按钮。
+   *
    */
   async getRadioButtons(filter?: ButtonFilters): Promise<Button[]> {
     return this.locatorForAll(this._buttonClass.with(filter))();
@@ -84,8 +110,14 @@ export abstract class _MatRadioGroupHarnessBase<
 
   /**
    * Checks a radio button in this group.
+   *
+   * 选中该组中的单选按钮。
+   *
    * @param filter An optional filter to apply to the child radio buttons. The first tab matching
    *     the filter will be selected.
+   *
+   * 应用于子单选按钮的可选过滤器。将选择与过滤器匹配的第一个标签。
+   *
    */
   async checkRadioButton(filter?: ButtonFilters): Promise<void> {
     const radioButtons = await this.getRadioButtons(filter);
@@ -95,12 +127,22 @@ export abstract class _MatRadioGroupHarnessBase<
     return radioButtons[0].check();
   }
 
-  /** Gets the name attribute of the host element. */
+  /**
+   * Gets the name attribute of the host element.
+   *
+   * 获取宿主元素的 name 属性。
+   *
+   */
   private async _getGroupNameFromHost() {
     return (await this.host()).getAttribute('name');
   }
 
-  /** Gets a list of the name attributes of all child radio buttons. */
+  /**
+   * Gets a list of the name attributes of all child radio buttons.
+   *
+   * 获取所有子单选按钮的 name 属性的列表。
+   *
+   */
   private async _getNamesFromRadioButtons(): Promise<string[]> {
     const groupNames: string[] = [];
     for (let radio of await this.getRadioButtons()) {
@@ -112,7 +154,12 @@ export abstract class _MatRadioGroupHarnessBase<
     return groupNames;
   }
 
-  /** Checks if the specified radio names are all equal. */
+  /**
+   * Checks if the specified radio names are all equal.
+   *
+   * 检查指定的单选名称是否全部相等。
+   *
+   */
   private _checkRadioNamesInGroupEqual(radioNames: string[]): boolean {
     let groupName: string|null = null;
     for (let radioName of radioNames) {
@@ -128,6 +175,9 @@ export abstract class _MatRadioGroupHarnessBase<
   /**
    * Checks if a radio-group harness has the given name. Throws if a radio-group with
    * matching name could be found but has mismatching radio-button names.
+   *
+   * 检查单选组测试工具是否具有给定名称。如果可以找到具有匹配名称的单选组但具有不匹配的单选按钮名，则抛出该异常。
+   *
    */
   protected static async _checkRadioGroupName(
     harness: _MatRadioGroupHarnessBase<any, any, any>, name: string) {
@@ -167,14 +217,25 @@ export class MatRadioGroupHarness extends _MatRadioGroupHarnessBase<
   MatRadioButtonHarness,
   RadioButtonHarnessFilters
 > {
-  /** The selector for the host element of a `MatRadioGroup` instance. */
+  /**
+   * The selector for the host element of a `MatRadioGroup` instance.
+   *
+   * `MatRadioGroup` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-radio-group';
   protected _buttonClass = MatRadioButtonHarness;
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatRadioGroupHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatRadioGroupHarness`。
+   *
    * @param options Options for filtering which radio group instances are considered a match.
+   *
+   * 用于过滤哪些无线电组实例应该视为匹配的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -190,30 +251,55 @@ export abstract class _MatRadioButtonHarnessBase extends ComponentHarness {
   protected abstract _clickLabel: AsyncFactoryFn<TestElement>;
   private _input = this.locatorFor('input');
 
-  /** Whether the radio-button is checked. */
+  /**
+   * Whether the radio-button is checked.
+   *
+   * 是否已选中此单选按钮。
+   *
+   */
   async isChecked(): Promise<boolean> {
     const checked = (await this._input()).getProperty('checked');
     return coerceBooleanProperty(await checked);
   }
 
-  /** Whether the radio-button is disabled. */
+  /**
+   * Whether the radio-button is disabled.
+   *
+   * 此单选按钮是否已禁用。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     const disabled = (await this._input()).getAttribute('disabled');
     return coerceBooleanProperty(await disabled);
   }
 
-  /** Whether the radio-button is required. */
+  /**
+   * Whether the radio-button is required.
+   *
+   * 此单选按钮是否必填的。
+   *
+   */
   async isRequired(): Promise<boolean> {
     const required = (await this._input()).getAttribute('required');
     return coerceBooleanProperty(await required);
   }
 
-  /** Gets the radio-button's name. */
+  /**
+   * Gets the radio-button's name.
+   *
+   * 获取此单选按钮的名称。
+   *
+   */
   async getName(): Promise<string|null> {
     return (await this._input()).getAttribute('name');
   }
 
-  /** Gets the radio-button's id. */
+  /**
+   * Gets the radio-button's id.
+   *
+   * 获取此单选按钮的 ID。
+   *
+   */
   async getId(): Promise<string|null> {
     return (await this.host()).getProperty('id');
   }
@@ -221,29 +307,54 @@ export abstract class _MatRadioButtonHarnessBase extends ComponentHarness {
   /**
    * Gets the value of the radio-button. The radio-button value will be converted to a string.
    *
+   * 获取此单选按钮的值。单选按钮的值将转换为字符串。
+   *
    * Note: This means that for radio-button's with an object as a value `[object Object]` is
    * intentionally returned.
+   *
+   * 注意：这意味着对于以对象为值的单选按钮，将刻意返回 `[object Object]`
+   *
    */
   async getValue(): Promise<string|null> {
     return (await this._input()).getProperty('value');
   }
 
-  /** Gets the radio-button's label text. */
+  /**
+   * Gets the radio-button's label text.
+   *
+   * 获取单选按钮的标签文本。
+   *
+   */
   async getLabelText(): Promise<string> {
     return (await this._textLabel()).text();
   }
 
-  /** Focuses the radio-button. */
+  /**
+   * Focuses the radio-button.
+   *
+   * 让此单选按钮获得焦点。
+   *
+   */
   async focus(): Promise<void> {
     return (await this._input()).focus();
   }
 
-  /** Blurs the radio-button. */
+  /**
+   * Blurs the radio-button.
+   *
+   * 让此单选按钮失焦。
+   *
+   */
   async blur(): Promise<void> {
     return (await this._input()).blur();
   }
 
-  /** Whether the radio-button is focused. */
+  /**
+   * Whether the radio-button is focused.
+   *
+   * 此单选按钮是否拥有焦点。
+   *
+   */
   async isFocused(): Promise<boolean> {
     return (await this._input()).isFocused();
   }
@@ -251,6 +362,9 @@ export abstract class _MatRadioButtonHarnessBase extends ComponentHarness {
   /**
    * Puts the radio-button in a checked state by clicking it if it is currently unchecked,
    * or doing nothing if it is already checked.
+   *
+   * 通过单击此单选按钮（如果当前未选中）将其置于选中状态，或者如果已选中则不执行任何操作。
+   *
    */
   async check(): Promise<void> {
     if (!(await this.isChecked())) {
@@ -259,16 +373,35 @@ export abstract class _MatRadioButtonHarnessBase extends ComponentHarness {
   }
 }
 
-/** Harness for interacting with a standard mat-radio-button in tests. */
+/**
+ * Harness for interacting with a standard mat-radio-button in tests.
+ *
+ * 在测试中可与标准 mat-radio-button 进行交互的测试工具。
+ *
+ */
 export class MatRadioButtonHarness extends _MatRadioButtonHarnessBase {
-  /** The selector for the host element of a `MatRadioButton` instance. */
+  /**
+   * The selector for the host element of a `MatRadioButton` instance.
+   *
+   * `MatRadioButton` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-radio-button';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatRadioButtonHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatRadioButtonHarness`。
+   *
    * @param options Options for filtering which radio button instances are considered a match.
+   *
+   * 用于过滤哪些单选按钮实例应该视为匹配的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`
+   *
    */
   static with(options: RadioButtonHarnessFilters = {}): HarnessPredicate<MatRadioButtonHarness> {
     return new HarnessPredicate(MatRadioButtonHarness, options)

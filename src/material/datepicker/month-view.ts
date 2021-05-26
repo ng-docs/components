@@ -157,7 +157,7 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   /**
    * Start of the comparison range.
    *
-   * 比较范围的开始日期。
+   * 比较范围的起点日期。
    *
    */
   @Input() comparisonStart: D | null;

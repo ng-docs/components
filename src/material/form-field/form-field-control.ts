@@ -94,7 +94,7 @@ export abstract class MatFormFieldControl<T> {
   /**
    * Whether the control is disabled.
    *
-   * 该控件是否被禁用。
+   * 该控件是否已禁用。
    *
    */
   readonly disabled: boolean;

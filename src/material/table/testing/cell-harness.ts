@@ -13,9 +13,19 @@ import {
 } from '@angular/cdk/testing';
 import {CellHarnessFilters} from './table-harness-filters';
 
-/** Harness for interacting with a standard Angular Material table cell. */
+/**
+ * Harness for interacting with a standard Angular Material table cell.
+ *
+ * 与标准 Angular Material 表的单元格进行交互的测试工具。
+ *
+ */
 export class MatCellHarness extends ContentContainerComponentHarness {
-  /** The selector for the host element of a `MatCellHarness` instance. */
+  /**
+   * The selector for the host element of a `MatCellHarness` instance.
+   *
+   * `MatCellHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-cell';
 
   /**
@@ -24,6 +34,9 @@ export class MatCellHarness extends ContentContainerComponentHarness {
    * 获取一个可用来使用指定属性搜索表格中单元格的 `HarnessPredicate`。
    *
    * @param options Options for narrowing the search
+   *
+   * 缩小搜索范围的选项
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -32,12 +45,22 @@ export class MatCellHarness extends ContentContainerComponentHarness {
     return MatCellHarness._getCellPredicate(MatCellHarness, options);
   }
 
-  /** Gets the cell's text. */
+  /**
+   * Gets the cell's text.
+   *
+   * 获取此单元格的文本。
+   *
+   */
   async getText(): Promise<string> {
     return (await this.host()).text();
   }
 
-  /** Gets the name of the column that the cell belongs to. */
+  /**
+   * Gets the name of the column that the cell belongs to.
+   *
+   * 获取此单元格所属的列的名称。
+   *
+   */
   async getColumnName(): Promise<string> {
     const host = await this.host();
     const classAttribute = await host.getAttribute('class');
@@ -65,15 +88,31 @@ export class MatCellHarness extends ContentContainerComponentHarness {
   }
 }
 
-/** Harness for interacting with a standard Angular Material table header cell. */
+/**
+ * Harness for interacting with a standard Angular Material table header cell.
+ *
+ * 与标准 Angular Material 表的标题单元进行交互的测试工具。
+ *
+ */
 export class MatHeaderCellHarness extends MatCellHarness {
-  /** The selector for the host element of a `MatHeaderCellHarness` instance. */
+  /**
+   * The selector for the host element of a `MatHeaderCellHarness` instance.
+   *
+   * `MatHeaderCellHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-header-cell';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for
    * a table header cell with specific attributes.
+   *
+   * 获取一个 `HarnessPredicate`，用于搜索具有特定属性的表头单元格。
+   *
    * @param options Options for narrowing the search
+   *
+   * 缩小搜索范围的选项
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
@@ -83,15 +122,31 @@ export class MatHeaderCellHarness extends MatCellHarness {
   }
 }
 
-/** Harness for interacting with a standard Angular Material table footer cell. */
+/**
+ * Harness for interacting with a standard Angular Material table footer cell.
+ *
+ * 与标准 Angular Material 表格的页脚单元进行交互的测试工具。
+ *
+ */
 export class MatFooterCellHarness extends MatCellHarness {
-  /** The selector for the host element of a `MatFooterCellHarness` instance. */
+  /**
+   * The selector for the host element of a `MatFooterCellHarness` instance.
+   *
+   * `MatFooterCellHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-footer-cell';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for
    * a table footer cell with specific attributes.
+   *
+   * 获取一个 `HarnessPredicate`，用于搜索具有特定属性的表格页脚单元格。
+   *
    * @param options Options for narrowing the search
+   *
+   * 缩小搜索范围的选项
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。

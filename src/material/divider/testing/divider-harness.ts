@@ -9,7 +9,12 @@
 import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
 import {DividerHarnessFilters} from './divider-harness-filters';
 
-/** Harness for interacting with a `mat-divider`. */
+/**
+ * Harness for interacting with a `mat-divider`.
+ *
+ * 使用 `mat-divider` 进行交互的测试工具。
+ *
+ */
 export class MatDividerHarness extends ComponentHarness {
   static hostSelector = '.mat-divider';
 

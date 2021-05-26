@@ -17,6 +17,9 @@ import {Schema} from './schema';
 /**
  * Scaffolds a new dashboard component.
  * Internally it bootstraps the base component schematic
+ *
+ * 搭建一个新的仪表板组件脚手架。在内部引导基本组件原理图
+ *
  */
 export default function(options: Schema): Rule {
   return chain([
@@ -31,6 +34,9 @@ export default function(options: Schema): Rule {
 
 /**
  * Adds the required modules to the relative module.
+ *
+ * 将所需的模块添加到相对模块。
+ *
  */
 function addNavModulesToModule(options: Schema) {
   return async (host: Tree) => {

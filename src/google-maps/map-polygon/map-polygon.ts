@@ -26,7 +26,12 @@ import {MapEventManager} from '../map-event-manager';
 /**
  * Angular component that renders a Google Maps Polygon via the Google Maps JavaScript API.
  *
+ * 通过 Google Maps JavaScript API 渲染 Google Maps Polygon 的 Angular 组件。
+ *
  * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
+ *
+ * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
+ *
  */
 @Directive({
   selector: 'map-polygon',
@@ -45,7 +50,12 @@ export class MapPolygon implements OnInit, OnDestroy {
   /**
    * The underlying google.maps.Polygon object.
    *
+   * 基础 google.maps.Polygon 对象。
+   *
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon
+   *
    */
   polygon?: google.maps.Polygon;
 
@@ -63,66 +73,99 @@ export class MapPolygon implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.click
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.click
+   *
    */
   @Output() readonly polygonClick: Observable<google.maps.PolyMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.PolyMouseEvent>('click');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.dblclick
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.dblclick
+   *
    */
   @Output() readonly polygonDblclick: Observable<google.maps.PolyMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.PolyMouseEvent>('dblclick');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.drag
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.drag
+   *
    */
   @Output() readonly polygonDrag: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('drag');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.dragend
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.dragend
+   *
    */
   @Output() readonly polygonDragend: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dragend');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.dragstart
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.dragstart
+   *
    */
   @Output() readonly polygonDragstart: Observable<google.maps.MapMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dragstart');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.mousedown
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.mousedown
+   *
    */
   @Output() readonly polygonMousedown: Observable<google.maps.PolyMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.PolyMouseEvent>('mousedown');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.mousemove
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.mousemove
+   *
    */
   @Output() readonly polygonMousemove: Observable<google.maps.PolyMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.PolyMouseEvent>('mousemove');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.mouseout
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.mouseout
+   *
    */
   @Output() readonly polygonMouseout: Observable<google.maps.PolyMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.PolyMouseEvent>('mouseout');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.mouseover
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.mouseover
+   *
    */
   @Output() readonly polygonMouseover: Observable<google.maps.PolyMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.PolyMouseEvent>('mouseover');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.mouseup
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.mouseup
+   *
    */
   @Output() readonly polygonMouseup: Observable<google.maps.PolyMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.PolyMouseEvent>('mouseup');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.rightclick
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.rightclick
+   *
    */
   @Output() readonly polygonRightclick: Observable<google.maps.PolyMouseEvent> =
       this._eventManager.getLazyEmitter<google.maps.PolyMouseEvent>('rightclick');
@@ -160,6 +203,9 @@ export class MapPolygon implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.getDraggable
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.getDraggable
+   *
    */
   getDraggable(): boolean {
     this._assertInitialized();
@@ -168,6 +214,9 @@ export class MapPolygon implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.getEditable
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.getEditable
+   *
    */
   getEditable(): boolean {
     this._assertInitialized();
@@ -176,6 +225,9 @@ export class MapPolygon implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.getPath
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.getPath
+   *
    */
   getPath(): google.maps.MVCArray<google.maps.LatLng> {
     this._assertInitialized();
@@ -184,6 +236,9 @@ export class MapPolygon implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.getPaths
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.getPaths
+   *
    */
   getPaths(): google.maps.MVCArray<google.maps.MVCArray<google.maps.LatLng>> {
     this._assertInitialized();
@@ -192,6 +247,9 @@ export class MapPolygon implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.getVisible
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/polygon#Polygon.getVisible
+   *
    */
   getVisible(): boolean {
     this._assertInitialized();

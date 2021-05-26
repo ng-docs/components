@@ -11,6 +11,9 @@ import {parse5} from '@angular/cdk/schematics';
 /**
  * Parses the specified HTML content and looks for "script" elements which
  * potentially import HammerJS. These elements will be returned.
+ *
+ * 解析指定的 HTML 内容，并寻找可能导入 HammerJS 的 “script” 元素。这些元素将被返回。
+ *
  */
 export function findHammerScriptImportElements(htmlContent: string): parse5.DefaultTreeElement[] {
   const document =
@@ -38,6 +41,9 @@ export function findHammerScriptImportElements(htmlContent: string): parse5.Defa
 /**
  * Checks whether the specified source path is potentially referring to the
  * HammerJS script output.
+ *
+ * 检查指定的源路径是否可能引用到 HammerJS 脚本输出。
+ *
  */
 function isPotentialHammerScriptReference(srcPath: string): boolean {
   return /\/hammer(\.min)?\.js($|\?)/.test(srcPath);

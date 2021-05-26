@@ -174,7 +174,7 @@ export class CdkScrollable implements OnInit, OnDestroy {
    * in an RTL context.
    *
    * 测量相对于视口指定边缘的滚动偏移量。这个方法可以用来代替对 scrollLeft 或 scrollTop 的直接检查，因为各浏览器对于 scrollLeft 在 RTL 中的理解并不一致。
-   * 该方法返回的值是标准化的，左右都总是指向滚动容器的左侧和右侧，与布局方向无关。 start 和 end 在 LTR 上下文中指向左右，在 RTL 上下文则相反。
+   * 该方法返回的值是标准化的，左右都总是指向滚动容器的左侧和右侧，与布局方向无关。start 和 end 在 LTR 上下文中指向左右，在 RTL 上下文则相反。
    *
    * @param from The edge to measure from.
    *

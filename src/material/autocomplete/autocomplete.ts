@@ -58,9 +58,17 @@ let _uniqueAutocompleteIdCounter = 0;
  */
 export class MatAutocompleteSelectedEvent {
   constructor(
-    /** Reference to the autocomplete panel that emitted the event. */
+    /**
+     * Reference to the autocomplete panel that emitted the event.
+     *
+     * 对发出此事件的自动完成面板的引用。
+     */
     public source: _MatAutocompleteBase,
-    /** Option that was selected. */
+    /**
+     * Option that was selected.
+     *
+     * 已选择的选项。
+     */
     public option: _MatOptionBase) { }
 }
 

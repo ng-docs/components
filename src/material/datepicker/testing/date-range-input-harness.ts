@@ -85,7 +85,7 @@ export class MatDateRangeInputHarness extends DatepickerTriggerHarnessBase {
    * Gets a `HarnessPredicate` that can be used to search for a `MatDateRangeInputHarness`
    * that meets certain criteria.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索满足一定条件 `MatDateRangeInputHarness`。
+   * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件 `MatDateRangeInputHarness`。
    *
    * @param options Options for filtering which input instances are considered a match.
    *
@@ -153,7 +153,7 @@ export class MatDateRangeInputHarness extends DatepickerTriggerHarnessBase {
   /**
    * Gets whether the range input is disabled.
    *
-   * 获取范围输入框是否被禁用。
+   * 获取范围输入框是否已禁用。
    *
    */
   async isDisabled(): Promise<boolean> {

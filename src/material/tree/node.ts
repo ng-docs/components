@@ -124,7 +124,7 @@ export class MatNestedTreeNode<T, K = T> extends CdkNestedTreeNode<T, K>
   /**
    * Whether the node is disabled.
    *
-   * 该节点是否被禁用。
+   * 该节点是否已禁用。
    *
    */
   @Input()

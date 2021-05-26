@@ -14,13 +14,13 @@ import {addPackageToPackageJson, getPackageVersionFromPackageJson} from './packa
  * Schematic factory entry-point for the `ng-add` schematic. The ng-add schematic will be
  * automatically executed if developers run `ng add @angular/cdk`.
  *
- * `ng-add` 原理图的工厂入口点。如果开发人员运行 `ng add @angular/cdk` ，则 ng-add 原理图将自动执行。
+ * `ng-add` 原理图的工厂入口点。如果开发人员运行 `ng add @angular/cdk`，则 ng-add 原理图将自动执行。
  *
  * By default, the CLI already installs the package that has been specified with `ng add`.
  * We just store the version in the `package.json` in case the package manager didn't. Also
  * this ensures that there will be no error that says that the CDK does not support `ng add`.
  *
- * 默认情况下，CLI 已经安装了 `ng add` 指定的软件包。我们只是将版本存储在 `package.json` 中，以防软件包管理器没这么做。这也确保不会出现任何错误说 CDK 不支持 `ng add` 。
+ * 默认情况下，CLI 已经安装了 `ng add` 指定的软件包。我们只是将版本存储在 `package.json` 中，以防软件包管理器没这么做。这也确保不会出现任何错误说 CDK 不支持 `ng add`。
  *
  */
 export default function(): Rule {

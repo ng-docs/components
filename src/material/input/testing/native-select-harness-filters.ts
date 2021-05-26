@@ -8,10 +8,20 @@
 
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/** A set of criteria that can be used to filter a list of `MatNativeSelectHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatNativeSelectHarness` instances.
+ *
+ * 一组可用于过滤 `MatNativeSelectHarness` 实例列表的条件。
+ *
+ */
 export interface NativeSelectHarnessFilters extends BaseHarnessFilters {}
 
-/** A set of criteria that can be used to filter a list of `MatNativeOptionHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatNativeOptionHarness` instances.
+ *
+ * 一组可用于过滤 `MatNativeOptionHarness` 实例列表的条件。
+ *
+ */
 export interface NativeOptionHarnessFilters extends BaseHarnessFilters {
   text?: string | RegExp;
   index?: number;

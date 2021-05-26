@@ -55,6 +55,7 @@ import {map, take} from 'rxjs/operators';
  *
  * and the output flattened type is `F` with additional information.
  *
+ * 而输出的扁平化类型为带有附加信息的 `F`。
  *
  */
 export class MatTreeFlattener<T, F, K = F> {

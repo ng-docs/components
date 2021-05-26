@@ -8,13 +8,28 @@
 
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/** A set of criteria that can be used to filter a list of `MatMenuHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatMenuHarness` instances.
+ *
+ * 一组可用于过滤 `MatMenuHarness` 实例列表的条件。
+ *
+ */
 export interface MenuHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose trigger text matches the given value. */
+  /**
+   * Only find instances whose trigger text matches the given value.
+   *
+   * 仅查找其触发文本与给定值匹配的实例。
+   *
+   */
   triggerText?: string | RegExp;
 }
 
-/** A set of criteria that can be used to filter a list of `MatMenuItemHarness` instances. */
+/**
+ * A set of criteria that can be used to filter a list of `MatMenuItemHarness` instances.
+ *
+ * 一组可用于过滤 `MatMenuItemHarness` 实例列表的条件。
+ *
+ */
 export interface MenuItemHarnessFilters extends BaseHarnessFilters {
   /**
    * Only find instances whose text matches the given value.
@@ -23,6 +38,11 @@ export interface MenuItemHarnessFilters extends BaseHarnessFilters {
    *
    */
   text?: string | RegExp;
-  /** Only find instances that have a sub-menu. */
+  /**
+   * Only find instances that have a sub-menu.
+   *
+   * 仅查找具有子菜单的实例。
+   *
+   */
   hasSubmenu?: boolean;
 }

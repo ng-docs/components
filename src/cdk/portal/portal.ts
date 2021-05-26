@@ -287,7 +287,7 @@ export interface PortalOutlet {
  *
  * @deprecated Use `PortalOutlet` instead.
  *
- * 请改用 `PortalOutlet` 。
+ * 请改用 `PortalOutlet`。
  *
  * @breaking-change 9.0.0
  *
@@ -432,7 +432,7 @@ export abstract class BasePortalOutlet implements PortalOutlet {
  *
  * @deprecated Use `BasePortalOutlet` instead.
  *
- * 请改用 `BasePortalOutlet` 。
+ * 请改用 `BasePortalOutlet`。
  *
  * @breaking-change 9.0.0
  *

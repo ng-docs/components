@@ -22,7 +22,7 @@ export class MatChipRemoveHarness extends ComponentHarness {
    * Gets a `HarnessPredicate` that can be used to search for a `MatChipRemoveHarness` that meets
    * certain criteria.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索满足一定条件 `MatChipRemoveHarness`
+   * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件 `MatChipRemoveHarness`
    *
    * @param options Options for filtering which input instances are considered a match.
    *

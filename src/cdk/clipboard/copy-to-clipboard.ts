@@ -47,6 +47,9 @@ export const CDK_COPY_TO_CLIPBOARD_CONFIG =
 
 /**
  * @deprecated Use `CDK_COPY_TO_CLIPBOARD_CONFIG` instead.
+ *
+ * 请改用 `CDK_COPY_TO_CLIPBOARD_CONFIG`。
+ *
  * @breaking-change 13.0.0
  */
 export const CKD_COPY_TO_CLIPBOARD_CONFIG = CDK_COPY_TO_CLIPBOARD_CONFIG;

@@ -94,7 +94,7 @@ is reused instead. The size of the view cache can be adjusted via the `templateC
 property; setting this size to `0` disables caching. If your templates are expensive in terms of
 memory you may wish to reduce this number to avoid spending too much memory on the template cache.
 
-为了提高渲染性能， `*cdkVirtualFor` 会缓存那些曾经创建过但不再需要的视图。当要创建一个新视图时，会转而复用一个已缓存的视图。可以通过 `templateCacheSize` 属性来调整视图缓存的大小。把这个大小设置为 `0` 会禁用缓存。如果你的模板在内存方面很昂贵，你可能会希望减小这个数字，以免在模板缓存上花费太多内存。
+为了提高渲染性能，`*cdkVirtualFor` 会缓存那些曾经创建过但不再需要的视图。当要创建一个新视图时，会转而复用一个已缓存的视图。可以通过 `templateCacheSize` 属性来调整视图缓存的大小。把这个大小设置为 `0` 会禁用缓存。如果你的模板在内存方面很昂贵，你可能会希望减小这个数字，以免在模板缓存上花费太多内存。
 
 <!-- example(cdk-virtual-scroll-template-cache) -->
 
@@ -110,7 +110,7 @@ data array that should be rendered. The viewport will call `disconnect` when the
 destroyed, which may be the right time to clean up any subscriptions that were registered during the
 connect process.
 
-`*cdkVirtualFor` 接受来自 `Array`、`Observable<Array>` 或 `DataSource` 的数据。虚拟滚动的 `DataSource` 与表格和树组件所用的 `DataSource` 是同一个。 `DataSource` 只是一个抽象类，它有两个方法：`connect` 和 `disconnect`。虚拟滚动视口将调用这个 `connect` 方法，以接收一个流，这个流会发出要渲染的数据数组。当 viewport 被销毁时，视口会调用 `disconnect`，这可能是清理连接过程中注册进来的所有订阅的最佳时机。
+`*cdkVirtualFor` 接受来自 `Array`、`Observable<Array>` 或 `DataSource` 的数据。虚拟滚动的 `DataSource` 与表格和树组件所用的 `DataSource` 是同一个。`DataSource` 只是一个抽象类，它有两个方法：`connect` 和 `disconnect`。虚拟滚动视口将调用这个 `connect` 方法，以接收一个流，这个流会发出要渲染的数据数组。当 viewport 被销毁时，视口会调用 `disconnect`，这可能是清理连接过程中注册进来的所有订阅的最佳时机。
 
 <!-- example(cdk-virtual-scroll-data-source) -->
 
@@ -131,7 +131,7 @@ viewport must render. If the viewport ever detects that there is less buffered c
 immediately render more. The second buffer parameter is `maxBufferPx`. This tells the viewport how 
 much buffer space to render back up to when it detects that more buffer is required.
 
-固定大小的策略也支持设置一些缓冲区参数，用来决定渲染多少额外内容，也就是视口可见内容之外的部分。第一个参数是 `minBufferPx`。 `minBufferPx` 是视口必须渲染的最小内容缓冲区数量（以像素为单位）。如果视口检测到要缓冲的内容小于这个数量（未填满），就会立即渲染更多内容。 第二个参数是 `maxBufferPx`。它会告诉视口当检测到需要更多缓冲区的时候要渲染多少个备用缓冲区空间。
+固定大小的策略也支持设置一些缓冲区参数，用来决定渲染多少额外内容，也就是视口可见内容之外的部分。第一个参数是 `minBufferPx`。`minBufferPx` 是视口必须渲染的最小内容缓冲区数量（以像素为单位）。如果视口检测到要缓冲的内容小于这个数量（未填满），就会立即渲染更多内容。第二个参数是 `maxBufferPx`。它会告诉视口当检测到需要更多缓冲区的时候要渲染多少个备用缓冲区空间。
 
 The interaction of these two buffer parameters can be best illustrated with an example. Supposed 
 that we have the following parameters: `itemSize = 50`, `minBufferPx = 100`, `maxBufferPx = 250`. As
@@ -140,7 +140,7 @@ remaining. Since this is below `minBufferPx` the viewport must render more buffe
 least enough buffer to get back to `maxBufferPx`. In this case, it renders 4 items (an additional
 `200px`) to bring the total buffer size to `290px`, back above `maxBufferPx`.
 
-这两个缓冲区参数的作用可以用一个例子来说明。假设我们有以下参数：`itemSize = 50`、`minBufferPx = 100`、`maxBufferPx = 250`。当用户滚动浏览内容时，视口就会检测到只剩下 `90px` 的缓冲区。由于它小于 `minBufferPx`，所以视口必须渲染更多缓冲区。它必须渲染足够数量的缓冲区，直到其大于等于 `maxBufferPx`。在这种情况下，它渲染了 4 个条目（额外的 `200px`），使缓冲区总大小达到 `290px`，略高于 `maxBufferPx` 。
+这两个缓冲区参数的作用可以用一个例子来说明。假设我们有以下参数：`itemSize = 50`、`minBufferPx = 100`、`maxBufferPx = 250`。当用户滚动浏览内容时，视口就会检测到只剩下 `90px` 的缓冲区。由于它小于 `minBufferPx`，所以视口必须渲染更多缓冲区。它必须渲染足够数量的缓冲区，直到其大于等于 `maxBufferPx`。在这种情况下，它渲染了 4 个条目（额外的 `200px`），使缓冲区总大小达到 `290px`，略高于 `maxBufferPx`。
 
 <!-- example(cdk-virtual-scroll-fixed-buffer) -->
 

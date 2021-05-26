@@ -14,7 +14,7 @@ export class MatChipOptionHarness extends MatChipHarness {
   /**
    * The selector for the host element of a selectable chip instance.
    *
-   * 可选择纸片实例宿主元素的选择器。
+   * 可选择纸片实例的宿主元素选择器。
    *
    */
   static hostSelector = '.mat-chip';
@@ -23,7 +23,7 @@ export class MatChipOptionHarness extends MatChipHarness {
    * Gets a `HarnessPredicate` that can be used to search for a `MatChipOptionHarness`
    * that meets certain criteria.
    *
-   * 获取一个 `HarnessPredicate` ，它可以用来搜索满足一定条件 `MatChipOptionHarness`
+   * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件 `MatChipOptionHarness`
    *
    * @param options Options for filtering which chip instances are considered a match.
    *

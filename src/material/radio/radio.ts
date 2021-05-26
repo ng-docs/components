@@ -90,9 +90,17 @@ export const MAT_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
  */
 export class MatRadioChange {
   constructor(
-    /** The MatRadioButton that emits the change event. */
+    /**
+     * The MatRadioButton that emits the change event.
+     *
+     * 发出此变更事件的 MatRadioButton。
+     */
     public source: _MatRadioButtonBase,
-    /** The value of the MatRadioButton. */
+    /**
+     * The value of the MatRadioButton.
+     *
+     * 此 MatRadioButton 的值。
+     */
     public value: any) {}
 }
 
@@ -160,7 +168,7 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase> implemen
   /**
    * Whether the radio group is disabled.
    *
-   * 单选按钮组是否被禁用。
+   * 单选按钮组是否已禁用。
    *
    */
   private _disabled: boolean = false;
@@ -289,7 +297,7 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase> implemen
   /**
    * Whether the radio group is disabled
    *
-   * 单选按钮组是否被禁用
+   * 单选按钮组是否已禁用
    *
    */
   @Input()
@@ -332,7 +340,7 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase> implemen
    * Mark this group as being "touched" (for ngModel). Meant to be called by the contained
    * radio buttons upon their blur.
    *
-   * 把这个组标记为“已接触”（对于 ngModel）。所包含的单选按钮在失去焦点时都会调用它。
+   * 把这个组标记为“已接触”（对于 ngModel）。所包含的单选按钮在失焦时都会调用它。
    *
    */
   _touch() {
@@ -610,7 +618,7 @@ export abstract class _MatRadioButtonBase extends _MatRadioButtonMixinBase imple
   /**
    * Whether the radio button is disabled.
    *
-   * 单选按钮是否被禁用。
+   * 单选按钮是否已禁用。
    *
    */
   @Input()

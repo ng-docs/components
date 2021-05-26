@@ -17,8 +17,13 @@ import {Schema} from './schema';
  * can be no dependency on `@angular/material` in the `package.json` file, and we need
  * to manually insert the dependency based on the build version placeholder.
  *
+ * 如果此原理图在 `ng add` 命令之外运行，则将用于指定 Angular CDK 和 Angular Material的版本范围。在这些情况下，`package.json` 文件中可能没有依赖 `@angular/material`，这时我们就需要基于构建版本占位符来手动插入依赖关系。
+ *
  * Note that the fallback version range does not use caret, but tilde because that is
  * the default for Angular framework dependencies in CLI projects.
+ *
+ * 请注意，后备版本范围不使用 `^`，而是使用 `~`，因为这是 CLI 项目中 Angular 框架依赖项的默认设置。
+ *
  */
 const fallbackMaterialVersionRange = `~0.0.0-PLACEHOLDER`;
 
@@ -26,8 +31,13 @@ const fallbackMaterialVersionRange = `~0.0.0-PLACEHOLDER`;
  * Schematic factory entry-point for the `ng-add` schematic. The ng-add schematic will be
  * automatically executed if developers run `ng add @angular/material`.
  *
+ * `ng-add` 原理图的工厂入口点。如果开发者运行 `ng add @angular/material`，则将自动执行这个 ng-add 原理图。
+ *
  * Since the Angular Material schematics depend on the schematic utility functions from the CDK,
  * we need to install the CDK before loading the schematic files that import from the CDK.
+ *
+ * 由于 Angular Material 原理图依赖于 CDK 的原理图实用函数，因此我们需要在加载从 CDK 导入的原理图文件之前安装 CDK。
+ *
  */
 export default function(options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {

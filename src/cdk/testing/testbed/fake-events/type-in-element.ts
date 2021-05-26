@@ -11,7 +11,12 @@ import {PERIOD} from '@angular/cdk/keycodes';
 import {dispatchFakeEvent, dispatchKeyboardEvent} from './dispatch-events';
 import {triggerFocus} from './element-focus';
 
-/** Input types for which the value can be entered incrementally. */
+/**
+ * Input types for which the value can be entered incrementally.
+ *
+ * 可以递增输入值的输入类型。
+ *
+ */
 const incrementalInputTypes =
   new Set(['text', 'email', 'hidden', 'password', 'search', 'tel', 'url']);
 

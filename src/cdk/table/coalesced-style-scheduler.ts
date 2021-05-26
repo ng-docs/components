@@ -21,7 +21,7 @@ export class _Schedule {
 /**
  * Injection token used to provide a coalesced style scheduler.
  *
- * 注入令牌，用于提供样式合并调度器。
+ * 注入令牌，用于提供样式合并派发器。
  *
  */
 export const _COALESCED_STYLE_SCHEDULER =

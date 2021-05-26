@@ -162,7 +162,7 @@ export class MatMenuItem extends _MatMenuItemMixinBase
   /**
    * Used to set the `tabindex`.
    *
-   * 用来设置 `tabindex` 。
+   * 用来设置 `tabindex`。
    *
    */
   _getTabIndex(): string {

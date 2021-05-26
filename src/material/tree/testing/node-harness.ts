@@ -24,7 +24,7 @@ export class MatTreeNodeHarness extends ContentContainerComponentHarness<string>
   /**
    * The selector of the host element of a `MatTreeNode` instance.
    *
-   * `MatTreeNode` 实例的宿主元素的选择器。
+   * `MatTreeNode` 实例的宿主元素选择器。
    *
    */
   static hostSelector = '.mat-tree-node, .mat-nested-tree-node';

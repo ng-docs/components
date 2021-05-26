@@ -109,20 +109,20 @@ export class ConnectionPositionPair {
  *
  * 如果浮层和原点的边界矩形与本策略的可滚动对象边界矩形中的任何一个都没有重叠，则浮层和原点位于外部视图中。
  *
- *       -----------                    -----------
- *       | outside |                    | clipped |
- *       |  view   |              --------------------------
- *       |         |              |     |         |        |
- *       ----------               |     -----------        |
+ *   -----------                    -----------
+ *   |   外部   |                    | 已裁剪 |
+ *   |  视图   |              --------------------------
+ *   |         |              |     |         |        |
+ *   ----------               |     -----------        |
  *  --------------------------    |                        |
- *  |                        |    |      Scrollable        |
+ *  |                        |    |       可滚动内容         |
  *  |                        |    |                        |
  *  |                        |     --------------------------
- *  |      Scrollable        |
+ *  |       可滚动内容         |
  *  |                        |
  *  --------------------------
  *
- *  @docs-private
+ * @docs-private
  */
 export class ScrollingVisibility {
   isOriginClipped: boolean;
@@ -139,7 +139,11 @@ export class ScrollingVisibility {
  */
 export class ConnectedOverlayPositionChange {
   constructor(
-      /** The position used as a result of this change. */
+      /**
+       * The position used as a result of this change.
+       *
+       * 本次更改的结果位置。
+       */
       public connectionPair: ConnectionPositionPair,
       /** @docs-private */
       @Optional() public scrollableViewProperties: ScrollingVisibility) {}

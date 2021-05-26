@@ -11,7 +11,12 @@ import {Inject, Injectable, Optional} from '@angular/core';
 import {DateAdapter, MAT_DATE_LOCALE} from './date-adapter';
 
 // TODO(mmalerba): Remove when we no longer support safari 9.
-/** Whether the browser supports the Intl API. */
+/**
+ * Whether the browser supports the Intl API.
+ *
+ * 浏览器是否支持 Intl API。
+ *
+ */
 let SUPPORTS_INTL_API: boolean;
 
 // We need a try/catch around the reference to `Intl`, because accessing it in some cases can
@@ -25,7 +30,12 @@ try {
   SUPPORTS_INTL_API = false;
 }
 
-/** The default month names to use if Intl API is not available. */
+/**
+ * The default month names to use if Intl API is not available.
+ *
+ * 如果 Intl API 不可用，则使用的默认月份名称。
+ *
+ */
 const DEFAULT_MONTH_NAMES = {
   'long': [
     'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
@@ -35,10 +45,20 @@ const DEFAULT_MONTH_NAMES = {
   'narrow': ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
 };
 
-/** The default date names to use if Intl API is not available. */
+/**
+ * The default date names to use if Intl API is not available.
+ *
+ * 如果 Intl API 不可用，则使用的默认日期名称。
+ *
+ */
 const DEFAULT_DATE_NAMES = range(31, i => String(i + 1));
 
-/** The default day of the week names to use if Intl API is not available. */
+/**
+ * The default day of the week names to use if Intl API is not available.
+ *
+ * 如果 Intl API 不可用，则使用默认的星期几名称。
+ *
+ */
 const DEFAULT_DAY_OF_WEEK_NAMES = {
   'long': ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
   'short': ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -49,11 +69,19 @@ const DEFAULT_DAY_OF_WEEK_NAMES = {
  * Matches strings that have the form of a valid RFC 3339 string
  * (<https://tools.ietf.org/html/rfc3339>). Note that the string may not actually be a valid date
  * because the regex will match strings an with out of bounds month, date, etc.
+ *
+ * 匹配具有有效 RFC 3339 字符串（ <https://tools.ietf.org/html/rfc3339> ）形式的字符串。请注意，该字符串实际上可能不是有效的日期，因为正则表达式将匹配具有超出范围的月份、日期等的字符串。
+ *
  */
 const ISO_8601_REGEX =
     /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|(?:(?:\+|-)\d{2}:\d{2}))?)?$/;
 
-/** Creates an array and fills it with values. */
+/**
+ * Creates an array and fills it with values.
+ *
+ * 创建一个数组，并用值填充它。
+ *
+ */
 function range<T>(length: number, valueFunction: (index: number) => T): T[] {
   const valuesArray = Array(length);
   for (let i = 0; i < length; i++) {
@@ -62,10 +90,20 @@ function range<T>(length: number, valueFunction: (index: number) => T): T[] {
   return valuesArray;
 }
 
-/** Adapts the native JS Date for use with cdk-based components that work with dates. */
+/**
+ * Adapts the native JS Date for use with cdk-based components that work with dates.
+ *
+ * 调整原生 JS 日期，以与可用于日期的基于 cdk 的组件一起使用。
+ *
+ */
 @Injectable()
 export class NativeDateAdapter extends DateAdapter<Date> {
-  /** Whether to clamp the date between 1 and 9999 to avoid IE and Edge errors. */
+  /**
+   * Whether to clamp the date between 1 and 9999 to avoid IE and Edge errors.
+   *
+   * 是否将日期限制在 1 到 9999 之间，以避免 IE 和 Edge 出错。
+   *
+   */
   private readonly _clampDate: boolean;
 
   /**
@@ -74,10 +112,15 @@ export class NativeDateAdapter extends DateAdapter<Date> {
    * the result. (e.g. in the en-US locale `new Date(1800, 7, 14).toLocaleDateString()`
    * will produce `'8/13/1800'`.
    *
+   * 在格式化日期时，是否同时使用 `timeZone: 'utc'` 和 `Intl.DateTimeFormat`。没有此 `Intl.DateTimeFormat` 有时会选择错误的 timeZone，这可能会导致结果失败。（例如，在美国语言环境中，`new Date(1800, 7, 14).toLocaleDateString()` 将产生 `'8/13/1800'`。
+   *
    * TODO(mmalerba): drop this variable. It's not being used in the code right now. We're now
    * getting the string representation of a Date object from its utc representation. We're keeping
    * it here for sometime, just for precaution, in case we decide to revert some of these changes
    * though.
+   *
+   * TODO（mmalerba）：删除此变量。现在代码中没有使用它。现在，我们从 utc 表示形式获取 Date 对象的字符串表示形式。我们将其保留在这里一段时间，以防万一，以防万一我们决定还原其中一些更改。
+   *
    */
   useUtcForDisplay: boolean = true;
 
@@ -247,6 +290,9 @@ export class NativeDateAdapter extends DateAdapter<Date> {
    * Returns the given value if given a valid Date or null. Deserializes valid ISO 8601 strings
    * (<https://www.ietf.org/rfc/rfc3339.txt>) into valid Dates and empty string into null. Returns an
    * invalid date for all other values.
+   *
+   * 如果给定有效的 Date 或 null，则返回给定的值。将有效的 ISO 8601 字符串（ <https://www.ietf.org/rfc/rfc3339.txt> ）反序列化为有效的日期，并将空字符串转换为 null。返回所有其他值的无效日期。
+   *
    */
   deserialize(value: any): Date | null {
     if (typeof value === 'string') {
@@ -277,7 +323,12 @@ export class NativeDateAdapter extends DateAdapter<Date> {
     return new Date(NaN);
   }
 
-  /** Creates a date but allows the month and date to overflow. */
+  /**
+   * Creates a date but allows the month and date to overflow.
+   *
+   * 创建日期，但允许月份和日期溢出。
+   *
+   */
   private _createDateWithOverflow(year: number, month: number, date: number) {
     // Passing the year to the constructor causes year numbers <100 to be converted to 19xx.
     // To work around this we use `setFullYear` and `setHours` instead.
@@ -289,8 +340,17 @@ export class NativeDateAdapter extends DateAdapter<Date> {
 
   /**
    * Pads a number to make it two digits.
+   *
+   * 填充数字以使其为两位数。
+   *
    * @param n The number to pad.
+   *
+   * 要填充的数字。
+   *
    * @returns The padded number.
+   *
+   * 填充后的数字。
+   *
    */
   private _2digit(n: number) {
     return ('00' + n).slice(-2);
@@ -300,8 +360,17 @@ export class NativeDateAdapter extends DateAdapter<Date> {
    * Strip out unicode LTR and RTL characters. Edge and IE insert these into formatted dates while
    * other browsers do not. We remove them to make output consistent and because they interfere with
    * date parsing.
+   *
+   * 去除 Unicode LTR 和 RTL 字符。Edge 和 IE 将它们插入格式化后的日期中，而其他浏览器则不会这样做。我们删除它们是为了使输出保持一致，并且它们会干扰日期解析。
+   *
    * @param str The string to strip direction characters from.
+   *
+   * 要从中清除方向字符的字符串。
+   *
    * @returns The stripped string.
+   *
+   * 清除后的字符串。
+   *
    */
   private _stripDirectionalityCharacters(str: string) {
     return str.replace(/[\u200e\u200f]/g, '');
@@ -313,10 +382,22 @@ export class NativeDateAdapter extends DateAdapter<Date> {
    * very frequently, and the current valid rule is not always valid in previous years though.
    * We work around this problem building a new Date object which has its internal UTC
    * representation with the local date and time.
+   *
+   * 将 Date 对象转换为字符串时，javascript 内置函数可能会返回错误结果，因为它应用了其内部 DST 规则。世界各地的 DST 规则变化非常频繁，尽管当前有效的规则在前几年并不总是有效的。为了解决这个问题，我们构建了一个新的 Date 对象，该对象具有内部 UTC 表示以及本地日期和时间。
+   *
    * @param dtf Intl.DateTimeFormat object, containg the desired string format. It must have
    *    timeZone set to 'utc' to work fine.
+   *
+   * Intl.DateTimeFormat 对象，包含所需的字符串格式。必须将 timeZone 设置为 'utc' 才能正常工作。
+   *
    * @param date Date from which we want to get the string representation according to dtf
+   *
+   * 我们要根据 dtf 获取字符串表示形式的日期
+   *
    * @returns A Date object with its UTC representation based on the passed in date info
+   *
+   * 基于传入的日期信息及其 UTC 表示形式的 Date 对象
+   *
    */
   private _format(dtf: Intl.DateTimeFormat, date: Date) {
     // Passing the year to the constructor causes year numbers <100 to be converted to 19xx.

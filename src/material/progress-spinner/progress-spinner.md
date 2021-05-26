@@ -1,6 +1,6 @@
 `<mat-progress-spinner>` and `<mat-spinner>` are a circular indicators of progress and activity.
 
-`<mat-progress-spinner>` 和 `<mat-spinner>` 是一个表示进度和活动的圆形指示符。 
+`<mat-progress-spinner>` 和 `<mat-spinner>` 是一个表示进度和活动的圆形指示符。
 
 <!-- example(progress-spinner-overview) -->
 

@@ -25,7 +25,7 @@ import {map} from 'rxjs/operators';
  * Corresponds to `Number.MAX_SAFE_INTEGER`. Moved out into a variable here due to
  * flaky browser support and the value not being defined in Closure's typings.
  *
- * 对应于 `Number.MAX_SAFE_INTEGER` 。这里提取了一个变量，因为浏览器对它支持不稳定，并且这个值没有在 Closure 的类型中定义。
+ * 对应于 `Number.MAX_SAFE_INTEGER`。这里提取了一个变量，因为浏览器对它支持不稳定，并且这个值没有在 Closure 的类型中定义。
  *
  */
 const MAX_SAFE_INTEGER = 9007199254740991;
@@ -33,6 +33,9 @@ const MAX_SAFE_INTEGER = 9007199254740991;
 /**
  * Interface that matches the required API parts for the MatPaginator's PageEvent.
  * Decoupled so that users can depend on either the legacy or MDC-based paginator.
+ *
+ * 与 MatPaginator 的 PageEvent 所需的 API 部分匹配的接口。这种解耦让用户可以依赖旧版或基于 MDC 的分页器。
+ *
  */
 export interface MatTableDataSourcePageEvent {
   pageIndex: number;
@@ -43,6 +46,9 @@ export interface MatTableDataSourcePageEvent {
 /**
  * Interface that matches the required API parts of the MatPaginator.
  * Decoupled so that users can depend on either the legacy or MDC-based paginator.
+ *
+ * 与 MatPaginator 所需的 API 部分匹配的接口。这种解耦让用户可以依赖旧版或基于 MDC 的分页器。
+ *
  */
 export interface MatTableDataSourcePaginator {
   page: Subject<MatTableDataSourcePageEvent>;
@@ -152,7 +158,7 @@ export class _MatTableDataSource<T,
    * Instance of the MatSort directive used by the table to control its sorting. Sort changes
    * emitted by the MatSort will trigger an update to the table's rendered data.
    *
-   * 该表格使用 MatSort 指令的实例来控制它的排序。 MatSort 发出的排序变化会触发对该表格所渲染数据的更新。
+   * 该表格使用 MatSort 指令的实例来控制它的排序。MatSort 发出的排序变化会触发对该表格所渲染数据的更新。
    *
    */
   get sort(): MatSort | null { return this._sort; }
@@ -174,7 +180,7 @@ export class _MatTableDataSource<T,
    * e.g. `[pageLength]=100` or `[pageIndex]=1`, then be sure that the paginator's view has been
    * initialized before assigning it to this data source.
    *
-   * 注意，数据源会使用此分页器的属性来计算应该显示哪个页面的数据。如果分页器要通过模板输入接收其属性，比如 `[pageLength]=100` 或者 `[pageIndex]=1` ，那就要确保此分页器的视图已经初始化了，然后再赋值给这个数据源。
+   * 注意，数据源会使用此分页器的属性来计算应该显示哪个页面的数据。如果分页器要通过模板输入接收其属性，比如 `[pageLength]=100` 或者 `[pageIndex]=1`，那就要确保此分页器的视图已经初始化了，然后再赋值给这个数据源。
    *
    */
   get paginator(): P | null { return this._paginator; }
@@ -493,7 +499,7 @@ export class _MatTableDataSource<T,
  * own `DataSource`.
  *
  * **注意：**这个类是一个简单的数据源，可以帮助你入门。因此，它无法处理某些更高级的案例，比如提供强大的 i18n 支持或服务器端交互。
- * 如果你的应用需要支持更高级的用例，可以考虑实现自己的 `DataSource` 。
+ * 如果你的应用需要支持更高级的用例，可以考虑实现自己的 `DataSource`。
  *
  */
 export class MatTableDataSource<T> extends _MatTableDataSource<T, MatPaginator> {}

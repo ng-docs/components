@@ -53,7 +53,7 @@ function rangesEqual(r1: ListRange, r2: ListRange): boolean {
  * something that doesn't rely on requestAnimationFrame on environments
  * that don't support it (e.g. server-side rendering).
  *
- * 用于滚动事件的调度器。在不支持它的环境（例如服务器端渲染）下要回退到不依赖 requestAnimationFrame 调度器。
+ * 用于滚动事件的派发器。在不支持它的环境（例如服务器端渲染）下要回退到不依赖 requestAnimationFrame 派发器。
  *
  */
 const SCROLL_SCHEDULER =
@@ -339,7 +339,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
   /**
    * Detaches the current `CdkVirtualForOf`.
    *
-   * 拆除当前的 `CdkVirtualForOf` 。
+   * 拆除当前的 `CdkVirtualForOf`。
    *
    */
   detach() {
@@ -472,7 +472,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
    *
    * @param behavior The ScrollBehavior to use when scrolling. Default is behavior is `auto`.
    *
-   * 滚动时要使用的 ScrollBehavior。行为默认是 `auto` 。
+   * 滚动时要使用的 ScrollBehavior。行为默认是 `auto`。
    *
    */
   scrollToOffset(offset: number, behavior: ScrollBehavior = 'auto') {
@@ -496,7 +496,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
    *
    * @param behavior The ScrollBehavior to use when scrolling. Default is behavior is `auto`.
    *
-   * 滚动时要使用的 ScrollBehavior。行为默认是 `auto` 。
+   * 滚动时要使用的 ScrollBehavior。行为默认是 `auto`。
    *
    */
   scrollToIndex(index: number,  behavior: ScrollBehavior = 'auto') {

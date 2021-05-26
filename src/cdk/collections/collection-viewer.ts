@@ -28,7 +28,7 @@ export interface CollectionViewer {
    * A stream that emits whenever the `CollectionViewer` starts looking at a new portion of the
    * data. The `start` index is inclusive, while the `end` is exclusive.
    *
-   * `CollectionViewer` 开始查看数据的新部分时就会发出的流。 包含 `start` 索引，而不包含 `end` 索引（左闭右开区间）。
+   * `CollectionViewer` 开始查看数据的新部分时就会发出的流。包含 `start` 索引，而不包含 `end` 索引（左闭右开区间）。
    *
    */
   viewChange: Observable<ListRange>;
