@@ -8,7 +8,7 @@ Angular Material components.
 
 Angular Material 支持通过 Sass API 自定义组件样式，如[主题指南][]中所述。本文档提供了一个指南，用于指导如何定义自定义 CSS 规则，以便直接设置 Angular Material 组件的样式。
 
-[主题指南]: https://material.angular.io/guide/theming
+[主题指南]: https://material.angular.cn/guide/theming
 
 ## Targeting custom styles
 
