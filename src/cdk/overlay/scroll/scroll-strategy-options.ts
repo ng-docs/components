@@ -64,7 +64,7 @@ export class ScrollStrategyOptions {
   /**
    * Block scrolling.
    *
-   * 块滚动。
+   * 阻止滚动。
    *
    */
   block = () => new BlockScrollStrategy(this._viewportRuler, this._document);
