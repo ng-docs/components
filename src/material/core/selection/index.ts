@@ -13,8 +13,8 @@ import {MatCommonModule} from '../common-behaviors/common-module';
 @NgModule({
   imports: [MatCommonModule],
   exports: [MatPseudoCheckbox],
-  declarations: [MatPseudoCheckbox]
+  declarations: [MatPseudoCheckbox],
 })
-export class MatPseudoCheckboxModule { }
+export class MatPseudoCheckboxModule {}
 
 export * from './pseudo-checkbox/pseudo-checkbox';

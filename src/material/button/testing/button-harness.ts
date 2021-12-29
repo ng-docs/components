@@ -24,15 +24,8 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
    * `MatButton` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = [
-    '[mat-button]',
-    '[mat-raised-button]',
-    '[mat-flat-button]',
-    '[mat-icon-button]',
-    '[mat-stroked-button]',
-    '[mat-fab]',
-    '[mat-mini-fab]',
-  ].join(',');
+  static hostSelector = `[mat-button], [mat-raised-button], [mat-flat-button], [mat-icon-button],
+                         [mat-stroked-button], [mat-fab], [mat-mini-fab]`;
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatButtonHarness` that meets
@@ -49,9 +42,11 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ButtonHarnessFilters = {}): HarnessPredicate<MatButtonHarness> {
-    return new HarnessPredicate(MatButtonHarness, options)
-        .addOption('text', options.text,
-            (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text));
+    return new HarnessPredicate(MatButtonHarness, options).addOption(
+      'text',
+      options.text,
+      (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text),
+    );
   }
 
   /**

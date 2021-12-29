@@ -29,7 +29,7 @@ export abstract class _MatChipListHarnessBase extends ComponentHarness {
    *
    */
   async isDisabled(): Promise<boolean> {
-    return await (await this.host()).getAttribute('aria-disabled') === 'true';
+    return (await (await this.host()).getAttribute('aria-disabled')) === 'true';
   }
 
   /**
@@ -39,7 +39,7 @@ export abstract class _MatChipListHarnessBase extends ComponentHarness {
    *
    */
   async isRequired(): Promise<boolean> {
-    return await (await this.host()).getAttribute('aria-required') === 'true';
+    return (await (await this.host()).getAttribute('aria-required')) === 'true';
   }
 
   /**
@@ -49,7 +49,7 @@ export abstract class _MatChipListHarnessBase extends ComponentHarness {
    *
    */
   async isInvalid(): Promise<boolean> {
-    return await (await this.host()).getAttribute('aria-invalid') === 'true';
+    return (await (await this.host()).getAttribute('aria-invalid')) === 'true';
   }
 
   /**
@@ -59,7 +59,7 @@ export abstract class _MatChipListHarnessBase extends ComponentHarness {
    *
    */
   async isMultiple(): Promise<boolean> {
-    return await (await this.host()).getAttribute('aria-multiselectable') === 'true';
+    return (await (await this.host()).getAttribute('aria-multiselectable')) === 'true';
   }
 
   /**
@@ -164,6 +164,7 @@ export class MatChipListHarness extends _MatChipListHarnessBase {
     }
 
     return this.documentRootLocatorFactory().locatorFor(
-      MatChipInputHarness.with({...filter, selector: `#${inputId}`}))();
+      MatChipInputHarness.with({...filter, selector: `#${inputId}`}),
+    )();
   }
 }

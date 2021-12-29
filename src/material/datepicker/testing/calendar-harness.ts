@@ -16,7 +16,11 @@ import {MatCalendarCellHarness} from './calendar-cell-harness';
  * `MatCalendarHarness` 可能的视图。
  *
  */
-export const enum CalendarView {MONTH, YEAR, MULTI_YEAR}
+export const enum CalendarView {
+  MONTH,
+  YEAR,
+  MULTI_YEAR,
+}
 
 /**
  * Harness for interacting with a standard Material calendar in tests.

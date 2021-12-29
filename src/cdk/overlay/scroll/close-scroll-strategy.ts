@@ -34,7 +34,7 @@ export interface CloseScrollStrategyConfig {
  *
  */
 export class CloseScrollStrategy implements ScrollStrategy {
-  private _scrollSubscription: Subscription|null = null;
+  private _scrollSubscription: Subscription | null = null;
   private _overlayRef: OverlayReference;
   private _initialScrollPosition: number;
 
@@ -42,7 +42,8 @@ export class CloseScrollStrategy implements ScrollStrategy {
     private _scrollDispatcher: ScrollDispatcher,
     private _ngZone: NgZone,
     private _viewportRuler: ViewportRuler,
-    private _config?: CloseScrollStrategyConfig) {}
+    private _config?: CloseScrollStrategyConfig,
+  ) {}
 
   /**
    * Attaches this scroll strategy to an overlay.
@@ -118,5 +119,5 @@ export class CloseScrollStrategy implements ScrollStrategy {
     if (this._overlayRef.hasAttached()) {
       this._ngZone.run(() => this._overlayRef.detach());
     }
-  }
+  };
 }

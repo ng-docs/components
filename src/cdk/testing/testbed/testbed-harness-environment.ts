@@ -13,7 +13,7 @@ import {
   HarnessEnvironment,
   HarnessLoader,
   stopHandlingAutoChangeDetectionStatus,
-  TestElement
+  TestElement,
 } from '@angular/cdk/testing';
 import {ComponentFixture, flush} from '@angular/core/testing';
 import {Observable} from 'rxjs';
@@ -44,7 +44,7 @@ export interface TestbedHarnessEnvironmentOptions {
  *
  */
 const defaultEnvironmentOptions: TestbedHarnessEnvironmentOptions = {
-  queryFn: (selector: string, root: Element) => root.querySelectorAll(selector)
+  queryFn: (selector: string, root: Element) => root.querySelectorAll(selector),
 };
 
 /**
@@ -162,8 +162,11 @@ export class TestbedHarnessEnvironment extends HarnessEnvironment<Element> {
    */
   private _options: TestbedHarnessEnvironmentOptions;
 
-  protected constructor(rawRootElement: Element, private _fixture: ComponentFixture<unknown>,
-      options?: TestbedHarnessEnvironmentOptions) {
+  protected constructor(
+    rawRootElement: Element,
+    private _fixture: ComponentFixture<unknown>,
+    options?: TestbedHarnessEnvironmentOptions,
+  ) {
     super(rawRootElement);
     this._options = {...defaultEnvironmentOptions, ...options};
     this._taskState = TaskStateZoneInterceptor.setup();
@@ -180,8 +183,10 @@ export class TestbedHarnessEnvironment extends HarnessEnvironment<Element> {
    * 创建一个以给定夹具的根元素为根的 `HarnessLoader`。
    *
    */
-  static loader(fixture: ComponentFixture<unknown>, options?: TestbedHarnessEnvironmentOptions):
-      HarnessLoader {
+  static loader(
+    fixture: ComponentFixture<unknown>,
+    options?: TestbedHarnessEnvironmentOptions,
+  ): HarnessLoader {
     return new TestbedHarnessEnvironment(fixture.nativeElement, fixture, options);
   }
 
@@ -192,8 +197,10 @@ export class TestbedHarnessEnvironment extends HarnessEnvironment<Element> {
    * 在文档的根上创建一个 `HarnessLoader`。如果测试工具位于测试夹具之外（例如，附加在 document body 上的浮层），则可以使用此功能。
    *
    */
-  static documentRootLoader(fixture: ComponentFixture<unknown>,
-      options?: TestbedHarnessEnvironmentOptions): HarnessLoader {
+  static documentRootLoader(
+    fixture: ComponentFixture<unknown>,
+    options?: TestbedHarnessEnvironmentOptions,
+  ): HarnessLoader {
     return new TestbedHarnessEnvironment(document.body, fixture, options);
   }
 
@@ -220,8 +227,10 @@ export class TestbedHarnessEnvironment extends HarnessEnvironment<Element> {
    *
    */
   static async harnessForFixture<T extends ComponentHarness>(
-      fixture: ComponentFixture<unknown>, harnessType: ComponentHarnessConstructor<T>,
-      options?: TestbedHarnessEnvironmentOptions): Promise<T> {
+    fixture: ComponentFixture<unknown>,
+    harnessType: ComponentHarnessConstructor<T>,
+    options?: TestbedHarnessEnvironmentOptions,
+  ): Promise<T> {
     const environment = new TestbedHarnessEnvironment(fixture.nativeElement, fixture, options);
     await environment.forceStabilize();
     return environment.createComponentHarness(harnessType, fixture.nativeElement);

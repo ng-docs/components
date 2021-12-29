@@ -33,7 +33,7 @@ import {UpdateRecorder} from './update-recorder';
  *    更新工具不能依赖于 Angular devkit，因为该工具没有同步到 g3 中。如果需要，我们希望能够在 g3 中运行迁移。
  *
  */
-export type WorkspacePath = string&{
+export type WorkspacePath = string & {
   // Brand signature matches the devkit paths so that existing path
   // utilities from the Angular devkit can be conveniently used.
   __PRIVATE_DEVKIT_PATH: void;
@@ -71,19 +71,21 @@ export interface DirectoryEntry {
  */
 export abstract class FileSystem {
   /**
-   * Checks whether the given file or directory exists.
+   * Checks whether the given file exists. */
+  abstract fileExists(path: WorkspacePath): boolean;
+  /** Checks whether the given directory exists.
    *
    * 检查给定的文件或目录是否存在。
    *
    */
-  abstract exists(path: WorkspacePath): boolean;
+  abstract directoryExists(path: WorkspacePath): boolean;
   /**
    * Gets the contents of the given file.
    *
    * 获取给定文件的内容。
    *
    */
-  abstract read(filePath: WorkspacePath): string|null;
+  abstract read(filePath: WorkspacePath): string | null;
   /**
    * Reads the given directory to retrieve children.
    *

@@ -17,7 +17,10 @@ import {createTestProject} from './test-project';
  * 创建用于测试的基本应用程序。
  *
  */
-export async function createTestApp(runner: SchematicTestRunner, appOptions = {}, tree?: Tree):
-    Promise<UnitTestTree> {
+export async function createTestApp(
+  runner: SchematicTestRunner,
+  appOptions = {},
+  tree?: Tree,
+): Promise<UnitTestTree> {
   return createTestProject(runner, 'application', appOptions, tree);
 }

@@ -17,7 +17,10 @@ import {createTestProject} from './test-project';
  * 创建用于测试的基础库。
  *
  */
-export async function createTestLibrary(runner: SchematicTestRunner, appOptions = {}, tree?: Tree):
-    Promise<UnitTestTree> {
+export async function createTestLibrary(
+  runner: SchematicTestRunner,
+  appOptions = {},
+  tree?: Tree,
+): Promise<UnitTestTree> {
   return createTestProject(runner, 'library', appOptions, tree);
 }

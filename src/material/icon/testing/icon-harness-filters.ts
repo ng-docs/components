@@ -14,7 +14,10 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
  * 图标的可能类型。
  *
  */
-export const enum IconType {SVG, FONT}
+export const enum IconType {
+  SVG,
+  FONT,
+}
 
 /**
  * A set of criteria that can be used to filter a list of `MatIconHarness` instances.

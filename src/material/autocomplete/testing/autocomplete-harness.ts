@@ -17,19 +17,21 @@ import {
   MatOptgroupHarness,
   MatOptionHarness,
   OptgroupHarnessFilters,
-  OptionHarnessFilters
+  OptionHarnessFilters,
 } from '@angular/material/core/testing';
 import {AutocompleteHarnessFilters} from './autocomplete-harness-filters';
 
 export abstract class _MatAutocompleteHarnessBase<
-  OptionType extends (ComponentHarnessConstructor<Option> & {
-    with: (options?: OptionFilters) => HarnessPredicate<Option>}),
+  OptionType extends ComponentHarnessConstructor<Option> & {
+    with: (options?: OptionFilters) => HarnessPredicate<Option>;
+  },
   Option extends ComponentHarness & {click(): Promise<void>},
   OptionFilters extends BaseHarnessFilters,
-  OptionGroupType extends (ComponentHarnessConstructor<OptionGroup> & {
-    with: (options?: OptionGroupFilters) => HarnessPredicate<OptionGroup>}),
+  OptionGroupType extends ComponentHarnessConstructor<OptionGroup> & {
+    with: (options?: OptionGroupFilters) => HarnessPredicate<OptionGroup>;
+  },
   OptionGroup extends ComponentHarness,
-  OptionGroupFilters extends BaseHarnessFilters
+  OptionGroupFilters extends BaseHarnessFilters,
 > extends ComponentHarness {
   private _documentRootLocator = this.documentRootLocatorFactory();
   protected abstract _prefix: string;
@@ -43,7 +45,7 @@ export abstract class _MatAutocompleteHarnessBase<
    *
    */
   async getValue(): Promise<string> {
-    return (await this.host()).getProperty('value');
+    return (await this.host()).getProperty<string>('value');
   }
 
   /**
@@ -104,10 +106,12 @@ export abstract class _MatAutocompleteHarnessBase<
    *
    */
   async getOptions(filters?: Omit<OptionFilters, 'ancestor'>): Promise<Option[]> {
-    return this._documentRootLocator.locatorForAll(this._optionClass.with({
-      ...(filters || {}),
-      ancestor: await this._getPanelSelector()
-    } as OptionFilters))();
+    return this._documentRootLocator.locatorForAll(
+      this._optionClass.with({
+        ...(filters || {}),
+        ancestor: await this._getPanelSelector(),
+      } as OptionFilters),
+    )();
   }
 
   /**
@@ -117,10 +121,12 @@ export abstract class _MatAutocompleteHarnessBase<
    *
    */
   async getOptionGroups(filters?: Omit<OptionGroupFilters, 'ancestor'>): Promise<OptionGroup[]> {
-    return this._documentRootLocator.locatorForAll(this._optionGroupClass.with({
-      ...(filters || {}),
-      ancestor: await this._getPanelSelector()
-    } as OptionGroupFilters))();
+    return this._documentRootLocator.locatorForAll(
+      this._optionGroupClass.with({
+        ...(filters || {}),
+        ancestor: await this._getPanelSelector(),
+      } as OptionGroupFilters),
+    )();
   }
 
   /**
@@ -146,7 +152,7 @@ export abstract class _MatAutocompleteHarnessBase<
    */
   async isOpen(): Promise<boolean> {
     const panel = await this._getPanel();
-    return !!panel && await panel.hasClass(`${this._prefix}-autocomplete-visible`);
+    return !!panel && (await panel.hasClass(`${this._prefix}-autocomplete-visible`));
   }
 
   /**
@@ -168,7 +174,7 @@ export abstract class _MatAutocompleteHarnessBase<
    *
    */
   private async _getPanelSelector(): Promise<string> {
-    return `#${(await (await this.host()).getAttribute('aria-owns'))}`;
+    return `#${await (await this.host()).getAttribute('aria-owns')}`;
   }
 }
 
@@ -179,8 +185,12 @@ export abstract class _MatAutocompleteHarnessBase<
  *
  */
 export class MatAutocompleteHarness extends _MatAutocompleteHarnessBase<
-  typeof MatOptionHarness, MatOptionHarness, OptionHarnessFilters,
-  typeof MatOptgroupHarness, MatOptgroupHarness, OptgroupHarnessFilters
+  typeof MatOptionHarness,
+  MatOptionHarness,
+  OptionHarnessFilters,
+  typeof MatOptgroupHarness,
+  MatOptgroupHarness,
+  OptgroupHarnessFilters
 > {
   protected _prefix = 'mat';
   protected _optionClass = MatOptionHarness;
@@ -210,8 +220,10 @@ export class MatAutocompleteHarness extends _MatAutocompleteHarnessBase<
    *
    */
   static with(options: AutocompleteHarnessFilters = {}): HarnessPredicate<MatAutocompleteHarness> {
-    return new HarnessPredicate(MatAutocompleteHarness, options)
-        .addOption('value', options.value,
-            (harness, value) => HarnessPredicate.stringMatches(harness.getValue(), value));
+    return new HarnessPredicate(MatAutocompleteHarness, options).addOption(
+      'value',
+      options.value,
+      (harness, value) => HarnessPredicate.stringMatches(harness.getValue(), value),
+    );
   }
 }

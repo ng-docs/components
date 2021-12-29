@@ -23,7 +23,7 @@ type PropertyNameWithText = Exclude<ts.PropertyName, ts.ComputedPropertyName>;
  * 获取给定属性名称的文本。如果无法静态确定属性名称，则返回 null。
  *
  */
-export function getPropertyNameText(node: ts.PropertyName): string|null {
+export function getPropertyNameText(node: ts.PropertyName): string | null {
   if (ts.isIdentifier(node) || ts.isStringLiteralLike(node)) {
     return node.text;
   }

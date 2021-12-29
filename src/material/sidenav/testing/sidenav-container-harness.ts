@@ -40,8 +40,9 @@ export class MatSidenavContainerHarness extends ContentContainerComponentHarness
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: DrawerContainerHarnessFilters = {}):
-    HarnessPredicate<MatSidenavContainerHarness> {
+  static with(
+    options: DrawerContainerHarnessFilters = {},
+  ): HarnessPredicate<MatSidenavContainerHarness> {
     return new HarnessPredicate(MatSidenavContainerHarness, options);
   }
 

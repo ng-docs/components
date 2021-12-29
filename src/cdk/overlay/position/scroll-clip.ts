@@ -9,6 +9,9 @@
 // TODO(jelbourn): move this to live with the rest of the scrolling code
 // TODO(jelbourn): someday replace this with IntersectionObservers
 
+/** Equivalent of `ClientRect` without some of the properties we don't care about. */
+type Dimensions = Omit<ClientRect, 'x' | 'y' | 'toJSON'>;
+
 /**
  * Gets whether an element is scrolled outside of view by any of its parent scrolling containers.
  *
@@ -28,7 +31,7 @@
  *
  * @docs-private
  */
-export function isElementScrolledOutsideView(element: ClientRect, scrollContainers: ClientRect[]) {
+export function isElementScrolledOutsideView(element: Dimensions, scrollContainers: Dimensions[]) {
   return scrollContainers.some(containerBounds => {
     const outsideAbove = element.bottom < containerBounds.top;
     const outsideBelow = element.top > containerBounds.bottom;
@@ -58,7 +61,7 @@ export function isElementScrolledOutsideView(element: ClientRect, scrollContaine
  *
  * @docs-private
  */
-export function isElementClippedByScrolling(element: ClientRect, scrollContainers: ClientRect[]) {
+export function isElementClippedByScrolling(element: Dimensions, scrollContainers: Dimensions[]) {
   return scrollContainers.some(scrollContainerRect => {
     const clippedAbove = element.top < scrollContainerRect.top;
     const clippedBelow = element.bottom > scrollContainerRect.bottom;

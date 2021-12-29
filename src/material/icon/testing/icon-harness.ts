@@ -40,12 +40,13 @@ export class MatIconHarness extends ComponentHarness {
    */
   static with(options: IconHarnessFilters = {}): HarnessPredicate<MatIconHarness> {
     return new HarnessPredicate(MatIconHarness, options)
-        .addOption('type', options.type,
-            async (harness, type) => (await harness.getType()) === type)
-        .addOption('name', options.name,
-            (harness, text) => HarnessPredicate.stringMatches(harness.getName(), text))
-        .addOption('namespace', options.namespace,
-            (harness, text) => HarnessPredicate.stringMatches(harness.getNamespace(), text));
+      .addOption('type', options.type, async (harness, type) => (await harness.getType()) === type)
+      .addOption('name', options.name, (harness, text) =>
+        HarnessPredicate.stringMatches(harness.getName(), text),
+      )
+      .addOption('namespace', options.namespace, (harness, text) =>
+        HarnessPredicate.stringMatches(harness.getNamespace(), text),
+      );
   }
 
   /**
@@ -76,7 +77,7 @@ export class MatIconHarness extends ComponentHarness {
 
     // Some icons support defining the icon as a ligature.
     // As a fallback, try to extract it from the DOM text.
-    if (await this.getType() === IconType.FONT) {
+    if ((await this.getType()) === IconType.FONT) {
       return host.text();
     }
 

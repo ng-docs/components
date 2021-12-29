@@ -26,7 +26,7 @@ export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
    *
    */
   async isChecked(): Promise<boolean> {
-    const checked = (await this._input()).getProperty('checked');
+    const checked = (await this._input()).getProperty<boolean>('checked');
     return coerceBooleanProperty(await checked);
   }
 
@@ -37,7 +37,7 @@ export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
    *
    */
   async isIndeterminate(): Promise<boolean> {
-    const indeterminate = (await this._input()).getProperty('indeterminate');
+    const indeterminate = (await this._input()).getProperty<string>('indeterminate');
     return coerceBooleanProperty(await indeterminate);
   }
 
@@ -59,7 +59,7 @@ export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
    *
    */
   async isRequired(): Promise<boolean> {
-    const required = (await this._input()).getProperty('required');
+    const required = (await this._input()).getProperty<boolean>('required');
     return coerceBooleanProperty(await required);
   }
 
@@ -80,7 +80,7 @@ export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
    * 获取复选框的名字。
    *
    */
-  async getName(): Promise<string|null> {
+  async getName(): Promise<string | null> {
     return (await this._input()).getAttribute('name');
   }
 
@@ -90,8 +90,8 @@ export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
    * 获取复选框的值。
    *
    */
-  async getValue(): Promise<string|null> {
-    return (await this._input()).getProperty('value');
+  async getValue(): Promise<string | null> {
+    return (await this._input()).getProperty<string | null>('value');
   }
 
   /**
@@ -100,7 +100,7 @@ export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
    * 获取复选框的 aria-label。
    *
    */
-  async getAriaLabel(): Promise<string|null> {
+  async getAriaLabel(): Promise<string | null> {
     return (await this._input()).getAttribute('aria-label');
   }
 
@@ -110,7 +110,7 @@ export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
    * 获取复选框的 aria-labelledby。
    *
    */
-  async getAriaLabelledby(): Promise<string|null> {
+  async getAriaLabelledby(): Promise<string | null> {
     return (await this._input()).getAttribute('aria-labelledby');
   }
 
@@ -238,14 +238,20 @@ export class MatCheckboxHarness extends _MatCheckboxHarnessBase {
    *
    */
   static with(options: CheckboxHarnessFilters = {}): HarnessPredicate<MatCheckboxHarness> {
-    return new HarnessPredicate(MatCheckboxHarness, options)
-        .addOption(
-            'label', options.label,
-            (harness, label) => HarnessPredicate.stringMatches(harness.getLabelText(), label))
+    return (
+      new HarnessPredicate(MatCheckboxHarness, options)
+        .addOption('label', options.label, (harness, label) =>
+          HarnessPredicate.stringMatches(harness.getLabelText(), label),
+        )
         // We want to provide a filter option for "name" because the name of the checkbox is
         // only set on the underlying input. This means that it's not possible for developers
         // to retrieve the harness of a specific checkbox with name through a CSS selector.
-        .addOption('name', options.name, async (harness, name) => await harness.getName() === name);
+        .addOption(
+          'name',
+          options.name,
+          async (harness, name) => (await harness.getName()) === name,
+        )
+    );
   }
 
   protected _input = this.locatorFor('input');

@@ -38,7 +38,7 @@ export class CdkTreeNodePadding<T, K = T> implements OnDestroy {
    * 应用于此元素的当前衬距值。用来避免不必要的 DOM 访问。
    *
    */
-  private _currentPadding: string|null;
+  private _currentPadding: string | null;
 
   /**
    * Subject that emits when the component has been destroyed.
@@ -63,8 +63,12 @@ export class CdkTreeNodePadding<T, K = T> implements OnDestroy {
    *
    */
   @Input('cdkTreeNodePadding')
-  get level(): number { return this._level; }
-  set level(value: number) { this._setLevelInput(value); }
+  get level(): number {
+    return this._level;
+  }
+  set level(value: NumberInput) {
+    this._setLevelInput(value);
+  }
   _level: number;
 
   /**
@@ -75,14 +79,20 @@ export class CdkTreeNodePadding<T, K = T> implements OnDestroy {
    *
    */
   @Input('cdkTreeNodePaddingIndent')
-  get indent(): number | string { return this._indent; }
-  set indent(indent: number | string) { this._setIndentInput(indent); }
+  get indent(): number | string {
+    return this._indent;
+  }
+  set indent(indent: number | string) {
+    this._setIndentInput(indent);
+  }
   _indent: number = 40;
 
-  constructor(private _treeNode: CdkTreeNode<T, K>,
-              private _tree: CdkTree<T, K>,
-              private _element: ElementRef<HTMLElement>,
-              @Optional() private _dir: Directionality) {
+  constructor(
+    private _treeNode: CdkTreeNode<T, K>,
+    private _tree: CdkTree<T, K>,
+    private _element: ElementRef<HTMLElement>,
+    @Optional() private _dir: Directionality,
+  ) {
     this._setPadding();
     if (_dir) {
       _dir.change.pipe(takeUntil(this._destroyed)).subscribe(() => this._setPadding(true));
@@ -105,10 +115,11 @@ export class CdkTreeNodePadding<T, K = T> implements OnDestroy {
    * 树节点的衬距缩进值。如果不是 null，则返回一个带 px 的数字字符串。
    *
    */
-  _paddingIndent(): string|null {
-    const nodeLevel = (this._treeNode.data && this._tree.treeControl.getLevel)
-      ? this._tree.treeControl.getLevel(this._treeNode.data)
-      : null;
+  _paddingIndent(): string | null {
+    const nodeLevel =
+      this._treeNode.data && this._tree.treeControl.getLevel
+        ? this._tree.treeControl.getLevel(this._treeNode.data)
+        : null;
     const level = this._level == null ? nodeLevel : this._level;
     return typeof level === 'number' ? `${level * this._indent}${this.indentUnits}` : null;
   }
@@ -135,7 +146,7 @@ export class CdkTreeNodePadding<T, K = T> implements OnDestroy {
    *
    * @docs-private
    */
-  protected _setLevelInput(value: number) {
+  protected _setLevelInput(value: NumberInput) {
     // Set to null as the fallback value so that _setPadding can fall back to the node level if the
     // consumer set the directive as `cdkTreeNodePadding=""`. We still want to take this value if
     // they set 0 explicitly.
@@ -166,6 +177,4 @@ export class CdkTreeNodePadding<T, K = T> implements OnDestroy {
     this._indent = coerceNumberProperty(value);
     this._setPadding();
   }
-
-  static ngAcceptInputType_level: NumberInput;
 }

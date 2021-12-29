@@ -43,9 +43,11 @@ export class MatTabHarness extends ContentContainerComponentHarness<string> {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: TabHarnessFilters = {}): HarnessPredicate<MatTabHarness> {
-    return new HarnessPredicate(MatTabHarness, options)
-        .addOption('label', options.label,
-            (harness, label) => HarnessPredicate.stringMatches(harness.getLabel(), label));
+    return new HarnessPredicate(MatTabHarness, options).addOption(
+      'label',
+      options.label,
+      (harness, label) => HarnessPredicate.stringMatches(harness.getLabel(), label),
+    );
   }
 
   /**
@@ -64,7 +66,7 @@ export class MatTabHarness extends ContentContainerComponentHarness<string> {
    * 获取此选项卡的 aria-label。
    *
    */
-  async getAriaLabel(): Promise<string|null> {
+  async getAriaLabel(): Promise<string | null> {
     return (await this.host()).getAttribute('aria-label');
   }
 
@@ -74,7 +76,7 @@ export class MatTabHarness extends ContentContainerComponentHarness<string> {
    * 获取 “aria-labelledby” 属性的值。
    *
    */
-  async getAriaLabelledby(): Promise<string|null> {
+  async getAriaLabelledby(): Promise<string | null> {
     return (await this.host()).getAttribute('aria-labelledby');
   }
 
@@ -122,23 +124,7 @@ export class MatTabHarness extends ContentContainerComponentHarness<string> {
     return contentEl.text();
   }
 
-  /**
-   * Gets a `HarnessLoader` that can be used to load harnesses for components within the tab's
-   * content area.
-   *
-   * 获取一个 `HarnessLoader`，可用于为该选项卡的内容区域内的组件加载测试工具。
-   *
-   * @deprecated Use `getHarness` or `getChildLoader` instead.
-   *
-   * 请改用 `getHarness` 或 `getChildLoader`。
-   *
-   * @breaking-change 12.0.0
-   */
-  async getHarnessLoaderForContent(): Promise<HarnessLoader> {
-    return this.getRootHarnessLoader();
-  }
-
-  protected async getRootHarnessLoader(): Promise<HarnessLoader> {
+  protected override async getRootHarnessLoader(): Promise<HarnessLoader> {
     const contentId = await this._getContentId();
     return this.documentRootLocatorFactory().harnessLoaderFor(`#${contentId}`);
   }

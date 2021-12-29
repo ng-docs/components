@@ -28,7 +28,13 @@ export interface ModifierKeys {
  *
  */
 export type EventData =
-    string | number | boolean | undefined | null | EventData[] | {[key: string]: EventData};
+  | string
+  | number
+  | boolean
+  | undefined
+  | null
+  | EventData[]
+  | {[key: string]: EventData};
 
 /**
  * An enum of non-text keys that can be used with the `sendKeys` method.
@@ -72,7 +78,7 @@ export enum TestKey {
   F10,
   F11,
   F12,
-  META
+  META,
 }
 
 /**
@@ -192,9 +198,10 @@ export interface TestElement {
 
   /**
    * Sends the given string to the input as a series of key presses. Also fires input events
-   * and attempts to add the string to the Element's value.
+   * and attempts to add the string to the Element's value. Note that some environments cannot
+   * reproduce native browser behavior for keyboard shortcuts such as Tab, Ctrl + A, etc.
    *
-   * 以按键序列的形式，把指定的字符串发送给输入设备。同时触发输入事件，并尝试将该字符串添加到 Element 的值中。
+   * 以按键序列的形式，把指定的字符串发送给输入设备。同时触发输入事件，并尝试将该字符串添加到 Element 的值中。注意，这种方式不能复现快捷键（如 Tab、Ctrl + A 等）在浏览器中的原生行为。
    *
    */
   sendKeys(...keys: (string | TestKey)[]): Promise<void>;
@@ -250,7 +257,7 @@ export interface TestElement {
    * 获取一个 element 的 property 的值。
    *
    */
-  getProperty(name: string): Promise<any>;
+  getProperty<T = any>(name: string): Promise<T>;
 
   /**
    * Checks whether this element matches the given selector.

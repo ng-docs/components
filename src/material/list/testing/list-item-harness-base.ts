@@ -43,11 +43,14 @@ const avatarSelector = '.mat-list-avatar';
  *
  */
 export function getListItemPredicate<H extends MatListItemHarnessBase>(
-    harnessType: ComponentHarnessConstructor<H>,
-    options: BaseListItemHarnessFilters): HarnessPredicate<H> {
-  return new HarnessPredicate(harnessType, options)
-      .addOption('text', options.text,
-          (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text));
+  harnessType: ComponentHarnessConstructor<H>,
+  options: BaseListItemHarnessFilters,
+): HarnessPredicate<H> {
+  return new HarnessPredicate(harnessType, options).addOption(
+    'text',
+    options.text,
+    (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text),
+  );
 }
 
 /**
@@ -60,9 +63,11 @@ export class MatSubheaderHarness extends ComponentHarness {
   static hostSelector = '.mat-subheader';
 
   static with(options: SubheaderHarnessFilters = {}): HarnessPredicate<MatSubheaderHarness> {
-    return new HarnessPredicate(MatSubheaderHarness, options)
-        .addOption('text', options.text,
-            (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text));
+    return new HarnessPredicate(MatSubheaderHarness, options).addOption(
+      'text',
+      options.text,
+      (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text),
+    );
   }
 
   /**
@@ -83,7 +88,7 @@ export class MatSubheaderHarness extends ComponentHarness {
  *
  */
 export const enum MatListItemSection {
-  CONTENT = '.mat-list-item-content'
+  CONTENT = '.mat-list-item-content',
   // TODO(mmalerba): consider adding sections for leading/trailing icons.
 }
 
@@ -94,9 +99,7 @@ export const enum MatListItemSection {
  *
  * @docs-private
  */
-export abstract class MatListItemHarnessBase
-    extends ContentContainerComponentHarness<MatListItemSection> {
-
+export abstract class MatListItemHarnessBase extends ContentContainerComponentHarness<MatListItemSection> {
   private _lines = this.locatorForAll('.mat-line');
   private _avatar = this.locatorForOptional(avatarSelector);
   private _icon = this.locatorForOptional(iconSelector);
@@ -129,7 +132,7 @@ export abstract class MatListItemHarnessBase
    *
    */
   async hasAvatar(): Promise<boolean> {
-    return !!await this._avatar();
+    return !!(await this._avatar());
   }
 
   /**
@@ -139,7 +142,7 @@ export abstract class MatListItemHarnessBase
    *
    */
   async hasIcon(): Promise<boolean> {
-    return !!await this._icon();
+    return !!(await this._icon());
   }
 
   /**

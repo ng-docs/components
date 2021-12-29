@@ -49,15 +49,17 @@ slide-toggles use the theme's accent color. This can be changed to `'primary'` o
 
 ### Accessibility
 
-### 无障碍性
+`MatSlideToggle` uses an internal `<input type="checkbox">` with `role="switch"` to provide an
+accessible experience. This internal checkbox receives focus and is automatically labelled by the
+text content of the `<mat-slide-toggle>` element. Avoid adding other interactive controls into the
+content of `<mat-slide-toggle>`, as this degrades the experience for users of assistive technology.
 
-The `<mat-slide-toggle>` uses an internal `<input type="checkbox">` to provide an accessible
-experience. This internal checkbox receives focus and is automatically labelled by the text content
-of the `<mat-slide-toggle>` element.
+Always provide an accessible label via `aria-label` or `aria-labelledby` for toggles without
+descriptive text content. For dynamic labels, `MatSlideToggle` provides input properties for binding
+`aria-label` and `aria-labelledby`. This means that you should not use the `attr.` prefix when
+binding these properties, as demonstrated below.
 
-`<mat-slide-toggle>` 使用内部的 `<input type="checkbox">` 来提供无障碍性。这个内部检查框接受焦点，并自动使用 `<mat-slide-toggle>` 元素的文本内容作为标签。
-
-Slide toggles without text or labels should be given a meaningful label via `aria-label` or
-`aria-labelledby`.
-
-没有文本或标签的滑块开关应该通过 `aria-label` 或 `aria-labelledby` 来指定一个有意义的标签。
+```html
+<mat-slide-toggle [aria-label]="isSubscribedToEmailsMessage">
+</mat-slide-toggle>
+```

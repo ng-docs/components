@@ -48,7 +48,7 @@ export class MatNativeSelectHarness extends MatFormFieldControlHarness {
    *
    */
   async isDisabled(): Promise<boolean> {
-    return (await this.host()).getProperty('disabled');
+    return (await this.host()).getProperty<boolean>('disabled');
   }
 
   /**
@@ -58,7 +58,7 @@ export class MatNativeSelectHarness extends MatFormFieldControlHarness {
    *
    */
   async isRequired(): Promise<boolean> {
-    return (await this.host()).getProperty('required');
+    return (await this.host()).getProperty<boolean>('required');
   }
 
   /**
@@ -68,7 +68,7 @@ export class MatNativeSelectHarness extends MatFormFieldControlHarness {
    *
    */
   async isMultiple(): Promise<boolean> {
-    return (await this.host()).getProperty('multiple');
+    return (await this.host()).getProperty<boolean>('multiple');
   }
 
   /**
@@ -79,7 +79,7 @@ export class MatNativeSelectHarness extends MatFormFieldControlHarness {
    */
   async getName(): Promise<string> {
     // The "name" property of the native select is never undefined.
-    return (await (await this.host()).getProperty('name'))!;
+    return await (await this.host()).getProperty<string>('name');
   }
 
   /**
@@ -90,7 +90,7 @@ export class MatNativeSelectHarness extends MatFormFieldControlHarness {
    */
   async getId(): Promise<string> {
     // We're guaranteed to have an id, because the `matNativeControl` always assigns one.
-    return (await (await this.host()).getProperty('id'))!;
+    return await (await this.host()).getProperty<string>('id');
   }
 
   /**
@@ -129,8 +129,7 @@ export class MatNativeSelectHarness extends MatFormFieldControlHarness {
    * 获取选择面板中的选项。
    *
    */
-  async getOptions(filter: NativeOptionHarnessFilters = {}):
-    Promise<MatNativeOptionHarness[]> {
+  async getOptions(filter: NativeOptionHarnessFilters = {}): Promise<MatNativeOptionHarness[]> {
     return this.locatorForAll(MatNativeOptionHarness.with(filter))();
   }
 
@@ -152,7 +151,7 @@ export class MatNativeSelectHarness extends MatFormFieldControlHarness {
 
     const [host, optionIndexes] = await parallel(() => [
       this.host(),
-      parallel(() => options.slice(0, isMultiple ? undefined : 1).map(option => option.getIndex()))
+      parallel(() => options.slice(0, isMultiple ? undefined : 1).map(option => option.getIndex())),
     ]);
 
     await host.selectOptions(...optionIndexes);

@@ -40,11 +40,42 @@ export const materialMixins: Record<string, string> = {
 
 // The component themes all follow the same pattern so we can spare ourselves some typing.
 [
-  'option', 'optgroup', 'pseudo-checkbox', 'autocomplete', 'badge', 'bottom-sheet', 'button',
-  'button-toggle', 'card', 'checkbox', 'chips', 'divider', 'table', 'datepicker', 'dialog',
-  'grid-list', 'icon', 'input', 'list', 'menu', 'paginator', 'progress-bar', 'progress-spinner',
-  'radio', 'select', 'sidenav', 'slide-toggle', 'slider', 'stepper', 'sort', 'tabs', 'toolbar',
-  'tooltip', 'snack-bar', 'form-field', 'tree'
+  'option',
+  'optgroup',
+  'pseudo-checkbox',
+  'autocomplete',
+  'badge',
+  'bottom-sheet',
+  'button',
+  'button-toggle',
+  'card',
+  'checkbox',
+  'chips',
+  'divider',
+  'table',
+  'datepicker',
+  'dialog',
+  'grid-list',
+  'icon',
+  'input',
+  'list',
+  'menu',
+  'paginator',
+  'progress-bar',
+  'progress-spinner',
+  'radio',
+  'select',
+  'sidenav',
+  'slide-toggle',
+  'slider',
+  'stepper',
+  'sort',
+  'tabs',
+  'toolbar',
+  'tooltip',
+  'snack-bar',
+  'form-field',
+  'tree',
 ].forEach(name => {
   materialMixins[`mat-${name}-theme`] = `${name}-theme`;
   materialMixins[`mat-${name}-color`] = `${name}-color`;
@@ -87,10 +118,28 @@ export const materialVariables: Record<string, string> = {
 
 // The palettes all follow the same pattern.
 [
-  'red', 'pink', 'indigo', 'purple', 'deep-purple', 'blue', 'light-blue', 'cyan', 'teal', 'green',
-  'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'gray',
-  'blue-grey', 'blue-gray'
-].forEach(name => materialVariables[`mat-${name}`] = `${name}-palette`);
+  'red',
+  'pink',
+  'indigo',
+  'purple',
+  'deep-purple',
+  'blue',
+  'light-blue',
+  'cyan',
+  'teal',
+  'green',
+  'light-green',
+  'lime',
+  'yellow',
+  'amber',
+  'orange',
+  'deep-orange',
+  'brown',
+  'grey',
+  'gray',
+  'blue-grey',
+  'blue-gray',
+].forEach(name => (materialVariables[`mat-${name}`] = `${name}-palette`));
 
 /**
  * Mapping of CDK variables that should be renamed.
@@ -166,6 +215,9 @@ export const removedMaterialVariables: Record<string, string> = {
   'mat-expansion-panel-header-expanded-minimum-height': '48px',
   'mat-expansion-panel-header-expanded-maximum-height': '64px',
   'mat-expansion-panel-header-transition': '225ms cubic-bezier(0.4, 0, 0.2, 1)',
+  'mat-menu-side-padding': '16px',
+  'menu-menu-item-height': '48px',
+  'menu-menu-icon-margin': '16px',
   'mat-paginator-height': '56px',
   'mat-paginator-minimum-height': '40px',
   'mat-paginator-maximum-height': '56px',

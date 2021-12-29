@@ -6,7 +6,7 @@ import {
   createTouchEvent,
   dispatchTouchEvent,
   dispatchFakeEvent,
-} from '@angular/cdk/testing/private';
+} from '../testing/private';
 import {DragDropRegistry} from './drag-drop-registry';
 import {DragDropModule} from './drag-drop-module';
 
@@ -27,10 +27,6 @@ describe('DragDropRegistry', () => {
       registry = c;
     })();
   }));
-
-  afterEach(() => {
-    registry.ngOnDestroy();
-  });
 
   it('should be able to start dragging an item', () => {
     const item = new DragItem();
@@ -193,15 +189,18 @@ describe('DragDropRegistry', () => {
     expect(dispatchTouchEvent(document, 'touchmove').defaultPrevented).toBe(true);
   });
 
-  it('should prevent the default `touchmove` if the item does not consider itself as being ' +
-    'dragged yet', () => {
+  it(
+    'should prevent the default `touchmove` if the item does not consider itself as being ' +
+      'dragged yet',
+    () => {
       const item = new DragItem(false);
       registry.startDragging(item, createTouchEvent('touchstart') as TouchEvent);
       expect(dispatchTouchEvent(document, 'touchmove').defaultPrevented).toBe(false);
 
       item.shouldBeDragging = true;
       expect(dispatchTouchEvent(document, 'touchmove').defaultPrevented).toBe(true);
-    });
+    },
+  );
 
   it('should prevent the default `touchmove` if event propagation is stopped', () => {
     const item = new DragItem(true);
@@ -224,7 +223,7 @@ describe('DragDropRegistry', () => {
 
   it('should dispatch `scroll` events if the viewport is scrolled while dragging', () => {
     const spy = jasmine.createSpy('scroll spy');
-    const subscription = registry.scroll.subscribe(spy);
+    const subscription = registry.scrolled().subscribe(spy);
     const item = new DragItem();
 
     registry.startDragging(item, createMouseEvent('mousedown'));
@@ -236,7 +235,7 @@ describe('DragDropRegistry', () => {
 
   it('should not dispatch `scroll` events when not dragging', () => {
     const spy = jasmine.createSpy('scroll spy');
-    const subscription = registry.scroll.subscribe(spy);
+    const subscription = registry.scrolled().subscribe(spy);
 
     dispatchFakeEvent(document, 'scroll');
 
@@ -245,7 +244,9 @@ describe('DragDropRegistry', () => {
   });
 
   class DragItem {
-    isDragging() { return this.shouldBeDragging; }
+    isDragging() {
+      return this.shouldBeDragging;
+    }
     constructor(public shouldBeDragging = false) {
       registry.registerDragItem(this);
     }

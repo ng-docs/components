@@ -51,12 +51,14 @@ export function isMaterialExportDeclaration(node: ts.Node) {
  * 声明是否为 Angular Material 的一部分。
  *
  */
-function isMaterialDeclaration(declaration: ts.ImportDeclaration|ts.ExportDeclaration) {
+function isMaterialDeclaration(declaration: ts.ImportDeclaration | ts.ExportDeclaration) {
   if (!declaration.moduleSpecifier) {
     return false;
   }
 
   const moduleSpecifier = declaration.moduleSpecifier.getText();
-  return moduleSpecifier.indexOf(materialModuleSpecifier) !== -1 ||
-      moduleSpecifier.indexOf(cdkModuleSpecifier) !== -1;
+  return (
+    moduleSpecifier.indexOf(materialModuleSpecifier) !== -1 ||
+    moduleSpecifier.indexOf(cdkModuleSpecifier) !== -1
+  );
 }

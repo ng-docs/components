@@ -126,38 +126,28 @@ with a different set of data, depending on the trigger that opened it:
 ```
 
 ### Keyboard interaction
-
-### 键盘交互
-
-- <kbd>DOWN_ARROW</kbd>: Focuses the next menu item
-
-  <kbd>DOWN_ARROW</kbd>：焦点移到下一个菜单项
-
-- <kbd>UP_ARROW</kbd>: Focuses previous menu item
-
-  <kbd>UP_ARROW</kbd>：焦点移到上一个菜单项
-
-- <kbd>RIGHT_ARROW</kbd>: Opens the menu item's sub-menu
-
-  <kbd>RIGHT_ARROW</kbd>：打开当前菜单项的子菜单
-
-- <kbd>LEFT_ARROW</kbd>: Closes the current menu, if it is a sub-menu
-
-  <kbd>LEFT_ARROW</kbd>：关闭当前菜单项的子菜单（如果有）
-
-- <kbd>ENTER</kbd>: Activates the focused menu item
-
-  <kbd>ENTER</kbd>：激活聚焦的菜单项
-
-- <kbd>ESCAPE</kbd>: Closes the menu
-
-  <kbd>ENTER</kbd>：激活当前有焦点的菜单项
+| Keyboard shortcut      | Action                                      |
+|------------------------|---------------------------------------------|
+| <kbd>Down Arrow</kbd>  | Focus the next menu item.                   |
+| <kbd>Up Arrow</kbd>    | Focus the previous menu item.               |
+| <kbd>Left Arrow</kbd>  | Close the current menu if it is a sub-menu. |
+| <kbd>Right Arrow</kbd> | Opens the current menu item's sub-menu.     |
+| <kbd>Enter</kbd>       | Activate the focused menu item.             |
+| <kbd>Escape</kbd>      | Close all open menus.                       |
 
 ### Accessibility
 
-### 无障碍性
+Angular Material's menu component consists of two connected parts: the trigger and the pop-up menu.
 
-Menu triggers or menu items without text or labels should be given a meaningful label via
-`aria-label` or `aria-labelledby`.
+The menu trigger is a standard button element augmented with `aria-haspopup`, `aria-expanded`, and
+`aria-controls` to create the relationship to the pop-up panel.
 
-没有文字或标签的菜单触发器或菜单项应该通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。
+The pop-up menu implements the `role="menu"` pattern, handling keyboard interaction and focus
+management. Upon opening, the trigger will focus the first focusable menu item. Upon close, the menu
+will return focus to its trigger. Avoid creating a menu in which all items are disabled, instead
+hiding or disabling the menu trigger. 
+
+Angular Material does not support the `menuitemcheckbox` or `menuitemradio` roles.
+
+Always provide an accessible label via `aria-label` or `aria-labelledby` for any menu
+triggers or menu items without descriptive text content.

@@ -15,14 +15,13 @@ import {parse5} from '@angular/cdk/schematics';
  * 解析指定的 HTML 内容，并寻找可能导入 HammerJS 的 “script” 元素。这些元素将被返回。
  *
  */
-export function findHammerScriptImportElements(htmlContent: string): parse5.DefaultTreeElement[] {
-  const document =
-      parse5.parse(htmlContent, {sourceCodeLocationInfo: true}) as parse5.DefaultTreeDocument;
+export function findHammerScriptImportElements(htmlContent: string): parse5.Element[] {
+  const document = parse5.parse(htmlContent, {sourceCodeLocationInfo: true});
   const nodeQueue = [...document.childNodes];
-  const result: parse5.DefaultTreeElement[] = [];
+  const result: parse5.Element[] = [];
 
   while (nodeQueue.length) {
-    const node = nodeQueue.shift() as parse5.DefaultTreeElement;
+    const node = nodeQueue.shift() as parse5.Element;
 
     if (node.childNodes) {
       nodeQueue.push(...node.childNodes);

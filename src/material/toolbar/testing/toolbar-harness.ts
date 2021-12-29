@@ -16,7 +16,7 @@ import {ToolbarHarnessFilters} from './toolbar-harness-filters';
  *
  */
 export const enum MatToolbarSection {
-  ROW = '.mat-toolbar-row'
+  ROW = '.mat-toolbar-row',
 }
 
 /**
@@ -45,9 +45,11 @@ export class MatToolbarHarness extends ContentContainerComponentHarness<MatToolb
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ToolbarHarnessFilters = {}): HarnessPredicate<MatToolbarHarness> {
-    return new HarnessPredicate(MatToolbarHarness, options)
-      .addOption('text', options.text,
-        (harness, text) => HarnessPredicate.stringMatches(harness._getText(), text));
+    return new HarnessPredicate(MatToolbarHarness, options).addOption(
+      'text',
+      options.text,
+      (harness, text) => HarnessPredicate.stringMatches(harness._getText(), text),
+    );
   }
 
   /**
@@ -78,6 +80,6 @@ export class MatToolbarHarness extends ContentContainerComponentHarness<MatToolb
    */
   async getRowsAsText(): Promise<string[]> {
     const rows = await this._getRows();
-    return parallel(() => rows.length ? rows.map(r => r.text()) : [this._getText()]);
+    return parallel(() => (rows.length ? rows.map(r => r.text()) : [this._getText()]));
   }
 }

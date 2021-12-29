@@ -16,7 +16,6 @@ import {TreeControl} from './tree-control';
  *
  */
 export abstract class BaseTreeControl<T, K = T> implements TreeControl<T, K> {
-
   /**
    * Gets a list of descendent data nodes of a subtree rooted at given data node recursively.
    *
@@ -85,7 +84,7 @@ export abstract class BaseTreeControl<T, K = T> implements TreeControl<T, K> {
    * 获取在给定数据节点的子代发生更改时会发出事件的流。
    *
    */
-  getChildren: (dataNode: T) => (Observable<T[]> | T[] | undefined | null);
+  getChildren: (dataNode: T) => Observable<T[]> | T[] | undefined | null;
 
   /**
    * Toggles one single data node's expanded/collapsed state.
@@ -134,9 +133,9 @@ export abstract class BaseTreeControl<T, K = T> implements TreeControl<T, K> {
    *
    */
   toggleDescendants(dataNode: T): void {
-    this.expansionModel.isSelected(this._trackByValue(dataNode)) ?
-        this.collapseDescendants(dataNode) :
-        this.expandDescendants(dataNode);
+    this.expansionModel.isSelected(this._trackByValue(dataNode))
+      ? this.collapseDescendants(dataNode)
+      : this.expandDescendants(dataNode);
   }
 
   /**
@@ -173,7 +172,7 @@ export abstract class BaseTreeControl<T, K = T> implements TreeControl<T, K> {
     this.expansionModel.deselect(...toBeProcessed.map(value => this._trackByValue(value)));
   }
 
-  protected _trackByValue(value: T|K): K {
-    return this.trackBy ? this.trackBy(value as T) : value as K;
+  protected _trackByValue(value: T | K): K {
+    return this.trackBy ? this.trackBy(value as T) : (value as K);
   }
 }

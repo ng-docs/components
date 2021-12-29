@@ -44,9 +44,11 @@ export class MatStepperHarness extends ComponentHarness {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: StepperHarnessFilters = {}): HarnessPredicate<MatStepperHarness> {
-    return new HarnessPredicate(MatStepperHarness, options)
-        .addOption('orientation', options.orientation,
-            async (harness, orientation) => (await harness.getOrientation()) === orientation);
+    return new HarnessPredicate(MatStepperHarness, options).addOption(
+      'orientation',
+      options.orientation,
+      async (harness, orientation) => (await harness.getOrientation()) === orientation,
+    );
   }
 
   /**
@@ -71,8 +73,9 @@ export class MatStepperHarness extends ComponentHarness {
    */
   async getOrientation(): Promise<StepperOrientation> {
     const host = await this.host();
-    return (await host.hasClass('mat-stepper-horizontal')) ?
-        StepperOrientation.HORIZONTAL : StepperOrientation.VERTICAL;
+    return (await host.hasClass('mat-stepper-horizontal'))
+      ? StepperOrientation.HORIZONTAL
+      : StepperOrientation.VERTICAL;
   }
 
   /**

@@ -48,10 +48,12 @@ const MAT_FIT_MODE = 'fit';
     // needed for the grid-list harness.
     '[attr.cols]': 'cols',
   },
-  providers: [{
-    provide: MAT_GRID_LIST,
-    useExisting: MatGridList
-  }],
+  providers: [
+    {
+      provide: MAT_GRID_LIST,
+      useExisting: MatGridList,
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
@@ -116,8 +118,10 @@ export class MatGridList implements MatGridListBase, OnInit, AfterContentChecked
    */
   @ContentChildren(MatGridTile, {descendants: true}) _tiles: QueryList<MatGridTile>;
 
-  constructor(private _element: ElementRef<HTMLElement>,
-              @Optional() private _dir: Directionality) {}
+  constructor(
+    private _element: ElementRef<HTMLElement>,
+    @Optional() private _dir: Directionality,
+  ) {}
 
   /**
    * Amount of columns in the grid list.
@@ -126,8 +130,10 @@ export class MatGridList implements MatGridListBase, OnInit, AfterContentChecked
    *
    */
   @Input()
-  get cols(): number { return this._cols; }
-  set cols(value: number) {
+  get cols(): number {
+    return this._cols;
+  }
+  set cols(value: NumberInput) {
     this._cols = Math.max(1, Math.round(coerceNumberProperty(value)));
   }
 
@@ -138,8 +144,12 @@ export class MatGridList implements MatGridListBase, OnInit, AfterContentChecked
    *
    */
   @Input()
-  get gutterSize(): string { return this._gutter; }
-  set gutterSize(value: string) { this._gutter = `${value == null ? '' : value}`; }
+  get gutterSize(): string {
+    return this._gutter;
+  }
+  set gutterSize(value: string) {
+    this._gutter = `${value == null ? '' : value}`;
+  }
 
   /**
    * Set internal representation of row height from the user-provided value.
@@ -148,7 +158,9 @@ export class MatGridList implements MatGridListBase, OnInit, AfterContentChecked
    *
    */
   @Input()
-  get rowHeight(): string | number { return this._rowHeight; }
+  get rowHeight(): string | number {
+    return this._rowHeight;
+  }
   set rowHeight(value: string | number) {
     const newValue = `${value == null ? '' : value}`;
 
@@ -182,8 +194,9 @@ export class MatGridList implements MatGridListBase, OnInit, AfterContentChecked
    */
   private _checkCols() {
     if (!this.cols && (typeof ngDevMode === 'undefined' || ngDevMode)) {
-      throw Error(`mat-grid-list: must pass in number of columns. ` +
-                  `Example: <mat-grid-list cols="3">`);
+      throw Error(
+        `mat-grid-list: must pass in number of columns. ` + `Example: <mat-grid-list cols="3">`,
+      );
     }
   }
 
@@ -256,6 +269,4 @@ export class MatGridList implements MatGridListBase, OnInit, AfterContentChecked
       (this._element.nativeElement.style as any)[style[0]] = style[1];
     }
   }
-
-  static ngAcceptInputType_cols: NumberInput;
 }

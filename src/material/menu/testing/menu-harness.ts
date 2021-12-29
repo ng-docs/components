@@ -20,12 +20,14 @@ import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {MenuHarnessFilters, MenuItemHarnessFilters} from './menu-harness-filters';
 
 export abstract class _MatMenuHarnessBase<
-  ItemType extends (ComponentHarnessConstructor<Item> & {
-    with: (options?: ItemFilters) => HarnessPredicate<Item>}),
+  ItemType extends ComponentHarnessConstructor<Item> & {
+    with: (options?: ItemFilters) => HarnessPredicate<Item>;
+  },
   Item extends ComponentHarness & {
-    click(): Promise<void>,
-    getSubmenu(): Promise<_MatMenuHarnessBase<ItemType, Item, ItemFilters> | null>},
-  ItemFilters extends BaseHarnessFilters
+    click(): Promise<void>;
+    getSubmenu(): Promise<_MatMenuHarnessBase<ItemType, Item, ItemFilters> | null>;
+  },
+  ItemFilters extends BaseHarnessFilters,
 > extends ContentContainerComponentHarness<string> {
   private _documentRootLocator = this.documentRootLocatorFactory();
   protected abstract _itemClass: ItemType;
@@ -100,7 +102,7 @@ export abstract class _MatMenuHarnessBase<
    *
    */
   async open(): Promise<void> {
-    if (!await this.isOpen()) {
+    if (!(await this.isOpen())) {
       return (await this.host()).click();
     }
   }
@@ -131,10 +133,12 @@ export abstract class _MatMenuHarnessBase<
   async getItems(filters?: Omit<ItemFilters, 'ancestor'>): Promise<Item[]> {
     const panelId = await this._getPanelId();
     if (panelId) {
-      return this._documentRootLocator.locatorForAll(this._itemClass.with({
-        ...(filters || {}),
-        ancestor: `#${panelId}`
-      } as ItemFilters))();
+      return this._documentRootLocator.locatorForAll(
+        this._itemClass.with({
+          ...(filters || {}),
+          ancestor: `#${panelId}`,
+        } as ItemFilters),
+      )();
     }
     return [];
   }
@@ -157,8 +161,9 @@ export abstract class _MatMenuHarnessBase<
    *
    */
   async clickItem(
-      itemFilter: Omit<ItemFilters, 'ancestor'>,
-      ...subItemFilters: Omit<ItemFilters, 'ancestor'>[]): Promise<void> {
+    itemFilter: Omit<ItemFilters, 'ancestor'>,
+    ...subItemFilters: Omit<ItemFilters, 'ancestor'>[]
+  ): Promise<void> {
     await this.open();
     const items = await this.getItems(itemFilter);
     if (!items.length) {
@@ -173,10 +178,10 @@ export abstract class _MatMenuHarnessBase<
     if (!menu) {
       throw Error(`Item matching ${JSON.stringify(itemFilter)} does not have a submenu`);
     }
-    return menu.clickItem(...subItemFilters as [Omit<ItemFilters, 'ancestor'>]);
+    return menu.clickItem(...(subItemFilters as [Omit<ItemFilters, 'ancestor'>]));
   }
 
-  protected async getRootHarnessLoader(): Promise<HarnessLoader> {
+  protected override async getRootHarnessLoader(): Promise<HarnessLoader> {
     const panelId = await this._getPanelId();
     return this.documentRootLocatorFactory().harnessLoaderFor(`#${panelId}`);
   }
@@ -295,7 +300,6 @@ export abstract class _MatMenuItemHarnessBase<
   }
 }
 
-
 /**
  * Harness for interacting with a standard mat-menu in tests.
  *
@@ -303,7 +307,10 @@ export abstract class _MatMenuItemHarnessBase<
  *
  */
 export class MatMenuHarness extends _MatMenuHarnessBase<
-  typeof MatMenuItemHarness, MatMenuItemHarness, MenuItemHarnessFilters> {
+  typeof MatMenuItemHarness,
+  MatMenuItemHarness,
+  MenuItemHarnessFilters
+> {
   /**
    * The selector for the host element of a `MatMenu` instance.
    *
@@ -329,9 +336,11 @@ export class MatMenuHarness extends _MatMenuHarnessBase<
    *
    */
   static with(options: MenuHarnessFilters = {}): HarnessPredicate<MatMenuHarness> {
-    return new HarnessPredicate(MatMenuHarness, options)
-        .addOption('triggerText', options.triggerText,
-            (harness, text) => HarnessPredicate.stringMatches(harness.getTriggerText(), text));
+    return new HarnessPredicate(MatMenuHarness, options).addOption(
+      'triggerText',
+      options.triggerText,
+      (harness, text) => HarnessPredicate.stringMatches(harness.getTriggerText(), text),
+    );
   }
 }
 
@@ -341,8 +350,10 @@ export class MatMenuHarness extends _MatMenuHarnessBase<
  * 在测试中可与标准 mat-menu-item 进行交互的测试工具。
  *
  */
-export class MatMenuItemHarness extends
-  _MatMenuItemHarnessBase<typeof MatMenuHarness, MatMenuHarness> {
+export class MatMenuItemHarness extends _MatMenuItemHarnessBase<
+  typeof MatMenuHarness,
+  MatMenuHarness
+> {
   /**
    * The selector for the host element of a `MatMenuItem` instance.
    *
@@ -369,9 +380,13 @@ export class MatMenuItemHarness extends
    */
   static with(options: MenuItemHarnessFilters = {}): HarnessPredicate<MatMenuItemHarness> {
     return new HarnessPredicate(MatMenuItemHarness, options)
-        .addOption('text', options.text,
-            (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text))
-        .addOption('hasSubmenu', options.hasSubmenu,
-            async (harness, hasSubmenu) => (await harness.hasSubmenu()) === hasSubmenu);
+      .addOption('text', options.text, (harness, text) =>
+        HarnessPredicate.stringMatches(harness.getText(), text),
+      )
+      .addOption(
+        'hasSubmenu',
+        options.hasSubmenu,
+        async (harness, hasSubmenu) => (await harness.hasSubmenu()) === hasSubmenu,
+      );
   }
 }

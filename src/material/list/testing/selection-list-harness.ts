@@ -12,7 +12,7 @@ import {MatListHarnessBase} from './list-harness-base';
 import {
   ListItemHarnessFilters,
   ListOptionHarnessFilters,
-  SelectionListHarnessFilters
+  SelectionListHarnessFilters,
 } from './list-harness-filters';
 import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-base';
 
@@ -23,7 +23,10 @@ import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-
  *
  */
 export class MatSelectionListHarness extends MatListHarnessBase<
-    typeof MatListOptionHarness, MatListOptionHarness, ListOptionHarnessFilters> {
+  typeof MatListOptionHarness,
+  MatListOptionHarness,
+  ListOptionHarnessFilters
+> {
   /**
    * The selector for the host element of a `MatSelectionList` instance.
    *
@@ -46,12 +49,13 @@ export class MatSelectionListHarness extends MatListHarnessBase<
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: SelectionListHarnessFilters = {}):
-      HarnessPredicate<MatSelectionListHarness> {
+  static with(
+    options: SelectionListHarnessFilters = {},
+  ): HarnessPredicate<MatSelectionListHarness> {
     return new HarnessPredicate(MatSelectionListHarness, options);
   }
 
-  _itemHarness = MatListOptionHarness;
+  override _itemHarness = MatListOptionHarness;
 
   /**
    * Whether the selection list is disabled.
@@ -60,7 +64,7 @@ export class MatSelectionListHarness extends MatListHarnessBase<
    *
    */
   async isDisabled(): Promise<boolean> {
-    return await (await this.host()).getAttribute('aria-disabled') === 'true';
+    return (await (await this.host()).getAttribute('aria-disabled')) === 'true';
   }
 
   /**
@@ -140,9 +144,11 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ListOptionHarnessFilters = {}): HarnessPredicate<MatListOptionHarness> {
-    return getListItemPredicate(MatListOptionHarness, options)
-        .addOption('is selected', options.selected,
-            async (harness, selected) => await harness.isSelected() === selected);
+    return getListItemPredicate(MatListOptionHarness, options).addOption(
+      'is selected',
+      options.selected,
+      async (harness, selected) => (await harness.isSelected()) === selected,
+    );
   }
 
   private _itemContent = this.locatorFor('.mat-list-item-content');
@@ -154,8 +160,9 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    *
    */
   async getCheckboxPosition(): Promise<MatListOptionCheckboxPosition> {
-    return await (await this._itemContent()).hasClass('mat-list-item-content-reverse') ?
-        'after' : 'before';
+    return (await (await this._itemContent()).hasClass('mat-list-item-content-reverse'))
+      ? 'after'
+      : 'before';
   }
 
   /**
@@ -165,7 +172,7 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    *
    */
   async isSelected(): Promise<boolean> {
-    return await (await this.host()).getAttribute('aria-selected') === 'true';
+    return (await (await this.host()).getAttribute('aria-selected')) === 'true';
   }
 
   /**
@@ -175,7 +182,7 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    *
    */
   async isDisabled(): Promise<boolean> {
-    return await (await this.host()).getAttribute('aria-disabled') === 'true';
+    return (await (await this.host()).getAttribute('aria-disabled')) === 'true';
   }
 
   /**
@@ -226,7 +233,7 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    *
    */
   async select() {
-    if (!await this.isSelected()) {
+    if (!(await this.isSelected())) {
       return this.toggle();
     }
   }

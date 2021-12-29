@@ -21,9 +21,6 @@ import {
   imports: [BidiModule, PortalModule, ScrollingModule],
   exports: [CdkConnectedOverlay, CdkOverlayOrigin, ScrollingModule],
   declarations: [CdkConnectedOverlay, CdkOverlayOrigin],
-  providers: [
-    Overlay,
-    CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER,
-  ],
+  providers: [Overlay, CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER],
 })
 export class OverlayModule {}

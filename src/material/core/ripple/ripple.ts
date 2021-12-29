@@ -39,9 +39,9 @@ export interface RippleGlobalOptions {
   disabled?: boolean;
 
   /**
-   * Configuration for the animation duration of the ripples. There are two phases with different
-   * durations for the ripples. The animation durations will be overwritten if the
-   * `NoopAnimationsModule` is being used.
+   * Default configuration for the animation duration of the ripples. There are two phases with
+   * different durations for the ripples: `enter` and `leave`. The durations will be overwritten
+   * by the value of `matRippleAnimation` or if the `NoopAnimationsModule` is included.
    *
    * 涟漪的动画持续时间的配置。其两个阶段具有不同的涟漪持续时间。如果使用 `NoopAnimationsModule` 则动画持续时间将被覆盖。
    *
@@ -64,19 +64,19 @@ export interface RippleGlobalOptions {
  * 可以用于指定全局涟漪选项的注入令牌。
  *
  */
-export const MAT_RIPPLE_GLOBAL_OPTIONS =
-    new InjectionToken<RippleGlobalOptions>('mat-ripple-global-options');
+export const MAT_RIPPLE_GLOBAL_OPTIONS = new InjectionToken<RippleGlobalOptions>(
+  'mat-ripple-global-options',
+);
 
 @Directive({
   selector: '[mat-ripple], [matRipple]',
   exportAs: 'matRipple',
   host: {
     'class': 'mat-ripple',
-    '[class.mat-ripple-unbounded]': 'unbounded'
-  }
+    '[class.mat-ripple-unbounded]': 'unbounded',
+  },
 })
 export class MatRipple implements OnInit, OnDestroy, RippleTarget {
-
   /**
    * Custom color for all ripples.
    *
@@ -130,7 +130,9 @@ export class MatRipple implements OnInit, OnDestroy, RippleTarget {
    *
    */
   @Input('matRippleDisabled')
-  get disabled() { return this._disabled; }
+  get disabled() {
+    return this._disabled;
+  }
   set disabled(value: boolean) {
     if (value) {
       this.fadeOutAllNonPersistent();
@@ -148,7 +150,9 @@ export class MatRipple implements OnInit, OnDestroy, RippleTarget {
    *
    */
   @Input('matRippleTrigger')
-  get trigger() { return this._trigger || this._elementRef.nativeElement; }
+  get trigger() {
+    return this._trigger || this._elementRef.nativeElement;
+  }
   set trigger(trigger: HTMLElement) {
     this._trigger = trigger;
     this._setupTriggerEventsIfEnabled();
@@ -179,12 +183,13 @@ export class MatRipple implements OnInit, OnDestroy, RippleTarget {
    */
   private _isInitialized: boolean = false;
 
-  constructor(private _elementRef: ElementRef<HTMLElement>,
-              ngZone: NgZone,
-              platform: Platform,
-              @Optional() @Inject(MAT_RIPPLE_GLOBAL_OPTIONS) globalOptions?: RippleGlobalOptions,
-              @Optional() @Inject(ANIMATION_MODULE_TYPE) private _animationMode?: string) {
-
+  constructor(
+    private _elementRef: ElementRef<HTMLElement>,
+    ngZone: NgZone,
+    platform: Platform,
+    @Optional() @Inject(MAT_RIPPLE_GLOBAL_OPTIONS) globalOptions?: RippleGlobalOptions,
+    @Optional() @Inject(ANIMATION_MODULE_TYPE) private _animationMode?: string,
+  ) {
     this._globalOptions = globalOptions || {};
     this._rippleRenderer = new RippleRenderer(this, ngZone, _elementRef, platform);
   }
@@ -233,7 +238,7 @@ export class MatRipple implements OnInit, OnDestroy, RippleTarget {
       animation: {
         ...this._globalOptions.animation,
         ...(this._animationMode === 'NoopAnimations' ? {enterDuration: 0, exitDuration: 0} : {}),
-        ...this.animation
+        ...this.animation,
       },
       terminateOnPointerUp: this._globalOptions.terminateOnPointerUp,
     };
@@ -275,18 +280,11 @@ export class MatRipple implements OnInit, OnDestroy, RippleTarget {
   launch(config: RippleConfig): RippleRef;
 
   /**
-   * Launches a manual ripple at the specified coordinates within the element.
-   *
-   * 在元素内的指定坐标处发起手动涟漪。
-   *
-   * @param x Coordinate within the element, along the X axis at which to fade-in the ripple.
-   *
-   * 沿 X 轴在元素内坐标，淡入涟漪。
-   *
-   * @param y Coordinate within the element, along the Y axis at which to fade-in the ripple.
-   *
-   * 沿着 Y 轴在元素内坐标，淡入涟漪。
-   *
+   * Launches a manual ripple at the specified coordinates relative to the viewport.
+   * @param x Coordinate along the X axis at which to fade-in the ripple. Coordinate
+   *   should be relative to the viewport.
+   * @param y Coordinate along the Y axis at which to fade-in the ripple. Coordinate
+   *   should be relative to the viewport.
    * @param config Optional ripple configuration for the manual ripple.
    *
    * 手动涟漪的可选涟漪配置。
@@ -308,4 +306,3 @@ export class MatRipple implements OnInit, OnDestroy, RippleTarget {
     }
   }
 }
-

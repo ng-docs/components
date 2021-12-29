@@ -22,7 +22,8 @@
  */
 export function assertElementNode(node: Node, name: string): asserts node is HTMLElement {
   if (node.nodeType !== 1) {
-    throw Error(`${name} must be attached to an element node. ` +
-                `Currently attached to "${node.nodeName}".`);
+    throw Error(
+      `${name} must be attached to an element node. ` + `Currently attached to "${node.nodeName}".`,
+    );
   }
 }

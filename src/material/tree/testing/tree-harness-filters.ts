@@ -14,8 +14,7 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
  * 一组条件，可用于筛选树测试工具实例的列表
  *
  */
-export interface TreeHarnessFilters extends BaseHarnessFilters {
-}
+export interface TreeHarnessFilters extends BaseHarnessFilters {}
 
 /**
  * A set of criteria that can be used to filter a list of node harness instances.

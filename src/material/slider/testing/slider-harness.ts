@@ -52,7 +52,7 @@ export class MatSliderHarness extends ComponentHarness {
    * 获取滑块的 ID。
    *
    */
-  async getId(): Promise<string|null> {
+  async getId(): Promise<string | null> {
     const id = await (await this.host()).getAttribute('id');
     // In case no id has been specified, the "id" property always returns
     // an empty string. To make this method more explicit, we return null.
@@ -66,7 +66,7 @@ export class MatSliderHarness extends ComponentHarness {
    * 获取滑块的当前显示值。如果禁用了指示标签，则返回一个空的 Promise。
    *
    */
-  async getDisplayValue(): Promise<string|null> {
+  async getDisplayValue(): Promise<string | null> {
     const [host, textLabel] = await parallel(() => [this.host(), this._textLabel()]);
     if (await host.hasClass('mat-slider-thumb-label-showing')) {
       return textLabel.text();
@@ -131,7 +131,7 @@ export class MatSliderHarness extends ComponentHarness {
    * 获取此滑块的方向。
    *
    */
-  async getOrientation(): Promise<'horizontal'|'vertical'> {
+  async getOrientation(): Promise<'horizontal' | 'vertical'> {
     // "aria-orientation" will always be set to either "horizontal" or "vertical".
     return (await this.host()).getAttribute('aria-orientation') as any;
   }
@@ -150,8 +150,11 @@ export class MatSliderHarness extends ComponentHarness {
    *
    */
   async setValue(value: number): Promise<void> {
-    const [sliderEl, wrapperEl, orientation] =
-        await parallel(() => [this.host(), this._wrapper(), this.getOrientation()]);
+    const [sliderEl, wrapperEl, orientation] = await parallel(() => [
+      this.host(),
+      this._wrapper(),
+      this.getOrientation(),
+    ]);
     let percentage = await this._calculatePercentage(value);
     const {height, width} = await wrapperEl.getDimensions();
     const isVertical = orientation === 'vertical';

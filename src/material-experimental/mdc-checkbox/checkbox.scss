@@ -1,10 +1,12 @@
 @use '@material/checkbox' as mdc-checkbox;
 @use '@material/form-field' as mdc-form-field;
 @use '@material/ripple' as mdc-ripple;
+@use '@material/touch-target' as mdc-touch-target;
 @use 'sass:map';
 @use '../../cdk/a11y';
 @use '../mdc-helpers/mdc-helpers';
-@use '../../material/core/style/_layout-common.scss';
+@use '../../material/core/style/layout-common';
+@use '../../material/core/style/vendor-prefixes';
 
 @include mdc-checkbox.without-ripple($query: mdc-helpers.$mat-base-styles-query);
 @include mdc-form-field.core-styles($query: mdc-helpers.$mat-base-styles-query);
@@ -46,8 +48,7 @@
 
   .mdc-checkbox__background {
     // force browser to show background-color when using the print function
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
+    @include vendor-prefixes.private-color-adjust(exact);
   }
 
   // Angular Material supports disabling all animations when NoopAnimationsModule is imported.
@@ -84,4 +85,11 @@
   &:not(:empty) {
     transform: translateZ(0);
   }
+}
+
+// Element used to provide a larger tap target for users on touch devices.
+.mat-mdc-checkbox-touch-target {
+  @include mdc-touch-target.touch-target(
+    $set-width: true,
+    $query: mdc-helpers.$mat-base-styles-query);
 }

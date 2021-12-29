@@ -6,34 +6,37 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {
-  Component,
-  ComponentRef,
-  EmbeddedViewRef,
-  ViewChild,
-  OnDestroy,
-  ElementRef,
-  ChangeDetectionStrategy,
-  ViewEncapsulation,
-  ChangeDetectorRef,
-  EventEmitter,
-  Inject,
-  Optional,
-} from '@angular/core';
 import {AnimationEvent} from '@angular/animations';
+import {FocusTrap, FocusTrapFactory, InteractivityChecker} from '@angular/cdk/a11y';
+import {coerceArray} from '@angular/cdk/coercion';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {_getFocusedElementPierceShadowDom} from '@angular/cdk/platform';
 import {
   BasePortalOutlet,
-  ComponentPortal,
-  TemplatePortal,
   CdkPortalOutlet,
+  ComponentPortal,
   DomPortal,
+  TemplatePortal,
 } from '@angular/cdk/portal';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {MatBottomSheetConfig} from './bottom-sheet-config';
-import {matBottomSheetAnimations} from './bottom-sheet-animations';
-import {Subscription} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
-import {FocusTrap, FocusTrapFactory} from '@angular/cdk/a11y';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ComponentRef,
+  ElementRef,
+  EmbeddedViewRef,
+  EventEmitter,
+  Inject,
+  NgZone,
+  OnDestroy,
+  Optional,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {matBottomSheetAnimations} from './bottom-sheet-animations';
+import {MatBottomSheetConfig} from './bottom-sheet-config';
 
 // TODO(crisbeto): consolidate some logic between this, MatDialog and MatSnackBar
 
@@ -63,7 +66,7 @@ import {FocusTrap, FocusTrapFactory} from '@angular/cdk/a11y';
     '[attr.aria-label]': 'bottomSheetConfig?.ariaLabel',
     '[@state]': '_animationState',
     '(@state.start)': '_onAnimationStart($event)',
-    '(@state.done)': '_onAnimationDone($event)'
+    '(@state.done)': '_onAnimationDone($event)',
   },
 })
 export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestroy {
@@ -129,22 +132,31 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
     private _elementRef: ElementRef<HTMLElement>,
     private _changeDetectorRef: ChangeDetectorRef,
     private _focusTrapFactory: FocusTrapFactory,
+    private readonly _interactivityChecker: InteractivityChecker,
+    private readonly _ngZone: NgZone,
     breakpointObserver: BreakpointObserver,
     @Optional() @Inject(DOCUMENT) document: any,
     /** The bottom sheet configuration. */
-    public bottomSheetConfig: MatBottomSheetConfig) {
+    public bottomSheetConfig: MatBottomSheetConfig,
+  ) {
     super();
 
     this._document = document;
     this._breakpointSubscription = breakpointObserver
       .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
       .subscribe(() => {
-        this._toggleClass('mat-bottom-sheet-container-medium',
-            breakpointObserver.isMatched(Breakpoints.Medium));
-        this._toggleClass('mat-bottom-sheet-container-large',
-            breakpointObserver.isMatched(Breakpoints.Large));
-        this._toggleClass('mat-bottom-sheet-container-xlarge',
-            breakpointObserver.isMatched(Breakpoints.XLarge));
+        this._toggleClass(
+          'mat-bottom-sheet-container-medium',
+          breakpointObserver.isMatched(Breakpoints.Medium),
+        );
+        this._toggleClass(
+          'mat-bottom-sheet-container-large',
+          breakpointObserver.isMatched(Breakpoints.Large),
+        );
+        this._toggleClass(
+          'mat-bottom-sheet-container-xlarge',
+          breakpointObserver.isMatched(Breakpoints.XLarge),
+        );
       });
   }
 
@@ -185,12 +197,12 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
    *
    * @breaking-change 10.0.0
    */
-  attachDomPortal = (portal: DomPortal) => {
+  override attachDomPortal = (portal: DomPortal) => {
     this._validatePortalAttached();
     this._setPanelClass();
     this._savePreviouslyFocusedElement();
     return this._portalOutlet.attachDomPortal(portal);
-  }
+  };
 
   /**
    * Begin animation of bottom sheet entrance into view.
@@ -238,8 +250,7 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
   }
 
   private _toggleClass(cssClass: string, add: boolean) {
-    const classList = this._elementRef.nativeElement.classList;
-    add ? classList.add(cssClass) : classList.remove(cssClass);
+    this._elementRef.nativeElement.classList.toggle(cssClass, add);
   }
 
   private _validatePortalAttached() {
@@ -250,21 +261,44 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
 
   private _setPanelClass() {
     const element: HTMLElement = this._elementRef.nativeElement;
-    const panelClass = this.bottomSheetConfig.panelClass;
+    element.classList.add(...coerceArray(this.bottomSheetConfig.panelClass || []));
+  }
 
-    if (Array.isArray(panelClass)) {
-      // Note that we can't use a spread here, because IE doesn't support multiple arguments.
-      panelClass.forEach(cssClass => element.classList.add(cssClass));
-    } else if (panelClass) {
-      element.classList.add(panelClass);
+  /**
+   * Focuses the provided element. If the element is not focusable, it will add a tabIndex
+   * attribute to forcefully focus it. The attribute is removed after focus is moved.
+   * @param element The element to focus.
+   */
+  private _forceFocus(element: HTMLElement, options?: FocusOptions) {
+    if (!this._interactivityChecker.isFocusable(element)) {
+      element.tabIndex = -1;
+      // The tabindex attribute should be removed to avoid navigating to that element again
+      this._ngZone.runOutsideAngular(() => {
+        element.addEventListener('blur', () => element.removeAttribute('tabindex'));
+        element.addEventListener('mousedown', () => element.removeAttribute('tabindex'));
+      });
+    }
+    element.focus(options);
+  }
+
+  /**
+   * Focuses the first element that matches the given selector within the focus trap.
+   * @param selector The CSS selector for the element to set focus to.
+   */
+  private _focusByCssSelector(selector: string, options?: FocusOptions) {
+    let elementToFocus = this._elementRef.nativeElement.querySelector(
+      selector,
+    ) as HTMLElement | null;
+    if (elementToFocus) {
+      this._forceFocus(elementToFocus, options);
     }
   }
 
   /**
-   * Moves the focus inside the focus trap.
+   * Moves the focus inside the focus trap. When autoFocus is not set to 'bottom-sheet',
+   * if focus cannot be moved then focus will go to the bottom sheet container.
    *
-   * 把焦点移到焦点陷阱内部。
-   *
+   * 把焦点移到焦点陷阱内部。当 autoFocus 不为 'bottom-sheet' 时，如果无法这样移动焦点，则焦点会移到这个底部操作表的容器上。
    */
   private _trapFocus() {
     const element = this._elementRef.nativeElement;
@@ -273,19 +307,34 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
       this._focusTrap = this._focusTrapFactory.create(element);
     }
 
-    if (this.bottomSheetConfig.autoFocus) {
-      this._focusTrap.focusInitialElementWhenReady();
-    } else {
-      const activeElement = this._getActiveElement();
-
-      // Otherwise ensure that focus is on the container. It's possible that a different
-      // component tried to move focus while the open animation was running. See:
-      // https://github.com/angular/components/issues/16215. Note that we only want to do this
-      // if the focus isn't inside the bottom sheet already, because it's possible that the
-      // consumer turned off `autoFocus` in order to move focus themselves.
-      if (activeElement !== element && !element.contains(activeElement)) {
-        element.focus();
-      }
+    // If were to attempt to focus immediately, then the content of the bottom sheet would not
+    // yet be ready in instances where change detection has to run first. To deal with this,
+    // we simply wait for the microtask queue to be empty when setting focus when autoFocus
+    // isn't set to bottom sheet. If the element inside the bottom sheet can't be focused,
+    // then the container is focused so the user can't tab into other elements behind it.
+    switch (this.bottomSheetConfig.autoFocus) {
+      case false:
+      case 'dialog':
+        const activeElement = _getFocusedElementPierceShadowDom();
+        // Ensure that focus is on the bottom sheet container. It's possible that a different
+        // component tried to move focus while the open animation was running. See:
+        // https://github.com/angular/components/issues/16215. Note that we only want to do this
+        // if the focus isn't inside the bottom sheet already, because it's possible that the
+        // consumer specified `autoFocus` in order to move focus themselves.
+        if (activeElement !== element && !element.contains(activeElement)) {
+          element.focus();
+        }
+        break;
+      case true:
+      case 'first-tabbable':
+        this._focusTrap.focusInitialElementWhenReady();
+        break;
+      case 'first-heading':
+        this._focusByCssSelector('h1, h2, h3, h4, h5, h6, [role="heading"]');
+        break;
+      default:
+        this._focusByCssSelector(this.bottomSheetConfig.autoFocus!);
+        break;
     }
   }
 
@@ -300,15 +349,19 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
 
     // We need the extra check, because IE can set the `activeElement` to null in some cases.
     if (this.bottomSheetConfig.restoreFocus && toFocus && typeof toFocus.focus === 'function') {
-      const activeElement = this._getActiveElement();
+      const activeElement = _getFocusedElementPierceShadowDom();
       const element = this._elementRef.nativeElement;
 
       // Make sure that focus is still inside the bottom sheet or is on the body (usually because a
       // non-focusable element like the backdrop was clicked) before moving it. It's possible that
       // the consumer moved it themselves before the animation was done, in which case we shouldn't
       // do anything.
-      if (!activeElement || activeElement === this._document.body || activeElement === element ||
-        element.contains(activeElement)) {
+      if (
+        !activeElement ||
+        activeElement === this._document.body ||
+        activeElement === element ||
+        element.contains(activeElement)
+      ) {
         toFocus.focus();
       }
     }
@@ -325,24 +378,13 @@ export class MatBottomSheetContainer extends BasePortalOutlet implements OnDestr
    *
    */
   private _savePreviouslyFocusedElement() {
-    this._elementFocusedBeforeOpened = this._getActiveElement();
+    this._elementFocusedBeforeOpened = _getFocusedElementPierceShadowDom();
 
     // The `focus` method isn't available during server-side rendering.
     if (this._elementRef.nativeElement.focus) {
-      Promise.resolve().then(() => this._elementRef.nativeElement.focus());
+      this._ngZone.runOutsideAngular(() => {
+        Promise.resolve().then(() => this._elementRef.nativeElement.focus());
+      });
     }
-  }
-
-  /**
-   * Gets the currently-focused element on the page.
-   *
-   * 获取页面上当前具有焦点的元素。
-   *
-   */
-  private _getActiveElement(): HTMLElement | null {
-    // If the `activeElement` is inside a shadow root, `document.activeElement` will
-    // point to the shadow root so we have to descend into it ourselves.
-    const activeElement = this._document.activeElement;
-    return activeElement?.shadowRoot?.activeElement as HTMLElement || activeElement;
   }
 }

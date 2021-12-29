@@ -24,47 +24,58 @@ export class MatSliderHarness extends ComponentHarness {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: SliderHarnessFilters = {}): HarnessPredicate<MatSliderHarness> {
-    return new HarnessPredicate(MatSliderHarness, options)
-      .addOption('isRange', options.isRange, async (harness, value) => {
+    return new HarnessPredicate(MatSliderHarness, options).addOption(
+      'isRange',
+      options.isRange,
+      async (harness, value) => {
         return (await harness.isRange()) === value;
-      });
+      },
+    );
   }
 
-  /** Gets the start/primary thumb of the slider. */
+  /** Gets the start thumb of the slider (only applicable for range sliders). */
   async getStartThumb(): Promise<MatSliderThumbHarness> {
+    if (!(await this.isRange())) {
+      throw Error(
+        '`getStartThumb` is only applicable for range sliders. ' +
+          'Did you mean to use `getEndThumb`?',
+      );
+    }
     return this.locatorFor(MatSliderThumbHarness.with({position: ThumbPosition.START}))();
   }
 
-  /** Gets the end thumb of the slider. Will throw an error for a non-range slider. */
+  /** Gets the thumb (for single point sliders), or the end thumb (for range sliders). */
   async getEndThumb(): Promise<MatSliderThumbHarness> {
     return this.locatorFor(MatSliderThumbHarness.with({position: ThumbPosition.END}))();
   }
 
   /** Gets whether the slider is a range slider. */
   async isRange(): Promise<boolean> {
-    return (await (await this.host()).hasClass('mdc-slider--range'));
+    return await (await this.host()).hasClass('mdc-slider--range');
   }
 
   /** Gets whether the slider is disabled. */
   async isDisabled(): Promise<boolean> {
-    return (await (await this.host()).hasClass('mdc-slider--disabled'));
+    return await (await this.host()).hasClass('mdc-slider--disabled');
   }
 
   /** Gets the value step increments of the slider. */
   async getStep(): Promise<number> {
     // The same step value is forwarded to both thumbs.
-    const startHost = await (await this.getStartThumb()).host();
-    return coerceNumberProperty(await startHost.getProperty('step'));
+    const startHost = await (await this.getEndThumb()).host();
+    return coerceNumberProperty(await startHost.getProperty<string>('step'));
   }
 
   /** Gets the maximum value of the slider. */
   async getMaxValue(): Promise<number> {
-    const endThumb = await this.isRange() ? await this.getEndThumb() : await this.getStartThumb();
-    return endThumb.getMaxValue();
+    return (await this.getEndThumb()).getMaxValue();
   }
 
   /** Gets the minimum value of the slider. */
   async getMinValue(): Promise<number> {
-    return (await this.getStartThumb()).getMinValue();
+    const startThumb = (await this.isRange())
+      ? await this.getStartThumb()
+      : await this.getEndThumb();
+    return startThumb.getMinValue();
   }
 }

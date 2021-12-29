@@ -50,7 +50,11 @@ import {startWith, distinctUntilChanged} from 'rxjs/operators';
  *
  */
 export type MatTabBodyPositionState =
-    'left' | 'center' | 'right' | 'left-origin-center' | 'right-origin-center';
+  | 'left'
+  | 'center'
+  | 'right'
+  | 'left-origin-center'
+  | 'right-origin-center';
 
 /**
  * The origin state is an internally used state that is set on a new tab body indicating if it
@@ -72,7 +76,7 @@ export type MatTabBodyOriginState = 'left' | 'right';
  * @docs-private
  */
 @Directive({
-  selector: '[matTabBodyHost]'
+  selector: '[matTabBodyHost]',
 })
 export class MatTabBodyPortal extends CdkPortalOutlet implements OnInit, OnDestroy {
   /**
@@ -94,7 +98,8 @@ export class MatTabBodyPortal extends CdkPortalOutlet implements OnInit, OnDestr
     componentFactoryResolver: ComponentFactoryResolver,
     viewContainerRef: ViewContainerRef,
     @Inject(forwardRef(() => MatTabBody)) private _host: MatTabBody,
-    @Inject(DOCUMENT) _document: any) {
+    @Inject(DOCUMENT) _document: any,
+  ) {
     super(componentFactoryResolver, viewContainerRef, _document);
   }
 
@@ -104,7 +109,7 @@ export class MatTabBodyPortal extends CdkPortalOutlet implements OnInit, OnDestr
    * 设置初始可见性或设置订阅以改变可见性。
    *
    */
-  ngOnInit(): void {
+  override ngOnInit(): void {
     super.ngOnInit();
 
     this._centeringSub = this._host._beforeCentering
@@ -126,7 +131,7 @@ export class MatTabBodyPortal extends CdkPortalOutlet implements OnInit, OnDestr
    * 清理居中订阅。
    *
    */
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
     super.ngOnDestroy();
     this._centeringSub.unsubscribe();
     this._leavingSub.unsubscribe();
@@ -206,12 +211,12 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
    */
   @Output() readonly _onCentered: EventEmitter<void> = new EventEmitter<void>(true);
 
-   /**
-    * The portal host inside of this container into which the tab body content will be loaded.
-    *
-    * 这个容器里面的传送点宿主，选项卡本体的内容会加载到此处。
-    *
-    */
+  /**
+   * The portal host inside of this container into which the tab body content will be loaded.
+   *
+   * 这个容器里面的传送点宿主，选项卡本体的内容会加载到此处。
+   *
+   */
   abstract _portalHost: CdkPortalOutlet;
 
   /**
@@ -252,10 +257,11 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
     this._computePositionAnimationState();
   }
 
-  constructor(private _elementRef: ElementRef<HTMLElement>,
-              @Optional() private _dir: Directionality,
-              changeDetectorRef: ChangeDetectorRef) {
-
+  constructor(
+    private _elementRef: ElementRef<HTMLElement>,
+    @Optional() private _dir: Directionality,
+    changeDetectorRef: ChangeDetectorRef,
+  ) {
     if (_dir) {
       this._dirChangeSubscription = _dir.change.subscribe((dir: Direction) => {
         this._computePositionAnimationState(dir);
@@ -265,18 +271,22 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
 
     // Ensure that we get unique animation events, because the `.done` callback can get
     // invoked twice in some browsers. See https://github.com/angular/angular/issues/24084.
-    this._translateTabComplete.pipe(distinctUntilChanged((x, y) => {
-      return x.fromState === y.fromState && x.toState === y.toState;
-    })).subscribe(event => {
-      // If the transition to the center is complete, emit an event.
-      if (this._isCenterPosition(event.toState) && this._isCenterPosition(this._position)) {
-        this._onCentered.emit();
-      }
+    this._translateTabComplete
+      .pipe(
+        distinctUntilChanged((x, y) => {
+          return x.fromState === y.fromState && x.toState === y.toState;
+        }),
+      )
+      .subscribe(event => {
+        // If the transition to the center is complete, emit an event.
+        if (this._isCenterPosition(event.toState) && this._isCenterPosition(this._position)) {
+          this._onCentered.emit();
+        }
 
-      if (this._isCenterPosition(event.fromState) && !this._isCenterPosition(this._position)) {
-        this._afterLeavingCenter.emit();
-      }
-    });
+        if (this._isCenterPosition(event.fromState) && !this._isCenterPosition(this._position)) {
+          this._afterLeavingCenter.emit();
+        }
+      });
   }
 
   /**
@@ -321,10 +331,10 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
    * 无论原点在哪里，都把所提供的位置状态视为居中状态。
    *
    */
-  _isCenterPosition(position: MatTabBodyPositionState|string): boolean {
-    return position == 'center' ||
-        position == 'left-origin-center' ||
-        position == 'right-origin-center';
+  _isCenterPosition(position: MatTabBodyPositionState | string): boolean {
+    return (
+      position == 'center' || position == 'left-origin-center' || position == 'right-origin-center'
+    );
   }
 
   /**
@@ -378,14 +388,16 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
   animations: [matTabsAnimations.translateTab],
   host: {
     'class': 'mat-tab-body',
-  }
+  },
 })
 export class MatTabBody extends _MatTabBodyBase {
   @ViewChild(CdkPortalOutlet) _portalHost: CdkPortalOutlet;
 
-  constructor(elementRef: ElementRef<HTMLElement>,
-              @Optional() dir: Directionality,
-              changeDetectorRef: ChangeDetectorRef) {
+  constructor(
+    elementRef: ElementRef<HTMLElement>,
+    @Optional() dir: Directionality,
+    changeDetectorRef: ChangeDetectorRef,
+  ) {
     super(elementRef, dir, changeDetectorRef);
   }
 }

@@ -107,9 +107,11 @@ export class MatTreeHarness extends ComponentHarness {
    */
   async getTreeStructure(): Promise<TextTree> {
     const nodes = await this.getNodes();
-    const nodeInformation = await parallel(() => nodes.map(node => {
-      return parallel(() => [node.getLevel(), node.getText(), node.isExpanded()]);
-    }));
+    const nodeInformation = await parallel(() =>
+      nodes.map(node => {
+        return parallel(() => [node.getLevel(), node.getText(), node.isExpanded()]);
+      }),
+    );
     return this._getTreeStructure(nodeInformation, 1, true);
   }
 
@@ -131,8 +133,11 @@ export class MatTreeHarness extends ComponentHarness {
    * 参数节点中第一个节点的父节点是否已展开
    *
    */
-  private _getTreeStructure(nodes: [number, string, boolean][], level: number,
-                                     parentExpanded: boolean): TextTree {
+  private _getTreeStructure(
+    nodes: [number, string, boolean][],
+    level: number,
+    parentExpanded: boolean,
+  ): TextTree {
     const result: TextTree = {};
     for (let i = 0; i < nodes.length; i++) {
       const [nodeLevel, text, expanded] = nodes[i];
@@ -157,9 +162,11 @@ export class MatTreeHarness extends ComponentHarness {
         if (nextNodeLevel === level) {
           this._addChildToNode(result, {text});
         } else if (nextNodeLevel > level) {
-          let children = this._getTreeStructure(nodes.slice(i + 1),
+          let children = this._getTreeStructure(
+            nodes.slice(i + 1),
             nextNodeLevel,
-            expanded)?.children;
+            expanded,
+          )?.children;
           let child = children ? {text, children} : {text};
           this._addChildToNode(result, child);
         } else {
@@ -172,6 +179,6 @@ export class MatTreeHarness extends ComponentHarness {
   }
 
   private _addChildToNode(result: TextTree, child: TextTree) {
-    result.children ? result.children.push(child) : result.children = [child];
+    result.children ? result.children.push(child) : (result.children = [child]);
   }
 }

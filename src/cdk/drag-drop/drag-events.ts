@@ -61,14 +61,14 @@ export interface CdkDragEnd<T = any> {
    * 自拖曳序列启动以来用户拖动过的像素距离。
    *
    */
-  distance: {x: number, y: number};
+  distance: {x: number; y: number};
   /**
    * Position where the pointer was when the item was dropped
    *
    * 放置项目时指针所处的位置
    *
    */
-  dropPoint: {x: number, y: number};
+  dropPoint: {x: number; y: number};
 }
 
 /**
@@ -131,7 +131,7 @@ export interface CdkDragExit<T = any, I = T> {
  * 当用户在投送容器中放入一个可拖动条目时，就会发出本事件。
  *
  */
-export interface CdkDragDrop<T, O = T> {
+export interface CdkDragDrop<T, O = T, I = any> {
   /**
    * Index of the item when it was picked up.
    *
@@ -152,7 +152,7 @@ export interface CdkDragDrop<T, O = T> {
    * 被投放的条目
    *
    */
-  item: CdkDrag;
+  item: CdkDrag<I>;
   /**
    * Container in which the item was dropped.
    *
@@ -180,14 +180,14 @@ export interface CdkDragDrop<T, O = T> {
    * 自拖曳序列启动以来用户拖动的像素距离。
    *
    */
-  distance: {x: number, y: number};
+  distance: {x: number; y: number};
   /**
    * Position where the pointer was when the item was dropped
    *
    * 放置条目时指针所处的位置
    *
    */
-  dropPoint: {x: number, y: number};
+  dropPoint: {x: number; y: number};
 }
 
 /**
@@ -210,7 +210,7 @@ export interface CdkDragMove<T = any> {
    * 用户指针在页面上的位置。
    *
    */
-  pointerPosition: {x: number, y: number};
+  pointerPosition: {x: number; y: number};
   /**
    * Native event that is causing the dragging.
    *
@@ -224,7 +224,7 @@ export interface CdkDragMove<T = any> {
    * 自拖曳序列启动以来用户已拖动的像素距离。
    *
    */
-  distance: {x: number, y: number};
+  distance: {x: number; y: number};
   /**
    * Indicates the direction in which the user is dragging the element along each axis.
    * `1` means that the position is increasing (e.g. the user is moving to the right or downwards),
@@ -234,7 +234,7 @@ export interface CdkDragMove<T = any> {
    * 指示用户沿每个轴拖动元素的方向。`1` 表示位置在增加（例如，用户向右或向下移动），而 `-1` 表示它正在减少（它们向左或向上移动）。`0` 意味着该位置没有变化。
    *
    */
-  delta: {x: -1 | 0 | 1, y: -1 | 0 | 1};
+  delta: {x: -1 | 0 | 1; y: -1 | 0 | 1};
 }
 
 /**

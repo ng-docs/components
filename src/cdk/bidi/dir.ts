@@ -6,16 +6,9 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {
-  Directive,
-  Output,
-  Input,
-  EventEmitter,
-  AfterContentInit,
-  OnDestroy,
-} from '@angular/core';
+import {Directive, Output, Input, EventEmitter, AfterContentInit, OnDestroy} from '@angular/core';
 
-import {Direction, Directionality} from './directionality';
+import {Direction, Directionality, _resolveDirectionality} from './directionality';
 
 /**
  * Directive to listen for changes of direction of part of the DOM.
@@ -69,15 +62,19 @@ export class Dir implements Directionality, AfterContentInit, OnDestroy {
 
   /** @docs-private */
   @Input()
-  get dir(): Direction { return this._dir; }
-  set dir(value: Direction) {
-    const old = this._dir;
-    const normalizedValue = value ? value.toLowerCase() : value;
+  get dir(): Direction {
+    return this._dir;
+  }
+  set dir(value: Direction | 'auto') {
+    const previousValue = this._dir;
 
+    // Note: `_resolveDirectionality` resolves the language based on the browser's language,
+    // whereas the browser does it based on the content of the element. Since doing so based
+    // on the content can be expensive, for now we're doing the simpler matching.
+    this._dir = _resolveDirectionality(value);
     this._rawDir = value;
-    this._dir = (normalizedValue === 'ltr' || normalizedValue === 'rtl') ? normalizedValue : 'ltr';
 
-    if (old !== this._dir && this._isInitialized) {
+    if (previousValue !== this._dir && this._isInitialized) {
       this.change.emit(this._dir);
     }
   }
@@ -88,7 +85,9 @@ export class Dir implements Directionality, AfterContentInit, OnDestroy {
    * 该元素的当前布局方向。
    *
    */
-  get value(): Direction { return this.dir; }
+  get value(): Direction {
+    return this.dir;
+  }
 
   /**
    * Initialize once default value has been set.
@@ -104,4 +103,3 @@ export class Dir implements Directionality, AfterContentInit, OnDestroy {
     this.change.complete();
   }
 }
-

@@ -26,22 +26,23 @@ export class DomPortalOutlet extends BasePortalOutlet {
   private _document: Document;
 
   constructor(
-      /**
-       * Element into which the content is projected.
-       *
-       * 此内容要投影进的元素。
-       *
-       */
-      public outletElement: Element,
-      private _componentFactoryResolver: ComponentFactoryResolver,
-      private _appRef: ApplicationRef,
-      private _defaultInjector: Injector,
+    /**
+     * Element into which the content is projected.
+     *
+     * 此内容要投影进的元素。
+     *
+     */
+    public outletElement: Element,
+    private _componentFactoryResolver: ComponentFactoryResolver,
+    private _appRef: ApplicationRef,
+    private _defaultInjector: Injector,
 
-      /**
-       * @deprecated `_document` Parameter to be made required.
-       * @breaking-change 10.0.0
-       */
-      _document?: any) {
+    /**
+     * @deprecated `_document` Parameter to be made required.
+     * @breaking-change 10.0.0
+     */
+    _document?: any,
+  ) {
     super();
     this._document = _document;
   }
@@ -71,9 +72,10 @@ export class DomPortalOutlet extends BasePortalOutlet {
     // and then manually attach the view to the application.
     if (portal.viewContainerRef) {
       componentRef = portal.viewContainerRef.createComponent(
-          componentFactory,
-          portal.viewContainerRef.length,
-          portal.injector || portal.viewContainerRef.injector);
+        componentFactory,
+        portal.viewContainerRef.length,
+        portal.injector || portal.viewContainerRef.injector,
+      );
 
       this.setDisposeFn(() => componentRef.destroy());
     } else {
@@ -121,12 +123,12 @@ export class DomPortalOutlet extends BasePortalOutlet {
     // hook won't be invoked too early.
     viewRef.detectChanges();
 
-    this.setDisposeFn((() => {
+    this.setDisposeFn(() => {
       let index = viewContainer.indexOf(viewRef);
       if (index !== -1) {
         viewContainer.remove(index);
       }
-    }));
+    });
 
     this._attachedPortal = portal;
 
@@ -150,7 +152,7 @@ export class DomPortalOutlet extends BasePortalOutlet {
    * @breaking-change 10.0.0
    *
    */
-  attachDomPortal = (portal: DomPortal) => {
+  override attachDomPortal = (portal: DomPortal) => {
     // @breaking-change 10.0.0 Remove check and error once the
     // `_document` constructor parameter is required.
     if (!this._document && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -176,7 +178,7 @@ export class DomPortalOutlet extends BasePortalOutlet {
         anchorNode.parentNode.replaceChild(element, anchorNode);
       }
     });
-  }
+  };
 
   /**
    * Clears out a portal from the DOM.
@@ -184,11 +186,9 @@ export class DomPortalOutlet extends BasePortalOutlet {
    * 从 DOM 中清除一个传送点。
    *
    */
-  dispose(): void {
+  override dispose(): void {
     super.dispose();
-    if (this.outletElement.parentNode != null) {
-      this.outletElement.parentNode.removeChild(this.outletElement);
-    }
+    this.outletElement.remove();
   }
 
   /**

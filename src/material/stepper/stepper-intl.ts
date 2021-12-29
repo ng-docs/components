@@ -33,6 +33,12 @@ export class MatStepperIntl {
    *
    */
   optionalLabel: string = 'Optional';
+
+  /** Label that is used to indicate step as completed to screen readers. */
+  completedLabel: string = 'Completed';
+
+  /** Label that is used to indicate step as editable to screen readers. */
+  editableLabel: string = 'Editable';
 }
 
 /** @docs-private */
@@ -44,5 +50,5 @@ export function MAT_STEPPER_INTL_PROVIDER_FACTORY(parentIntl: MatStepperIntl) {
 export const MAT_STEPPER_INTL_PROVIDER = {
   provide: MatStepperIntl,
   deps: [[new Optional(), new SkipSelf(), MatStepperIntl]],
-  useFactory: MAT_STEPPER_INTL_PROVIDER_FACTORY
+  useFactory: MAT_STEPPER_INTL_PROVIDER_FACTORY,
 };

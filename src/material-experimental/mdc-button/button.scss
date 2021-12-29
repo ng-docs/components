@@ -1,15 +1,19 @@
 @use '@material/button/button' as mdc-button;
 @use '@material/button/variables' as mdc-button-variables;
+@use '../../material/core/style/private';
 @use '../mdc-helpers/mdc-helpers';
-@use '../../cdk/a11y';
-@use '_button-base';
-
+@use 'button-base';
 
 @include mdc-button.without-ripple($query: mdc-helpers.$mat-base-styles-query);
 
-.mat-mdc-button, .mat-mdc-unelevated-button, .mat-mdc-raised-button, .mat-mdc-outlined-button {
+.mat-mdc-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button {
   @include button-base.mat-private-button-interactive();
   @include button-base.mat-private-button-disabled();
+  @include button-base.mat-private-button-touch-target(false);
+  @include private.private-animation-noop();
 }
 
 // MDC expects button icons to contain this HTML content:
@@ -22,12 +26,14 @@
   .mat-icon {
     @include mdc-button.icon();
   }
- .mdc-button__label + .mat-icon {
-   @include mdc-button.icon-trailing();
- }
+  .mdc-button__label + .mat-icon {
+    @include mdc-button.icon-trailing();
+  }
 }
 
-.mat-mdc-unelevated-button, .mat-mdc-raised-button, .mat-mdc-outlined-button {
+.mat-mdc-unelevated-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button {
   // Icons inside contained buttons have different styles due to increased button padding
   .mat-icon {
     @include mdc-button.icon();
@@ -36,24 +42,6 @@
 
   .mdc-button__label + .mat-icon {
     @include mdc-button.icon-contained-trailing();
-  }
-}
-
-// Add an outline to make buttons more visible in high contrast mode. Stroked buttons and FABs
-// don't need a special look in high-contrast mode, because those already have an outline.
-.mat-mdc-button:not(.mdc-button--outlined),
-.mat-mdc-unelevated-button:not(.mdc-button--outlined),
-.mat-mdc-raised-button:not(.mdc-button--outlined),
-.mat-mdc-outlined-button:not(.mdc-button--outlined),
-.mat-mdc-icon-button {
-  @include a11y.high-contrast(active, off) {
-    outline: solid 1px;
-  }
-}
-
-@include a11y.high-contrast(active, off) {
-  .mat-mdc-button-base:focus {
-    outline: solid 3px;
   }
 }
 
@@ -71,5 +59,5 @@
   left: $offset;
   bottom: $offset;
   right: $offset;
-  border: none;
+  border-width: $offset;
 }

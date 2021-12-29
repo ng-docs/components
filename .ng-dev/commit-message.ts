@@ -1,4 +1,4 @@
-import {CommitMessageConfig} from '@angular/dev-infra-private/commit-message/config';
+import {CommitMessageConfig} from '@angular/dev-infra-private/ng-dev/commit-message/config';
 
 /**
  * The configuration for `ng-dev commit-message` commands.
@@ -72,6 +72,8 @@ export const commitMessage: CommitMessageConfig = {
     'material-experimental/popover-edit',
     'material-experimental/selection',
     'material-moment-adapter',
+    'material-date-fns-adapter',
+    'material-luxon-adapter',
     'material/autocomplete',
     'material/badge',
     'material/bottom-sheet',
@@ -111,6 +113,6 @@ export const commitMessage: CommitMessageConfig = {
     'material/toolbar',
     'material/tooltip',
     'material/tree',
-    'youtube-player'
+    'youtube-player',
   ],
 };

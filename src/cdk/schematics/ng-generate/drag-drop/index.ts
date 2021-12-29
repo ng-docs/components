@@ -16,14 +16,18 @@ import {Schema} from './schema';
  * 建立使用拖放模块的新 Angular 组件。
  *
  */
-export default function(options: Schema): Rule {
+export default function (options: Schema): Rule {
   return chain([
-    buildComponent({...options}, {
-      template: './__path__/__name@dasherize@if-flat__/__name@dasherize__.component.html.template',
-      stylesheet:
+    buildComponent(
+      {...options},
+      {
+        template:
+          './__path__/__name@dasherize@if-flat__/__name@dasherize__.component.html.template',
+        stylesheet:
           './__path__/__name@dasherize@if-flat__/__name@dasherize__.component.__style__.template',
-    }),
-    options.skipImport ? noop() : addDragDropModulesToModule(options)
+      },
+    ),
+    options.skipImport ? noop() : addDragDropModulesToModule(options),
   ]);
 }
 

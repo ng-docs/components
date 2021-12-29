@@ -50,12 +50,12 @@ export const TOOLTIP_PANEL_CLASS = 'mat-mdc-tooltip-panel';
   selector: '[matTooltip]',
   exportAs: 'matTooltip',
   host: {
-    'class': 'mat-mdc-tooltip-trigger'
-  }
+    'class': 'mat-mdc-tooltip-trigger',
+  },
 })
 export class MatTooltip extends _MatTooltipBase<TooltipComponent> {
-  protected readonly _tooltipComponent = TooltipComponent;
-  protected readonly _cssClassPrefix = 'mat-mdc';
+  protected override readonly _tooltipComponent = TooltipComponent;
+  protected override readonly _cssClassPrefix = 'mat-mdc';
 
   constructor(
     overlay: Overlay,
@@ -69,14 +69,26 @@ export class MatTooltip extends _MatTooltipBase<TooltipComponent> {
     @Inject(MAT_TOOLTIP_SCROLL_STRATEGY) scrollStrategy: any,
     @Optional() dir: Directionality,
     @Optional() @Inject(MAT_TOOLTIP_DEFAULT_OPTIONS) defaultOptions: MatTooltipDefaultOptions,
-    @Inject(DOCUMENT) _document: any) {
-
-    super(overlay, elementRef, scrollDispatcher, viewContainerRef, ngZone, platform, ariaDescriber,
-      focusMonitor, scrollStrategy, dir, defaultOptions, _document);
+    @Inject(DOCUMENT) _document: any,
+  ) {
+    super(
+      overlay,
+      elementRef,
+      scrollDispatcher,
+      viewContainerRef,
+      ngZone,
+      platform,
+      ariaDescriber,
+      focusMonitor,
+      scrollStrategy,
+      dir,
+      defaultOptions,
+      _document,
+    );
     this._viewportMargin = numbers.MIN_VIEWPORT_TOOLTIP_THRESHOLD;
   }
 
-  protected _addOffset(position: ConnectedPosition): ConnectedPosition {
+  protected override _addOffset(position: ConnectedPosition): ConnectedPosition {
     const offset = numbers.UNBOUNDED_ANCHOR_GAP;
     const isLtr = !this._dir || this._dir.value == 'ltr';
 
@@ -109,13 +121,24 @@ export class MatTooltip extends _MatTooltipBase<TooltipComponent> {
     // Forces the element to have a layout in IE and Edge. This fixes issues where the element
     // won't be rendered if the animations are disabled or there is no web animations polyfill.
     '[style.zoom]': '_visibility === "visible" ? 1 : null',
-    '(body:click)': 'this._handleBodyInteraction()',
-    '(body:auxclick)': 'this._handleBodyInteraction()',
     'aria-hidden': 'true',
-  }
+  },
 })
 export class TooltipComponent extends _TooltipComponentBase {
-  constructor(changeDetectorRef: ChangeDetectorRef) {
+  /* Whether the tooltip text overflows to multiple lines */
+  _isMultiline: boolean = false;
+
+  constructor(changeDetectorRef: ChangeDetectorRef, private _elementRef: ElementRef) {
     super(changeDetectorRef);
+  }
+
+  protected override _onShow(): void {
+    this._isMultiline = this._isTooltipMultiline();
+  }
+
+  /** Whether the tooltip text has overflown to the next line */
+  private _isTooltipMultiline() {
+    const rect = this._elementRef.nativeElement.getBoundingClientRect();
+    return rect.height > numbers.MIN_HEIGHT && rect.width >= numbers.MAX_WIDTH;
   }
 }

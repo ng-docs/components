@@ -7,7 +7,7 @@
  */
 
 // Workaround for: https://github.com/bazelbuild/rules_nodejs/issues/1265
-/// <reference types="googlemaps" />
+/// <reference types="google.maps" />
 
 import {
   ChangeDetectionStrategy,
@@ -23,12 +23,14 @@ import {
   PLATFORM_ID,
   NgZone,
   SimpleChanges,
+  EventEmitter,
 } from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
 import {Observable} from 'rxjs';
 import {MapEventManager} from '../map-event-manager';
 
 interface GoogleMapsWindow extends Window {
+  gm_authFailure?: () => void;
   google?: typeof google;
 }
 
@@ -42,7 +44,7 @@ export const DEFAULT_OPTIONS: google.maps.MapOptions = {
   center: {lat: 37.421995, lng: -122.084092},
   zoom: 17,
   // Note: the type conversion here isn't necessary for our CI, but it resolves a g3 failure.
-  mapTypeId: 'roadmap' as unknown as google.maps.MapTypeId
+  mapTypeId: 'roadmap' as unknown as google.maps.MapTypeId,
 };
 
 /**
@@ -78,6 +80,7 @@ export const DEFAULT_WIDTH = '500px';
 export class GoogleMap implements OnChanges, OnInit, OnDestroy {
   private _eventManager: MapEventManager = new MapEventManager(this._ngZone);
   private _mapEl: HTMLElement;
+  private _existingAuthFailureCallback: GoogleMapsWindow['gm_authFailure'];
 
   /**
    * The underlying google.maps.Map object
@@ -125,10 +128,10 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
   @Input() mapTypeId: google.maps.MapTypeId | undefined;
 
   @Input()
-  set center(center: google.maps.LatLngLiteral|google.maps.LatLng) {
+  set center(center: google.maps.LatLngLiteral | google.maps.LatLng) {
     this._center = center;
   }
-  private _center: google.maps.LatLngLiteral|google.maps.LatLng;
+  private _center: google.maps.LatLngLiteral | google.maps.LatLng;
 
   @Input()
   set zoom(zoom: number) {
@@ -142,6 +145,16 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
   }
   private _options = DEFAULT_OPTIONS;
 
+  /** Event emitted when the map is initialized. */
+  @Output() readonly mapInitialized: EventEmitter<google.maps.Map> =
+    new EventEmitter<google.maps.Map>();
+
+  /**
+   * See
+   * https://developers.google.com/maps/documentation/javascript/events#auth-errors
+   */
+  @Output() readonly authFailure: EventEmitter<void> = new EventEmitter<void>();
+
   /**
    * See
    * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.bounds_changed>
@@ -150,7 +163,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly boundsChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('bounds_changed');
+    this._eventManager.getLazyEmitter<void>('bounds_changed');
 
   /**
    * See
@@ -160,7 +173,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly centerChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('center_changed');
+    this._eventManager.getLazyEmitter<void>('center_changed');
 
   /**
    * See
@@ -169,9 +182,10 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.click>
    *
    */
-  @Output() readonly mapClick: Observable<google.maps.MapMouseEvent|google.maps.IconMouseEvent> =
-      this._eventManager
-          .getLazyEmitter<google.maps.MapMouseEvent|google.maps.IconMouseEvent>('click');
+  @Output() readonly mapClick: Observable<google.maps.MapMouseEvent | google.maps.IconMouseEvent> =
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent | google.maps.IconMouseEvent>(
+      'click',
+    );
 
   /**
    * See
@@ -181,7 +195,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly mapDblclick: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dblclick');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dblclick');
 
   /**
    * See
@@ -190,8 +204,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.drag>
    *
    */
-  @Output() readonly mapDrag: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('drag');
+  @Output() readonly mapDrag: Observable<void> = this._eventManager.getLazyEmitter<void>('drag');
 
   /**
    * See
@@ -201,7 +214,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly mapDragend: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('dragend');
+    this._eventManager.getLazyEmitter<void>('dragend');
 
   /**
    * See
@@ -211,7 +224,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly mapDragstart: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('dragstart');
+    this._eventManager.getLazyEmitter<void>('dragstart');
 
   /**
    * See
@@ -221,7 +234,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly headingChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('heading_changed');
+    this._eventManager.getLazyEmitter<void>('heading_changed');
 
   /**
    * See
@@ -230,8 +243,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.idle>
    *
    */
-  @Output() readonly idle: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('idle');
+  @Output() readonly idle: Observable<void> = this._eventManager.getLazyEmitter<void>('idle');
 
   /**
    * See
@@ -241,7 +253,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly maptypeidChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('maptypeid_changed');
+    this._eventManager.getLazyEmitter<void>('maptypeid_changed');
 
   /**
    * See
@@ -252,7 +264,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    */
   @Output()
   readonly mapMousemove: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mousemove');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mousemove');
 
   /**
    * See
@@ -262,7 +274,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly mapMouseout: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseout');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseout');
 
   /**
    * See
@@ -272,7 +284,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly mapMouseover: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseover');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseover');
 
   /**
    * See
@@ -282,7 +294,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly projectionChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('projection_changed');
+    this._eventManager.getLazyEmitter<void>('projection_changed');
 
   /**
    * See
@@ -292,7 +304,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly mapRightclick: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('rightclick');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('rightclick');
 
   /**
    * See
@@ -302,7 +314,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly tilesloaded: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('tilesloaded');
+    this._eventManager.getLazyEmitter<void>('tilesloaded');
 
   /**
    * See
@@ -312,7 +324,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly tiltChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('tilt_changed');
+    this._eventManager.getLazyEmitter<void>('tilt_changed');
 
   /**
    * See
@@ -322,24 +334,33 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   @Output() readonly zoomChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('zoom_changed');
+    this._eventManager.getLazyEmitter<void>('zoom_changed');
 
   constructor(
     private readonly _elementRef: ElementRef,
     private _ngZone: NgZone,
-    @Inject(PLATFORM_ID) platformId: Object) {
-
+    @Inject(PLATFORM_ID) platformId: Object,
+  ) {
     this._isBrowser = isPlatformBrowser(platformId);
 
     if (this._isBrowser) {
       const googleMapsWindow: GoogleMapsWindow = window;
       if (!googleMapsWindow.google && (typeof ngDevMode === 'undefined' || ngDevMode)) {
         throw Error(
-            'Namespace google not found, cannot construct embedded google ' +
+          'Namespace google not found, cannot construct embedded google ' +
             'map. Please install the Google Maps JavaScript API: ' +
             'https://developers.google.com/maps/documentation/javascript/' +
-            'tutorial#Loading_the_Maps_API');
+            'tutorial#Loading_the_Maps_API',
+        );
       }
+
+      this._existingAuthFailureCallback = googleMapsWindow.gm_authFailure;
+      googleMapsWindow.gm_authFailure = () => {
+        if (this._existingAuthFailureCallback) {
+          this._existingAuthFailureCallback();
+        }
+        this.authFailure.emit();
+      };
     }
   }
 
@@ -383,11 +404,17 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
         this.googleMap = new google.maps.Map(this._mapEl, this._combineOptions());
       });
       this._eventManager.setTarget(this.googleMap);
+      this.mapInitialized.emit(this.googleMap);
     }
   }
 
   ngOnDestroy() {
     this._eventManager.destroy();
+
+    if (this._isBrowser) {
+      const googleMapsWindow: GoogleMapsWindow = window;
+      googleMapsWindow.gm_authFailure = this._existingAuthFailureCallback;
+    }
   }
 
   /**
@@ -398,8 +425,9 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   fitBounds(
-      bounds: google.maps.LatLngBounds|google.maps.LatLngBoundsLiteral,
-      padding?: number|google.maps.Padding) {
+    bounds: google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral,
+    padding?: number | google.maps.Padding,
+  ) {
     this._assertInitialized();
     this.googleMap.fitBounds(bounds, padding);
   }
@@ -423,7 +451,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.panTo>
    *
    */
-  panTo(latLng: google.maps.LatLng|google.maps.LatLngLiteral) {
+  panTo(latLng: google.maps.LatLng | google.maps.LatLngLiteral) {
     this._assertInitialized();
     this.googleMap.panTo(latLng);
   }
@@ -436,8 +464,9 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    *
    */
   panToBounds(
-      latLngBounds: google.maps.LatLngBounds|google.maps.LatLngBoundsLiteral,
-      padding?: number|google.maps.Padding) {
+    latLngBounds: google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral,
+    padding?: number | google.maps.Padding,
+  ) {
     this._assertInitialized();
     this.googleMap.panToBounds(latLngBounds, padding);
   }
@@ -449,7 +478,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.getBounds>
    *
    */
-  getBounds(): google.maps.LatLngBounds|null {
+  getBounds(): google.maps.LatLngBounds | null {
     this._assertInitialized();
     return this.googleMap.getBounds() || null;
   }
@@ -461,7 +490,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.getCenter>
    *
    */
-  getCenter(): google.maps.LatLng {
+  getCenter(): google.maps.LatLng | undefined {
     this._assertInitialized();
     return this.googleMap.getCenter();
   }
@@ -473,7 +502,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.getClickableIcons>
    *
    */
-  getClickableIcons(): boolean {
+  getClickableIcons(): boolean | undefined {
     this._assertInitialized();
     return this.googleMap.getClickableIcons();
   }
@@ -485,7 +514,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.getHeading>
    *
    */
-  getHeading(): number {
+  getHeading(): number | undefined {
     this._assertInitialized();
     return this.googleMap.getHeading();
   }
@@ -497,7 +526,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.getMapTypeId>
    *
    */
-  getMapTypeId(): google.maps.MapTypeId|string {
+  getMapTypeId(): google.maps.MapTypeId | string | undefined {
     this._assertInitialized();
     return this.googleMap.getMapTypeId();
   }
@@ -509,9 +538,9 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.getProjection>
    *
    */
-  getProjection(): google.maps.Projection|null {
+  getProjection(): google.maps.Projection | null {
     this._assertInitialized();
-    return this.googleMap.getProjection();
+    return this.googleMap.getProjection() || null;
   }
 
   /**
@@ -533,7 +562,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.getTilt>
    *
    */
-  getTilt(): number {
+  getTilt(): number | undefined {
     this._assertInitialized();
     return this.googleMap.getTilt();
   }
@@ -545,7 +574,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * 请参阅<https://developers.google.com/maps/documentation/javascript/reference/map#Map.getZoom>
    *
    */
-  getZoom(): number {
+  getZoom(): number | undefined {
     this._assertInitialized();
     return this.googleMap.getZoom();
   }
@@ -602,8 +631,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
     if (this._mapEl) {
       const styles = this._mapEl.style;
       styles.height =
-          this.height === null ? '' : (coerceCssPixelValue(this.height) || DEFAULT_HEIGHT);
-      styles.width = this.width === null ? '' : (coerceCssPixelValue(this.width) || DEFAULT_WIDTH);
+        this.height === null ? '' : coerceCssPixelValue(this.height) || DEFAULT_HEIGHT;
+      styles.width = this.width === null ? '' : coerceCssPixelValue(this.width) || DEFAULT_WIDTH;
     }
   }
 
@@ -623,7 +652,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
       zoom: this._zoom ?? options.zoom ?? DEFAULT_OPTIONS.zoom,
       // Passing in an undefined `mapTypeId` seems to break tile loading
       // so make sure that we have some kind of default (see #22082).
-      mapTypeId: this.mapTypeId || options.mapTypeId || DEFAULT_OPTIONS.mapTypeId
+      mapTypeId: this.mapTypeId || options.mapTypeId || DEFAULT_OPTIONS.mapTypeId,
     };
   }
 
@@ -635,8 +664,10 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    */
   private _assertInitialized(): asserts this is {googleMap: google.maps.Map} {
     if (!this.googleMap && (typeof ngDevMode === 'undefined' || ngDevMode)) {
-      throw Error('Cannot access Google Map information before the API has been initialized. ' +
-                  'Please wait for the API to load before trying to interact with it.');
+      throw Error(
+        'Cannot access Google Map information before the API has been initialized. ' +
+          'Please wait for the API to load before trying to interact with it.',
+      );
     }
   }
 }

@@ -41,7 +41,8 @@ export type AsyncOptionPredicate<T, O> = (item: T, option: O) => Promise<boolean
  *
  */
 export type HarnessQuery<T extends ComponentHarness> =
-    ComponentHarnessConstructor<T> | HarnessPredicate<T>;
+  | ComponentHarnessConstructor<T>
+  | HarnessPredicate<T>;
 
 /**
  * The result type obtained when searching using a particular list of queries. This type depends on
@@ -89,14 +90,15 @@ export type HarnessQuery<T extends ComponentHarness> =
  *
  */
 export type LocatorFnResult<T extends (HarnessQuery<any> | string)[]> = {
-  [I in keyof T]:
-      // Map `ComponentHarnessConstructor<C>` to `C`.
-      T[I] extends new (...args: any[]) => infer C ? C :
-      // Map `HarnessPredicate<C>` to `C`.
-      T[I] extends { harnessType: new (...args: any[]) => infer C } ? C :
-      // Map `string` to `TestElement`.
-      T[I] extends string ? TestElement :
-      // Map everything else to `never` (should not happen due to the type constraint on `T`).
+  [I in keyof T]: T[I] extends new (...args: any[]) => infer C // Map `ComponentHarnessConstructor<C>` to `C`.
+    ? C
+    : // Map `HarnessPredicate<C>` to `C`.
+    T[I] extends {harnessType: new (...args: any[]) => infer C}
+    ? C
+    : // Map `string` to `TestElement`.
+    T[I] extends string
+    ? TestElement
+    : // Map everything else to `never` (should not happen due to the type constraint on `T`).
       never;
 }[number];
 
@@ -262,8 +264,9 @@ export interface LocatorFactory {
    *
    *   `await lf.locatorFor('span')()` 会抛出错误，因为 `Promise` 拒绝了。
    */
-  locatorFor<T extends (HarnessQuery<any> | string)[]>(...queries: T):
-      AsyncFactoryFn<LocatorFnResult<T>>;
+  locatorFor<T extends (HarnessQuery<any> | string)[]>(
+    ...queries: T
+  ): AsyncFactoryFn<LocatorFnResult<T>>;
 
   /**
    * Creates an asynchronous locator function that can be used to find a `ComponentHarness` instance
@@ -315,8 +318,9 @@ export interface LocatorFactory {
    *   `await lf.locatorForOptional('span')()` 会得到 `null`。
    *
    */
-  locatorForOptional<T extends (HarnessQuery<any> | string)[]>(...queries: T):
-      AsyncFactoryFn<LocatorFnResult<T> | null>;
+  locatorForOptional<T extends (HarnessQuery<any> | string)[]>(
+    ...queries: T
+  ): AsyncFactoryFn<LocatorFnResult<T> | null>;
 
   /**
    * Creates an asynchronous locator function that can be used to find `ComponentHarness` instances
@@ -398,8 +402,9 @@ export interface LocatorFactory {
    *   `await lf.locatorForAll('span')()` 会得到 `[]`。
    *
    */
-  locatorForAll<T extends (HarnessQuery<any> | string)[]>(...queries: T):
-      AsyncFactoryFn<LocatorFnResult<T>[]>;
+  locatorForAll<T extends (HarnessQuery<any> | string)[]>(
+    ...queries: T
+  ): AsyncFactoryFn<LocatorFnResult<T>[]>;
 
   /**
    *
@@ -566,8 +571,9 @@ export abstract class ComponentHarness {
    *   `await ch.locatorFor('span')()` 会抛出错误，因为 `Promise` 拒绝了。
    *
    */
-  protected locatorFor<T extends (HarnessQuery<any> | string)[]>(...queries: T):
-      AsyncFactoryFn<LocatorFnResult<T>> {
+  protected locatorFor<T extends (HarnessQuery<any> | string)[]>(
+    ...queries: T
+  ): AsyncFactoryFn<LocatorFnResult<T>> {
     return this.locatorFactory.locatorFor(...queries);
   }
 
@@ -621,8 +627,9 @@ export abstract class ComponentHarness {
    *   `await ch.locatorForOptional('span')()` 得到 `null`。
    *
    */
-  protected locatorForOptional<T extends (HarnessQuery<any> | string)[]>(...queries: T):
-      AsyncFactoryFn<LocatorFnResult<T> | null> {
+  protected locatorForOptional<T extends (HarnessQuery<any> | string)[]>(
+    ...queries: T
+  ): AsyncFactoryFn<LocatorFnResult<T> | null> {
     return this.locatorFactory.locatorForOptional(...queries);
   }
 
@@ -706,8 +713,9 @@ export abstract class ComponentHarness {
    *   `await ch.locatorForAll('span')()` 会得到 `[]`。
    *
    */
-  protected locatorForAll<T extends (HarnessQuery<any> | string)[]>(...queries: T):
-      AsyncFactoryFn<LocatorFnResult<T>[]> {
+  protected locatorForAll<T extends (HarnessQuery<any> | string)[]>(
+    ...queries: T
+  ): AsyncFactoryFn<LocatorFnResult<T>[]> {
     return this.locatorFactory.locatorForAll(...queries);
   }
 
@@ -743,8 +751,9 @@ export abstract class ComponentHarness {
  *
  */
 export abstract class ContentContainerComponentHarness<S extends string = string>
-  extends ComponentHarness implements HarnessLoader {
-
+  extends ComponentHarness
+  implements HarnessLoader
+{
   async getChildLoader(selector: S): Promise<HarnessLoader> {
     return (await this.getRootHarnessLoader()).getChildLoader(selector);
   }
@@ -780,7 +789,7 @@ export abstract class ContentContainerComponentHarness<S extends string = string
  *
  */
 export interface ComponentHarnessConstructor<T extends ComponentHarness> {
-  new(locatorFactory: LocatorFactory): T;
+  new (locatorFactory: LocatorFactory): T;
 
   /**
    * `ComponentHarness` subclasses must specify a static `hostSelector` property that is used to
@@ -853,8 +862,10 @@ export class HarnessPredicate<T extends ComponentHarness> {
    * 该值是否与该模式匹配。
    *
    */
-  static async stringMatches(value: string | null | Promise<string | null>,
-                             pattern: string | RegExp | null): Promise<boolean> {
+  static async stringMatches(
+    value: string | null | Promise<string | null>,
+    pattern: string | RegExp | null,
+  ): Promise<boolean> {
     value = await value;
     if (pattern === null) {
       return value === null;
@@ -983,8 +994,9 @@ export class HarnessPredicate<T extends ComponentHarness> {
     }
 
     const [ancestors, ancestorPlaceholders] = _splitAndEscapeSelector(this._ancestor);
-    const [selectors, selectorPlaceholders] =
-      _splitAndEscapeSelector(this.harnessType.hostSelector || '');
+    const [selectors, selectorPlaceholders] = _splitAndEscapeSelector(
+      this.harnessType.hostSelector || '',
+    );
     const result: string[] = [];
 
     // We have to add the ancestor to each part of the host compound selector, otherwise we can get
@@ -992,7 +1004,8 @@ export class HarnessPredicate<T extends ComponentHarness> {
     ancestors.forEach(escapedAncestor => {
       const ancestor = _restoreSelector(escapedAncestor, ancestorPlaceholders);
       return selectors.forEach(escapedSelector =>
-        result.push(`${ancestor} ${_restoreSelector(escapedSelector, selectorPlaceholders)}`));
+        result.push(`${ancestor} ${_restoreSelector(escapedSelector, selectorPlaceholders)}`),
+      );
     });
 
     return result.join(', ');
@@ -1028,15 +1041,21 @@ function _valueAsString(value: unknown) {
   if (value === undefined) {
     return 'undefined';
   }
-  // `JSON.stringify` doesn't handle RegExp properly, so we need a custom replacer.
   try {
-    return JSON.stringify(value, (_, v) => {
-      if (v instanceof RegExp) {
-        return `/${v.toString()}/`;
-      }
-
-      return typeof v === 'string' ? v.replace('/\//g', '\\/') : v;
-    }).replace(/"\/\//g, '\\/').replace(/\/\/"/g, '\\/').replace(/\\\//g, '/');
+    // `JSON.stringify` doesn't handle RegExp properly, so we need a custom replacer.
+    // Use a character that is unlikely to appear in real strings to denote the start and end of
+    // the regex. This allows us to strip out the extra quotes around the value added by
+    // `JSON.stringify`. Also do custom escaping on `"` characters to prevent `JSON.stringify`
+    // from escaping them as if they were part of a string.
+    const stringifiedValue = JSON.stringify(value, (_, v) =>
+      v instanceof RegExp
+        ? `◬MAT_RE_ESCAPE◬${v.toString().replace(/"/g, '◬MAT_RE_ESCAPE◬')}◬MAT_RE_ESCAPE◬`
+        : v,
+    );
+    // Strip out the extra quotes around regexes and put back the manually escaped `"` characters.
+    return stringifiedValue
+      .replace(/"◬MAT_RE_ESCAPE◬|◬MAT_RE_ESCAPE◬"/g, '')
+      .replace(/◬MAT_RE_ESCAPE◬/g, '"');
   } catch {
     // `JSON.stringify` will throw if the object is cyclical,
     // in this case the best we can do is report the value as `{...}`.

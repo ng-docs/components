@@ -10,61 +10,6 @@ import {Platform} from '@angular/cdk/platform';
 import {Inject, Injectable, Optional} from '@angular/core';
 import {DateAdapter, MAT_DATE_LOCALE} from './date-adapter';
 
-// TODO(mmalerba): Remove when we no longer support safari 9.
-/**
- * Whether the browser supports the Intl API.
- *
- * 浏览器是否支持 Intl API。
- *
- */
-let SUPPORTS_INTL_API: boolean;
-
-// We need a try/catch around the reference to `Intl`, because accessing it in some cases can
-// cause IE to throw. These cases are tied to particular versions of Windows and can happen if
-// the consumer is providing a polyfilled `Map`. See:
-// https://github.com/Microsoft/ChakraCore/issues/3189
-// https://github.com/angular/components/issues/15687
-try {
-  SUPPORTS_INTL_API = typeof Intl != 'undefined';
-} catch {
-  SUPPORTS_INTL_API = false;
-}
-
-/**
- * The default month names to use if Intl API is not available.
- *
- * 如果 Intl API 不可用，则使用的默认月份名称。
- *
- */
-const DEFAULT_MONTH_NAMES = {
-  'long': [
-    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-    'October', 'November', 'December'
-  ],
-  'short': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  'narrow': ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
-};
-
-/**
- * The default date names to use if Intl API is not available.
- *
- * 如果 Intl API 不可用，则使用的默认日期名称。
- *
- */
-const DEFAULT_DATE_NAMES = range(31, i => String(i + 1));
-
-/**
- * The default day of the week names to use if Intl API is not available.
- *
- * 如果 Intl API 不可用，则使用默认的星期几名称。
- *
- */
-const DEFAULT_DAY_OF_WEEK_NAMES = {
-  'long': ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-  'short': ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  'narrow': ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-};
-
 /**
  * Matches strings that have the form of a valid RFC 3339 string
  * (<https://tools.ietf.org/html/rfc3339>). Note that the string may not actually be a valid date
@@ -74,7 +19,7 @@ const DEFAULT_DAY_OF_WEEK_NAMES = {
  *
  */
 const ISO_8601_REGEX =
-    /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|(?:(?:\+|-)\d{2}:\d{2}))?)?$/;
+  /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|(?:(?:\+|-)\d{2}:\d{2}))?)?$/;
 
 /**
  * Creates an array and fills it with values.
@@ -99,38 +44,21 @@ function range<T>(length: number, valueFunction: (index: number) => T): T[] {
 @Injectable()
 export class NativeDateAdapter extends DateAdapter<Date> {
   /**
-   * Whether to clamp the date between 1 and 9999 to avoid IE and Edge errors.
-   *
-   * 是否将日期限制在 1 到 9999 之间，以避免 IE 和 Edge 出错。
-   *
+   * @deprecated No longer being used. To be removed.
+   * @breaking-change 14.0.0
    */
-  private readonly _clampDate: boolean;
+  useUtcForDisplay: boolean = false;
 
-  /**
-   * Whether to use `timeZone: 'utc'` with `Intl.DateTimeFormat` when formatting dates.
-   * Without this `Intl.DateTimeFormat` sometimes chooses the wrong timeZone, which can throw off
-   * the result. (e.g. in the en-US locale `new Date(1800, 7, 14).toLocaleDateString()`
-   * will produce `'8/13/1800'`.
-   *
-   * 在格式化日期时，是否同时使用 `timeZone: 'utc'` 和 `Intl.DateTimeFormat`。没有此 `Intl.DateTimeFormat` 有时会选择错误的 timeZone，这可能会导致结果失败。（例如，在美国语言环境中，`new Date(1800, 7, 14).toLocaleDateString()` 将产生 `'8/13/1800'`。
-   *
-   * TODO(mmalerba): drop this variable. It's not being used in the code right now. We're now
-   * getting the string representation of a Date object from its utc representation. We're keeping
-   * it here for sometime, just for precaution, in case we decide to revert some of these changes
-   * though.
-   *
-   * TODO（mmalerba）：删除此变量。现在代码中没有使用它。现在，我们从 utc 表示形式获取 Date 对象的字符串表示形式。我们将其保留在这里一段时间，以防万一，以防万一我们决定还原其中一些更改。
-   *
-   */
-  useUtcForDisplay: boolean = true;
-
-  constructor(@Optional() @Inject(MAT_DATE_LOCALE) matDateLocale: string, platform: Platform) {
+  constructor(
+    @Optional() @Inject(MAT_DATE_LOCALE) matDateLocale: string,
+    /**
+     * @deprecated No longer being used. To be removed.
+     * @breaking-change 14.0.0
+     */
+    _platform?: Platform,
+  ) {
     super();
     super.setLocale(matDateLocale);
-
-    // IE does its own time zone correction, so we disable this on IE.
-    this.useUtcForDisplay = !platform.TRIDENT;
-    this._clampDate = platform.TRIDENT || platform.EDGE;
   }
 
   getYear(date: Date): number {
@@ -150,38 +78,23 @@ export class NativeDateAdapter extends DateAdapter<Date> {
   }
 
   getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
-    if (SUPPORTS_INTL_API) {
-      const dtf = new Intl.DateTimeFormat(this.locale, {month: style, timeZone: 'utc'});
-      return range(12, i =>
-          this._stripDirectionalityCharacters(this._format(dtf, new Date(2017, i, 1))));
-    }
-    return DEFAULT_MONTH_NAMES[style];
+    const dtf = new Intl.DateTimeFormat(this.locale, {month: style, timeZone: 'utc'});
+    return range(12, i => this._format(dtf, new Date(2017, i, 1)));
   }
 
   getDateNames(): string[] {
-    if (SUPPORTS_INTL_API) {
-      const dtf = new Intl.DateTimeFormat(this.locale, {day: 'numeric', timeZone: 'utc'});
-      return range(31, i => this._stripDirectionalityCharacters(
-          this._format(dtf, new Date(2017, 0, i + 1))));
-    }
-    return DEFAULT_DATE_NAMES;
+    const dtf = new Intl.DateTimeFormat(this.locale, {day: 'numeric', timeZone: 'utc'});
+    return range(31, i => this._format(dtf, new Date(2017, 0, i + 1)));
   }
 
   getDayOfWeekNames(style: 'long' | 'short' | 'narrow'): string[] {
-    if (SUPPORTS_INTL_API) {
-      const dtf = new Intl.DateTimeFormat(this.locale, {weekday: style, timeZone: 'utc'});
-      return range(7, i => this._stripDirectionalityCharacters(
-          this._format(dtf, new Date(2017, 0, i + 1))));
-    }
-    return DEFAULT_DAY_OF_WEEK_NAMES[style];
+    const dtf = new Intl.DateTimeFormat(this.locale, {weekday: style, timeZone: 'utc'});
+    return range(7, i => this._format(dtf, new Date(2017, 0, i + 1)));
   }
 
   getYearName(date: Date): string {
-    if (SUPPORTS_INTL_API) {
-      const dtf = new Intl.DateTimeFormat(this.locale, {year: 'numeric', timeZone: 'utc'});
-      return this._stripDirectionalityCharacters(this._format(dtf, date));
-    }
-    return String(this.getYear(date));
+    const dtf = new Intl.DateTimeFormat(this.locale, {year: 'numeric', timeZone: 'utc'});
+    return this._format(dtf, date);
   }
 
   getFirstDayOfWeek(): number {
@@ -190,8 +103,9 @@ export class NativeDateAdapter extends DateAdapter<Date> {
   }
 
   getNumDaysInMonth(date: Date): number {
-    return this.getDate(this._createDateWithOverflow(
-        this.getYear(date), this.getMonth(date) + 1, 0));
+    return this.getDate(
+      this._createDateWithOverflow(this.getYear(date), this.getMonth(date) + 1, 0),
+    );
   }
 
   clone(date: Date): Date {
@@ -238,20 +152,8 @@ export class NativeDateAdapter extends DateAdapter<Date> {
       throw Error('NativeDateAdapter: Cannot format invalid date.');
     }
 
-    if (SUPPORTS_INTL_API) {
-      // On IE and Edge the i18n API will throw a hard error that can crash the entire app
-      // if we attempt to format a date whose year is less than 1 or greater than 9999.
-      if (this._clampDate && (date.getFullYear() < 1 || date.getFullYear() > 9999)) {
-        date = this.clone(date);
-        date.setFullYear(Math.max(1, Math.min(9999, date.getFullYear())));
-      }
-
-      displayFormat = {...displayFormat, timeZone: 'utc'};
-
-      const dtf = new Intl.DateTimeFormat(this.locale, displayFormat);
-      return this._stripDirectionalityCharacters(this._format(dtf, date));
-    }
-    return this._stripDirectionalityCharacters(date.toDateString());
+    const dtf = new Intl.DateTimeFormat(this.locale, {...displayFormat, timeZone: 'utc'});
+    return this._format(dtf, date);
   }
 
   addCalendarYears(date: Date, years: number): Date {
@@ -260,13 +162,16 @@ export class NativeDateAdapter extends DateAdapter<Date> {
 
   addCalendarMonths(date: Date, months: number): Date {
     let newDate = this._createDateWithOverflow(
-        this.getYear(date), this.getMonth(date) + months, this.getDate(date));
+      this.getYear(date),
+      this.getMonth(date) + months,
+      this.getDate(date),
+    );
 
     // It's possible to wind up in the wrong month if the original month has more days than the new
     // month. In this case we want to go to the last day of the desired month.
     // Note: the additional + 12 % 12 ensures we end up with a positive number, since JS % doesn't
     // guarantee this.
-    if (this.getMonth(newDate) != ((this.getMonth(date) + months) % 12 + 12) % 12) {
+    if (this.getMonth(newDate) != (((this.getMonth(date) + months) % 12) + 12) % 12) {
       newDate = this._createDateWithOverflow(this.getYear(newDate), this.getMonth(newDate), 0);
     }
 
@@ -275,14 +180,17 @@ export class NativeDateAdapter extends DateAdapter<Date> {
 
   addCalendarDays(date: Date, days: number): Date {
     return this._createDateWithOverflow(
-        this.getYear(date), this.getMonth(date), this.getDate(date) + days);
+      this.getYear(date),
+      this.getMonth(date),
+      this.getDate(date) + days,
+    );
   }
 
   toIso8601(date: Date): string {
     return [
       date.getUTCFullYear(),
       this._2digit(date.getUTCMonth() + 1),
-      this._2digit(date.getUTCDate())
+      this._2digit(date.getUTCDate()),
     ].join('-');
   }
 
@@ -294,7 +202,7 @@ export class NativeDateAdapter extends DateAdapter<Date> {
    * 如果给定有效的 Date 或 null，则返回给定的值。将有效的 ISO 8601 字符串（ <https://www.ietf.org/rfc/rfc3339.txt> ）反序列化为有效的日期，并将空字符串转换为 null。返回所有其他值的无效日期。
    *
    */
-  deserialize(value: any): Date | null {
+  override deserialize(value: any): Date | null {
     if (typeof value === 'string') {
       if (!value) {
         return null;
@@ -354,26 +262,6 @@ export class NativeDateAdapter extends DateAdapter<Date> {
    */
   private _2digit(n: number) {
     return ('00' + n).slice(-2);
-  }
-
-  /**
-   * Strip out unicode LTR and RTL characters. Edge and IE insert these into formatted dates while
-   * other browsers do not. We remove them to make output consistent and because they interfere with
-   * date parsing.
-   *
-   * 去除 Unicode LTR 和 RTL 字符。Edge 和 IE 将它们插入格式化后的日期中，而其他浏览器则不会这样做。我们删除它们是为了使输出保持一致，并且它们会干扰日期解析。
-   *
-   * @param str The string to strip direction characters from.
-   *
-   * 要从中清除方向字符的字符串。
-   *
-   * @returns The stripped string.
-   *
-   * 清除后的字符串。
-   *
-   */
-  private _stripDirectionalityCharacters(str: string) {
-    return str.replace(/[\u200e\u200f]/g, '');
   }
 
   /**

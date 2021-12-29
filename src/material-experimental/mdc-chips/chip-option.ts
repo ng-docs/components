@@ -15,12 +15,11 @@ import {
   Input,
   Output,
   ViewEncapsulation,
-  AfterContentInit
+  AfterContentInit,
 } from '@angular/core';
 import {deprecated} from '@material/chips';
 import {take} from 'rxjs/operators';
 import {MatChip} from './chip';
-
 
 /** Event object emitted by MatChipOption when selected or deselected. */
 export class MatChipSelectionChange {
@@ -42,7 +41,8 @@ export class MatChipSelectionChange {
      *
      * 选择结果的变化是否来自用户交互。
      */
-    public isUserInput = false) { }
+    public isUserInput = false,
+  ) {}
 }
 
 /**
@@ -62,6 +62,7 @@ export class MatChipSelectionChange {
     '[class.mat-mdc-chip-with-avatar]': 'leadingIcon',
     '[class.mat-mdc-chip-with-trailing-icon]': 'trailingIcon || removeIcon',
     '[class.mat-mdc-chip-selected]': 'selected',
+    '[class.mat-mdc-chip-multiple]': '_chipListMultiple',
     '[id]': 'id',
     '[tabIndex]': 'tabIndex',
     '[attr.disabled]': 'disabled || null',
@@ -77,7 +78,6 @@ export class MatChipSelectionChange {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatChipOption extends MatChip implements AfterContentInit {
-
   /** Whether the chip list is selectable. */
   chipListSelectable: boolean = true;
 
@@ -95,7 +95,7 @@ export class MatChipOption extends MatChip implements AfterContentInit {
   get selectable(): boolean {
     return this._selectable && this.chipListSelectable;
   }
-  set selectable(value: boolean) {
+  set selectable(value: BooleanInput) {
     this._selectable = coerceBooleanProperty(value);
   }
   protected _selectable: boolean = true;
@@ -105,7 +105,7 @@ export class MatChipOption extends MatChip implements AfterContentInit {
   get selected(): boolean {
     return this._chipFoundation.isSelected();
   }
-  set selected(value: boolean) {
+  set selected(value: BooleanInput) {
     if (!this.selectable) {
       return;
     }
@@ -120,18 +120,19 @@ export class MatChipOption extends MatChip implements AfterContentInit {
   get ariaSelected(): string | null {
     // Remove the `aria-selected` when the chip is deselected in single-selection mode, because
     // it adds noise to NVDA users where "not selected" will be read out for each chip.
-    return this.selectable && (this._chipListMultiple || this.selected) ?
-        this.selected.toString() : null;
+    return this.selectable && (this._chipListMultiple || this.selected)
+      ? this.selected.toString()
+      : null;
   }
 
   /** The unstyled chip selector for this component. */
-  protected basicChipAttrName = 'mat-basic-chip-option';
+  protected override basicChipAttrName = 'mat-basic-chip-option';
 
   /** Emitted when the chip is selected or deselected. */
   @Output() readonly selectionChange: EventEmitter<MatChipSelectionChange> =
-      new EventEmitter<MatChipSelectionChange>();
+    new EventEmitter<MatChipSelectionChange>();
 
-  ngAfterContentInit() {
+  override ngAfterContentInit() {
     super.ngAfterContentInit();
 
     if (this.selected && this.leadingIcon) {
@@ -185,7 +186,7 @@ export class MatChipOption extends MatChip implements AfterContentInit {
     this.selectionChange.emit({
       source: this,
       isUserInput,
-      selected: this.selected
+      selected: this.selected,
     });
   }
 
@@ -208,16 +209,13 @@ export class MatChipOption extends MatChip implements AfterContentInit {
     // earlier than usual, causing it to be blurred and throwing off the logic in the chip list
     // that moves focus not the next item. To work around the issue, we defer marking the chip
     // as not focused until the next time the zone stabilizes.
-    this._ngZone.onStable
-      .pipe(take(1))
-      .subscribe(() => {
-        this._ngZone.run(() => {
-          this._hasFocusInternal = false;
-          this._onBlur.next({chip: this});
-        });
+    this._ngZone.onStable.pipe(take(1)).subscribe(() => {
+      this._ngZone.run(() => {
+        this._hasFocusInternal = false;
+        this._onBlur.next({chip: this});
       });
+    });
   }
-
 
   /** Handles click events on the chip. */
   _click(event: MouseEvent) {
@@ -246,7 +244,4 @@ export class MatChipOption extends MatChip implements AfterContentInit {
         this._handleInteraction(event);
     }
   }
-
-  static ngAcceptInputType_selectable: BooleanInput;
-  static ngAcceptInputType_selected: BooleanInput;
 }

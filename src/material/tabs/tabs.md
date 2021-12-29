@@ -137,27 +137,36 @@ duration can be configured globally using the `MAT_TABS_CONFIG` injection token.
 
 ### 无障碍性
 
-`<mat-tab-group>` and `<mat-nav-tab-bar>` use different interaction patterns. The
-`<mat-tab-group>` component combines `tablist`, `tab`, and `tabpanel` into a single component with
-the appropriate keyboard shortcuts. The `<mat-nav-tab-bar>`, however, use a _navigation_ interaction
-pattern by using a `<nav>` element with anchor elements as the "tabs". The difference
-between these two patterns comes from the fact one updates the page URL while the other does not.
+`MatTabGroup` and `MatTabNavBar` implement different interaction patterns for different use-cases.
+You should choose the component that works best for your application.
+
+`MatTabGroup` combines `tablist`, `tab`, and `tabpanel` into a single component with
+handling for keyboard inputs and focus management. You should use this component for switching
+between content within a single page. 
+
+`MatTabNavBar`, implements a navigation interaction pattern by using a `<nav>` element with anchor
+elements as the "tabs". You should use this component when you want your cross-page navigation to
+look like a tabbed interface. As a rule of thumb, you should consider `MatTabNavBar` if changing
+tabs would change the browser URL. For all navigation, including with `MatTabNavBar`, always move
+browser focus to an element at the beginning of the content to which the user is navgating.
+Furthermore, consider placing your `<router-outlet>` inside of a
+[landmark region](https://www.w3.org/TR/wai-aria-1.1/#dfn-landmark) appropriate to the page.
+
+Avoid mixing both `MatTabGroup` and `MatTabNavBar` in your application. The inconsistent interaction
+patterns applied between the components may confuse users.
 
 `<mat-tab-group>` 和 `<mat-nav-tab-bar>` 使用不同的交互模式。`<mat-tab-group>` 组件会把 `tablist`、`tab` 和 `tabpanel` 合成一个带有相应键盘快捷键的组件。而 `<mat-nav-tab-bar>` 会以带锚点的 `<nav>` 元素作为页标签来使用*导航*交互模式。这两种模式之间的差异来自于后者要更新页面 URL，而前者不用。
 
 #### Labels
 
-#### 标签
+Always provide an accessible label via `aria-label` or `aria-describedby` for tabs without
+descriptive text content.
 
-Tabs without text or labels should be given a meaningful label via `aria-label` or
-`aria-labelledby`. For `MatTabNav`, the `<nav>` element should have a label as well.
-
-没有文本或标签的选项卡应该通过 `aria-label` 或 `aria-labelledby` 属性给出一个有意义的标签。
-对于 `MatTabNav` 来说，其 `<nav>` 元素也同样要有标签。
+When using `MatTabNavGroup`, always specify a label for the `<nav>` element.
 
 #### Keyboard interaction
 
-#### 键盘快捷键
+`MatTabGroup` implements the following keyboard interactions.
 
 | Shortcut             | Action                     |
 |----------------------|----------------------------|
@@ -172,3 +181,6 @@ Tabs without text or labels should be given a meaningful label via `aria-label` 
 | `END`                | 把焦点移到最后一个选项卡 |
 | `SPACE` or `ENTER`   | Switch to focused tab      |
 | `SPACE` 或 `ENTER`   | 切换到当前有焦点的选项卡 |
+
+`MatTabNavBar` does not add additional keyboard handling, deferring to the native behavior of
+anchor elements.

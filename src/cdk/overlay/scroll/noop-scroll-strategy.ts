@@ -21,19 +21,19 @@ export class NoopScrollStrategy implements ScrollStrategy {
    * 什么也不做，因为这个滚动策略就是如此。
    *
    */
-  enable() { }
+  enable() {}
   /**
    * Does nothing, as this scroll strategy is a no-op.
    *
    * 什么也不做，因为这个滚动策略就是如此。
    *
    */
-  disable() { }
+  disable() {}
   /**
    * Does nothing, as this scroll strategy is a no-op.
    *
    * 什么也不做，因为这个滚动策略就是如此。
    *
    */
-  attach() { }
+  attach() {}
 }

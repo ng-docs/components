@@ -21,7 +21,6 @@ import {BaseOverlayDispatcher} from './base-overlay-dispatcher';
  */
 @Injectable({providedIn: 'root'})
 export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
-
   constructor(@Inject(DOCUMENT) document: any) {
     super(document);
   }
@@ -32,7 +31,7 @@ export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
    * 将新的浮层添加到已附加的浮层引用列表中。
    *
    */
-  add(overlayRef: OverlayReference): void {
+  override add(overlayRef: OverlayReference): void {
     super.add(overlayRef);
 
     // Lazily start dispatcher once first overlay is added
@@ -76,5 +75,5 @@ export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
         break;
       }
     }
-  }
+  };
 }

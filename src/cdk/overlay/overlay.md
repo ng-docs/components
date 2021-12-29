@@ -14,7 +14,7 @@ the prebuilt styles in your global stylesheet:
 CDK 浮层需要依赖一组结构化的样式才能正常工作。如果你正在使用 Angular Material，这些样式就都已经包含在了主题中，否则，如果你是单独使用的 CDK，就必须自己包含这些样式。你可以在全局样式表中导入一些预定义样式：
 
 ```scss
-@import '~@angular/cdk/overlay-prebuilt.css';
+@import '@angular/cdk/overlay-prebuilt.css';
 ```
 
 ### Creating overlays

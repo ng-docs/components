@@ -40,11 +40,14 @@ export class MatTabGroupHarness extends ComponentHarness {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: TabGroupHarnessFilters = {}): HarnessPredicate<MatTabGroupHarness> {
-    return new HarnessPredicate(MatTabGroupHarness, options)
-        .addOption('selectedTabLabel', options.selectedTabLabel, async (harness, label) => {
-          const selectedTab = await harness.getSelectedTab();
-          return HarnessPredicate.stringMatches(await selectedTab.getLabel(), label);
-        });
+    return new HarnessPredicate(MatTabGroupHarness, options).addOption(
+      'selectedTabLabel',
+      options.selectedTabLabel,
+      async (harness, label) => {
+        const selectedTab = await harness.getSelectedTab();
+        return HarnessPredicate.stringMatches(await selectedTab.getLabel(), label);
+      },
+    );
   }
 
   /**

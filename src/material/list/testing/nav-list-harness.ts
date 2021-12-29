@@ -18,7 +18,10 @@ import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-
  *
  */
 export class MatNavListHarness extends MatListHarnessBase<
-    typeof MatNavListItemHarness, MatNavListItemHarness, NavListItemHarnessFilters> {
+  typeof MatNavListItemHarness,
+  MatNavListItemHarness,
+  NavListItemHarnessFilters
+> {
   /**
    * The selector for the host element of a `MatNavList` instance.
    *
@@ -45,7 +48,7 @@ export class MatNavListHarness extends MatListHarnessBase<
     return new HarnessPredicate(MatNavListHarness, options);
   }
 
-  _itemHarness = MatNavListItemHarness;
+  override _itemHarness = MatNavListItemHarness;
 }
 
 /**
@@ -78,9 +81,11 @@ export class MatNavListItemHarness extends MatListItemHarnessBase {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: NavListItemHarnessFilters = {}): HarnessPredicate<MatNavListItemHarness> {
-    return getListItemPredicate(MatNavListItemHarness, options)
-        .addOption('href', options.href,
-            async (harness, href) => HarnessPredicate.stringMatches(harness.getHref(), href));
+    return getListItemPredicate(MatNavListItemHarness, options).addOption(
+      'href',
+      options.href,
+      async (harness, href) => HarnessPredicate.stringMatches(harness.getHref(), href),
+    );
   }
 
   /**

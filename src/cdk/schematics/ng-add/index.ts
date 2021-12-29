@@ -23,7 +23,7 @@ import {addPackageToPackageJson, getPackageVersionFromPackageJson} from './packa
  * 默认情况下，CLI 已经安装了 `ng add` 指定的软件包。我们只是将版本存储在 `package.json` 中，以防软件包管理器没这么做。这也确保不会出现任何错误说 CDK 不支持 `ng add`。
  *
  */
-export default function(): Rule {
+export default function (): Rule {
   return (host: Tree, context: SchematicContext) => {
     // The CLI inserts `@angular/cdk` into the `package.json` before this schematic runs. This
     // means that we do not need to insert the CDK into `package.json` files again. In some cases

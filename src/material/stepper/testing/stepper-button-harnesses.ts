@@ -67,12 +67,13 @@ export class MatStepperNextHarness extends StepperButtonHarness {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: StepperButtonHarnessFilters = {}): HarnessPredicate<MatStepperNextHarness> {
-    return new HarnessPredicate(MatStepperNextHarness, options)
-        .addOption('text', options.text,
-            (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text));
+    return new HarnessPredicate(MatStepperNextHarness, options).addOption(
+      'text',
+      options.text,
+      (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text),
+    );
   }
 }
-
 /**
  * Harness for interacting with a standard Angular Material stepper previous button in tests.
  *
@@ -102,10 +103,13 @@ export class MatStepperPreviousHarness extends StepperButtonHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: StepperButtonHarnessFilters = {}):
-    HarnessPredicate<MatStepperPreviousHarness> {
-    return new HarnessPredicate(MatStepperPreviousHarness, options)
-        .addOption('text', options.text,
-            (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text));
+  static with(
+    options: StepperButtonHarnessFilters = {},
+  ): HarnessPredicate<MatStepperPreviousHarness> {
+    return new HarnessPredicate(MatStepperPreviousHarness, options).addOption(
+      'text',
+      options.text,
+      (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text),
+    );
   }
 }

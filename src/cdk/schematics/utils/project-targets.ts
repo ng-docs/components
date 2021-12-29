@@ -27,13 +27,16 @@ export const defaultTargetBuilders = {
  * 解析给定项目的构建目标的建筑师选项。
  *
  */
-export function getProjectTargetOptions(project: ProjectDefinition, buildTarget: string):
-  Record<string, JsonValue | undefined> {
+export function getProjectTargetOptions(
+  project: ProjectDefinition,
+  buildTarget: string,
+): Record<string, JsonValue | undefined> {
   const options = project.targets?.get(buildTarget)?.options;
 
   if (!options) {
     throw new SchematicsException(
-      `Cannot determine project target configuration for: ${buildTarget}.`);
+      `Cannot determine project target configuration for: ${buildTarget}.`,
+    );
   }
 
   return options;
@@ -46,8 +49,10 @@ export function getProjectTargetOptions(project: ProjectDefinition, buildTarget:
  *
  */
 export function getTargetsByBuilderName(
-    project: ProjectDefinition, builderName: string): TargetDefinition[] {
+  project: ProjectDefinition,
+  builderName: string,
+): TargetDefinition[] {
   return Array.from(project.targets.keys())
-      .filter(name => project.targets.get(name)?.builder === builderName)
-      .map(name => project.targets.get(name)!);
+    .filter(name => project.targets.get(name)?.builder === builderName)
+    .map(name => project.targets.get(name)!);
 }

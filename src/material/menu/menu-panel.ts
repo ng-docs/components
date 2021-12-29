@@ -33,7 +33,7 @@ export interface MatMenuPanel<T = any> {
   yPosition: MenuPositionY;
   overlapTrigger: boolean;
   templateRef: TemplateRef<any>;
-  readonly close: EventEmitter<void|'click'|'keydown'|'tab'>;
+  readonly close: EventEmitter<void | 'click' | 'keydown' | 'tab'>;
   parentMenu?: MatMenuPanel | undefined;
   direction?: Direction;
   focusFirstItem: (origin?: FocusOrigin) => void;
@@ -42,7 +42,7 @@ export interface MatMenuPanel<T = any> {
   setElevation?(depth: number): void;
   lazyContent?: MatMenuContent;
   backdropClass?: string;
-  overlayPanelClass?: string|string[];
+  overlayPanelClass?: string | string[];
   hasBackdrop?: boolean;
   readonly panelId?: string;
 

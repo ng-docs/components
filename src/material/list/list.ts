@@ -27,9 +27,7 @@ import {
 } from '@angular/core';
 import {
   CanDisable,
-  CanDisableCtor,
   CanDisableRipple,
-  CanDisableRippleCtor,
   MatLine,
   setLines,
   mixinDisableRipple,
@@ -40,15 +38,11 @@ import {takeUntil} from 'rxjs/operators';
 
 // Boilerplate for applying mixins to MatList.
 /** @docs-private */
-class MatListBase {}
-const _MatListMixinBase: CanDisableRippleCtor & CanDisableCtor & typeof MatListBase =
-    mixinDisabled(mixinDisableRipple(MatListBase));
+const _MatListBase = mixinDisabled(mixinDisableRipple(class {}));
 
 // Boilerplate for applying mixins to MatListItem.
 /** @docs-private */
-class MatListItemBase {}
-const _MatListItemMixinBase: CanDisableRippleCtor & typeof MatListItemBase =
-    mixinDisableRipple(MatListItemBase);
+const _MatListItemMixinBase = mixinDisableRipple(class {});
 
 /**
  * Injection token that can be used to inject instances of `MatList`. It serves as
@@ -75,7 +69,7 @@ export const MAT_NAV_LIST = new InjectionToken<MatNavList>('MatNavList');
   exportAs: 'matNavList',
   host: {
     'role': 'navigation',
-    'class': 'mat-nav-list mat-list-base'
+    'class': 'mat-nav-list mat-list-base',
   },
   templateUrl: 'list.html',
   styleUrls: ['list.css'],
@@ -84,8 +78,10 @@ export const MAT_NAV_LIST = new InjectionToken<MatNavList>('MatNavList');
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: MAT_NAV_LIST, useExisting: MatNavList}],
 })
-export class MatNavList extends _MatListMixinBase implements CanDisable, CanDisableRipple,
-  OnChanges, OnDestroy {
+export class MatNavList
+  extends _MatListBase
+  implements CanDisable, CanDisableRipple, OnChanges, OnDestroy
+{
   /**
    * Emits when the state of the list changes.
    *
@@ -101,9 +97,6 @@ export class MatNavList extends _MatListMixinBase implements CanDisable, CanDisa
   ngOnDestroy() {
     this._stateChanges.complete();
   }
-
-  static ngAcceptInputType_disableRipple: BooleanInput;
-  static ngAcceptInputType_disabled: BooleanInput;
 }
 
 @Component({
@@ -111,7 +104,7 @@ export class MatNavList extends _MatListMixinBase implements CanDisable, CanDisa
   exportAs: 'matList',
   templateUrl: 'list.html',
   host: {
-    'class': 'mat-list mat-list-base'
+    'class': 'mat-list mat-list-base',
   },
   styleUrls: ['list.css'],
   inputs: ['disableRipple', 'disabled'],
@@ -119,8 +112,10 @@ export class MatNavList extends _MatListMixinBase implements CanDisable, CanDisa
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{provide: MAT_LIST, useExisting: MatList}],
 })
-export class MatList extends _MatListMixinBase implements CanDisable, CanDisableRipple, OnChanges,
-  OnDestroy {
+export class MatList
+  extends _MatListBase
+  implements CanDisable, CanDisableRipple, OnChanges, OnDestroy
+{
   /**
    * Emits when the state of the list changes.
    *
@@ -158,9 +153,6 @@ export class MatList extends _MatListMixinBase implements CanDisable, CanDisable
   ngOnDestroy() {
     this._stateChanges.complete();
   }
-
-  static ngAcceptInputType_disableRipple: BooleanInput;
-  static ngAcceptInputType_disabled: BooleanInput;
 }
 
 /**
@@ -172,7 +164,7 @@ export class MatList extends _MatListMixinBase implements CanDisable, CanDisable
  */
 @Directive({
   selector: '[mat-list-avatar], [matListAvatar]',
-  host: {'class': 'mat-list-avatar'}
+  host: {'class': 'mat-list-avatar'},
 })
 export class MatListAvatarCssMatStyler {}
 
@@ -185,7 +177,7 @@ export class MatListAvatarCssMatStyler {}
  */
 @Directive({
   selector: '[mat-list-icon], [matListIcon]',
-  host: {'class': 'mat-list-icon'}
+  host: {'class': 'mat-list-icon'},
 })
 export class MatListIconCssMatStyler {}
 
@@ -198,7 +190,7 @@ export class MatListIconCssMatStyler {}
  */
 @Directive({
   selector: '[mat-subheader], [matSubheader]',
-  host: {'class': 'mat-subheader'}
+  host: {'class': 'mat-subheader'},
 })
 export class MatListSubheaderCssMatStyler {}
 
@@ -223,8 +215,10 @@ export class MatListSubheaderCssMatStyler {}
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatListItem extends _MatListItemMixinBase implements AfterContentInit,
-    CanDisableRipple, OnDestroy {
+export class MatListItem
+  extends _MatListItemMixinBase
+  implements AfterContentInit, CanDisableRipple, OnDestroy
+{
   private _isInteractiveList: boolean = false;
   private _list?: MatNavList | MatList;
   private readonly _destroyed = new Subject<void>();
@@ -233,10 +227,12 @@ export class MatListItem extends _MatListItemMixinBase implements AfterContentIn
   @ContentChild(MatListAvatarCssMatStyler) _avatar: MatListAvatarCssMatStyler;
   @ContentChild(MatListIconCssMatStyler) _icon: MatListIconCssMatStyler;
 
-  constructor(private _element: ElementRef<HTMLElement>,
-              _changeDetectorRef: ChangeDetectorRef,
-              @Optional() @Inject(MAT_NAV_LIST) navList?: MatNavList,
-              @Optional() @Inject(MAT_LIST) list?: MatList) {
+  constructor(
+    private _element: ElementRef<HTMLElement>,
+    _changeDetectorRef: ChangeDetectorRef,
+    @Optional() @Inject(MAT_NAV_LIST) navList?: MatNavList,
+    @Optional() @Inject(MAT_LIST) list?: MatList,
+  ) {
     super();
     this._isInteractiveList = !!(navList || (list && list._getListType() === 'action-list'));
     this._list = navList || list;
@@ -265,8 +261,10 @@ export class MatListItem extends _MatListItemMixinBase implements AfterContentIn
    *
    */
   @Input()
-  get disabled() { return this._disabled || !!(this._list && this._list.disabled); }
-  set disabled(value: boolean) {
+  get disabled(): boolean {
+    return this._disabled || !!(this._list && this._list.disabled);
+  }
+  set disabled(value: BooleanInput) {
     this._disabled = coerceBooleanProperty(value);
   }
   private _disabled = false;
@@ -287,8 +285,9 @@ export class MatListItem extends _MatListItemMixinBase implements AfterContentIn
    *
    */
   _isRippleDisabled() {
-    return !this._isInteractiveList || this.disableRipple ||
-           !!(this._list && this._list.disableRipple);
+    return (
+      !this._isInteractiveList || this.disableRipple || !!(this._list && this._list.disableRipple)
+    );
   }
 
   /**
@@ -300,7 +299,4 @@ export class MatListItem extends _MatListItemMixinBase implements AfterContentIn
   _getHostElement(): HTMLElement {
     return this._element.nativeElement;
   }
-
-  static ngAcceptInputType_disableRipple: BooleanInput;
-  static ngAcceptInputType_disabled: BooleanInput;
 }

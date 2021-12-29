@@ -11,7 +11,7 @@ import {
   IterableChangeRecord,
   IterableChanges,
   TemplateRef,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
 /**
@@ -64,10 +64,11 @@ export interface _ViewRepeaterItemInsertArgs<C> {
  * 传递给每个嵌入式视图的上下文类型。
  *
  */
-export type _ViewRepeaterItemContextFactory<T, R, C extends _ViewRepeaterItemContext<T>> =
-    (record: IterableChangeRecord<R>,
-     adjustedPreviousIndex: number | null,
-     currentIndex: number | null) => _ViewRepeaterItemInsertArgs<C>;
+export type _ViewRepeaterItemContextFactory<T, R, C extends _ViewRepeaterItemContext<T>> = (
+  record: IterableChangeRecord<R>,
+  adjustedPreviousIndex: number | null,
+  currentIndex: number | null,
+) => _ViewRepeaterItemInsertArgs<C>;
 
 /**
  * Extracts the value of an item from an {@link IterableChangeRecord}.
@@ -83,8 +84,7 @@ export type _ViewRepeaterItemContextFactory<T, R, C extends _ViewRepeaterItemCon
  * 每个 IterableDiffer 更改记录中的条目类型。
  *
  */
-export type _ViewRepeaterItemValueResolver<T, R> =
-    (record: IterableChangeRecord<R>) => T;
+export type _ViewRepeaterItemValueResolver<T, R> = (record: IterableChangeRecord<R>) => T;
 
 /**
  * Indicates how a view was changed by a {@link \_ViewRepeater}.
@@ -172,8 +172,7 @@ export interface _ViewRepeaterItemChange<R, C> {
  * 传递给每个嵌入式视图的上下文类型。
  *
  */
-export type _ViewRepeaterItemChanged<R, C> =
-    (change: _ViewRepeaterItemChange<R, C>) => void;
+export type _ViewRepeaterItemChanged<R, C> = (change: _ViewRepeaterItemChange<R, C>) => void;
 
 /**
  * Describes a strategy for rendering items in a {@link ViewContainerRef}.
@@ -195,11 +194,12 @@ export type _ViewRepeaterItemChanged<R, C> =
  */
 export interface _ViewRepeater<T, R, C extends _ViewRepeaterItemContext<T>> {
   applyChanges(
-      changes: IterableChanges<R>,
-      viewContainerRef: ViewContainerRef,
-      itemContextFactory: _ViewRepeaterItemContextFactory<T, R, C>,
-      itemValueResolver: _ViewRepeaterItemValueResolver<T, R>,
-      itemViewChanged?: _ViewRepeaterItemChanged<R, C>): void;
+    changes: IterableChanges<R>,
+    viewContainerRef: ViewContainerRef,
+    itemContextFactory: _ViewRepeaterItemContextFactory<T, R, C>,
+    itemValueResolver: _ViewRepeaterItemValueResolver<T, R>,
+    itemViewChanged?: _ViewRepeaterItemChanged<R, C>,
+  ): void;
 
   detach(): void;
 }
@@ -211,4 +211,5 @@ export interface _ViewRepeater<T, R, C extends _ViewRepeaterItemContext<T>> {
  * @docs-private
  */
 export const _VIEW_REPEATER_STRATEGY = new InjectionToken<
-        _ViewRepeater<unknown, unknown, _ViewRepeaterItemContext<unknown>>>('_ViewRepeater');
+  _ViewRepeater<unknown, unknown, _ViewRepeaterItemContext<unknown>>
+>('_ViewRepeater');

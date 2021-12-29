@@ -53,7 +53,7 @@ const keyMap = {
   [TestKey.F10]: Key.F10,
   [TestKey.F11]: Key.F11,
   [TestKey.F12]: Key.F12,
-  [TestKey.META]: Key.META
+  [TestKey.META]: Key.META,
 };
 
 /**
@@ -145,8 +145,9 @@ export class ProtractorElement implements TestElement {
    *
    */
   click(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
-  async click(...args: [ModifierKeys?] | ['center', ModifierKeys?] |
-    [number, number, ModifierKeys?]): Promise<void> {
+  async click(
+    ...args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?]
+  ): Promise<void> {
     await this._dispatchClickEventSequence(args, Button.LEFT);
   }
 
@@ -169,8 +170,9 @@ export class ProtractorElement implements TestElement {
    *
    */
   rightClick(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
-  async rightClick(...args: [ModifierKeys?] | ['center', ModifierKeys?] |
-    [number, number, ModifierKeys?]): Promise<void> {
+  async rightClick(
+    ...args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?]
+  ): Promise<void> {
     await this._dispatchClickEventSequence(args, Button.RIGHT);
   }
 
@@ -201,9 +203,10 @@ export class ProtractorElement implements TestElement {
    *
    */
   async hover(): Promise<void> {
-    return browser.actions()
-        .mouseMove(await this.element.getWebElement())
-        .perform();
+    return browser
+      .actions()
+      .mouseMove(await this.element.getWebElement())
+      .perform();
   }
 
   /**
@@ -213,9 +216,10 @@ export class ProtractorElement implements TestElement {
    *
    */
   async mouseAway(): Promise<void> {
-    return browser.actions()
-        .mouseMove(await this.element.getWebElement(), {x: -1, y: -1})
-        .perform();
+    return browser
+      .actions()
+      .mouseMove(await this.element.getWebElement(), {x: -1, y: -1})
+      .perform();
   }
 
   /**
@@ -247,11 +251,12 @@ export class ProtractorElement implements TestElement {
     }
 
     const modifierKeys = toProtractorModifierKeys(modifiers);
-    const keys = rest.map(k => typeof k === 'string' ? k.split('') : [keyMap[k]])
-        .reduce((arr, k) => arr.concat(k), [])
-        // Key.chord doesn't work well with geckodriver (mozilla/geckodriver#1502),
-        // so avoid it if no modifier keys are required.
-        .map(k => modifierKeys.length > 0 ? Key.chord(...modifierKeys, k) : k);
+    const keys = rest
+      .map(k => (typeof k === 'string' ? k.split('') : [keyMap[k]]))
+      .reduce((arr, k) => arr.concat(k), [])
+      // Key.chord doesn't work well with geckodriver (mozilla/geckodriver#1502),
+      // so avoid it if no modifier keys are required.
+      .map(k => (modifierKeys.length > 0 ? Key.chord(...modifierKeys, k) : k));
 
     return this.element.sendKeys(...keys);
   }
@@ -270,7 +275,8 @@ export class ProtractorElement implements TestElement {
     if (options?.exclude) {
       return browser.executeScript(_getTextWithExcludedElements, this.element, options.exclude);
     }
-    return this.element.getText();
+    // We don't go through Protractor's `getText`, because it excludes text from hidden elements.
+    return browser.executeScript(`return (arguments[0].textContent || '').trim()`, this.element);
   }
 
   /**
@@ -279,9 +285,12 @@ export class ProtractorElement implements TestElement {
    * 从此元素获取给定属性的值。
    *
    */
-  async getAttribute(name: string): Promise<string|null> {
+  async getAttribute(name: string): Promise<string | null> {
     return browser.executeScript(
-        `return arguments[0].getAttribute(arguments[1])`, this.element, name);
+      `return arguments[0].getAttribute(arguments[1])`,
+      this.element,
+      name,
+    );
   }
 
   /**
@@ -313,7 +322,7 @@ export class ProtractorElement implements TestElement {
    * 获取此元素的属性的值。
    *
    */
-  async getProperty(name: string): Promise<any> {
+  async getProperty<T = any>(name: string): Promise<T> {
     return browser.executeScript(`return arguments[0][arguments[1]]`, this.element, name);
   }
 
@@ -361,10 +370,14 @@ export class ProtractorElement implements TestElement {
    *
    */
   async matchesSelector(selector: string): Promise<boolean> {
-      return browser.executeScript(`
+    return browser.executeScript(
+      `
           return (Element.prototype.matches ||
                   Element.prototype.msMatchesSelector).call(arguments[0], arguments[1])
-          `, this.element, selector);
+          `,
+      this.element,
+      selector,
+    );
   }
 
   /**
@@ -398,9 +411,9 @@ export class ProtractorElement implements TestElement {
    *
    */
   private async _dispatchClickEventSequence(
-    args: [ModifierKeys?] | ['center', ModifierKeys?] |
-      [number, number, ModifierKeys?],
-    button: string) {
+    args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?],
+    button: string,
+  ) {
     let modifiers: ModifierKeys = {};
     if (args.length && typeof args[args.length - 1] === 'object') {
       modifiers = args.pop() as ModifierKeys;
@@ -410,11 +423,11 @@ export class ProtractorElement implements TestElement {
     // Omitting the offset argument to mouseMove results in clicking the center.
     // This is the default behavior we want, so we use an empty array of offsetArgs if
     // no args remain after popping the modifiers from the args passed to this function.
-    const offsetArgs = (args.length === 2 ?
-      [{x: args[0], y: args[1]}] : []) as [{x: number, y: number}];
+    const offsetArgs = (args.length === 2 ? [{x: args[0], y: args[1]}] : []) as [
+      {x: number; y: number},
+    ];
 
-    let actions = browser.actions()
-      .mouseMove(await this.element.getWebElement(), ...offsetArgs);
+    let actions = browser.actions().mouseMove(await this.element.getWebElement(), ...offsetArgs);
 
     for (const modifierKey of modifierKeys) {
       actions = actions.keyDown(modifierKey);

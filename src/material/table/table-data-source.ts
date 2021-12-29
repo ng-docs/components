@@ -64,9 +64,10 @@ export interface MatTableDataSourcePaginator {
  * 与基于 MDC 实现共享的基类。
  *
  */
-export class _MatTableDataSource<T,
-    P extends MatTableDataSourcePaginator = MatTableDataSourcePaginator>
-    extends DataSource<T> {
+export class _MatTableDataSource<
+  T,
+  P extends MatTableDataSourcePaginator = MatTableDataSourcePaginator,
+> extends DataSource<T> {
   /**
    * Stream that emits when a new data array is set on the data source.
    *
@@ -106,7 +107,7 @@ export class _MatTableDataSource<T,
    * 订阅那些应该触发表格中渲染行更新的变更，比如过滤、排序、分页或基础数据的变化。
    *
    */
-  _renderChangesSubscription: Subscription|null = null;
+  _renderChangesSubscription: Subscription | null = null;
 
   /**
    * The filtered set of data that has been matched by the filter string, or all the data if there
@@ -126,7 +127,9 @@ export class _MatTableDataSource<T,
    * 要由表格渲染的数据数组，其中每个对象代表一行。
    *
    */
-  get data() { return this._data.value; }
+  get data() {
+    return this._data.value;
+  }
   set data(data: T[]) {
     this._data.next(data);
     // Normally the `filteredData` is updated by the re-render
@@ -144,7 +147,9 @@ export class _MatTableDataSource<T,
    * 要改写数据对象与此过滤器字符串的匹配方式，请为 filterPredicate 提供一个自定义函数。
    *
    */
-  get filter(): string { return this._filter.value; }
+  get filter(): string {
+    return this._filter.value;
+  }
   set filter(filter: string) {
     this._filter.next(filter);
     // Normally the `filteredData` is updated by the re-render
@@ -161,12 +166,14 @@ export class _MatTableDataSource<T,
    * 该表格使用 MatSort 指令的实例来控制它的排序。MatSort 发出的排序变化会触发对该表格所渲染数据的更新。
    *
    */
-  get sort(): MatSort | null { return this._sort; }
-  set sort(sort: MatSort|null) {
+  get sort(): MatSort | null {
+    return this._sort;
+  }
+  set sort(sort: MatSort | null) {
     this._sort = sort;
     this._updateChangeSubscription();
   }
-  private _sort: MatSort|null;
+  private _sort: MatSort | null;
 
   /**
    * Instance of the MatPaginator component used by the table to control what page of the data is
@@ -183,7 +190,9 @@ export class _MatTableDataSource<T,
    * 注意，数据源会使用此分页器的属性来计算应该显示哪个页面的数据。如果分页器要通过模板输入接收其属性，比如 `[pageLength]=100` 或者 `[pageIndex]=1`，那就要确保此分页器的视图已经初始化了，然后再赋值给这个数据源。
    *
    */
-  get paginator(): P | null { return this._paginator; }
+  get paginator(): P | null {
+    return this._paginator;
+  }
   set paginator(paginator: P | null) {
     this._paginator = paginator;
     this._updateChangeSubscription();
@@ -209,8 +218,10 @@ export class _MatTableDataSource<T,
    * 用来代表数据列的名字。
    *
    */
-  sortingDataAccessor: ((data: T, sortHeaderId: string) => string|number) =
-      (data: T, sortHeaderId: string): string|number => {
+  sortingDataAccessor: (data: T, sortHeaderId: string) => string | number = (
+    data: T,
+    sortHeaderId: string,
+  ): string | number => {
     const value = (data as {[key: string]: any})[sortHeaderId];
 
     if (_isNumberValue(value)) {
@@ -222,7 +233,7 @@ export class _MatTableDataSource<T,
     }
 
     return value;
-  }
+  };
 
   /**
    * Gets a sorted copy of the data array based on the state of the MatSort. Called
@@ -243,10 +254,12 @@ export class _MatTableDataSource<T,
    * 已连接的 MatSort，保存着当前排序状态。
    *
    */
-  sortData: ((data: T[], sort: MatSort) => T[]) = (data: T[], sort: MatSort): T[] => {
+  sortData: (data: T[], sort: MatSort) => T[] = (data: T[], sort: MatSort): T[] => {
     const active = sort.active;
     const direction = sort.direction;
-    if (!active || direction == '') { return data; }
+    if (!active || direction == '') {
+      return data;
+    }
 
     return data.sort((a, b) => {
       let valueA = this.sortingDataAccessor(a, active);
@@ -259,8 +272,12 @@ export class _MatTableDataSource<T,
       const valueBType = typeof valueB;
 
       if (valueAType !== valueBType) {
-        if (valueAType === 'number') { valueA += ''; }
-        if (valueBType === 'number') { valueB += ''; }
+        if (valueAType === 'number') {
+          valueA += '';
+        }
+        if (valueBType === 'number') {
+          valueB += '';
+        }
       }
 
       // If both valueA and valueB exist (truthy), then compare the two. Otherwise, check if
@@ -283,7 +300,7 @@ export class _MatTableDataSource<T,
 
       return comparatorResult * (direction == 'asc' ? 1 : -1);
     });
-  }
+  };
 
   /**
    * Checks if a data object matches the data source's filter string. By default, each data object
@@ -306,23 +323,25 @@ export class _MatTableDataSource<T,
    *
    * 过滤器是否匹配此数据
    */
-  filterPredicate: ((data: T, filter: string) => boolean) = (data: T, filter: string): boolean => {
+  filterPredicate: (data: T, filter: string) => boolean = (data: T, filter: string): boolean => {
     // Transform the data into a lowercase string of all property values.
-    const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
-      // Use an obscure Unicode character to delimit the words in the concatenated string.
-      // This avoids matches where the values of two columns combined will match the user's query
-      // (e.g. `Flute` and `Stop` will match `Test`). The character is intended to be something
-      // that has a very low chance of being typed in by somebody in a text field. This one in
-      // particular is "White up-pointing triangle with dot" from
-      // https://en.wikipedia.org/wiki/List_of_Unicode_characters
-      return currentTerm + (data as {[key: string]: any})[key] + '◬';
-    }, '').toLowerCase();
+    const dataStr = Object.keys(data)
+      .reduce((currentTerm: string, key: string) => {
+        // Use an obscure Unicode character to delimit the words in the concatenated string.
+        // This avoids matches where the values of two columns combined will match the user's query
+        // (e.g. `Flute` and `Stop` will match `Test`). The character is intended to be something
+        // that has a very low chance of being typed in by somebody in a text field. This one in
+        // particular is "White up-pointing triangle with dot" from
+        // https://en.wikipedia.org/wiki/List_of_Unicode_characters
+        return currentTerm + (data as {[key: string]: any})[key] + '◬';
+      }, '')
+      .toLowerCase();
 
     // Transform the filter by converting it to lowercase and removing whitespace.
     const transformedFilter = filter.trim().toLowerCase();
 
     return dataStr.indexOf(transformedFilter) != -1;
-  }
+  };
 
   constructor(initialData: T[] = []) {
     super();
@@ -345,26 +364,29 @@ export class _MatTableDataSource<T,
     // The `sortChange` and `pageChange` acts as a signal to the combineLatests below so that the
     // pipeline can progress to the next step. Note that the value from these streams are not used,
     // they purely act as a signal to progress in the pipeline.
-    const sortChange: Observable<Sort|null|void> = this._sort ?
-        merge(this._sort.sortChange, this._sort.initialized) as Observable<Sort|void> :
-        observableOf(null);
-    const pageChange: Observable<MatTableDataSourcePageEvent|null|void> = this._paginator ?
-        merge(
+    const sortChange: Observable<Sort | null | void> = this._sort
+      ? (merge(this._sort.sortChange, this._sort.initialized) as Observable<Sort | void>)
+      : observableOf(null);
+    const pageChange: Observable<MatTableDataSourcePageEvent | null | void> = this._paginator
+      ? (merge(
           this._paginator.page,
           this._internalPageChanges,
-          this._paginator.initialized
-        ) as Observable<MatTableDataSourcePageEvent|void> :
-        observableOf(null);
+          this._paginator.initialized,
+        ) as Observable<MatTableDataSourcePageEvent | void>)
+      : observableOf(null);
     const dataStream = this._data;
     // Watch for base data or filter changes to provide a filtered set of data.
-    const filteredData = combineLatest([dataStream, this._filter])
-      .pipe(map(([data]) => this._filterData(data)));
+    const filteredData = combineLatest([dataStream, this._filter]).pipe(
+      map(([data]) => this._filterData(data)),
+    );
     // Watch for filtered data or sort changes to provide an ordered set of data.
-    const orderedData = combineLatest([filteredData, sortChange])
-      .pipe(map(([data]) => this._orderData(data)));
+    const orderedData = combineLatest([filteredData, sortChange]).pipe(
+      map(([data]) => this._orderData(data)),
+    );
     // Watch for ordered data or page changes to provide a paged set of data.
-    const paginatedData = combineLatest([orderedData, pageChange])
-      .pipe(map(([data]) => this._pageData(data)));
+    const paginatedData = combineLatest([orderedData, pageChange]).pipe(
+      map(([data]) => this._pageData(data)),
+    );
     // Watched for paged data changes and send the result to the table to render.
     this._renderChangesSubscription?.unsubscribe();
     this._renderChangesSubscription = paginatedData.subscribe(data => this._renderData.next(data));
@@ -382,10 +404,14 @@ export class _MatTableDataSource<T,
     // If there is a filter string, filter out data that does not contain it.
     // Each data object is converted to a string using the function defined by filterTermAccessor.
     // May be overridden for customization.
-    this.filteredData = (this.filter == null || this.filter === '') ? data :
-        data.filter(obj => this.filterPredicate(obj, this.filter));
+    this.filteredData =
+      this.filter == null || this.filter === ''
+        ? data
+        : data.filter(obj => this.filterPredicate(obj, this.filter));
 
-    if (this.paginator) { this._updatePaginator(this.filteredData.length); }
+    if (this.paginator) {
+      this._updatePaginator(this.filteredData.length);
+    }
 
     return this.filteredData;
   }
@@ -401,7 +427,9 @@ export class _MatTableDataSource<T,
    */
   _orderData(data: T[]): T[] {
     // If there is no active sort or direction, return the data without trying to sort.
-    if (!this.sort) { return data; }
+    if (!this.sort) {
+      return data;
+    }
 
     return this.sortData(data.slice(), this.sort);
   }
@@ -414,7 +442,9 @@ export class _MatTableDataSource<T,
    *
    */
   _pageData(data: T[]): T[] {
-    if (!this.paginator) { return data; }
+    if (!this.paginator) {
+      return data;
+    }
 
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.slice(startIndex, startIndex + this.paginator.pageSize);
@@ -432,7 +462,9 @@ export class _MatTableDataSource<T,
     Promise.resolve().then(() => {
       const paginator = this.paginator;
 
-      if (!paginator) { return; }
+      if (!paginator) {
+        return;
+      }
 
       paginator.length = filteredDataLength;
 

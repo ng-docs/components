@@ -82,9 +82,7 @@ A component can use `@ViewChild` or `@ViewChildren` to get a reference to a
 
 ##### `ComponentPortal`
 
-Used to create a portal from a component type. When a component is dynamically created using
-portals, it must be included in the `entryComponents` of its `NgModule`if your project uses ViewEngine. Projects
-using Angular Ivy don't need `entryComponents`.
+Used to create a portal from a component type.
 
 用于从某个组件类创建传送点。当使用传送点动态创建组件时，如果你的项目使用 ViewEngine，就必须把该组件包含在 `NgModule` 的 `entryComponents` 中。而那些使用 Angular Ivy 的项目不需要 `entryComponents`。
 
@@ -113,7 +111,7 @@ Usage:
 ```
 
 ```ts
-@ViewChild('templatePortalContent') templatePortalContent: TemplateRef<unknow>;
+@ViewChild('templatePortalContent') templatePortalContent: TemplateRef<unknown>;
 
 ngAfterViewInit() {
   this.templatePortal = new TemplatePortal(

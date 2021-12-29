@@ -12,5 +12,5 @@ You can retrieve the path to the file by either running:
 
 你可以运行以下命令来取得该文件的路径：
 
-* `bazel test //src/universal-app:server_test --test_output=all`
-* `echo $(bazel info bazel-bin)/src/universal-app/index-prerendered.html`
+* `bazel run //src/universal-app:server_test --test_output=all`
+* `echo $(bazel info bazel-testlogs)/src/universal-app/server_test/test.outputs/index-prerendered.html`

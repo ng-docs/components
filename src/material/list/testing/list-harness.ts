@@ -17,8 +17,11 @@ import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-
  * 在测试中用来与标准 mat-list 进行交互的测试工具。
  *
  */
-export class MatListHarness extends
-    MatListHarnessBase<typeof MatListItemHarness, MatListItemHarness, ListItemHarnessFilters> {
+export class MatListHarness extends MatListHarnessBase<
+  typeof MatListItemHarness,
+  MatListItemHarness,
+  ListItemHarnessFilters
+> {
   /**
    * The selector for the host element of a `MatList` instance.
    *
@@ -45,7 +48,7 @@ export class MatListHarness extends
     return new HarnessPredicate(MatListHarness, options);
   }
 
-  _itemHarness = MatListItemHarness;
+  override _itemHarness = MatListItemHarness;
 }
 
 /**

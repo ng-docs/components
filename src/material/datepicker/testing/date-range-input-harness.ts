@@ -37,8 +37,7 @@ export class MatStartDateHarness extends MatDatepickerInputHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: DatepickerInputHarnessFilters = {}):
-    HarnessPredicate<MatStartDateHarness> {
+  static with(options: DatepickerInputHarnessFilters = {}): HarnessPredicate<MatStartDateHarness> {
     return getInputPredicate(MatStartDateHarness, options);
   }
 }
@@ -66,8 +65,7 @@ export class MatEndDateHarness extends MatDatepickerInputHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: DatepickerInputHarnessFilters = {}):
-    HarnessPredicate<MatEndDateHarness> {
+  static with(options: DatepickerInputHarnessFilters = {}): HarnessPredicate<MatEndDateHarness> {
     return getInputPredicate(MatEndDateHarness, options);
   }
 }
@@ -95,11 +93,14 @@ export class MatDateRangeInputHarness extends DatepickerTriggerHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: DateRangeInputHarnessFilters = {}):
-    HarnessPredicate<MatDateRangeInputHarness> {
-      return new HarnessPredicate(MatDateRangeInputHarness, options)
-        .addOption('value', options.value,
-            (harness, value) => HarnessPredicate.stringMatches(harness.getValue(), value));
+  static with(
+    options: DateRangeInputHarnessFilters = {},
+  ): HarnessPredicate<MatDateRangeInputHarness> {
+    return new HarnessPredicate(MatDateRangeInputHarness, options).addOption(
+      'value',
+      options.value,
+      (harness, value) => HarnessPredicate.stringMatches(harness.getValue(), value),
+    );
   }
 
   /**
@@ -112,7 +113,7 @@ export class MatDateRangeInputHarness extends DatepickerTriggerHarnessBase {
     const [start, end, separator] = await parallel(() => [
       this.getStartInput().then(input => input.getValue()),
       this.getEndInput().then(input => input.getValue()),
-      this.getSeparator()
+      this.getSeparator(),
     ]);
 
     return start + `${end ? ` ${separator} ${end}` : ''}`;
@@ -160,7 +161,7 @@ export class MatDateRangeInputHarness extends DatepickerTriggerHarnessBase {
     // We consider the input as disabled if both of the sub-inputs are disabled.
     const [startDisabled, endDisabled] = await parallel(() => [
       this.getStartInput().then(input => input.isDisabled()),
-      this.getEndInput().then(input => input.isDisabled())
+      this.getEndInput().then(input => input.isDisabled()),
     ]);
 
     return startDisabled && endDisabled;

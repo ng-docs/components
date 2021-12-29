@@ -6,7 +6,14 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directive, InjectionToken} from '@angular/core';
+import {
+  Directive,
+  Inject,
+  InjectionToken,
+  Optional,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 import {CdkPortal} from '@angular/cdk/portal';
 
 /**
@@ -20,6 +27,12 @@ import {CdkPortal} from '@angular/cdk/portal';
 export const MAT_TAB_LABEL = new InjectionToken<MatTabLabel>('MatTabLabel');
 
 /**
+ * Used to provide a tab label to a tab without causing a circular dependency.
+ * @docs-private
+ */
+export const MAT_TAB = new InjectionToken<any>('MAT_TAB');
+
+/**
  * Used to flag tab labels for use with the portal directive
  *
  * 标出选项卡标签，以供传送点指令使用
@@ -29,4 +42,12 @@ export const MAT_TAB_LABEL = new InjectionToken<MatTabLabel>('MatTabLabel');
   selector: '[mat-tab-label], [matTabLabel]',
   providers: [{provide: MAT_TAB_LABEL, useExisting: MatTabLabel}],
 })
-export class MatTabLabel extends CdkPortal {}
+export class MatTabLabel extends CdkPortal {
+  constructor(
+    templateRef: TemplateRef<any>,
+    viewContainerRef: ViewContainerRef,
+    @Inject(MAT_TAB) @Optional() public _closestTab: any,
+  ) {
+    super(templateRef, viewContainerRef);
+  }
+}

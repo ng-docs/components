@@ -73,7 +73,7 @@ let nextId = 0;
  * 文档中所有已注册消息元素的全局映射。
  *
  */
-const messageRegistry = new Map<string|Element, RegisteredMessage>();
+const messageRegistry = new Map<string | Element, RegisteredMessage>();
 
 /**
  * Container for all registered messages.
@@ -95,8 +95,7 @@ let messagesContainer: HTMLElement | null = null;
 export class AriaDescriber implements OnDestroy {
   private _document: Document;
 
-  constructor(
-    @Inject(DOCUMENT) _document: any) {
+  constructor(@Inject(DOCUMENT) _document: any) {
     this._document = _document;
   }
 
@@ -118,7 +117,7 @@ export class AriaDescriber implements OnDestroy {
    */
   describe(hostElement: Element, message: HTMLElement): void;
 
-  describe(hostElement: Element, message: string|HTMLElement, role?: string): void {
+  describe(hostElement: Element, message: string | HTMLElement, role?: string): void {
     if (!this._canBeDescribed(hostElement, message)) {
       return;
     }
@@ -154,7 +153,7 @@ export class AriaDescriber implements OnDestroy {
    */
   removeDescription(hostElement: Element, message: HTMLElement): void;
 
-  removeDescription(hostElement: Element, message: string|HTMLElement, role?: string): void {
+  removeDescription(hostElement: Element, message: string | HTMLElement, role?: string): void {
     if (!message || !this._isElementNode(hostElement)) {
       return;
     }
@@ -186,8 +185,9 @@ export class AriaDescriber implements OnDestroy {
    *
    */
   ngOnDestroy() {
-    const describedElements =
-        this._document.querySelectorAll(`[${CDK_DESCRIBEDBY_HOST_ATTRIBUTE}]`);
+    const describedElements = this._document.querySelectorAll(
+      `[${CDK_DESCRIBEDBY_HOST_ATTRIBUTE}]`,
+    );
 
     for (let i = 0; i < describedElements.length; i++) {
       this._removeCdkDescribedByReferenceIds(describedElements[i]);
@@ -228,12 +228,9 @@ export class AriaDescriber implements OnDestroy {
    * 从全局消息容器中删除消息元素。
    *
    */
-  private _deleteMessageElement(key: string|Element) {
+  private _deleteMessageElement(key: string | Element) {
     const registeredMessage = messageRegistry.get(key);
-    const messageElement = registeredMessage && registeredMessage.messageElement;
-    if (messagesContainer && messageElement) {
-      messagesContainer.removeChild(messageElement);
-    }
+    registeredMessage?.messageElement?.remove();
     messageRegistry.delete(key);
   }
 
@@ -251,9 +248,7 @@ export class AriaDescriber implements OnDestroy {
       // already a container on the page, but we don't have a reference to it. Clear the
       // old container so we don't get duplicates. Doing this, instead of emptying the previous
       // container, should be slightly faster.
-      if (preExistingContainer && preExistingContainer.parentNode) {
-        preExistingContainer.parentNode.removeChild(preExistingContainer);
-      }
+      preExistingContainer?.remove();
 
       messagesContainer = this._document.createElement('div');
       messagesContainer.id = MESSAGES_CONTAINER_ID;
@@ -277,8 +272,8 @@ export class AriaDescriber implements OnDestroy {
    *
    */
   private _deleteMessagesContainer() {
-    if (messagesContainer && messagesContainer.parentNode) {
-      messagesContainer.parentNode.removeChild(messagesContainer);
+    if (messagesContainer) {
+      messagesContainer.remove();
       messagesContainer = null;
     }
   }
@@ -291,8 +286,9 @@ export class AriaDescriber implements OnDestroy {
    */
   private _removeCdkDescribedByReferenceIds(element: Element) {
     // Remove all aria-describedby reference IDs that are prefixed by CDK_DESCRIBEDBY_ID_PREFIX
-    const originalReferenceIds = getAriaReferenceIds(element, 'aria-describedby')
-        .filter(id => id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) != 0);
+    const originalReferenceIds = getAriaReferenceIds(element, 'aria-describedby').filter(
+      id => id.indexOf(CDK_DESCRIBEDBY_ID_PREFIX) != 0,
+    );
     element.setAttribute('aria-describedby', originalReferenceIds.join(' '));
   }
 
@@ -303,7 +299,7 @@ export class AriaDescriber implements OnDestroy {
    * 把一个消息添加到由 aria-describedby 引用的元素，并递增已注册消息的引用计数。
    *
    */
-  private _addMessageReference(element: Element, key: string|Element) {
+  private _addMessageReference(element: Element, key: string | Element) {
     const registeredMessage = messageRegistry.get(key)!;
 
     // Add the aria-describedby reference and set the
@@ -320,7 +316,7 @@ export class AriaDescriber implements OnDestroy {
    * 把一个消息从由 aria-describedby 引用的元素中删除，并递减已注册消息的引用计数。
    *
    */
-  private _removeMessageReference(element: Element, key: string|Element) {
+  private _removeMessageReference(element: Element, key: string | Element) {
     const registeredMessage = messageRegistry.get(key)!;
     registeredMessage.referenceCount--;
 
@@ -334,7 +330,7 @@ export class AriaDescriber implements OnDestroy {
    * 如果元素已由提供的消息 ID 描述（described），则返回 true。
    *
    */
-  private _isElementDescribedByMessage(element: Element, key: string|Element): boolean {
+  private _isElementDescribedByMessage(element: Element, key: string | Element): boolean {
     const referenceIds = getAriaReferenceIds(element, 'aria-describedby');
     const registeredMessage = messageRegistry.get(key);
     const messageId = registeredMessage && registeredMessage.messageElement.id;
@@ -348,7 +344,7 @@ export class AriaDescriber implements OnDestroy {
    * 确定是否可以在特定元素上描述消息。
    *
    */
-  private _canBeDescribed(element: Element, message: string|HTMLElement|void): boolean {
+  private _canBeDescribed(element: Element, message: string | HTMLElement | void): boolean {
     if (!this._isElementNode(element)) {
       return false;
     }
@@ -365,7 +361,7 @@ export class AriaDescriber implements OnDestroy {
 
     // We shouldn't set descriptions if they're exactly the same as the `aria-label` of the
     // element, because screen readers will end up reading out the same text twice in a row.
-    return trimmedMessage ? (!ariaLabel || ariaLabel.trim() !== trimmedMessage) : false;
+    return trimmedMessage ? !ariaLabel || ariaLabel.trim() !== trimmedMessage : false;
   }
 
   /**
@@ -385,7 +381,7 @@ export class AriaDescriber implements OnDestroy {
  * 获取可用于在注册表中查找消息的键。
  *
  */
-function getKey(message: string|Element, role?: string): string|Element {
+function getKey(message: string | Element, role?: string): string | Element {
   return typeof message === 'string' ? `${role || ''}/${message}` : message;
 }
 

@@ -14,5 +14,4 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
  * 一组可用于过滤 `MatPaginatorHarness` 实例列表的条件。
  *
  */
-export interface PaginatorHarnessFilters extends BaseHarnessFilters {
-}
+export interface PaginatorHarnessFilters extends BaseHarnessFilters {}

@@ -2,7 +2,9 @@
 
 # Angular Material 入门指南
 
-This guide explains how to set up your Angular project to begin using Angular Material. It includes information on prerequisites, installing Angular Material, and optionally displaying a sample material component in your application to verify your setup.
+This guide explains how to set up your Angular project to begin using Angular Material. It includes
+information on prerequisites, installing Angular Material, and optionally displaying a sample
+Material component in your application to verify your setup.
 
 本指南讲解了如何设置 Angular 项目以开始使用 Angular Material。它包含有关先决条件的信息、如何安装 Angular Material，以及在应用中显示一个 Material 范例组件，以验证你的设置。
 
@@ -10,7 +12,9 @@ This guide explains how to set up your Angular project to begin using Angular Ma
 
 *Angular 资源*
 
-If you are new to Angular or getting started with a new Angular application, see [Angular's full Getting Started Guide](https://angular.io/start) and [Setting up your environment](https://angular.io/guide/setup-local).
+If you are new to Angular or getting started with a new Angular application, see
+[Angular's full Getting Started Guide](https://angular.io/start) and
+[Setting up your environment](https://angular.io/guide/setup-local).
 
 如果你是 Angular 新手，或从一个新的 Angular 应用开始，参见 [Angular 的完整入门指南](https://angular.cn/start)和[设置你的环境](https://angular.cn/guide/setup-local)。
 
@@ -22,7 +26,8 @@ For existing applications, follow the steps below to begin using Angular Materia
 
 ## 安装 Angular Material
 
-Use the Angular CLI's installation [schematic](https://material.angular.io/guide/schematics) to set up your Angular Material project by running the following command:
+Use the Angular CLI's installation [schematic](https://material.angular.io/guide/schematics) to set
+up your Angular Material project by running the following command:
 
 使用 Angular CLI 的安装[原理图](https://material.angular.cn/guide/schematics)通过运行以下命令来设置你的 Angular Material 项目：
 
@@ -30,7 +35,10 @@ Use the Angular CLI's installation [schematic](https://material.angular.io/guide
 ng add @angular/material
 ```
 
-The `ng add` command will install Angular Material, the [Component Dev Kit (CDK)](https://material.angular.io/cdk/categories), [Angular Animations](https://angular.io/guide/animations) and ask you the following questions to determine which features to include:
+The `ng add` command will install Angular Material, the
+[Component Dev Kit (CDK)](https://material.angular.io/cdk/categories),
+[Angular Animations](https://angular.io/guide/animations) and ask you the following questions to
+determine which features to include:
 
 该 `ng add` 命令将安装 Angular Material、[组件开发工具包（CDK）](https://material.angular.cn/cdk/categories)、[Angular 动画](https://angular.cn/guide/animations)，并询问下列问题，以确定要包括哪些功能：
 
@@ -58,7 +66,7 @@ The `ng add` command will install Angular Material, the [Component Dev Kit (CDK)
 
    把 [`BrowserAnimationsModule`](https://angular.cn/api/platform-browser/animations/BrowserAnimationsModule)导入到应用中，可以启用 Angular 的[动画体系](https://angular.cn/guide/animations)。拒绝它会使 Angular Material 中的动画失效。
 
-The `ng add` command will additionally perform the following configurations:
+The `ng add` command will additionally perform the following actions:
 
 `ng add` 命令还将执行以下配置：
 
@@ -102,18 +110,20 @@ Let's display a slider component in your app and verify that everything works.
 
 让我们在应用中显示一个滑块组件，来验证一切正常。
 
-You need to import the `MatSliderModule` that you want to display by adding the following lines to your app.module.ts file.
+You need to import the `MatSliderModule` that you want to display by adding the following lines to
+your `app.module.ts` file.
 
 你需要通过把以下代码添加到 app.module.ts 文件中来导入 `MatSliderModule`。
 
 ```ts
 import { MatSliderModule } from '@angular/material/slider';
-…
-@NgModule ({....
-  imports: [...,
-  MatSliderModule,
-…]
+
+@NgModule ({
+  imports: [
+    MatSliderModule,
+  ]
 })
+class AppModule {}
 ```
 
 Add the `<mat-slider>` tag to the `app.component.html` like so:
@@ -121,7 +131,7 @@ Add the `<mat-slider>` tag to the `app.component.html` like so:
 把 `<mat-slider>` 标签添加到 `app.component.html`，就像这样：
 
 ```html
-<mat-slider min="1" max="100" step="1" value="1"></mat-slider>
+<mat-slider min="1" max="100" step="1" value="50"></mat-slider>
 ```
 
 Run your local dev server:
@@ -136,10 +146,12 @@ Then point your browser to [http://localhost:4200](http://localhost:4200)
 
 让浏览器访问 [http://localhost:4200](http://localhost:4200)
 
-You should see the material slider component on the page.
+You should see the Material slider component on the page.
 
 你会在页面上看到这个 Material 滑块组件。
 
-In addition to the installation schematic, Angular Material comes with [several schematics](https://material.angular.io/guide/schematics) (like nav, table, address-form, etc.) that can be used to easily generate pre-built components in your application.
+In addition to the installation schematic, Angular Material comes with
+[several other schematics](https://material.angular.io/guide/schematics) (like nav, table,
+address-form, etc.) that can be used to easily generate pre-built components in your application.
 
 除了安装原理图之外，Angular Material 还带有[另外一些原理图](https://material.angular.cn/guide/schematics)（如导航、表格、地址表单等），可用于方便地在应用中生成预置的组件。

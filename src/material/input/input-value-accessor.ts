@@ -17,5 +17,6 @@ import {InjectionToken} from '@angular/core';
  * 这个令牌用于注入那些应该把值设置进 `MatInput` 的对象。如果没有提供，就会使用原生 `HTMLInputElement`。像 `MatDatepickerInput` 这样的指令可以为此令牌提供自己的能力，以便让 `MatInput` 委托对它们进行获取和设置。
  *
  */
-export const MAT_INPUT_VALUE_ACCESSOR =
-    new InjectionToken<{value: any}>('MAT_INPUT_VALUE_ACCESSOR');
+export const MAT_INPUT_VALUE_ACCESSOR = new InjectionToken<{value: any}>(
+  'MAT_INPUT_VALUE_ACCESSOR',
+);

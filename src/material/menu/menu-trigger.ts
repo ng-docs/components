@@ -20,8 +20,8 @@ import {
   Overlay,
   OverlayConfig,
   OverlayRef,
-  VerticalConnectionPos,
   ScrollStrategy,
+  VerticalConnectionPos,
 } from '@angular/cdk/overlay';
 import {TemplatePortal} from '@angular/cdk/portal';
 import {
@@ -41,10 +41,10 @@ import {
 import {normalizePassiveListenerOptions} from '@angular/cdk/platform';
 import {asapScheduler, merge, Observable, of as observableOf, Subscription} from 'rxjs';
 import {delay, filter, take, takeUntil} from 'rxjs/operators';
-import {MenuCloseReason, _MatMenuBase} from './menu';
+import {_MatMenuBase, MenuCloseReason} from './menu';
 import {throwMatMenuMissingError, throwMatMenuRecursiveError} from './menu-errors';
 import {MatMenuItem} from './menu-item';
-import {MatMenuPanel, MAT_MENU_PANEL} from './menu-panel';
+import {MAT_MENU_PANEL, MatMenuPanel} from './menu-panel';
 import {MenuPositionX, MenuPositionY} from './menu-positions';
 
 /**
@@ -53,8 +53,9 @@ import {MenuPositionX, MenuPositionY} from './menu-positions';
  * 当注册菜单打开时，它确定滚动处理的注入令牌。
  *
  */
-export const MAT_MENU_SCROLL_STRATEGY =
-    new InjectionToken<() => ScrollStrategy>('mat-menu-scroll-strategy');
+export const MAT_MENU_SCROLL_STRATEGY = new InjectionToken<() => ScrollStrategy>(
+  'mat-menu-scroll-strategy',
+);
 
 /** @docs-private */
 export function MAT_MENU_SCROLL_STRATEGY_FACTORY(overlay: Overlay): () => ScrollStrategy {
@@ -86,26 +87,17 @@ const passiveEventListenerOptions = normalizePassiveListenerOptions({passive: tr
 
 // TODO(andrewseguin): Remove the kebab versions in favor of camelCased attribute selectors
 
-/**
- * Directive applied to an element that should trigger a `mat-menu`.
- *
- * Directive（Directive）应用于一个触发 `mat-menu` 的元素。
- *
- */
 @Directive({
-  selector: `[mat-menu-trigger-for], [matMenuTriggerFor]`,
   host: {
-    'class': 'mat-menu-trigger',
     'aria-haspopup': 'true',
     '[attr.aria-expanded]': 'menuOpen || null',
     '[attr.aria-controls]': 'menuOpen ? menu.panelId : null',
+    '(click)': '_handleClick($event)',
     '(mousedown)': '_handleMousedown($event)',
     '(keydown)': '_handleKeydown($event)',
-    '(click)': '_handleClick($event)',
   },
-  exportAs: 'matMenuTrigger'
 })
-export class MatMenuTrigger implements AfterContentInit, OnDestroy {
+export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy {
   private _portal: TemplatePortal;
   private _overlayRef: OverlayRef | null = null;
   private _menuOpen: boolean = false;
@@ -134,7 +126,7 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     if (!isFakeTouchstartFromScreenReader(event)) {
       this._openedBy = 'touch';
     }
-  }
+  };
 
   // Tracking input type is necessary so it's possible to only auto-focus
   // the first item of the list when the menu is opened via the keyboard
@@ -146,7 +138,9 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
    * @breaking-change 8.0.0
    */
   @Input('mat-menu-trigger-for')
-  get _deprecatedMatMenuTriggerFor(): MatMenuPanel { return this.menu; }
+  get _deprecatedMatMenuTriggerFor(): MatMenuPanel {
+    return this.menu;
+  }
   set _deprecatedMatMenuTriggerFor(v: MatMenuPanel) {
     this.menu = v;
   }
@@ -158,7 +152,9 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
    *
    */
   @Input('matMenuTriggerFor')
-  get menu() { return this._menu; }
+  get menu() {
+    return this._menu;
+  }
   set menu(menu: MatMenuPanel) {
     if (menu === this._menu) {
       return;
@@ -244,23 +240,28 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
   // tslint:disable-next-line:no-output-on-prefix
   @Output() readonly onMenuClose: EventEmitter<void> = this.menuClosed;
 
-  constructor(private _overlay: Overlay,
-              private _element: ElementRef<HTMLElement>,
-              private _viewContainerRef: ViewContainerRef,
-              @Inject(MAT_MENU_SCROLL_STRATEGY) scrollStrategy: any,
-              @Inject(MAT_MENU_PANEL) @Optional() parentMenu: MatMenuPanel,
-              // `MatMenuTrigger` is commonly used in combination with a `MatMenuItem`.
-              // tslint:disable-next-line: lightweight-tokens
-              @Optional() @Self() private _menuItemInstance: MatMenuItem,
-              @Optional() private _dir: Directionality,
-              // TODO(crisbeto): make the _focusMonitor required when doing breaking changes.
-              // @breaking-change 8.0.0
-              private _focusMonitor?: FocusMonitor) {
+  constructor(
+    private _overlay: Overlay,
+    private _element: ElementRef<HTMLElement>,
+    private _viewContainerRef: ViewContainerRef,
+    @Inject(MAT_MENU_SCROLL_STRATEGY) scrollStrategy: any,
+    @Inject(MAT_MENU_PANEL) @Optional() parentMenu: MatMenuPanel,
+    // `MatMenuTrigger` is commonly used in combination with a `MatMenuItem`.
+    // tslint:disable-next-line: lightweight-tokens
+    @Optional() @Self() private _menuItemInstance: MatMenuItem,
+    @Optional() private _dir: Directionality,
+    // TODO(crisbeto): make the _focusMonitor required when doing breaking changes.
+    // @breaking-change 8.0.0
+    private _focusMonitor?: FocusMonitor,
+  ) {
     this._scrollStrategy = scrollStrategy;
     this._parentMaterialMenu = parentMenu instanceof _MatMenuBase ? parentMenu : undefined;
 
-    _element.nativeElement.addEventListener('touchstart', this._handleTouchStart,
-        passiveEventListenerOptions);
+    _element.nativeElement.addEventListener(
+      'touchstart',
+      this._handleTouchStart,
+      passiveEventListenerOptions,
+    );
 
     if (_menuItemInstance) {
       _menuItemInstance._triggersSubmenu = this.triggersSubmenu();
@@ -278,8 +279,11 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
       this._overlayRef = null;
     }
 
-    this._element.nativeElement.removeEventListener('touchstart', this._handleTouchStart,
-        passiveEventListenerOptions);
+    this._element.nativeElement.removeEventListener(
+      'touchstart',
+      this._handleTouchStart,
+      passiveEventListenerOptions,
+    );
 
     this._menuCloseSubscription.unsubscribe();
     this._closingActionsSubscription.unsubscribe();
@@ -343,8 +347,8 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     const overlayConfig = overlayRef.getConfig();
 
     this._setPosition(overlayConfig.positionStrategy as FlexibleConnectedPositionStrategy);
-    overlayConfig.hasBackdrop = this.menu.hasBackdrop == null ? !this.triggersSubmenu() :
-        this.menu.hasBackdrop;
+    overlayConfig.hasBackdrop =
+      this.menu.hasBackdrop == null ? !this.triggersSubmenu() : this.menu.hasBackdrop;
     overlayRef.attach(this._getPortal());
 
     if (this.menu.lazyContent) {
@@ -432,12 +436,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
             filter(event => event.toState === 'void'),
             take(1),
             // Interrupt if the content got re-attached.
-            takeUntil(menu.lazyContent._attached)
+            takeUntil(menu.lazyContent._attached),
           )
           .subscribe({
             next: () => menu.lazyContent!.detach(),
             // No matter whether the content got re-attached, reset the menu.
-            complete: () => this._setIsMenuOpen(false)
+            complete: () => this._setIsMenuOpen(false),
           });
       } else {
         this._setIsMenuOpen(false);
@@ -492,7 +496,7 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     this._menuOpen ? this.menuOpened.emit() : this.menuClosed.emit();
 
     if (this.triggersSubmenu()) {
-      this._menuItemInstance._highlighted = isOpen;
+      this._menuItemInstance._setHighlighted(isOpen);
     }
   }
 
@@ -540,15 +544,16 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
    */
   private _getOverlayConfig(): OverlayConfig {
     return new OverlayConfig({
-      positionStrategy: this._overlay.position()
-          .flexibleConnectedTo(this._element)
-          .withLockedPosition()
-          .withGrowAfterOpen()
-          .withTransformOriginOn('.mat-menu-panel, .mat-mdc-menu-panel'),
+      positionStrategy: this._overlay
+        .position()
+        .flexibleConnectedTo(this._element)
+        .withLockedPosition()
+        .withGrowAfterOpen()
+        .withTransformOriginOn('.mat-menu-panel, .mat-mdc-menu-panel'),
       backdropClass: this.menu.backdropClass || 'cdk-overlay-transparent-backdrop',
       panelClass: this.menu.overlayPanelClass,
       scrollStrategy: this._scrollStrategy(),
-      direction: this._dir
+      direction: this._dir,
     });
   }
 
@@ -584,10 +589,10 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
    */
   private _setPosition(positionStrategy: FlexibleConnectedPositionStrategy) {
     let [originX, originFallbackX]: HorizontalConnectionPos[] =
-        this.menu.xPosition === 'before' ? ['end', 'start'] : ['start', 'end'];
+      this.menu.xPosition === 'before' ? ['end', 'start'] : ['start', 'end'];
 
     let [overlayY, overlayFallbackY]: VerticalConnectionPos[] =
-        this.menu.yPosition === 'above' ? ['bottom', 'top'] : ['top', 'bottom'];
+      this.menu.yPosition === 'above' ? ['bottom', 'top'] : ['top', 'bottom'];
 
     let [originY, originFallbackY] = [overlayY, overlayFallbackY];
     let [overlayX, overlayFallbackX] = [originX, originFallbackX];
@@ -612,15 +617,15 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
         originY: originFallbackY,
         overlayX,
         overlayY: overlayFallbackY,
-        offsetY: -offsetY
+        offsetY: -offsetY,
       },
       {
         originX: originFallbackX,
         originY: originFallbackY,
         overlayX: overlayFallbackX,
         overlayY: overlayFallbackY,
-        offsetY: -offsetY
-      }
+        offsetY: -offsetY,
+      },
     ]);
   }
 
@@ -634,10 +639,12 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
     const backdrop = this._overlayRef!.backdropClick();
     const detachments = this._overlayRef!.detachments();
     const parentClose = this._parentMaterialMenu ? this._parentMaterialMenu.closed : observableOf();
-    const hover = this._parentMaterialMenu ? this._parentMaterialMenu._hovered().pipe(
-      filter(active => active !== this._menuItemInstance),
-      filter(() => this._menuOpen)
-    ) : observableOf();
+    const hover = this._parentMaterialMenu
+      ? this._parentMaterialMenu._hovered().pipe(
+          filter(active => active !== this._menuItemInstance),
+          filter(() => this._menuOpen),
+        )
+      : observableOf();
 
     return merge(backdrop, parentClose as Observable<MenuCloseReason>, hover, detachments);
   }
@@ -677,9 +684,11 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
       this._openedBy = 'keyboard';
     }
 
-    if (this.triggersSubmenu() && (
-            (keyCode === RIGHT_ARROW && this.dir === 'ltr') ||
-            (keyCode === LEFT_ARROW && this.dir === 'rtl'))) {
+    if (
+      this.triggersSubmenu() &&
+      ((keyCode === RIGHT_ARROW && this.dir === 'ltr') ||
+        (keyCode === LEFT_ARROW && this.dir === 'rtl'))
+    ) {
       this._openedBy = 'keyboard';
       this.openMenu();
     }
@@ -713,13 +722,14 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
       return;
     }
 
-    this._hoverSubscription = this._parentMaterialMenu._hovered()
+    this._hoverSubscription = this._parentMaterialMenu
+      ._hovered()
       // Since we might have multiple competing triggers for the same menu (e.g. a sub-menu
       // with different data and triggers), we have to delay it by a tick to ensure that
       // it won't be closed immediately after it is opened.
       .pipe(
         filter(active => active === this._menuItemInstance && !active.disabled),
-        delay(0, asapScheduler)
+        delay(0, asapScheduler),
       )
       .subscribe(() => {
         this._openedBy = 'mouse';
@@ -755,5 +765,14 @@ export class MatMenuTrigger implements AfterContentInit, OnDestroy {
 
     return this._portal;
   }
-
 }
+
+/** Directive applied to an element that should trigger a `mat-menu`. */
+@Directive({
+  selector: `[mat-menu-trigger-for], [matMenuTriggerFor]`,
+  host: {
+    'class': 'mat-menu-trigger',
+  },
+  exportAs: 'matMenuTrigger',
+})
+export class MatMenuTrigger extends _MatMenuTriggerBase {}

@@ -15,7 +15,9 @@ import {ThemePalette} from '@angular/material/core';
  *
  */
 export interface MatCheckboxDefaultOptions {
+  /** Default theme color palette to be used for checkboxes. */
   color?: ThemePalette;
+  /** Default checkbox click action for checkboxes. */
   clickAction?: MatCheckboxClickAction;
 }
 
@@ -25,11 +27,13 @@ export interface MatCheckboxDefaultOptions {
  * 这个注入令牌用来改写 `mat-checkbox` 的默认选项。
  *
  */
-export const MAT_CHECKBOX_DEFAULT_OPTIONS =
-    new InjectionToken<MatCheckboxDefaultOptions>('mat-checkbox-default-options', {
-      providedIn: 'root',
-      factory: MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY
-    });
+export const MAT_CHECKBOX_DEFAULT_OPTIONS = new InjectionToken<MatCheckboxDefaultOptions>(
+  'mat-checkbox-default-options',
+  {
+    providedIn: 'root',
+    factory: MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY,
+  },
+);
 
 /** @docs-private */
 export function MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY(): MatCheckboxDefaultOptions {

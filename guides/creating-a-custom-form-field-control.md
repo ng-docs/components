@@ -237,25 +237,35 @@ For additional information about `ControlValueAccessor` see the [API docs](https
 
 #### `focused`
 
-This property indicates whether the form field control should be considered to be in a focused state. When it is in a focused state, the form field is displayed with a solid color underline. For the purposes of our component, we want to consider it focused if any of the part inputs are focused. We can use the `FocusMonitor` from `@angular/cdk` to easily check this. We also need to remember to emit on the `stateChanges` stream so change detection can happen.
+This property indicates whether the form field control should be considered to be in a
+focused state. When it is in a focused state, the form field is displayed with a solid color
+underline. For the purposes of our component, we want to consider it focused if any of the part
+inputs are focused. We can use the `focusin` and `focusout` events to easily check this. We also
+need to remember to emit on the `stateChanges` when the focused stated changes stream so change
+detection can happen.
 
-该属性表示该表单字段控件是否要被视为有焦点状态。当处于有焦点状态时，表单字段会显示一个实下划线。 对于这个组件，我们希望当其中的任何一个输入框拥有焦点时，我们就认为该组件拥有焦点。我们可以使用来自 `@angular/cdk` 中的
-`FocusMonitor` 来轻松地检查它。另外，别忘了在 `stateChanges` 流上发出事件，以便触发变更检测。
+该属性表示该表单字段控件是否要被视为有焦点状态。当处于有焦点状态时，表单字段会显示一个实下划线。 对于这个组件，我们希望当其中的任何一个输入框拥有焦点时，我们就认为该组件拥有焦点。我们可以使用 `focusin` 和 `focusout` 事件来轻松地检查它。另外，当焦点状态发生变化时，别忘了在 `stateChanges` 流上发出事件，以便触发变更检测。
+
+In addition to updating the focused state, we use the `focusin` and `focusout` methods to update the
+internal touched state of our component, which we'll use to determine the error state.
 
 ```ts
 focused = false;
 
-constructor(fb: FormBuilder, private fm: FocusMonitor, private elRef: ElementRef<HTMLElement>) {
-...
-    fm.monitor(elRef, true).subscribe(origin => {
-        this.focused = !!origin;
+onFocusIn(event: FocusEvent) {
+if (!this.focused) {
+        this.focused = true;
         this.stateChanges.next();
-    });
+    }
 }
 
-ngOnDestroy() {
-...
-    this.fm.stopMonitoring(this.elRef);
+onFocusOut(event: FocusEvent) {
+  if (!this._elementRef.nativeElement.contains(event.relatedTarget as Element)) {
+this.touched = true;
+    this.focused = false;
+    this.onTouched();
+    this.stateChanges.next();
+  }
 }
 ```
 
@@ -331,12 +341,15 @@ private _disabled = false;
 
 #### `errorState`
 
-This property indicates whether the associated `NgControl` is in an error state. Since we're not using an `NgControl` in this example, we don't need to do anything other than just set it to `false`.
+This property indicates whether the associated `NgControl` is in an error state. In this example,
+we show an error if the input is invalid and our component has been touched.
 
 该属性表示相关的 `NgControl` 是否处于错误状态。由于我们这个例子中没有用到 `NgControl`，所以只要把它设置为 `false` 就行了。
 
 ```ts
-errorState = false;
+get errorState(): boolean {
+  return this.parts.invalid && this.touched;
+}
 ```
 
 #### `controlType`

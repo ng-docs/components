@@ -20,9 +20,7 @@ export interface CanDisableRipple {
   disableRipple: boolean;
 }
 
-/** @docs-private */
-export type CanDisableRippleCtor = Constructor<CanDisableRipple> &
-                                   AbstractConstructor<CanDisableRipple>;
+type CanDisableRippleCtor = Constructor<CanDisableRipple> & AbstractConstructor<CanDisableRipple>;
 
 /**
  * Mixin to augment a directive with a `disableRipple` property.
@@ -30,8 +28,9 @@ export type CanDisableRippleCtor = Constructor<CanDisableRipple> &
  * 混入 `disableRipple` 属性，以扩展指令。
  *
  */
-export function mixinDisableRipple<T extends AbstractConstructor<{}>>(base: T):
-  CanDisableRippleCtor & T;
+export function mixinDisableRipple<T extends AbstractConstructor<{}>>(
+  base: T,
+): CanDisableRippleCtor & T;
 export function mixinDisableRipple<T extends Constructor<{}>>(base: T): CanDisableRippleCtor & T {
   return class extends base {
     private _disableRipple: boolean = false;
@@ -42,9 +41,15 @@ export function mixinDisableRipple<T extends Constructor<{}>>(base: T): CanDisab
      * 是否禁用涟漪效果。
      *
      */
-    get disableRipple() { return this._disableRipple; }
-    set disableRipple(value: any) { this._disableRipple = coerceBooleanProperty(value); }
+    get disableRipple(): boolean {
+      return this._disableRipple;
+    }
+    set disableRipple(value: any) {
+      this._disableRipple = coerceBooleanProperty(value);
+    }
 
-    constructor(...args: any[]) { super(...args); }
+    constructor(...args: any[]) {
+      super(...args);
+    }
   };
 }

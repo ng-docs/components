@@ -11,7 +11,7 @@ import {
   Component,
   Directive,
   OnInit,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   CDK_TABLE_TEMPLATE,
@@ -24,7 +24,7 @@ import {
 import {
   _DisposeViewRepeaterStrategy,
   _RecycleViewRepeaterStrategy,
-  _VIEW_REPEATER_STRATEGY
+  _VIEW_REPEATER_STRATEGY,
 } from '@angular/cdk/collections';
 
 /**
@@ -33,9 +33,7 @@ import {
  */
 @Directive({
   selector: 'mat-table[recycleRows], table[mat-table][recycleRows]',
-  providers: [
-    {provide: _VIEW_REPEATER_STRATEGY, useClass: _RecycleViewRepeaterStrategy},
-  ],
+  providers: [{provide: _VIEW_REPEATER_STRATEGY, useClass: _RecycleViewRepeaterStrategy}],
 })
 export class MatRecycleRows {}
 
@@ -65,12 +63,12 @@ export class MatRecycleRows {}
 })
 export class MatTable<T> extends CdkTable<T> implements OnInit {
   /** Overrides the sticky CSS class set by the `CdkTable`. */
-  protected stickyCssClass = 'mat-mdc-table-sticky';
+  protected override stickyCssClass = 'mat-mdc-table-sticky';
 
   /** Overrides the need to add position: sticky on every sticky cell element in `CdkTable`. */
-  protected needsPositionStickyOnElement = false;
+  protected override needsPositionStickyOnElement = false;
 
-  ngOnInit() {
+  override ngOnInit() {
     super.ngOnInit();
 
     // After ngOnInit, the `CdkTable` has created and inserted the table sections (thead, tbody,

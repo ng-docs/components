@@ -33,7 +33,7 @@ export class MatDrawerHarnessBase extends ContentContainerComponentHarness<strin
    * 获取此抽屉在其容器内的位置。
    *
    */
-  async getPosition(): Promise<'start'|'end'> {
+  async getPosition(): Promise<'start' | 'end'> {
     const host = await this.host();
     return (await host.hasClass('mat-drawer-end')) ? 'end' : 'start';
   }
@@ -44,7 +44,7 @@ export class MatDrawerHarnessBase extends ContentContainerComponentHarness<strin
    * 获取此抽屉所在的模式。
    *
    */
-  async getMode(): Promise<'over'|'push'|'side'> {
+  async getMode(): Promise<'over' | 'push' | 'side'> {
     const host = await this.host();
 
     if (await host.hasClass('mat-drawer-push')) {
@@ -89,8 +89,10 @@ export class MatDrawerHarness extends MatDrawerHarnessBase {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: DrawerHarnessFilters = {}): HarnessPredicate<MatDrawerHarness> {
-    return new HarnessPredicate(MatDrawerHarness, options)
-        .addOption('position', options.position,
-            async (harness, position) => (await harness.getPosition()) === position);
+    return new HarnessPredicate(MatDrawerHarness, options).addOption(
+      'position',
+      options.position,
+      async (harness, position) => (await harness.getPosition()) === position,
+    );
   }
 }

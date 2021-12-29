@@ -16,8 +16,9 @@ import {DateRange} from './date-selection-model';
  * 用于自定义选择日期范围的行为的注入令牌。
  *
  */
-export const MAT_DATE_RANGE_SELECTION_STRATEGY =
-    new InjectionToken<MatDateRangeSelectionStrategy<any>>('MAT_DATE_RANGE_SELECTION_STRATEGY');
+export const MAT_DATE_RANGE_SELECTION_STRATEGY = new InjectionToken<
+  MatDateRangeSelectionStrategy<any>
+>('MAT_DATE_RANGE_SELECTION_STRATEGY');
 
 /**
  * Object that can be provided in order to customize the date range selection behavior.
@@ -111,7 +112,9 @@ export class DefaultMatCalendarRangeStrategy<D> implements MatDateRangeSelection
 
 /** @docs-private */
 export function MAT_CALENDAR_RANGE_STRATEGY_PROVIDER_FACTORY(
-  parent: MatDateRangeSelectionStrategy<unknown>, adapter: DateAdapter<unknown>) {
+  parent: MatDateRangeSelectionStrategy<unknown>,
+  adapter: DateAdapter<unknown>,
+) {
   return parent || new DefaultMatCalendarRangeStrategy(adapter);
 }
 

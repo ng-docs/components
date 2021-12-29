@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '../style/menu-common';
 @use '../style/vendor-prefixes';
 @use '../style/layout-common';
@@ -77,7 +78,7 @@
 }
 
 .mat-option-pseudo-checkbox {
-  $margin: menu-common.$side-padding / 2;
+  $margin: math.div(menu-common.$side-padding, 2);
   margin-right: $margin;
 
   [dir='rtl'] & {

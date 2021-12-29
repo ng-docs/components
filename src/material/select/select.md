@@ -22,8 +22,8 @@ form-field](https://material.angular.io/components/form-field) for more informat
 Angular Material 还支持在 `<mat-form-field>` 中使用原生的 `<select>` 元素。
 这种原生控件在性能、无障碍性、可用性等方面具有一系列优点。参见 [form-field 的文档](https://material.angular.cn/components/form-field)以了解详情。
 
-To use a native select inside `<mat-form-field>`, add  the `matNativeControl` attribute
-to the `<select>` element. 
+To use a native select inside `<mat-form-field>`, import `MatInputModule` and add the
+`matNativeControl` attribute to the `<select>` element. 
 
 要在 `<mat-form-field>` 中使用原生 select，请为 `<select>` 元素添加 `matNativeControl` 属性。
 
@@ -206,37 +206,32 @@ globally cause input errors to show when the input is dirty and invalid.
 ```
 
 ### Keyboard interaction
-
-### 键盘交互
-
-- <kbd>DOWN_ARROW</kbd>: Focus next option
-
-  <kbd>DOWN_ARROW</kbd>：焦点移到下一个候选项
-
-- <kbd>UP_ARROW</kbd>: Focus previous option
-
-  <kbd>UP_ARROW</kbd>：焦点移到上一个候选项
-
-- <kbd>ENTER</kbd> or <kbd>SPACE</kbd>: Select focused item
-
-  <kbd>ENTER</kbd> 或 <kbd>SPACE</kbd>：选择当前有焦点的条目
+| Keyboard shortcut                      | Action                                                                |
+|----------------------------------------|-----------------------------------------------------------------------|
+| <kbd>Down Arrow</kbd>                  | Navigate to the next option.                                          |
+| <kbd>Up Arrow</kbd>                    | Navigate to the previous option.                                      |
+| <kbd>Enter</kbd>                       | If closed, open the select panel. If open, selects the active option. |
+| <kbd>Escape</kbd>                      | Close the select panel.                                               |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | Close the select panel.                                               |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the select panel if there are any matching options.              |
 
 ### Accessibility
+When possible, prefer a native `<select>` element over `MatSelect`. The native control
+provides the most accessible experience across the widest range of platforms.
 
-### 无障碍性
+`MatSelect` implements the combobox pattern detailed in the [1.2 version of the ARIA
+specification](https://www.w3.org/TR/wai-aria-1.2). The combobox trigger controls a `role="listbox"`
+element opened in a pop-up. Previous versions of the ARIA specification
+required that `role="combobox"` apply to a text input control, but the 1.2 version of the
+specification supports a wider variety of interaction patterns. This newer usage of ARIA works
+in all browser and screen-reader combinations supported by Angular Material.
 
-The `<mat-select>` component without text or label should be given a meaningful label via
-`aria-label` or `aria-labelledby`.
+Because the pop-up uses the `role="listbox"` pattern, you should _not_ put other interactive
+controls, such as buttons or checkboxes, inside a select option. Nesting interactive controls like
+this interferes with most assistive technology.
 
-没有文本或标签的选择框组件应该通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。
-
-The `<mat-select>` component has `role="combobox"`, the dropdown panel has `role="listbox"` and options inside select panel have `role="option"`.
-
-`<mat-select>` 组件具有 `role="combobox"` 属性，下拉面板具有 `role="listbox"` 属性，并且其面板中的各个选项具有 `role="option"` 属性。
-
-The native `<select>` offers the best accessibility because it is supported directly by screen-readers.
-
-选择框组件应该有 `role="listbox"` 属性，而其内部的候选项应该有 `role="option"` 属性。
+Always provide an accessible label for the select. This can be done by adding a `<mat-label>`
+inside of `<mat-form-field>`, the `aria-label` attribute, or the `aria-labelledby` attribute.
 
 ### Troubleshooting
 

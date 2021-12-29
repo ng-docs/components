@@ -30,7 +30,6 @@ import {
 } from '@angular/core';
 import {
   CanDisableRipple,
-  CanDisableRippleCtor,
   MAT_OPTGROUP,
   MAT_OPTION_PARENT_COMPONENT,
   _MatOptgroupBase,
@@ -69,7 +68,8 @@ export class MatAutocompleteSelectedEvent {
      *
      * 已选择的选项。
      */
-    public option: _MatOptionBase) { }
+    public option: _MatOptionBase,
+  ) {}
 }
 
 /**
@@ -93,14 +93,12 @@ export interface MatAutocompleteActivatedEvent {
    * 选定的选项。
    *
    */
-  option: _MatOptionBase|null;
+  option: _MatOptionBase | null;
 }
 
 // Boilerplate for applying mixins to MatAutocomplete.
 /** @docs-private */
-class MatAutocompleteBase {}
-const _MatAutocompleteMixinBase: CanDisableRippleCtor & typeof MatAutocompleteBase =
-    mixinDisableRipple(MatAutocompleteBase);
+const _MatAutocompleteMixinBase = mixinDisableRipple(class {});
 
 /**
  * Default `mat-autocomplete` options that can be overridden.
@@ -132,11 +130,13 @@ export interface MatAutocompleteDefaultOptions {
  * 这个注入令牌用来改写 `mat-autocomplete` 的默认选项。
  *
  */
-export const MAT_AUTOCOMPLETE_DEFAULT_OPTIONS =
-    new InjectionToken<MatAutocompleteDefaultOptions>('mat-autocomplete-default-options', {
-      providedIn: 'root',
-      factory: MAT_AUTOCOMPLETE_DEFAULT_OPTIONS_FACTORY,
-    });
+export const MAT_AUTOCOMPLETE_DEFAULT_OPTIONS = new InjectionToken<MatAutocompleteDefaultOptions>(
+  'mat-autocomplete-default-options',
+  {
+    providedIn: 'root',
+    factory: MAT_AUTOCOMPLETE_DEFAULT_OPTIONS_FACTORY,
+  },
+);
 
 /** @docs-private */
 export function MAT_AUTOCOMPLETE_DEFAULT_OPTIONS_FACTORY(): MatAutocompleteDefaultOptions {
@@ -150,8 +150,10 @@ export function MAT_AUTOCOMPLETE_DEFAULT_OPTIONS_FACTORY(): MatAutocompleteDefau
  *
  */
 @Directive()
-export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase implements
-  AfterContentInit, CanDisableRipple, OnDestroy {
+export abstract class _MatAutocompleteBase
+  extends _MatAutocompleteMixinBase
+  implements AfterContentInit, CanDisableRipple, OnDestroy
+{
   private _activeOptionChanges = Subscription.EMPTY;
 
   /**
@@ -192,7 +194,9 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
    * 自动完成面板是否已打开。
    *
    */
-  get isOpen(): boolean { return this._isOpen && this.showPanel; }
+  get isOpen(): boolean {
+    return this._isOpen && this.showPanel;
+  }
   _isOpen: boolean = false;
 
   // The @ViewChild query for TemplateRef here needs to be static because some code paths
@@ -210,10 +214,10 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
    */
   @ViewChild('panel') panel: ElementRef;
 
-  /** @docs-private */
+  /** Reference to all options within the autocomplete. */
   abstract options: QueryList<_MatOptionBase>;
 
-  /** @docs-private */
+  /** Reference to all option groups within the autocomplete. */
   abstract optionGroups: QueryList<_MatOptgroupBase>;
 
   /**
@@ -248,8 +252,10 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
    *
    */
   @Input()
-  get autoActiveFirstOption(): boolean { return this._autoActiveFirstOption; }
-  set autoActiveFirstOption(value: boolean) {
+  get autoActiveFirstOption(): boolean {
+    return this._autoActiveFirstOption;
+  }
+  set autoActiveFirstOption(value: BooleanInput) {
     this._autoActiveFirstOption = coerceBooleanProperty(value);
   }
   private _autoActiveFirstOption: boolean;
@@ -270,7 +276,7 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
    *
    */
   @Output() readonly optionSelected: EventEmitter<MatAutocompleteSelectedEvent> =
-      new EventEmitter<MatAutocompleteSelectedEvent>();
+    new EventEmitter<MatAutocompleteSelectedEvent>();
 
   /**
    * Event that is emitted when the autocomplete panel is opened.
@@ -295,7 +301,7 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
    *
    */
   @Output() readonly optionActivated: EventEmitter<MatAutocompleteActivatedEvent> =
-      new EventEmitter<MatAutocompleteActivatedEvent>();
+    new EventEmitter<MatAutocompleteActivatedEvent>();
 
   /**
    * Takes classes set on the host mat-autocomplete element and applies them to the panel
@@ -341,7 +347,8 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
     private _changeDetectorRef: ChangeDetectorRef,
     private _elementRef: ElementRef<HTMLElement>,
     @Inject(MAT_AUTOCOMPLETE_DEFAULT_OPTIONS) defaults: MatAutocompleteDefaultOptions,
-    platform?: Platform) {
+    platform?: Platform,
+  ) {
     super();
 
     // TODO(crisbeto): the problem that the `inertGroups` option resolves is only present on
@@ -355,7 +362,9 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
   ngAfterContentInit() {
     this._keyManager = new ActiveDescendantKeyManager<_MatOptionBase>(this.options).withWrap();
     this._activeOptionChanges = this._keyManager.change.subscribe(index => {
-      this.optionActivated.emit({source: this, option: this.options.toArray()[index] || null});
+      if (this.isOpen) {
+        this.optionActivated.emit({source: this, option: this.options.toArray()[index] || null});
+      }
     });
 
     // Set the initial visibility state.
@@ -437,9 +446,6 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
     classList[this._visibleClass] = this.showPanel;
     classList[this._hiddenClass] = !this.showPanel;
   }
-
-  static ngAcceptInputType_autoActiveFirstOption: BooleanInput;
-  static ngAcceptInputType_disableRipple: BooleanInput;
 }
 
 @Component({
@@ -451,16 +457,15 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
   exportAs: 'matAutocomplete',
   inputs: ['disableRipple'],
   host: {
-    'class': 'mat-autocomplete'
+    'class': 'mat-autocomplete',
   },
-  providers: [
-    {provide: MAT_OPTION_PARENT_COMPONENT, useExisting: MatAutocomplete}
-  ]
+  providers: [{provide: MAT_OPTION_PARENT_COMPONENT, useExisting: MatAutocomplete}],
 })
 export class MatAutocomplete extends _MatAutocompleteBase {
+  /** Reference to all option groups within the autocomplete. */
   @ContentChildren(MAT_OPTGROUP, {descendants: true}) optionGroups: QueryList<MatOptgroup>;
+  /** Reference to all options within the autocomplete. */
   @ContentChildren(MatOption, {descendants: true}) options: QueryList<MatOption>;
   protected _visibleClass = 'mat-autocomplete-visible';
   protected _hiddenClass = 'mat-autocomplete-hidden';
 }
-

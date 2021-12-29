@@ -29,12 +29,12 @@ export interface GridTileHarnessFilters extends BaseHarnessFilters {
    * 网格图块头部应匹配的文本。
    *
    */
-  headerText?: string|RegExp;
+  headerText?: string | RegExp;
   /**
    * Text the grid-tile footer should match.
    *
    * 网格图块尾部应匹配的文本。
    *
    */
-  footerText?: string|RegExp;
+  footerText?: string | RegExp;
 }

@@ -48,10 +48,16 @@ const cssUnitPattern = /([A-Za-z%]+)$/;
  * 可以设置为 FlexibleConnectedPositionStrategy 原点的可能值。
  *
  */
-export type FlexibleConnectedPositionStrategyOrigin = ElementRef | Element | Point & {
-  width?: number;
-  height?: number;
-};
+export type FlexibleConnectedPositionStrategyOrigin =
+  | ElementRef
+  | Element
+  | (Point & {
+      width?: number;
+      height?: number;
+    });
+
+/** Equivalent of `ClientRect` without some of the properties we don't care about. */
+type Dimensions = Omit<ClientRect, 'x' | 'y' | 'toJSON'>;
 
 /**
  * A strategy for positioning overlays. Using this strategy, an overlay is given an
@@ -134,7 +140,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 缓存的原点规格
    *
    */
-  private _originRect: ClientRect;
+  private _originRect: Dimensions;
 
   /**
    * Cached overlay dimensions
@@ -142,7 +148,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 缓存的浮层规格
    *
    */
-  private _overlayRect: ClientRect;
+  private _overlayRect: Dimensions;
 
   /**
    * Cached viewport dimensions
@@ -150,7 +156,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 缓存的视口规格
    *
    */
-  private _viewportRect: ClientRect;
+  private _viewportRect: Dimensions;
 
   /**
    * Amount of space that must be maintained between the overlay and the edge of the viewport.
@@ -271,7 +277,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 上一次放置浮层时在每个轴上推动此浮层的距离。
    *
    */
-  private _previousPushAmount: {x: number, y: number} | null;
+  private _previousPushAmount: {x: number; y: number} | null;
 
   /**
    * Observable sequence of position changes.
@@ -292,9 +298,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   }
 
   constructor(
-      connectedTo: FlexibleConnectedPositionStrategyOrigin, private _viewportRuler: ViewportRuler,
-      private _document: Document, private _platform: Platform,
-      private _overlayContainer: OverlayContainer) {
+    connectedTo: FlexibleConnectedPositionStrategyOrigin,
+    private _viewportRuler: ViewportRuler,
+    private _document: Document,
+    private _platform: Platform,
+    private _overlayContainer: OverlayContainer,
+  ) {
     this.setOrigin(connectedTo);
   }
 
@@ -305,8 +314,11 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    *
    */
   attach(overlayRef: OverlayReference): void {
-    if (this._overlayRef && overlayRef !== this._overlayRef &&
-      (typeof ngDevMode === 'undefined' || ngDevMode)) {
+    if (
+      this._overlayRef &&
+      overlayRef !== this._overlayRef &&
+      (typeof ngDevMode === 'undefined' || ngDevMode)
+    ) {
       throw Error('This position strategy is already attached to an overlay');
     }
 
@@ -426,7 +438,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
           position: pos,
           origin: originPoint,
           overlayRect,
-          boundingBoxRect: this._calculateBoundingBoxRect(originPoint, pos)
+          boundingBoxRect: this._calculateBoundingBoxRect(originPoint, pos),
         });
 
         continue;
@@ -447,7 +459,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
       let bestScore = -1;
       for (const fit of flexibleFits) {
         const score =
-            fit.boundingBoxRect.width * fit.boundingBoxRect.height * (fit.position.weight || 1);
+          fit.boundingBoxRect.width * fit.boundingBoxRect.height * (fit.position.weight || 1);
         if (score > bestScore) {
           bestScore = score;
           bestFit = fit;
@@ -716,12 +728,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 根据相对位置获取原点上连接点的（x，y）坐标。
    *
    */
-  private _getOriginPoint(originRect: ClientRect, pos: ConnectedPosition): Point {
+  private _getOriginPoint(originRect: Dimensions, pos: ConnectedPosition): Point {
     let x: number;
     if (pos.originX == 'center') {
       // Note: when centering we should always use the `left`
       // offset, otherwise the position will be wrong in RTL.
-      x = originRect.left + (originRect.width / 2);
+      x = originRect.left + originRect.width / 2;
     } else {
       const startX = this._isRtl() ? originRect.right : originRect.left;
       const endX = this._isRtl() ? originRect.left : originRect.right;
@@ -730,7 +742,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 
     let y: number;
     if (pos.originY == 'center') {
-      y = originRect.top + (originRect.height / 2);
+      y = originRect.top + originRect.height / 2;
     } else {
       y = pos.originY == 'top' ? originRect.top : originRect.bottom;
     }
@@ -746,10 +758,10 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    *
    */
   private _getOverlayPoint(
-      originPoint: Point,
-      overlayRect: ClientRect,
-      pos: ConnectedPosition): Point {
-
+    originPoint: Point,
+    overlayRect: Dimensions,
+    pos: ConnectedPosition,
+  ): Point {
     // Calculate the (overlayStartX, overlayStartY), the start of the
     // potential overlay position relative to the origin point.
     let overlayStartX: number;
@@ -781,9 +793,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 获取指定点的浮层在视口中的适应程度。
    *
    */
-  private _getOverlayFit(point: Point, rawOverlayRect: ClientRect, viewport: ClientRect,
-    position: ConnectedPosition): OverlayFit {
-
+  private _getOverlayFit(
+    point: Point,
+    rawOverlayRect: Dimensions,
+    viewport: Dimensions,
+    position: ConnectedPosition,
+  ): OverlayFit {
     // Round the overlay rect when comparing against the
     // viewport, because the viewport is always rounded.
     const overlay = getRoundedBoundingClientRect(rawOverlayRect);
@@ -802,9 +817,9 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 
     // How much the overlay would overflow at this position, on each side.
     let leftOverflow = 0 - x;
-    let rightOverflow = (x + overlay.width) - viewport.width;
+    let rightOverflow = x + overlay.width - viewport.width;
     let topOverflow = 0 - y;
-    let bottomOverflow = (y + overlay.height) - viewport.height;
+    let bottomOverflow = y + overlay.height - viewport.height;
 
     // Visible parts of the element on each axis.
     let visibleWidth = this._subtractOverflows(overlay.width, leftOverflow, rightOverflow);
@@ -813,7 +828,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 
     return {
       visibleArea,
-      isCompletelyWithinViewport: (overlay.width * overlay.height) === visibleArea,
+      isCompletelyWithinViewport: overlay.width * overlay.height === visibleArea,
       fitsInViewportVertically: visibleHeight === overlay.height,
       fitsInViewportHorizontally: visibleWidth == overlay.width,
     };
@@ -837,17 +852,17 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 视口的几何形状。
    *
    */
-  private _canFitWithFlexibleDimensions(fit: OverlayFit, point: Point, viewport: ClientRect) {
+  private _canFitWithFlexibleDimensions(fit: OverlayFit, point: Point, viewport: Dimensions) {
     if (this._hasFlexibleDimensions) {
       const availableHeight = viewport.bottom - point.y;
       const availableWidth = viewport.right - point.x;
       const minHeight = getPixelValue(this._overlayRef.getConfig().minHeight);
       const minWidth = getPixelValue(this._overlayRef.getConfig().minWidth);
 
-      const verticalFit = fit.fitsInViewportVertically ||
-          (minHeight != null && minHeight <= availableHeight);
-      const horizontalFit = fit.fitsInViewportHorizontally ||
-          (minWidth != null && minWidth <= availableWidth);
+      const verticalFit =
+        fit.fitsInViewportVertically || (minHeight != null && minHeight <= availableHeight);
+      const horizontalFit =
+        fit.fitsInViewportHorizontally || (minWidth != null && minWidth <= availableWidth);
 
       return verticalFit && horizontalFit;
     }
@@ -879,16 +894,18 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 推送后放置浮层的位置。这实际上是一个新的原点。
    *
    */
-  private _pushOverlayOnScreen(start: Point,
-                               rawOverlayRect: ClientRect,
-                               scrollPosition: ViewportScrollPosition): Point {
+  private _pushOverlayOnScreen(
+    start: Point,
+    rawOverlayRect: Dimensions,
+    scrollPosition: ViewportScrollPosition,
+  ): Point {
     // If the position is locked and we've pushed the overlay already, reuse the previous push
     // amount, rather than pushing it again. If we were to continue pushing, the element would
     // remain in the viewport, which goes against the expectations when position locking is enabled.
     if (this._previousPushAmount && this._positionLocked) {
       return {
         x: start.x + this._previousPushAmount.x,
-        y: start.y + this._previousPushAmount.y
+        y: start.y + this._previousPushAmount.y,
       };
     }
 
@@ -914,13 +931,13 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     if (overlay.width <= viewport.width) {
       pushX = overflowLeft || -overflowRight;
     } else {
-      pushX = start.x < this._viewportMargin ? (viewport.left - scrollPosition.left) - start.x : 0;
+      pushX = start.x < this._viewportMargin ? viewport.left - scrollPosition.left - start.x : 0;
     }
 
     if (overlay.height <= viewport.height) {
       pushY = overflowTop || -overflowBottom;
     } else {
-      pushY = start.y < this._viewportMargin ? (viewport.top - scrollPosition.top) - start.y : 0;
+      pushY = start.y < this._viewportMargin ? viewport.top - scrollPosition.top - start.y : 0;
     }
 
     this._previousPushAmount = {x: pushX, y: pushY};
@@ -980,8 +997,9 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
       return;
     }
 
-    const elements: NodeListOf<HTMLElement> =
-        this._boundingBox!.querySelectorAll(this._transformOriginSelector);
+    const elements: NodeListOf<HTMLElement> = this._boundingBox!.querySelectorAll(
+      this._transformOriginSelector,
+    );
     let xOrigin: 'left' | 'right' | 'center';
     let yOrigin: 'top' | 'bottom' | 'center' = position.overlayY;
 
@@ -1029,8 +1047,10 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
       // origin point. Note that we want the position relative to the viewport, rather than
       // the page, which is why we don't use something like `viewport.bottom - origin.y` and
       // `origin.y - viewport.top`.
-      const smallestDistanceToViewportEdge =
-          Math.min(viewport.bottom - origin.y + viewport.top, origin.y);
+      const smallestDistanceToViewportEdge = Math.min(
+        viewport.bottom - origin.y + viewport.top,
+        origin.y,
+      );
 
       const previousHeight = this._lastBoundingBoxSize.height;
 
@@ -1038,19 +1058,17 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
       top = origin.y - smallestDistanceToViewportEdge;
 
       if (height > previousHeight && !this._isInitialRender && !this._growAfterOpen) {
-        top = origin.y - (previousHeight / 2);
+        top = origin.y - previousHeight / 2;
       }
     }
 
     // The overlay is opening 'right-ward' (the content flows to the right).
     const isBoundedByRightViewportEdge =
-        (position.overlayX === 'start' && !isRtl) ||
-        (position.overlayX === 'end' && isRtl);
+      (position.overlayX === 'start' && !isRtl) || (position.overlayX === 'end' && isRtl);
 
     // The overlay is opening 'left-ward' (the content flows to the left).
     const isBoundedByLeftViewportEdge =
-        (position.overlayX === 'end' && !isRtl) ||
-        (position.overlayX === 'start' && isRtl);
+      (position.overlayX === 'end' && !isRtl) || (position.overlayX === 'start' && isRtl);
 
     let width: number, left: number, right: number;
 
@@ -1065,15 +1083,17 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
       // origin point. Note that we want the position relative to the viewport, rather than
       // the page, which is why we don't use something like `viewport.right - origin.x` and
       // `origin.x - viewport.left`.
-      const smallestDistanceToViewportEdge =
-          Math.min(viewport.right - origin.x + viewport.left, origin.x);
+      const smallestDistanceToViewportEdge = Math.min(
+        viewport.right - origin.x + viewport.left,
+        origin.x,
+      );
       const previousWidth = this._lastBoundingBoxSize.width;
 
       width = smallestDistanceToViewportEdge * 2;
       left = origin.x - smallestDistanceToViewportEdge;
 
       if (width > previousWidth && !this._isInitialRender && !this._growAfterOpen) {
-        left = origin.x - (previousWidth / 2);
+        left = origin.x - previousWidth / 2;
       }
     }
 
@@ -1254,9 +1274,11 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 不使用灵活的大小调整或推入时，获取浮层的确切顶部/底部。
    *
    */
-  private _getExactOverlayY(position: ConnectedPosition,
-                            originPoint: Point,
-                            scrollPosition: ViewportScrollPosition) {
+  private _getExactOverlayY(
+    position: ConnectedPosition,
+    originPoint: Point,
+    scrollPosition: ViewportScrollPosition,
+  ) {
     // Reset any existing styles. This is necessary in case the
     // preferred position has changed since the last `apply`.
     let styles = {top: '', bottom: ''} as CSSStyleDeclaration;
@@ -1266,8 +1288,9 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
       overlayPoint = this._pushOverlayOnScreen(overlayPoint, this._overlayRect, scrollPosition);
     }
 
-    let virtualKeyboardOffset =
-        this._overlayContainer.getContainerElement().getBoundingClientRect().top;
+    let virtualKeyboardOffset = this._overlayContainer
+      .getContainerElement()
+      .getBoundingClientRect().top;
 
     // Normally this would be zero, however when the overlay is attached to an input (e.g. in an
     // autocomplete), mobile browsers will shift everything in order to put the input in the middle
@@ -1295,9 +1318,11 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 在不使用灵活大小调整或推入时，获取浮层的确切左/右。
    *
    */
-  private _getExactOverlayX(position: ConnectedPosition,
-                            originPoint: Point,
-                            scrollPosition: ViewportScrollPosition) {
+  private _getExactOverlayX(
+    position: ConnectedPosition,
+    originPoint: Point,
+    scrollPosition: ViewportScrollPosition,
+  ) {
     // Reset any existing styles. This is necessary in case the preferred position has
     // changed since the last `apply`.
     let styles = {left: '', right: ''} as CSSStyleDeclaration;
@@ -1341,7 +1366,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   private _getScrollVisibility(): ScrollingVisibility {
     // Note: needs fresh rects since the position could've changed.
     const originBounds = this._getOriginRect();
-    const overlayBounds =  this._pane.getBoundingClientRect();
+    const overlayBounds = this._pane.getBoundingClientRect();
 
     // TODO(jelbourn): instead of needing all of the client rects for these scrolling containers
     // every time, we should be able to use the scrollTop of the containers if the size of those
@@ -1376,7 +1401,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 通过当前的 _viewportMargin 缩小指定的视口方框。
    *
    */
-  private _getNarrowedViewportRect(): ClientRect {
+  private _getNarrowedViewportRect(): Dimensions {
     // We recalculate the viewport rect here ourselves, rather than using the ViewportRuler,
     // because we want to use the `clientWidth` and `clientHeight` as the base. The difference
     // being that the client properties don't include the scrollbar, as opposed to `innerWidth`
@@ -1387,12 +1412,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     const scrollPosition = this._viewportRuler.getViewportScrollPosition();
 
     return {
-      top:    scrollPosition.top + this._viewportMargin,
-      left:   scrollPosition.left + this._viewportMargin,
-      right:  scrollPosition.left + width - this._viewportMargin,
+      top: scrollPosition.top + this._viewportMargin,
+      left: scrollPosition.left + this._viewportMargin,
+      right: scrollPosition.left + width - this._viewportMargin,
       bottom: scrollPosition.top + height - this._viewportMargin,
-      width:  width  - (2 * this._viewportMargin),
-      height: height - (2 * this._viewportMargin),
+      width: width - 2 * this._viewportMargin,
+      height: height - 2 * this._viewportMargin,
     };
   }
 
@@ -1493,7 +1518,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 返回当前原点的 ClientRect。
    *
    */
-  private _getOriginRect(): ClientRect {
+  private _getOriginRect(): Dimensions {
     const origin = this._origin;
 
     if (origin instanceof ElementRef) {
@@ -1515,7 +1540,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
       left: origin.x,
       right: origin.x + width,
       height,
-      width
+      width,
     };
   }
 }
@@ -1582,7 +1607,7 @@ interface FallbackPosition {
   originPoint: Point;
   overlayPoint: Point;
   overlayFit: OverlayFit;
-  overlayRect: ClientRect;
+  overlayRect: Dimensions;
 }
 
 /**
@@ -1609,7 +1634,7 @@ interface BoundingBoxRect {
 interface FlexibleFit {
   position: ConnectedPosition;
   origin: Point;
-  overlayRect: ClientRect;
+  overlayRect: Dimensions;
   boundingBoxRect: BoundingBoxRect;
 }
 
@@ -1638,8 +1663,10 @@ export interface ConnectedPosition {
  * 将样式表对象与另一个样式表对象一起浅扩展。
  *
  */
-function extendStyles(destination: CSSStyleDeclaration,
-                      source: CSSStyleDeclaration): CSSStyleDeclaration {
+function extendStyles(
+  destination: CSSStyleDeclaration,
+  source: CSSStyleDeclaration,
+): CSSStyleDeclaration {
   for (let key in source) {
     if (source.hasOwnProperty(key)) {
       destination[key] = source[key];
@@ -1656,10 +1683,10 @@ function extendStyles(destination: CSSStyleDeclaration,
  * 如果是数字或 CSS 像素字符串（例如 `1337px` ），则从值中提取像素值作为数字。否则返回 null。
  *
  */
-function getPixelValue(input: number|string|null|undefined): number|null {
+function getPixelValue(input: number | string | null | undefined): number | null {
   if (typeof input !== 'number' && input != null) {
     const [value, units] = input.split(cssUnitPattern);
-    return (!units || units === 'px') ? parseFloat(value) : null;
+    return !units || units === 'px' ? parseFloat(value) : null;
   }
 
   return input || null;
@@ -1674,13 +1701,13 @@ function getPixelValue(input: number|string|null|undefined): number|null {
  * 获取元素边界 `ClientRect` 的版本，其中所有值均向下舍入到最接近的像素。`ClientRect` 可能存在亚像素偏差的情况（例如，以百分比大小放大时，请参阅＃21350）。
  *
  */
-function getRoundedBoundingClientRect(clientRect: ClientRect): ClientRect {
+function getRoundedBoundingClientRect(clientRect: Dimensions): Dimensions {
   return {
     top: Math.floor(clientRect.top),
     right: Math.floor(clientRect.right),
     bottom: Math.floor(clientRect.bottom),
     left: Math.floor(clientRect.left),
     width: Math.floor(clientRect.width),
-    height: Math.floor(clientRect.height)
+    height: Math.floor(clientRect.height),
   };
 }

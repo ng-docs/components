@@ -1,6 +1,7 @@
-@use '@material/density' as mdc-density;
+@use 'sass:map';
 @use '@material/menu-surface' as mdc-menu-surface;
-@use '@material/list' as mdc-list;
+@use '@material/list/evolution-mixins' as mdc-list-mixins;
+@use '@material/list/evolution-variables' as mdc-list-variables;
 @use '../../material/core/style/menu-common';
 @use '../../material/core/style/button-common';
 @use '../../cdk/a11y';
@@ -14,12 +15,18 @@ mat-menu {
 }
 
 .mat-mdc-menu-content {
-  // Note that we include this private mixin, because the public
-  // one adds a bunch of styles that we aren't using for the menu.
-  @include mdc-list.deprecated-base_($query: structure);
+  @include mdc-list-mixins.list-base($query: structure);
 }
 
 .mat-mdc-menu-panel {
+  @include a11y.high-contrast(active, off) {
+    outline: solid 1px;
+  }
+}
+
+// We need to increase the specificity for these styles to ensure we are not overriden by MDC's
+// .mdc-menu-surface styles. This can happen if the MDC styles are loaded in after our styles.
+.mat-mdc-menu-panel.mat-mdc-menu-panel {
   // Include Material's base menu panel styling which contain the `min-width`, `max-width` and some
   // styling to make scrolling smoother. MDC doesn't include the `min-width` and `max-width`, even
   // though they're explicitly defined in spec.
@@ -27,30 +34,16 @@ mat-menu {
 
   // The CDK positioning uses flexbox to anchor the element, whereas MDC uses `position: absolute`.
   position: static;
-
-  @include a11y.high-contrast(active, off) {
-    outline: solid 1px;
-  }
 }
 
 .mat-mdc-menu-item {
-  $height: mdc-density.prop-value(
-    $density-config: mdc-list.$deprecated-single-line-density-config,
-    $density-scale: mdc-list.$deprecated-single-line-density-scale,
-    $property-name: height,
-  );
-
-  // Note that we include this private mixin, because the public
-  // one adds a bunch of styles that we aren't using for the menu.
-  @include mdc-list.deprecated-item-base_;
-  @include mdc-list.deprecated-list-item-padding-variant(
-    mdc-list.$deprecated-textual-variant-config, $query: mdc-helpers.$mat-base-styles-query);
+  @include mdc-list-mixins.item-base;
+  @include mdc-list-mixins.item-spacing(
+    mdc-list-variables.$side-padding, $query: mdc-helpers.$mat-base-styles-query);
 
   // MDC's menu items are `<li>` nodes which don't need resets, however ours
   // can be anything, including buttons, so we need to do the reset ourselves.
   @include button-common.reset;
-  @include mdc-list.deprecated-single-line-height($height,
-    $query: mdc-helpers.$mat-base-styles-query);
   cursor: pointer;
   width: 100%;
   text-align: left;
@@ -60,6 +53,12 @@ mat-menu {
   background: none;
   text-decoration: none;
 
+  // Set the `min-height` here ourselves, instead of going through
+  // the `mdc-list-one-line-item-density` mixin, because it sets a `height`
+  // which doesn't work well with multi-line items.
+  $height-config: map.get(mdc-list-variables.$one-line-item-density-config, height);
+  min-height: map.get($height-config, default);
+
   &[disabled] {
     // Usually every click inside the menu closes it, however some browsers will stop events
     // when the user clicks on a disabled item, **except** when the user clicks on a non-disabled
@@ -68,10 +67,14 @@ mat-menu {
     // more consistent by disabling pointer events and allowing the user to click through.
     pointer-events: none;
     cursor: default;
+
+    // This is the same as `mdc-list-mixins.list-disabled-opacity` which
+    // we can't use directly, because it comes with some selectors.
+    opacity: mdc-list-variables.$content-disabled-opacity;
   }
 
   .mat-icon {
-    margin-right: mdc-list.$deprecated-side-padding;
+    margin-right: mdc-list-variables.$side-padding;
   }
 
   [dir='rtl'] & {
@@ -79,8 +82,14 @@ mat-menu {
 
     .mat-icon {
       margin-right: 0;
-      margin-left: mdc-list.$deprecated-side-padding;
+      margin-left: mdc-list-variables.$side-padding;
     }
+  }
+
+  // Needs to be overwritten explicitly, because the style can
+  // leak in from the list and cause the text to truncate.
+  .mdc-list-item__primary-text {
+    white-space: normal;
   }
 
   @include a11y.high-contrast(active, off) {
@@ -98,9 +107,12 @@ mat-menu {
   }
 }
 
-// Renders out a chevron on menu items that trigger a sub-menu.
 .mat-mdc-menu-item-submenu-trigger {
-  @include menu-common.item-submenu-trigger(mdc-list.$deprecated-side-padding);
+  @include menu-common.item-submenu-trigger(mdc-list-variables.$side-padding);
+}
+
+.mat-mdc-menu-submenu-icon {
+  @include menu-common.item-submenu-icon(mdc-list-variables.$side-padding);
 }
 
 // Increase specificity because ripple styles are part of the `mat-core` mixin and can

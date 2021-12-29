@@ -13,11 +13,12 @@
  *
  */
 export function isFakeMousedownFromScreenReader(event: MouseEvent): boolean {
-  // We can typically distinguish between these faked mousedown events and real mousedown events
-  // using the "buttons" property. While real mousedowns will indicate the mouse button that was
-  // pressed (e.g. "1" for the left mouse button), faked mousedowns will usually set the property
-  // value to 0.
-  return event.buttons === 0;
+  // Some screen readers will dispatch a fake `mousedown` event when pressing enter or space on
+  // a clickable element. We can distinguish these events when both `offsetX` and `offsetY` are
+  // zero. Note that there's an edge case where the user could click the 0x0 spot of the screen
+  // themselves, but that is unlikely to contain interaction elements. Historically we used to
+  // check `event.buttons === 0`, however that no longer works on recent versions of NVDA.
+  return event.offsetX === 0 && event.offsetY === 0;
 }
 
 /**
@@ -27,13 +28,17 @@ export function isFakeMousedownFromScreenReader(event: MouseEvent): boolean {
  *
  */
 export function isFakeTouchstartFromScreenReader(event: TouchEvent): boolean {
-  const touch: Touch | undefined = (event.touches && event.touches[0]) ||
-                                   (event.changedTouches && event.changedTouches[0]);
+  const touch: Touch | undefined =
+    (event.touches && event.touches[0]) || (event.changedTouches && event.changedTouches[0]);
 
   // A fake `touchstart` can be distinguished from a real one by looking at the `identifier`
   // which is typically >= 0 on a real device versus -1 from a screen reader. Just to be safe,
   // we can also look at `radiusX` and `radiusY`. This behavior was observed against a Windows 10
   // device with a touch screen running NVDA v2020.4 and Firefox 85 or Chrome 88.
-  return !!touch && touch.identifier === -1 && (touch.radiusX == null || touch.radiusX === 1) &&
-         (touch.radiusY == null || touch.radiusY === 1);
+  return (
+    !!touch &&
+    touch.identifier === -1 &&
+    (touch.radiusX == null || touch.radiusX === 1) &&
+    (touch.radiusY == null || touch.radiusY === 1)
+  );
 }

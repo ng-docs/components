@@ -15,7 +15,6 @@ import {
   OnDestroy,
   Optional,
   NgZone,
-  HostListener,
   ElementRef,
   Inject,
   Self,
@@ -46,6 +45,8 @@ import {MenuAim, MENU_AIM} from './menu-aim';
     'class': 'cdk-menu-bar',
     'tabindex': '0',
     '[attr.aria-orientation]': 'orientation',
+    '(focus)': 'focusFirstItem()',
+    '(keydown)': '_handleKeyEvent($event)',
   },
   providers: [
     {provide: CdkMenuGroup, useExisting: CdkMenuBar},
@@ -81,12 +82,12 @@ export class CdkMenuBar extends CdkMenuGroup implements Menu, AfterContentInit, 
     private readonly _ngZone: NgZone,
     readonly _elementRef: ElementRef<HTMLElement>,
     @Self() @Optional() @Inject(MENU_AIM) private readonly _menuAim?: MenuAim,
-    @Optional() private readonly _dir?: Directionality
+    @Optional() private readonly _dir?: Directionality,
   ) {
     super();
   }
 
-  ngAfterContentInit() {
+  override ngAfterContentInit() {
     super.ngAfterContentInit();
 
     this._setKeyManager();
@@ -97,11 +98,6 @@ export class CdkMenuBar extends CdkMenuGroup implements Menu, AfterContentInit, 
     this._menuAim?.initialize(this, this._pointerTracker!);
   }
 
-  // In Ivy the `host` metadata will be merged, whereas in ViewEngine it is overridden. In order
-  // to avoid double event listeners, we need to use `HostListener`. Once Ivy is the default, we
-  // can move this back into `host`.
-  // tslint:disable:no-host-decorator-in-concrete
-  @HostListener('focus')
   /** Place focus on the first MenuItem in the menu and set the focus origin. */
   focusFirstItem(focusOrigin: FocusOrigin = 'program') {
     this._keyManager.setFocusOrigin(focusOrigin);
@@ -114,11 +110,6 @@ export class CdkMenuBar extends CdkMenuGroup implements Menu, AfterContentInit, 
     this._keyManager.setLastItemActive();
   }
 
-  // In Ivy the `host` metadata will be merged, whereas in ViewEngine it is overridden. In order
-  // to avoid double event listeners, we need to use `HostListener`. Once Ivy is the default, we
-  // can move this back into `host`.
-  // tslint:disable:no-host-decorator-in-concrete
-  @HostListener('keydown', ['$event'])
   /**
    * Handle keyboard events, specifically changing the focused element and/or toggling the active
    * items menu.
@@ -270,14 +261,14 @@ export class CdkMenuBar extends CdkMenuGroup implements Menu, AfterContentInit, 
         mergeMap((list: QueryList<CdkMenuItem>) =>
           list
             .filter(item => item.hasMenu())
-            .map(item => item.getMenuTrigger()!.opened.pipe(mapTo(item), takeUntil(exitCondition)))
+            .map(item => item.getMenuTrigger()!.opened.pipe(mapTo(item), takeUntil(exitCondition))),
         ),
         mergeAll(),
         switchMap((item: CdkMenuItem) => {
           this._openItem = item;
           return item.getMenuTrigger()!.closed;
         }),
-        takeUntil(this._destroyed)
+        takeUntil(this._destroyed),
       )
       .subscribe(() => (this._openItem = undefined));
   }
@@ -287,7 +278,7 @@ export class CdkMenuBar extends CdkMenuGroup implements Menu, AfterContentInit, 
     return !!this._openItem;
   }
 
-  ngOnDestroy() {
+  override ngOnDestroy() {
     super.ngOnDestroy();
 
     this._destroyed.next();

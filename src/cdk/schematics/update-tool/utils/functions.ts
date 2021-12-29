@@ -16,6 +16,6 @@ import * as ts from 'typescript';
  * 解开给定的表达式 TypeScript 节点。表达式可以包含在多个括号内。例如 "(((({exp}))))()"。该函数应返回引用内部表达式的 TypeScript 节点。例如 "exp"。
  *
  */
-export function unwrapExpression(node: ts.Expression|ts.ParenthesizedExpression): ts.Expression {
+export function unwrapExpression(node: ts.Expression | ts.ParenthesizedExpression): ts.Expression {
   return ts.isParenthesizedExpression(node) ? unwrapExpression(node.expression) : node;
 }

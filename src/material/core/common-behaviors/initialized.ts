@@ -39,8 +39,7 @@ export interface HasInitialized {
   _markInitialized: () => void;
 }
 
-/** @docs-private */
-export type HasInitializedCtor = Constructor<HasInitialized>;
+type HasInitializedCtor = Constructor<HasInitialized>;
 
 /**
  * Mixin to augment a directive with an initialized property that will emits when ngOnInit ends.
@@ -48,8 +47,7 @@ export type HasInitializedCtor = Constructor<HasInitialized>;
  * 混入 `initialized` 属性以扩展某个之灵，，该指令将在 ngOnInit 结束时发出事件。
  *
  */
-export function mixinInitialized<T extends Constructor<{}>>(base: T):
-    HasInitializedCtor & T {
+export function mixinInitialized<T extends Constructor<{}>>(base: T): HasInitializedCtor & T {
   return class extends base {
     /**
      * Whether this directive has been marked as initialized.
@@ -86,7 +84,9 @@ export function mixinInitialized<T extends Constructor<{}>>(base: T):
       }
     });
 
-    constructor(...args: any[]) { super(...args); }
+    constructor(...args: any[]) {
+      super(...args);
+    }
 
     /**
      * Marks the state as initialized and notifies pending subscribers. Should be called at the end
@@ -98,8 +98,10 @@ export function mixinInitialized<T extends Constructor<{}>>(base: T):
      */
     _markInitialized(): void {
       if (this._isInitialized && (typeof ngDevMode === 'undefined' || ngDevMode)) {
-        throw Error('This directive has already been marked as initialized and ' +
-            'should not be called twice.');
+        throw Error(
+          'This directive has already been marked as initialized and ' +
+            'should not be called twice.',
+        );
       }
 
       this._isInitialized = true;

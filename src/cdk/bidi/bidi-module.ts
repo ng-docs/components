@@ -13,4 +13,4 @@ import {Dir} from './dir';
   exports: [Dir],
   declarations: [Dir],
 })
-export class BidiModule { }
+export class BidiModule {}

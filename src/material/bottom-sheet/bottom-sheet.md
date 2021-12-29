@@ -65,46 +65,6 @@ export class HobbitSheet {
 }
 ```
 
-### Configuring bottom sheet content via `entryComponents`
-**You only need to specify `entryComponents` if your project uses ViewEngine. Projects
-using Angular Ivy don't need `entryComponents`.**
-
-### 通过 `entryComponents` 配置底部操作表的内容
-
-Similarly to `MatDialog`, `MatBottomSheet` instantiates components at run-time. In order for it to
-work, the Angular compiler needs extra information to create the necessary `ComponentFactory` for
-your bottom sheet content component.
-
-和 `MatDialog` 一样，`MatBottomSheet` 也会在运行期间实例化组件。
-为了让它能正常工作，Angular 编译器需要一些额外的信息，以便为你在底部操作表中使用的内容组件创建必要的 `ComponentFactory`。
-
-Any components that are included inside of a bottom sheet have to be added to the `entryComponents`
-inside your `NgModule`.
-
-任何要包含在底部操作表中的组件都必须添加到你的 `NgModule` 的 `entryComponents` 数组中。
-
-```ts
-@NgModule({
-  imports: [
-    // ...
-    MatBottomSheetModule
-  ],
-
-  declarations: [
-    AppComponent,
-    ExampleBottomSheetComponent
-  ],
-
-  entryComponents: [
-    ExampleBottomSheetComponent
-  ],
-
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule {}
-```
-
 ### Specifying global configuration defaults
 
 ### 全局指定配置的默认值
@@ -125,39 +85,53 @@ for `MAT_BOTTOM_SHEET_DEFAULT_OPTIONS` in your application's root module.
 
 ### Accessibility
 
-### 无障碍性
-
-By default, the bottom sheet has `role="dialog"` on the root element and can be labelled using the
-`ariaLabel` property on the `MatBottomSheetConfig`.
-
-默认情况下，底部操作表的根元素伤都会有一个 `role="dialog"` 属性，并且可以使用 `MatBottomSheetConfig` 上的 `ariaLabel` 属性标记出来。
-
-When a bottom sheet is opened, it will move focus to the first focusable element that it can find.
-In order to prevent users from tabbing into elements in the background, the Material bottom sheet
-uses a [focus trap](https://material.angular.io/cdk/a11y/overview#focustrap) to contain focus
-within itself. Once a bottom sheet is closed, it will return focus to the element that was focused
-before it was opened.
-
-当底部操作表打开时，它就会把焦点移交给所能找到的第一个可获得焦点的子元素。
-要阻止用户通过 tab 把焦点移到背景元素上，Material 的底部操作表会用[焦点陷阱](/cdk/a11y/overview#focustrap)把焦点锁在自己的内部。
-当底部操作表关闭时，它就会把焦点归还给打开操作表之前的拥有焦点的那个元素。
-
-#### Focus management
-
-#### 焦点管理
-
-By default, the first tabbable element within the bottom sheet will receive focus upon open.
-This can be configured by setting the `cdkFocusInitial` attribute on another focusable element.
-
-默认情况下，当打开时，底部工作表中第一个可 tab 进去的子元素将会接受焦点。
-不过，也可以通过为另一个可获得焦点的元素添加 `cdkFocusInitial` 元素来配置它。
+`MatBottomSheet` creates modal dialogs that implement the ARIA `role="dialog"` pattern. This root
+dialog element should be given an accessible label via the `ariaLabel` property of
+`MatBottomSheetConfig`.
 
 #### Keyboard interaction
 
 #### 键盘交互
 
-By default pressing the escape key will close the bottom sheet. While this behavior can
-be turned off via the `disableClose` option, users should generally avoid doing so
-as it breaks the expected interaction pattern for screen-reader users.
+By default, the escape key closes `MatBottomSheet`. While you can disable this behavior by using
+the `disableClose` property of `MatBottomSheetConfig`, doing this breaks the expected interaction
+pattern for the ARIA `role="dialog"` pattern.
+
+#### Focus management
+
+When opened, `MatBottomSheet` traps browser focus such that it cannot escape the root
+`role="dialog"` element. By default, the first tabbable element in the bottom sheet receives focus.
+You can customize which element receives focus with the `autoFocus` property of
+`MatBottomSheetConfig`, which supports the following values.
+
+| Value            | Behavior                                                                 |
+|------------------|--------------------------------------------------------------------------|
+| `first-tabbable` | Focus the first tabbable element. This is the default setting.           |
+| `first-header`   | Focus the first header element (`role="heading"`, `h1` through `h6`)     |
+| `dialog`         | Focus the root `role="dialog"` element.                                  |
+| Any CSS selector | Focus the first element matching the given selector.                     |
+
+While the default setting applies the best behavior for most applications, special cases may benefit
+from these alternatives. Always test your application to verify the behavior that works best for
+your users.
+
+#### Focus restoration
+
+When closed, `MatBottomSheet` restores focus to the element that previously held focus when the
+bottom sheet opened. However, if that previously focused element no longer exists, you must
+add additional handling to return focus to an element that makes sense for the user's workflow.
+Opening a bottom sheet from a menu is one common pattern that causes this situation. The menu
+closes upon clicking an item, thus the focused menu item is no longer in the DOM when the bottom
+sheet attempts to restore focus.
+
+You can add handling for this situation with the `afterDismissed()` observable from
+`MatBottomSheetRef`.
+
+```typescript
+const bottomSheetRef = bottomSheet.open(FileTypeChooser);
+bottomSheetRef.afterDismissed().subscribe(() => {
+  // Restore focus to an appropriate element for the user's workflow here.
+});
+```
 
 默认情况下，按 ESC 键就会关闭底部操作表。虽然也可以通过 `disableClose` 选项来禁止此行为，不过一般不应这样做，因为它会打破屏幕阅读器用户所期望的交互模式。

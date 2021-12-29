@@ -7,7 +7,7 @@
  */
 
 // Workaround for: https://github.com/bazelbuild/rules_nodejs/issues/1265
-/// <reference types="googlemaps" />
+/// <reference types="google.maps" />
 
 import {Directive, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
@@ -35,9 +35,9 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
 
   private readonly _opacity = new BehaviorSubject<number>(1);
   private readonly _url = new BehaviorSubject<string>('');
-  private readonly _bounds =
-      new BehaviorSubject<google.maps.LatLngBounds|google.maps.LatLngBoundsLiteral|undefined>(
-          undefined);
+  private readonly _bounds = new BehaviorSubject<
+    google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral | undefined
+  >(undefined);
   private readonly _destroyed = new Subject<void>();
 
   /**
@@ -70,10 +70,10 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
    *
    */
   @Input()
-  get bounds(): google.maps.LatLngBounds|google.maps.LatLngBoundsLiteral {
+  get bounds(): google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral {
     return this._bounds.value!;
   }
-  set bounds(bounds: google.maps.LatLngBounds|google.maps.LatLngBoundsLiteral) {
+  set bounds(bounds: google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral) {
     this._bounds.next(bounds);
   }
 
@@ -104,7 +104,7 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
    *
    */
   @Output() readonly mapClick: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('click');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('click');
 
   /**
    * See
@@ -115,7 +115,7 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
    *
    */
   @Output() readonly mapDblclick: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dblclick');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dblclick');
 
   constructor(private readonly _map: GoogleMap, private readonly _ngZone: NgZone) {}
 
@@ -168,7 +168,7 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
    * 请参阅 developers.google.com/maps/documentation/javascript/reference/image-overlay＃GroundOverlay.getBounds
    *
    */
-  getBounds(): google.maps.LatLngBounds {
+  getBounds(): google.maps.LatLngBounds | null {
     this._assertInitialized();
     return this.groundOverlay.getBounds();
   }
@@ -224,13 +224,15 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       if (!this._map.googleMap) {
         throw Error(
-            'Cannot access Google Map information before the API has been initialized. ' +
-            'Please wait for the API to load before trying to interact with it.');
+          'Cannot access Google Map information before the API has been initialized. ' +
+            'Please wait for the API to load before trying to interact with it.',
+        );
       }
       if (!this.groundOverlay) {
         throw Error(
-            'Cannot interact with a Google Map GroundOverlay before it has been initialized. ' +
-            'Please wait for the GroundOverlay to load before trying to interact with it.');
+          'Cannot interact with a Google Map GroundOverlay before it has been initialized. ' +
+            'Please wait for the GroundOverlay to load before trying to interact with it.',
+        );
       }
     }
   }

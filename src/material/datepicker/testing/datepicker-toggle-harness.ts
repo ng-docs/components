@@ -42,8 +42,9 @@ export class MatDatepickerToggleHarness extends DatepickerTriggerHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: DatepickerToggleHarnessFilters = {}):
-    HarnessPredicate<MatDatepickerToggleHarness> {
+  static with(
+    options: DatepickerToggleHarnessFilters = {},
+  ): HarnessPredicate<MatDatepickerToggleHarness> {
     return new HarnessPredicate(MatDatepickerToggleHarness, options);
   }
 

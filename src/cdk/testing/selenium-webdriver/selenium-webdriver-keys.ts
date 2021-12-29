@@ -46,7 +46,7 @@ export const seleniumWebDriverKeyMap = {
   [TestKey.F10]: webdriver.Key.F10,
   [TestKey.F11]: webdriver.Key.F11,
   [TestKey.F12]: webdriver.Key.F12,
-  [TestKey.META]: webdriver.Key.META
+  [TestKey.META]: webdriver.Key.META,
 };
 
 /**

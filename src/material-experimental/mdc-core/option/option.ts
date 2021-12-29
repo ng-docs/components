@@ -32,16 +32,16 @@ import {MatOptgroup} from './optgroup';
   host: {
     'role': 'option',
     '[attr.tabindex]': '_getTabIndex()',
-    '[class.mdc-deprecated-list-item--selected]': 'selected',
+    '[class.mdc-list-item--selected]': 'selected',
     '[class.mat-mdc-option-multiple]': 'multiple',
     '[class.mat-mdc-option-active]': 'active',
-    '[class.mdc-deprecated-list-item--disabled]': 'disabled',
+    '[class.mdc-list-item--disabled]': 'disabled',
     '[id]': 'id',
     '[attr.aria-selected]': '_getAriaSelected()',
     '[attr.aria-disabled]': 'disabled.toString()',
     '(click)': '_selectViaInteraction()',
     '(keydown)': '_handleKeydown($event)',
-    'class': 'mat-mdc-option mat-mdc-focus-indicator',
+    'class': 'mat-mdc-option mat-mdc-focus-indicator mdc-list-item',
   },
   styleUrls: ['option.css'],
   templateUrl: 'option.html',
@@ -53,7 +53,8 @@ export class MatOption extends _MatOptionBase {
     element: ElementRef<HTMLElement>,
     changeDetectorRef: ChangeDetectorRef,
     @Optional() @Inject(MAT_OPTION_PARENT_COMPONENT) parent: MatOptionParentComponent,
-    @Optional() @Inject(MAT_OPTGROUP) group: MatOptgroup) {
+    @Optional() @Inject(MAT_OPTGROUP) group: MatOptgroup,
+  ) {
     super(element, changeDetectorRef, parent, group);
   }
 }

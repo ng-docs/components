@@ -45,7 +45,7 @@ box-shadow. You can use the `$color` parameter to further customize the shadow a
 除了预定义的 CSS 类之外，你还可以使用 `elevation` Sass mixin 来应用纵深样式。此 mixin 接受 `$zValue` 和可选的 `$color` 参数。`$zValue` 是一个从 0 到 24 的数字，代表元素的语义化纵深，它会控制盒子阴影的强度。你可以使用 `$color` 参数进一步自定义阴影外观。
 
 ```scss
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 
 .my-class-with-default-shadow {
     // Adds a shadow for elevation level 2 with default color and full opacity:
@@ -79,7 +79,7 @@ You can use the `elevation-transition` mixin to add a transition when elevation 
 你可以使用 `elevation-transition` Mixin 来添加纵深变化时的转场动画。
 
 ```scss
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 
 .my-class {
     @include mat.elevation-transition();

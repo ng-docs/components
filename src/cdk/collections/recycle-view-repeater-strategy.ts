@@ -10,7 +10,7 @@ import {
   EmbeddedViewRef,
   IterableChangeRecord,
   IterableChanges,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 import {
   _ViewRepeater,
@@ -19,7 +19,7 @@ import {
   _ViewRepeaterItemContextFactory,
   _ViewRepeaterItemInsertArgs,
   _ViewRepeaterItemValueResolver,
-  _ViewRepeaterOperation
+  _ViewRepeaterOperation,
 } from './view-repeater';
 
 /**
@@ -45,7 +45,8 @@ import {
  *
  */
 export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemContext<T>>
-    implements _ViewRepeater<T, R, C> {
+  implements _ViewRepeater<T, R, C>
+{
   /**
    * The size of the cache used to store unused views.
    * Setting the cache size to `0` will disable caching. Defaults to 20 views.
@@ -72,40 +73,57 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
    * 把这些变化应用到 DOM 中。
    *
    */
-  applyChanges(changes: IterableChanges<R>,
-               viewContainerRef: ViewContainerRef,
-               itemContextFactory: _ViewRepeaterItemContextFactory<T, R, C>,
-               itemValueResolver: _ViewRepeaterItemValueResolver<T, R>,
-               itemViewChanged?: _ViewRepeaterItemChanged<R, C>) {
+  applyChanges(
+    changes: IterableChanges<R>,
+    viewContainerRef: ViewContainerRef,
+    itemContextFactory: _ViewRepeaterItemContextFactory<T, R, C>,
+    itemValueResolver: _ViewRepeaterItemValueResolver<T, R>,
+    itemViewChanged?: _ViewRepeaterItemChanged<R, C>,
+  ) {
     // Rearrange the views to put them in the right location.
-    changes.forEachOperation((record: IterableChangeRecord<R>,
-                              adjustedPreviousIndex: number | null,
-                              currentIndex: number | null) => {
-      let view: EmbeddedViewRef<C> | undefined;
-      let operation: _ViewRepeaterOperation;
-      if (record.previousIndex == null) {  // Item added.
-        const viewArgsFactory = () => itemContextFactory(
-            record, adjustedPreviousIndex, currentIndex);
-        view = this._insertView(viewArgsFactory, currentIndex!, viewContainerRef,
-            itemValueResolver(record));
-        operation = view ? _ViewRepeaterOperation.INSERTED : _ViewRepeaterOperation.REPLACED;
-      } else if (currentIndex == null) {  // Item removed.
-        this._detachAndCacheView(adjustedPreviousIndex!, viewContainerRef);
-        operation = _ViewRepeaterOperation.REMOVED;
-      } else {  // Item moved.
-        view = this._moveView(adjustedPreviousIndex!, currentIndex!, viewContainerRef,
-            itemValueResolver(record));
-        operation = _ViewRepeaterOperation.MOVED;
-      }
+    changes.forEachOperation(
+      (
+        record: IterableChangeRecord<R>,
+        adjustedPreviousIndex: number | null,
+        currentIndex: number | null,
+      ) => {
+        let view: EmbeddedViewRef<C> | undefined;
+        let operation: _ViewRepeaterOperation;
+        if (record.previousIndex == null) {
+          // Item added.
+          const viewArgsFactory = () =>
+            itemContextFactory(record, adjustedPreviousIndex, currentIndex);
+          view = this._insertView(
+            viewArgsFactory,
+            currentIndex!,
+            viewContainerRef,
+            itemValueResolver(record),
+          );
+          operation = view ? _ViewRepeaterOperation.INSERTED : _ViewRepeaterOperation.REPLACED;
+        } else if (currentIndex == null) {
+          // Item removed.
+          this._detachAndCacheView(adjustedPreviousIndex!, viewContainerRef);
+          operation = _ViewRepeaterOperation.REMOVED;
+        } else {
+          // Item moved.
+          view = this._moveView(
+            adjustedPreviousIndex!,
+            currentIndex!,
+            viewContainerRef,
+            itemValueResolver(record),
+          );
+          operation = _ViewRepeaterOperation.MOVED;
+        }
 
-      if (itemViewChanged) {
-        itemViewChanged({
-          context: view?.context,
-          operation,
-          record,
-        });
-      }
-    });
+        if (itemViewChanged) {
+          itemViewChanged({
+            context: view?.context,
+            operation,
+            record,
+          });
+        }
+      },
+    );
   }
 
   detach() {
@@ -122,9 +140,12 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
    * 为新条目插入一个视图，可能从缓存中取得，也可能创建一个新条目。如果该条目已被插入到缓存视图中，则返回 `undefined`
    *
    */
-  private _insertView(viewArgsFactory: () => _ViewRepeaterItemInsertArgs<C>, currentIndex: number,
-                      viewContainerRef: ViewContainerRef,
-                      value: T): EmbeddedViewRef<C> | undefined {
+  private _insertView(
+    viewArgsFactory: () => _ViewRepeaterItemInsertArgs<C>,
+    currentIndex: number,
+    viewContainerRef: ViewContainerRef,
+    value: T,
+  ): EmbeddedViewRef<C> | undefined {
     const cachedView = this._insertViewFromCache(currentIndex!, viewContainerRef);
     if (cachedView) {
       cachedView.context.$implicit = value;
@@ -133,7 +154,10 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
 
     const viewArgs = viewArgsFactory();
     return viewContainerRef.createEmbeddedView(
-        viewArgs.templateRef, viewArgs.context, viewArgs.index);
+      viewArgs.templateRef,
+      viewArgs.context,
+      viewArgs.index,
+    );
   }
 
   /**
@@ -153,8 +177,12 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
    * 把前一个索引的视图移动到当前索引。
    *
    */
-  private _moveView(adjustedPreviousIndex: number, currentIndex: number,
-                    viewContainerRef: ViewContainerRef, value: T): EmbeddedViewRef<C> {
+  private _moveView(
+    adjustedPreviousIndex: number,
+    currentIndex: number,
+    viewContainerRef: ViewContainerRef,
+    value: T,
+  ): EmbeddedViewRef<C> {
     const view = viewContainerRef.get(adjustedPreviousIndex!) as EmbeddedViewRef<C>;
     viewContainerRef.move(view, currentIndex);
     view.context.$implicit = value;
@@ -192,8 +220,10 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
    * 在指定索引处的缓存中插入一个回收的视图。
    *
    */
-  private _insertViewFromCache(index: number,
-                               viewContainerRef: ViewContainerRef): EmbeddedViewRef<C> | null {
+  private _insertViewFromCache(
+    index: number,
+    viewContainerRef: ViewContainerRef,
+  ): EmbeddedViewRef<C> | null {
     const cachedView = this._viewCache.pop();
     if (cachedView) {
       viewContainerRef.insert(cachedView, index);

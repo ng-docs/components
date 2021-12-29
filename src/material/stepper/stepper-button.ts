@@ -21,10 +21,9 @@ import {Directive} from '@angular/core';
     'class': 'mat-stepper-next',
     '[type]': 'type',
   },
-  inputs: ['type']
+  inputs: ['type'],
 })
-export class MatStepperNext extends CdkStepperNext {
-}
+export class MatStepperNext extends CdkStepperNext {}
 
 /**
  * Button that moves to the previous step in a stepper workflow.
@@ -38,7 +37,6 @@ export class MatStepperNext extends CdkStepperNext {
     'class': 'mat-stepper-previous',
     '[type]': 'type',
   },
-  inputs: ['type']
+  inputs: ['type'],
 })
-export class MatStepperPrevious extends CdkStepperPrevious {
-}
+export class MatStepperPrevious extends CdkStepperPrevious {}

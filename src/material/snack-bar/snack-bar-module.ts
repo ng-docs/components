@@ -16,15 +16,8 @@ import {SimpleSnackBar} from './simple-snack-bar';
 import {MatSnackBarContainer} from './snack-bar-container';
 
 @NgModule({
-  imports: [
-    OverlayModule,
-    PortalModule,
-    CommonModule,
-    MatButtonModule,
-    MatCommonModule,
-  ],
+  imports: [OverlayModule, PortalModule, CommonModule, MatButtonModule, MatCommonModule],
   exports: [MatSnackBarContainer, MatCommonModule],
   declarations: [MatSnackBarContainer, SimpleSnackBar],
-  entryComponents: [MatSnackBarContainer, SimpleSnackBar],
 })
 export class MatSnackBarModule {}

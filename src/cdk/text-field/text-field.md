@@ -51,7 +51,7 @@ using Angular Material, you should include this CSS with the `text-field-autofil
 注意：当自动填充状态发生变化时，这项服务会需要一些 CSS 来安装动画钩子。如果你正在使用 Angular Material，那么这个 CSS 就已经作为 `mat-core` mixin 的一部分提供了。如果你没有使用 Angular Material，就应该用 `text-field-autofill` mixin 来包含这个 CSS。
 
 ```scss
-@use '~@angular/cdk';
+@use '@angular/cdk';
 
 @include cdk.text-field-autofill();
 ```
@@ -68,7 +68,7 @@ an optional `color` value as the second parameter.
 在自动填充的 `<input>` 上覆盖浏览器的默认 `background` 和 `color` 属性可能会很困难。为了简单起见，CDK 包含了一个 mixin `text-field-autofill-color`，它可以用来设置这些属性。它以第一个参数 `background` 和第二个可选参数 `color` 的值作为参数。
 
 ```scss
-@use '~@angular/cdk';
+@use '@angular/cdk';
 
 // Set custom autofill inputs to have no background and red text.
 input.custom-autofill {

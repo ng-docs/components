@@ -27,9 +27,8 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
    */
   static hostSelector = '.mat-snack-bar-container';
   protected _messageSelector = '.mat-simple-snackbar > span';
-  protected _simpleSnackBarSelector = '.mat-simple-snackbar';
   protected _actionButtonSelector = '.mat-simple-snackbar-action > button';
-  private _simpleSnackBarLiveRegion = this.locatorFor('[aria-live]');
+  private _snackBarLiveRegion = this.locatorFor('[aria-live]');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatSnackBarHarness` that meets
@@ -61,8 +60,8 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
    *
    * @breaking-change 13.0.0
    */
-  async getRole(): Promise<'alert'|'status'|null> {
-    return (await this.host()).getAttribute('role') as Promise<'alert'|'status'|null>;
+  async getRole(): Promise<'alert' | 'status' | null> {
+    return (await this.host()).getAttribute('role') as Promise<'alert' | 'status' | null>;
   }
 
   /**
@@ -73,8 +72,9 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
    *
    */
   async getAriaLive(): Promise<AriaLivePoliteness> {
-    return (await this._simpleSnackBarLiveRegion())
-        .getAttribute('aria-live') as Promise<AriaLivePoliteness>;
+    return (await this._snackBarLiveRegion()).getAttribute(
+      'aria-live',
+    ) as Promise<AriaLivePoliteness>;
   }
 
   /**
@@ -84,8 +84,8 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
    *
    */
   async hasAction(): Promise<boolean> {
-    await this._assertSimpleSnackBar();
-    return (await this._getSimpleSnackBarActionButton()) !== null;
+    await this._assertContentAnnotated();
+    return (await this._getActionButton()) !== null;
   }
 
   /**
@@ -96,8 +96,8 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
    *
    */
   async getActionDescription(): Promise<string> {
-    await this._assertSimpleSnackBarWithAction();
-    return (await this._getSimpleSnackBarActionButton())!.text();
+    await this._assertHasAction();
+    return (await this._getActionButton())!.text();
   }
 
   /**
@@ -108,8 +108,8 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
    *
    */
   async dismissWithAction(): Promise<void> {
-    await this._assertSimpleSnackBarWithAction();
-    await (await this._getSimpleSnackBarActionButton())!.click();
+    await this._assertHasAction();
+    await (await this._getActionButton())!.click();
   }
 
   /**
@@ -119,7 +119,7 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
    *
    */
   async getMessage(): Promise<string> {
-    await this._assertSimpleSnackBar();
+    await this._assertContentAnnotated();
     return (await this.locatorFor(this._messageSelector)()).text();
   }
 
@@ -145,29 +145,29 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
   }
 
   /**
-   * Asserts that the current snack-bar does not use custom content. Promise rejects if
-   * custom content is used.
+   * Asserts that the current snack-bar has annotated content. Promise reject
+   * if content is not annotated.
    *
    * 断言当前快餐栏不使用自定义内容。如果使用了自定义内容，则拒绝此 Promise。
    *
    */
-  private async _assertSimpleSnackBar(): Promise<void> {
-    if (!await this._isSimpleSnackBar()) {
+  protected async _assertContentAnnotated(): Promise<void> {
+    if (!(await this._isSimpleSnackBar())) {
       throw Error('Method cannot be used for snack-bar with custom content.');
     }
   }
 
   /**
-   * Asserts that the current snack-bar does not use custom content and has
-   * an action defined. Otherwise the promise will reject.
+   * Asserts that the current snack-bar has an action defined. Otherwise the
+   * promise will reject.
    *
    * 断言当前快餐栏不使用自定义内容，并且已定义操作。否则，拒绝此 Promise。
    *
    */
-  private async _assertSimpleSnackBarWithAction(): Promise<void> {
-    await this._assertSimpleSnackBar();
-    if (!await this.hasAction()) {
-      throw Error('Method cannot be used for standard snack-bar without action.');
+  protected async _assertHasAction(): Promise<void> {
+    await this._assertContentAnnotated();
+    if (!(await this.hasAction())) {
+      throw Error('Method cannot be used for a snack-bar without an action.');
     }
   }
 
@@ -178,7 +178,7 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
    *
    */
   private async _isSimpleSnackBar(): Promise<boolean> {
-    return await this.locatorForOptional(this._simpleSnackBarSelector)() !== null;
+    return (await this.locatorForOptional('.mat-simple-snackbar')()) !== null;
   }
 
   /**
@@ -187,7 +187,7 @@ export class MatSnackBarHarness extends ContentContainerComponentHarness<string>
    * 获取简单的快餐栏操作按钮。
    *
    */
-  private async _getSimpleSnackBarActionButton() {
+  private async _getActionButton() {
     return this.locatorForOptional(this._actionButtonSelector)();
   }
 }

@@ -27,6 +27,8 @@ import {
   OutputNameUpgradeData,
   propertyNames,
   PropertyNameUpgradeData,
+  SymbolRemovalUpgradeData,
+  symbolRemoval,
 } from './data';
 
 /**
@@ -45,6 +47,7 @@ export const cdkUpgradeData: UpgradeData = {
   methodCallChecks,
   outputNames,
   propertyNames,
+  symbolRemoval,
 };
 
 /**
@@ -64,6 +67,7 @@ export interface UpgradeData {
   methodCallChecks: VersionChanges<MethodCallUpgradeData>;
   outputNames: VersionChanges<OutputNameUpgradeData>;
   propertyNames: VersionChanges<PropertyNameUpgradeData>;
+  symbolRemoval: VersionChanges<SymbolRemovalUpgradeData>;
 }
 
 /**
@@ -74,10 +78,13 @@ export interface UpgradeData {
  * 获取指定数据键的简化升级数据。该函数从迁移中读取目标版本和升级数据对象，并解析特定于目标版本的指定数据部分。
  *
  */
-export function
-getVersionUpgradeData<T extends keyof UpgradeData, U = ValueOfChanges<UpgradeData[T]>>(
-    migration: Migration<UpgradeData>, dataName: T): U[] {
+export function getVersionUpgradeData<
+  T extends keyof UpgradeData,
+  U = ValueOfChanges<UpgradeData[T]>,
+>(migration: Migration<UpgradeData>, dataName: T): U[] {
   // Note that below we need to cast to `unknown` first TS doesn't infer the type of T correctly.
   return getChangesForTarget<U>(
-      migration.targetVersion, migration.upgradeData[dataName] as unknown as VersionChanges<U>);
+    migration.targetVersion,
+    migration.upgradeData[dataName] as unknown as VersionChanges<U>,
+  );
 }

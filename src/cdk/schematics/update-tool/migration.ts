@@ -35,16 +35,16 @@ export type PostMigrationAction = void | {
  * 为指定的类型创建构造函数类型。
  *
  */
-export type Constructor<T> = (new (...args: any[]) => T);
+export type Constructor<T> = new (...args: any[]) => T;
 /**
  * Gets a constructor type for the passed migration data.
  *
  * 获取传递的迁移数据的构造函数类型。
  *
  */
-export type MigrationCtor<Data, Context = never> = Constructor<Migration<Data, Context>>;
+export type MigrationCtor<Data, Context = any> = Constructor<Migration<Data, Context>>;
 
-export abstract class Migration<Data, Context = never> {
+export abstract class Migration<Data, Context = any> {
   /**
    * List of migration failures that need to be reported.
    *
@@ -62,20 +62,21 @@ export abstract class Migration<Data, Context = never> {
   abstract enabled: boolean;
 
   constructor(
-      /** TypeScript program for the migration. */
-      public program: ts.Program,
-      /** TypeChecker instance for the analysis program. */
-      public typeChecker: ts.TypeChecker,
-      /** Version for which the migration rule should run. */
-      public targetVersion: TargetVersion,
-      /** Context data for the migration. */
-      public context: Context,
-      /** Upgrade data passed to the migration. */
-      public upgradeData: Data,
-      /** File system that can be used for modifying files. */
-      public fileSystem: FileSystem,
-      /** Logger that can be used to print messages as part of the migration. */
-      public logger: UpdateLogger) {}
+    /** TypeScript program for the migration. */
+    public program: ts.Program,
+    /** TypeChecker instance for the analysis program. */
+    public typeChecker: ts.TypeChecker,
+    /** Version for which the migration rule should run. */
+    public targetVersion: TargetVersion,
+    /** Context data for the migration. */
+    public context: Context,
+    /** Upgrade data passed to the migration. */
+    public upgradeData: Data,
+    /** File system that can be used for modifying files. */
+    public fileSystem: FileSystem,
+    /** Logger that can be used to print messages as part of the migration. */
+    public logger: UpdateLogger,
+  ) {}
 
   /**
    * Method can be used to perform global analysis of the program.

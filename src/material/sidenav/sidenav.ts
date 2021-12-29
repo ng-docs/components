@@ -26,7 +26,7 @@ import {
   BooleanInput,
   coerceBooleanProperty,
   coerceNumberProperty,
-  NumberInput
+  NumberInput,
 } from '@angular/cdk/coercion';
 import {ScrollDispatcher} from '@angular/cdk/scrolling';
 
@@ -43,11 +43,12 @@ import {ScrollDispatcher} from '@angular/cdk/scrolling';
 })
 export class MatSidenavContent extends MatDrawerContent {
   constructor(
-      changeDetectorRef: ChangeDetectorRef,
-      @Inject(forwardRef(() => MatSidenavContainer)) container: MatSidenavContainer,
-      elementRef: ElementRef<HTMLElement>,
-      scrollDispatcher: ScrollDispatcher,
-      ngZone: NgZone) {
+    changeDetectorRef: ChangeDetectorRef,
+    @Inject(forwardRef(() => MatSidenavContainer)) container: MatSidenavContainer,
+    elementRef: ElementRef<HTMLElement>,
+    scrollDispatcher: ScrollDispatcher,
+    ngZone: NgZone,
+  ) {
     super(changeDetectorRef, container, elementRef, scrollDispatcher, ngZone);
   }
 }
@@ -82,8 +83,12 @@ export class MatSidenav extends MatDrawer {
    *
    */
   @Input()
-  get fixedInViewport(): boolean { return this._fixedInViewport; }
-  set fixedInViewport(value) { this._fixedInViewport = coerceBooleanProperty(value); }
+  get fixedInViewport(): boolean {
+    return this._fixedInViewport;
+  }
+  set fixedInViewport(value: BooleanInput) {
+    this._fixedInViewport = coerceBooleanProperty(value);
+  }
   private _fixedInViewport = false;
 
   /**
@@ -94,8 +99,12 @@ export class MatSidenav extends MatDrawer {
    *
    */
   @Input()
-  get fixedTopGap(): number { return this._fixedTopGap; }
-  set fixedTopGap(value) { this._fixedTopGap = coerceNumberProperty(value); }
+  get fixedTopGap(): number {
+    return this._fixedTopGap;
+  }
+  set fixedTopGap(value: NumberInput) {
+    this._fixedTopGap = coerceNumberProperty(value);
+  }
   private _fixedTopGap = 0;
 
   /**
@@ -106,13 +115,13 @@ export class MatSidenav extends MatDrawer {
    *
    */
   @Input()
-  get fixedBottomGap(): number { return this._fixedBottomGap; }
-  set fixedBottomGap(value) { this._fixedBottomGap = coerceNumberProperty(value); }
+  get fixedBottomGap(): number {
+    return this._fixedBottomGap;
+  }
+  set fixedBottomGap(value: NumberInput) {
+    this._fixedBottomGap = coerceNumberProperty(value);
+  }
   private _fixedBottomGap = 0;
-
-  static ngAcceptInputType_fixedInViewport: BooleanInput;
-  static ngAcceptInputType_fixedTopGap: NumberInput;
-  static ngAcceptInputType_fixedBottomGap: NumberInput;
 }
 
 @Component({
@@ -126,20 +135,20 @@ export class MatSidenav extends MatDrawer {
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  providers: [{
-    provide: MAT_DRAWER_CONTAINER,
-    useExisting: MatSidenavContainer
-  }]
-
+  providers: [
+    {
+      provide: MAT_DRAWER_CONTAINER,
+      useExisting: MatSidenavContainer,
+    },
+  ],
 })
 export class MatSidenavContainer extends MatDrawerContainer {
   @ContentChildren(MatSidenav, {
     // We need to use `descendants: true`, because Ivy will no longer match
     // indirect descendants if it's left as false.
-    descendants: true
+    descendants: true,
   })
-  _allDrawers: QueryList<MatSidenav>;
+  override _allDrawers: QueryList<MatSidenav>;
 
-  @ContentChild(MatSidenavContent) _content: MatSidenavContent;
-  static ngAcceptInputType_hasBackdrop: BooleanInput;
+  @ContentChild(MatSidenavContent) override _content: MatSidenavContent;
 }

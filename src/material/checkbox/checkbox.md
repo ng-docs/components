@@ -101,14 +101,20 @@ use the theme's accent color. This can be changed to `'primary'` or `'warn'`.
 
 ### 无障碍性
 
-The `<mat-checkbox>` uses an internal `<input type="checkbox">` to provide an accessible experience.
+`MatCheckbox` uses an internal `<input type="checkbox">` to provide an accessible experience.
 This internal checkbox receives focus and is automatically labelled by the text content of the
-`<mat-checkbox>` element.
+`<mat-checkbox>` element. Avoid adding other interactive controls into the content of
+`<mat-checkbox>`, as this degrades the experience for users of assistive technology.
 
-`<mat-checkbox>` 使用一个内部的 `<input type="checkbox">` 来提供无障碍性体验。
+`MatCheckbox` 使用一个内部的 `<input type="checkbox">` 来提供无障碍性体验。
 这个内部检查框可以接受焦点，并且自动把 `<mat-checkbox>` 元素的文本内容作为标签。
 
-Checkboxes without text or labels should be given a meaningful label via `aria-label` or
-`aria-labelledby`.
+Always provide an accessible label via `aria-label` or `aria-labelledby` for checkboxes without
+descriptive text content. For dynamic labels, `MatCheckbox` provides input properties for binding
+`aria-label` and `aria-labelledby`. This means that you should not use the `attr.` prefix when
+binding these properties, as demonstrated below.
 
-没有文本或标签的检查框需要通过 `aria-label` 或 `aria-labelledby` 属性给出一个有意义的标签。
+```html
+<mat-checkbox [aria-label]="isSubscribedToEmailsMessage">
+</mat-checkbox>
+```

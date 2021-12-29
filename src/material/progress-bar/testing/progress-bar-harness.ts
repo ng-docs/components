@@ -49,7 +49,7 @@ export class MatProgressBarHarness extends ComponentHarness {
    * 获取此进度条的值。
    *
    */
-  async getValue(): Promise<number|null> {
+  async getValue(): Promise<number | null> {
     const host = await this.host();
     const ariaValue = await host.getAttribute('aria-valuenow');
     return ariaValue ? coerceNumberProperty(ariaValue) : null;
@@ -61,7 +61,7 @@ export class MatProgressBarHarness extends ComponentHarness {
    * 获取此进度条的模式。
    *
    */
-  async getMode(): Promise<string|null> {
+  async getMode(): Promise<string | null> {
     return (await this.host()).getAttribute('mode');
   }
 }

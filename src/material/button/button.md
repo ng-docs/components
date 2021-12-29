@@ -64,15 +64,28 @@ approach this to the consuming app.
 ### 无障碍性
 
 Angular Material uses native `<button>` and `<a>` elements to ensure an accessible experience by
-default. The `<button>` element should be used for any interaction that _performs an action on the
-current page_. The `<a>` element should be used for any interaction that _navigates to another
-view_.
+default. A `<button>` element should be used for any interaction that _performs an action on the
+current page_. An `<a>` element should be used for any interaction that _navigates to another
+URL_. All standard accessibility best practices for buttons and anchors apply to `MatButton`.
 
 Angular Material 使用原生的 `<button>` 和 `<a>` 元素，来保留默认的无障碍性体验。
 当要执行某些*动作*时，应该使用 `<button>` 元素。
 当用户要*导航*到其它视图时，应该使用 `<a>` 元素。
 
+#### Disabling anchors
+`MatAnchor` supports disabling an anchor in addition to the features provided by the native
+`<a>` element. When you disable an anchor, the component sets `aria-disabled="true"` and
+`tabindex="-1"`. Always test disabled anchors in your application to ensure compatibility
+with any assistive technology your application supports.
+
+#### Buttons with icons
 Buttons or links containing only icons (such as `mat-fab`, `mat-mini-fab`, and `mat-icon-button`)
-should be given a meaningful label via `aria-label` or `aria-labelledby`.
+should be given a meaningful label via `aria-label` or `aria-labelledby`. [See the documentation
+for `MatIcon`](https://material.angular.io/components/icon) for more
+information on using icons in buttons.
+
+#### Toggle buttons
+[See the documentation for `MatButtonToggle`](https://material.angular.io/components/button-toggle)
+for information on stateful toggle buttons.
 
 对于那些只含图标的按钮或链接（比如 `mat-fab`、`mat-mini-fab` 和 `mat-icon-button`），应该通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。

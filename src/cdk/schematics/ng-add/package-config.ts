@@ -22,8 +22,13 @@ interface PackageJson {
  * 具有已排序键的新对象实例
  *
  */
-function sortObjectByKeys(obj: object) {
-  return Object.keys(obj).sort().reduce((result, key) => (result[key] = obj[key]) && result, {});
+function sortObjectByKeys(obj: Record<string, string>) {
+  return Object.keys(obj)
+    .sort()
+    .reduce((result, key) => {
+      result[key] = obj[key];
+      return result;
+    }, {} as Record<string, string>);
 }
 
 /**
@@ -33,7 +38,6 @@ function sortObjectByKeys(obj: object) {
  *
  */
 export function addPackageToPackageJson(host: Tree, pkg: string, version: string): Tree {
-
   if (host.exists('package.json')) {
     const sourceText = host.read('package.json')!.toString('utf-8');
     const json = JSON.parse(sourceText) as PackageJson;

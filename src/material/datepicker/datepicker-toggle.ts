@@ -34,7 +34,7 @@ import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
  *
  */
 @Directive({
-  selector: '[matDatepickerToggleIcon]'
+  selector: '[matDatepickerToggleIcon]',
 })
 export class MatDatepickerToggleIcon {}
 
@@ -100,7 +100,7 @@ export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDe
 
     return !!this._disabled;
   }
-  set disabled(value: boolean) {
+  set disabled(value: BooleanInput) {
     this._disabled = coerceBooleanProperty(value);
   }
   private _disabled: boolean;
@@ -132,10 +132,10 @@ export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDe
   constructor(
     public _intl: MatDatepickerIntl,
     private _changeDetectorRef: ChangeDetectorRef,
-    @Attribute('tabindex') defaultTabIndex: string) {
-
+    @Attribute('tabindex') defaultTabIndex: string,
+  ) {
     const parsedTabIndex = Number(defaultTabIndex);
-    this.tabIndex = (parsedTabIndex || parsedTabIndex === 0) ? parsedTabIndex : null;
+    this.tabIndex = parsedTabIndex || parsedTabIndex === 0 ? parsedTabIndex : null;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -161,20 +161,20 @@ export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDe
 
   private _watchStateChanges() {
     const datepickerStateChanged = this.datepicker ? this.datepicker.stateChanges : observableOf();
-    const inputStateChanged = this.datepicker && this.datepicker.datepickerInput ?
-        this.datepicker.datepickerInput.stateChanges : observableOf();
-    const datepickerToggled = this.datepicker ?
-        merge(this.datepicker.openedStream, this.datepicker.closedStream) :
-        observableOf();
+    const inputStateChanged =
+      this.datepicker && this.datepicker.datepickerInput
+        ? this.datepicker.datepickerInput.stateChanges
+        : observableOf();
+    const datepickerToggled = this.datepicker
+      ? merge(this.datepicker.openedStream, this.datepicker.closedStream)
+      : observableOf();
 
     this._stateChanges.unsubscribe();
     this._stateChanges = merge(
       this._intl.changes,
       datepickerStateChanged as Observable<void>,
       inputStateChanged,
-      datepickerToggled
+      datepickerToggled,
     ).subscribe(() => this._changeDetectorRef.markForCheck());
   }
-
-  static ngAcceptInputType_disabled: BooleanInput;
 }

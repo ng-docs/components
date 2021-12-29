@@ -207,8 +207,11 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
    *
    */
   withTypeAhead(debounceInterval: number = 200): this {
-    if ((typeof ngDevMode === 'undefined' || ngDevMode) && (this._items.length &&
-        this._items.some(item => typeof item.getLabel !== 'function'))) {
+    if (
+      (typeof ngDevMode === 'undefined' || ngDevMode) &&
+      this._items.length &&
+      this._items.some(item => typeof item.getLabel !== 'function')
+    ) {
       throw Error('ListKeyManager items in typeahead mode must implement the `getLabel` method.');
     }
 
@@ -217,30 +220,33 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
     // Debounce the presses of non-navigational keys, collect the ones that correspond to letters
     // and convert those letters back into a string. Afterwards find the first item that starts
     // with that string and select it.
-    this._typeaheadSubscription = this._letterKeyStream.pipe(
-      tap(letter => this._pressedLetters.push(letter)),
-      debounceTime(debounceInterval),
-      filter(() => this._pressedLetters.length > 0),
-      map(() => this._pressedLetters.join(''))
-    ).subscribe(inputString => {
-      const items = this._getItemsArray();
+    this._typeaheadSubscription = this._letterKeyStream
+      .pipe(
+        tap(letter => this._pressedLetters.push(letter)),
+        debounceTime(debounceInterval),
+        filter(() => this._pressedLetters.length > 0),
+        map(() => this._pressedLetters.join('')),
+      )
+      .subscribe(inputString => {
+        const items = this._getItemsArray();
 
-      // Start at 1 because we want to start searching at the item immediately
-      // following the current active item.
-      for (let i = 1; i < items.length + 1; i++) {
-        const index = (this._activeItemIndex + i) % items.length;
-        const item = items[index];
+        // Start at 1 because we want to start searching at the item immediately
+        // following the current active item.
+        for (let i = 1; i < items.length + 1; i++) {
+          const index = (this._activeItemIndex + i) % items.length;
+          const item = items[index];
 
-        if (!this._skipPredicateFn(item) &&
-            item.getLabel!().toUpperCase().trim().indexOf(inputString) === 0) {
-
-          this.setActiveItem(index);
-          break;
+          if (
+            !this._skipPredicateFn(item) &&
+            item.getLabel!().toUpperCase().trim().indexOf(inputString) === 0
+          ) {
+            this.setActiveItem(index);
+            break;
+          }
         }
-      }
 
-      this._pressedLetters = [];
-    });
+        this._pressedLetters = [];
+      });
 
     return this;
   }
@@ -366,7 +372,7 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
         }
 
       default:
-      if (isModifierAllowed || hasModifierKey(event, 'shiftKey')) {
+        if (isModifierAllowed || hasModifierKey(event, 'shiftKey')) {
           // Attempt to use the `event.key` which also maps it to the user's keyboard language,
           // otherwise fall back to resolving alphanumeric characters via the keyCode.
           if (event.key && event.key.length === 1) {
@@ -452,8 +458,9 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
    *
    */
   setPreviousItemActive(): void {
-    this._activeItemIndex < 0 && this._wrap ? this.setLastItemActive()
-                                            : this._setActiveItemByDelta(-1);
+    this._activeItemIndex < 0 && this._wrap
+      ? this.setLastItemActive()
+      : this._setActiveItemByDelta(-1);
   }
 
   /**
@@ -514,7 +521,7 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
     const items = this._getItemsArray();
 
     for (let i = 1; i <= items.length; i++) {
-      const index = (this._activeItemIndex + (delta * i) + items.length) % items.length;
+      const index = (this._activeItemIndex + delta * i + items.length) % items.length;
       const item = items[index];
 
       if (!this._skipPredicateFn(item)) {

@@ -19,14 +19,15 @@ ng_module(
     assets = [
         ":bottom-sheet-container.css",
     ] + glob(["**/*.html"]),
-    module_name = "@angular/material/bottom-sheet",
     deps = [
         "//src:dev_mode_types",
         "//src/cdk/a11y",
         "//src/cdk/bidi",
+        "//src/cdk/coercion",
         "//src/cdk/keycodes",
         "//src/cdk/layout",
         "//src/cdk/overlay",
+        "//src/cdk/platform",
         "//src/cdk/portal",
         "//src/material/core",
         "@npm//@angular/animations",

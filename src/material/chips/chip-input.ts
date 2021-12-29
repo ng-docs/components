@@ -17,7 +17,7 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  Output
+  Output,
 } from '@angular/core';
 import {MatChipsDefaultOptions, MAT_CHIPS_DEFAULT_OPTIONS} from './chip-default-options';
 import {MatChipList} from './chip-list';
@@ -92,7 +92,7 @@ let nextUniqueId = 0;
     '[attr.placeholder]': 'placeholder || null',
     '[attr.aria-invalid]': '_chipList && _chipList.ngControl ? _chipList.ngControl.invalid : null',
     '[attr.aria-required]': '_chipList && _chipList.required || null',
-  }
+  },
 })
 export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, AfterContentInit {
   /**
@@ -133,8 +133,12 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    *
    */
   @Input('matChipInputAddOnBlur')
-  get addOnBlur(): boolean { return this._addOnBlur; }
-  set addOnBlur(value: boolean) { this._addOnBlur = coerceBooleanProperty(value); }
+  get addOnBlur(): boolean {
+    return this._addOnBlur;
+  }
+  set addOnBlur(value: BooleanInput) {
+    this._addOnBlur = coerceBooleanProperty(value);
+  }
   _addOnBlur: boolean = false;
 
   /**
@@ -149,7 +153,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    */
   @Input('matChipInputSeparatorKeyCodes')
   separatorKeyCodes: readonly number[] | ReadonlySet<number> =
-      this._defaultOptions.separatorKeyCodes;
+    this._defaultOptions.separatorKeyCodes;
 
   /**
    * Emitted when a chip is to be added.
@@ -182,8 +186,12 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    *
    */
   @Input()
-  get disabled(): boolean { return this._disabled || (this._chipList && this._chipList.disabled); }
-  set disabled(value: boolean) { this._disabled = coerceBooleanProperty(value); }
+  get disabled(): boolean {
+    return this._disabled || (this._chipList && this._chipList.disabled);
+  }
+  set disabled(value: BooleanInput) {
+    this._disabled = coerceBooleanProperty(value);
+  }
   private _disabled: boolean = false;
 
   /**
@@ -192,7 +200,9 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    * 输入框是否为空。
    *
    */
-  get empty(): boolean { return !this.inputElement.value; }
+  get empty(): boolean {
+    return !this.inputElement.value;
+  }
 
   /**
    * The native input element to which this directive is attached.
@@ -200,11 +210,12 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    * 该指令所附属的原生输入框元素。
    *
    */
-  readonly inputElement: HTMLInputElement;
+  readonly inputElement!: HTMLInputElement;
 
   constructor(
     protected _elementRef: ElementRef<HTMLInputElement>,
-    @Inject(MAT_CHIPS_DEFAULT_OPTIONS) private _defaultOptions: MatChipsDefaultOptions) {
+    @Inject(MAT_CHIPS_DEFAULT_OPTIONS) private _defaultOptions: MatChipsDefaultOptions,
+  ) {
     this.inputElement = this._elementRef.nativeElement as HTMLInputElement;
   }
 
@@ -283,6 +294,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
 
   _focus() {
     this.focused = true;
+    this._focusLastChipOnBackspace = this.empty;
     this._chipList.stateChanges.next();
   }
 
@@ -343,7 +355,4 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
   private _isSeparatorKey(event: KeyboardEvent) {
     return !hasModifierKey(event) && new Set(this.separatorKeyCodes).has(event.keyCode);
   }
-
-  static ngAcceptInputType_addOnBlur: BooleanInput;
-  static ngAcceptInputType_disabled: BooleanInput;
 }

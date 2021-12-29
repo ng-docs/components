@@ -40,7 +40,7 @@ export interface AutoChangeDetectionStatus {
  *
  */
 const autoChangeDetectionSubject = new BehaviorSubject<AutoChangeDetectionStatus>({
-  isDisabled: false
+  isDisabled: false,
 });
 
 /**
@@ -78,7 +78,8 @@ function defaultAutoChangeDetectionHandler(status: AutoChangeDetectionStatus) {
  *
  */
 export function handleAutoChangeDetectionStatus(
-    handler: (status: AutoChangeDetectionStatus) => void) {
+  handler: (status: AutoChangeDetectionStatus) => void,
+) {
   stopHandlingAutoChangeDetectionStatus();
   autoChangeDetectionSubscription = autoChangeDetectionSubject.subscribe(handler);
 }
@@ -125,20 +126,24 @@ async function batchChangeDetection<T>(fn: () => Promise<T>, triggerBeforeAndAft
   }
 
   if (triggerBeforeAndAfter) {
-    await new Promise(resolve => autoChangeDetectionSubject.next({
-      isDisabled: true,
-      onDetectChangesNow: resolve as () => void,
-    }));
+    await new Promise(resolve =>
+      autoChangeDetectionSubject.next({
+        isDisabled: true,
+        onDetectChangesNow: resolve as () => void,
+      }),
+    );
     // The function passed in may throw (e.g. if the user wants to make an expectation of an error
     // being thrown. If this happens, we need to make sure we still re-enable change detection, so
     // we wrap it in a `finally` block.
     try {
       return await fn();
     } finally {
-      await new Promise(resolve => autoChangeDetectionSubject.next({
-        isDisabled: false,
-        onDetectChangesNow: resolve as () => void,
-      }));
+      await new Promise(resolve =>
+        autoChangeDetectionSubject.next({
+          isDisabled: false,
+          onDetectChangesNow: resolve as () => void,
+        }),
+      );
     }
   } else {
     autoChangeDetectionSubject.next({isDisabled: true});
@@ -188,10 +193,14 @@ export async function manualChangeDetection<T>(fn: () => Promise<T>) {
  *
  */
 export function parallel<T1, T2, T3, T4, T5>(
-  values: () =>
-      [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>,
-       T5 | PromiseLike<T5>
-      ]): Promise<[T1, T2, T3, T4, T5]>;
+  values: () => [
+    T1 | PromiseLike<T1>,
+    T2 | PromiseLike<T2>,
+    T3 | PromiseLike<T3>,
+    T4 | PromiseLike<T4>,
+    T5 | PromiseLike<T5>,
+  ],
+): Promise<[T1, T2, T3, T4, T5]>;
 
 /**
  * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
@@ -210,9 +219,13 @@ export function parallel<T1, T2, T3, T4, T5>(
  *
  */
 export function parallel<T1, T2, T3, T4>(
-  values: () =>
-      [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>, T4 | PromiseLike<T4>]):
-  Promise<[T1, T2, T3, T4]>;
+  values: () => [
+    T1 | PromiseLike<T1>,
+    T2 | PromiseLike<T2>,
+    T3 | PromiseLike<T3>,
+    T4 | PromiseLike<T4>,
+  ],
+): Promise<[T1, T2, T3, T4]>;
 
 /**
  * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
@@ -231,8 +244,8 @@ export function parallel<T1, T2, T3, T4>(
  *
  */
 export function parallel<T1, T2, T3>(
-  values: () => [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>]):
-  Promise<[T1, T2, T3]>;
+  values: () => [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>],
+): Promise<[T1, T2, T3]>;
 
 /**
  * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
@@ -250,8 +263,9 @@ export function parallel<T1, T2, T3>(
  * 已解析的值。
  *
  */
-export function parallel<T1, T2>(values: () => [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>]):
-  Promise<[T1, T2]>;
+export function parallel<T1, T2>(
+  values: () => [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>],
+): Promise<[T1, T2]>;
 
 /**
  * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
@@ -271,6 +285,13 @@ export function parallel<T1, T2>(values: () => [T1 | PromiseLike<T1>, T2 | Promi
  */
 export function parallel<T>(values: () => (T | PromiseLike<T>)[]): Promise<T[]>;
 
+/**
+ * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
+ * detection over the entire operation such that change detection occurs exactly once before
+ * resolving the values and once after.
+ * @param values A getter for the async values to resolve in parallel with batched change detection.
+ * @return The resolved values.
+ */
 export async function parallel<T>(values: () => Iterable<T | PromiseLike<T>>): Promise<T[]> {
   return batchChangeDetection(() => Promise.all(values()), true);
 }

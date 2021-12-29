@@ -64,10 +64,12 @@ export function moveItemInArray<T = any>(array: T[], fromIndex: number, toIndex:
  * 该条目要插入到的索引。
  *
  */
-export function transferArrayItem<T = any>(currentArray: T[],
-                                           targetArray: T[],
-                                           currentIndex: number,
-                                           targetIndex: number): void {
+export function transferArrayItem<T = any>(
+  currentArray: T[],
+  targetArray: T[],
+  currentIndex: number,
+  targetIndex: number,
+): void {
   const from = clamp(currentIndex, currentArray.length - 1);
   const to = clamp(targetIndex, targetArray.length);
 
@@ -99,10 +101,12 @@ export function transferArrayItem<T = any>(currentArray: T[],
  * 该条目在目标数组中要插入的索引。
  *
  */
-export function copyArrayItem<T = any>(currentArray: T[],
-                                       targetArray: T[],
-                                       currentIndex: number,
-                                       targetIndex: number): void {
+export function copyArrayItem<T = any>(
+  currentArray: T[],
+  targetArray: T[],
+  currentIndex: number,
+  targetIndex: number,
+): void {
   const to = clamp(targetIndex, targetArray.length);
 
   if (currentArray.length) {

@@ -11,7 +11,7 @@ import {
   coerceNumberProperty,
   coerceElement,
   BooleanInput,
-  NumberInput
+  NumberInput,
 } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
@@ -56,11 +56,14 @@ export class ContentObserver implements OnDestroy {
    * 跟踪现有的 MutationObserver，以便复用它们。
    *
    */
-  private _observedElements = new Map<Element, {
-    observer: MutationObserver | null,
-    readonly stream: Subject<MutationRecord[]>,
-    count: number
-  }>();
+  private _observedElements = new Map<
+    Element,
+    {
+      observer: MutationObserver | null;
+      readonly stream: Subject<MutationRecord[]>;
+      count: number;
+    }
+  >();
 
   constructor(private _mutationObserverFactory: MutationObserverFactory) {}
 
@@ -121,7 +124,7 @@ export class ContentObserver implements OnDestroy {
         observer.observe(element, {
           characterData: true,
           childList: true,
-          subtree: true
+          subtree: true,
         });
       }
       this._observedElements.set(element, {observer, stream, count: 1});
@@ -193,8 +196,10 @@ export class CdkObserveContent implements AfterContentInit, OnDestroy {
    *
    */
   @Input('cdkObserveContentDisabled')
-  get disabled() { return this._disabled; }
-  set disabled(value: any) {
+  get disabled(): boolean {
+    return this._disabled;
+  }
+  set disabled(value: BooleanInput) {
     this._disabled = coerceBooleanProperty(value);
     this._disabled ? this._unsubscribe() : this._subscribe();
   }
@@ -207,8 +212,10 @@ export class CdkObserveContent implements AfterContentInit, OnDestroy {
    *
    */
   @Input()
-  get debounce(): number { return this._debounce; }
-  set debounce(value: number) {
+  get debounce(): number {
+    return this._debounce;
+  }
+  set debounce(value: NumberInput) {
     this._debounce = coerceNumberProperty(value);
     this._subscribe();
   }
@@ -216,9 +223,11 @@ export class CdkObserveContent implements AfterContentInit, OnDestroy {
 
   private _currentSubscription: Subscription | null = null;
 
-  constructor(private _contentObserver: ContentObserver,
-              private _elementRef: ElementRef<HTMLElement>,
-              private _ngZone: NgZone) {}
+  constructor(
+    private _contentObserver: ContentObserver,
+    private _elementRef: ElementRef<HTMLElement>,
+    private _ngZone: NgZone,
+  ) {}
 
   ngAfterContentInit() {
     if (!this._currentSubscription && !this.disabled) {
@@ -239,22 +248,20 @@ export class CdkObserveContent implements AfterContentInit, OnDestroy {
     // Bringing it back inside can cause things like infinite change detection loops and changed
     // after checked errors if people's code isn't handling it properly.
     this._ngZone.runOutsideAngular(() => {
-      this._currentSubscription =
-          (this.debounce ? stream.pipe(debounceTime(this.debounce)) : stream).subscribe(this.event);
+      this._currentSubscription = (
+        this.debounce ? stream.pipe(debounceTime(this.debounce)) : stream
+      ).subscribe(this.event);
     });
   }
 
   private _unsubscribe() {
     this._currentSubscription?.unsubscribe();
   }
-
-  static ngAcceptInputType_disabled: BooleanInput;
-  static ngAcceptInputType_debounce: NumberInput;
 }
 
 @NgModule({
   exports: [CdkObserveContent],
   declarations: [CdkObserveContent],
-  providers: [MutationObserverFactory]
+  providers: [MutationObserverFactory],
 })
 export class ObserversModule {}

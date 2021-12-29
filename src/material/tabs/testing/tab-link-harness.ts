@@ -39,9 +39,11 @@ export class MatTabLinkHarness extends ComponentHarness {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: TabLinkHarnessFilters = {}): HarnessPredicate<MatTabLinkHarness> {
-    return new HarnessPredicate(MatTabLinkHarness, options)
-        .addOption('label', options.label,
-            (harness, label) => HarnessPredicate.stringMatches(harness.getLabel(), label));
+    return new HarnessPredicate(MatTabLinkHarness, options).addOption(
+      'label',
+      options.label,
+      (harness, label) => HarnessPredicate.stringMatches(harness.getLabel(), label),
+    );
   }
 
   /**

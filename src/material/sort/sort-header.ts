@@ -6,23 +6,23 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {AriaDescriber, FocusMonitor} from '@angular/cdk/a11y';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {ENTER, SPACE} from '@angular/cdk/keycodes';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
   Optional,
   ViewEncapsulation,
-  Inject,
-  ElementRef,
-  AfterViewInit,
 } from '@angular/core';
-import {CanDisable, CanDisableCtor, mixinDisabled} from '@angular/material/core';
-import {FocusMonitor} from '@angular/cdk/a11y';
-import {ENTER, SPACE} from '@angular/cdk/keycodes';
+import {CanDisable, mixinDisabled} from '@angular/material/core';
 import {merge, Subscription} from 'rxjs';
 import {MatSort, MatSortable} from './sort';
 import {matSortAnimations} from './sort-animations';
@@ -32,9 +32,7 @@ import {MatSortHeaderIntl} from './sort-header-intl';
 
 // Boilerplate for applying mixins to the sort header.
 /** @docs-private */
-class MatSortHeaderBase {}
-const _MatSortHeaderMixinBase: CanDisableCtor & typeof MatSortHeaderBase =
-    mixinDisabled(MatSortHeaderBase);
+const _MatSortHeaderBase = mixinDisabled(class {});
 
 /**
  * Valid positions for the arrow to be in for its opacity and translation. If the state is a
@@ -112,11 +110,19 @@ interface MatSortHeaderColumnDef {
     matSortAnimations.arrowOpacity,
     matSortAnimations.arrowPosition,
     matSortAnimations.allowChildren,
-  ]
+  ],
 })
-export class MatSortHeader extends _MatSortHeaderMixinBase
-    implements CanDisable, MatSortable, OnDestroy, OnInit, AfterViewInit {
+export class MatSortHeader
+  extends _MatSortHeaderBase
+  implements CanDisable, MatSortable, OnDestroy, OnInit, AfterViewInit
+{
   private _rerenderSubscription: Subscription;
+
+  /**
+   * The element with role="button" inside this component's view. We need this
+   * in order to apply a description with AriaDescriber.
+   */
+  private _sortButton: HTMLElement;
 
   /**
    * Flag set to true when the indicator should be displayed while the sort is not active. Used to
@@ -136,7 +142,7 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    * 如果当前禁用了动画，则会删除 fromState，以免显示任何动画。
    *
    */
-  _viewState: ArrowViewStateTransition = { };
+  _viewState: ArrowViewStateTransition = {};
 
   /**
    * The direction the arrow should be facing according to the current state.
@@ -180,30 +186,54 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
   @Input() start: 'asc' | 'desc';
 
   /**
+   * Description applied to MatSortHeader's button element with aria-describedby. This text should
+   * describe the action that will occur when the user clicks the sort header.
+   */
+  @Input()
+  get sortActionDescription(): string {
+    return this._sortActionDescription;
+  }
+  set sortActionDescription(value: string) {
+    this._updateSortActionDescription(value);
+  }
+  // Default the action description to "Sort" because it's better than nothing.
+  // Without a description, the button's label comes from the sort header text content,
+  // which doesn't give any indication that it performs a sorting operation.
+  private _sortActionDescription: string = 'Sort';
+
+  /**
    * Overrides the disable clear value of the containing MatSort for this MatSortable.
    *
    * 为这个 MatSortable 改写包含其中的 MatSort 的 disableClear 值。
    *
    */
   @Input()
-  get disableClear(): boolean { return this._disableClear; }
-  set disableClear(v) { this._disableClear = coerceBooleanProperty(v); }
+  get disableClear(): boolean {
+    return this._disableClear;
+  }
+  set disableClear(v: BooleanInput) {
+    this._disableClear = coerceBooleanProperty(v);
+  }
   private _disableClear: boolean;
 
   constructor(
-              /**
-               * @deprecated `_intl` parameter isn't being used anymore and it'll be removed.
-               * @breaking-change 13.0.0
-               */
-              public _intl: MatSortHeaderIntl,
-              private _changeDetectorRef: ChangeDetectorRef,
-              // `MatSort` is not optionally injected, but just asserted manually w/ better error.
-              // tslint:disable-next-line: lightweight-tokens
-              @Optional() public _sort: MatSort,
-              @Inject('MAT_SORT_HEADER_COLUMN_DEF') @Optional()
-                  public _columnDef: MatSortHeaderColumnDef,
-              private _focusMonitor: FocusMonitor,
-              private _elementRef: ElementRef<HTMLElement>) {
+    /**
+     * @deprecated `_intl` parameter isn't being used anymore and it'll be removed.
+     * @breaking-change 13.0.0
+     */
+    public _intl: MatSortHeaderIntl,
+    private _changeDetectorRef: ChangeDetectorRef,
+    // `MatSort` is not optionally injected, but just asserted manually w/ better error.
+    // tslint:disable-next-line: lightweight-tokens
+    @Optional() public _sort: MatSort,
+    @Inject('MAT_SORT_HEADER_COLUMN_DEF')
+    @Optional()
+    public _columnDef: MatSortHeaderColumnDef,
+    private _focusMonitor: FocusMonitor,
+    private _elementRef: ElementRef<HTMLElement>,
+    /** @breaking-change 14.0.0 _ariaDescriber will be required. */
+    @Optional() private _ariaDescriber?: AriaDescriber | null,
+  ) {
     // Note that we use a string token for the `_columnDef`, because the value is provided both by
     // `material/table` and `cdk/table` and we can't have the CDK depending on Material,
     // and we want to avoid having the sort header depending on the CDK table because
@@ -224,10 +254,14 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
 
     // Initialize the direction of the arrow and set the view state to be immediately that state.
     this._updateArrowDirection();
-    this._setAnimationTransitionState(
-        {toState: this._isSorted() ? 'active' : this._arrowDirection});
+    this._setAnimationTransitionState({
+      toState: this._isSorted() ? 'active' : this._arrowDirection,
+    });
 
     this._sort.register(this);
+
+    this._sortButton = this._elementRef.nativeElement.querySelector('[role="button"]')!;
+    this._updateSortActionDescription(this._sortActionDescription);
   }
 
   ngAfterViewInit() {
@@ -257,7 +291,9 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    */
   _setIndicatorHintVisible(visible: boolean) {
     // No-op if the sort header is disabled - should not make the hint visible.
-    if (this._isDisabled() && visible) { return; }
+    if (this._isDisabled() && visible) {
+      return;
+    }
 
     this._showIndicatorHint = visible;
 
@@ -280,7 +316,7 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    *
    */
   _setAnimationTransitionState(viewState: ArrowViewStateTransition) {
-    this._viewState = viewState || { };
+    this._viewState = viewState || {};
 
     // If the animation for arrow position state (opacity/translation) should be disabled,
     // remove the fromState so that it jumps right to the toState.
@@ -324,8 +360,10 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    *
    */
   _isSorted() {
-    return this._sort.active == this.id &&
-        (this._sort.direction === 'asc' || this._sort.direction === 'desc');
+    return (
+      this._sort.active == this.id &&
+      (this._sort.direction === 'asc' || this._sort.direction === 'desc')
+    );
   }
 
   /**
@@ -366,9 +404,7 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    *
    */
   _updateArrowDirection() {
-    this._arrowDirection = this._isSorted() ?
-        this._sort.direction :
-        (this.start || this._sort.start);
+    this._arrowDirection = this._isSorted() ? this._sort.direction : this.start || this._sort.start;
   }
 
   _isDisabled() {
@@ -403,6 +439,23 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
     return !this._isDisabled() || this._isSorted();
   }
 
+  private _updateSortActionDescription(newDescription: string) {
+    // We use AriaDescriber for the sort button instead of setting an `aria-label` because some
+    // screen readers (notably VoiceOver) will read both the column header *and* the button's label
+    // for every *cell* in the table, creating a lot of unnecessary noise.
+
+    // If _sortButton is undefined, the component hasn't been initialized yet so there's
+    // nothing to update in the DOM.
+    if (this._sortButton) {
+      // removeDescription will no-op if there is no existing message.
+      // TODO(jelbourn): remove optional chaining when AriaDescriber is required.
+      this._ariaDescriber?.removeDescription(this._sortButton, this._sortActionDescription);
+      this._ariaDescriber?.describe(this._sortButton, newDescription);
+    }
+
+    this._sortActionDescription = newDescription;
+  }
+
   /**
    * Handles changes in the sorting state.
    *
@@ -410,30 +463,30 @@ export class MatSortHeader extends _MatSortHeaderMixinBase
    *
    */
   private _handleStateChanges() {
-    this._rerenderSubscription =
-      merge(this._sort.sortChange, this._sort._stateChanges, this._intl.changes).subscribe(() => {
-        if (this._isSorted()) {
-          this._updateArrowDirection();
+    this._rerenderSubscription = merge(
+      this._sort.sortChange,
+      this._sort._stateChanges,
+      this._intl.changes,
+    ).subscribe(() => {
+      if (this._isSorted()) {
+        this._updateArrowDirection();
 
-          // Do not show the animation if the header was already shown in the right position.
-          if (this._viewState.toState === 'hint' || this._viewState.toState === 'active') {
-            this._disableViewStateAnimation = true;
-          }
-
-          this._setAnimationTransitionState({fromState: this._arrowDirection, toState: 'active'});
-          this._showIndicatorHint = false;
+        // Do not show the animation if the header was already shown in the right position.
+        if (this._viewState.toState === 'hint' || this._viewState.toState === 'active') {
+          this._disableViewStateAnimation = true;
         }
 
-        // If this header was recently active and now no longer sorted, animate away the arrow.
-        if (!this._isSorted() && this._viewState && this._viewState.toState === 'active') {
-          this._disableViewStateAnimation = false;
-          this._setAnimationTransitionState({fromState: 'active', toState: this._arrowDirection});
-        }
+        this._setAnimationTransitionState({fromState: this._arrowDirection, toState: 'active'});
+        this._showIndicatorHint = false;
+      }
 
-        this._changeDetectorRef.markForCheck();
-      });
+      // If this header was recently active and now no longer sorted, animate away the arrow.
+      if (!this._isSorted() && this._viewState && this._viewState.toState === 'active') {
+        this._disableViewStateAnimation = false;
+        this._setAnimationTransitionState({fromState: 'active', toState: this._arrowDirection});
+      }
+
+      this._changeDetectorRef.markForCheck();
+    });
   }
-
-  static ngAcceptInputType_disableClear: BooleanInput;
-  static ngAcceptInputType_disabled: BooleanInput;
 }

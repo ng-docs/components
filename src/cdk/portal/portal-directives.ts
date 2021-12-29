@@ -52,10 +52,12 @@ export class CdkPortal extends TemplatePortal {
 @Directive({
   selector: '[cdk-portal], [portal]',
   exportAs: 'cdkPortal',
-  providers: [{
-    provide: CdkPortal,
-    useExisting: TemplatePortalDirective
-  }]
+  providers: [
+    {
+      provide: CdkPortal,
+      useExisting: TemplatePortalDirective,
+    },
+  ],
 })
 export class TemplatePortalDirective extends CdkPortal {}
 
@@ -82,7 +84,7 @@ export type CdkPortalOutletAttachedRef = ComponentRef<any> | EmbeddedViewRef<any
 @Directive({
   selector: '[cdkPortalOutlet]',
   exportAs: 'cdkPortalOutlet',
-  inputs: ['portal: cdkPortalOutlet']
+  inputs: ['portal: cdkPortalOutlet'],
 })
 export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestroy {
   private _document: Document;
@@ -104,14 +106,15 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
   private _attachedRef: CdkPortalOutletAttachedRef;
 
   constructor(
-      private _componentFactoryResolver: ComponentFactoryResolver,
-      private _viewContainerRef: ViewContainerRef,
+    private _componentFactoryResolver: ComponentFactoryResolver,
+    private _viewContainerRef: ViewContainerRef,
 
-      /**
-       * @deprecated `_document` parameter to be made required.
-       * @breaking-change 9.0.0
-       */
-      @Inject(DOCUMENT) _document?: any) {
+    /**
+     * @deprecated `_document` parameter to be made required.
+     * @breaking-change 9.0.0
+     */
+    @Inject(DOCUMENT) _document?: any,
+  ) {
     super();
     this._document = _document;
   }
@@ -126,7 +129,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
     return this._attachedPortal;
   }
 
-  set portal(portal: Portal<any> | null) {
+  set portal(portal: Portal<any> | null | undefined | '') {
     // Ignore the cases where the `portal` is set to a falsy value before the lifecycle hooks have
     // run. This handles the cases where the user might do something like `<div cdkPortalOutlet>`
     // and attach a portal programmatically in the parent component. When Angular does the first CD
@@ -143,7 +146,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
       super.attach(portal);
     }
 
-    this._attachedPortal = portal;
+    this._attachedPortal = portal || null;
   }
 
   /**
@@ -153,7 +156,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
    *
    */
   @Output() readonly attached: EventEmitter<CdkPortalOutletAttachedRef> =
-      new EventEmitter<CdkPortalOutletAttachedRef>();
+    new EventEmitter<CdkPortalOutletAttachedRef>();
 
   /**
    * Component or view reference that is attached to the portal.
@@ -194,15 +197,16 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
 
     // If the portal specifies an origin, use that as the logical location of the component
     // in the application tree. Otherwise use the location of this PortalOutlet.
-    const viewContainerRef = portal.viewContainerRef != null ?
-        portal.viewContainerRef :
-        this._viewContainerRef;
+    const viewContainerRef =
+      portal.viewContainerRef != null ? portal.viewContainerRef : this._viewContainerRef;
 
     const resolver = portal.componentFactoryResolver || this._componentFactoryResolver;
     const componentFactory = resolver.resolveComponentFactory(portal.component);
     const ref = viewContainerRef.createComponent(
-        componentFactory, viewContainerRef.length,
-        portal.injector || viewContainerRef.injector);
+      componentFactory,
+      viewContainerRef.length,
+      portal.injector || viewContainerRef.injector,
+    );
 
     // If we're using a view container that's different from the injected one (e.g. when the portal
     // specifies its own) we need to move the component into the outlet, otherwise it'll be rendered
@@ -261,7 +265,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
    * @breaking-change 10.0.0
    *
    */
-  attachDomPortal = (portal: DomPortal) => {
+  override attachDomPortal = (portal: DomPortal) => {
     // @breaking-change 9.0.0 Remove check and error once the
     // `_document` constructor parameter is required.
     if (!this._document && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -287,7 +291,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
         anchorNode.parentNode!.replaceChild(element, anchorNode);
       }
     });
-  }
+  };
 
   /**
    * Gets the root node of the portal outlet.
@@ -300,11 +304,12 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
 
     // The directive could be set on a template which will result in a comment
     // node being the root. Use the comment's parent node if that is the case.
-    return (nativeElement.nodeType === nativeElement.ELEMENT_NODE ?
-           nativeElement : nativeElement.parentNode!) as HTMLElement;
+    return (
+      nativeElement.nodeType === nativeElement.ELEMENT_NODE
+        ? nativeElement
+        : nativeElement.parentNode!
+    ) as HTMLElement;
   }
-
-  static ngAcceptInputType_portal: Portal<any> | null | undefined | '';
 }
 
 /**
@@ -320,10 +325,12 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
   selector: '[cdkPortalHost], [portalHost]',
   exportAs: 'cdkPortalHost',
   inputs: ['portal: cdkPortalHost'],
-  providers: [{
-    provide: CdkPortalOutlet,
-    useExisting: PortalHostDirective
-  }]
+  providers: [
+    {
+      provide: CdkPortalOutlet,
+      useExisting: PortalHostDirective,
+    },
+  ],
 })
 export class PortalHostDirective extends CdkPortalOutlet {}
 

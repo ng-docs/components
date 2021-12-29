@@ -28,8 +28,7 @@ export interface CanColor {
   defaultColor: ThemePalette | undefined;
 }
 
-/** @docs-private */
-export type CanColorCtor = Constructor<CanColor> & AbstractConstructor<CanColor>;
+type CanColorCtor = Constructor<CanColor> & AbstractConstructor<CanColor>;
 
 /** @docs-private */
 export interface HasElementRef {
@@ -51,14 +50,20 @@ export type ThemePalette = 'primary' | 'accent' | 'warn' | undefined;
  *
  */
 export function mixinColor<T extends AbstractConstructor<HasElementRef>>(
-    base: T, defaultColor?: ThemePalette): CanColorCtor & T;
+  base: T,
+  defaultColor?: ThemePalette,
+): CanColorCtor & T;
 export function mixinColor<T extends Constructor<HasElementRef>>(
-    base: T, defaultColor?: ThemePalette): CanColorCtor & T {
+  base: T,
+  defaultColor?: ThemePalette,
+): CanColorCtor & T {
   return class extends base {
     private _color: ThemePalette;
     defaultColor = defaultColor;
 
-    get color(): ThemePalette { return this._color; }
+    get color(): ThemePalette {
+      return this._color;
+    }
     set color(value: ThemePalette) {
       const colorPalette = value || this.defaultColor;
 
@@ -82,4 +87,3 @@ export function mixinColor<T extends Constructor<HasElementRef>>(
     }
   };
 }
-

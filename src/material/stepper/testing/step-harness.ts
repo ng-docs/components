@@ -44,14 +44,24 @@ export class MatStepHarness extends ContentContainerComponentHarness<string> {
    */
   static with(options: StepHarnessFilters = {}): HarnessPredicate<MatStepHarness> {
     return new HarnessPredicate(MatStepHarness, options)
-        .addOption('label', options.label,
-            (harness, label) => HarnessPredicate.stringMatches(harness.getLabel(), label))
-        .addOption('selected', options.selected,
-            async (harness, selected) => (await harness.isSelected()) === selected)
-        .addOption('completed', options.completed,
-            async (harness, completed) => (await harness.isCompleted()) === completed)
-        .addOption('invalid', options.invalid,
-            async (harness, invalid) => (await harness.hasErrors()) === invalid);
+      .addOption('label', options.label, (harness, label) =>
+        HarnessPredicate.stringMatches(harness.getLabel(), label),
+      )
+      .addOption(
+        'selected',
+        options.selected,
+        async (harness, selected) => (await harness.isSelected()) === selected,
+      )
+      .addOption(
+        'completed',
+        options.completed,
+        async (harness, completed) => (await harness.isCompleted()) === completed,
+      )
+      .addOption(
+        'invalid',
+        options.invalid,
+        async (harness, invalid) => (await harness.hasErrors()) === invalid,
+      );
   }
 
   /**
@@ -70,7 +80,7 @@ export class MatStepHarness extends ContentContainerComponentHarness<string> {
    * 获取此步骤的 `aria-label`
    *
    */
-  async getAriaLabel(): Promise<string|null> {
+  async getAriaLabel(): Promise<string | null> {
     return (await this.host()).getAttribute('aria-label');
   }
 
@@ -80,7 +90,7 @@ export class MatStepHarness extends ContentContainerComponentHarness<string> {
    * 获取 `aria-labelledby` 属性的值。
    *
    */
-  async getAriaLabelledby(): Promise<string|null> {
+  async getAriaLabelledby(): Promise<string | null> {
     return (await this.host()).getAttribute('aria-labelledby');
   }
 
@@ -143,7 +153,7 @@ export class MatStepHarness extends ContentContainerComponentHarness<string> {
     await (await this.host()).click();
   }
 
-  protected async getRootHarnessLoader(): Promise<HarnessLoader> {
+  protected override async getRootHarnessLoader(): Promise<HarnessLoader> {
     const contentId = await (await this.host()).getAttribute('aria-controls');
     return this.documentRootLocatorFactory().harnessLoaderFor(`#${contentId}`);
   }

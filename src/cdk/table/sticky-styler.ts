@@ -62,13 +62,15 @@ export class StickyStyler {
    *
    * 接收粘性行/列及其规格变更通知的监听器。
    */
-  constructor(private _isNativeHtmlTable: boolean,
-              private _stickCellCss: string,
-              public direction: Direction,
-              private _coalescedStyleScheduler: _CoalescedStyleScheduler,
-              private _isBrowser = true,
-              private readonly _needsPositionStickyOnElement = true,
-              private readonly _positionListener?: StickyPositioningListener) {
+  constructor(
+    private _isNativeHtmlTable: boolean,
+    private _stickCellCss: string,
+    public direction: Direction,
+    private _coalescedStyleScheduler: _CoalescedStyleScheduler,
+    private _isBrowser = true,
+    private readonly _needsPositionStickyOnElement = true,
+    private readonly _positionListener?: StickyPositioningListener,
+  ) {
     this._borderCellCss = {
       'top': `${_stickCellCss}-border-elem-top`,
       'bottom': `${_stickCellCss}-border-elem-bottom`,
@@ -142,10 +144,16 @@ export class StickyStyler {
    *
    */
   updateStickyColumns(
-      rows: HTMLElement[], stickyStartStates: boolean[], stickyEndStates: boolean[],
-      recalculateCellWidths = true) {
-    if (!rows.length || !this._isBrowser || !(stickyStartStates.some(state => state) ||
-        stickyEndStates.some(state => state))) {
+    rows: HTMLElement[],
+    stickyStartStates: boolean[],
+    stickyEndStates: boolean[],
+    recalculateCellWidths = true,
+  ) {
+    if (
+      !rows.length ||
+      !this._isBrowser ||
+      !(stickyStartStates.some(state => state) || stickyEndStates.some(state => state))
+    ) {
       if (this._positionListener) {
         this._positionListener.stickyColumnsUpdated({sizes: []});
         this._positionListener.stickyEndColumnsUpdated({sizes: []});
@@ -185,19 +193,21 @@ export class StickyStyler {
 
       if (this._positionListener) {
         this._positionListener.stickyColumnsUpdated({
-          sizes: lastStickyStart === -1 ?
-            [] :
-            cellWidths
-                .slice(0, lastStickyStart + 1)
-                .map((width, index) => stickyStartStates[index] ? width : null)
+          sizes:
+            lastStickyStart === -1
+              ? []
+              : cellWidths
+                  .slice(0, lastStickyStart + 1)
+                  .map((width, index) => (stickyStartStates[index] ? width : null)),
         });
         this._positionListener.stickyEndColumnsUpdated({
-          sizes: firstStickyEnd === -1 ?
-            [] :
-            cellWidths
-                .slice(firstStickyEnd)
-                .map((width, index) => stickyEndStates[index + firstStickyEnd] ? width : null)
-                .reverse()
+          sizes:
+            firstStickyEnd === -1
+              ? []
+              : cellWidths
+                  .slice(firstStickyEnd)
+                  .map((width, index) => (stickyEndStates[index + firstStickyEnd] ? width : null))
+                  .reverse(),
         });
       }
     });
@@ -239,7 +249,7 @@ export class StickyStyler {
 
     // Measure row heights all at once before adding sticky styles to reduce layout thrashing.
     const stickyOffsets: number[] = [];
-    const stickyCellHeights: (number|undefined)[] = [];
+    const stickyCellHeights: (number | undefined)[] = [];
     const elementsToStick: HTMLElement[][] = [];
     for (let rowIndex = 0, stickyOffset = 0; rowIndex < rows.length; rowIndex++) {
       if (!states[rowIndex]) {
@@ -248,8 +258,9 @@ export class StickyStyler {
 
       stickyOffsets[rowIndex] = stickyOffset;
       const row = rows[rowIndex];
-      elementsToStick[rowIndex] = this._isNativeHtmlTable ?
-          Array.from(row.children) as HTMLElement[] : [row];
+      elementsToStick[rowIndex] = this._isNativeHtmlTable
+        ? (Array.from(row.children) as HTMLElement[])
+        : [row];
 
       const height = row.getBoundingClientRect().height;
       stickyOffset += height;
@@ -274,11 +285,17 @@ export class StickyStyler {
       }
 
       if (position === 'top') {
-        this._positionListener?.stickyHeaderRowsUpdated(
-            {sizes: stickyCellHeights, offsets: stickyOffsets, elements: elementsToStick});
+        this._positionListener?.stickyHeaderRowsUpdated({
+          sizes: stickyCellHeights,
+          offsets: stickyOffsets,
+          elements: elementsToStick,
+        });
       } else {
-        this._positionListener?.stickyFooterRowsUpdated(
-            {sizes: stickyCellHeights, offsets: stickyOffsets, elements: elementsToStick});
+        this._positionListener?.stickyFooterRowsUpdated({
+          sizes: stickyCellHeights,
+          offsets: stickyOffsets,
+          elements: elementsToStick,
+        });
       }
     });
   }
@@ -328,8 +345,9 @@ export class StickyStyler {
     // the sticky CSS class.
     // Short-circuit checking element.style[dir] for stickyDirections as they
     // were already removed above.
-    const hasDirection = STICKY_DIRECTIONS.some(dir =>
-        stickyDirections.indexOf(dir) === -1 && element.style[dir]);
+    const hasDirection = STICKY_DIRECTIONS.some(
+      dir => stickyDirections.indexOf(dir) === -1 && element.style[dir],
+    );
     if (hasDirection) {
       element.style.zIndex = this._getCalculatedZIndex(element);
     } else {
@@ -350,8 +368,12 @@ export class StickyStyler {
    * 为该元素添加粘性样式 —— 添加粘性样式类，修改粘附到的位置（和-webkit-sticky），设置合适的 zIndex，添加粘附的方向和值。
    *
    */
-  _addStickyStyle(element: HTMLElement, dir: StickyDirection, dirValue: number,
-      isBorderElement: boolean) {
+  _addStickyStyle(
+    element: HTMLElement,
+    dir: StickyDirection,
+    dirValue: number,
+    isBorderElement: boolean,
+  ) {
     element.classList.add(this._stickCellCss);
     if (isBorderElement) {
       element.classList.add(this._borderCellCss[dir]);

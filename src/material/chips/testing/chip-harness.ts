@@ -6,8 +6,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate, TestKey} from '@angular/cdk/testing';
-import {ChipHarnessFilters, ChipRemoveHarnessFilters} from './chip-harness-filters';
+import {ContentContainerComponentHarness, HarnessPredicate, TestKey} from '@angular/cdk/testing';
+import {MatChipAvatarHarness} from './chip-avatar-harness';
+import {
+  ChipAvatarHarnessFilters,
+  ChipHarnessFilters,
+  ChipRemoveHarnessFilters,
+} from './chip-harness-filters';
 import {MatChipRemoveHarness} from './chip-remove-harness';
 
 /**
@@ -16,7 +21,7 @@ import {MatChipRemoveHarness} from './chip-remove-harness';
  * 在测试中与标准可选 Angular Material 纸片的测试工具。
  *
  */
-export class MatChipHarness extends ComponentHarness {
+export class MatChipHarness extends ContentContainerComponentHarness {
   /**
    * The selector for the host element of a `MatChip` instance.
    *
@@ -41,10 +46,14 @@ export class MatChipHarness extends ComponentHarness {
    */
   static with(options: ChipHarnessFilters = {}): HarnessPredicate<MatChipHarness> {
     return new HarnessPredicate(MatChipHarness, options)
-        .addOption('text', options.text,
-            (harness, label) => HarnessPredicate.stringMatches(harness.getText(), label))
-        .addOption('selected', options.selected,
-            async (harness, selected) => (await harness.isSelected()) === selected);
+      .addOption('text', options.text, (harness, label) =>
+        HarnessPredicate.stringMatches(harness.getText(), label),
+      )
+      .addOption(
+        'selected',
+        options.selected,
+        async (harness, selected) => (await harness.isSelected()) === selected,
+      );
   }
 
   /**
@@ -55,7 +64,7 @@ export class MatChipHarness extends ComponentHarness {
    */
   async getText(): Promise<string> {
     return (await this.host()).text({
-      exclude: '.mat-chip-avatar, .mat-chip-trailing-icon, .mat-icon'
+      exclude: '.mat-chip-avatar, .mat-chip-trailing-icon, .mat-icon',
     });
   }
 
@@ -148,12 +157,20 @@ export class MatChipHarness extends ComponentHarness {
    *
    * 获取一个纸片里面的移除按钮。
    *
-   * @param filter Optionally filters which chips are included.
+   * @param filter Optionally filters which remove buttons are included.
    *
    * 可选择过滤哪些纸片。
    *
    */
   async getRemoveButton(filter: ChipRemoveHarnessFilters = {}): Promise<MatChipRemoveHarness> {
     return this.locatorFor(MatChipRemoveHarness.with(filter))();
+  }
+
+  /**
+   * Gets the avatar inside a chip.
+   * @param filter Optionally filters which avatars are included.
+   */
+  async getAvatar(filter: ChipAvatarHarnessFilters = {}): Promise<MatChipAvatarHarness | null> {
+    return this.locatorForOptional(MatChipAvatarHarness.with(filter))();
   }
 }

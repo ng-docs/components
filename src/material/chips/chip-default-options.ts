@@ -30,5 +30,6 @@ export interface MatChipsDefaultOptions {
  * 注入令牌，用于改写纸片模块的默认选项。
  *
  */
-export const MAT_CHIPS_DEFAULT_OPTIONS =
-    new InjectionToken<MatChipsDefaultOptions>('mat-chips-default-options');
+export const MAT_CHIPS_DEFAULT_OPTIONS = new InjectionToken<MatChipsDefaultOptions>(
+  'mat-chips-default-options',
+);

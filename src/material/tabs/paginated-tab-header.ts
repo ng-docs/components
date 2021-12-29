@@ -37,8 +37,9 @@ import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
  * 用于绑定被动事件监听器的配置
  *
  */
-const passiveEventListenerOptions =
-    normalizePassiveListenerOptions({passive: true}) as EventListenerOptions;
+const passiveEventListenerOptions = normalizePassiveListenerOptions({
+  passive: true,
+}) as EventListenerOptions;
 
 /**
  * The directions that scrolling can go in when the header's tabs exceed the header width. 'After'
@@ -93,12 +94,14 @@ export type MatPaginatedTabHeaderItem = FocusableOption & {elementRef: ElementRe
  * @docs-private
  */
 @Directive()
-export abstract class MatPaginatedTabHeader implements AfterContentChecked, AfterContentInit,
-  AfterViewInit, OnDestroy {
+export abstract class MatPaginatedTabHeader
+  implements AfterContentChecked, AfterContentInit, AfterViewInit, OnDestroy
+{
   abstract _items: QueryList<MatPaginatedTabHeaderItem>;
-  abstract _inkBar: {hide: () => void, alignToElement: (element: HTMLElement) => void};
+  abstract _inkBar: {hide: () => void; alignToElement: (element: HTMLElement) => void};
   abstract _tabListContainer: ElementRef<HTMLElement>;
   abstract _tabList: ElementRef<HTMLElement>;
+  abstract _tabListInner: ElementRef<HTMLElement>;
   abstract _nextPaginator: ElementRef<HTMLElement>;
   abstract _previousPaginator: ElementRef<HTMLElement>;
 
@@ -207,8 +210,10 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    * 活动选项卡的索引。
    *
    */
-  get selectedIndex(): number { return this._selectedIndex; }
-  set selectedIndex(value: number) {
+  get selectedIndex(): number {
+    return this._selectedIndex;
+  }
+  set selectedIndex(value: NumberInput) {
     value = coerceNumberProperty(value);
 
     if (this._selectedIndex != value) {
@@ -238,14 +243,15 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    */
   readonly indexFocused: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(protected _elementRef: ElementRef<HTMLElement>,
-              protected _changeDetectorRef: ChangeDetectorRef,
-              private _viewportRuler: ViewportRuler,
-              @Optional() private _dir: Directionality,
-              private _ngZone: NgZone,
-              private _platform: Platform,
-              @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) {
-
+  constructor(
+    protected _elementRef: ElementRef<HTMLElement>,
+    protected _changeDetectorRef: ChangeDetectorRef,
+    private _viewportRuler: ViewportRuler,
+    @Optional() private _dir: Directionality,
+    private _ngZone: NgZone,
+    private _platform: Platform,
+    @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string,
+  ) {
     // Bind the `mouseleave` event on the outside since it doesn't change anything in the view.
     _ngZone.runOutsideAngular(() => {
       fromEvent(_elementRef.nativeElement, 'mouseleave')
@@ -300,13 +306,15 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
 
     // On dir change or window resize, realign the ink bar and update the orientation of
     // the key manager if the direction has changed.
-    merge(dirChange, resize, this._items.changes).pipe(takeUntil(this._destroyed)).subscribe(() => {
-      // We need to defer this to give the browser some time to recalculate
-      // the element dimensions. The call has to be wrapped in `NgZone.run`,
-      // because the viewport change handler runs outside of Angular.
-      this._ngZone.run(() => Promise.resolve().then(realign));
-      this._keyManager.withHorizontalOrientation(this._getLayoutDirection());
-    });
+    merge(dirChange, resize, this._items.changes)
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(() => {
+        // We need to defer this to give the browser some time to recalculate
+        // the element dimensions. The call has to be wrapped in `NgZone.run`,
+        // because the viewport change handler runs outside of Angular.
+        this._ngZone.run(() => Promise.resolve().then(realign));
+        this._keyManager.withHorizontalOrientation(this._getLayoutDirection());
+      });
 
     // If there is a change in the focus key manager we need to emit the `indexFocused`
     // event in order to provide a public event that notifies about focus changes. Also we realign
@@ -450,7 +458,9 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    *
    */
   _isValidIndex(index: number): boolean {
-    if (!this._items) { return true; }
+    if (!this._items) {
+      return true;
+    }
 
     const tab = this._items ? this._items.toArray()[index] : null;
     return !!tab && !tab.disabled;
@@ -532,7 +542,9 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    * 设置选项卡标头在 X 轴上的变换距离（以像素为单位）。
    *
    */
-  get scrollDistance(): number { return this._scrollDistance; }
+  get scrollDistance(): number {
+    return this._scrollDistance;
+  }
   set scrollDistance(value: number) {
     this._scrollTo(value);
   }
@@ -554,7 +566,7 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
     const viewLength = this._tabListContainer.nativeElement.offsetWidth;
 
     // Move the scroll distance one-third the length of the tab list's viewport.
-    const scrollAmount = (direction == 'before' ? -1 : 1) * viewLength / 3;
+    const scrollAmount = ((direction == 'before' ? -1 : 1) * viewLength) / 3;
 
     return this._scrollTo(this._scrollDistance + scrollAmount);
   }
@@ -601,7 +613,7 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
       labelBeforePos = offsetLeft;
       labelAfterPos = labelBeforePos + offsetWidth;
     } else {
-      labelAfterPos = this._tabList.nativeElement.offsetWidth - offsetLeft;
+      labelAfterPos = this._tabListInner.nativeElement.offsetWidth - offsetLeft;
       labelBeforePos = labelAfterPos - offsetWidth;
     }
 
@@ -635,7 +647,7 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
       this._showPaginationControls = false;
     } else {
       const isEnabled =
-          this._tabList.nativeElement.scrollWidth > this._elementRef.nativeElement.offsetWidth;
+        this._tabListInner.nativeElement.scrollWidth > this._elementRef.nativeElement.offsetWidth;
 
       if (!isEnabled) {
         this.scrollDistance = 0;
@@ -687,9 +699,9 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    *
    */
   _getMaxScrollDistance(): number {
-    const lengthOfTabList = this._tabList.nativeElement.scrollWidth;
+    const lengthOfTabList = this._tabListInner.nativeElement.scrollWidth;
     const viewLength = this._tabListContainer.nativeElement.offsetWidth;
-    return (lengthOfTabList - viewLength) || 0;
+    return lengthOfTabList - viewLength || 0;
   }
 
   /**
@@ -699,8 +711,8 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
    *
    */
   _alignInkBarToSelectedTab(): void {
-    const selectedItem = this._items && this._items.length ?
-        this._items.toArray()[this.selectedIndex] : null;
+    const selectedItem =
+      this._items && this._items.length ? this._items.toArray()[this.selectedIndex] : null;
     const selectedLabelWrapper = selectedItem ? selectedItem.elementRef.nativeElement : null;
 
     if (selectedLabelWrapper) {
@@ -784,6 +796,4 @@ export abstract class MatPaginatedTabHeader implements AfterContentChecked, Afte
 
     return {maxScrollDistance, distance: this._scrollDistance};
   }
-
-  static ngAcceptInputType_selectedIndex: NumberInput;
 }

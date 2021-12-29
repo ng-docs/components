@@ -21,7 +21,7 @@ import {DragDropRegistry} from './drag-drop-registry';
  */
 const DEFAULT_CONFIG = {
   dragStartThreshold: 5,
-  pointerDirectionChangeThreshold: 5
+  pointerDirectionChangeThreshold: 5,
 };
 
 /**
@@ -36,7 +36,8 @@ export class DragDrop {
     @Inject(DOCUMENT) private _document: any,
     private _ngZone: NgZone,
     private _viewportRuler: ViewportRuler,
-    private _dragDropRegistry: DragDropRegistry<DragRef, DropListRef>) {}
+    private _dragDropRegistry: DragDropRegistry<DragRef, DropListRef>,
+  ) {}
 
   /**
    * Turns an element into a draggable item.
@@ -52,11 +53,18 @@ export class DragDrop {
    * 用于配置拖动行为的对象。
    *
    */
-  createDrag<T = any>(element: ElementRef<HTMLElement> | HTMLElement,
-                config: DragRefConfig = DEFAULT_CONFIG): DragRef<T> {
-
-    return new DragRef<T>(element, config, this._document, this._ngZone, this._viewportRuler,
-        this._dragDropRegistry);
+  createDrag<T = any>(
+    element: ElementRef<HTMLElement> | HTMLElement,
+    config: DragRefConfig = DEFAULT_CONFIG,
+  ): DragRef<T> {
+    return new DragRef<T>(
+      element,
+      config,
+      this._document,
+      this._ngZone,
+      this._viewportRuler,
+      this._dragDropRegistry,
+    );
   }
 
   /**
@@ -70,7 +78,12 @@ export class DragDrop {
    *
    */
   createDropList<T = any>(element: ElementRef<HTMLElement> | HTMLElement): DropListRef<T> {
-    return new DropListRef<T>(element, this._dragDropRegistry, this._document, this._ngZone,
-        this._viewportRuler);
+    return new DropListRef<T>(
+      element,
+      this._dragDropRegistry,
+      this._document,
+      this._ngZone,
+      this._viewportRuler,
+    );
   }
 }

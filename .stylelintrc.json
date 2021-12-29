@@ -1,5 +1,8 @@
 {
+  "customSyntax": "postcss-scss",
   "defaultSeverity": "error",
+  "reportNeedlessDisables": true,
+  "reportInvalidScopeDisables": true,
   "plugins": [
     "./tools/stylelint/loader-rule.js",
     "./tools/stylelint/no-prefixes/index.ts",
@@ -15,7 +18,7 @@
   ],
   "rules": {
     "material/no-prefixes": [true, {
-      "browsers": ["last 2 versions", "not ie <= 10", "not ie_mob <= 10"],
+      "browsers": ["last 2 versions", "not dead", "not and_qq > 0", "not OperaMini all", "not ie > 0", "not edge < 78"],
       "filePattern": "**/!(*-example.css)"
     }],
     "material/theme-mixin-api": true,

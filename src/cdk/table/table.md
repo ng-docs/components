@@ -180,6 +180,18 @@ sorting and pagination.
 
 由于*数据源*提供了这个流，因此它要负责触发表格更新。这可能由*任何事情*触发：websocket 连接、用户交互、模型更新、基于时间间隔等。最常见的是，这些更新将由用户交互（如排序和分页）触发。
 
+##### `fixedLayout`
+The CDK table measures the dimensions of sticky elements before applying the styles that make them
+"stick". Because native tables derive column widths from the content within each cell, these
+dimensions are re-checked when the underlying data changes.
+
+Enabling `fixedLayout` will enforce uniform column widths, so the table can reliably cache and reuse
+them when calculating sticky styles. This can reduce rendering latency for large native tables.
+
+```html
+<table cdk-table [dataSource]="dataSource" fixedLayout>
+```
+
 ##### `trackBy`
 
 To improve performance, a `trackBy` function can be provided to the table similar to Angular’s
@@ -190,6 +202,16 @@ table how to uniquely identify rows to track how the data changes with each upda
 
 ```html
 <table cdk-table [dataSource]="dataSource" [trackBy]="myTrackById">
+```
+
+##### `recycleRows`
+By default, `CdkTable` creates and destroys an internal Angular view for each row. This allows rows 
+to participate in animations and to toggle between different row templates with `cdkRowDefWhen`. If 
+you don't need these features, you can instruct the table to cache and recycle rows by specifying 
+`recycleRows`.
+
+```html
+<table cdk-table [dataSource]="dataSource" recycleRows>
 ```
 
 ### Alternate HTML to using native table

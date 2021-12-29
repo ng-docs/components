@@ -14,7 +14,7 @@ import {unwrapExpression} from './utils/functions';
 import {
   computeLineStartsMap,
   getLineAndCharacterFromPosition,
-  LineAndCharacter
+  LineAndCharacter,
 } from './utils/line-mappings';
 import {getPropertyNameText} from './utils/property-name';
 
@@ -25,7 +25,7 @@ export interface ResolvedResource {
    * 包含此资源的类声明。
    *
    */
-  container: ts.ClassDeclaration|null;
+  container: ts.ClassDeclaration | null;
   /**
    * File content of the given template.
    *
@@ -137,7 +137,7 @@ export class ComponentResourceCollector {
               inline: true,
               start: templateStartIdx,
               getCharacterAndLineOfPosition: pos =>
-                  ts.getLineAndCharacterOfPosition(sourceFile, pos + templateStartIdx),
+                ts.getLineAndCharacterOfPosition(sourceFile, pos + templateStartIdx),
             });
           }
         });
@@ -156,7 +156,7 @@ export class ComponentResourceCollector {
           inline: true,
           start: templateStartIdx,
           getCharacterAndLineOfPosition: pos =>
-              ts.getLineAndCharacterOfPosition(sourceFile, pos + templateStartIdx)
+            ts.getLineAndCharacterOfPosition(sourceFile, pos + templateStartIdx),
         });
       }
 
@@ -179,7 +179,7 @@ export class ComponentResourceCollector {
 
         // In case the template does not exist in the file system, skip this
         // external template.
-        if (!this._fileSystem.exists(templatePath)) {
+        if (!this._fileSystem.fileExists(templatePath)) {
           return;
         }
 
@@ -207,8 +207,10 @@ export class ComponentResourceCollector {
    * 通过读取其内容并计算行映射来解析外部样式表。
    *
    */
-  resolveExternalStylesheet(filePath: WorkspacePath, container: ts.ClassDeclaration|null):
-      ResolvedResource|null {
+  resolveExternalStylesheet(
+    filePath: WorkspacePath,
+    container: ts.ClassDeclaration | null,
+  ): ResolvedResource | null {
     const fileContent = this._fileSystem.read(filePath);
 
     if (!fileContent) {

@@ -36,7 +36,7 @@ export const enum RtlScrollAxisType {
    * 一直向左滚动时，scrollLeft 为 (scrollWidth - clientWidth)；向右滚动时，scrollLeft 是 0。
    *
    */
-  INVERTED
+  INVERTED,
 }
 
 /**
@@ -45,7 +45,7 @@ export const enum RtlScrollAxisType {
  * 浏览器在 RTL 模式下处理水平滚动轴的方式的缓存结果。
  *
  */
-let rtlScrollAxisType: RtlScrollAxisType|undefined;
+let rtlScrollAxisType: RtlScrollAxisType | undefined;
 
 /**
  * Cached result of the check that indicates whether the browser supports scroll behaviors.
@@ -53,7 +53,7 @@ let rtlScrollAxisType: RtlScrollAxisType|undefined;
  * 检查的缓存结果，指示浏览器是否支持滚动行为。
  *
  */
-let scrollBehaviorSupported: boolean|undefined;
+let scrollBehaviorSupported: boolean | undefined;
 
 /**
  * Check whether the browser supports scroll behaviors.
@@ -76,7 +76,7 @@ export function supportsScrollBehavior(): boolean {
     } else {
       // At this point we have 3 possibilities: `scrollTo` isn't supported at all, it's
       // supported but it doesn't handle scroll behavior, or it has been polyfilled.
-      const scrollToFunction: Function|undefined = Element.prototype.scrollTo;
+      const scrollToFunction: Function | undefined = Element.prototype.scrollTo;
 
       if (scrollToFunction) {
         // We can detect if the function has been polyfilled by calling `toString` on it. Native
@@ -137,10 +137,10 @@ export function getRtlScrollAxisType(): RtlScrollAxisType {
       // return 0 when we read it again.
       scrollContainer.scrollLeft = 1;
       rtlScrollAxisType =
-          scrollContainer.scrollLeft === 0 ? RtlScrollAxisType.NEGATED : RtlScrollAxisType.INVERTED;
+        scrollContainer.scrollLeft === 0 ? RtlScrollAxisType.NEGATED : RtlScrollAxisType.INVERTED;
     }
 
-    scrollContainer.parentNode!.removeChild(scrollContainer);
+    scrollContainer.remove();
   }
   return rtlScrollAxisType;
 }

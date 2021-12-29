@@ -44,7 +44,7 @@ export class MatBottomSheetHarness extends ContentContainerComponentHarness<stri
    * 获取底部操作表 “aria-label” 属性的值。
    *
    */
-  async getAriaLabel(): Promise<string|null> {
+  async getAriaLabel(): Promise<string | null> {
     return (await this.host()).getAttribute('aria-label');
   }
 

@@ -10,7 +10,7 @@ import {
   coerceNumberProperty,
   coerceBooleanProperty,
   BooleanInput,
-  NumberInput
+  NumberInput,
 } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
@@ -31,11 +31,9 @@ import {Subscription} from 'rxjs';
 import {MatPaginatorIntl} from './paginator-intl';
 import {
   HasInitialized,
-  HasInitializedCtor,
   mixinInitialized,
   ThemePalette,
   mixinDisabled,
-  CanDisableCtor,
   CanDisable,
 } from '@angular/material/core';
 import {MatFormFieldAppearance} from '@angular/material/form-field';
@@ -146,14 +144,13 @@ export interface MatPaginatorDefaultOptions {
  * 这个注入令牌可以用来为分页器模块提供默认选项。
  *
  */
-export const MAT_PAGINATOR_DEFAULT_OPTIONS =
-    new InjectionToken<MatPaginatorDefaultOptions>('MAT_PAGINATOR_DEFAULT_OPTIONS');
+export const MAT_PAGINATOR_DEFAULT_OPTIONS = new InjectionToken<MatPaginatorDefaultOptions>(
+  'MAT_PAGINATOR_DEFAULT_OPTIONS',
+);
 
 // Boilerplate for applying mixins to _MatPaginatorBase.
 /** @docs-private */
-class MatPaginatorMixinBase {}
-const _MatPaginatorMixinBase: CanDisableCtor & HasInitializedCtor & typeof MatPaginatorMixinBase =
-    mixinDisabled(mixinInitialized(MatPaginatorMixinBase));
+const _MatPaginatorMixinBase = mixinDisabled(mixinInitialized(class {}));
 
 /**
  * Base class with all of the `MatPaginator` functionality.
@@ -163,13 +160,17 @@ const _MatPaginatorMixinBase: CanDisableCtor & HasInitializedCtor & typeof MatPa
  * @docs-private
  */
 @Directive()
-export abstract class _MatPaginatorBase<O extends {
-  pageSize?: number;
-  pageSizeOptions?: number[];
-  hidePageSize?: boolean;
-  showFirstLastButtons?: boolean;
-}> extends _MatPaginatorMixinBase implements OnInit, OnDestroy,
-    CanDisable, HasInitialized {
+export abstract class _MatPaginatorBase<
+    O extends {
+      pageSize?: number;
+      pageSizeOptions?: number[];
+      hidePageSize?: boolean;
+      showFirstLastButtons?: boolean;
+    },
+  >
+  extends _MatPaginatorMixinBase
+  implements OnInit, OnDestroy, CanDisable, HasInitialized
+{
   private _initialized: boolean;
   private _intlChanges: Subscription;
 
@@ -188,8 +189,10 @@ export abstract class _MatPaginatorBase<O extends {
    *
    */
   @Input()
-  get pageIndex(): number { return this._pageIndex; }
-  set pageIndex(value: number) {
+  get pageIndex(): number {
+    return this._pageIndex;
+  }
+  set pageIndex(value: NumberInput) {
     this._pageIndex = Math.max(coerceNumberProperty(value), 0);
     this._changeDetectorRef.markForCheck();
   }
@@ -202,8 +205,10 @@ export abstract class _MatPaginatorBase<O extends {
    *
    */
   @Input()
-  get length(): number { return this._length; }
-  set length(value: number) {
+  get length(): number {
+    return this._length;
+  }
+  set length(value: NumberInput) {
     this._length = coerceNumberProperty(value);
     this._changeDetectorRef.markForCheck();
   }
@@ -216,8 +221,10 @@ export abstract class _MatPaginatorBase<O extends {
    *
    */
   @Input()
-  get pageSize(): number { return this._pageSize; }
-  set pageSize(value: number) {
+  get pageSize(): number {
+    return this._pageSize;
+  }
+  set pageSize(value: NumberInput) {
     this._pageSize = Math.max(coerceNumberProperty(value), 0);
     this._updateDisplayedPageSizeOptions();
   }
@@ -230,7 +237,9 @@ export abstract class _MatPaginatorBase<O extends {
    *
    */
   @Input()
-  get pageSizeOptions(): number[] { return this._pageSizeOptions; }
+  get pageSizeOptions(): number[] {
+    return this._pageSizeOptions;
+  }
   set pageSizeOptions(value: number[]) {
     this._pageSizeOptions = (value || []).map(p => coerceNumberProperty(p));
     this._updateDisplayedPageSizeOptions();
@@ -244,8 +253,10 @@ export abstract class _MatPaginatorBase<O extends {
    *
    */
   @Input()
-  get hidePageSize(): boolean { return this._hidePageSize; }
-  set hidePageSize(value: boolean) {
+  get hidePageSize(): boolean {
+    return this._hidePageSize;
+  }
+  set hidePageSize(value: BooleanInput) {
     this._hidePageSize = coerceBooleanProperty(value);
   }
   private _hidePageSize = false;
@@ -257,8 +268,10 @@ export abstract class _MatPaginatorBase<O extends {
    *
    */
   @Input()
-  get showFirstLastButtons(): boolean { return this._showFirstLastButtons; }
-  set showFirstLastButtons(value: boolean) {
+  get showFirstLastButtons(): boolean {
+    return this._showFirstLastButtons;
+  }
+  set showFirstLastButtons(value: BooleanInput) {
     this._showFirstLastButtons = coerceBooleanProperty(value);
   }
   private _showFirstLastButtons = false;
@@ -279,19 +292,16 @@ export abstract class _MatPaginatorBase<O extends {
    */
   _displayedPageSizeOptions: number[];
 
-  constructor(public _intl: MatPaginatorIntl,
-              private _changeDetectorRef: ChangeDetectorRef,
-              defaults?: O) {
+  constructor(
+    public _intl: MatPaginatorIntl,
+    private _changeDetectorRef: ChangeDetectorRef,
+    defaults?: O,
+  ) {
     super();
     this._intlChanges = _intl.changes.subscribe(() => this._changeDetectorRef.markForCheck());
 
     if (defaults) {
-      const {
-        pageSize,
-        pageSizeOptions,
-        hidePageSize,
-        showFirstLastButtons,
-      } = defaults;
+      const {pageSize, pageSizeOptions, hidePageSize, showFirstLastButtons} = defaults;
 
       if (pageSize != null) {
         this._pageSize = pageSize;
@@ -328,10 +338,12 @@ export abstract class _MatPaginatorBase<O extends {
    *
    */
   nextPage(): void {
-    if (!this.hasNextPage()) { return; }
+    if (!this.hasNextPage()) {
+      return;
+    }
 
     const previousPageIndex = this.pageIndex;
-    this.pageIndex++;
+    this.pageIndex = this.pageIndex + 1;
     this._emitPageEvent(previousPageIndex);
   }
 
@@ -342,10 +354,12 @@ export abstract class _MatPaginatorBase<O extends {
    *
    */
   previousPage(): void {
-    if (!this.hasPreviousPage()) { return; }
+    if (!this.hasPreviousPage()) {
+      return;
+    }
 
     const previousPageIndex = this.pageIndex;
-    this.pageIndex--;
+    this.pageIndex = this.pageIndex - 1;
     this._emitPageEvent(previousPageIndex);
   }
 
@@ -357,7 +371,9 @@ export abstract class _MatPaginatorBase<O extends {
    */
   firstPage(): void {
     // hasPreviousPage being false implies at the start
-    if (!this.hasPreviousPage()) { return; }
+    if (!this.hasPreviousPage()) {
+      return;
+    }
 
     const previousPageIndex = this.pageIndex;
     this.pageIndex = 0;
@@ -372,7 +388,9 @@ export abstract class _MatPaginatorBase<O extends {
    */
   lastPage(): void {
     // hasNextPage being false implies at the end
-    if (!this.hasNextPage()) { return; }
+    if (!this.hasNextPage()) {
+      return;
+    }
 
     const previousPageIndex = this.pageIndex;
     this.pageIndex = this.getNumberOfPages() - 1;
@@ -466,13 +484,14 @@ export abstract class _MatPaginatorBase<O extends {
    *
    */
   private _updateDisplayedPageSizeOptions() {
-    if (!this._initialized) { return; }
+    if (!this._initialized) {
+      return;
+    }
 
     // If no page size is provided, use the first page size option or the default page size.
     if (!this.pageSize) {
-      this._pageSize = this.pageSizeOptions.length != 0 ?
-          this.pageSizeOptions[0] :
-          DEFAULT_PAGE_SIZE;
+      this._pageSize =
+        this.pageSizeOptions.length != 0 ? this.pageSizeOptions[0] : DEFAULT_PAGE_SIZE;
     }
 
     this._displayedPageSizeOptions = this.pageSizeOptions.slice();
@@ -497,16 +516,9 @@ export abstract class _MatPaginatorBase<O extends {
       previousPageIndex,
       pageIndex: this.pageIndex,
       pageSize: this.pageSize,
-      length: this.length
+      length: this.length,
     });
   }
-
-  static ngAcceptInputType_pageIndex: NumberInput;
-  static ngAcceptInputType_length: NumberInput;
-  static ngAcceptInputType_pageSize: NumberInput;
-  static ngAcceptInputType_hidePageSize: BooleanInput;
-  static ngAcceptInputType_showFirstLastButtons: BooleanInput;
-  static ngAcceptInputType_disabled: BooleanInput;
 }
 
 /**
@@ -539,9 +551,11 @@ export class MatPaginator extends _MatPaginatorBase<MatPaginatorDefaultOptions> 
    */
   _formFieldAppearance?: MatFormFieldAppearance;
 
-  constructor(intl: MatPaginatorIntl,
+  constructor(
+    intl: MatPaginatorIntl,
     changeDetectorRef: ChangeDetectorRef,
-    @Optional() @Inject(MAT_PAGINATOR_DEFAULT_OPTIONS) defaults?: MatPaginatorDefaultOptions) {
+    @Optional() @Inject(MAT_PAGINATOR_DEFAULT_OPTIONS) defaults?: MatPaginatorDefaultOptions,
+  ) {
     super(intl, changeDetectorRef, defaults);
 
     if (defaults && defaults.formFieldAppearance != null) {

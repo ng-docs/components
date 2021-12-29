@@ -38,7 +38,6 @@ export class IsFocusableConfig {
  */
 @Injectable({providedIn: 'root'})
 export class InteractivityChecker {
-
   constructor(private _platform: Platform) {}
 
   /**
@@ -188,10 +187,12 @@ export class InteractivityChecker {
   isFocusable(element: HTMLElement, config?: IsFocusableConfig): boolean {
     // Perform checks in order of left to most expensive.
     // Again, naive approach that does not capture many edge cases and browser quirks.
-    return isPotentiallyFocusable(element) && !this.isDisabled(element) &&
-      (config?.ignoreVisibility || this.isVisible(element));
+    return (
+      isPotentiallyFocusable(element) &&
+      !this.isDisabled(element) &&
+      (config?.ignoreVisibility || this.isVisible(element))
+    );
   }
-
 }
 
 /**
@@ -219,8 +220,11 @@ function getFrameElement(window: Window) {
 function hasGeometry(element: HTMLElement): boolean {
   // Use logic from jQuery to check for an invisible element.
   // See https://github.com/jquery/jquery/blob/master/src/css/hiddenVisibleSelectors.js#L12
-  return !!(element.offsetWidth || element.offsetHeight ||
-      (typeof element.getClientRects === 'function' && element.getClientRects().length));
+  return !!(
+    element.offsetWidth ||
+    element.offsetHeight ||
+    (typeof element.getClientRects === 'function' && element.getClientRects().length)
+  );
 }
 
 /**
@@ -231,10 +235,12 @@ function hasGeometry(element: HTMLElement): boolean {
  */
 function isNativeFormElement(element: Node) {
   let nodeName = element.nodeName.toLowerCase();
-  return nodeName === 'input' ||
-      nodeName === 'select' ||
-      nodeName === 'button' ||
-      nodeName === 'textarea';
+  return (
+    nodeName === 'input' ||
+    nodeName === 'select' ||
+    nodeName === 'button' ||
+    nodeName === 'textarea'
+  );
 }
 
 /**
@@ -289,12 +295,6 @@ function hasValidTabIndex(element: HTMLElement): boolean {
   }
 
   let tabIndex = element.getAttribute('tabindex');
-
-  // IE11 parses tabindex="" as the value "-32768"
-  if (tabIndex == '-32768') {
-    return false;
-  }
-
   return !!(tabIndex && !isNaN(parseInt(tabIndex, 10)));
 }
 
@@ -326,10 +326,12 @@ function isPotentiallyTabbableIOS(element: HTMLElement): boolean {
   let nodeName = element.nodeName.toLowerCase();
   let inputType = nodeName === 'input' && (element as HTMLInputElement).type;
 
-  return inputType === 'text'
-      || inputType === 'password'
-      || nodeName === 'select'
-      || nodeName === 'textarea';
+  return (
+    inputType === 'text' ||
+    inputType === 'password' ||
+    nodeName === 'select' ||
+    nodeName === 'textarea'
+  );
 }
 
 /**
@@ -345,10 +347,12 @@ function isPotentiallyFocusable(element: HTMLElement): boolean {
     return false;
   }
 
-  return isNativeFormElement(element) ||
-      isAnchorWithHref(element) ||
-      element.hasAttribute('contenteditable') ||
-      hasValidTabIndex(element);
+  return (
+    isNativeFormElement(element) ||
+    isAnchorWithHref(element) ||
+    element.hasAttribute('contenteditable') ||
+    hasValidTabIndex(element)
+  );
 }
 
 /**
@@ -359,5 +363,5 @@ function isPotentiallyFocusable(element: HTMLElement): boolean {
  */
 function getWindow(node: HTMLElement): Window {
   // ownerDocument is null if `node` itself *is* a document.
-  return node.ownerDocument && node.ownerDocument.defaultView || window;
+  return (node.ownerDocument && node.ownerDocument.defaultView) || window;
 }

@@ -37,8 +37,10 @@ export interface Import {
  * 解析指定标识符的导入。
  *
  */
-export function getImportOfIdentifier(node: ts.Identifier, typeChecker: ts.TypeChecker): Import|
-    null {
+export function getImportOfIdentifier(
+  node: ts.Identifier,
+  typeChecker: ts.TypeChecker,
+): Import | null {
   // Free standing identifiers which resolve to an import will be handled
   // as direct imports. e.g. "@Component()" where "Component" is an identifier
   // referring to an import specifier.
@@ -76,8 +78,10 @@ export function getImportOfIdentifier(node: ts.Identifier, typeChecker: ts.TypeC
  * 解析指定标识符的导入。期望此标识符解析为带有导入说明符的细粒度导入声明。
  *
  */
-function getSpecificImportOfIdentifier(node: ts.Identifier, typeChecker: ts.TypeChecker): Import|
-    null {
+function getSpecificImportOfIdentifier(
+  node: ts.Identifier,
+  typeChecker: ts.TypeChecker,
+): Import | null {
   const symbol = typeChecker.getSymbolAtLocation(node);
   if (!symbol || !symbol.declarations || !symbol.declarations.length) {
     return null;
@@ -94,7 +98,7 @@ function getSpecificImportOfIdentifier(node: ts.Identifier, typeChecker: ts.Type
   }
   return {
     moduleName: importDecl.moduleSpecifier.text,
-    symbolName: declaration.propertyName ? declaration.propertyName.text : declaration.name.text
+    symbolName: declaration.propertyName ? declaration.propertyName.text : declaration.name.text,
   };
 }
 
@@ -105,8 +109,10 @@ function getSpecificImportOfIdentifier(node: ts.Identifier, typeChecker: ts.Type
  * 解析指定标识符的导入。期望标识符解析为命名空间的导入声明。例如 "import \* as core from ..."。
  *
  */
-function getImportOfNamespacedIdentifier(node: ts.Identifier, typeChecker: ts.TypeChecker): string|
-    null {
+function getImportOfNamespacedIdentifier(
+  node: ts.Identifier,
+  typeChecker: ts.TypeChecker,
+): string | null {
   const symbol = typeChecker.getSymbolAtLocation(node);
   if (!symbol || !symbol.declarations || !symbol.declarations.length) {
     return null;
@@ -132,7 +138,7 @@ function getImportOfNamespacedIdentifier(node: ts.Identifier, typeChecker: ts.Ty
  * 获取合格类型链的根标识符。例如："core.GestureConfig" 将返回 "core" 标识符。以便我们找到 "core" 的导入。
  *
  */
-function getQualifiedNameRoot(name: ts.QualifiedName): ts.Identifier|null {
+function getQualifiedNameRoot(name: ts.QualifiedName): ts.Identifier | null {
   while (ts.isQualifiedName(name.left)) {
     name = name.left;
   }
@@ -146,7 +152,7 @@ function getQualifiedNameRoot(name: ts.QualifiedName): ts.Identifier|null {
  * 获取属性访问链的根标识符。例如："core.GestureConfig" 将返回 "core" 标识符。以便我们找到 "core" 的导入。
  *
  */
-function getPropertyAccessRoot(node: ts.PropertyAccessExpression): ts.Identifier|null {
+function getPropertyAccessRoot(node: ts.PropertyAccessExpression): ts.Identifier | null {
   while (ts.isPropertyAccessExpression(node.expression)) {
     node = node.expression;
   }

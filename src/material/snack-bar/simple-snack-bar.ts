@@ -17,7 +17,7 @@ import {MatSnackBarRef} from './snack-bar-ref';
  *
  */
 export interface TextOnlySnackBar {
-  data: {message: string, action: string};
+  data: {message: string; action: string};
   snackBarRef: MatSnackBarRef<TextOnlySnackBar>;
   action: () => void;
   hasAction: boolean;
@@ -38,7 +38,7 @@ export interface TextOnlySnackBar {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'class': 'mat-simple-snackbar',
-  }
+  },
 })
 export class SimpleSnackBar implements TextOnlySnackBar {
   /**
@@ -47,11 +47,12 @@ export class SimpleSnackBar implements TextOnlySnackBar {
    * 那些注入快餐栏的数据。
    *
    */
-  data: {message: string, action: string};
+  data: {message: string; action: string};
 
   constructor(
     public snackBarRef: MatSnackBarRef<SimpleSnackBar>,
-    @Inject(MAT_SNACK_BAR_DATA) data: any) {
+    @Inject(MAT_SNACK_BAR_DATA) data: any,
+  ) {
     this.data = data;
   }
 

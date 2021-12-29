@@ -192,3 +192,10 @@ providing it as the `VIRTUAL_SCROLL_STRATEGY` on the component containing your v
 为了确定整个内容的大小以及它在任何时刻需要实际渲染的内容，视口依赖于所提供的一个 `VirtualScrollStrategy`。提供它的最简单方式是在视口上使用 `itemSize` 指令（例如 `<cdk-virtual-scroll-viewport itemSize="50">`）。但是，也可以通过创建一个实现 `VirtualScrollStrategy` 接口的类来提供自定义策略，并在包含此视口的组件上把它提供为 `VIRTUAL_SCROLL_STRATEGY`。
 
 <!-- example(cdk-virtual-scroll-custom-strategy) -->
+
+### Append only mode
+Virtual scroll viewports that render nontrivial items may find it more performant to simply append
+to the list as the user scrolls without removing rendered views. The `appendOnly` input ensures
+views that are already rendered persist in the DOM after they scroll out of view.
+
+<!-- example(cdk-virtual-scroll-append-only) -->

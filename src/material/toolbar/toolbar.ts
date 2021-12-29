@@ -19,14 +19,14 @@ import {
   QueryList,
   ViewEncapsulation,
 } from '@angular/core';
-import {CanColor, CanColorCtor, mixinColor} from '@angular/material/core';
-
+import {CanColor, mixinColor} from '@angular/material/core';
 // Boilerplate for applying mixins to MatToolbar.
 /** @docs-private */
-class MatToolbarBase {
-  constructor(public _elementRef: ElementRef) {}
-}
-const _MatToolbarMixinBase: CanColorCtor & typeof MatToolbarBase = mixinColor(MatToolbarBase);
+const _MatToolbarBase = mixinColor(
+  class {
+    constructor(public _elementRef: ElementRef) {}
+  },
+);
 
 @Directive({
   selector: 'mat-toolbar-row',
@@ -49,7 +49,7 @@ export class MatToolbarRow {}
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class MatToolbar extends _MatToolbarMixinBase implements CanColor, AfterViewInit {
+export class MatToolbar extends _MatToolbarBase implements CanColor, AfterViewInit {
   private _document: Document;
 
   /**
@@ -63,7 +63,8 @@ export class MatToolbar extends _MatToolbarMixinBase implements CanColor, AfterV
   constructor(
     elementRef: ElementRef,
     private _platform: Platform,
-    @Inject(DOCUMENT) document?: any) {
+    @Inject(DOCUMENT) document?: any,
+  ) {
     super(elementRef);
 
     // TODO: make the document a required param when doing breaking changes.
@@ -107,7 +108,9 @@ export class MatToolbar extends _MatToolbarMixinBase implements CanColor, AfterV
  * @docs-private
  */
 export function throwToolbarMixedModesError() {
-  throw Error('MatToolbar: Attempting to combine different toolbar modes. ' +
-    'Either specify multiple `<mat-toolbar-row>` elements explicitly or just place content ' +
-    'inside of a `<mat-toolbar>` for a single row.');
+  throw Error(
+    'MatToolbar: Attempting to combine different toolbar modes. ' +
+      'Either specify multiple `<mat-toolbar-row>` elements explicitly or just place content ' +
+      'inside of a `<mat-toolbar>` for a single row.',
+  );
 }

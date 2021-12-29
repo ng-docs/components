@@ -38,24 +38,24 @@ export interface CssSelectorUpgradeData {
      * 在样式表文件中替换此名称。
      *
      */
-    stylesheet?: boolean,
+    stylesheet?: boolean;
     /**
      * Replace this name in HTML files.
      *
      * 在 HTML 文件中替换此名称。
      *
      */
-    html?: boolean,
+    html?: boolean;
     /**
      * Replace this name in TypeScript strings.
      *
      * 在 TypeScript 字符串中替换此名称。
      *
      */
-    tsStringLiterals?: boolean
+    tsStringLiterals?: boolean;
   };
 }
 
 export const cssSelectors: VersionChanges<CssSelectorUpgradeData> = {
-  [TargetVersion.V6]: []
+  [TargetVersion.V6]: [],
 };

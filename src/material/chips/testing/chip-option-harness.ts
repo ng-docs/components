@@ -17,7 +17,7 @@ export class MatChipOptionHarness extends MatChipHarness {
    * 可选择纸片实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-chip';
+  static override hostSelector = '.mat-chip';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatChipOptionHarness`
@@ -33,13 +33,18 @@ export class MatChipOptionHarness extends MatChipHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ChipOptionHarnessFilters = {}):
-    HarnessPredicate<MatChipOptionHarness> {
+  static override with(
+    options: ChipOptionHarnessFilters = {},
+  ): HarnessPredicate<MatChipOptionHarness> {
     return new HarnessPredicate(MatChipOptionHarness, options)
-        .addOption('text', options.text,
-            (harness, label) => HarnessPredicate.stringMatches(harness.getText(), label))
-        .addOption('selected', options.selected,
-            async (harness, selected) => (await harness.isSelected()) === selected);
+      .addOption('text', options.text, (harness, label) =>
+        HarnessPredicate.stringMatches(harness.getText(), label),
+      )
+      .addOption(
+        'selected',
+        options.selected,
+        async (harness, selected) => (await harness.isSelected()) === selected,
+      );
   }
 
   /**
@@ -48,7 +53,7 @@ export class MatChipOptionHarness extends MatChipHarness {
    * 纸片是否被选定。
    *
    */
-  async isSelected(): Promise<boolean> {
+  override async isSelected(): Promise<boolean> {
     return (await this.host()).hasClass('mat-chip-selected');
   }
 
@@ -58,7 +63,7 @@ export class MatChipOptionHarness extends MatChipHarness {
    * 选择指定的纸片。仅当它可以选择时才适用。
    *
    */
-  async select(): Promise<void> {
+  override async select(): Promise<void> {
     if (!(await this.isSelected())) {
       await this.toggle();
     }
@@ -70,7 +75,7 @@ export class MatChipOptionHarness extends MatChipHarness {
    * 取消选择指定的纸片。仅当它可以选择时才适用。
    *
    */
-  async deselect(): Promise<void> {
+  override async deselect(): Promise<void> {
     if (await this.isSelected()) {
       await this.toggle();
     }
@@ -82,7 +87,7 @@ export class MatChipOptionHarness extends MatChipHarness {
    * 切换指定纸片的选定状态。
    *
    */
-  async toggle(): Promise<void> {
+  override async toggle(): Promise<void> {
     return (await this.host()).sendKeys(' ');
   }
 }

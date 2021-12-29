@@ -36,8 +36,12 @@ export function parseSourceFile(host: Tree, path: string): ts.SourceFile {
  * 导入模块并将其添加到应用的根模块。
  *
  */
-export function addModuleImportToRootModule(host: Tree, moduleName: string, src: string,
-                                            project: ProjectDefinition) {
+export function addModuleImportToRootModule(
+  host: Tree,
+  moduleName: string,
+  src: string,
+  project: ProjectDefinition,
+) {
   const modulePath = getAppModulePath(host, getProjectMainFile(project));
   addModuleImportToModule(host, modulePath, moduleName, src);
 }
@@ -64,9 +68,12 @@ export function addModuleImportToRootModule(host: Tree, moduleName: string, src:
  * 要导入的源码位置
  *
  */
-export function addModuleImportToModule(host: Tree, modulePath: string, moduleName: string,
-                                        src: string) {
-
+export function addModuleImportToModule(
+  host: Tree,
+  modulePath: string,
+  moduleName: string,
+  src: string,
+) {
   const moduleSource = parseSourceFile(host, modulePath);
 
   if (!moduleSource) {
@@ -91,8 +98,10 @@ export function addModuleImportToModule(host: Tree, modulePath: string, moduleNa
  * 使用具有未定义路径处理的选项，包装内部查找模块
  *
  */
-export async function findModuleFromOptions(host: Tree, options: ComponentOptions):
-  Promise<string | undefined> {
+export async function findModuleFromOptions(
+  host: Tree,
+  options: ComponentOptions,
+): Promise<string | undefined> {
   const workspace = await getWorkspace(host);
 
   if (!options.project) {

@@ -19,11 +19,13 @@ import {InjectionToken} from '@angular/core';
  */
 export type AriaLivePoliteness = 'off' | 'polite' | 'assertive';
 
-export const LIVE_ANNOUNCER_ELEMENT_TOKEN =
-    new InjectionToken<HTMLElement | null>('liveAnnouncerElement', {
-      providedIn: 'root',
-      factory: LIVE_ANNOUNCER_ELEMENT_TOKEN_FACTORY,
-    });
+export const LIVE_ANNOUNCER_ELEMENT_TOKEN = new InjectionToken<HTMLElement | null>(
+  'liveAnnouncerElement',
+  {
+    providedIn: 'root',
+    factory: LIVE_ANNOUNCER_ELEMENT_TOKEN_FACTORY,
+  },
+);
 
 /** @docs-private */
 export function LIVE_ANNOUNCER_ELEMENT_TOKEN_FACTORY(): null {
@@ -60,5 +62,6 @@ export interface LiveAnnouncerDefaultOptions {
  * 注入令牌，可用于配置 LiveAnnouncer 的默认选项。
  *
  */
-export const LIVE_ANNOUNCER_DEFAULT_OPTIONS =
-    new InjectionToken<LiveAnnouncerDefaultOptions>('LIVE_ANNOUNCER_DEFAULT_OPTIONS');
+export const LIVE_ANNOUNCER_DEFAULT_OPTIONS = new InjectionToken<LiveAnnouncerDefaultOptions>(
+  'LIVE_ANNOUNCER_DEFAULT_OPTIONS',
+);

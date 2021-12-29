@@ -215,37 +215,28 @@ To add a divider, use `<mat-divider>`.
 
 ### Accessibility
 
-### 无障碍性
-
-The type of list used in any given situation depends on how the end-user will be interacting with it.
-
-在指定的场景下使用哪种列表，取决于最终用户将如何与之交互。
+Angular Material offers multiple varieties of list so that you can choose the type that best applies
+to your use-case.
 
 #### Navigation
 
-#### 导航
+You should use `MatNavList` when every item in the list is an anchor that navigate to another URL.
+The root `<mat-nav-list>` element sets `role="navigation"` and should contain only anchor elements
+with the `mat-list-item` attribute. You should not nest any interactive elements inside these
+anchors, including buttons and checkboxes. 
 
-When the list-items navigate somewhere, `<mat-nav-list>` should be used with `<a mat-list-item>`
-elements as the list items. The nav-list will be rendered using `role="navigation"` and can be
-given an `aria-label` to give context on the set of navigation options presented. Additional
-interactive content, such as buttons, should _not_ be added inside the anchors.
-
-当列表条目导航到某处时，`<mat-nav-list>` 应该和 `<a mat-list-item>` 元素一起使用。
-导航列表将使用 `role="navigation"` 进行渲染，并通过 `aria-label` 来为导航列表的选项集提供上下文。
-*不要*把额外的交互内容（比如按钮）填加到链接内部。
+Always provide an accessible label for the `<mat-nav-list>` element via `aria-label` or
+`aria-labelledby`.
 
 #### Selection
 
-#### 选取
+You should use `MatSelectionList` and `MatListOption` for lists that allow the user to select one
+or more values. This list variant uses the `role="listbox"` interaction pattern, handling all
+associated keyboard input and focus management. You should not nest any interactive elements inside
+these options, including buttons and anchors. 
 
-When the list is primarily used to select one or more values, a `<mat-selection-list>` should be
-used with `<mat-list-option>`, which map to `role="listbox"` and `role="option"`, respectively. The
-list should be given an `aria-label` that describes the value or values being selected. Each option
-should _not_ contain any additional interactive elements, such as buttons.
-
-当列表主要用于选择一个或多个值时，`<mat-selection-list>` 应该和 `<mat-list-option>` 一起使用，它们会分别映射到 `role="listbox"` 和 `role="option"`。
-这种列表应该给出一个 `aria-label` 以描述供选择的一个或多个值。
-每个选项都*不*应该包含任何额外的交互元素（比如按钮）。
+Always provide an accessible label for the `<mat-selection-list>` element via `aria-label` or
+`aria-labelledby` that describes the selection being made.
 
 #### Custom scenarios
 

@@ -6,12 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
- /**
-  * Dimensions for element size and its position relative to the viewport.
-  *
-  * 元素规格及其相对于视口的位置。
-  *
-  */
+/**
+ * Dimensions for element size and its position relative to the viewport.
+ *
+ * 元素规格及其相对于视口的位置。
+ *
+ */
 export interface ElementDimensions {
   top: number;
   left: number;

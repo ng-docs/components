@@ -17,7 +17,7 @@ import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
  *
  */
 export interface _MatInkBarPositioner {
-  (element: HTMLElement): { left: string, width: string };
+  (element: HTMLElement): {left: string; width: string};
 }
 
 /**
@@ -26,11 +26,13 @@ export interface _MatInkBarPositioner {
  * MatInkBar 定位器的注入令牌。
  *
  */
-export const _MAT_INK_BAR_POSITIONER =
-  new InjectionToken<_MatInkBarPositioner>('MatInkBarPositioner', {
+export const _MAT_INK_BAR_POSITIONER = new InjectionToken<_MatInkBarPositioner>(
+  'MatInkBarPositioner',
+  {
     providedIn: 'root',
-    factory: _MAT_INK_BAR_POSITIONER_FACTORY
-  });
+    factory: _MAT_INK_BAR_POSITIONER_FACTORY,
+  },
+);
 
 /**
  * The default positioner function for the MatInkBar.
@@ -67,7 +69,8 @@ export class MatInkBar {
     private _elementRef: ElementRef<HTMLElement>,
     private _ngZone: NgZone,
     @Inject(_MAT_INK_BAR_POSITIONER) private _inkBarPositioner: _MatInkBarPositioner,
-    @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) { }
+    @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string,
+  ) {}
 
   /**
    * Calculates the styles from the provided element in order to align the ink-bar to that element.

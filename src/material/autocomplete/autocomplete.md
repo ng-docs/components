@@ -148,22 +148,14 @@ autocomplete is attached to using the `matAutocompleteOrigin` directive together
 ```
 
 ### Keyboard interaction
-
-### 键盘交互
-
-- <kbd>DOWN_ARROW</kbd>: Next option becomes active
-
-  <kbd>DOWN_ARROW</kbd>：激活后一个选项。
-
-- <kbd>UP_ARROW</kbd>: Previous option becomes active
-
-  <kbd>UP_ARROW</kbd>：激活前一个选项。
-
-- <kbd>ENTER</kbd>: Selects currently active item
-
-  <kbd>ENTER</kbd>：选择当前激活的条目。
-
-- <kbd>ESCAPE</kbd>: Closes the autocomplete panel
+| Keyboard shortcut                      | Action                                                         |
+|----------------------------------------|----------------------------------------------------------------|
+| <kbd>Down Arrow</kbd>                  | Navigate to the next option.                                   |
+| <kbd>Up Arrow</kbd>                    | Navigate to the previous option.                               |
+| <kbd>Enter</kbd>                       | Select the active option.                                      |
+| <kbd>Escape</kbd>                      | Close the autocomplete panel.                                  |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | Close the autocomplete panel.                                  |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the autocomplete panel if there are any matching options. |
 
   <kbd>ESCAPE</kbd>: 关闭自动完成面板
 
@@ -181,14 +173,15 @@ autocomplete is attached to using the `matAutocompleteOrigin` directive together
 
 ### Accessibility
 
-### 无障碍性
+`MatAutocomplete` implements the ARIA combobox interaction pattern. The text input trigger specifies
+`role="combobox"` while the content of the pop-up applies `role="listbox"`. Because of this listbox
+pattern, you should _not_ put other interactive controls, such as buttons or checkboxes, inside
+an autocomplete option. Nesting interactive controls like this interferes with most assistive
+technology.
 
-The input for an autocomplete without text or labels should be given a meaningful label via
-`aria-label` or `aria-labelledby`.
+Always provide an accessible label for the autocomplete. This can be done by using a
+`<mat-label>` inside of `<mat-form-field>`, a native `<label>` element, the `aria-label`
+attribute, or the `aria-labelledby` attribute.
 
-对于没有文本或标签的输入框，应该使用 `aria-label` 或 `aria-labelledby` 来为它指定一个有意义的标签。
-
-The autocomplete trigger is given `role="combobox"`. The trigger sets `aria-owns` to the
-autocomplete's id, and sets `aria-activedescendant` to the active option's id.
-
-自动完成器的触发器是 `role="combobox"`。该触发器会把 `aria-owns` 设置为该组件的 id，并把 `aria-activedescendant` 设置为当前活动选项的 id。
+`MatAutocomplete` preserves focus on the text trigger, using `aria-activedescendant` to support
+navigation though the autocomplete options.

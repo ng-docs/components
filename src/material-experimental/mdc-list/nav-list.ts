@@ -14,14 +14,12 @@ import {MatListBase} from './list-base';
   exportAs: 'matNavList',
   template: '<ng-content></ng-content>',
   host: {
-    'class': 'mat-mdc-nav-list mat-mdc-list-base mdc-deprecated-list',
+    'class': 'mat-mdc-nav-list mat-mdc-list-base mdc-list',
   },
   styleUrls: ['list.css'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {provide: MatListBase, useExisting: MatNavList},
-  ]
+  providers: [{provide: MatListBase, useExisting: MatNavList}],
 })
 export class MatNavList extends MatListBase {
   // An navigation list is considered interactive, but does not extend the interactive list
@@ -29,5 +27,5 @@ export class MatNavList extends MatListBase {
   // through keyboard shortcuts. We want all items for the navigation list to be reachable
   // through tab key as we do not intend to provide any special accessibility treatment. The
   // accessibility treatment depends on how the end-user will interact with it.
-  _isNonInteractive = false;
+  override _isNonInteractive = false;
 }

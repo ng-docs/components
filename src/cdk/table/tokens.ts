@@ -48,5 +48,6 @@ export interface TextColumnOptions<T> {
  * 这个注入令牌可以用来指定文本列的选项。
  *
  */
-export const TEXT_COLUMN_OPTIONS =
-    new InjectionToken<TextColumnOptions<any>>('text-column-options');
+export const TEXT_COLUMN_OPTIONS = new InjectionToken<TextColumnOptions<any>>(
+  'text-column-options',
+);

@@ -40,6 +40,7 @@ export interface CategorizedClassDoc extends ClassExportDoc, CategorizedClassLik
 
 /** Extended Dgeni property-member document that includes extracted Angular metadata. */
 export interface CategorizedPropertyMemberDoc extends PropertyMemberDoc, DeprecationInfo {
+  description: string;
   isDirectiveInput: boolean;
   isDirectiveOutput: boolean;
   directiveInputAlias: string;
@@ -48,11 +49,15 @@ export interface CategorizedPropertyMemberDoc extends PropertyMemberDoc, Depreca
 
 /** Extended Dgeni method-member document that simplifies logic for the Dgeni template. */
 export interface CategorizedMethodMemberDoc
-    extends NormalizedFunctionParameters, MethodMemberDoc, DeprecationInfo {}
+  extends NormalizedFunctionParameters,
+    MethodMemberDoc,
+    DeprecationInfo {}
 
 /** Extended Dgeni function export document that simplifies logic for the Dgeni template. */
 export interface CategorizedFunctionExportDoc
-    extends NormalizedFunctionParameters, FunctionExportDoc, DeprecationInfo {}
+  extends NormalizedFunctionParameters,
+    FunctionExportDoc,
+    DeprecationInfo {}
 
 /** Extended Dgeni const export document that simplifies logic for the Dgeni template. */
 export interface CategorizedConstExportDoc extends ConstExportDoc, DeprecationInfo {}

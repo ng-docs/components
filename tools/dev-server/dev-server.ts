@@ -7,10 +7,10 @@
  */
 
 import {readFileSync, existsSync} from 'fs';
-import * as browserSync from 'browser-sync';
-import * as http from 'http';
-import * as path from 'path';
-import * as send from 'send';
+import browserSync from 'browser-sync';
+import http from 'http';
+import path from 'path';
+import send from 'send';
 
 /**
  * Dev Server implementation that uses browser-sync internally. This dev server
@@ -19,7 +19,7 @@ import * as send from 'send';
  */
 export class DevServer {
   /** Cached content of the index.html. */
-  private _index: string|null = null;
+  private _index: string | null = null;
 
   /** Instance of the browser-sync server. */
   server = browserSync.create();
@@ -38,13 +38,20 @@ export class DevServer {
   };
 
   constructor(
-      readonly port: number, private _rootPaths: string[],
-      private _historyApiFallback: boolean = false) {}
+    readonly port: number,
+    private _rootPaths: string[],
+    bindUi: boolean,
+    private _historyApiFallback: boolean = false,
+  ) {
+    if (bindUi === false) {
+      this.options.ui = false;
+    }
+  }
 
   /** Starts the server on the given port. */
   start() {
     return new Promise<void>((resolve, reject) => {
-      this.server.init(this.options, (err) => {
+      this.server.init(this.options, err => {
         if (err) {
           reject(err);
         } else {
@@ -84,8 +91,13 @@ export class DevServer {
     // Implements the HTML history API fallback logic based on the requirements of the
     // "connect-history-api-fallback" package. See the conditions for a request being redirected
     // to the index: https://github.com/bripkens/connect-history-api-fallback#introduction
-    if (this._historyApiFallback && req.method === 'GET' && !req.url.includes('.') &&
-        req.headers.accept && req.headers.accept.includes('text/html')) {
+    if (
+      this._historyApiFallback &&
+      req.method === 'GET' &&
+      !req.url.includes('.') &&
+      req.headers.accept &&
+      req.headers.accept.includes('text/html')
+    ) {
       res.end(this._getIndex());
     } else {
       const resolvedPath = this._resolveUrlFromRunfiles(req.url);
@@ -101,7 +113,7 @@ export class DevServer {
   }
 
   /** Resolves a given URL from the runfiles using the corresponding manifest path. */
-  private _resolveUrlFromRunfiles(url: string): string|null {
+  private _resolveUrlFromRunfiles(url: string): string | null {
     for (let rootPath of this._rootPaths) {
       try {
         return require.resolve(path.posix.join(rootPath, getManifestPath(url)));
@@ -122,8 +134,10 @@ export class DevServer {
       // We support specifying a variables.json file next to the index.html which will be inlined
       // into the dev app as a `script` tag. It is used to pass in environment-specific variables.
       const varsPath = path.join(path.dirname(indexPath), 'variables.json');
-      const scriptTag = '<script>window.DEV_APP_VARIABLES = ' +
-        (existsSync(varsPath) ? readFileSync(varsPath, 'utf8') : '{}') + ';</script>';
+      const scriptTag =
+        '<script>window.DEV_APP_VARIABLES = ' +
+        (existsSync(varsPath) ? readFileSync(varsPath, 'utf8') : '{}') +
+        ';</script>';
       const content = readFileSync(indexPath, 'utf8');
       const headIndex = content.indexOf('</head>');
       this._index = content.slice(0, headIndex) + scriptTag + content.slice(headIndex);

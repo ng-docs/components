@@ -23,8 +23,10 @@ import {
  * 与测试中的标准 Material datepicker 输入框进行交互的测试工具。
  *
  */
-export class MatDatepickerInputHarness extends MatDatepickerInputHarnessBase implements
-  DatepickerTrigger {
+export class MatDatepickerInputHarness
+  extends MatDatepickerInputHarnessBase
+  implements DatepickerTrigger
+{
   static hostSelector = '.mat-datepicker-input';
 
   /**
@@ -41,8 +43,9 @@ export class MatDatepickerInputHarness extends MatDatepickerInputHarnessBase imp
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: DatepickerInputHarnessFilters = {}):
-    HarnessPredicate<MatDatepickerInputHarness> {
+  static with(
+    options: DatepickerInputHarnessFilters = {},
+  ): HarnessPredicate<MatDatepickerInputHarness> {
     return getInputPredicate(MatDatepickerInputHarness, options);
   }
 

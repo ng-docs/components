@@ -1,5 +1,4 @@
-load("//tools:defaults.bzl", "sass_library")
-load("//tools:npm_sass_library.bzl", "npm_sass_library")
+load("//tools:defaults.bzl", "npm_sass_library", "sass_library")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -11,26 +10,6 @@ filegroup(
 npm_sass_library(
     name = "mdc_scss_deps_lib",
     deps = [
-        "@npm//@material/card",
-        "@npm//@material/checkbox",
-        "@npm//@material/chips",
-        "@npm//@material/circular-progress",
-        "@npm//@material/data-table",
-        "@npm//@material/dialog",
-        "@npm//@material/fab",
-        "@npm//@material/form-field",
-        "@npm//@material/linear-progress",
-        "@npm//@material/list",
-        "@npm//@material/menu-surface",
-        "@npm//@material/radio",
-        "@npm//@material/slider",
-        "@npm//@material/snackbar",
-        "@npm//@material/switch",
-        "@npm//@material/tab",
-        "@npm//@material/tab-bar",
-        "@npm//@material/tab-indicator",
-        "@npm//@material/textfield",
-        "@npm//@material/tooltip",
         "@npm//material-components-web",
     ],
 )

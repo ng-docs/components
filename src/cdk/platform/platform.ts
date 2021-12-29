@@ -19,7 +19,7 @@ let hasV8BreakIterator: boolean;
 // https://github.com/Microsoft/ChakraCore/issues/3189
 // https://github.com/angular/components/issues/15687
 try {
-  hasV8BreakIterator = (typeof Intl !== 'undefined' && (Intl as any).v8BreakIterator);
+  hasV8BreakIterator = typeof Intl !== 'undefined' && (Intl as any).v8BreakIterator;
 } catch {
   hasV8BreakIterator = false;
 }
@@ -42,8 +42,9 @@ export class Platform {
    * Angular 应用是否正在浏览器中渲染。
    *
    */
-  isBrowser: boolean = this._platformId ?
-      isPlatformBrowser(this._platformId) : typeof document === 'object' && !!document;
+  isBrowser: boolean = this._platformId
+    ? isPlatformBrowser(this._platformId)
+    : typeof document === 'object' && !!document;
 
   /**
    * Whether the current browser is Microsoft Edge.
@@ -68,8 +69,12 @@ export class Platform {
    * 当前的渲染引擎是否为 Blink。
    *
    */
-  BLINK: boolean = this.isBrowser && (!!((window as any).chrome || hasV8BreakIterator) &&
-      typeof CSS !== 'undefined' && !this.EDGE && !this.TRIDENT);
+  BLINK: boolean =
+    this.isBrowser &&
+    !!((window as any).chrome || hasV8BreakIterator) &&
+    typeof CSS !== 'undefined' &&
+    !this.EDGE &&
+    !this.TRIDENT;
 
   // Webkit is part of the userAgent in EdgeHTML, Blink and Trident. Therefore we need to
   // ensure that Webkit runs standalone and is not used as another engine's base.
@@ -79,8 +84,12 @@ export class Platform {
    * 当前的渲染引擎是否为 WebKit。
    *
    */
-  WEBKIT: boolean = this.isBrowser &&
-      /AppleWebKit/i.test(navigator.userAgent) && !this.BLINK && !this.EDGE && !this.TRIDENT;
+  WEBKIT: boolean =
+    this.isBrowser &&
+    /AppleWebKit/i.test(navigator.userAgent) &&
+    !this.BLINK &&
+    !this.EDGE &&
+    !this.TRIDENT;
 
   /**
    * Whether the current platform is Apple iOS.
@@ -88,8 +97,8 @@ export class Platform {
    * 目前的平台是否为 Apple iOS。
    *
    */
-  IOS: boolean = this.isBrowser && /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-      !('MSStream' in window);
+  IOS: boolean =
+    this.isBrowser && /iPad|iPhone|iPod/.test(navigator.userAgent) && !('MSStream' in window);
 
   // It's difficult to detect the plain Gecko engine, because most of the browsers identify
   // them self as Gecko-like browsers and modify the userAgent's according to that.
@@ -125,4 +134,3 @@ export class Platform {
 
   constructor(@Inject(PLATFORM_ID) private _platformId: Object) {}
 }
-

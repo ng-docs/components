@@ -35,5 +35,6 @@ export class MatTabContent {
      *
      * 此标签页的内容。
      *
-     */ public template: TemplateRef<any>) {}
+     */ public template: TemplateRef<any>,
+  ) {}
 }

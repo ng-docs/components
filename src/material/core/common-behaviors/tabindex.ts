@@ -29,8 +29,7 @@ export interface HasTabIndex {
   defaultTabIndex: number;
 }
 
-/** @docs-private */
-export type HasTabIndexCtor = Constructor<HasTabIndex> & AbstractConstructor<HasTabIndex>;
+type HasTabIndexCtor = Constructor<HasTabIndex> & AbstractConstructor<HasTabIndex>;
 
 /**
  * Mixin to augment a directive with a `tabIndex` property.
@@ -38,15 +37,21 @@ export type HasTabIndexCtor = Constructor<HasTabIndex> & AbstractConstructor<Has
  * 混入 `tabIndex` 属性，以扩展指令。
  *
  */
-export function mixinTabIndex<T extends AbstractConstructor<CanDisable>>(base: T,
-  defaultTabIndex?: number): HasTabIndexCtor & T;
+export function mixinTabIndex<T extends AbstractConstructor<CanDisable>>(
+  base: T,
+  defaultTabIndex?: number,
+): HasTabIndexCtor & T;
 export function mixinTabIndex<T extends Constructor<CanDisable>>(
-  base: T, defaultTabIndex = 0): HasTabIndexCtor & T {
+  base: T,
+  defaultTabIndex = 0,
+): HasTabIndexCtor & T {
   return class extends base implements HasTabIndex {
     private _tabIndex: number = defaultTabIndex;
     defaultTabIndex = defaultTabIndex;
 
-    get tabIndex(): number { return this.disabled ? -1 : this._tabIndex; }
+    get tabIndex(): number {
+      return this.disabled ? -1 : this._tabIndex;
+    }
     set tabIndex(value: number) {
       // If the specified tabIndex value is null or undefined, fall back to the default value.
       this._tabIndex = value != null ? coerceNumberProperty(value) : this.defaultTabIndex;

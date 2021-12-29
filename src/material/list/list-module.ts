@@ -39,7 +39,7 @@ import {MatDividerModule} from '@angular/material/divider';
     MatPseudoCheckboxModule,
     MatSelectionList,
     MatListOption,
-    MatDividerModule
+    MatDividerModule,
   ],
   declarations: [
     MatList,
@@ -49,7 +49,7 @@ import {MatDividerModule} from '@angular/material/divider';
     MatListIconCssMatStyler,
     MatListSubheaderCssMatStyler,
     MatSelectionList,
-    MatListOption
+    MatListOption,
   ],
 })
 export class MatListModule {}

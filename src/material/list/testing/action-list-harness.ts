@@ -18,7 +18,10 @@ import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-
  *
  */
 export class MatActionListHarness extends MatListHarnessBase<
-    typeof MatActionListItemHarness, MatActionListItemHarness, ActionListItemHarnessFilters> {
+  typeof MatActionListItemHarness,
+  MatActionListItemHarness,
+  ActionListItemHarnessFilters
+> {
   /**
    * The selector for the host element of a `MatActionList` instance.
    *
@@ -45,7 +48,7 @@ export class MatActionListHarness extends MatListHarnessBase<
     return new HarnessPredicate(MatActionListHarness, options);
   }
 
-  _itemHarness = MatActionListItemHarness;
+  override _itemHarness = MatActionListItemHarness;
 }
 
 /**
@@ -77,8 +80,9 @@ export class MatActionListItemHarness extends MatListItemHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ActionListItemHarnessFilters = {}):
-      HarnessPredicate<MatActionListItemHarness> {
+  static with(
+    options: ActionListItemHarnessFilters = {},
+  ): HarnessPredicate<MatActionListItemHarness> {
     return getListItemPredicate(MatActionListItemHarness, options);
   }
 

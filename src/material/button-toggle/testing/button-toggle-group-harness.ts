@@ -42,8 +42,9 @@ export class MatButtonToggleGroupHarness extends ComponentHarness {
    * 使用指定选项配置过的 `HarnessPredicate`。
    *
    */
-  static with(options: ButtonToggleGroupHarnessFilters = {}):
-    HarnessPredicate<MatButtonToggleGroupHarness> {
+  static with(
+    options: ButtonToggleGroupHarnessFilters = {},
+  ): HarnessPredicate<MatButtonToggleGroupHarness> {
     return new HarnessPredicate(MatButtonToggleGroupHarness, options);
   }
 
@@ -68,7 +69,7 @@ export class MatButtonToggleGroupHarness extends ComponentHarness {
    *
    */
   async isDisabled(): Promise<boolean> {
-    return await (await this.host()).getAttribute('aria-disabled') === 'true';
+    return (await (await this.host()).getAttribute('aria-disabled')) === 'true';
   }
 
   /**
@@ -90,6 +91,6 @@ export class MatButtonToggleGroupHarness extends ComponentHarness {
   async getAppearance(): Promise<MatButtonToggleAppearance> {
     const host = await this.host();
     const className = 'mat-button-toggle-group-appearance-standard';
-    return await host.hasClass(className) ? 'standard' : 'legacy';
+    return (await host.hasClass(className)) ? 'standard' : 'legacy';
   }
 }

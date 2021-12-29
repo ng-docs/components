@@ -32,10 +32,12 @@ export class MatRadioGroupHarness extends _MatRadioGroupHarnessBase<
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: RadioGroupHarnessFilters = {}):
-    HarnessPredicate<MatRadioGroupHarness> {
-    return new HarnessPredicate<MatRadioGroupHarness>(MatRadioGroupHarness, options)
-        .addOption('name', options.name, this._checkRadioGroupName);
+  static with(options: RadioGroupHarnessFilters = {}): HarnessPredicate<MatRadioGroupHarness> {
+    return new HarnessPredicate<MatRadioGroupHarness>(MatRadioGroupHarness, options).addOption(
+      'name',
+      options.name,
+      this._checkRadioGroupName,
+    );
   }
 }
 
@@ -52,13 +54,12 @@ export class MatRadioButtonHarness extends _MatRadioButtonHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: RadioButtonHarnessFilters = {}):
-    HarnessPredicate<MatRadioButtonHarness> {
+  static with(options: RadioButtonHarnessFilters = {}): HarnessPredicate<MatRadioButtonHarness> {
     return new HarnessPredicate<MatRadioButtonHarness>(MatRadioButtonHarness, options)
-        .addOption('label', options.label,
-          (harness, label) => HarnessPredicate.stringMatches(harness.getLabelText(), label))
-        .addOption('name', options.name,
-           async (harness, name) => (await harness.getName()) === name);
+      .addOption('label', options.label, (harness, label) =>
+        HarnessPredicate.stringMatches(harness.getLabelText(), label),
+      )
+      .addOption('name', options.name, async (harness, name) => (await harness.getName()) === name);
   }
 
   protected _textLabel = this.locatorFor('label');

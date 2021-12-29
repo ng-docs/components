@@ -36,6 +36,7 @@ export interface RippleTarget {
   rippleDisabled: boolean;
 }
 
+// TODO: import these values from `@material/ripple` eventually.
 /**
  * Default ripple animation configuration for ripples without an explicit
  * animation config specified.
@@ -44,8 +45,8 @@ export interface RippleTarget {
  *
  */
 export const defaultRippleAnimationConfig = {
-  enterDuration: 450,
-  exitDuration: 400
+  enterDuration: 225,
+  exitDuration: 150,
 };
 
 /**
@@ -157,11 +158,12 @@ export class RippleRenderer implements EventListenerObject {
    */
   private _containerRect: ClientRect | null;
 
-  constructor(private _target: RippleTarget,
-              private _ngZone: NgZone,
-              elementOrElementRef: HTMLElement | ElementRef<HTMLElement>,
-              platform: Platform) {
-
+  constructor(
+    private _target: RippleTarget,
+    private _ngZone: NgZone,
+    elementOrElementRef: HTMLElement | ElementRef<HTMLElement>,
+    platform: Platform,
+  ) {
     // Only do anything if we're on the browser.
     if (platform.isBrowser) {
       this._containerElement = coerceElement(elementOrElementRef);
@@ -187,8 +189,8 @@ export class RippleRenderer implements EventListenerObject {
    *
    */
   fadeInRipple(x: number, y: number, config: RippleConfig = {}): RippleRef {
-    const containerRect = this._containerRect =
-                          this._containerRect || this._containerElement.getBoundingClientRect();
+    const containerRect = (this._containerRect =
+      this._containerRect || this._containerElement.getBoundingClientRect());
     const animationConfig = {...defaultRippleAnimationConfig, ...config.animation};
 
     if (config.centered) {
@@ -289,7 +291,7 @@ export class RippleRenderer implements EventListenerObject {
     // Once the ripple faded out, the ripple can be safely removed from the DOM.
     this._runTimeoutOutsideZone(() => {
       rippleRef.state = RippleState.HIDDEN;
-      rippleEl.parentNode!.removeChild(rippleEl);
+      rippleEl.remove();
     }, animationConfig.exitDuration);
   }
 
@@ -372,8 +374,9 @@ export class RippleRenderer implements EventListenerObject {
     // Screen readers will fire fake mouse events for space/enter. Skip launching a
     // ripple in this case for consistency with the non-screen-reader experience.
     const isFakeMousedown = isFakeMousedownFromScreenReader(event);
-    const isSyntheticEvent = this._lastTouchStartEvent &&
-        Date.now() < this._lastTouchStartEvent + ignoreMouseEventsTimeout;
+    const isSyntheticEvent =
+      this._lastTouchStartEvent &&
+      Date.now() < this._lastTouchStartEvent + ignoreMouseEventsTimeout;
 
     if (!this._target.rippleDisabled && !isFakeMousedown && !isSyntheticEvent) {
       this._isPointerDown = true;
@@ -422,8 +425,9 @@ export class RippleRenderer implements EventListenerObject {
     this._activeRipples.forEach(ripple => {
       // By default, only ripples that are completely visible will fade out on pointer release.
       // If the `terminateOnPointerUp` option is set, ripples that still fade in will also fade out.
-      const isVisible = ripple.state === RippleState.VISIBLE ||
-        ripple.config.terminateOnPointerUp && ripple.state === RippleState.FADING_IN;
+      const isVisible =
+        ripple.state === RippleState.VISIBLE ||
+        (ripple.config.terminateOnPointerUp && ripple.state === RippleState.FADING_IN);
 
       if (!ripple.config.persistent && isVisible) {
         ripple.fadeOut();
@@ -449,7 +453,7 @@ export class RippleRenderer implements EventListenerObject {
    */
   private _registerEvents(eventTypes: string[]) {
     this._ngZone.runOutsideAngular(() => {
-      eventTypes.forEach((type) => {
+      eventTypes.forEach(type => {
         this._triggerElement!.addEventListener(type, this, passiveEventOptions);
       });
     });
@@ -463,12 +467,12 @@ export class RippleRenderer implements EventListenerObject {
    */
   _removeTriggerEvents() {
     if (this._triggerElement) {
-      pointerDownEvents.forEach((type) => {
+      pointerDownEvents.forEach(type => {
         this._triggerElement!.removeEventListener(type, this, passiveEventOptions);
       });
 
       if (this._pointerUpEventsRegistered) {
-        pointerUpEvents.forEach((type) => {
+        pointerUpEvents.forEach(type => {
           this._triggerElement!.removeEventListener(type, this, passiveEventOptions);
         });
       }

@@ -50,44 +50,6 @@ export class YourDialog {
 }
 ```
 
-### Configuring dialog content via `entryComponents`
-**You only need to specify `entryComponents` if your project uses ViewEngine. Projects
-using Angular Ivy don't need `entryComponents`.**
-
-### 通过 `entryComponents` 配置对话框的内容
-
-Because `MatDialog` instantiates components at run-time, the Angular compiler needs extra
-information to create the necessary `ComponentFactory` for your dialog content component.
-
-由于 `MatDialog` 是在运行时实例化组件的，所以 Angular 编译器需要额外的信息才能为对话框内容组件创建所需的 `ComponentFactory`。
-
-For any component loaded into a dialog, you must include your component class in the list of
-`entryComponents` in your NgModule definition so that the Angular compiler knows to create
-the `ComponentFactory` for it.
-
-对于任何要加载到对话框中的组件，都必须在 `entryComponents` 列表中包含你的组件类，以便 Angular 编译器知道如何为它创建 `ComponentFactory`。
-
-```ts
-@NgModule({
-  imports: [
-    // ...
-    MatDialogModule
-  ],
-
-  declarations: [
-    AppComponent,
-    ExampleDialogComponent
-  ],
-
-  entryComponents: [
-    ExampleDialogComponent
-  ],
-
-  bootstrap: [AppComponent]
-})
-export class AppModule {}
-```
-
 ### Specifying global configuration defaults
 
 ### 指定全局默认值
@@ -237,73 +199,47 @@ export class AppModule {}
 
 ### Accessibility
 
-### 无障碍性
+`MatDialog` creates modal dialogs that implements the ARIA `role="dialog"` pattern by default.
+You can change the dialog's role to `alertdialog` via `MatDialogConfig`.
 
-By default, each dialog has `role="dialog"` on the root element. The role can be changed to
-`alertdialog` via the `MatDialogConfig` when opening.
+You should provide an accessible label to this root dialog element by setting the `ariaLabel` or
+`ariaLabelledBy` properties of `MatDialogConfig`. You can additionally specify a description element
+ID via the `ariaDescribedBy` property of `MatDialogConfig`.
 
-默认情况下，每个对话框的根元素上都有一个 `role="dialog"` 属性。当打开对话框时，也可以通过 `MatDialogConfig` 参数把该角色修改为 `alertdialog`。
-
-The `aria-label`, `aria-labelledby`, and `aria-describedby` attributes can all be set to the
-dialog element via the `MatDialogConfig` as well. Each dialog should typically have a label
-set via `aria-label` or `aria-labelledby`.
-
-`aria-label`、`aria-labelledby` 和 `aria-describedby` 属性也同样可以通过 `MatDialogConfig` 参数进行设置。
-通常，每个对话框都会通过 `aria-label` 或 `aria-labelledby` 设置一个标签。
-
-When a dialog is opened, it will move focus to the first focusable element that it can find. In
-order to prevent users from tabbing into elements in the background, the Material dialog uses
-a [focus trap](https://material.angular.io/cdk/a11y/overview#focustrap) to contain focus
-within itself. Once a dialog is closed, it will return focus to the element that was focused
-before the dialog was opened.
-
-当对话框打开时，会把焦点转给它所能知道的第一个可获得焦点的元素。
-为了阻止用户 tab 进背景中的元素，Material 对话框使用[焦点陷阱](/cdk/a11y/overview#focustrap)来把焦点困在内部。
-当对话框关闭时，它就会把焦点还给打开对话框之前拥有焦点的那个元素。
-
-If you're adding a close button that doesn't have text (e.g. a purely icon-based button), make sure
-that it has a meaningful `aria-label` so that users with assistive technology know what it is used
-for.
-
-如果你要添加一个不带文本的关闭按钮（比如只有图标的按钮），请确保给它加一个有意义的 `aria-label`，以便让那些使用相关辅助技术的用户明白它是做什么的。
+#### Keyboard interaction
+By default, the escape key closes `MatDialog`. While you can disable this behavior via
+the `disableClose` property of `MatDialogConfig`, doing this breaks the expected interaction
+pattern for the ARIA `role="dialog"` pattern.
 
 #### Focus management
 
-#### 焦点管理
+When opened, `MatDialog` traps browser focus such that it cannot escape the root
+`role="dialog"` element. By default, the first tabbable element in the dialog receives focus.
+You can customize which element receives focus with the `autoFocus` property of
+`MatDialogConfig`, which supports the following values.
 
-By default, the first tabbable element within the dialog will receive focus upon open. This can
-be configured by setting the `cdkFocusInitial` attribute on another focusable element.
+| Value            | Behavior                                                                 |
+|------------------|--------------------------------------------------------------------------|
+| `first-tabbable` | Focus the first tabbable element. This is the default setting.           |
+| `first-header`   | Focus the first header element (`role="heading"`, `h1` through `h6`)     |
+| `dialog`         | Focus the root `role="dialog"` element.                                  |
+| Any CSS selector | Focus the first element matching the given selector.                     |
 
-默认情况下，当打开时，对话框中第一个可 tab 进去的子元素将会接受焦点。
-不过，也可以通过为另一个可获得焦点的元素添加 `cdkFocusInitial` 元素来配置它。
+While the default setting applies the best behavior for most applications, special cases may benefit
+from these alternatives. Always test your application to verify the behavior that works best for
+your users.
 
-Tabbing through the elements of the dialog will keep focus inside of the dialog element,
-wrapping back to the first tabbable element when reaching the end of the tab sequence.
+#### Focus restoration
 
-在对话框中的各个元素之间 tab 的时候，将会确保焦点始终位于对话框元素的内部，当到达 tab 序列的末尾时，就会回到该序列的头部。
+When closed, `MatDialog` restores focus to the element that previously held focus when the
+dialog opened. However, if that previously focused element no longer exists, you must
+add additional handling to return focus to an element that makes sense for the user's workflow.
+Opening a dialog from a menu is one common pattern that causes this situation. The menu
+closes upon clicking an item, thus the focused menu item is no longer in the DOM when the bottom
+sheet attempts to restore focus.
 
-#### Focus Restoration
-
-#### 焦点复原
-
-Upon closing, the dialog returns focus to the element that had focus when the dialog opened.
-In some cases, however, this previously focused element no longer exists in the DOM, such as
-menu items. To manually restore focus to an appropriate element in such cases, you can disable 
-`restoreFocus` in `MatDialogConfig` and pass it into the `open` method.
-Then you can return focus manually by subscribing to the `afterClosed` observable on `MatDialogRef`.
-
-对话框关闭后，会把焦点返还给打开对话框时拥有焦点的元素。但是，在某些情况下，这个先前拥有焦点的元素可能在 DOM 中不再存在，例如菜单项。要想在这种情况下把焦点手动复原到合适的元素，你可以禁用 `MatDialogConfig` 中的 `restoreFocus`，并把它传给 `open` 方法。然后你可以通过订阅 `MatDialogRef` 上的 `afterClosed` 事件来手动返还焦点。
+You can add handling for this situation with the `afterClosed()` observable from `MatDialogRef`.
 
 <!-- example({"example":"dialog-from-menu",
-              "file":"dialog-from-menu-example.ts", 
+              "file":"dialog-from-menu-example.ts",
               "region":"focus-restoration"}) -->
-
-#### Keyboard interaction
-
-#### 键盘交互
-
-By default pressing the escape key will close the dialog. While this behavior can
-be turned off via the `disableClose` option, users should generally avoid doing so
-as it breaks the expected interaction pattern for screen-reader users.
-
-默认情况下，按 ESC 键就会关闭底部操作表。虽然也可以通过 `disableClose` 选项来禁止此行为，不过一般不应这样做，因为它会打破屏幕阅读器用户所期望的交互模式。

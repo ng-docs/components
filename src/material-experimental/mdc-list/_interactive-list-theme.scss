@@ -6,29 +6,35 @@
 // has integrated styles for these states but relies on their complex ripples for it.
 @mixin private-interactive-list-item-state-colors($config) {
   $is-dark-theme: map.get($config, is-dark);
-  $state-opacities:
-    if($is-dark-theme, mdc-ripple.$light-ink-opacities, mdc-ripple.$dark-ink-opacities);
+  $active-base-color: if($is-dark-theme, white, black);
+  $selected-color: theming.get-color-from-palette(map.get($config, primary));
 
   .mat-mdc-list-item-interactive {
     &::before {
-      background: if($is-dark-theme, white, black);
+      background: $active-base-color;
     }
 
-    &.mdc-deprecated-list-item--selected::before {
-      background: theming.get-color-from-palette(map.get($config, primary));
-      opacity: map.get($state-opacities, selected);
+    &:not(:focus):not(.mdc-list-item--disabled):hover::before {
+      opacity: mdc-ripple.states-opacity($active-base-color, hover);
+    }
+
+    &.mdc-list-item--selected {
+      &::before {
+        background: $selected-color;
+        opacity: mdc-ripple.states-opacity($selected-color, selected);
+      }
+
+      &:not(:focus):not(.mdc-list-item--disabled):hover::before {
+        // The hover and selected opacities need to be combined to match with what the MDC
+        // ripple state would render. More details here:
+        // https://github.com/material-components/material-components-web/blob/348665978ce73694ad4518626dd70cdf5b984113/packages/mdc-ripple/_ripple-theme.scss#L450.
+        opacity: mdc-ripple.states-opacity($selected-color, hover) +
+                 mdc-ripple.states-opacity($selected-color, selected);
+      }
     }
 
     &:focus::before {
-      opacity: map.get($state-opacities, focus);
-    }
-  }
-
-  // MDC still shows focus/selected state if the option is disabled. Just the hover
-  // styles should not show up.
-  .mat-mdc-list-item-interactive:not(.mdc-deprecated-list-item--disabled) {
-    &:hover::before {
-      opacity: map.get($state-opacities, hover);
+      opacity: mdc-ripple.states-opacity($active-base-color, focus);
     }
   }
 }

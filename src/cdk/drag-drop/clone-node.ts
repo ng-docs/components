@@ -41,8 +41,12 @@ export function deepCloneNode(node: HTMLElement): HTMLElement {
  * 位于元素及其克隆体之间的匹配元素，并允许克隆它们的数据。
  *
  */
-function transferData<T extends Element>(selector: string, node: HTMLElement, clone: HTMLElement,
-                                         callback: (source: T, clone: T) => void) {
+function transferData<T extends Element>(
+  selector: string,
+  node: HTMLElement,
+  clone: HTMLElement,
+  callback: (source: T, clone: T) => void,
+) {
   const descendantElements = node.querySelectorAll<T>(selector);
 
   if (descendantElements.length) {
@@ -63,8 +67,10 @@ let cloneUniqueId = 0;
  * 把一个输入元素的数据传给另一个输入元素。
  *
  */
-function transferInputData(source: Element & {value: string},
-                           clone: Element & {value: string; name: string; type: string}) {
+function transferInputData(
+  source: Element & {value: string},
+  clone: Element & {value: string; name: string; type: string},
+) {
   // Browsers throw an error when assigning the value of a file input programmatically.
   if (clone.type !== 'file') {
     clone.value = source.value;

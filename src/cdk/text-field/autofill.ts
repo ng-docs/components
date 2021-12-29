@@ -126,12 +126,16 @@ export class AutofillMonitor implements OnDestroy {
       // Animation events fire on initial element render, we check for the presence of the autofill
       // CSS class to make sure this is a real change in state, not just the initial render before
       // we fire off events.
-      if (event.animationName === 'cdk-text-field-autofill-start' &&
-          !element.classList.contains(cssClass)) {
+      if (
+        event.animationName === 'cdk-text-field-autofill-start' &&
+        !element.classList.contains(cssClass)
+      ) {
         element.classList.add(cssClass);
         this._ngZone.run(() => result.next({target: event.target as Element, isAutofilled: true}));
-      } else if (event.animationName === 'cdk-text-field-autofill-end' &&
-          element.classList.contains(cssClass)) {
+      } else if (
+        event.animationName === 'cdk-text-field-autofill-end' &&
+        element.classList.contains(cssClass)
+      ) {
         element.classList.remove(cssClass);
         this._ngZone.run(() => result.next({target: event.target as Element, isAutofilled: false}));
       }
@@ -146,7 +150,7 @@ export class AutofillMonitor implements OnDestroy {
       subject: result,
       unlisten: () => {
         element.removeEventListener('animationstart', listener, listenerOptions);
-      }
+      },
     });
 
     return result;
@@ -212,8 +216,10 @@ export class CdkAutofill implements OnDestroy, OnInit {
    */
   @Output() readonly cdkAutofill = new EventEmitter<AutofillEvent>();
 
-  constructor(private _elementRef: ElementRef<HTMLElement>,
-              private _autofillMonitor: AutofillMonitor) {}
+  constructor(
+    private _elementRef: ElementRef<HTMLElement>,
+    private _autofillMonitor: AutofillMonitor,
+  ) {}
 
   ngOnInit() {
     this._autofillMonitor

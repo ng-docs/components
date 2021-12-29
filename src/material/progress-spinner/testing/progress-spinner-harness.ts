@@ -40,8 +40,9 @@ export class MatProgressSpinnerHarness extends ComponentHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ProgressSpinnerHarnessFilters = {}):
-      HarnessPredicate<MatProgressSpinnerHarness> {
+  static with(
+    options: ProgressSpinnerHarnessFilters = {},
+  ): HarnessPredicate<MatProgressSpinnerHarness> {
     return new HarnessPredicate(MatProgressSpinnerHarness, options);
   }
 
@@ -51,7 +52,7 @@ export class MatProgressSpinnerHarness extends ComponentHarness {
    * 获取此进度圈的值。
    *
    */
-  async getValue(): Promise<number|null> {
+  async getValue(): Promise<number | null> {
     const host = await this.host();
     const ariaValue = await host.getAttribute('aria-valuenow');
     return ariaValue ? coerceNumberProperty(ariaValue) : null;
@@ -65,6 +66,6 @@ export class MatProgressSpinnerHarness extends ComponentHarness {
    */
   async getMode(): Promise<ProgressSpinnerMode> {
     const modeAttr = (await this.host()).getAttribute('mode');
-    return await modeAttr as ProgressSpinnerMode;
+    return (await modeAttr) as ProgressSpinnerMode;
   }
 }

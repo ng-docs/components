@@ -81,9 +81,9 @@ This element can contain:
 
 ### 无障碍性
 
-Cards can be used in a wide variety of scenarios and can contain many different types of content.
-Due to this dynamic nature, the appropriate accessibility treatment depends on how `<mat-card>` is
-used.
+Cards serve a wide variety of scenarios and may contain many different types of content.
+Due to this flexible nature, the appropriate accessibility treatment depends on how you use
+`<mat-card>`.
 
 卡片可用在很多场景中，还能包含很多种不同类型的内容。
 由于其动态性，它无障碍性是否合适，取决于如何使用 `<mat-card>`。
@@ -93,14 +93,14 @@ used.
 #### 分组、区域和界标
 
 There are several ARIA roles that communicate that a portion of the UI represents some semantically
-meaningful whole. Depending on what the content of the card means to your application,
-[`role="group"`][0], [`role="region"`][1], or [one of the landmark roles][2] should typically be
-applied to the `<mat-card>` element.
+meaningful whole. Depending on what the content of the card means to your application, you can apply
+one of [`role="group"`][role-group], [`role="region"`][role-region], or
+[one of the landmark roles][aria-landmarks] to the `<mat-card>` element.
 
 有几个 ARIA 角色用来表示界面上的某些部分在语义上是一些有意义的整体。
 这取决于卡片的内容在你的应用中的意义，`<mat-card>` 元素上通常会应用 [`role="group"`][0]、[`role="region"`][1] 或 [某个界标角色][2]。
 
-A role is not necessary when the card is used as a purely decorative container that does not
+You do not need to apply a role when using a card as a purely decorative container that does not
 convey a meaningful grouping of related content for a single subject. In these cases, the content
 of the card should follow standard practices for document content.
 
@@ -112,19 +112,27 @@ of the card should follow standard practices for document content.
 #### 焦点
 
 Depending on how cards are used, it may be appropriate to apply a `tabindex` to the `<mat-card>`
-element. If cards are a primary mechanism through which user interacts with the application,
-`tabindex="0"` is appropriate. If attention can be sent to the card, but it's not part of the
-document flow, `tabindex="-1"` is appropriate.
+element. 
 
-根据卡片的用途，可能需要为 `<mat-card>` 添加一个 `tabindex` 属性。
-如果卡片是用户与应用交互的主要方式，那么最好使用 `tabindex="0"`。如果该卡片可以吸引注意力，但它不是文档流的一部分，那么最好使用 `tabindex="-1"`。
+根据卡片的用途，可能需要为 `<mat-card>` 元素添加一个 `tabindex` 属性。
 
-If the card acts as a purely decorative container, it does not need to be tabbable. In this case,
-the card content should follow normal best practices for tab order.
+* If cards are a primary mechanism through which user interacts with the application, `tabindex="0"`
+  may be appropriate. 
 
+  如果卡片是用户与应用交互的主要方式，那么最好使用 `tabindex="0"`。
 
-如果该卡片扮演一个纯装饰性容器，那么它不需要能 `tab` 进来。这种情况下，卡片内容应该遵循关于安排 `tab` 顺序的标准实践。
+* If attention can be sent to the card, but it's not part of the document flow, `tabindex="-1"` may
+  be appropriate.
 
- [0]: https://www.w3.org/TR/wai-aria/#group
- [1]: https://www.w3.org/TR/wai-aria/#region
- [2]: https://www.w3.org/TR/wai-aria/#landmark
+  如果该卡片可以吸引注意力，但它不是文档流的一部分，那么最好使用 `tabindex="-1"`。
+
+* If the card acts as a purely decorative container, it does not need to be tabbable. In this case,
+  the card content should follow normal best practices for tab order.
+
+  如果该卡片扮演一个纯装饰性容器，那么它不需要能 `tab` 进来。这种情况下，卡片内容应该遵循关于安排 `tab` 顺序的标准实践。
+
+Always test your application to verify the behavior that works best for your users.
+
+[role-group]: https://www.w3.org/TR/wai-aria/#group
+[role-region]: https://www.w3.org/TR/wai-aria/#region
+[aria-landmarks]: https://www.w3.org/TR/wai-aria/#landmark

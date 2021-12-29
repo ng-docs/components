@@ -17,8 +17,9 @@ import {SchematicsException} from '@angular-devkit/schematics';
  *
  */
 export function getProjectFromWorkspace(
-    workspace: WorkspaceDefinition,
-    projectName = workspace.extensions.defaultProject as string): ProjectDefinition {
+  workspace: WorkspaceDefinition,
+  projectName = workspace.extensions.defaultProject as string,
+): ProjectDefinition {
   const project = workspace.projects.get(projectName);
 
   if (!project) {

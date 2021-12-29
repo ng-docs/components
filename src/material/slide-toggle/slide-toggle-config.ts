@@ -38,8 +38,10 @@ export interface MatSlideToggleDefaultOptions {
  * 这个注入令牌用来改写 `mat-slide-toggle` 的默认选项。
  *
  */
-export const MAT_SLIDE_TOGGLE_DEFAULT_OPTIONS =
-  new InjectionToken<MatSlideToggleDefaultOptions>('mat-slide-toggle-default-options', {
+export const MAT_SLIDE_TOGGLE_DEFAULT_OPTIONS = new InjectionToken<MatSlideToggleDefaultOptions>(
+  'mat-slide-toggle-default-options',
+  {
     providedIn: 'root',
-    factory: () => ({disableToggleValue: false})
-  });
+    factory: () => ({disableToggleValue: false}),
+  },
+);

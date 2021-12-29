@@ -20,10 +20,9 @@ export class MatSnackBarHarness extends BaseMatSnackBarHarness {
   // animation is finished and since it runs outside of Angular, we don't have a way of being
   // notified when it's done.
   /** The selector for the host element of a `MatSnackBar` instance. */
-  static hostSelector = '.mat-mdc-snack-bar-container:not([mat-exit])';
-  protected _messageSelector = '.mat-mdc-simple-snack-bar .mat-mdc-snack-bar-label';
-  protected _simpleSnackBarSelector = '.mat-mdc-simple-snack-bar';
-  protected _actionButtonSelector = '.mat-mdc-simple-snack-bar .mat-mdc-snack-bar-action';
+  static override hostSelector = '.mat-mdc-snack-bar-container:not([mat-exit])';
+  protected override _messageSelector = '.mdc-snackbar__label';
+  protected override _actionButtonSelector = '.mat-mdc-snack-bar-action';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatSnackBarHarness` that meets
@@ -33,7 +32,11 @@ export class MatSnackBarHarness extends BaseMatSnackBarHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: SnackBarHarnessFilters = {}): HarnessPredicate<BaseMatSnackBarHarness> {
+  static override with(
+    options: SnackBarHarnessFilters = {},
+  ): HarnessPredicate<BaseMatSnackBarHarness> {
     return new HarnessPredicate<BaseMatSnackBarHarness>(MatSnackBarHarness, options);
   }
+
+  protected override async _assertContentAnnotated() {}
 }

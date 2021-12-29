@@ -7,7 +7,6 @@
  */
 
 /** Horizontal dimension of a connection point on the perimeter of the origin or overlay element. */
-import {Optional} from '@angular/core';
 export type HorizontalConnectionPos = 'start' | 'center' | 'end';
 
 /**
@@ -84,8 +83,8 @@ export class ConnectionPositionPair {
     /** Offset along the Y axis. */
     public offsetY?: number,
     /** Class(es) to be applied to the panel while this position is active. */
-    public panelClass?: string | string[]) {
-
+    public panelClass?: string | string[],
+  ) {
     this.originX = origin.originX;
     this.originY = origin.originY;
     this.overlayX = overlay.overlayX;
@@ -139,14 +138,15 @@ export class ScrollingVisibility {
  */
 export class ConnectedOverlayPositionChange {
   constructor(
-      /**
-       * The position used as a result of this change.
-       *
-       * 本次更改的结果位置。
-       */
-      public connectionPair: ConnectionPositionPair,
-      /** @docs-private */
-      @Optional() public scrollableViewProperties: ScrollingVisibility) {}
+    /**
+     * The position used as a result of this change.
+     *
+     * 本次更改的结果位置。
+     */
+    public connectionPair: ConnectionPositionPair,
+    /** @docs-private */
+    public scrollableViewProperties: ScrollingVisibility,
+  ) {}
 }
 
 /**
@@ -166,8 +166,10 @@ export class ConnectedOverlayPositionChange {
  */
 export function validateVerticalPosition(property: string, value: VerticalConnectionPos) {
   if (value !== 'top' && value !== 'bottom' && value !== 'center') {
-    throw Error(`ConnectedPosition: Invalid ${property} "${value}". ` +
-                `Expected "top", "bottom" or "center".`);
+    throw Error(
+      `ConnectedPosition: Invalid ${property} "${value}". ` +
+        `Expected "top", "bottom" or "center".`,
+    );
   }
 }
 
@@ -188,7 +190,9 @@ export function validateVerticalPosition(property: string, value: VerticalConnec
  */
 export function validateHorizontalPosition(property: string, value: HorizontalConnectionPos) {
   if (value !== 'start' && value !== 'end' && value !== 'center') {
-    throw Error(`ConnectedPosition: Invalid ${property} "${value}". ` +
-                `Expected "start", "end" or "center".`);
+    throw Error(
+      `ConnectedPosition: Invalid ${property} "${value}". ` +
+        `Expected "start", "end" or "center".`,
+    );
   }
 }

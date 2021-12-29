@@ -7,7 +7,7 @@
  */
 
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {Directive, HostListener, Input} from '@angular/core';
+import {Directive, Input} from '@angular/core';
 
 import {CdkTree, CdkTreeNode} from './tree';
 
@@ -17,7 +17,12 @@ import {CdkTree, CdkTreeNode} from './tree';
  * 切换节点，以展开/折叠节点。
  *
  */
-@Directive({selector: '[cdkTreeNodeToggle]'})
+@Directive({
+  selector: '[cdkTreeNodeToggle]',
+  host: {
+    '(click)': '_toggle($event)',
+  },
+})
 export class CdkTreeNodeToggle<T, K = T> {
   /**
    * Whether expand/collapse the node recursively.
@@ -26,19 +31,16 @@ export class CdkTreeNodeToggle<T, K = T> {
    *
    */
   @Input('cdkTreeNodeToggleRecursive')
-  get recursive(): boolean { return this._recursive; }
-  set recursive(value: boolean) { this._recursive = coerceBooleanProperty(value); }
+  get recursive(): boolean {
+    return this._recursive;
+  }
+  set recursive(value: BooleanInput) {
+    this._recursive = coerceBooleanProperty(value);
+  }
   protected _recursive = false;
 
-  constructor(protected _tree: CdkTree<T, K>,
-              protected _treeNode: CdkTreeNode<T, K>) {}
+  constructor(protected _tree: CdkTree<T, K>, protected _treeNode: CdkTreeNode<T, K>) {}
 
-  // We have to use a `HostListener` here in order to support both Ivy and ViewEngine.
-  // In Ivy the `host` bindings will be merged when this class is extended, whereas in
-  // ViewEngine they're overwritten.
-  // TODO(crisbeto): we move this back into `host` once Ivy is turned on by default.
-  // tslint:disable-next-line:no-host-decorator-in-concrete
-  @HostListener('click', ['$event'])
   _toggle(event: Event): void {
     this.recursive
       ? this._tree.treeControl.toggleDescendants(this._treeNode.data)
@@ -46,6 +48,4 @@ export class CdkTreeNodeToggle<T, K = T> {
 
     event.stopPropagation();
   }
-
-  static ngAcceptInputType_recursive: BooleanInput;
 }

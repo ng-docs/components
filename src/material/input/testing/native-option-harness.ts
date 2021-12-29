@@ -40,14 +40,19 @@ export class MatNativeOptionHarness extends ComponentHarness {
    */
   static with(options: NativeOptionHarnessFilters = {}) {
     return new HarnessPredicate(MatNativeOptionHarness, options)
-        .addOption('text', options.text,
-            async (harness, title) =>
-                HarnessPredicate.stringMatches(await harness.getText(), title))
-        .addOption('index', options.index,
-            async (harness, index) => await harness.getIndex() === index)
-        .addOption('isSelected', options.isSelected,
-            async (harness, isSelected) => await harness.isSelected() === isSelected);
-
+      .addOption('text', options.text, async (harness, title) =>
+        HarnessPredicate.stringMatches(await harness.getText(), title),
+      )
+      .addOption(
+        'index',
+        options.index,
+        async (harness, index) => (await harness.getIndex()) === index,
+      )
+      .addOption(
+        'isSelected',
+        options.isSelected,
+        async (harness, isSelected) => (await harness.isSelected()) === isSelected,
+      );
   }
 
   /**
@@ -57,7 +62,7 @@ export class MatNativeOptionHarness extends ComponentHarness {
    *
    */
   async getText(): Promise<string> {
-    return (await this.host()).getProperty('label');
+    return (await this.host()).getProperty<string>('label');
   }
 
   /**
@@ -67,7 +72,7 @@ export class MatNativeOptionHarness extends ComponentHarness {
    *
    */
   async getIndex(): Promise<number> {
-    return (await this.host()).getProperty('index');
+    return (await this.host()).getProperty<number>('index');
   }
 
   /**
@@ -77,7 +82,7 @@ export class MatNativeOptionHarness extends ComponentHarness {
    *
    */
   async isDisabled(): Promise<boolean> {
-    return (await this.host()).getProperty('disabled');
+    return (await this.host()).getProperty<boolean>('disabled');
   }
 
   /**
@@ -87,6 +92,6 @@ export class MatNativeOptionHarness extends ComponentHarness {
    *
    */
   async isSelected(): Promise<boolean> {
-    return (await this.host()).getProperty('selected');
+    return (await this.host()).getProperty<boolean>('selected');
   }
 }

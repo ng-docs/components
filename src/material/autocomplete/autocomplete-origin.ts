@@ -17,12 +17,13 @@ import {Directive, ElementRef} from '@angular/core';
 @Directive()
 export abstract class _MatAutocompleteOriginBase {
   constructor(
-      /**
-       * Reference to the element on which the directive is applied.
-       *
-       * 对此指令要应用到的元素的引用。
-       */
-    public elementRef: ElementRef<HTMLElement>) {}
+    /**
+     * Reference to the element on which the directive is applied.
+     *
+     * 对此指令要应用到的元素的引用。
+     */
+    public elementRef: ElementRef<HTMLElement>,
+  ) {}
 }
 
 /**

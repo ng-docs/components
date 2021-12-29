@@ -28,11 +28,7 @@ import {
   Validator,
   ValidatorFn,
 } from '@angular/forms';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MatDateFormats,
-} from '@angular/material/core';
+import {DateAdapter, MAT_DATE_FORMATS, MatDateFormats} from '@angular/material/core';
 import {Subscription, Subject} from 'rxjs';
 import {createMissingDateImplError} from './datepicker-errors';
 import {
@@ -59,15 +55,16 @@ export class MatDatepickerInputEvent<D, S = unknown> {
   value: D | null;
 
   constructor(
-      /**
-       * Reference to the datepicker input component that emmited the event.
-       *
-       * 到发出此事件的日期选择器输入框控件的引用。
-       *
-       */
-      public target: MatDatepickerInputBase<S, D>,
-      /** Reference to the native input element associated with the datepicker input. */
-      public targetElement: HTMLElement) {
+    /**
+     * Reference to the datepicker input component that emmited the event.
+     *
+     * 到发出此事件的日期选择器输入框控件的引用。
+     *
+     */
+    public target: MatDatepickerInputBase<S, D>,
+    /** Reference to the native input element associated with the datepicker input. */
+    public targetElement: HTMLElement,
+  ) {
     this.value = this.target.value;
   }
 }
@@ -88,8 +85,8 @@ export type DateFilterFn<D> = (date: D | null) => boolean;
  */
 @Directive()
 export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection<S>>
-  implements ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy, Validator {
-
+  implements ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy, Validator
+{
   /**
    * Whether the component has been initialized.
    *
@@ -108,7 +105,7 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   get value(): D | null {
     return this._model ? this._getValueFromModel(this._model.selection) : this._pendingValue;
   }
-  set value(value: D | null) {
+  set value(value: any) {
     this._assignValueProgrammatically(value);
   }
   protected _model: MatDateSelectionModel<S, D> | undefined;
@@ -120,8 +117,10 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    *
    */
   @Input()
-  get disabled(): boolean { return !!this._disabled || this._parentDisabled(); }
-  set disabled(value: boolean) {
+  get disabled(): boolean {
+    return !!this._disabled || this._parentDisabled();
+  }
+  set disabled(value: BooleanInput) {
     const newValue = coerceBooleanProperty(value);
     const element = this._elementRef.nativeElement;
 
@@ -149,8 +148,9 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    * `<input>` 上触发 `change` 事件时发出通知。
    *
    */
-  @Output() readonly dateChange: EventEmitter<MatDatepickerInputEvent<D, S>> =
-      new EventEmitter<MatDatepickerInputEvent<D, S>>();
+  @Output() readonly dateChange: EventEmitter<MatDatepickerInputEvent<D, S>> = new EventEmitter<
+    MatDatepickerInputEvent<D, S>
+  >();
 
   /**
    * Emits when an `input` event is fired on this `<input>`.
@@ -158,8 +158,9 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    * `<input>` 上触发 `input` 事件时发出通知。
    *
    */
-  @Output() readonly dateInput: EventEmitter<MatDatepickerInputEvent<D, S>> =
-      new EventEmitter<MatDatepickerInputEvent<D, S>>();
+  @Output() readonly dateInput: EventEmitter<MatDatepickerInputEvent<D, S>> = new EventEmitter<
+    MatDatepickerInputEvent<D, S>
+  >();
 
   /**
    * Emits when the internal state has changed
@@ -193,9 +194,10 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    *
    */
   private _parseValidator: ValidatorFn = (): ValidationErrors | null => {
-    return this._lastValueValid ?
-        null : {'matDatepickerParse': {'text': this._elementRef.nativeElement.value}};
-  }
+    return this._lastValueValid
+      ? null
+      : {'matDatepickerParse': {'text': this._elementRef.nativeElement.value}};
+  };
 
   /**
    * The form control validator for the date filter.
@@ -205,10 +207,12 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    */
   private _filterValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const controlValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value));
-    return !controlValue || this._matchesFilter(controlValue) ?
-        null : {'matDatepickerFilter': true};
-  }
+      this._dateAdapter.deserialize(control.value),
+    );
+    return !controlValue || this._matchesFilter(controlValue)
+      ? null
+      : {'matDatepickerFilter': true};
+  };
 
   /**
    * The form control validator for the min date.
@@ -218,12 +222,13 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    */
   private _minValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const controlValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value));
+      this._dateAdapter.deserialize(control.value),
+    );
     const min = this._getMinDate();
-    return (!min || !controlValue ||
-        this._dateAdapter.compareDate(min, controlValue) <= 0) ?
-        null : {'matDatepickerMin': {'min': min, 'actual': controlValue}};
-  }
+    return !min || !controlValue || this._dateAdapter.compareDate(min, controlValue) <= 0
+      ? null
+      : {'matDatepickerMin': {'min': min, 'actual': controlValue}};
+  };
 
   /**
    * The form control validator for the max date.
@@ -233,12 +238,13 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    */
   private _maxValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const controlValue = this._dateAdapter.getValidDateOrNull(
-      this._dateAdapter.deserialize(control.value));
+      this._dateAdapter.deserialize(control.value),
+    );
     const max = this._getMaxDate();
-    return (!max || !controlValue ||
-        this._dateAdapter.compareDate(max, controlValue) >= 0) ?
-        null : {'matDatepickerMax': {'max': max, 'actual': controlValue}};
-  }
+    return !max || !controlValue || this._dateAdapter.compareDate(max, controlValue) >= 0
+      ? null
+      : {'matDatepickerMax': {'max': max, 'actual': controlValue}};
+  };
 
   /**
    * Gets the base validator functions.
@@ -350,10 +356,10 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
   protected _lastValueValid = false;
 
   constructor(
-      protected _elementRef: ElementRef<HTMLInputElement>,
-      @Optional() public _dateAdapter: DateAdapter<D>,
-      @Optional() @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats) {
-
+    protected _elementRef: ElementRef<HTMLInputElement>,
+    @Optional() public _dateAdapter: DateAdapter<D>,
+    @Optional() @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats,
+  ) {
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       if (!this._dateAdapter) {
         throw createMissingDateImplError('DateAdapter');
@@ -473,8 +479,9 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    *
    */
   protected _formatValue(value: D | null) {
-    this._elementRef.nativeElement.value =
-        value ? this._dateAdapter.format(value, this._dateFormats.display.dateInput) : '';
+    this._elementRef.nativeElement.value = value
+      ? this._dateAdapter.format(value, this._dateFormats.display.dateInput)
+      : '';
   }
 
   /**
@@ -539,11 +546,6 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     const filter = this._getDateFilter();
     return !filter || filter(value);
   }
-
-  // Accept `any` to avoid conflicts with other directives on `<input>` that
-  // may accept different types.
-  static ngAcceptInputType_value: any;
-  static ngAcceptInputType_disabled: BooleanInput;
 }
 
 /**
@@ -555,7 +557,8 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
  */
 export function dateInputsHaveChanged(
   changes: SimpleChanges,
-  adapter: DateAdapter<unknown>): boolean {
+  adapter: DateAdapter<unknown>,
+): boolean {
   const keys = Object.keys(changes);
 
   for (let key of keys) {

@@ -18,13 +18,16 @@ import {
 import {RadioButtonHarnessFilters, RadioGroupHarnessFilters} from './radio-harness-filters';
 
 export abstract class _MatRadioGroupHarnessBase<
-  ButtonType extends (ComponentHarnessConstructor<Button> & {
-    with: (options?: ButtonFilters) => HarnessPredicate<Button>}),
-  Button extends ComponentHarness & {
-    isChecked(): Promise<boolean>, getValue(): Promise<string|null>,
-    getName(): Promise<string|null>, check(): Promise<void>
+  ButtonType extends ComponentHarnessConstructor<Button> & {
+    with: (options?: ButtonFilters) => HarnessPredicate<Button>;
   },
-  ButtonFilters extends BaseHarnessFilters
+  Button extends ComponentHarness & {
+    isChecked(): Promise<boolean>;
+    getValue(): Promise<string | null>;
+    getName(): Promise<string | null>;
+    check(): Promise<void>;
+  },
+  ButtonFilters extends BaseHarnessFilters,
 > extends ComponentHarness {
   protected abstract _buttonClass: ButtonType;
 
@@ -34,7 +37,7 @@ export abstract class _MatRadioGroupHarnessBase<
    * 获取此单选组的名称。
    *
    */
-  async getName(): Promise<string|null> {
+  async getName(): Promise<string | null> {
     const hostName = await this._getGroupNameFromHost();
     // It's not possible to always determine the "name" of a radio-group by reading
     // the attribute. This is because the radio-group does not set the "name" as an
@@ -61,8 +64,8 @@ export abstract class _MatRadioGroupHarnessBase<
    * 获取此单选组的 ID。
    *
    */
-  async getId(): Promise<string|null> {
-    return (await this.host()).getProperty('id');
+  async getId(): Promise<string | null> {
+    return (await this.host()).getProperty<string | null>('id');
   }
 
   /**
@@ -71,7 +74,7 @@ export abstract class _MatRadioGroupHarnessBase<
    * 获取此单选组中选中的单选按钮。
    *
    */
-  async getCheckedRadioButton(): Promise<Button|null> {
+  async getCheckedRadioButton(): Promise<Button | null> {
     for (let radioButton of await this.getRadioButtons()) {
       if (await radioButton.isChecked()) {
         return radioButton;
@@ -86,7 +89,7 @@ export abstract class _MatRadioGroupHarnessBase<
    * 获取此单选组的检查值。
    *
    */
-  async getCheckedValue(): Promise<string|null> {
+  async getCheckedValue(): Promise<string | null> {
     const checkedRadio = await this.getCheckedRadioButton();
     if (!checkedRadio) {
       return null;
@@ -161,7 +164,7 @@ export abstract class _MatRadioGroupHarnessBase<
    *
    */
   private _checkRadioNamesInGroupEqual(radioNames: string[]): boolean {
-    let groupName: string|null = null;
+    let groupName: string | null = null;
     for (let radioName of radioNames) {
       if (groupName === null) {
         groupName = radioName;
@@ -180,13 +183,15 @@ export abstract class _MatRadioGroupHarnessBase<
    *
    */
   protected static async _checkRadioGroupName(
-    harness: _MatRadioGroupHarnessBase<any, any, any>, name: string) {
+    harness: _MatRadioGroupHarnessBase<any, any, any>,
+    name: string,
+  ) {
     // Check if there is a radio-group which has the "name" attribute set
     // to the expected group name. It's not possible to always determine
     // the "name" of a radio-group by reading the attribute. This is because
     // the radio-group does not set the "name" as an element attribute if the
     // "name" value is set through a binding.
-    if (await harness._getGroupNameFromHost() === name) {
+    if ((await harness._getGroupNameFromHost()) === name) {
       return true;
     }
     // Check if there is a group with radio-buttons that all have the same
@@ -199,8 +204,9 @@ export abstract class _MatRadioGroupHarnessBase<
     }
     if (!harness._checkRadioNamesInGroupEqual(radioNames)) {
       throw Error(
-          `The locator found a radio-group with name "${name}", but some ` +
-          `radio-button's within the group have mismatching names, which is invalid.`);
+        `The locator found a radio-group with name "${name}", but some ` +
+          `radio-button's within the group have mismatching names, which is invalid.`,
+      );
     }
     return true;
   }
@@ -241,8 +247,11 @@ export class MatRadioGroupHarness extends _MatRadioGroupHarnessBase<
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: RadioGroupHarnessFilters = {}): HarnessPredicate<MatRadioGroupHarness> {
-    return new HarnessPredicate(MatRadioGroupHarness, options)
-        .addOption('name', options.name, this._checkRadioGroupName);
+    return new HarnessPredicate(MatRadioGroupHarness, options).addOption(
+      'name',
+      options.name,
+      this._checkRadioGroupName,
+    );
   }
 }
 
@@ -258,7 +267,7 @@ export abstract class _MatRadioButtonHarnessBase extends ComponentHarness {
    *
    */
   async isChecked(): Promise<boolean> {
-    const checked = (await this._input()).getProperty('checked');
+    const checked = (await this._input()).getProperty<boolean>('checked');
     return coerceBooleanProperty(await checked);
   }
 
@@ -290,7 +299,7 @@ export abstract class _MatRadioButtonHarnessBase extends ComponentHarness {
    * 获取此单选按钮的名称。
    *
    */
-  async getName(): Promise<string|null> {
+  async getName(): Promise<string | null> {
     return (await this._input()).getAttribute('name');
   }
 
@@ -300,8 +309,8 @@ export abstract class _MatRadioButtonHarnessBase extends ComponentHarness {
    * 获取此单选按钮的 ID。
    *
    */
-  async getId(): Promise<string|null> {
-    return (await this.host()).getProperty('id');
+  async getId(): Promise<string | null> {
+    return (await this.host()).getProperty<string>('id');
   }
 
   /**
@@ -315,7 +324,7 @@ export abstract class _MatRadioButtonHarnessBase extends ComponentHarness {
    * 注意：这意味着对于以对象为值的单选按钮，将刻意返回 `[object Object]`
    *
    */
-  async getValue(): Promise<string|null> {
+  async getValue(): Promise<string | null> {
     return (await this._input()).getProperty('value');
   }
 
@@ -405,10 +414,10 @@ export class MatRadioButtonHarness extends _MatRadioButtonHarnessBase {
    */
   static with(options: RadioButtonHarnessFilters = {}): HarnessPredicate<MatRadioButtonHarness> {
     return new HarnessPredicate(MatRadioButtonHarness, options)
-        .addOption('label', options.label,
-          (harness, label) => HarnessPredicate.stringMatches(harness.getLabelText(), label))
-        .addOption('name', options.name,
-          async (harness, name) => (await harness.getName()) === name);
+      .addOption('label', options.label, (harness, label) =>
+        HarnessPredicate.stringMatches(harness.getLabelText(), label),
+      )
+      .addOption('name', options.name, async (harness, name) => (await harness.getName()) === name);
   }
 
   protected _textLabel = this.locatorFor('.mat-radio-label-content');

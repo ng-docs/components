@@ -36,9 +36,10 @@ export class ScrollStrategyOptions {
     private _scrollDispatcher: ScrollDispatcher,
     private _viewportRuler: ViewportRuler,
     private _ngZone: NgZone,
-    @Inject(DOCUMENT) document: any) {
-      this._document = document;
-    }
+    @Inject(DOCUMENT) document: any,
+  ) {
+    this._document = document;
+  }
 
   /**
    * Do nothing on scroll.
@@ -58,8 +59,8 @@ export class ScrollStrategyOptions {
    * 要在滚动策略中使用的配置。
    *
    */
-  close = (config?: CloseScrollStrategyConfig) => new CloseScrollStrategy(this._scrollDispatcher,
-      this._ngZone, this._viewportRuler, config)
+  close = (config?: CloseScrollStrategyConfig) =>
+    new CloseScrollStrategy(this._scrollDispatcher, this._ngZone, this._viewportRuler, config);
 
   /**
    * Block scrolling.
@@ -80,6 +81,6 @@ export class ScrollStrategyOptions {
    * 在滚动策略中使用的配置。允许针对重定位调用的防抖。
    *
    */
-  reposition = (config?: RepositionScrollStrategyConfig) => new RepositionScrollStrategy(
-      this._scrollDispatcher, this._viewportRuler, this._ngZone, config)
+  reposition = (config?: RepositionScrollStrategyConfig) =>
+    new RepositionScrollStrategy(this._scrollDispatcher, this._viewportRuler, this._ngZone, config);
 }

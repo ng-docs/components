@@ -9,7 +9,7 @@
 import {DOCUMENT} from '@angular/common';
 import {Inject, Injectable} from '@angular/core';
 import {OverlayReference} from '../overlay-reference';
-import {Platform} from '@angular/cdk/platform';
+import {Platform, _getEventTarget} from '@angular/cdk/platform';
 import {BaseOverlayDispatcher} from './base-overlay-dispatcher';
 
 /**
@@ -24,6 +24,7 @@ import {BaseOverlayDispatcher} from './base-overlay-dispatcher';
 export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
   private _cursorOriginalValue: string;
   private _cursorStyleIsSet = false;
+  private _pointerDownEventTarget: EventTarget | null;
 
   constructor(@Inject(DOCUMENT) document: any, private _platform: Platform) {
     super(document);
@@ -35,7 +36,7 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
    * 将新的浮层添加到已附加的浮层引用列表中。
    *
    */
-  add(overlayRef: OverlayReference): void {
+  override add(overlayRef: OverlayReference): void {
     super.add(overlayRef);
 
     // Safari on iOS does not generate click events for non-interactive
@@ -46,6 +47,7 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
     // https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
     if (!this._isAttached) {
       const body = this._document.body;
+      body.addEventListener('pointerdown', this._pointerDownListener, true);
       body.addEventListener('click', this._clickListener, true);
       body.addEventListener('auxclick', this._clickListener, true);
       body.addEventListener('contextmenu', this._clickListener, true);
@@ -71,6 +73,7 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
   protected detach() {
     if (this._isAttached) {
       const body = this._document.body;
+      body.removeEventListener('pointerdown', this._pointerDownListener, true);
       body.removeEventListener('click', this._clickListener, true);
       body.removeEventListener('auxclick', this._clickListener, true);
       body.removeEventListener('contextmenu', this._clickListener, true);
@@ -82,6 +85,11 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
     }
   }
 
+  /** Store pointerdown event target to track origin of click. */
+  private _pointerDownListener = (event: PointerEvent) => {
+    this._pointerDownEventTarget = _getEventTarget(event);
+  };
+
   /**
    * Click event listener that will be attached to the body propagate phase.
    *
@@ -89,8 +97,21 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
    *
    */
   private _clickListener = (event: MouseEvent) => {
-    // Get the target through the `composedPath` if possible to account for shadow DOM.
-    const target = event.composedPath ? event.composedPath()[0] : event.target;
+    const target = _getEventTarget(event);
+    // In case of a click event, we want to check the origin of the click
+    // (e.g. in case where a user starts a click inside the overlay and
+    // releases the click outside of it).
+    // This is done by using the event target of the preceding pointerdown event.
+    // Every click event caused by a pointer device has a preceding pointerdown
+    // event, unless the click was programmatically triggered (e.g. in a unit test).
+    const origin =
+      event.type === 'click' && this._pointerDownEventTarget
+        ? this._pointerDownEventTarget
+        : target;
+    // Reset the stored pointerdown event target, to avoid having it interfere
+    // in subsequent events.
+    this._pointerDownEventTarget = null;
+
     // We copy the array because the original may be modified asynchronously if the
     // outsidePointerEvents listener decides to detach overlays resulting in index errors inside
     // the for loop.
@@ -107,12 +128,16 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
       }
 
       // If it's a click inside the overlay, just break - we should do nothing
-      // If it's an outside click dispatch the mouse event, and proceed with the next overlay
-      if (overlayRef.overlayElement.contains(target as Node)) {
+      // If it's an outside click (both origin and target of the click) dispatch the mouse event,
+      // and proceed with the next overlay
+      if (
+        overlayRef.overlayElement.contains(target as Node) ||
+        overlayRef.overlayElement.contains(origin as Node)
+      ) {
         break;
       }
 
       overlayRef._outsidePointerEvents.next(event);
     }
-  }
+  };
 }

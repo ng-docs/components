@@ -13,7 +13,10 @@ import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-
 
 /** Harness for interacting with a MDC-based action-list in tests. */
 export class MatActionListHarness extends MatListHarnessBase<
-    typeof MatActionListItemHarness, MatActionListItemHarness, ActionListItemHarnessFilters> {
+  typeof MatActionListItemHarness,
+  MatActionListItemHarness,
+  ActionListItemHarnessFilters
+> {
   /** The selector for the host element of a `MatActionList` instance. */
   static hostSelector = '.mat-mdc-action-list';
 
@@ -29,7 +32,7 @@ export class MatActionListHarness extends MatListHarnessBase<
     return new HarnessPredicate(MatActionListHarness, options);
   }
 
-  _itemHarness = MatActionListItemHarness;
+  override _itemHarness = MatActionListItemHarness;
 }
 
 /** Harness for interacting with an action list item. */
@@ -45,8 +48,9 @@ export class MatActionListItemHarness extends MatListItemHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ActionListItemHarnessFilters = {}):
-      HarnessPredicate<MatActionListItemHarness> {
+  static with(
+    options: ActionListItemHarnessFilters = {},
+  ): HarnessPredicate<MatActionListItemHarness> {
     return getListItemPredicate(MatActionListItemHarness, options);
   }
 

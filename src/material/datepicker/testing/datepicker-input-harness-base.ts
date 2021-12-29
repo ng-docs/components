@@ -6,10 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {
-  ComponentHarnessConstructor,
-  HarnessPredicate,
-} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testing';
 import {MatFormFieldControlHarness} from '@angular/material/form-field/testing/control';
 import {DatepickerInputHarnessFilters} from './datepicker-harness-filters';
 
@@ -21,8 +18,8 @@ import {DatepickerInputHarnessFilters} from './datepicker-harness-filters';
  */
 export function getInputPredicate<T extends MatDatepickerInputHarnessBase>(
   type: ComponentHarnessConstructor<T>,
-  options: DatepickerInputHarnessFilters): HarnessPredicate<T> {
-
+  options: DatepickerInputHarnessFilters,
+): HarnessPredicate<T> {
   return new HarnessPredicate(type, options)
     .addOption('value', options.value, (harness, value) => {
       return HarnessPredicate.stringMatches(harness.getValue(), value);
@@ -46,7 +43,7 @@ export abstract class MatDatepickerInputHarnessBase extends MatFormFieldControlH
    *
    */
   async isDisabled(): Promise<boolean> {
-    return (await this.host()).getProperty('disabled')!;
+    return (await this.host()).getProperty<boolean>('disabled');
   }
 
   /**
@@ -56,7 +53,7 @@ export abstract class MatDatepickerInputHarnessBase extends MatFormFieldControlH
    *
    */
   async isRequired(): Promise<boolean> {
-    return (await this.host()).getProperty('required')!;
+    return (await this.host()).getProperty<boolean>('required');
   }
 
   /**
@@ -67,7 +64,7 @@ export abstract class MatDatepickerInputHarnessBase extends MatFormFieldControlH
    */
   async getValue(): Promise<string> {
     // The "value" property of the native input is always defined.
-    return (await (await this.host()).getProperty('value'))!;
+    return await (await this.host()).getProperty<string>('value');
   }
 
   /**
@@ -98,7 +95,7 @@ export abstract class MatDatepickerInputHarnessBase extends MatFormFieldControlH
    *
    */
   async getPlaceholder(): Promise<string> {
-    return (await (await this.host()).getProperty('placeholder'));
+    return await (await this.host()).getProperty<string>('placeholder');
   }
 
   /**

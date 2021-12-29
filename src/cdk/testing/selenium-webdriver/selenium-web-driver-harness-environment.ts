@@ -63,7 +63,7 @@ export interface WebDriverHarnessEnvironmentOptions {
  */
 const defaultEnvironmentOptions: WebDriverHarnessEnvironmentOptions = {
   queryFn: async (selector: string, root: () => webdriver.WebElement) =>
-      root().findElements(webdriver.By.css(selector))
+    root().findElements(webdriver.By.css(selector)),
 };
 
 /**
@@ -74,8 +74,9 @@ const defaultEnvironmentOptions: WebDriverHarnessEnvironmentOptions = {
  *
  */
 function whenStable(callback: (didWork: boolean[]) => void): void {
-  Promise.all(window.frameworkStabilizers.map(stabilizer => new Promise(stabilizer)))
-      .then(callback);
+  Promise.all(window.frameworkStabilizers.map(stabilizer => new Promise(stabilizer))).then(
+    callback,
+  );
 }
 
 /**
@@ -106,8 +107,9 @@ export async function waitForAngularReady(wd: webdriver.WebDriver) {
  * WebDriver 的 `HarnessEnvironment` 实现。
  *
  */
-export class SeleniumWebDriverHarnessEnvironment extends
-    HarnessEnvironment<() => webdriver.WebElement> {
+export class SeleniumWebDriverHarnessEnvironment extends HarnessEnvironment<
+  () => webdriver.WebElement
+> {
   /**
    * The options for this environment.
    *
@@ -117,7 +119,9 @@ export class SeleniumWebDriverHarnessEnvironment extends
   private _options: WebDriverHarnessEnvironmentOptions;
 
   protected constructor(
-      rawRootElement: () => webdriver.WebElement, options?: WebDriverHarnessEnvironmentOptions) {
+    rawRootElement: () => webdriver.WebElement,
+    options?: WebDriverHarnessEnvironmentOptions,
+  ) {
     super(rawRootElement);
     this._options = {...defaultEnvironmentOptions, ...options};
   }
@@ -141,10 +145,14 @@ export class SeleniumWebDriverHarnessEnvironment extends
    * 创建一个以本文档的根元素为根的 `HarnessLoader`。
    *
    */
-  static loader(driver: webdriver.WebDriver, options?: WebDriverHarnessEnvironmentOptions):
-      HarnessLoader {
+  static loader(
+    driver: webdriver.WebDriver,
+    options?: WebDriverHarnessEnvironmentOptions,
+  ): HarnessLoader {
     return new SeleniumWebDriverHarnessEnvironment(
-        () => driver.findElement(webdriver.By.css('body')), options);
+      () => driver.findElement(webdriver.By.css('body')),
+      options,
+    );
   }
 
   /**
@@ -191,8 +199,9 @@ export class SeleniumWebDriverHarnessEnvironment extends
    * 创建一个以给定的原始元素为根的 `HarnessLoader`。
    *
    */
-  protected createEnvironment(element: () => webdriver.WebElement):
-      HarnessEnvironment<() => webdriver.WebElement> {
+  protected createEnvironment(
+    element: () => webdriver.WebElement,
+  ): HarnessEnvironment<() => webdriver.WebElement> {
     return new SeleniumWebDriverHarnessEnvironment(element, this._options);
   }
 

@@ -8,10 +8,7 @@
 
 import {HarnessPredicate, parallel} from '@angular/cdk/testing';
 import {MatChipOptionHarness} from './chip-option-harness';
-import {
-  ChipListboxHarnessFilters,
-  ChipOptionHarnessFilters,
-} from './chip-harness-filters';
+import {ChipListboxHarnessFilters, ChipOptionHarnessFilters} from './chip-harness-filters';
 import {_MatChipListHarnessBase} from './chip-list-harness';
 
 /**
@@ -43,8 +40,7 @@ export class MatChipListboxHarness extends _MatChipListHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ChipListboxHarnessFilters = {}):
-    HarnessPredicate<MatChipListboxHarness> {
+  static with(options: ChipListboxHarnessFilters = {}): HarnessPredicate<MatChipListboxHarness> {
     return new HarnessPredicate(MatChipListboxHarness, options);
   }
 

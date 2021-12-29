@@ -18,7 +18,7 @@ $_ripple-radius: 20px;
 $_item-spacing: variables.$toggle-padding;
 
 // The width of the line used to draw the checkmark / mixedmark.
-$_mark-stroke-size: 2 / 15 * checkbox-common.$size !default;
+$_mark-stroke-size: math.div(2, 15) * checkbox-common.$size !default;
 
 
 // Fades in the background of the checkbox when it goes from unchecked -> {checked,indeterminate}.
@@ -287,8 +287,7 @@ $_mark-stroke-size: 2 / 15 * checkbox-common.$size !default;
     variables.$linear-out-slow-in-timing-function;
 
   // force browser to show background-color when using the print function
-  -webkit-print-color-adjust: exact;
-  color-adjust: exact;
+  @include vendor-prefixes.private-color-adjust(exact);
 
   ._mat-animation-noopable & {
     transition: none;

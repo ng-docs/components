@@ -16,9 +16,9 @@ import {CdkVirtualScrollViewport} from './virtual-scroll-viewport';
  * 这个注入令牌用来指定虚拟滚动策略。
  *
  */
-export const VIRTUAL_SCROLL_STRATEGY =
-    new InjectionToken<VirtualScrollStrategy>('VIRTUAL_SCROLL_STRATEGY');
-
+export const VIRTUAL_SCROLL_STRATEGY = new InjectionToken<VirtualScrollStrategy>(
+  'VIRTUAL_SCROLL_STRATEGY',
+);
 /**
  * A strategy that dictates which items should be rendered in the viewport.
  *

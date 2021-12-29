@@ -36,11 +36,15 @@
     Angular {$ doc.packageDisplayName $} {$ doc.displayName $} API 参考文档
   </h2>
 
-  <p class="docs-api-module-import">
-    <code>
-      import {{$ doc.primaryExportName $}} from '{$ doc.moduleImportPath $}';
-    </code>
-  </p>
+  {%- if doc.primaryExportName -%}
+    <p class="docs-api-module-import">
+      <code>
+        import {{$ doc.primaryExportName $}} from '{$ doc.moduleImportPath $}';
+      </code>
+    </p>
+  {% else %}
+    <p>Import symbols from <code>{$ doc.moduleImportPath $}</code></p>
+  {%- endif -%}
 
   {%- if doc.services.length -%}
     <h3 id="{$ doc.name $}-services" class="docs-header-link docs-api-h3">

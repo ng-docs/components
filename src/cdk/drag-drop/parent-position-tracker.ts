@@ -7,6 +7,7 @@
  */
 
 import {ViewportRuler} from '@angular/cdk/scrolling';
+import {_getEventTarget} from '@angular/cdk/platform';
 import {getMutableClientRect, adjustClientRect} from './client-rect';
 
 /**
@@ -33,10 +34,13 @@ export class ParentPositionTracker {
    * 缓存的可滚动父元素位置。
    *
    */
-  readonly positions = new Map<Document|HTMLElement, {
-    scrollPosition: ScrollPosition,
-    clientRect?: ClientRect
-  }>();
+  readonly positions = new Map<
+    Document | HTMLElement,
+    {
+      scrollPosition: ScrollPosition;
+      clientRect?: ClientRect;
+    }
+  >();
 
   constructor(private _document: Document, private _viewportRuler: ViewportRuler) {}
 
@@ -65,7 +69,7 @@ export class ParentPositionTracker {
     elements.forEach(element => {
       this.positions.set(element, {
         scrollPosition: {top: element.scrollTop, left: element.scrollLeft},
-        clientRect: getMutableClientRect(element)
+        clientRect: getMutableClientRect(element),
       });
     });
   }
@@ -77,17 +81,13 @@ export class ParentPositionTracker {
    *
    */
   handleScroll(event: Event): ScrollPosition | null {
-    const target = event.target as HTMLElement | Document;
+    const target = _getEventTarget<HTMLElement | Document>(event)!;
     const cachedPosition = this.positions.get(target);
 
     if (!cachedPosition) {
       return null;
     }
 
-    // Used when figuring out whether an element is inside the scroll parent. If the scrolled
-    // parent is the `document`, we use the `documentElement`, because IE doesn't support
-    // `contains` on the `document`.
-    const scrolledParentNode = target === this._document ? target.documentElement : target;
     const scrollPosition = cachedPosition.scrollPosition;
     let newTop: number;
     let newLeft: number;
@@ -107,7 +107,7 @@ export class ParentPositionTracker {
     // Go through and update the cached positions of the scroll
     // parents that are inside the element that was scrolled.
     this.positions.forEach((position, node) => {
-      if (position.clientRect && target !== node && scrolledParentNode.contains(node)) {
+      if (position.clientRect && target !== node && target.contains(node)) {
         adjustClientRect(position.clientRect, topDifference, leftDifference);
       }
     });

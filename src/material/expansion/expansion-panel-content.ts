@@ -16,7 +16,7 @@ import {Directive, TemplateRef} from '@angular/core';
  *
  */
 @Directive({
-  selector: 'ng-template[matExpansionPanelContent]'
+  selector: 'ng-template[matExpansionPanelContent]',
 })
 export class MatExpansionPanelContent {
   constructor(public _template: TemplateRef<any>) {}

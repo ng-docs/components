@@ -23,7 +23,7 @@ export const enum MatExpansionPanelSection {
   HEADER = '.mat-expansion-panel-header',
   TITLE = '.mat-expansion-panel-header-title',
   DESCRIPTION = '.mat-expansion-panel-header-description',
-  CONTENT = '.mat-expansion-panel-content'
+  CONTENT = '.mat-expansion-panel-content',
 }
 
 /**
@@ -32,8 +32,7 @@ export const enum MatExpansionPanelSection {
  * 在测试中用来与标准 mat-expansion-panel 进行交互的测试工具。
  *
  */
-export class MatExpansionPanelHarness extends
-  ContentContainerComponentHarness<MatExpansionPanelSection> {
+export class MatExpansionPanelHarness extends ContentContainerComponentHarness<MatExpansionPanelSection> {
   static hostSelector = '.mat-expansion-panel';
 
   private _header = this.locatorFor(MatExpansionPanelSection.HEADER);
@@ -72,25 +71,29 @@ export class MatExpansionPanelHarness extends
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ExpansionPanelHarnessFilters = {}):
-      HarnessPredicate<MatExpansionPanelHarness> {
+  static with(
+    options: ExpansionPanelHarnessFilters = {},
+  ): HarnessPredicate<MatExpansionPanelHarness> {
     return new HarnessPredicate(MatExpansionPanelHarness, options)
-        .addOption(
-            'title', options.title,
-            (harness, title) => HarnessPredicate.stringMatches(harness.getTitle(), title))
-        .addOption(
-            'description', options.description,
-            (harness, description) =>
-                HarnessPredicate.stringMatches(harness.getDescription(), description))
-        .addOption(
-            'content', options.content,
-            (harness, content) => HarnessPredicate.stringMatches(harness.getTextContent(), content))
-        .addOption(
-            'expanded', options.expanded,
-            async (harness, expanded) => (await harness.isExpanded()) === expanded)
-        .addOption(
-            'disabled', options.disabled,
-            async (harness, disabled) => (await harness.isDisabled()) === disabled);
+      .addOption('title', options.title, (harness, title) =>
+        HarnessPredicate.stringMatches(harness.getTitle(), title),
+      )
+      .addOption('description', options.description, (harness, description) =>
+        HarnessPredicate.stringMatches(harness.getDescription(), description),
+      )
+      .addOption('content', options.content, (harness, content) =>
+        HarnessPredicate.stringMatches(harness.getTextContent(), content),
+      )
+      .addOption(
+        'expanded',
+        options.expanded,
+        async (harness, expanded) => (await harness.isExpanded()) === expanded,
+      )
+      .addOption(
+        'disabled',
+        options.disabled,
+        async (harness, disabled) => (await harness.isDisabled()) === disabled,
+      );
   }
 
   /**
@@ -113,7 +116,7 @@ export class MatExpansionPanelHarness extends
    * 标题文本；如果未设置标题，则为 `null`
    *
    */
-  async getTitle(): Promise<string|null> {
+  async getTitle(): Promise<string | null> {
     const titleEl = await this._title();
     return titleEl ? titleEl.text() : null;
   }
@@ -128,7 +131,7 @@ export class MatExpansionPanelHarness extends
    * 说明文字，如果未设置说明，则为 `null`
    *
    */
-  async getDescription(): Promise<string|null> {
+  async getDescription(): Promise<string | null> {
     const descriptionEl = await this._description();
     return descriptionEl ? descriptionEl.text() : null;
   }
@@ -140,7 +143,7 @@ export class MatExpansionPanelHarness extends
    *
    */
   async isDisabled(): Promise<boolean> {
-    return await (await this._header()).getAttribute('aria-disabled') === 'true';
+    return (await (await this._header()).getAttribute('aria-disabled')) === 'true';
   }
 
   /**
@@ -161,7 +164,7 @@ export class MatExpansionPanelHarness extends
    *
    */
   async expand(): Promise<void> {
-    if (!await this.isExpanded()) {
+    if (!(await this.isExpanded())) {
       await this.toggle();
     }
   }
@@ -251,7 +254,7 @@ export class MatExpansionPanelHarness extends
    * 获取切换指示器的位置。
    *
    */
-  async getToggleIndicatorPosition(): Promise<'before'|'after'> {
+  async getToggleIndicatorPosition(): Promise<'before' | 'after'> {
     // By default the expansion indicator will show "after" the panel header content.
     if (await (await this._header()).hasClass('mat-expansion-toggle-indicator-before')) {
       return 'before';

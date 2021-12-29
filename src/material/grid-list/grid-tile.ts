@@ -31,7 +31,7 @@ import {MAT_GRID_LIST, MatGridListBase} from './grid-list-base';
     // Ensures that the "rowspan" and "colspan" input value is reflected in
     // the DOM. This is needed for the grid-tile harness.
     '[attr.rowspan]': 'rowspan',
-    '[attr.colspan]': 'colspan'
+    '[attr.colspan]': 'colspan',
   },
   templateUrl: 'grid-tile.html',
   styleUrls: ['grid-list.css'],
@@ -44,7 +44,8 @@ export class MatGridTile {
 
   constructor(
     private _element: ElementRef<HTMLElement>,
-    @Optional() @Inject(MAT_GRID_LIST) public _gridList?: MatGridListBase) {}
+    @Optional() @Inject(MAT_GRID_LIST) public _gridList?: MatGridListBase,
+  ) {}
 
   /**
    * Amount of rows that the grid tile takes up.
@@ -53,8 +54,12 @@ export class MatGridTile {
    *
    */
   @Input()
-  get rowspan(): number { return this._rowspan; }
-  set rowspan(value: number) { this._rowspan = Math.round(coerceNumberProperty(value)); }
+  get rowspan(): number {
+    return this._rowspan;
+  }
+  set rowspan(value: NumberInput) {
+    this._rowspan = Math.round(coerceNumberProperty(value));
+  }
 
   /**
    * Amount of columns that the grid tile takes up.
@@ -63,8 +68,12 @@ export class MatGridTile {
    *
    */
   @Input()
-  get colspan(): number { return this._colspan; }
-  set colspan(value: number) { this._colspan = Math.round(coerceNumberProperty(value)); }
+  get colspan(): number {
+    return this._colspan;
+  }
+  set colspan(value: NumberInput) {
+    this._colspan = Math.round(coerceNumberProperty(value));
+  }
 
   /**
    * Sets the style of the grid-tile element.  Needs to be set manually to avoid
@@ -76,9 +85,6 @@ export class MatGridTile {
   _setStyle(property: string, value: any): void {
     (this._element.nativeElement.style as any)[property] = value;
   }
-
-  static ngAcceptInputType_rowspan: NumberInput;
-  static ngAcceptInputType_colspan: NumberInput;
 }
 
 @Component({
@@ -106,7 +112,7 @@ export class MatGridTileText implements AfterContentInit {
  */
 @Directive({
   selector: '[mat-grid-avatar], [matGridAvatar]',
-  host: {'class': 'mat-grid-avatar'}
+  host: {'class': 'mat-grid-avatar'},
 })
 export class MatGridAvatarCssMatStyler {}
 
@@ -119,7 +125,7 @@ export class MatGridAvatarCssMatStyler {}
  */
 @Directive({
   selector: 'mat-grid-tile-header',
-  host: {'class': 'mat-grid-tile-header'}
+  host: {'class': 'mat-grid-tile-header'},
 })
 export class MatGridTileHeaderCssMatStyler {}
 
@@ -132,6 +138,6 @@ export class MatGridTileHeaderCssMatStyler {}
  */
 @Directive({
   selector: 'mat-grid-tile-footer',
-  host: {'class': 'mat-grid-tile-footer'}
+  host: {'class': 'mat-grid-tile-footer'},
 })
 export class MatGridTileFooterCssMatStyler {}

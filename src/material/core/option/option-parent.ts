@@ -28,6 +28,6 @@ export interface MatOptionParentComponent {
  * 用于向选项提供父组件的注入令牌。
  *
  */
-export const MAT_OPTION_PARENT_COMPONENT =
-    new InjectionToken<MatOptionParentComponent>('MAT_OPTION_PARENT_COMPONENT');
-
+export const MAT_OPTION_PARENT_COMPONENT = new InjectionToken<MatOptionParentComponent>(
+  'MAT_OPTION_PARENT_COMPONENT',
+);

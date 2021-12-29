@@ -6,13 +6,18 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  AsyncFactoryFn,
+  ComponentHarness,
+  HarnessPredicate,
+  TestElement,
+} from '@angular/cdk/testing';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {SlideToggleHarnessFilters} from './slide-toggle-harness-filters';
 
 export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
   private _label = this.locatorFor('label');
-  protected _input = this.locatorFor('input');
+  protected abstract _nativeElement: AsyncFactoryFn<TestElement>;
 
   /**
    * Toggle the checked state of the slide-toggle.
@@ -28,10 +33,7 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
    * 是否选中了此滑块开关。
    *
    */
-  async isChecked(): Promise<boolean> {
-    const checked = (await this._input()).getProperty('checked');
-    return coerceBooleanProperty(await checked);
-  }
+  abstract isChecked(): Promise<boolean>;
 
   /**
    * Whether the slide-toggle is disabled.
@@ -40,7 +42,7 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
    *
    */
   async isDisabled(): Promise<boolean> {
-    const disabled = (await this._input()).getAttribute('disabled');
+    const disabled = (await this._nativeElement()).getAttribute('disabled');
     return coerceBooleanProperty(await disabled);
   }
 
@@ -51,7 +53,7 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
    *
    */
   async isRequired(): Promise<boolean> {
-    const required = (await this._input()).getAttribute('required');
+    const required = (await this._nativeElement()).getAttribute('required');
     return coerceBooleanProperty(await required);
   }
 
@@ -73,7 +75,7 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
    *
    */
   async getName(): Promise<string | null> {
-    return (await this._input()).getAttribute('name');
+    return (await this._nativeElement()).getAttribute('name');
   }
 
   /**
@@ -83,7 +85,7 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
    *
    */
   async getAriaLabel(): Promise<string | null> {
-    return (await this._input()).getAttribute('aria-label');
+    return (await this._nativeElement()).getAttribute('aria-label');
   }
 
   /**
@@ -93,7 +95,7 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
    *
    */
   async getAriaLabelledby(): Promise<string | null> {
-    return (await this._input()).getAttribute('aria-labelledby');
+    return (await this._nativeElement()).getAttribute('aria-labelledby');
   }
 
   /**
@@ -113,7 +115,7 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
    *
    */
   async focus(): Promise<void> {
-    return (await this._input()).focus();
+    return (await this._nativeElement()).focus();
   }
 
   /**
@@ -123,7 +125,7 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
    *
    */
   async blur(): Promise<void> {
-    return (await this._input()).blur();
+    return (await this._nativeElement()).blur();
   }
 
   /**
@@ -133,7 +135,7 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
    *
    */
   async isFocused(): Promise<boolean> {
-    return (await this._input()).isFocused();
+    return (await this._nativeElement()).isFocused();
   }
 
   /**
@@ -163,8 +165,6 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
   }
 }
 
-
-
 /**
  * Harness for interacting with a standard mat-slide-toggle in tests.
  *
@@ -172,6 +172,9 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
  *
  */
 export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
+  private _inputContainer = this.locatorFor('.mat-slide-toggle-bar');
+  protected _nativeElement = this.locatorFor('input');
+
   /**
    * The selector for the host element of a `MatSlideToggle` instance.
    *
@@ -196,16 +199,21 @@ export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
    *
    */
   static with(options: SlideToggleHarnessFilters = {}): HarnessPredicate<MatSlideToggleHarness> {
-    return new HarnessPredicate(MatSlideToggleHarness, options)
-        .addOption('label', options.label,
-            (harness, label) => HarnessPredicate.stringMatches(harness.getLabelText(), label))
+    return (
+      new HarnessPredicate(MatSlideToggleHarness, options)
+        .addOption('label', options.label, (harness, label) =>
+          HarnessPredicate.stringMatches(harness.getLabelText(), label),
+        )
         // We want to provide a filter option for "name" because the name of the slide-toggle is
         // only set on the underlying input. This means that it's not possible for developers
         // to retrieve the harness of a specific checkbox with name through a CSS selector.
-        .addOption('name', options.name, async (harness, name) => await harness.getName() === name);
+        .addOption(
+          'name',
+          options.name,
+          async (harness, name) => (await harness.getName()) === name,
+        )
+    );
   }
-
-  private _inputContainer = this.locatorFor('.mat-slide-toggle-bar');
 
   /**
    * Toggle the checked state of the slide-toggle.
@@ -215,5 +223,11 @@ export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
    */
   async toggle(): Promise<void> {
     return (await this._inputContainer()).click();
+  }
+
+  /** Whether the slide-toggle is checked. */
+  async isChecked(): Promise<boolean> {
+    const checked = (await this._nativeElement()).getProperty<boolean>('checked');
+    return coerceBooleanProperty(await checked);
   }
 }

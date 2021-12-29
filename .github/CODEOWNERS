@@ -88,8 +88,10 @@
 /src/cdk/text-field/**                             @mmalerba
 /src/cdk/tree/**                                   @jelbourn @andrewseguin
 
-# Moment adapter package
+# Date adapters
 /src/material-moment-adapter/**                    @mmalerba
+/src/material-luxon-adapter/**                     @crisbeto
+/src/material-date-fns-adapter/**                  @crisbeto
 
 # Material experimental package
 /src/material-experimental/*                       @jelbourn
@@ -175,6 +177,8 @@
 /src/dev-app/grid-list/**                          @jelbourn
 /src/dev-app/icon/**                               @jelbourn
 /src/dev-app/input/**                              @mmalerba
+/src/dev-app/layout/**                             @jelbourn
+/src/dev-app/input-modality/**                     @jelbourn @zelliott
 /src/dev-app/list/**                               @jelbourn @crisbeto @devversion
 /src/dev-app/live-announcer/**                     @jelbourn
 /src/dev-app/mdc-button/**                         @andrewseguin

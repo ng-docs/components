@@ -37,14 +37,14 @@ export interface OutputNameUpgradeData {
      * 限制为任何具有这些元素标签的元素。
      *
      */
-    elements?: string[],
+    elements?: string[];
     /**
      * Limit to elements with any of these attributes.
      *
      * 限制为任何具有这些属性的元素。
      *
      */
-    attributes?: string[],
+    attributes?: string[];
   };
 }
 
@@ -52,14 +52,16 @@ export const outputNames: VersionChanges<OutputNameUpgradeData> = {
   [TargetVersion.V10]: [
     {
       pr: 'https://github.com/angular/components/pull/19362',
-      changes: [{
-        replace: 'copied',
-        replaceWith: 'cdkCopyToClipboardCopied',
-        limitedTo: {
-          attributes: ['cdkCopyToClipboard']
-        }
-      }]
-    }
+      changes: [
+        {
+          replace: 'copied',
+          replaceWith: 'cdkCopyToClipboardCopied',
+          limitedTo: {
+            attributes: ['cdkCopyToClipboard'],
+          },
+        },
+      ],
+    },
   ],
   [TargetVersion.V6]: [],
 };

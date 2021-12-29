@@ -35,7 +35,7 @@ export interface ProtractorHarnessEnvironmentOptions {
  *
  */
 const defaultEnvironmentOptions: ProtractorHarnessEnvironmentOptions = {
-  queryFn: (selector: string, root: ElementFinder) => root.all(by.css(selector))
+  queryFn: (selector: string, root: ElementFinder) => root.all(by.css(selector)),
 };
 
 /**
@@ -56,7 +56,9 @@ export class ProtractorHarnessEnvironment extends HarnessEnvironment<ElementFind
   private _options: ProtractorHarnessEnvironmentOptions;
 
   protected constructor(
-      rawRootElement: ElementFinder, options?: ProtractorHarnessEnvironmentOptions) {
+    rawRootElement: ElementFinder,
+    options?: ProtractorHarnessEnvironmentOptions,
+  ) {
     super(rawRootElement);
     this._options = {...defaultEnvironmentOptions, ...options};
   }

@@ -43,8 +43,9 @@ export class MatAccordionHarness extends ComponentHarness {
    * 获取属于此手风琴的所有可展开面板。
    *
    */
-  async getExpansionPanels(filter: ExpansionPanelHarnessFilters = {}):
-      Promise<MatExpansionPanelHarness[]> {
+  async getExpansionPanels(
+    filter: ExpansionPanelHarnessFilters = {},
+  ): Promise<MatExpansionPanelHarness[]> {
     return this.locatorForAll(MatExpansionPanelHarness.with(filter))();
   }
 

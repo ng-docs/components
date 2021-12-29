@@ -39,9 +39,11 @@ export class ScrollDispatcher implements OnDestroy {
    */
   protected _document: Document;
 
-  constructor(private _ngZone: NgZone,
-              private _platform: Platform,
-              @Optional() @Inject(DOCUMENT) document: any) {
+  constructor(
+    private _ngZone: NgZone,
+    private _platform: Platform,
+    @Optional() @Inject(DOCUMENT) document: any,
+  ) {
     this._document = document;
   }
 
@@ -51,7 +53,7 @@ export class ScrollDispatcher implements OnDestroy {
    * 用于通知某个已注册的可滚动对象所引用的元素发生滚动时的主体对象。
    *
    */
-  private readonly _scrolled = new Subject<CdkScrollable|void>();
+  private readonly _scrolled = new Subject<CdkScrollable | void>();
 
   /**
    * Keeps track of the global `scroll` and `resize` subscriptions.
@@ -91,8 +93,10 @@ export class ScrollDispatcher implements OnDestroy {
    */
   register(scrollable: CdkScrollable): void {
     if (!this.scrollContainers.has(scrollable)) {
-      this.scrollContainers.set(scrollable, scrollable.elementScrolled()
-          .subscribe(() => this._scrolled.next(scrollable)));
+      this.scrollContainers.set(
+        scrollable,
+        scrollable.elementScrolled().subscribe(() => this._scrolled.next(scrollable)),
+      );
     }
   }
 
@@ -130,21 +134,22 @@ export class ScrollDispatcher implements OnDestroy {
    * **注意：**为了避免每次滚动事件都发生变更检测，从这个流发出的所有事件都会在 Angular Zone 之外运行。如果你要在滚动事件中更新任何数据绑定，就必须使用 `NgZone.run` 来运行回调。
    *
    */
-  scrolled(auditTimeInMs: number = DEFAULT_SCROLL_TIME): Observable<CdkScrollable|void> {
+  scrolled(auditTimeInMs: number = DEFAULT_SCROLL_TIME): Observable<CdkScrollable | void> {
     if (!this._platform.isBrowser) {
       return observableOf<void>();
     }
 
-    return new Observable((observer: Observer<CdkScrollable|void>) => {
+    return new Observable((observer: Observer<CdkScrollable | void>) => {
       if (!this._globalSubscription) {
         this._addGlobalListener();
       }
 
       // In the case of a 0ms delay, use an observable without auditTime
       // since it does add a perceptible delay in processing overhead.
-      const subscription = auditTimeInMs > 0 ?
-        this._scrolled.pipe(auditTime(auditTimeInMs)).subscribe(observer) :
-        this._scrolled.subscribe(observer);
+      const subscription =
+        auditTimeInMs > 0
+          ? this._scrolled.pipe(auditTime(auditTimeInMs)).subscribe(observer)
+          : this._scrolled.subscribe(observer);
 
       this._scrolledCount++;
 
@@ -181,13 +186,16 @@ export class ScrollDispatcher implements OnDestroy {
    *
    */
   ancestorScrolled(
-      elementOrElementRef: ElementRef|HTMLElement,
-      auditTimeInMs?: number): Observable<CdkScrollable|void> {
+    elementOrElementRef: ElementRef | HTMLElement,
+    auditTimeInMs?: number,
+  ): Observable<CdkScrollable | void> {
     const ancestors = this.getAncestorScrollContainers(elementOrElementRef);
 
-    return this.scrolled(auditTimeInMs).pipe(filter(target => {
-      return !target || ancestors.indexOf(target) > -1;
-    }));
+    return this.scrolled(auditTimeInMs).pipe(
+      filter(target => {
+        return !target || ancestors.indexOf(target) > -1;
+      }),
+    );
   }
 
   /**
@@ -196,7 +204,7 @@ export class ScrollDispatcher implements OnDestroy {
    * 返回所有包含所指定元素的已注册可滚动对象。
    *
    */
-  getAncestorScrollContainers(elementOrElementRef: ElementRef|HTMLElement): CdkScrollable[] {
+  getAncestorScrollContainers(elementOrElementRef: ElementRef | HTMLElement): CdkScrollable[] {
     const scrollingContainers: CdkScrollable[] = [];
 
     this.scrollContainers.forEach((_subscription: Subscription, scrollable: CdkScrollable) => {
@@ -225,16 +233,19 @@ export class ScrollDispatcher implements OnDestroy {
    *
    */
   private _scrollableContainsElement(
-      scrollable: CdkScrollable,
-      elementOrElementRef: ElementRef|HTMLElement): boolean {
+    scrollable: CdkScrollable,
+    elementOrElementRef: ElementRef | HTMLElement,
+  ): boolean {
     let element: HTMLElement | null = coerceElement(elementOrElementRef);
     let scrollableElement = scrollable.getElementRef().nativeElement;
 
     // Traverse through the element parents until we reach null, checking if any of the elements
     // are the scrollable's element.
     do {
-      if (element == scrollableElement) { return true; }
-    } while (element = element!.parentElement);
+      if (element == scrollableElement) {
+        return true;
+      }
+    } while ((element = element!.parentElement));
 
     return false;
   }

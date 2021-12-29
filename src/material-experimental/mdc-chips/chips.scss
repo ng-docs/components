@@ -126,6 +126,29 @@ $chip-margin: 4px;
   position: relative;
 }
 
+.mat-mdc-chip-remove {
+  // Reset the user agent styles in case a button is used.
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 0;
+  background: none;
+
+  .mat-icon {
+    width: inherit;
+    height: inherit;
+    font-size: inherit;
+  }
+}
+
+// Single-selection chips show their selected state using a background color which won't be visible
+// in high contrast mode. This isn't necessary in multi-selection since there's a checkmark.
+.mat-mdc-chip-selected:not(.mat-mdc-chip-multiple) {
+  @include a11y.high-contrast(active, off) {
+    outline-width: 3px;
+  }
+}
+
 .mat-mdc-chip-row-focusable-text-content,
 .mat-mdc-chip-remove-icon {
   display: flex;

@@ -14,8 +14,7 @@ import {Observable} from 'rxjs';
  * 表示特定起点和终点的数字范围。
  *
  */
-export type ListRange = {start: number, end: number};
-
+export type ListRange = {start: number; end: number};
 /**
  * Interface for any component that provides a view of some data collection and wants to provide
  * information regarding the view and any changes made.

@@ -1,11 +1,8 @@
-@use '@material/tab' as mdc-tab;
 @use '../../material/core/style/variables';
 @use '../../material/core/style/private';
-@use '../mdc-helpers/mdc-helpers';
 @use './tabs-common';
 
-@include mdc-tab.without-ripple($query: mdc-helpers.$mat-base-styles-query);
-@include tabs-common.tab-ripple;
+@include tabs-common.structural-styles;
 
 .mat-mdc-tab {
   @include tabs-common.tab;
@@ -26,6 +23,9 @@
 .mat-mdc-tab-group {
   display: flex;
   flex-direction: column;
+
+  // Fixes pagination issues inside flex containers (see #23157).
+  max-width: 100%;
 
   &.mat-mdc-tab-group-inverted-header {
     flex-direction: column-reverse;

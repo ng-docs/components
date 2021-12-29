@@ -9,7 +9,10 @@
 import {Rule, SchematicContext} from '@angular-devkit/schematics';
 import {TargetVersion} from '../update-tool/target-version';
 import {cdkUpgradeData} from './upgrade-data';
-import {createMigrationSchematicRule} from './devkit-migration-rule';
+import {createMigrationSchematicRule, NullableDevkitMigration} from './devkit-migration-rule';
+import {TildeImportMigration} from './migrations/tilde-import-v13/tilde-import-migration';
+
+const cdkMigrations: NullableDevkitMigration[] = [TildeImportMigration];
 
 /**
  * Entry point for the migration schematics with target of Angular CDK 6.0.0
@@ -18,7 +21,12 @@ import {createMigrationSchematicRule} from './devkit-migration-rule';
  *
  */
 export function updateToV6(): Rule {
-  return createMigrationSchematicRule(TargetVersion.V6, [], cdkUpgradeData, onMigrationComplete);
+  return createMigrationSchematicRule(
+    TargetVersion.V6,
+    cdkMigrations,
+    cdkUpgradeData,
+    onMigrationComplete,
+  );
 }
 
 /**
@@ -28,7 +36,12 @@ export function updateToV6(): Rule {
  *
  */
 export function updateToV7(): Rule {
-  return createMigrationSchematicRule(TargetVersion.V7, [], cdkUpgradeData, onMigrationComplete);
+  return createMigrationSchematicRule(
+    TargetVersion.V7,
+    cdkMigrations,
+    cdkUpgradeData,
+    onMigrationComplete,
+  );
 }
 
 /**
@@ -38,7 +51,12 @@ export function updateToV7(): Rule {
  *
  */
 export function updateToV8(): Rule {
-  return createMigrationSchematicRule(TargetVersion.V8, [], cdkUpgradeData, onMigrationComplete);
+  return createMigrationSchematicRule(
+    TargetVersion.V8,
+    cdkMigrations,
+    cdkUpgradeData,
+    onMigrationComplete,
+  );
 }
 
 /**
@@ -48,7 +66,12 @@ export function updateToV8(): Rule {
  *
  */
 export function updateToV9(): Rule {
-  return createMigrationSchematicRule(TargetVersion.V9, [], cdkUpgradeData, onMigrationComplete);
+  return createMigrationSchematicRule(
+    TargetVersion.V9,
+    cdkMigrations,
+    cdkUpgradeData,
+    onMigrationComplete,
+  );
 }
 
 /**
@@ -58,7 +81,12 @@ export function updateToV9(): Rule {
  *
  */
 export function updateToV10(): Rule {
-  return createMigrationSchematicRule(TargetVersion.V10, [], cdkUpgradeData, onMigrationComplete);
+  return createMigrationSchematicRule(
+    TargetVersion.V10,
+    cdkMigrations,
+    cdkUpgradeData,
+    onMigrationComplete,
+  );
 }
 
 /**
@@ -68,7 +96,12 @@ export function updateToV10(): Rule {
  *
  */
 export function updateToV11(): Rule {
-  return createMigrationSchematicRule(TargetVersion.V11, [], cdkUpgradeData, onMigrationComplete);
+  return createMigrationSchematicRule(
+    TargetVersion.V11,
+    cdkMigrations,
+    cdkUpgradeData,
+    onMigrationComplete,
+  );
 }
 
 /**
@@ -78,7 +111,22 @@ export function updateToV11(): Rule {
  *
  */
 export function updateToV12(): Rule {
-  return createMigrationSchematicRule(TargetVersion.V12, [], cdkUpgradeData, onMigrationComplete);
+  return createMigrationSchematicRule(
+    TargetVersion.V12,
+    cdkMigrations,
+    cdkUpgradeData,
+    onMigrationComplete,
+  );
+}
+
+/** Entry point for the migration schematics with target of Angular CDK 13.0.0 */
+export function updateToV13(): Rule {
+  return createMigrationSchematicRule(
+    TargetVersion.V13,
+    cdkMigrations,
+    cdkUpgradeData,
+    onMigrationComplete,
+  );
 }
 
 /**
@@ -87,15 +135,19 @@ export function updateToV12(): Rule {
  * 迁移完成时将调用的函数。
  *
  */
-function onMigrationComplete(context: SchematicContext, targetVersion: TargetVersion,
-                             hasFailures: boolean) {
+function onMigrationComplete(
+  context: SchematicContext,
+  targetVersion: TargetVersion,
+  hasFailures: boolean,
+) {
   context.logger.info('');
   context.logger.info(`  ✓  Updated Angular CDK to ${targetVersion}`);
   context.logger.info('');
 
   if (hasFailures) {
     context.logger.warn(
-        '  ⚠  Some issues were detected but could not be fixed automatically. Please check the ' +
-        'output above and fix these issues manually.');
+      '  ⚠  Some issues were detected but could not be fixed automatically. Please check the ' +
+        'output above and fix these issues manually.',
+    );
   }
 }

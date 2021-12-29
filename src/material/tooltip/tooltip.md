@@ -104,22 +104,16 @@ shown.
 
 ### Accessibility
 
-### 无障碍性
-
-Elements with the `matTooltip` will add an `aria-describedby` label that provides a reference
+`MatTooltip` adds an `aria-describedby` description that provides a reference
 to a visually hidden element containing the tooltip's message. This provides screenreaders the
-information needed to read out the tooltip's contents when the end-user focuses on the element
-triggering the tooltip. The element referenced via `aria-describedby` is not the tooltip itself,
+information needed to read out the tooltip's contents when the end-user focuses on tooltip's
+trigger. The element referenced by `aria-describedby` is not the tooltip itself,
 but instead an invisible copy of the tooltip content that is always present in the DOM.
 
-带有 `matTooltip` 的元素会添加一个 `aria-describedby` 标签，它指向一个包含提示信息的不可见元素。
+`MatTooltip` 会添加一个 `aria-describedby` 描述，它指向一个包含提示信息的不可见元素。
 当最终用户把焦点移到用于触发该提示框的元素上时，屏幕阅读器就会读出该提示信息的内容。
 `aria-describedby` 所指向的那个元素并不是提示框本身，而是该提示框内容的一个不可见副本，但它会始终存在于 DOM 中。
 
-If a tooltip will only be shown manually via click, keypress, etc., then extra care should be taken
-such that the action behaves similarly for screen-reader users. One possible approach would be
-to use the `LiveAnnouncer` from the `cdk/a11y` package to announce the tooltip content on such
-an interaction.
-
-如果提示框只会通过点击、按键等方式手动显示，还要注意为屏幕阅读器用户提供类似的操作。
-可能的方式之一是使用 `cdk/a11y` 包中的 `LiveAnnouncer` 来宣读提示信息的内容。
+Avoid interactions that exclusively show a tooltip with pointer events like click and mouseenter.
+Always ensure that keyboard users can perform the same set of actions available to mouse and
+touch users.

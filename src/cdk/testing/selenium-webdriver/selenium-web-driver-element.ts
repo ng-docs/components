@@ -13,7 +13,7 @@ import {
   ModifierKeys,
   TestElement,
   TestKey,
-  TextOptions
+  TextOptions,
 } from '@angular/cdk/testing';
 import * as webdriver from 'selenium-webdriver';
 import {getSeleniumWebDriverModifierKeys, seleniumWebDriverKeyMap} from './selenium-webdriver-keys';
@@ -26,8 +26,9 @@ import {getSeleniumWebDriverModifierKeys, seleniumWebDriverKeyMap} from './selen
  */
 export class SeleniumWebDriverElement implements TestElement {
   constructor(
-      readonly element: () => webdriver.WebElement,
-      private _stabilize: () => Promise<void>) {}
+    readonly element: () => webdriver.WebElement,
+    private _stabilize: () => Promise<void>,
+  ) {}
 
   /**
    * Blur the element.
@@ -36,7 +37,7 @@ export class SeleniumWebDriverElement implements TestElement {
    *
    */
   async blur(): Promise<void> {
-    await this._executeScript(((element: HTMLElement) => element.blur()), this.element());
+    await this._executeScript((element: HTMLElement) => element.blur(), this.element());
     await this._stabilize();
   }
 
@@ -86,8 +87,9 @@ export class SeleniumWebDriverElement implements TestElement {
    *
    */
   click(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
-  async click(...args: [ModifierKeys?] | ['center', ModifierKeys?] |
-      [number, number, ModifierKeys?]): Promise<void> {
+  async click(
+    ...args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?]
+  ): Promise<void> {
     await this._dispatchClickEventSequence(args, webdriver.Button.LEFT);
     await this._stabilize();
   }
@@ -111,8 +113,9 @@ export class SeleniumWebDriverElement implements TestElement {
    *
    */
   rightClick(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
-  async rightClick(...args: [ModifierKeys?] | ['center', ModifierKeys?] |
-      [number, number, ModifierKeys?]): Promise<void> {
+  async rightClick(
+    ...args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?]
+  ): Promise<void> {
     await this._dispatchClickEventSequence(args, webdriver.Button.RIGHT);
     await this._stabilize();
   }
@@ -190,11 +193,12 @@ export class SeleniumWebDriverElement implements TestElement {
     }
 
     const modifierKeys = getSeleniumWebDriverModifierKeys(modifiers);
-    const keys = rest.map(k => typeof k === 'string' ? k.split('') : [seleniumWebDriverKeyMap[k]])
-        .reduce((arr, k) => arr.concat(k), [])
-        // webdriver.Key.chord doesn't work well with geckodriver (mozilla/geckodriver#1502),
-        // so avoid it if no modifier keys are required.
-        .map(k => modifierKeys.length > 0 ? webdriver.Key.chord(...modifierKeys, k) : k);
+    const keys = rest
+      .map(k => (typeof k === 'string' ? k.split('') : [seleniumWebDriverKeyMap[k]]))
+      .reduce((arr, k) => arr.concat(k), [])
+      // webdriver.Key.chord doesn't work well with geckodriver (mozilla/geckodriver#1502),
+      // so avoid it if no modifier keys are required.
+      .map(k => (modifierKeys.length > 0 ? webdriver.Key.chord(...modifierKeys, k) : k));
 
     await this.element().sendKeys(...keys);
     await this._stabilize();
@@ -215,7 +219,11 @@ export class SeleniumWebDriverElement implements TestElement {
     if (options?.exclude) {
       return this._executeScript(_getTextWithExcludedElements, this.element(), options.exclude);
     }
-    return this.element().getText();
+    // We don't go through the WebDriver `getText`, because it excludes text from hidden elements.
+    return this._executeScript(
+      (element: Element) => (element.textContent || '').trim(),
+      this.element(),
+    );
   }
 
   /**
@@ -224,11 +232,13 @@ export class SeleniumWebDriverElement implements TestElement {
    * 从此元素获取给定属性的值。
    *
    */
-  async getAttribute(name: string): Promise<string|null> {
+  async getAttribute(name: string): Promise<string | null> {
     await this._stabilize();
     return this._executeScript(
-        (element: Element, attribute: string) => element.getAttribute(attribute),
-        this.element(), name);
+      (element: Element, attribute: string) => element.getAttribute(attribute),
+      this.element(),
+      name,
+    );
   }
 
   /**
@@ -262,11 +272,13 @@ export class SeleniumWebDriverElement implements TestElement {
    * 获取此元素的属性的值。
    *
    */
-  async getProperty(name: string): Promise<any> {
+  async getProperty<T = any>(name: string): Promise<T> {
     await this._stabilize();
     return this._executeScript(
-        (element: Element, property: keyof Element) => element[property],
-        this.element(), name);
+      (element: Element, property: keyof Element) => element[property],
+      this.element(),
+      name,
+    );
   }
 
   /**
@@ -277,8 +289,10 @@ export class SeleniumWebDriverElement implements TestElement {
    */
   async setInputValue(newValue: string): Promise<void> {
     await this._executeScript(
-        (element: HTMLInputElement, value: string) => element.value = value,
-        this.element(), newValue);
+      (element: HTMLInputElement, value: string) => (element.value = value),
+      this.element(),
+      newValue,
+    );
     await this._stabilize();
   }
 
@@ -320,10 +334,15 @@ export class SeleniumWebDriverElement implements TestElement {
    */
   async matchesSelector(selector: string): Promise<boolean> {
     await this._stabilize();
-    return this._executeScript((element: Element, s: string) =>
-        (Element.prototype.matches || (Element.prototype as any).msMatchesSelector)
-            .call(element, s),
-        this.element(), selector);
+    return this._executeScript(
+      (element: Element, s: string) =>
+        (Element.prototype.matches || (Element.prototype as any).msMatchesSelector).call(
+          element,
+          s,
+        ),
+      this.element(),
+      selector,
+    );
   }
 
   /**
@@ -335,7 +354,9 @@ export class SeleniumWebDriverElement implements TestElement {
   async isFocused(): Promise<boolean> {
     await this._stabilize();
     return webdriver.WebElement.equals(
-        this.element(), this.element().getDriver().switchTo().activeElement());
+      this.element(),
+      this.element().getDriver().switchTo().activeElement(),
+    );
   }
 
   /**
@@ -370,7 +391,9 @@ export class SeleniumWebDriverElement implements TestElement {
    *
    */
   private async _executeScript<T>(script: Function, ...var_args: any[]): Promise<T> {
-    return this.element().getDriver().executeScript(script, ...var_args);
+    return this.element()
+      .getDriver()
+      .executeScript(script, ...var_args);
   }
 
   /**
@@ -380,8 +403,9 @@ export class SeleniumWebDriverElement implements TestElement {
    *
    */
   private async _dispatchClickEventSequence(
-      args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?],
-      button: string) {
+    args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?],
+    button: string,
+  ) {
     let modifiers: ModifierKeys = {};
     if (args.length && typeof args[args.length - 1] === 'object') {
       modifiers = args.pop() as ModifierKeys;
@@ -391,8 +415,9 @@ export class SeleniumWebDriverElement implements TestElement {
     // Omitting the offset argument to mouseMove results in clicking the center.
     // This is the default behavior we want, so we use an empty array of offsetArgs if
     // no args remain after popping the modifiers from the args passed to this function.
-    const offsetArgs = (args.length === 2 ?
-        [{x: args[0], y: args[1]}] : []) as [{x: number, y: number}];
+    const offsetArgs = (args.length === 2 ? [{x: args[0], y: args[1]}] : []) as [
+      {x: number; y: number},
+    ];
 
     let actions = this._actions().mouseMove(this.element(), ...offsetArgs);
 

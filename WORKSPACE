@@ -8,18 +8,18 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # Add NodeJS rules
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "10f534e1c80f795cffe1f2822becd4897754d18564612510c59b3c73544ae7c6",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/3.5.0/rules_nodejs-3.5.0.tar.gz"],
+    patches = ["//tools:multiple-node-versions.patch"],
+    sha256 = "f7037c8e295fdc921f714962aee7c496110052511e2b14076bd8e2d46bc9819c",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/4.4.5/rules_nodejs-4.4.5.tar.gz"],
 )
 
 # Add sass rules
 http_archive(
     name = "io_bazel_rules_sass",
-    sha256 = "9ad74e6e75a86939f4349b31d43bb1db4279e4f2a139c5ebaf56cf99feea1faa",
-    strip_prefix = "rules_sass-1.32.8",
+    sha256 = "435efe759f1c8baffadc320ecc1830454da181fa790aa83bb4326f07e903a0f4",
+    strip_prefix = "rules_sass-1.41.0",
     urls = [
-        "https://github.com/bazelbuild/rules_sass/archive/1.32.8.zip",
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_sass/archive/1.32.8.zip",
+        "https://github.com/bazelbuild/rules_sass/archive/1.41.0.zip",
     ],
 )
 
@@ -28,13 +28,25 @@ http_archive(
 # for declaring Bazel build setting flags.
 http_archive(
     name = "bazel_skylib",
-    sha256 = "ebdf850bfef28d923a2cc67ddca86355a449b5e4f38b0a70e584dc24e5984aa6",
-    strip_prefix = "bazel-skylib-f80bc733d4b9f83d427ce3442be2e07427b2cc8d",
+    sha256 = "191ea53b19b7e49b5b63d0ef81d1a6278227f9ac2c09fed1c2b3a75d573f1eeb",
+    strip_prefix = "bazel-skylib-b2ed61686ebca2a44d44857fef5b3e1d31cc2483",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/archive/f80bc733d4b9f83d427ce3442be2e07427b2cc8d.tar.gz",
-        "https://github.com/bazelbuild/bazel-skylib/archive/f80bc733d4b9f83d427ce3442be2e07427b2cc8d.tar.gz",
+        "https://github.com/bazelbuild/bazel-skylib/archive/b2ed61686ebca2a44d44857fef5b3e1d31cc2483.tar.gz",
     ],
 )
+
+http_archive(
+    name = "rules_pkg",
+    sha256 = "a89e203d3cf264e564fcb96b6e06dd70bc0557356eb48400ce4b5d97c2c3720d",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_pkg/releases/download/0.5.1/rules_pkg-0.5.1.tar.gz",
+        "https://github.com/bazelbuild/rules_pkg/releases/download/0.5.1/rules_pkg-0.5.1.tar.gz",
+    ],
+)
+
+load("@rules_pkg//:deps.bzl", "rules_pkg_dependencies")
+
+rules_pkg_dependencies()
 
 load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
 
@@ -45,18 +57,31 @@ load("@build_bazel_rules_nodejs//:index.bzl", "check_bazel_version", "node_repos
 check_bazel_version("4.0.0")
 
 node_repositories(
-    node_version = "14.16.1",
+    node_version = "16.10.0",
     package_json = ["//:package.json"],
 )
 
+load("@build_bazel_rules_nodejs//nodejs:repositories.bzl", "nodejs_register_toolchains")
+
+# This call sets up another repository for Node 12.x used in integration tests. This
+# allows us to ensure our schematic code works with NodeJS v12 LTS. The Node v12.x
+# version is not fetched unless explicitly requested by the tests.
+nodejs_register_toolchains(
+    name = "node12",
+    node_version = "12.20.0",
+)
+
+load("//tools:integration.bzl", "create_npm_package_archive_build_file")
+
 yarn_install(
     name = "npm",
-    # We add the postinstall patches file, and ngcc main fields update script here so
-    # that Yarn will rerun whenever one of these files has been modified.
+    # We add the postinstall patches file here so that Yarn will rerun whenever
+    # the file is modified.
     data = [
         "//:tools/postinstall/apply-patches.js",
-        "//:tools/postinstall/update-ngcc-main-fields.js",
     ],
+    # Add archive targets for some NPM packages that are needed in integration tests.
+    manual_build_file_contents = create_npm_package_archive_build_file(),
     package_json = "//:package.json",
     quiet = False,
     yarn_lock = "//:yarn.lock",
@@ -82,11 +107,14 @@ load("@io_bazel_rules_sass//:defs.bzl", "sass_repositories")
 
 sass_repositories()
 
-# Load pinned rules_webtesting browser versions for tests.
-#
-# TODO(wagnermaciel): deduplicate browsers - this will load another version of chromium in the
-# repository. We probably want to use the chromium version loaded here (from dev-infra) as that
-# one has RBE improvements.
-load("@npm//@angular/dev-infra-private/browsers:browser_repositories.bzl", _dev_infra_browser_repositories = "browser_repositories")
+# Setup repositories for browsers provided by the shared dev-infra package.
+load(
+    "@npm//@angular/dev-infra-private/bazel/browsers:browser_repositories.bzl",
+    _dev_infra_browser_repositories = "browser_repositories",
+)
 
 _dev_infra_browser_repositories()
+
+load("@build_bazel_rules_nodejs//toolchains/esbuild:esbuild_repositories.bzl", "esbuild_repositories")
+
+esbuild_repositories()

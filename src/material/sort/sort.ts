@@ -19,14 +19,7 @@ import {
   Optional,
   Output,
 } from '@angular/core';
-import {
-  CanDisable,
-  CanDisableCtor,
-  HasInitialized,
-  HasInitializedCtor,
-  mixinDisabled,
-  mixinInitialized,
-} from '@angular/material/core';
+import {CanDisable, HasInitialized, mixinDisabled, mixinInitialized} from '@angular/material/core';
 import {Subject} from 'rxjs';
 import {SortDirection} from './sort-direction';
 import {
@@ -113,15 +106,13 @@ export interface MatSortDefaultOptions {
  * `mat-sort` 的默认选项的注入令牌。
  *
  */
-export const MAT_SORT_DEFAULT_OPTIONS =
-    new InjectionToken<MatSortDefaultOptions>('MAT_SORT_DEFAULT_OPTIONS');
-
+export const MAT_SORT_DEFAULT_OPTIONS = new InjectionToken<MatSortDefaultOptions>(
+  'MAT_SORT_DEFAULT_OPTIONS',
+);
 
 // Boilerplate for applying mixins to MatSort.
 /** @docs-private */
-class MatSortBase {}
-const _MatSortMixinBase: HasInitializedCtor & CanDisableCtor & typeof MatSortBase =
-    mixinInitialized(mixinDisabled(MatSortBase));
+const _MatSortBase = mixinInitialized(mixinDisabled(class {}));
 
 /**
  * Container for MatSortables to manage the sort state and provide default sort parameters.
@@ -133,10 +124,12 @@ const _MatSortMixinBase: HasInitializedCtor & CanDisableCtor & typeof MatSortBas
   selector: '[matSort]',
   exportAs: 'matSort',
   host: {'class': 'mat-sort'},
-  inputs: ['disabled: matSortDisabled']
+  inputs: ['disabled: matSortDisabled'],
 })
-export class MatSort extends _MatSortMixinBase
-    implements CanDisable, HasInitialized, OnChanges, OnDestroy, OnInit {
+export class MatSort
+  extends _MatSortBase
+  implements CanDisable, HasInitialized, OnChanges, OnDestroy, OnInit
+{
   /**
    * Collection of all registered sortables that this directive manages.
    *
@@ -177,10 +170,16 @@ export class MatSort extends _MatSortMixinBase
    *
    */
   @Input('matSortDirection')
-  get direction(): SortDirection { return this._direction; }
+  get direction(): SortDirection {
+    return this._direction;
+  }
   set direction(direction: SortDirection) {
-    if (direction && direction !== 'asc' && direction !== 'desc' &&
-      (typeof ngDevMode === 'undefined' || ngDevMode)) {
+    if (
+      direction &&
+      direction !== 'asc' &&
+      direction !== 'desc' &&
+      (typeof ngDevMode === 'undefined' || ngDevMode)
+    ) {
       throw getSortInvalidDirectionError(direction);
     }
     this._direction = direction;
@@ -195,8 +194,12 @@ export class MatSort extends _MatSortMixinBase
    *
    */
   @Input('matSortDisableClear')
-  get disableClear(): boolean { return this._disableClear; }
-  set disableClear(v: boolean) { this._disableClear = coerceBooleanProperty(v); }
+  get disableClear(): boolean {
+    return this._disableClear;
+  }
+  set disableClear(v: BooleanInput) {
+    this._disableClear = coerceBooleanProperty(v);
+  }
   private _disableClear: boolean;
 
   /**
@@ -207,8 +210,11 @@ export class MatSort extends _MatSortMixinBase
    */
   @Output('matSortChange') readonly sortChange: EventEmitter<Sort> = new EventEmitter<Sort>();
 
-  constructor(@Optional() @Inject(MAT_SORT_DEFAULT_OPTIONS)
-              private _defaultOptions?: MatSortDefaultOptions) {
+  constructor(
+    @Optional()
+    @Inject(MAT_SORT_DEFAULT_OPTIONS)
+    private _defaultOptions?: MatSortDefaultOptions,
+  ) {
     super();
   }
 
@@ -268,16 +274,20 @@ export class MatSort extends _MatSortMixinBase
    *
    */
   getNextSortDirection(sortable: MatSortable): SortDirection {
-    if (!sortable) { return ''; }
+    if (!sortable) {
+      return '';
+    }
 
     // Get the sort direction cycle with the potential sortable overrides.
-    const disableClear = sortable?.disableClear ??
-        this.disableClear ?? !!this._defaultOptions?.disableClear;
+    const disableClear =
+      sortable?.disableClear ?? this.disableClear ?? !!this._defaultOptions?.disableClear;
     let sortDirectionCycle = getSortDirectionCycle(sortable.start || this.start, disableClear);
 
     // Get and return the next direction in the cycle
     let nextDirectionIndex = sortDirectionCycle.indexOf(this.direction) + 1;
-    if (nextDirectionIndex >= sortDirectionCycle.length) { nextDirectionIndex = 0; }
+    if (nextDirectionIndex >= sortDirectionCycle.length) {
+      nextDirectionIndex = 0;
+    }
     return sortDirectionCycle[nextDirectionIndex];
   }
 
@@ -292,9 +302,6 @@ export class MatSort extends _MatSortMixinBase
   ngOnDestroy() {
     this._stateChanges.complete();
   }
-
-  static ngAcceptInputType_disableClear: BooleanInput;
-  static ngAcceptInputType_disabled: BooleanInput;
 }
 
 /**
@@ -303,11 +310,14 @@ export class MatSort extends _MatSortMixinBase
  * 指定所提供的 start 和 disableClear 参数，返回要使用的排序方向循环。
  *
  */
-function getSortDirectionCycle(start: 'asc' | 'desc',
-                               disableClear: boolean): SortDirection[] {
+function getSortDirectionCycle(start: 'asc' | 'desc', disableClear: boolean): SortDirection[] {
   let sortOrder: SortDirection[] = ['asc', 'desc'];
-  if (start == 'desc') { sortOrder.reverse(); }
-  if (!disableClear) { sortOrder.push(''); }
+  if (start == 'desc') {
+    sortOrder.reverse();
+  }
+  if (!disableClear) {
+    sortOrder.push('');
+  }
 
   return sortOrder;
 }

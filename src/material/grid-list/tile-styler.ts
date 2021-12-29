@@ -183,8 +183,7 @@ export abstract class TileStyler {
    * 在列表中设置图块的水平位置。
    *
    */
-  setColStyles(tile: MatGridTile, colIndex: number, percentWidth: number,
-               gutterWidth: number) {
+  setColStyles(tile: MatGridTile, colIndex: number, percentWidth: number, gutterWidth: number) {
     // Base horizontal size of a column.
     let baseTileWidth = this.getBaseTileSize(percentWidth, gutterWidth);
 
@@ -227,8 +226,12 @@ export abstract class TileStyler {
    *
    * @docs-private
    */
-  abstract setRowStyles(tile: MatGridTile, rowIndex: number, percentWidth: number,
-                        gutterWidth: number): void;
+  abstract setRowStyles(
+    tile: MatGridTile,
+    rowIndex: number,
+    percentWidth: number,
+    gutterWidth: number,
+  ): void;
 
   /**
    * Calculates the computed height and returns the correct style property to set.
@@ -238,7 +241,9 @@ export abstract class TileStyler {
    *
    * @docs-private
    */
-  getComputedHeight(): [string, string] | null { return null; }
+  getComputedHeight(): [string, string] | null {
+    return null;
+  }
 
   /**
    * Called when the tile styler is swapped out with a different one. To be used for cleanup.
@@ -263,31 +268,32 @@ export abstract class TileStyler {
  * @docs-private
  */
 export class FixedTileStyler extends TileStyler {
+  constructor(public fixedRowHeight: string) {
+    super();
+  }
 
-  constructor(public fixedRowHeight: string) { super(); }
-
-  init(gutterSize: string, tracker: TileCoordinator, cols: number, direction: string) {
+  override init(gutterSize: string, tracker: TileCoordinator, cols: number, direction: string) {
     super.init(gutterSize, tracker, cols, direction);
     this.fixedRowHeight = normalizeUnits(this.fixedRowHeight);
 
-    if (!cssCalcAllowedValue.test(this.fixedRowHeight) &&
-      (typeof ngDevMode === 'undefined' || ngDevMode)) {
+    if (
+      !cssCalcAllowedValue.test(this.fixedRowHeight) &&
+      (typeof ngDevMode === 'undefined' || ngDevMode)
+    ) {
       throw Error(`Invalid value "${this.fixedRowHeight}" set as rowHeight.`);
     }
   }
 
-  setRowStyles(tile: MatGridTile, rowIndex: number): void {
+  override setRowStyles(tile: MatGridTile, rowIndex: number): void {
     tile._setStyle('top', this.getTilePosition(this.fixedRowHeight, rowIndex));
     tile._setStyle('height', calc(this.getTileSize(this.fixedRowHeight, tile.rowspan)));
   }
 
-  getComputedHeight(): [string, string] {
-    return [
-      'height', calc(`${this.getTileSpan(this.fixedRowHeight)} + ${this.getGutterSpan()}`)
-    ];
+  override getComputedHeight(): [string, string] {
+    return ['height', calc(`${this.getTileSpan(this.fixedRowHeight)} + ${this.getGutterSpan()}`)];
   }
 
-  reset(list: TileStyleTarget) {
+  override reset(list: TileStyleTarget) {
     list._setListStyle(['height', null]);
 
     if (list._tiles) {
@@ -308,7 +314,6 @@ export class FixedTileStyler extends TileStyler {
  * @docs-private
  */
 export class RatioTileStyler extends TileStyler {
-
   /**
    * Ratio width:height given by user to determine row height.
    *
@@ -323,8 +328,12 @@ export class RatioTileStyler extends TileStyler {
     this._parseRatio(value);
   }
 
-  setRowStyles(tile: MatGridTile, rowIndex: number, percentWidth: number,
-               gutterWidth: number): void {
+  setRowStyles(
+    tile: MatGridTile,
+    rowIndex: number,
+    percentWidth: number,
+    gutterWidth: number,
+  ): void {
     let percentHeightPerTile = percentWidth / this.rowHeightRatio;
     this.baseTileHeight = this.getBaseTileSize(percentHeightPerTile, gutterWidth);
 
@@ -335,9 +344,10 @@ export class RatioTileStyler extends TileStyler {
     tile._setStyle('paddingTop', calc(this.getTileSize(this.baseTileHeight, tile.rowspan)));
   }
 
-  getComputedHeight(): [string, string] {
+  override getComputedHeight(): [string, string] {
     return [
-      'paddingBottom', calc(`${this.getTileSpan(this.baseTileHeight)} + ${this.getGutterSpan()}`)
+      'paddingBottom',
+      calc(`${this.getTileSpan(this.baseTileHeight)} + ${this.getGutterSpan()}`),
     ];
   }
 
@@ -415,4 +425,3 @@ function calc(exp: string): string {
 function normalizeUnits(value: string): string {
   return value.match(/([A-Za-z%]+)$/) ? value : `${value}px`;
 }
-

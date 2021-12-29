@@ -34,12 +34,12 @@ export class MatChipInputHarness extends ComponentHarness {
    */
   static with(options: ChipInputHarnessFilters = {}): HarnessPredicate<MatChipInputHarness> {
     return new HarnessPredicate(MatChipInputHarness, options)
-        .addOption('value', options.value, async (harness, value) => {
-          return (await harness.getValue()) === value;
-        })
-        .addOption('placeholder', options.placeholder, async (harness, placeholder) => {
-          return (await harness.getPlaceholder()) === placeholder;
-        });
+      .addOption('value', options.value, async (harness, value) => {
+        return (await harness.getValue()) === value;
+      })
+      .addOption('placeholder', options.placeholder, async (harness, placeholder) => {
+        return (await harness.getPlaceholder()) === placeholder;
+      });
   }
 
   /**
@@ -80,7 +80,7 @@ export class MatChipInputHarness extends ComponentHarness {
    *
    */
   async getPlaceholder(): Promise<string> {
-    return (await (await this.host()).getProperty('placeholder'));
+    return await (await this.host()).getProperty('placeholder');
   }
 
   /**

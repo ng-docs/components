@@ -105,15 +105,9 @@ an `ng-template`:
 
 ### 无障碍性
 
-The expansion-panel aims to mimic the experience of the native `<details>` and `<summary>` elements.
-The expansion panel header has `role="button"` and also the attribute `aria-controls` with the
-expansion panel's id as value.
+`MatExpansionPanel` imitates the experience of the native `<details>` and `<summary>` elements.
+The expansion panel header applies `role="button"` and the `aria-controls` attribute with the
+content element's ID.
 
-可展开面板旨在模拟原生元素 `<details>` 和 `<summary>` 的体验。
-可展开面板的头部带有 `role="button"` 属性，而 `aria-controls` 属性则以可展开面板的 id 作为值。
-
-The expansion panel headers are buttons. Users can use the keyboard to activate the expansion panel
-header to switch between expanded state and collapsed state. Because the header acts as a button,
-additional interactive elements should not be put inside of the header.
-
-可展开面板的头部实际上是按钮。用户可以用键盘激活可展开面板的头部，以在展开状态和折叠状态之间切换。由于这个头扮演的是按钮的角色，因此不能在其中放入其它可交互元素。
+Because expansion panel headers are buttons, avoid adding interactive controls as children
+of `<mat-expansion-panel-header>`, including buttons and anchors.

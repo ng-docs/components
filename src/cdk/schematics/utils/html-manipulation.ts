@@ -8,7 +8,7 @@
 
 import {SchematicsException, Tree} from '@angular-devkit/schematics';
 import {getChildElementIndentation} from './parse5-element';
-import {DefaultTreeDocument, DefaultTreeElement, parse as parseHtml} from 'parse5';
+import {Element, parse as parseHtml} from 'parse5';
 
 /**
  * Appends the given element HTML fragment to the `<head>` element of the specified HTML file.
@@ -41,9 +41,7 @@ export function appendHtmlElementToHead(host: Tree, htmlFilePath: string, elemen
   const indentationOffset = getChildElementIndentation(headTag);
   const insertion = `${' '.repeat(indentationOffset)}${elementHtml}`;
 
-  const recordedChange = host
-    .beginUpdate(htmlFilePath)
-    .insertRight(endTagOffset, `${insertion}\n`);
+  const recordedChange = host.beginUpdate(htmlFilePath).insertRight(endTagOffset, `${insertion}\n`);
 
   host.commitUpdate(recordedChange);
 }
@@ -54,7 +52,7 @@ export function appendHtmlElementToHead(host: Tree, htmlFilePath: string, elemen
  * 解析给定的 HTML 文件并返回 head 元素（如果有）。
  *
  */
-export function getHtmlHeadTagElement(htmlContent: string): DefaultTreeElement | null {
+export function getHtmlHeadTagElement(htmlContent: string): Element | null {
   return getElementByTagName('head', htmlContent);
 }
 
@@ -81,7 +79,10 @@ export function addBodyClass(host: Tree, htmlFilePath: string, className: string
   const classAttribute = body.attrs.find(attribute => attribute.name === 'class');
 
   if (classAttribute) {
-    const hasClass = classAttribute.value.split(' ').map(part => part.trim()).includes(className);
+    const hasClass = classAttribute.value
+      .split(' ')
+      .map(part => part.trim())
+      .includes(className);
 
     if (!hasClass) {
       const classAttributeLocation = body.sourceCodeLocation!.attrs.class;
@@ -104,13 +105,12 @@ export function addBodyClass(host: Tree, htmlFilePath: string, className: string
  * 通过标签名称查找元素。
  *
  */
-function getElementByTagName(tagName: string, htmlContent: string):
-  DefaultTreeElement | null {
-  const document = parseHtml(htmlContent, {sourceCodeLocationInfo: true}) as DefaultTreeDocument;
+function getElementByTagName(tagName: string, htmlContent: string): Element | null {
+  const document = parseHtml(htmlContent, {sourceCodeLocationInfo: true});
   const nodeQueue = [...document.childNodes];
 
   while (nodeQueue.length) {
-    const node = nodeQueue.shift() as DefaultTreeElement;
+    const node = nodeQueue.shift() as Element;
 
     if (node.nodeName.toLowerCase() === tagName) {
       return node;

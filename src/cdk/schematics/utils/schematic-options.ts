@@ -8,6 +8,7 @@
 
 import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
 import {isJsonObject, JsonObject} from '@angular-devkit/core';
+import {Schema, Style} from '@schematics/angular/component/schema';
 
 /**
  * Returns the default options for the `@schematics/angular:component` schematic which would
@@ -21,11 +22,11 @@ import {isJsonObject, JsonObject} from '@angular-devkit/core';
  * 这是必需的，因为 Angular CLI 仅向“组件”原理图暴露 "--style"、"--inlineStyle"、"--skipTests" 和 "--inlineTemplate" 选项的默认值。
  *
  */
-export function getDefaultComponentOptions(project: ProjectDefinition) {
+export function getDefaultComponentOptions(project: ProjectDefinition): Partial<Schema> {
   // Note: Not all options which are available when running "ng new" will be stored in the
   // workspace config. List of options which will be available in the configuration:
   // angular/angular-cli/blob/master/packages/schematics/angular/application/index.ts#L109-L131
-  let skipTests = getDefaultComponentOption<boolean|null>(project, ['skipTests'], null);
+  let skipTests = getDefaultComponentOption<boolean | null>(project, ['skipTests'], null);
 
   // In case "skipTests" is not set explicitly, also look for the "spec" option. The "spec"
   // option has been deprecated but can be still used in older Angular CLI projects.
@@ -35,7 +36,7 @@ export function getDefaultComponentOptions(project: ProjectDefinition) {
   }
 
   return {
-    style: getDefaultComponentOption(project, ['style', 'styleext'], 'css'),
+    style: getDefaultComponentOption<Style>(project, ['style', 'styleext'], Style.Css),
     inlineStyle: getDefaultComponentOption(project, ['inlineStyle'], false),
     inlineTemplate: getDefaultComponentOption(project, ['inlineTemplate'], false),
     skipTests: skipTests,
@@ -50,12 +51,17 @@ export function getDefaultComponentOptions(project: ProjectDefinition) {
  * 获取指定选项的默认值。默认选项将通过查看 CLI 工作区配置中 `@schematics/angular:component` 的已存储原理图选项来确定。
  *
  */
-function getDefaultComponentOption<T>(project: ProjectDefinition, optionNames: string[],
-                                      fallbackValue: T): T {
-  const schematicOptions = isJsonObject(project.extensions.schematics || null) ?
-      project.extensions.schematics as JsonObject : null;
-  const defaultSchematic = schematicOptions ?
-      schematicOptions['@schematics/angular:component'] as JsonObject | null : null;
+function getDefaultComponentOption<T>(
+  project: ProjectDefinition,
+  optionNames: string[],
+  fallbackValue: T,
+): T {
+  const schematicOptions = isJsonObject(project.extensions.schematics || null)
+    ? (project.extensions.schematics as JsonObject)
+    : null;
+  const defaultSchematic = schematicOptions
+    ? (schematicOptions['@schematics/angular:component'] as JsonObject | null)
+    : null;
 
   for (const optionName of optionNames) {
     if (defaultSchematic && defaultSchematic[optionName] != null) {

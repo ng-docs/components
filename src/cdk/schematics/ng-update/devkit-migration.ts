@@ -9,6 +9,7 @@
 import {SchematicContext, Tree} from '@angular-devkit/schematics';
 import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
 import {Constructor, Migration, PostMigrationAction} from '../update-tool/migration';
+import {TargetVersion} from '../update-tool/target-version';
 
 export type DevkitContext = {
   /**
@@ -17,7 +18,7 @@ export type DevkitContext = {
    * 当前迁移的 Devkit 树。可用于插入/删除文件。
    *
    */
-  tree: Tree,
+  tree: Tree;
   /**
    * Name of the project the migrations run against.
    *
@@ -31,18 +32,17 @@ export type DevkitContext = {
    * 迁移所针对的工作区项目。
    *
    */
-  project: ProjectDefinition,
+  project: ProjectDefinition;
   /**
    * Whether the migrations run for a test target.
    *
    * 迁移是否针对测试目标运行。
    *
    */
-  isTestTarget: boolean,
+  isTestTarget: boolean;
 };
 
 export abstract class DevkitMigration<Data> extends Migration<Data, DevkitContext> {
-
   /**
    * Prints an informative message with context on the current target.
    *
@@ -63,8 +63,12 @@ export abstract class DevkitMigration<Data> extends Migration<Data, DevkitContex
    * 在完成所有项目目标的迁移后将调用的可选静态方法。此方法可用于根据所有单个目标的迁移结果进行更改。例如，如果在任何项目目标中都不需要 HammerJS，则将其删除。
    *
    */
-  static globalPostMigration?(tree: Tree, context: SchematicContext): PostMigrationAction;
+  static globalPostMigration?(
+    tree: Tree,
+    targetVersion: TargetVersion,
+    context: SchematicContext,
+  ): PostMigrationAction;
 }
 
 export type DevkitMigrationCtor<Data> = Constructor<DevkitMigration<Data>> &
-    {[m in keyof typeof DevkitMigration]: (typeof DevkitMigration)[m]};
+  {[m in keyof typeof DevkitMigration]: typeof DevkitMigration[m]};

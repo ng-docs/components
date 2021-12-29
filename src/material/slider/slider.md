@@ -148,9 +148,6 @@ The slider has the following keyboard bindings:
 
 ### Accessibility
 
-### 无障碍性
-
-Sliders without text or labels should be given a meaningful label via `aria-label` or
+`MatSlider` implements the ARIA `role="slider"` pattern, handling keyboard input and focus
+management. Always provide an accessible label for each slider via `aria-label` or
 `aria-labelledby`.
-
-没有文本或标签的滑杆应该通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。

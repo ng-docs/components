@@ -30,8 +30,10 @@ export interface DatepickerTrigger {
  * 可以触发日历的测试工具的基类。
  *
  */
-export abstract class DatepickerTriggerHarnessBase extends ComponentHarness implements
-  DatepickerTrigger {
+export abstract class DatepickerTriggerHarnessBase
+  extends ComponentHarness
+  implements DatepickerTrigger
+{
   /**
    * Whether the trigger is disabled.
    *
@@ -127,7 +129,8 @@ export async function getCalendarId(host: Promise<TestElement>): Promise<string 
  */
 export async function closeCalendar(
   calendarId: Promise<string | null>,
-  documentLocator: LocatorFactory) {
+  documentLocator: LocatorFactory,
+) {
   // We close the calendar by clicking on the backdrop, even though all datepicker variants
   // have the ability to close by pressing escape. The backdrop is preferrable, because the
   // escape key has multiple functions inside a range picker (either cancel the current range
@@ -147,15 +150,18 @@ export async function closeCalendar(
 export async function getCalendar(
   filter: CalendarHarnessFilters,
   host: Promise<TestElement>,
-  documentLocator: LocatorFactory): Promise<MatCalendarHarness> {
+  documentLocator: LocatorFactory,
+): Promise<MatCalendarHarness> {
   const calendarId = await getCalendarId(host);
 
   if (!calendarId) {
     throw Error(`Element is not associated with a calendar`);
   }
 
-  return documentLocator.locatorFor(MatCalendarHarness.with({
-    ...filter,
-    selector: `#${calendarId}`
-  }))();
+  return documentLocator.locatorFor(
+    MatCalendarHarness.with({
+      ...filter,
+      selector: `#${calendarId}`,
+    }),
+  )();
 }

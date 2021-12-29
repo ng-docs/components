@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '../core/style/variables';
 @use '../core/style/vendor-prefixes';
 @use '../../cdk/a11y';
@@ -43,11 +44,9 @@ $focus-ring-size: 30px !default;
 }
 
 .mat-slider-wrapper {
-  position: absolute;
-
   // force browser to show background-color when using the print function
-  -webkit-print-color-adjust: exact;
-  color-adjust: exact;
+  @include vendor-prefixes.private-color-adjust(exact);
+  position: absolute;
 }
 
 .mat-slider-track-wrapper {
@@ -81,8 +80,8 @@ $focus-ring-size: 30px !default;
 }
 
 .mat-slider-ticks {
+  @include vendor-prefixes.private-background-clip(content-box);
   background-repeat: repeat;
-  background-clip: content-box;
   box-sizing: border-box;
   opacity: 0;
   transition: opacity variables.$swift-ease-out-duration
@@ -125,8 +124,8 @@ $focus-ring-size: 30px !default;
   @extend %_mat-slider-cursor;
 
   position: absolute;
-  right: -$thumb-size / 2;
-  bottom: -$thumb-size / 2;
+  right: math.div(-$thumb-size, 2);
+  bottom: math.div(-$thumb-size, 2);
   box-sizing: border-box;
   width: $thumb-size;
   height: $thumb-size;
@@ -282,7 +281,7 @@ $focus-ring-size: 30px !default;
 
   .mat-slider-wrapper {
     height: $track-thickness;
-    top: ($thickness - $track-thickness) / 2;
+    top: math.div($thickness - $track-thickness, 2);
     left: $padding;
     right: $padding;
   }
@@ -318,7 +317,7 @@ $focus-ring-size: 30px !default;
     @include a11y.high-contrast(active, off) {
       height: 0;
       outline: solid $track-thickness;
-      top: $track-thickness / 2;
+      top: math.div($track-thickness, 2);
     }
   }
 
@@ -334,14 +333,14 @@ $focus-ring-size: 30px !default;
   }
 
   .mat-slider-focus-ring {
-    top: -$focus-ring-size / 2;
-    right: -$focus-ring-size / 2;
+    top: math.div(-$focus-ring-size, 2);
+    right: math.div(-$focus-ring-size, 2);
   }
 
   .mat-slider-thumb-label {
-    right: -$thumb-label-size / 2;
+    right: math.div(-$thumb-label-size, 2);
     top: -($thumb-label-size + $thumb-arrow-gap);
-    transform: translateY($thumb-label-size / 2 + $thumb-arrow-gap)
+    transform: translateY(math.div($thumb-label-size, 2) + $thumb-arrow-gap)
         scale(0.01)
         rotate(45deg);
   }
@@ -374,7 +373,7 @@ $focus-ring-size: 30px !default;
     width: $track-thickness;
     top: $padding;
     bottom: $padding;
-    left: ($thickness - $track-thickness) / 2;
+    left: math.div($thickness - $track-thickness, 2);
   }
 
   .mat-slider-wrapper::after {
@@ -408,13 +407,13 @@ $focus-ring-size: 30px !default;
     @include a11y.high-contrast(active, off) {
       width: 0;
       outline: solid $track-thickness;
-      left: $track-thickness / 2;
+      left: math.div($track-thickness, 2);
     }
   }
 
   .mat-slider-focus-ring {
-    bottom: -$focus-ring-size / 2;
-    left: -$focus-ring-size / 2;
+    bottom: math.div(-$focus-ring-size, 2);
+    left: math.div(-$focus-ring-size, 2);
   }
 
   .mat-slider-ticks {
@@ -433,9 +432,9 @@ $focus-ring-size: 30px !default;
   }
 
   .mat-slider-thumb-label {
-    bottom: -$thumb-label-size / 2;
+    bottom: math.div(-$thumb-label-size, 2);
     left: -($thumb-label-size + $thumb-arrow-gap);
-    transform: translateX($thumb-label-size / 2 + $thumb-arrow-gap)
+    transform: translateX(math.div($thumb-label-size, 2) + $thumb-arrow-gap)
         scale(0.01)
         rotate(-45deg);
   }

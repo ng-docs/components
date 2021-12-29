@@ -17,8 +17,9 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
  * 用来引用 `CdkDropListGroup` 实例的注入令牌。它用作实际 `CdkDropListGroup` 类的备用令牌，直接使用该类可能导致该类及其指令的元数据无法被优化掉。
  *
  */
-export const CDK_DROP_LIST_GROUP =
-    new InjectionToken<CdkDropListGroup<unknown>>('CdkDropListGroup');
+export const CDK_DROP_LIST_GROUP = new InjectionToken<CdkDropListGroup<unknown>>(
+  'CdkDropListGroup',
+);
 
 /**
  * Declaratively connects sibling `cdkDropList` instances together. All of the `cdkDropList`
@@ -50,8 +51,10 @@ export class CdkDropListGroup<T> implements OnDestroy {
    *
    */
   @Input('cdkDropListGroupDisabled')
-  get disabled(): boolean { return this._disabled; }
-  set disabled(value: boolean) {
+  get disabled(): boolean {
+    return this._disabled;
+  }
+  set disabled(value: BooleanInput) {
     this._disabled = coerceBooleanProperty(value);
   }
   private _disabled = false;
@@ -59,6 +62,4 @@ export class CdkDropListGroup<T> implements OnDestroy {
   ngOnDestroy() {
     this._items.clear();
   }
-
-  static ngAcceptInputType_disabled: BooleanInput;
 }

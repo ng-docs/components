@@ -52,20 +52,6 @@ and `ReactiveFormsModule`.
 
 `<mat-radio-group>` 与 `@angular/forms` 兼容，并且同时支持 `FormsModule` 和 `ReactiveFormsModule`。
 
-### Accessibility
-
-### 无障碍性
-
-The `<mat-radio-button>` uses an internal `<input type="radio">` to provide an accessible experience.
-This internal radio button receives focus and is automatically labelled by the text content of the
-`<mat-radio-button>` element.
-
-`<mat-radio-button>` 使用其内部的 `<input type="radio">` 来提供无障碍性。
-这个内部单选按钮会接受焦点，并自动以 `<mat-radio-button>` 元素的内容作为标签。
-
-Radio button groups should be given a meaningful label via `aria-label` or `aria-labelledby`.
-
-单选按钮组应该通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。
 
 ### Default Color Configuration
 
@@ -81,3 +67,26 @@ providers: [{
     useValue: { color: 'accent' },
 }]
 ```
+
+### Accessibility
+
+`MatRadioButton` uses an internal `<input type="radio">` to provide an accessible experience.
+This internal radio button receives focus and is automatically labelled by the text content of the
+`<mat-radio-button>` element. Avoid adding other interactive controls into the content of
+`<mat-radio-button>`, as this degrades the experience for users of assistive technology.
+
+Always provide an accessible label via `aria-label` or `aria-labelledby` for radio buttons without
+descriptive text content. For dynamic labels and descriptions, `MatRadioButton` provides input
+properties for binding `aria-label`, `aria-labelledby`, and `aria-describedby`. This means that you
+should not use the `attr.` prefix when binding these properties, as demonstrated below.
+
+```html
+<mat-radio-button [aria-label]="getMultipleChoiceAnswer()">
+</mat-radio-button>
+```
+
+Prefer placing all radio buttons inside of a `<mat-radio-group>` rather than creating standalone
+radio buttons because groups are easier to use exclusively with a keyboard. 
+
+You should provide an accessible label for all `<mat-radio-group>` elements via `aria-label` or
+`aria-labelledby`. 

@@ -58,7 +58,8 @@ export class MatOptionSelectionChange {
      *
      * 本次结果值的变化是否有用户操作导致的。
      */
-    public isUserInput = false) { }
+    public isUserInput = false,
+  ) {}
 }
 
 @Directive()
@@ -74,7 +75,9 @@ export class _MatOptionBase implements FocusableOption, AfterViewChecked, OnDest
    * 包装组件是否处于多选模式。
    *
    */
-  get multiple() { return this._parent && this._parent.multiple; }
+  get multiple() {
+    return this._parent && this._parent.multiple;
+  }
 
   /**
    * Whether or not the option is currently selected.
@@ -82,7 +85,9 @@ export class _MatOptionBase implements FocusableOption, AfterViewChecked, OnDest
    * 当前是否选择了此选项。
    *
    */
-  get selected(): boolean { return this._selected; }
+  get selected(): boolean {
+    return this._selected;
+  }
 
   /**
    * The form value of the option.
@@ -107,8 +112,12 @@ export class _MatOptionBase implements FocusableOption, AfterViewChecked, OnDest
    *
    */
   @Input()
-  get disabled() { return (this.group && this.group.disabled) || this._disabled; }
-  set disabled(value: any) { this._disabled = coerceBooleanProperty(value); }
+  get disabled(): boolean {
+    return (this.group && this.group.disabled) || this._disabled;
+  }
+  set disabled(value: BooleanInput) {
+    this._disabled = coerceBooleanProperty(value);
+  }
 
   /**
    * Whether ripples for the option are disabled.
@@ -116,7 +125,9 @@ export class _MatOptionBase implements FocusableOption, AfterViewChecked, OnDest
    * 此选项的涟漪是否已禁用。
    *
    */
-  get disableRipple() { return this._parent && this._parent.disableRipple; }
+  get disableRipple(): boolean {
+    return !!(this._parent && this._parent.disableRipple);
+  }
 
   /**
    * Event emitted when the option is selected or deselected.
@@ -139,7 +150,8 @@ export class _MatOptionBase implements FocusableOption, AfterViewChecked, OnDest
     private _element: ElementRef<HTMLElement>,
     private _changeDetectorRef: ChangeDetectorRef,
     private _parent: MatOptionParentComponent,
-    readonly group: _MatOptgroupBase) {}
+    readonly group: _MatOptgroupBase,
+  ) {}
 
   /**
    * Whether or not the option is currently active and ready to be selected.
@@ -286,7 +298,7 @@ export class _MatOptionBase implements FocusableOption, AfterViewChecked, OnDest
    * 获取该选项的 `aria-selected` 值。我们未选中的选项中显式省略了单选的 `aria-selected` 属性。如果包含 `aria-selected="false"` 属性会在未提供有用信息的情况下为屏幕阅读器用户带来大量干扰。
    *
    */
-  _getAriaSelected(): boolean|null {
+  _getAriaSelected(): boolean | null {
     return this.selected || (this.multiple ? false : null);
   }
 
@@ -339,8 +351,6 @@ export class _MatOptionBase implements FocusableOption, AfterViewChecked, OnDest
   private _emitSelectionChangeEvent(isUserInput = false): void {
     this.onSelectionChange.emit(new MatOptionSelectionChange(this, isUserInput));
   }
-
-  static ngAcceptInputType_disabled: BooleanInput;
 }
 
 /**
@@ -376,7 +386,8 @@ export class MatOption extends _MatOptionBase {
     element: ElementRef<HTMLElement>,
     changeDetectorRef: ChangeDetectorRef,
     @Optional() @Inject(MAT_OPTION_PARENT_COMPONENT) parent: MatOptionParentComponent,
-    @Optional() @Inject(MAT_OPTGROUP) group: MatOptgroup) {
+    @Optional() @Inject(MAT_OPTGROUP) group: MatOptgroup,
+  ) {
     super(element, changeDetectorRef, parent, group);
   }
 }
@@ -400,9 +411,11 @@ export class MatOption extends _MatOptionBase {
  *
  * @docs-private
  */
-export function _countGroupLabelsBeforeOption(optionIndex: number, options: QueryList<MatOption>,
-  optionGroups: QueryList<MatOptgroup>): number {
-
+export function _countGroupLabelsBeforeOption(
+  optionIndex: number,
+  options: QueryList<MatOption>,
+  optionGroups: QueryList<MatOptgroup>,
+): number {
   if (optionGroups.length) {
     let optionsArray = options.toArray();
     let groups = optionGroups.toArray();
@@ -443,8 +456,12 @@ export function _countGroupLabelsBeforeOption(optionIndex: number, options: Quer
  *
  * @docs-private
  */
-export function _getOptionScrollPosition(optionOffset: number, optionHeight: number,
-    currentScrollPosition: number, panelHeight: number): number {
+export function _getOptionScrollPosition(
+  optionOffset: number,
+  optionHeight: number,
+  currentScrollPosition: number,
+  panelHeight: number,
+): number {
   if (optionOffset < currentScrollPosition) {
     return optionOffset;
   }
@@ -455,4 +472,3 @@ export function _getOptionScrollPosition(optionOffset: number, optionHeight: num
 
   return currentScrollPosition;
 }
-

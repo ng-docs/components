@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '@material/card' as mdc-card;
 @use '../mdc-helpers/mdc-helpers';
 
@@ -43,7 +44,7 @@ $mat-card-default-padding: 16px !default;
   // When a subtitle is inside of a header, we want to move it up slightly to reduce the space with
   // the title, and add a margin bottom to create space underneath the header.
   .mat-mdc-card-subtitle {
-    margin-top: -($mat-card-default-padding / 2);
+    margin-top: -(math.div($mat-card-default-padding, 2));
     margin-bottom: $mat-card-default-padding;
   }
 }
@@ -141,4 +142,9 @@ $mat-card-default-padding: 16px !default;
 // element.
 .mat-mdc-card-content > :last-child:not(.mat-mdc-card-footer) {
   margin-bottom: 0;
+}
+
+// Support for actions aligned to the end of the card.
+.mat-mdc-card-actions-align-end {
+  justify-content: flex-end;
 }

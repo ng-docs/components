@@ -29,19 +29,21 @@ import {createFileSystemCompilerHost} from './utils/virtual-host';
 export class UpdateProject<Context> {
   private readonly _typeChecker: ts.TypeChecker = this._program.getTypeChecker();
 
-  constructor(/** Context provided to all migrations. */
-              private _context: Context,
-              /** TypeScript program using workspace paths. */
-              private _program: ts.Program,
-              /** File system used for reading, writing and editing files. */
-              private _fileSystem: FileSystem,
-              /**
-               * Set of analyzed files. Used for avoiding multiple migration runs if
-               * files overlap between targets.
-               */
-              private _analyzedFiles: Set<WorkspacePath> = new Set(),
-              /** Logger used for printing messages. */
-              private _logger: UpdateLogger = defaultLogger) {}
+  constructor(
+    /** Context provided to all migrations. */
+    private _context: Context,
+    /** TypeScript program using workspace paths. */
+    private _program: ts.Program,
+    /** File system used for reading, writing and editing files. */
+    private _fileSystem: FileSystem,
+    /**
+     * Set of analyzed files. Used for avoiding multiple migration runs if
+     * files overlap between targets.
+     */
+    private _analyzedFiles: Set<WorkspacePath> = new Set(),
+    /** Logger used for printing messages. */
+    private _logger: UpdateLogger = defaultLogger,
+  ) {}
 
   /**
    * Migrates the project to the specified target version.
@@ -66,8 +68,12 @@ export class UpdateProject<Context> {
    * 如果未在 Angular 组件中引用，则应迁移的其他样式表。这对于项目中的全局样式表很有帮助。
    *
    */
-  migrate<Data>(migrationTypes: MigrationCtor<Data, Context>[], target: TargetVersion, data: Data,
-      additionalStylesheetPaths?: string[]): {hasFailures: boolean} {
+  migrate<Data>(
+    migrationTypes: MigrationCtor<Data, Context>[],
+    target: TargetVersion,
+    data: Data,
+    additionalStylesheetPaths?: string[],
+  ): {hasFailures: boolean} {
     // Create instances of the specified migrations.
     const migrations = this._createMigrations(migrationTypes, target, data);
     // Creates the component resource collector. The collector can visit arbitrary
@@ -76,8 +82,9 @@ export class UpdateProject<Context> {
     const resourceCollector = new ComponentResourceCollector(this._typeChecker, this._fileSystem);
     // Collect all of the TypeScript source files we want to migrate. We don't
     // migrate type definition files, or source files from external libraries.
-    const sourceFiles = this._program.getSourceFiles().filter(
-      f => !f.isDeclarationFile && !this._program.isSourceFileFromExternalLibrary(f));
+    const sourceFiles = this._program
+      .getSourceFiles()
+      .filter(f => !f.isDeclarationFile && !this._program.isSourceFileFromExternalLibrary(f));
 
     // Helper function that visits a given TypeScript node and collects all referenced
     // component resources (i.e. stylesheets or templates). Additionally, the helper
@@ -144,8 +151,10 @@ export class UpdateProject<Context> {
     migrations.forEach(r => r.postAnalysis());
 
     // Collect all failures reported by individual migrations.
-    const failures = migrations.reduce((res, m) =>
-        res.concat(m.failures), [] as MigrationFailure[]);
+    const failures = migrations.reduce(
+      (res, m) => res.concat(m.failures),
+      [] as MigrationFailure[],
+    );
 
     // In case there are failures, print these to the CLI logger as warnings.
     if (failures.length) {
@@ -167,12 +176,22 @@ export class UpdateProject<Context> {
    * 使用指定的目标版本和数据创建给定迁移的实例。
    *
    */
-  private _createMigrations<Data>(types: MigrationCtor<Data, Context>[], target: TargetVersion,
-                                  data: Data): Migration<Data, Context>[] {
+  private _createMigrations<Data>(
+    types: MigrationCtor<Data, Context>[],
+    target: TargetVersion,
+    data: Data,
+  ): Migration<Data, Context>[] {
     const result: Migration<Data, Context>[] = [];
     for (const ctor of types) {
-      const instance = new ctor(this._program, this._typeChecker, target, this._context,
-        data, this._fileSystem, this._logger);
+      const instance = new ctor(
+        this._program,
+        this._typeChecker,
+        target,
+        this._context,
+        data,
+        this._fileSystem,
+        this._logger,
+      );
       instance.init();
       if (instance.enabled) {
         result.push(instance);

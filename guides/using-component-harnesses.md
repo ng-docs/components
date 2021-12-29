@@ -190,7 +190,7 @@ it('should work', async () => {
   const cancel = await loader.getHarness(MatButtonHarness.with({text: 'Cancel'}));
   // Harness for mat-button with class 'confirm' and whose text is either 'Ok' or 'Okay'.
   const okButton = await loader.getHarness(
-      MatButtonHarness.with({selector: '.confirm', text: /^(Ok|Okay)$/})
+      MatButtonHarness.with({selector: '.confirm', text: /^(Ok|Okay)$/}));
 });
 ```
 
@@ -337,7 +337,7 @@ harnesses, you avoid depending on internal DOM structure directly.
 
 In addition to DOM structure, component asynchronicity often offers a challenge when updating
 components. If a component changes between synchronous and asynchronous, downstream unit tests may
-break do to expectations around timing. Tests then require the addition or removal of some
+break due to expectations around timing. Tests then require the addition or removal of some
 arcane combination of `whenStable`, `flushMicroTasks`, `tick`, or `detectChanges`. Component
 harnesses, however, avoid this problem by normalizing the asynchronicity of all component behaviors 
 with all asynchronous APIs. When a test uses these harnesses, changes to asynchronicity become

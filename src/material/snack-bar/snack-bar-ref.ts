@@ -99,8 +99,7 @@ export class MatSnackBarRef<T> {
    */
   private _dismissedByAction = false;
 
-  constructor(containerInstance: _SnackBarContainer,
-              private _overlayRef: OverlayRef) {
+  constructor(containerInstance: _SnackBarContainer, private _overlayRef: OverlayRef) {
     this.containerInstance = containerInstance;
     // Dismiss snackbar on action.
     this.onAction().subscribe(() => this.dismiss());

@@ -24,8 +24,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
-import {HasTabIndex, HasTabIndexCtor, mixinTabIndex} from '@angular/material/core';
-import {NumberInput} from '@angular/cdk/coercion';
+import {HasTabIndex, mixinTabIndex} from '@angular/material/core';
 import {EMPTY, merge, Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {MatAccordionTogglePosition} from './accordion-base';
@@ -36,15 +35,12 @@ import {
   MAT_EXPANSION_PANEL_DEFAULT_OPTIONS,
 } from './expansion-panel';
 
-
 // Boilerplate for applying mixins to MatExpansionPanelHeader.
 /** @docs-private */
 abstract class MatExpansionPanelHeaderBase {
   abstract readonly disabled: boolean;
 }
-const _MatExpansionPanelHeaderMixinBase:
-    HasTabIndexCtor &
-    typeof MatExpansionPanelHeaderBase = mixinTabIndex(MatExpansionPanelHeaderBase);
+const _MatExpansionPanelHeaderMixinBase = mixinTabIndex(MatExpansionPanelHeaderBase);
 
 /**
  * Header element of a `<mat-expansion-panel>`.
@@ -59,9 +55,7 @@ const _MatExpansionPanelHeaderMixinBase:
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   inputs: ['tabIndex'],
-  animations: [
-    matExpansionAnimations.indicatorRotate,
-  ],
+  animations: [matExpansionAnimations.indicatorRotate],
   host: {
     'class': 'mat-expansion-panel-header mat-focus-indicator',
     'role': 'button',
@@ -79,39 +73,43 @@ const _MatExpansionPanelHeaderMixinBase:
     '(keydown)': '_keydown($event)',
   },
 })
-export class MatExpansionPanelHeader extends _MatExpansionPanelHeaderMixinBase implements
-  AfterViewInit, OnDestroy, FocusableOption, HasTabIndex {
+export class MatExpansionPanelHeader
+  extends _MatExpansionPanelHeaderMixinBase
+  implements AfterViewInit, OnDestroy, FocusableOption, HasTabIndex
+{
   private _parentChangeSubscription = Subscription.EMPTY;
 
   constructor(
-      @Host() public panel: MatExpansionPanel,
-      private _element: ElementRef,
-      private _focusMonitor: FocusMonitor,
-      private _changeDetectorRef: ChangeDetectorRef,
-      @Inject(MAT_EXPANSION_PANEL_DEFAULT_OPTIONS) @Optional()
-          defaultOptions?: MatExpansionPanelDefaultOptions,
-      @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string,
-      @Attribute('tabindex') tabIndex?: string) {
+    @Host() public panel: MatExpansionPanel,
+    private _element: ElementRef,
+    private _focusMonitor: FocusMonitor,
+    private _changeDetectorRef: ChangeDetectorRef,
+    @Inject(MAT_EXPANSION_PANEL_DEFAULT_OPTIONS)
+    @Optional()
+    defaultOptions?: MatExpansionPanelDefaultOptions,
+    @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string,
+    @Attribute('tabindex') tabIndex?: string,
+  ) {
     super();
-    const accordionHideToggleChange = panel.accordion ?
-        panel.accordion._stateChanges.pipe(
-            filter(changes => !!(changes['hideToggle'] || changes['togglePosition']))) :
-        EMPTY;
+    const accordionHideToggleChange = panel.accordion
+      ? panel.accordion._stateChanges.pipe(
+          filter(changes => !!(changes['hideToggle'] || changes['togglePosition'])),
+        )
+      : EMPTY;
     this.tabIndex = parseInt(tabIndex || '') || 0;
 
     // Since the toggle state depends on an @Input on the panel, we
     // need to subscribe and trigger change detection manually.
-    this._parentChangeSubscription =
-        merge(
-            panel.opened, panel.closed, accordionHideToggleChange,
-            panel._inputChanges.pipe(filter(
-                changes => {
-                  return !!(
-                    changes['hideToggle'] ||
-                    changes['disabled'] ||
-                    changes['togglePosition']);
-                  })))
-    .subscribe(() => this._changeDetectorRef.markForCheck());
+    this._parentChangeSubscription = merge(
+      panel.opened,
+      panel.closed,
+      accordionHideToggleChange,
+      panel._inputChanges.pipe(
+        filter(changes => {
+          return !!(changes['hideToggle'] || changes['disabled'] || changes['togglePosition']);
+        }),
+      ),
+    ).subscribe(() => this._changeDetectorRef.markForCheck());
 
     // Avoids focus being lost if the panel contained the focused element and was closed.
     panel.closed
@@ -220,7 +218,7 @@ export class MatExpansionPanelHeader extends _MatExpansionPanelHeaderMixinBase i
    * 获取标头的当前高度。如果没有指定自定义高度并且使用样式表中的默认高度，则为 null。
    *
    */
-  _getHeaderHeight(): string|null {
+  _getHeaderHeight(): string | null {
     const isExpanded = this._isExpanded();
     if (isExpanded && this.expandedHeight) {
       return this.expandedHeight;
@@ -287,8 +285,6 @@ export class MatExpansionPanelHeader extends _MatExpansionPanelHeaderMixinBase i
     this._parentChangeSubscription.unsubscribe();
     this._focusMonitor.stopMonitoring(this._element);
   }
-
-  static ngAcceptInputType_tabIndex: NumberInput;
 }
 
 /**
@@ -300,8 +296,8 @@ export class MatExpansionPanelHeader extends _MatExpansionPanelHeaderMixinBase i
 @Directive({
   selector: 'mat-panel-description',
   host: {
-    class: 'mat-expansion-panel-header-description'
-  }
+    class: 'mat-expansion-panel-header-description',
+  },
 })
 export class MatExpansionPanelDescription {}
 
@@ -314,7 +310,7 @@ export class MatExpansionPanelDescription {}
 @Directive({
   selector: 'mat-panel-title',
   host: {
-    class: 'mat-expansion-panel-header-title'
-  }
+    class: 'mat-expansion-panel-header-title',
+  },
 })
 export class MatExpansionPanelTitle {}

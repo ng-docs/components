@@ -20,6 +20,7 @@ import {
   Directive,
   Inject,
   Injectable,
+  InjectFlags,
   InjectionToken,
   Injector,
   OnDestroy,
@@ -29,12 +30,12 @@ import {
   TemplateRef,
   Type,
 } from '@angular/core';
-import {defer, Observable, of as observableOf, Subject} from 'rxjs';
+import {defer, Observable, of as observableOf, Subject, Subscription} from 'rxjs';
 import {startWith} from 'rxjs/operators';
 import {MatDialogConfig} from './dialog-config';
 import {MatDialogContainer, _MatDialogContainerBase} from './dialog-container';
 import {MatDialogRef} from './dialog-ref';
-
+import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 /**
  * Injection token that can be used to access the data that was passed in to a dialog.
  *
@@ -49,8 +50,9 @@ export const MAT_DIALOG_DATA = new InjectionToken<any>('MatDialogData');
  * 这个注入令牌可以用来指定默认的对话框选项。
  *
  */
-export const MAT_DIALOG_DEFAULT_OPTIONS =
-    new InjectionToken<MatDialogConfig>('mat-dialog-default-options');
+export const MAT_DIALOG_DEFAULT_OPTIONS = new InjectionToken<MatDialogConfig>(
+  'mat-dialog-default-options',
+);
 
 /**
  * Injection token that determines the scroll handling while the dialog is open.
@@ -58,8 +60,9 @@ export const MAT_DIALOG_DEFAULT_OPTIONS =
  * 一个注入令牌，它在对话框打开时确定滚动的处理方式。
  *
  */
-export const MAT_DIALOG_SCROLL_STRATEGY =
-    new InjectionToken<() => ScrollStrategy>('mat-dialog-scroll-strategy');
+export const MAT_DIALOG_SCROLL_STRATEGY = new InjectionToken<() => ScrollStrategy>(
+  'mat-dialog-scroll-strategy',
+);
 
 /** @docs-private */
 export function MAT_DIALOG_SCROLL_STRATEGY_FACTORY(overlay: Overlay): () => ScrollStrategy {
@@ -67,8 +70,9 @@ export function MAT_DIALOG_SCROLL_STRATEGY_FACTORY(overlay: Overlay): () => Scro
 }
 
 /** @docs-private */
-export function MAT_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY(overlay: Overlay):
-  () => ScrollStrategy {
+export function MAT_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY(
+  overlay: Overlay,
+): () => ScrollStrategy {
   return () => overlay.scrollStrategies.block();
 }
 
@@ -91,8 +95,11 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
   private _openDialogsAtThisLevel: MatDialogRef<any>[] = [];
   private readonly _afterAllClosedAtThisLevel = new Subject<void>();
   private readonly _afterOpenedAtThisLevel = new Subject<MatDialogRef<any>>();
-  private _ariaHiddenElements = new Map<Element, string|null>();
+  private _ariaHiddenElements = new Map<Element, string | null>();
   private _scrollStrategy: () => ScrollStrategy;
+  private _dialogAnimatingOpen = false;
+  private _animationStateSubscriptions: Subscription;
+  private _lastDialogRef: MatDialogRef<any>;
 
   /**
    * Keeps track of the currently-open dialogs.
@@ -127,20 +134,24 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
    * 当所有打开的对话框都关闭的时候会发出通知的流。如果没有打开的对话框，就会在订阅时立即触发。
    *
    */
-  readonly afterAllClosed: Observable<void> = defer(() => this.openDialogs.length ?
-      this._getAfterAllClosed() :
-      this._getAfterAllClosed().pipe(startWith(undefined))) as Observable<any>;
+  readonly afterAllClosed: Observable<void> = defer(() =>
+    this.openDialogs.length
+      ? this._getAfterAllClosed()
+      : this._getAfterAllClosed().pipe(startWith(undefined)),
+  ) as Observable<any>;
 
   constructor(
-      private _overlay: Overlay,
-      private _injector: Injector,
-      private _defaultOptions: MatDialogConfig|undefined,
-      private _parentDialog: _MatDialogBase<C>|undefined,
-      private _overlayContainer: OverlayContainer,
-      scrollStrategy: any,
-      private _dialogRefConstructor: Type<MatDialogRef<any>>,
-      private _dialogContainerType: Type<C>,
-      private _dialogDataToken: InjectionToken<any>) {
+    private _overlay: Overlay,
+    private _injector: Injector,
+    private _defaultOptions: MatDialogConfig | undefined,
+    private _parentDialog: _MatDialogBase<C> | undefined,
+    private _overlayContainer: OverlayContainer,
+    scrollStrategy: any,
+    private _dialogRefConstructor: Type<MatDialogRef<any>>,
+    private _dialogContainerType: Type<C>,
+    private _dialogDataToken: InjectionToken<any>,
+    private _animationMode?: 'NoopAnimations' | 'BrowserAnimations',
+  ) {
     this._scrollStrategy = scrollStrategy;
   }
 
@@ -161,8 +172,10 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
    *
    * 引用新打开的对话框。
    */
-  open<T, D = any, R = any>(component: ComponentType<T>,
-                            config?: MatDialogConfig<D>): MatDialogRef<T, R>;
+  open<T, D = any, R = any>(
+    component: ComponentType<T>,
+    config?: MatDialogConfig<D>,
+  ): MatDialogRef<T, R>;
 
   /**
    * Opens a modal dialog containing the given template.
@@ -181,27 +194,62 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
    *
    * 引用新打开的对话框。
    */
-  open<T, D = any, R = any>(template: TemplateRef<T>,
-                            config?: MatDialogConfig<D>): MatDialogRef<T, R>;
+  open<T, D = any, R = any>(
+    template: TemplateRef<T>,
+    config?: MatDialogConfig<D>,
+  ): MatDialogRef<T, R>;
 
-  open<T, D = any, R = any>(template: ComponentType<T> | TemplateRef<T>,
-                            config?: MatDialogConfig<D>): MatDialogRef<T, R>;
+  open<T, D = any, R = any>(
+    template: ComponentType<T> | TemplateRef<T>,
+    config?: MatDialogConfig<D>,
+  ): MatDialogRef<T, R>;
 
-  open<T, D = any, R = any>(componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
-                            config?: MatDialogConfig<D>): MatDialogRef<T, R> {
+  open<T, D = any, R = any>(
+    componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
+    config?: MatDialogConfig<D>,
+  ): MatDialogRef<T, R> {
     config = _applyConfigDefaults(config, this._defaultOptions || new MatDialogConfig());
 
-    if (config.id && this.getDialogById(config.id) &&
-      (typeof ngDevMode === 'undefined' || ngDevMode)) {
+    if (
+      config.id &&
+      this.getDialogById(config.id) &&
+      (typeof ngDevMode === 'undefined' || ngDevMode)
+    ) {
       throw Error(`Dialog with id "${config.id}" exists already. The dialog id must be unique.`);
+    }
+
+    // If there is a dialog that is currently animating open, return the MatDialogRef of that dialog
+    if (this._dialogAnimatingOpen) {
+      return this._lastDialogRef;
     }
 
     const overlayRef = this._createOverlay(config);
     const dialogContainer = this._attachDialogContainer(overlayRef, config);
-    const dialogRef = this._attachDialogContent<T, R>(componentOrTemplateRef,
-                                                      dialogContainer,
-                                                      overlayRef,
-                                                      config);
+    if (this._animationMode !== 'NoopAnimations') {
+      const animationStateSubscription = dialogContainer._animationStateChanged.subscribe(
+        dialogAnimationEvent => {
+          if (dialogAnimationEvent.state === 'opening') {
+            this._dialogAnimatingOpen = true;
+          }
+          if (dialogAnimationEvent.state === 'opened') {
+            this._dialogAnimatingOpen = false;
+            animationStateSubscription.unsubscribe();
+          }
+        },
+      );
+      if (!this._animationStateSubscriptions) {
+        this._animationStateSubscriptions = new Subscription();
+      }
+      this._animationStateSubscriptions.add(animationStateSubscription);
+    }
+
+    const dialogRef = this._attachDialogContent<T, R>(
+      componentOrTemplateRef,
+      dialogContainer,
+      overlayRef,
+      config,
+    );
+    this._lastDialogRef = dialogRef;
 
     // If this is the first dialog that we're opening, hide all the non-overlay content.
     if (!this.openDialogs.length) {
@@ -248,6 +296,10 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
     this._closeDialogs(this._openDialogsAtThisLevel);
     this._afterAllClosedAtThisLevel.complete();
     this._afterOpenedAtThisLevel.complete();
+    // Clean up any subscriptions to dialogs that never finished opening.
+    if (this._animationStateSubscriptions) {
+      this._animationStateSubscriptions.unsubscribe();
+    }
   }
 
   /**
@@ -292,7 +344,7 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
       minHeight: dialogConfig.minHeight,
       maxWidth: dialogConfig.maxWidth,
       maxHeight: dialogConfig.maxHeight,
-      disposeOnNavigation: dialogConfig.closeOnNavigation
+      disposeOnNavigation: dialogConfig.closeOnNavigation,
     });
 
     if (dialogConfig.backdropClass) {
@@ -323,11 +375,15 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
     const userInjector = config && config.viewContainerRef && config.viewContainerRef.injector;
     const injector = Injector.create({
       parent: userInjector || this._injector,
-      providers: [{provide: MatDialogConfig, useValue: config}]
+      providers: [{provide: MatDialogConfig, useValue: config}],
     });
 
-    const containerPortal = new ComponentPortal(this._dialogContainerType,
-        config.viewContainerRef, injector, config.componentFactoryResolver);
+    const containerPortal = new ComponentPortal(
+      this._dialogContainerType,
+      config.viewContainerRef,
+      injector,
+      config.componentFactoryResolver,
+    );
     const containerRef = overlay.attach<C>(containerPortal);
 
     return containerRef.instance;
@@ -360,29 +416,31 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
    * 一个解析为 MatDialogRef 的 Promise，它应该返回给用户。
    */
   private _attachDialogContent<T, R>(
-      componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
-      dialogContainer: C,
-      overlayRef: OverlayRef,
-      config: MatDialogConfig): MatDialogRef<T, R> {
-
+    componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
+    dialogContainer: C,
+    overlayRef: OverlayRef,
+    config: MatDialogConfig,
+  ): MatDialogRef<T, R> {
     // Create a reference to the dialog we're creating in order to give the user a handle
     // to modify and close it.
     const dialogRef = new this._dialogRefConstructor(overlayRef, dialogContainer, config.id);
 
     if (componentOrTemplateRef instanceof TemplateRef) {
       dialogContainer.attachTemplatePortal(
-        new TemplatePortal<T>(componentOrTemplateRef, null!,
-          <any>{$implicit: config.data, dialogRef}));
+        new TemplatePortal<T>(componentOrTemplateRef, null!, <any>{
+          $implicit: config.data,
+          dialogRef,
+        }),
+      );
     } else {
       const injector = this._createInjector<T>(config, dialogRef, dialogContainer);
       const contentRef = dialogContainer.attachComponentPortal<T>(
-          new ComponentPortal(componentOrTemplateRef, config.viewContainerRef, injector));
+        new ComponentPortal(componentOrTemplateRef, config.viewContainerRef, injector),
+      );
       dialogRef.componentInstance = contentRef.instance;
     }
 
-    dialogRef
-      .updateSize(config.width, config.height)
-      .updatePosition(config.position);
+    dialogRef.updateSize(config.width, config.height).updatePosition(config.position);
 
     return dialogRef;
   }
@@ -410,10 +468,10 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
    * 可以在对话框中使用的自定义注入器。
    */
   private _createInjector<T>(
-      config: MatDialogConfig,
-      dialogRef: MatDialogRef<T>,
-      dialogContainer: C): Injector {
-
+    config: MatDialogConfig,
+    dialogRef: MatDialogRef<T>,
+    dialogContainer: C,
+  ): Injector {
     const userInjector = config && config.viewContainerRef && config.viewContainerRef.injector;
 
     // The dialog container should be provided as the dialog container and the dialog's
@@ -423,14 +481,17 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
     const providers: StaticProvider[] = [
       {provide: this._dialogContainerType, useValue: dialogContainer},
       {provide: this._dialogDataToken, useValue: config.data},
-      {provide: this._dialogRefConstructor, useValue: dialogRef}
+      {provide: this._dialogRefConstructor, useValue: dialogRef},
     ];
 
-    if (config.direction &&
-        (!userInjector || !userInjector.get<Directionality | null>(Directionality, null))) {
+    if (
+      config.direction &&
+      (!userInjector ||
+        !userInjector.get<Directionality | null>(Directionality, null, InjectFlags.Optional))
+    ) {
       providers.push({
         provide: Directionality,
-        useValue: {value: config.direction, change: observableOf()}
+        useValue: {value: config.direction, change: observableOf()},
       });
     }
 
@@ -486,11 +547,12 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
       for (let i = siblings.length - 1; i > -1; i--) {
         let sibling = siblings[i];
 
-        if (sibling !== overlayContainer &&
+        if (
+          sibling !== overlayContainer &&
           sibling.nodeName !== 'SCRIPT' &&
           sibling.nodeName !== 'STYLE' &&
-          !sibling.hasAttribute('aria-live')) {
-
+          !sibling.hasAttribute('aria-live')
+        ) {
           this._ariaHiddenElements.set(sibling, sibling.getAttribute('aria-hidden'));
           sibling.setAttribute('aria-hidden', 'true');
         }
@@ -515,7 +577,6 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
       dialogs[i].close();
     }
   }
-
 }
 
 /**
@@ -527,19 +588,33 @@ export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implemen
 @Injectable()
 export class MatDialog extends _MatDialogBase<MatDialogContainer> {
   constructor(
-      overlay: Overlay,
-      injector: Injector,
-      /**
-       * @deprecated `_location` parameter to be removed.
-       * @breaking-change 10.0.0
-       */
-      @Optional() location: Location,
-      @Optional() @Inject(MAT_DIALOG_DEFAULT_OPTIONS) defaultOptions: MatDialogConfig,
-      @Inject(MAT_DIALOG_SCROLL_STRATEGY) scrollStrategy: any,
-      @Optional() @SkipSelf() parentDialog: MatDialog,
-      overlayContainer: OverlayContainer) {
-    super(overlay, injector, defaultOptions, parentDialog, overlayContainer, scrollStrategy,
-        MatDialogRef, MatDialogContainer, MAT_DIALOG_DATA);
+    overlay: Overlay,
+    injector: Injector,
+    /**
+     * @deprecated `_location` parameter to be removed.
+     * @breaking-change 10.0.0
+     */
+    @Optional() location: Location,
+    @Optional() @Inject(MAT_DIALOG_DEFAULT_OPTIONS) defaultOptions: MatDialogConfig,
+    @Inject(MAT_DIALOG_SCROLL_STRATEGY) scrollStrategy: any,
+    @Optional() @SkipSelf() parentDialog: MatDialog,
+    overlayContainer: OverlayContainer,
+    @Optional()
+    @Inject(ANIMATION_MODULE_TYPE)
+    animationMode?: 'NoopAnimations' | 'BrowserAnimations',
+  ) {
+    super(
+      overlay,
+      injector,
+      defaultOptions,
+      parentDialog,
+      overlayContainer,
+      scrollStrategy,
+      MatDialogRef,
+      MatDialogContainer,
+      MAT_DIALOG_DATA,
+      animationMode,
+    );
   }
 }
 
@@ -561,6 +636,8 @@ export class MatDialog extends _MatDialogBase<MatDialogContainer> {
  * 新的配置对象。
  */
 function _applyConfigDefaults(
-    config?: MatDialogConfig, defaultOptions?: MatDialogConfig): MatDialogConfig {
+  config?: MatDialogConfig,
+  defaultOptions?: MatDialogConfig,
+): MatDialogConfig {
   return {...defaultOptions, ...config};
 }

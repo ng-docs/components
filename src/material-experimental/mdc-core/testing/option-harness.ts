@@ -15,7 +15,7 @@ export class MatOptionHarness extends ComponentHarness {
   static hostSelector = '.mat-mdc-option';
 
   /** Element containing the option's text. */
-  private _text = this.locatorFor('.mdc-deprecated-list-item__text');
+  private _text = this.locatorFor('.mdc-list-item__primary-text');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatOptionsHarness` that meets
@@ -27,12 +27,14 @@ export class MatOptionHarness extends ComponentHarness {
    */
   static with(options: OptionHarnessFilters = {}) {
     return new HarnessPredicate(MatOptionHarness, options)
-        .addOption('text', options.text,
-            async (harness, title) =>
-                HarnessPredicate.stringMatches(await harness.getText(), title))
-        .addOption('isSelected', options.isSelected,
-            async (harness, isSelected) => await harness.isSelected() === isSelected);
-
+      .addOption('text', options.text, async (harness, title) =>
+        HarnessPredicate.stringMatches(await harness.getText(), title),
+      )
+      .addOption(
+        'isSelected',
+        options.isSelected,
+        async (harness, isSelected) => (await harness.isSelected()) === isSelected,
+      );
   }
 
   /** Clicks the option. */
@@ -47,12 +49,12 @@ export class MatOptionHarness extends ComponentHarness {
 
   /** Gets whether the option is disabled. */
   async isDisabled(): Promise<boolean> {
-    return (await this.host()).hasClass('mdc-deprecated-list-item--disabled');
+    return (await this.host()).hasClass('mdc-list-item--disabled');
   }
 
   /** Gets whether the option is selected. */
   async isSelected(): Promise<boolean> {
-    return (await this.host()).hasClass('mdc-deprecated-list-item--selected');
+    return (await this.host()).hasClass('mdc-list-item--selected');
   }
 
   /** Gets whether the option is active. */

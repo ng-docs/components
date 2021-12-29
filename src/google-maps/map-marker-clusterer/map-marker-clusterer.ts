@@ -7,7 +7,7 @@
  */
 
 // Workaround for: https://github.com/bazelbuild/rules_nodejs/issues/1265
-/// <reference types="googlemaps" />
+/// <reference types="google.maps" />
 /// <reference path="marker-clusterer-types.ts" />
 
 import {
@@ -23,7 +23,7 @@ import {
   Output,
   QueryList,
   SimpleChanges,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -71,7 +71,7 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
   private readonly _canInitialize: boolean;
 
   @Input()
-  ariaLabelFn: AriaLabelFn = () => ''
+  ariaLabelFn: AriaLabelFn = () => '';
 
   @Input()
   set averageCenter(averageCenter: boolean) {
@@ -186,7 +186,7 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
    *
    */
   @Output() readonly clusteringbegin: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('clusteringbegin');
+    this._eventManager.getLazyEmitter<void>('clusteringbegin');
 
   /**
    * See
@@ -196,7 +196,7 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
    *
    */
   @Output() readonly clusteringend: Observable<void> =
-      this._eventManager .getLazyEmitter<void>('clusteringend');
+    this._eventManager.getLazyEmitter<void>('clusteringend');
 
   /**
    * Emits when a cluster has been clicked.
@@ -229,12 +229,27 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
 
   ngOnInit() {
     if (this._canInitialize) {
+      const clustererWindow = window as unknown as typeof globalThis & {
+        MarkerClusterer?: MarkerClusterer;
+      };
+
+      if (!clustererWindow.MarkerClusterer && (typeof ngDevMode === 'undefined' || ngDevMode)) {
+        throw Error(
+          'MarkerClusterer class not found, cannot construct a marker cluster. ' +
+            'Please install the MarkerClustererPlus library: ' +
+            'https://github.com/googlemaps/js-markerclustererplus',
+        );
+      }
+
       // Create the object outside the zone so its events don't trigger change detection.
       // We'll bring it back in inside the `MapEventManager` only for the events that the
       // user has subscribed to.
       this._ngZone.runOutsideAngular(() => {
-        this.markerClusterer = new MarkerClusterer(this._googleMap.googleMap!, [],
-            this._combineOptions());
+        this.markerClusterer = new MarkerClusterer(
+          this._googleMap.googleMap!,
+          [],
+          this._combineOptions(),
+        );
       });
 
       this._assertInitialized();
@@ -250,9 +265,24 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
 
   ngOnChanges(changes: SimpleChanges) {
     const {
-      markerClusterer: clusterer, ariaLabelFn, _averageCenter, _batchSizeIE, _calculator, _styles,
-      _clusterClass, _enableRetinaIcons, _gridSize, _ignoreHidden, _imageExtension, _imagePath,
-      _imageSizes, _maxZoom, _minimumClusterSize, _title, _zIndex, _zoomOnClick
+      markerClusterer: clusterer,
+      ariaLabelFn,
+      _averageCenter,
+      _batchSizeIE,
+      _calculator,
+      _styles,
+      _clusterClass,
+      _enableRetinaIcons,
+      _gridSize,
+      _ignoreHidden,
+      _imageExtension,
+      _imagePath,
+      _imageSizes,
+      _maxZoom,
+      _minimumClusterSize,
+      _title,
+      _zIndex,
+      _zoomOnClick,
     } = this;
 
     if (clusterer) {
@@ -322,7 +352,7 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
     }
   }
 
-  fitMapToMarkers(padding: number|google.maps.Padding) {
+  fitMapToMarkers(padding: number | google.maps.Padding) {
     this._assertInitialized();
     this.markerClusterer.fitMapToMarkers(padding);
   }
@@ -456,8 +486,9 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
     }
     this.markerClusterer.addMarkers(initialMarkers);
 
-    this._markers.changes.pipe(takeUntil(this._destroy)).subscribe(
-      (markerComponents: MapMarker[]) => {
+    this._markers.changes
+      .pipe(takeUntil(this._destroy))
+      .subscribe((markerComponents: MapMarker[]) => {
         this._assertInitialized();
         const newMarkers = new Set<google.maps.Marker>(this._getInternalMarkers(markerComponents));
         const markersToAdd: google.maps.Marker[] = [];
@@ -479,12 +510,13 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
         for (const marker of markersToRemove) {
           this._currentMarkers.delete(marker);
         }
-    });
+      });
   }
 
   private _getInternalMarkers(markers: MapMarker[]): google.maps.Marker[] {
-    return markers.filter(markerComponent => !!markerComponent.marker)
-        .map(markerComponent => markerComponent.marker!);
+    return markers
+      .filter(markerComponent => !!markerComponent.marker)
+      .map(markerComponent => markerComponent.marker!);
   }
 
   private _assertInitialized(): asserts this is {markerClusterer: MarkerClusterer} {
@@ -492,12 +524,14 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
       if (!this._googleMap.googleMap) {
         throw Error(
           'Cannot access Google Map information before the API has been initialized. ' +
-          'Please wait for the API to load before trying to interact with it.');
+            'Please wait for the API to load before trying to interact with it.',
+        );
       }
       if (!this.markerClusterer) {
         throw Error(
           'Cannot interact with a MarkerClusterer before it has been initialized. ' +
-          'Please wait for the MarkerClusterer to load before trying to interact with it.');
+            'Please wait for the MarkerClusterer to load before trying to interact with it.',
+        );
       }
     }
   }

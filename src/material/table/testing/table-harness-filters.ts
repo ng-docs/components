@@ -37,8 +37,7 @@ export interface CellHarnessFilters extends BaseHarnessFilters {
  * 一组标准，可用于过滤表行测试工具实例的列表。
  *
  */
-export interface RowHarnessFilters extends BaseHarnessFilters {
-}
+export interface RowHarnessFilters extends BaseHarnessFilters {}
 
 /**
  * A set of criteria that can be used to filter a list of table harness instances.
@@ -46,5 +45,4 @@ export interface RowHarnessFilters extends BaseHarnessFilters {
  * 一组标准，可用于过滤表格测试工具实例的列表。
  *
  */
-export interface TableHarnessFilters extends BaseHarnessFilters {
-}
+export interface TableHarnessFilters extends BaseHarnessFilters {}

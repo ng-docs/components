@@ -37,7 +37,7 @@ export const CDK_ACCORDION = new InjectionToken<CdkAccordion>('CdkAccordion');
 @Directive({
   selector: 'cdk-accordion, [cdkAccordion]',
   exportAs: 'cdkAccordion',
-  providers: [{ provide: CDK_ACCORDION, useExisting: CdkAccordion }],
+  providers: [{provide: CDK_ACCORDION, useExisting: CdkAccordion}],
 })
 export class CdkAccordion implements OnDestroy, OnChanges {
   /**
@@ -75,10 +75,9 @@ export class CdkAccordion implements OnDestroy, OnChanges {
     return this._multi;
   }
 
-  set multi(multi: boolean) {
+  set multi(multi: BooleanInput) {
     this._multi = coerceBooleanProperty(multi);
   }
-
   private _multi: boolean = false;
 
   /**
@@ -111,6 +110,4 @@ export class CdkAccordion implements OnDestroy, OnChanges {
     this._stateChanges.complete();
     this._openCloseAllActions.complete();
   }
-
-  static ngAcceptInputType_multi: BooleanInput;
 }

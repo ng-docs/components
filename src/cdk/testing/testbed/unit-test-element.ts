@@ -65,7 +65,7 @@ const keyMap = {
   [TestKey.F10]: {keyCode: keyCodes.F10, key: 'F10'},
   [TestKey.F11]: {keyCode: keyCodes.F11, key: 'F11'},
   [TestKey.F12]: {keyCode: keyCodes.F12, key: 'F12'},
-  [TestKey.META]: {keyCode: keyCodes.META, key: 'Meta'}
+  [TestKey.META]: {keyCode: keyCodes.META, key: 'Meta'},
 };
 
 /**
@@ -137,8 +137,9 @@ export class UnitTestElement implements TestElement {
    *
    */
   click(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
-  async click(...args: [ModifierKeys?] | ['center', ModifierKeys?] |
-    [number, number, ModifierKeys?]): Promise<void> {
+  async click(
+    ...args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?]
+  ): Promise<void> {
     await this._dispatchMouseEventSequence('click', args, 0);
     await this._stabilize();
   }
@@ -162,8 +163,9 @@ export class UnitTestElement implements TestElement {
    *
    */
   rightClick(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
-  async rightClick(...args: [ModifierKeys?] | ['center', ModifierKeys?] |
-    [number, number, ModifierKeys?]): Promise<void> {
+  async rightClick(
+    ...args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?]
+  ): Promise<void> {
     await this._dispatchMouseEventSequence('contextmenu', args, 2);
     await this._stabilize();
   }
@@ -218,9 +220,10 @@ export class UnitTestElement implements TestElement {
 
   /**
    * Sends the given string to the input as a series of key presses. Also fires input events
-   * and attempts to add the string to the Element's value.
+   * and attempts to add the string to the Element's value. Note that this cannot
+   * reproduce native browser behavior for keyboard shortcuts such as Tab, Ctrl + A, etc.
    *
-   * 通过一系列按键将给定的字符串发送到输入框。还会触发 input 事件，并尝试将字符串添加到 Element 的值。
+   * 通过一系列按键将给定的字符串发送到输入框。还会触发 input 事件，并尝试将字符串添加到 Element 的值。注意，这种方式不能复现快捷键（如 Tab、Ctrl + A 等）在浏览器中的原生行为。
    *
    */
   async sendKeys(...keys: (string | TestKey)[]): Promise<void>;
@@ -233,7 +236,7 @@ export class UnitTestElement implements TestElement {
    */
   async sendKeys(modifiers: ModifierKeys, ...keys: (string | TestKey)[]): Promise<void>;
   async sendKeys(...modifiersAndKeys: any[]): Promise<void> {
-    const args = modifiersAndKeys.map(k => typeof k === 'number' ? keyMap[k as TestKey] : k);
+    const args = modifiersAndKeys.map(k => (typeof k === 'number' ? keyMap[k as TestKey] : k));
     typeInElement(this.element as HTMLElement, ...args);
     await this._stabilize();
   }
@@ -262,7 +265,7 @@ export class UnitTestElement implements TestElement {
    * 从此元素获取给定属性的值。
    *
    */
-  async getAttribute(name: string): Promise<string|null> {
+  async getAttribute(name: string): Promise<string | null> {
     await this._stabilize();
     return this.element.getAttribute(name);
   }
@@ -295,7 +298,7 @@ export class UnitTestElement implements TestElement {
    * 获取此元素的属性的值。
    *
    */
-  async getProperty(name: string): Promise<any> {
+  async getProperty<T = any>(name: string): Promise<T> {
     await this._stabilize();
     return (this.element as any)[name];
   }
@@ -350,8 +353,10 @@ export class UnitTestElement implements TestElement {
   async matchesSelector(selector: string): Promise<boolean> {
     await this._stabilize();
     const elementPrototype = Element.prototype as any;
-    return (elementPrototype['matches'] || elementPrototype['msMatchesSelector'])
-        .call(this.element, selector);
+    return (elementPrototype['matches'] || elementPrototype['msMatchesSelector']).call(
+      this.element,
+      selector,
+    );
   }
 
   /**
@@ -410,7 +415,11 @@ export class UnitTestElement implements TestElement {
    *
    */
   private _dispatchPointerEventIfSupported(
-    name: string, clientX?: number, clientY?: number, button?: number) {
+    name: string,
+    clientX?: number,
+    clientY?: number,
+    button?: number,
+  ) {
     // The latest versions of all browsers we support have the new `PointerEvent` API.
     // Though since we capture the two most recent versions of these browsers, we also
     // need to support Safari 12 at time of writing. Safari 12 does not have support for this,
@@ -429,7 +438,8 @@ export class UnitTestElement implements TestElement {
   private async _dispatchMouseEventSequence(
     name: string,
     args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?],
-    button?: number) {
+    button?: number,
+  ) {
     let clientX: number | undefined = undefined;
     let clientY: number | undefined = undefined;
     let modifiers: ModifierKeys = {};
@@ -440,8 +450,8 @@ export class UnitTestElement implements TestElement {
 
     if (args.length) {
       const {left, top, width, height} = await this.getDimensions();
-      const relativeX = args[0] === 'center' ? width / 2 : args[0] as number;
-      const relativeY = args[0] === 'center' ? height / 2 : args[1] as number;
+      const relativeX = args[0] === 'center' ? width / 2 : (args[0] as number);
+      const relativeY = args[0] === 'center' ? height / 2 : (args[1] as number);
 
       // Round the computed click position as decimal pixels are not
       // supported by mouse events and could lead to unexpected results.

@@ -1,11 +1,29 @@
 @use '@material/ripple' as mdc-ripple;
 @use '@material/tab' as mdc-tab;
+@use '@material/tab-indicator' as mdc-tab-indicator;
 @use 'sass:map';
 @use '../../material/core/style/vendor-prefixes';
 @use '../../cdk/a11y';
 @use '../mdc-helpers/mdc-helpers';
 
 $mat-tab-animation-duration: 500ms !default;
+
+// Combines the various structural styles we need for the tab group and tab nav bar.
+@mixin structural-styles {
+  @include mdc-helpers.disable-fallback-declarations {
+    @include mdc-tab.without-ripple($query: mdc-helpers.$mat-base-styles-query);
+    @include mdc-tab-indicator.core-styles($query: mdc-helpers.$mat-base-styles-query);
+  }
+
+  .mat-mdc-tab-ripple {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+  }
+}
 
 @mixin tab {
   &.mdc-tab {
@@ -55,17 +73,6 @@ $mat-tab-animation-duration: 500ms !default;
 
   .mat-ripple-element {
     opacity: map.get(mdc-ripple.$dark-ink-opacities, press);
-  }
-}
-
-@mixin tab-ripple {
-  .mat-mdc-tab-ripple {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    pointer-events: none;
   }
 }
 
@@ -121,7 +128,6 @@ $mat-tab-animation-duration: 500ms !default;
   .mat-mdc-tab-header-pagination-chevron {
     border-style: solid;
     border-width: 2px 2px 0 0;
-    content: '';
     height: 8px;
     width: 8px;
   }
@@ -146,7 +152,9 @@ $mat-tab-animation-duration: 500ms !default;
     }
   }
 
-  ._mat-animation-noopable .mdc-tab-indicator__content {
+  // The `span` is in the selector in order to increase the specificity, ensuring
+  // that it's always higher than the selector that declares the transition.
+  ._mat-animation-noopable span.mdc-tab-indicator__content {
     transition: none;
   }
 }

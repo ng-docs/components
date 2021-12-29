@@ -22,6 +22,7 @@ export enum TargetVersion {
   V10 = 'version 10',
   V11 = 'version 11',
   V12 = 'version 12',
+  V13 = 'version 13',
 }
 
 /**
@@ -33,6 +34,6 @@ export enum TargetVersion {
  */
 export function getAllVersionNames(): string[] {
   return Object.keys(TargetVersion).filter(enumValue => {
-    return typeof (TargetVersion as Record<string, string|undefined>)[enumValue] === 'string';
+    return typeof (TargetVersion as Record<string, string | undefined>)[enumValue] === 'string';
   });
 }

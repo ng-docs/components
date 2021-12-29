@@ -17,6 +17,6 @@ import {MatCommonModule} from '@angular/material/core';
   imports: [CommonModule, MatCommonModule],
   exports: [MatSort, MatSortHeader],
   declarations: [MatSort, MatSortHeader],
-  providers: [MAT_SORT_HEADER_INTL_PROVIDER]
+  providers: [MAT_SORT_HEADER_INTL_PROVIDER],
 })
 export class MatSortModule {}

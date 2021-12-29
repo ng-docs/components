@@ -104,40 +104,19 @@ resetting it will call `reset` on the underlying form control which clears the v
 
 ### Keyboard interaction
 
-### 键盘互动
-
-- <kbd>LEFT_ARROW</kbd>: Focuses the previous step header
-
-  `LEFT_ARROW`：焦点移到上一步的标题
-
-- <kbd>RIGHT_ARROW</kbd>: Focuses the next step header
-
-  `RIGHT_ARROW` ：焦点移到下一步的标题
-
-- <kbd>ENTER</kbd>, <kbd>SPACE</kbd>: Selects the step that the focus is currently on
-
-  `ENTER`、`SPACE` ：选取具有焦点的当前步骤
-
-- <kbd>TAB</kbd>: Focuses the next tabbable element
-
-  `TAB` ：焦点移到下一个 tabbable 元素
-
-- <kbd>SHIFT</kbd>+<kbd>TAB</kbd>: Focuses the previous tabbable element
-
-  `TAB` + `SHIFT` ：焦点移到上一个 tabbable 元素
+| Keyboard shortcut      | Action                          |
+|------------------------|---------------------------------|
+| <kbd>Left Arrow</kbd>  | Focus the previous step header. |
+| <kbd>Right Arrow</kbd> | Focus the next step header.     |
+| <kbd>Enter</kbd>       | Select the focused step.        |
+| <kbd>Space</kbd>       | Select the focused step.        |
 
 ### Accessibility
+Apart from the built-in keyboard support, the stepper doesn't apply any treatment. When implementing
+your own component, it is recommended that the stepper is treated as a tabbed view for accessibility
+purposes by giving it a `role="tablist"`. The header of step that can be clicked to select the step
+should be given `role="tab"`, and the content that can be expanded upon selection should be given
+`role="tabpanel"`. Furthermore, the step header should have an `aria-selected` attribute that
+reflects its selected state and the associated content element should have `aria-expanded`.
 
-### 无障碍性
-
-The CDK stepper is treated as a tabbed view for accessibility purposes, so it is given
-`role="tablist"` by default. The header of step that can be clicked to select the step
-is given `role="tab"`, and the content that can be expanded upon selection is given
-`role="tabpanel"`. `aria-selected` attribute of step header and `aria-expanded` attribute of
-step content is automatically set based on step selection change.
-
-出于无障碍性的目的，CDK 的 stepper 被视为标签视图，所以默认情况下它被赋予 `role="tablist"`。在步骤标题中可以单击，以选取 `role="tab"` 的步骤，并展开每个带有 `role="tabpanel"` 的步骤内容。步骤标题上的 `aria-selected` 属性和步骤内容上的 `aria-expanded` 属性是根据所选步骤的变化自动设置的。
-
-The stepper and each step should be given a meaningful label via `aria-label` or `aria-labelledby`.
-
-步进器及其中的每个步骤都应该通过 `aria-label` 或者 `aria-labelledby` 给出一个有意义的标签。
+You can refer to the [Angular Material stepper](https://github.com/angular/components/tree/master/src/material/stepper) as an example of an accessible implementation.

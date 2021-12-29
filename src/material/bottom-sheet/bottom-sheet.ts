@@ -20,6 +20,7 @@ import {
   Inject,
   OnDestroy,
   StaticProvider,
+  InjectFlags,
 } from '@angular/core';
 import {of as observableOf} from 'rxjs';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetConfig} from './bottom-sheet-config';
@@ -33,8 +34,9 @@ import {MatBottomSheetRef} from './bottom-sheet-ref';
  * 这个注入令牌可以用来指定底部操作表的默认选项。
  *
  */
-export const MAT_BOTTOM_SHEET_DEFAULT_OPTIONS =
-    new InjectionToken<MatBottomSheetConfig>('mat-bottom-sheet-default-options');
+export const MAT_BOTTOM_SHEET_DEFAULT_OPTIONS = new InjectionToken<MatBottomSheetConfig>(
+  'mat-bottom-sheet-default-options',
+);
 
 /**
  * Service to trigger Material Design bottom sheets.
@@ -66,11 +68,13 @@ export class MatBottomSheet implements OnDestroy {
   }
 
   constructor(
-      private _overlay: Overlay,
-      private _injector: Injector,
-      @Optional() @SkipSelf() private _parentBottomSheet: MatBottomSheet,
-      @Optional() @Inject(MAT_BOTTOM_SHEET_DEFAULT_OPTIONS)
-          private _defaultOptions?: MatBottomSheetConfig) {}
+    private _overlay: Overlay,
+    private _injector: Injector,
+    @Optional() @SkipSelf() private _parentBottomSheet: MatBottomSheet,
+    @Optional()
+    @Inject(MAT_BOTTOM_SHEET_DEFAULT_OPTIONS)
+    private _defaultOptions?: MatBottomSheetConfig,
+  ) {}
 
   /**
    * Opens a bottom sheet containing the given component.
@@ -89,8 +93,10 @@ export class MatBottomSheet implements OnDestroy {
    *
    * 指向新打开的底部操作表的引用。
    */
-  open<T, D = any, R = any>(component: ComponentType<T>,
-                   config?: MatBottomSheetConfig<D>): MatBottomSheetRef<T, R>;
+  open<T, D = any, R = any>(
+    component: ComponentType<T>,
+    config?: MatBottomSheetConfig<D>,
+  ): MatBottomSheetRef<T, R>;
 
   /**
    * Opens a bottom sheet containing the given template.
@@ -109,26 +115,36 @@ export class MatBottomSheet implements OnDestroy {
    *
    * 指向新打开的底部操作表的引用。
    */
-  open<T, D = any, R = any>(template: TemplateRef<T>,
-                   config?: MatBottomSheetConfig<D>): MatBottomSheetRef<T, R>;
+  open<T, D = any, R = any>(
+    template: TemplateRef<T>,
+    config?: MatBottomSheetConfig<D>,
+  ): MatBottomSheetRef<T, R>;
 
-  open<T, D = any, R = any>(componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
-                   config?: MatBottomSheetConfig<D>): MatBottomSheetRef<T, R> {
-
-    const _config =
-        _applyConfigDefaults(this._defaultOptions || new MatBottomSheetConfig(), config);
+  open<T, D = any, R = any>(
+    componentOrTemplateRef: ComponentType<T> | TemplateRef<T>,
+    config?: MatBottomSheetConfig<D>,
+  ): MatBottomSheetRef<T, R> {
+    const _config = _applyConfigDefaults(
+      this._defaultOptions || new MatBottomSheetConfig(),
+      config,
+    );
     const overlayRef = this._createOverlay(_config);
     const container = this._attachContainer(overlayRef, _config);
     const ref = new MatBottomSheetRef<T, R>(container, overlayRef);
 
     if (componentOrTemplateRef instanceof TemplateRef) {
-      container.attachTemplatePortal(new TemplatePortal<T>(componentOrTemplateRef, null!, {
-        $implicit: _config.data,
-        bottomSheetRef: ref
-      } as any));
+      container.attachTemplatePortal(
+        new TemplatePortal<T>(componentOrTemplateRef, null!, {
+          $implicit: _config.data,
+          bottomSheetRef: ref,
+        } as any),
+      );
     } else {
-      const portal = new ComponentPortal(componentOrTemplateRef, undefined,
-            this._createInjector(_config, ref));
+      const portal = new ComponentPortal(
+        componentOrTemplateRef,
+        undefined,
+        this._createInjector(_config, ref),
+      );
       const contentRef = container.attachComponentPortal(portal);
       ref.instance = contentRef.instance;
     }
@@ -184,17 +200,21 @@ export class MatBottomSheet implements OnDestroy {
    * 将底部操作表的容器组件连接到浮层上。
    *
    */
-  private _attachContainer(overlayRef: OverlayRef,
-                           config: MatBottomSheetConfig): MatBottomSheetContainer {
-
+  private _attachContainer(
+    overlayRef: OverlayRef,
+    config: MatBottomSheetConfig,
+  ): MatBottomSheetContainer {
     const userInjector = config && config.viewContainerRef && config.viewContainerRef.injector;
     const injector = Injector.create({
       parent: userInjector || this._injector,
-      providers: [{provide: MatBottomSheetConfig, useValue: config}]
+      providers: [{provide: MatBottomSheetConfig, useValue: config}],
     });
 
-    const containerPortal =
-        new ComponentPortal(MatBottomSheetContainer, config.viewContainerRef, injector);
+    const containerPortal = new ComponentPortal(
+      MatBottomSheetContainer,
+      config.viewContainerRef,
+      injector,
+    );
     const containerRef: ComponentRef<MatBottomSheetContainer> = overlayRef.attach(containerPortal);
     return containerRef.instance;
   }
@@ -216,7 +236,7 @@ export class MatBottomSheet implements OnDestroy {
       disposeOnNavigation: config.closeOnNavigation,
       maxWidth: '100%',
       scrollStrategy: config.scrollStrategy || this._overlay.scrollStrategies.block(),
-      positionStrategy: this._overlay.position().global().centerHorizontally().bottom('0')
+      positionStrategy: this._overlay.position().global().centerHorizontally().bottom('0'),
     });
 
     if (config.backdropClass) {
@@ -240,20 +260,24 @@ export class MatBottomSheet implements OnDestroy {
    * 底部操作表的引用。
    *
    */
-  private _createInjector<T>(config: MatBottomSheetConfig,
-                             bottomSheetRef: MatBottomSheetRef<T>): Injector {
-
+  private _createInjector<T>(
+    config: MatBottomSheetConfig,
+    bottomSheetRef: MatBottomSheetRef<T>,
+  ): Injector {
     const userInjector = config && config.viewContainerRef && config.viewContainerRef.injector;
     const providers: StaticProvider[] = [
       {provide: MatBottomSheetRef, useValue: bottomSheetRef},
-      {provide: MAT_BOTTOM_SHEET_DATA, useValue: config.data}
+      {provide: MAT_BOTTOM_SHEET_DATA, useValue: config.data},
     ];
 
-    if (config.direction &&
-        (!userInjector || !userInjector.get<Directionality | null>(Directionality, null))) {
+    if (
+      config.direction &&
+      (!userInjector ||
+        !userInjector.get<Directionality | null>(Directionality, null, InjectFlags.Optional))
+    ) {
       providers.push({
         provide: Directionality,
-        useValue: {value: config.direction, change: observableOf()}
+        useValue: {value: config.direction, change: observableOf()},
       });
     }
 
@@ -278,7 +302,9 @@ export class MatBottomSheet implements OnDestroy {
  *
  * 应用默认值后的新配置对象。
  */
-function _applyConfigDefaults(defaults: MatBottomSheetConfig,
-                              config?: MatBottomSheetConfig): MatBottomSheetConfig {
+function _applyConfigDefaults(
+  defaults: MatBottomSheetConfig,
+  config?: MatBottomSheetConfig,
+): MatBottomSheetConfig {
   return {...defaults, ...config};
 }

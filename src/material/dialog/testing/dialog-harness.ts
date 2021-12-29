@@ -10,40 +10,21 @@ import {ContentContainerComponentHarness, HarnessPredicate, TestKey} from '@angu
 import {DialogRole} from '@angular/material/dialog';
 import {DialogHarnessFilters} from './dialog-harness-filters';
 
-/**
- * Harness for interacting with a standard `MatDialog` in tests.
- *
- * 在测试中与标准 `MatDialog` 进行交互的测试工具。
- *
- */
-export class MatDialogHarness extends ContentContainerComponentHarness<string> {
-  // Developers can provide a custom component or template for the
-  // dialog. The canonical dialog parent is the "MatDialogContainer".
-  /**
-   * The selector for the host element of a `MatDialog` instance.
-   *
-   * `MatDialog` 实例的宿主元素选择器。
-   *
-   */
-  static hostSelector = '.mat-dialog-container';
+/** Selectors for different sections of the mat-dialog that can contain user content. */
+export const enum MatDialogSection {
+  TITLE = '.mat-dialog-title',
+  CONTENT = '.mat-dialog-content',
+  ACTIONS = '.mat-dialog-actions',
+}
 
-  /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatDialogHarness` that meets
-   * certain criteria.
-   *
-   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatDialogHarness`。
-   *
-   * @param options Options for filtering which dialog instances are considered a match.
-   *
-   * 用于过滤哪些对话框实例应该视为匹配的选项。
-   *
-   * @return a `HarnessPredicate` configured with the given options.
-   *
-   * 用指定选项配置过的 `HarnessPredicate` 服务。
-   */
-  static with(options: DialogHarnessFilters = {}): HarnessPredicate<MatDialogHarness> {
-    return new HarnessPredicate(MatDialogHarness, options);
-  }
+/** Base class for the `MatDialogHarness` implementation. */
+export class _MatDialogHarnessBase
+  // @breaking-change 14.0.0 change generic type to MatDialogSection.
+  extends ContentContainerComponentHarness<MatDialogSection | string>
+{
+  protected _title = this.locatorForOptional(MatDialogSection.TITLE);
+  protected _content = this.locatorForOptional(MatDialogSection.CONTENT);
+  protected _actions = this.locatorForOptional(MatDialogSection.ACTIONS);
 
   /**
    * Gets the id of the dialog.
@@ -51,7 +32,7 @@ export class MatDialogHarness extends ContentContainerComponentHarness<string> {
    * 获取此对话框的 ID。
    *
    */
-  async getId(): Promise<string|null> {
+  async getId(): Promise<string | null> {
     const id = await (await this.host()).getAttribute('id');
     // In case no id has been specified, the "id" property always returns
     // an empty string. To make this method more explicit, we return null.
@@ -64,8 +45,8 @@ export class MatDialogHarness extends ContentContainerComponentHarness<string> {
    * 获取此对话框的角色。
    *
    */
-  async getRole(): Promise<DialogRole|null> {
-    return (await this.host()).getAttribute('role') as Promise<DialogRole|null>;
+  async getRole(): Promise<DialogRole | null> {
+    return (await this.host()).getAttribute('role') as Promise<DialogRole | null>;
   }
 
   /**
@@ -74,7 +55,7 @@ export class MatDialogHarness extends ContentContainerComponentHarness<string> {
    * 获取此对话框的 “aria-label” 属性的值。
    *
    */
-  async getAriaLabel(): Promise<string|null> {
+  async getAriaLabel(): Promise<string | null> {
     return (await this.host()).getAttribute('aria-label');
   }
 
@@ -84,7 +65,7 @@ export class MatDialogHarness extends ContentContainerComponentHarness<string> {
    * 获取此对话框的 “aria-labelledby” 属性的值。
    *
    */
-  async getAriaLabelledby(): Promise<string|null> {
+  async getAriaLabelledby(): Promise<string | null> {
     return (await this.host()).getAttribute('aria-labelledby');
   }
 
@@ -94,7 +75,7 @@ export class MatDialogHarness extends ContentContainerComponentHarness<string> {
    * 获取此对话框的 “aria-describedby” 属性的值。
    *
    */
-  async getAriaDescribedby(): Promise<string|null> {
+  async getAriaDescribedby(): Promise<string | null> {
     return (await this.host()).getAttribute('aria-describedby');
   }
 
@@ -110,5 +91,43 @@ export class MatDialogHarness extends ContentContainerComponentHarness<string> {
    */
   async close(): Promise<void> {
     await (await this.host()).sendKeys(TestKey.ESCAPE);
+  }
+
+  /** Gets te dialog's text. */
+  async getText() {
+    return (await this.host()).text();
+  }
+
+  /** Gets the dialog's title text. This only works if the dialog is using mat-dialog-title. */
+  async getTitleText() {
+    return (await this._title())?.text() ?? '';
+  }
+
+  /** Gets the dialog's content text. This only works if the dialog is using mat-dialog-content. */
+  async getContentText() {
+    return (await this._content())?.text() ?? '';
+  }
+
+  /** Gets the dialog's actions text. This only works if the dialog is using mat-dialog-actions. */
+  async getActionsText() {
+    return (await this._actions())?.text() ?? '';
+  }
+}
+
+/** Harness for interacting with a standard `MatDialog` in tests. */
+export class MatDialogHarness extends _MatDialogHarnessBase {
+  // Developers can provide a custom component or template for the
+  // dialog. The canonical dialog parent is the "MatDialogContainer".
+  /** The selector for the host element of a `MatDialog` instance. */
+  static hostSelector = '.mat-dialog-container';
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a `MatDialogHarness` that meets
+   * certain criteria.
+   * @param options Options for filtering which dialog instances are considered a match.
+   * @return a `HarnessPredicate` configured with the given options.
+   */
+  static with(options: DialogHarnessFilters = {}): HarnessPredicate<MatDialogHarness> {
+    return new HarnessPredicate(MatDialogHarness, options);
   }
 }

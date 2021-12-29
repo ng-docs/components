@@ -13,7 +13,10 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
  * 步进器的可能方向。
  *
  */
-export const enum StepperOrientation {HORIZONTAL, VERTICAL}
+export const enum StepperOrientation {
+  HORIZONTAL,
+  VERTICAL,
+}
 
 /**
  * A set of criteria that can be used to filter a list of `MatStepHarness` instances.
@@ -84,4 +87,3 @@ export interface StepperButtonHarnessFilters extends BaseHarnessFilters {
    */
   text?: string | RegExp;
 }
-

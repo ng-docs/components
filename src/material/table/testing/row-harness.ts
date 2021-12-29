@@ -26,9 +26,10 @@ export interface MatRowHarnessColumnsText {
 }
 
 export abstract class _MatRowHarnessBase<
-  CellType extends (ComponentHarnessConstructor<Cell> & {
-    with: (options?: CellHarnessFilters) => HarnessPredicate<Cell>}),
-  Cell extends ComponentHarness & {getText(): Promise<string>, getColumnName(): Promise<string>}
+  CellType extends ComponentHarnessConstructor<Cell> & {
+    with: (options?: CellHarnessFilters) => HarnessPredicate<Cell>;
+  },
+  Cell extends ComponentHarness & {getText(): Promise<string>; getColumnName(): Promise<string>},
 > extends ComponentHarness {
   protected abstract _cellHarness: CellType;
 
@@ -62,10 +63,12 @@ export abstract class _MatRowHarnessBase<
   async getCellTextByColumnName(): Promise<MatRowHarnessColumnsText> {
     const output: MatRowHarnessColumnsText = {};
     const cells = await this.getCells();
-    const cellsData = await parallel(() => cells.map(cell => {
-      return parallel(() => [cell.getColumnName(), cell.getText()]);
-    }));
-    cellsData.forEach(([columnName, text]) => output[columnName] = text);
+    const cellsData = await parallel(() =>
+      cells.map(cell => {
+        return parallel(() => [cell.getColumnName(), cell.getText()]);
+      }),
+    );
+    cellsData.forEach(([columnName, text]) => (output[columnName] = text));
     return output;
   }
 }
@@ -111,7 +114,9 @@ export class MatRowHarness extends _MatRowHarnessBase<typeof MatCellHarness, Mat
  *
  */
 export class MatHeaderRowHarness extends _MatRowHarnessBase<
-  typeof MatHeaderCellHarness, MatHeaderCellHarness> {
+  typeof MatHeaderCellHarness,
+  MatHeaderCellHarness
+> {
   /**
    * The selector for the host element of a `MatHeaderRowHarness` instance.
    *
@@ -147,7 +152,9 @@ export class MatHeaderRowHarness extends _MatRowHarnessBase<
  *
  */
 export class MatFooterRowHarness extends _MatRowHarnessBase<
-  typeof MatFooterCellHarness, MatFooterCellHarness> {
+  typeof MatFooterCellHarness,
+  MatFooterCellHarness
+> {
   /**
    * The selector for the host element of a `MatFooterRowHarness` instance.
    *

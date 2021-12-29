@@ -15,6 +15,6 @@ import {Directive} from '@angular/core';
  *
  */
 @Directive({
-  selector: 'mat-label'
+  selector: 'mat-label',
 })
 export class MatLabel {}

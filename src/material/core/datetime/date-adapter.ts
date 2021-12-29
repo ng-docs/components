@@ -15,13 +15,13 @@ import {Observable, Subject} from 'rxjs';
  * 日期选择器的 InjectionToken，可用于覆盖默认语言环境代码。
  *
  */
-export const MAT_DATE_LOCALE = new InjectionToken<string>('MAT_DATE_LOCALE', {
+export const MAT_DATE_LOCALE = new InjectionToken<{}>('MAT_DATE_LOCALE', {
   providedIn: 'root',
   factory: MAT_DATE_LOCALE_FACTORY,
 });
 
 /** @docs-private */
-export function MAT_DATE_LOCALE_FACTORY(): string {
+export function MAT_DATE_LOCALE_FACTORY(): {} {
   return inject(LOCALE_ID);
 }
 
@@ -31,14 +31,14 @@ export function MAT_DATE_LOCALE_FACTORY(): string {
  * 将类型 `D` 适配成可与那些基于 cdk 的组件配合使用的日期对象。
  *
  */
-export abstract class DateAdapter<D> {
+export abstract class DateAdapter<D, L = any> {
   /**
    * The locale to use for all dates.
    *
    * 所有日期要使用的语言环境。
    *
    */
-  protected locale: any;
+  protected locale: L;
   protected readonly _localeChanges = new Subject<void>();
 
   /**
@@ -422,7 +422,7 @@ export abstract class DateAdapter<D> {
    */
   abstract invalid(): D;
 
- /**
+  /**
    * Given a potential date object, returns that same date object if it is
    * a valid date, or `null` if it's not a valid date.
    *
@@ -438,7 +438,7 @@ export abstract class DateAdapter<D> {
    *
    */
   getValidDateOrNull(obj: unknown): D | null {
-    return this.isDateInstance(obj) && this.isValid(obj as D) ? obj as D : null;
+    return this.isDateInstance(obj) && this.isValid(obj as D) ? (obj as D) : null;
   }
 
   /**
@@ -463,7 +463,7 @@ export abstract class DateAdapter<D> {
    *
    */
   deserialize(value: any): D | null {
-    if (value == null || this.isDateInstance(value) && this.isValid(value)) {
+    if (value == null || (this.isDateInstance(value) && this.isValid(value))) {
       return value;
     }
     return this.invalid();
@@ -479,7 +479,7 @@ export abstract class DateAdapter<D> {
    * 新的语言环境。
    *
    */
-  setLocale(locale: any) {
+  setLocale(locale: L) {
     this.locale = locale;
     this._localeChanges.next();
   }
@@ -504,9 +504,11 @@ export abstract class DateAdapter<D> {
    *
    */
   compareDate(first: D, second: D): number {
-    return this.getYear(first) - this.getYear(second) ||
-        this.getMonth(first) - this.getMonth(second) ||
-        this.getDate(first) - this.getDate(second);
+    return (
+      this.getYear(first) - this.getYear(second) ||
+      this.getMonth(first) - this.getMonth(second) ||
+      this.getDate(first) - this.getDate(second)
+    );
   }
 
   /**

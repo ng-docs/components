@@ -7,21 +7,21 @@
  */
 
 import {
-    TemplateRef,
-    ViewContainerRef,
-    ElementRef,
-    ComponentRef,
-    EmbeddedViewRef,
-    Injector,
-    ComponentFactoryResolver,
+  TemplateRef,
+  ViewContainerRef,
+  ElementRef,
+  ComponentRef,
+  EmbeddedViewRef,
+  Injector,
+  ComponentFactoryResolver,
 } from '@angular/core';
 import {
-    throwNullPortalOutletError,
-    throwPortalAlreadyAttachedError,
-    throwNoPortalAttachedError,
-    throwNullPortalError,
-    throwPortalOutletAlreadyDisposedError,
-    throwUnknownPortalTypeError
+  throwNullPortalOutletError,
+  throwPortalAlreadyAttachedError,
+  throwNoPortalAttachedError,
+  throwNullPortalError,
+  throwPortalOutletAlreadyDisposedError,
+  throwUnknownPortalTypeError,
 } from './portal-errors';
 
 /**
@@ -62,7 +62,7 @@ export abstract class Portal<T> {
     }
 
     this._attachedHost = host;
-    return <T> host.attach(this);
+    return <T>host.attach(this);
   }
 
   /**
@@ -147,10 +147,11 @@ export class ComponentPortal<T> extends Portal<ComponentRef<T>> {
   componentFactoryResolver?: ComponentFactoryResolver | null;
 
   constructor(
-      component: ComponentType<T>,
-      viewContainerRef?: ViewContainerRef | null,
-      injector?: Injector | null,
-      componentFactoryResolver?: ComponentFactoryResolver | null) {
+    component: ComponentType<T>,
+    viewContainerRef?: ViewContainerRef | null,
+    injector?: Injector | null,
+    componentFactoryResolver?: ComponentFactoryResolver | null,
+  ) {
     super();
     this.component = component;
     this.viewContainerRef = viewContainerRef;
@@ -209,12 +210,12 @@ export class TemplatePortal<C = any> extends Portal<EmbeddedViewRef<C>> {
    * 把此传送点添加到所提供的 `PortalOutlet` 中。当提供了上下文时，它会改写 `TemplatePortal` 实例 `context` 属性。
    *
    */
-  attach(host: PortalOutlet, context: C | undefined = this.context): EmbeddedViewRef<C> {
+  override attach(host: PortalOutlet, context: C | undefined = this.context): EmbeddedViewRef<C> {
     this.context = context;
     return super.attach(host);
   }
 
-  detach(): void {
+  override detach(): void {
     this.context = undefined;
     return super.detach();
   }

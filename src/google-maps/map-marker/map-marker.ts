@@ -7,7 +7,7 @@
  */
 
 // Workaround for: https://github.com/bazelbuild/rules_nodejs/issues/1265
-/// <reference types="googlemaps" />
+/// <reference types="google.maps" />
 
 import {
   Input,
@@ -74,10 +74,10 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Input()
-  set position(position: google.maps.LatLngLiteral|google.maps.LatLng) {
+  set position(position: google.maps.LatLngLiteral | google.maps.LatLng) {
     this._position = position;
   }
-  private _position: google.maps.LatLngLiteral|google.maps.LatLng;
+  private _position: google.maps.LatLngLiteral | google.maps.LatLng;
 
   /**
    * Label for the marker.
@@ -87,10 +87,10 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Input()
-  set label(label: string|google.maps.MarkerLabel) {
+  set label(label: string | google.maps.MarkerLabel) {
     this._label = label;
   }
-  private _label: string|google.maps.MarkerLabel;
+  private _label: string | google.maps.MarkerLabel;
 
   /**
    * Whether the marker is clickable. See:
@@ -152,7 +152,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly animationChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('animation_changed');
+    this._eventManager.getLazyEmitter<void>('animation_changed');
 
   /**
    * See
@@ -162,7 +162,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly mapClick: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('click');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('click');
 
   /**
    * See
@@ -172,7 +172,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly clickableChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('clickable_changed');
+    this._eventManager.getLazyEmitter<void>('clickable_changed');
 
   /**
    * See
@@ -182,7 +182,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly cursorChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('cursor_changed');
+    this._eventManager.getLazyEmitter<void>('cursor_changed');
 
   /**
    * See
@@ -192,7 +192,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly mapDblclick: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dblclick');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dblclick');
 
   /**
    * See
@@ -202,7 +202,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly mapDrag: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('drag');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('drag');
 
   /**
    * See
@@ -212,7 +212,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly mapDragend: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dragend');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dragend');
 
   /**
    * See
@@ -222,7 +222,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly draggableChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('draggable_changed');
+    this._eventManager.getLazyEmitter<void>('draggable_changed');
 
   /**
    * See
@@ -232,7 +232,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly mapDragstart: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dragstart');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dragstart');
 
   /**
    * See
@@ -242,7 +242,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly flatChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('flat_changed');
+    this._eventManager.getLazyEmitter<void>('flat_changed');
 
   /**
    * See
@@ -252,7 +252,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly iconChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('icon_changed');
+    this._eventManager.getLazyEmitter<void>('icon_changed');
 
   /**
    * See
@@ -262,7 +262,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly mapMousedown: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mousedown');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mousedown');
 
   /**
    * See
@@ -272,7 +272,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly mapMouseout: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseout');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseout');
 
   /**
    * See
@@ -282,7 +282,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly mapMouseover: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseover');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseover');
 
   /**
    * See
@@ -292,7 +292,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly mapMouseup: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseup');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseup');
 
   /**
    * See
@@ -302,7 +302,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly positionChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('position_changed');
+    this._eventManager.getLazyEmitter<void>('position_changed');
 
   /**
    * See
@@ -312,7 +312,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly mapRightclick: Observable<google.maps.MapMouseEvent> =
-      this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('rightclick');
+    this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('rightclick');
 
   /**
    * See
@@ -322,7 +322,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly shapeChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('shape_changed');
+    this._eventManager.getLazyEmitter<void>('shape_changed');
 
   /**
    * See
@@ -332,7 +332,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly titleChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('title_changed');
+    this._eventManager.getLazyEmitter<void>('title_changed');
 
   /**
    * See
@@ -342,7 +342,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly visibleChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('visible_changed');
+    this._eventManager.getLazyEmitter<void>('visible_changed');
 
   /**
    * See
@@ -352,7 +352,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    *
    */
   @Output() readonly zindexChanged: Observable<void> =
-      this._eventManager.getLazyEmitter<void>('zindex_changed');
+    this._eventManager.getLazyEmitter<void>('zindex_changed');
 
   /**
    * The underlying google.maps.Marker object.
@@ -366,9 +366,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    */
   marker?: google.maps.Marker;
 
-  constructor(
-    private readonly _googleMap: GoogleMap,
-    private _ngZone: NgZone) {}
+  constructor(private readonly _googleMap: GoogleMap, private _ngZone: NgZone) {}
 
   ngOnInit() {
     if (this._googleMap._isBrowser) {
@@ -432,7 +430,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    * 请参阅 developers.google.com/maps/documentation/javascript/reference/marker#Marker.getAnimation
    *
    */
-  getAnimation(): google.maps.Animation|null {
+  getAnimation(): google.maps.Animation | null {
     this._assertInitialized();
     return this.marker.getAnimation() || null;
   }
@@ -456,7 +454,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    * 请参阅 developers.google.com/maps/documentation/javascript/reference/marker#Marker.getCursor
    *
    */
-  getCursor(): string|null {
+  getCursor(): string | null {
     this._assertInitialized();
     return this.marker.getCursor() || null;
   }
@@ -480,7 +478,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    * 请参阅 developers.google.com/maps/documentation/javascript/reference/marker#Marker.getIcon
    *
    */
-  getIcon(): string|google.maps.Icon|google.maps.Symbol|null {
+  getIcon(): string | google.maps.Icon | google.maps.Symbol | null {
     this._assertInitialized();
     return this.marker.getIcon() || null;
   }
@@ -492,7 +490,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    * 请参阅 developers.google.com/maps/documentation/javascript/reference/marker#Marker.getLabel
    *
    */
-  getLabel(): google.maps.MarkerLabel|null {
+  getLabel(): google.maps.MarkerLabel | null {
     this._assertInitialized();
     return this.marker.getLabel() || null;
   }
@@ -504,7 +502,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    * 请参阅 developers.google.com/maps/documentation/javascript/reference/marker#Marker.getOpacity
    *
    */
-  getOpacity(): number|null {
+  getOpacity(): number | null {
     this._assertInitialized();
     return this.marker.getOpacity() || null;
   }
@@ -516,7 +514,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    * 请参阅 developers.google.com/maps/documentation/javascript/reference/marker#Marker.getPosition
    *
    */
-  getPosition(): google.maps.LatLng|null {
+  getPosition(): google.maps.LatLng | null {
     this._assertInitialized();
     return this.marker.getPosition() || null;
   }
@@ -528,7 +526,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    * 请参阅 developers.google.com/maps/documentation/javascript/reference/marker#Marker.getShape
    *
    */
-  getShape(): google.maps.MarkerShape|null {
+  getShape(): google.maps.MarkerShape | null {
     this._assertInitialized();
     return this.marker.getShape() || null;
   }
@@ -540,7 +538,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    * 请参阅 developers.google.com/maps/documentation/javascript/reference/marker#Marker.getTitle
    *
    */
-  getTitle(): string|null {
+  getTitle(): string | null {
     this._assertInitialized();
     return this.marker.getTitle() || null;
   }
@@ -564,7 +562,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
    * 请参阅 developers.google.com/maps/documentation/javascript/reference/marker#Marker.getZIndex
    *
    */
-  getZIndex(): number|null {
+  getZIndex(): number | null {
     this._assertInitialized();
     return this.marker.getZIndex() || null;
   }
@@ -596,7 +594,7 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
       clickable: this._clickable ?? options.clickable,
       map: this._googleMap.googleMap,
       icon: this._icon || options.icon,
-      visible: this._visible ?? options.visible
+      visible: this._visible ?? options.visible,
     };
   }
 
@@ -604,13 +602,15 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       if (!this._googleMap.googleMap) {
         throw Error(
-            'Cannot access Google Map information before the API has been initialized. ' +
-            'Please wait for the API to load before trying to interact with it.');
+          'Cannot access Google Map information before the API has been initialized. ' +
+            'Please wait for the API to load before trying to interact with it.',
+        );
       }
       if (!this.marker) {
         throw Error(
-            'Cannot interact with a Google Map Marker before it has been ' +
-            'initialized. Please wait for the Marker to load before trying to interact with it.');
+          'Cannot interact with a Google Map Marker before it has been ' +
+            'initialized. Please wait for the Marker to load before trying to interact with it.',
+        );
       }
     }
   }

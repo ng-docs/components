@@ -36,9 +36,11 @@ export class MatBadgeHarness extends ComponentHarness {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: BadgeHarnessFilters = {}): HarnessPredicate<MatBadgeHarness> {
-    return new HarnessPredicate(MatBadgeHarness, options)
-        .addOption('text', options.text,
-            (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text));
+    return new HarnessPredicate(MatBadgeHarness, options).addOption(
+      'text',
+      options.text,
+      (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text),
+    );
   }
 
   private _badgeElement = this.locatorFor('.mat-badge-content');

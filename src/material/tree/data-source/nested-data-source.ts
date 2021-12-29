@@ -28,17 +28,21 @@ export class MatTreeNestedDataSource<T> extends DataSource<T> {
    * 嵌套树的数据
    *
    */
-  get data() { return this._data.value; }
-  set data(value: T[]) { this._data.next(value); }
+  get data() {
+    return this._data.value;
+  }
+  set data(value: T[]) {
+    this._data.next(value);
+  }
   private readonly _data = new BehaviorSubject<T[]>([]);
 
   connect(collectionViewer: CollectionViewer): Observable<T[]> {
-    return merge(...[collectionViewer.viewChange, this._data] as Observable<unknown>[])
-      .pipe(map(() => this.data));
+    return merge(...([collectionViewer.viewChange, this._data] as Observable<unknown>[])).pipe(
+      map(() => this.data),
+    );
   }
 
   disconnect() {
     // no op
   }
 }
-

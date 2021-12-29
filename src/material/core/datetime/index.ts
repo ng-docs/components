@@ -20,9 +20,7 @@ export * from './native-date-formats';
 
 @NgModule({
   imports: [PlatformModule],
-  providers: [
-    {provide: DateAdapter, useClass: NativeDateAdapter},
-  ],
+  providers: [{provide: DateAdapter, useClass: NativeDateAdapter}],
 })
 export class NativeDateModule {}
 

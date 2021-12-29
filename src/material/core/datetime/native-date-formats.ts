@@ -17,5 +17,5 @@ export const MAT_NATIVE_DATE_FORMATS: MatDateFormats = {
     monthYearLabel: {year: 'numeric', month: 'short'},
     dateA11yLabel: {year: 'numeric', month: 'long', day: 'numeric'},
     monthYearA11yLabel: {year: 'numeric', month: 'long'},
-  }
+  },
 };

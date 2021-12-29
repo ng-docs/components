@@ -56,7 +56,7 @@ export class FocusKeyManager<T> extends ListKeyManager<FocusableOption & T> {
    * 要设置为活动条目的索引。
    *
    */
-  setActiveItem(index: number): void;
+  override setActiveItem(index: number): void;
 
   /**
    * Sets the active item to the item that is specified and focuses it.
@@ -68,9 +68,9 @@ export class FocusKeyManager<T> extends ListKeyManager<FocusableOption & T> {
    * 要设置为活动的条目。
    *
    */
-  setActiveItem(item: T): void;
+  override setActiveItem(item: T): void;
 
-  setActiveItem(item: any): void {
+  override setActiveItem(item: any): void {
     super.setActiveItem(item);
 
     if (this.activeItem) {

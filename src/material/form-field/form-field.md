@@ -26,12 +26,13 @@ The following Angular Material components are designed to work inside a `<mat-fo
 ### 表单字段外观的变体形式
 
 The `mat-form-field` supports 4 different appearance variants which can be set via the `appearance`
-input. The `legacy` appearance is the default style that the `mat-form-field` has traditionally had.
-It shows the input box with an underline underneath it. The `standard` appearance is a slightly
-updated version of the `legacy` appearance that has spacing that is more consistent with the `fill`
-and `outline` appearances. The `fill` appearance displays the form field with a filled background
-box in addition to the underline. Finally the `outline` appearance shows the form field with a
-border all the way around, not just an underline.
+input. The `fill` an `outline` appearances implement the current version of the spec. The `fill`
+appearance displays the form field with a filled background box and an underline, while the
+`outline` appearance shows the form field with a border all the way around.
+
+The `legacy` and `standard` appearances implement an older version of the spec where
+`mat-form-field` was shown with an underline beneath it. We recommend not using these appearances as
+they do not  match the current spec.
 
 `mat-form-field` 支持四种不同的外观变体，可以通过输入属性 `appearance` 进行设置。
 `legacy` 外观是默认风格，也是 `mat-form-field` 的传统样式。它会在输入框的下方显示一个下划线。
@@ -39,13 +40,14 @@ border all the way around, not just an underline.
 `fill` 外观显示的表单字段除了下划线之外还带有填充的背景。
 最后，`outline` 外观会显示一个带四周边框的表单字段，而不仅有下划线。
 
-There are a couple differences to be aware of between the `legacy` appearance and the newer
-`standard`, `fill`, and `outline` appearances. The `matPrefix` and `matSuffix` elements are center
-aligned by default for the newer appearances. The Material Design spec shows this as being the
-standard way to align prefix and suffix icons in the newer appearance variants. We do not recommend
-using text prefix and suffixes in the `fill` and `outline` variants because the label and input do not have the same
-alignment. It is therefore impossible to align the prefix or suffix in a way that looks good when
-compared with both the label and input text.
+There are a couple differences in behavior to be aware of between the different appearances.
+
+We recommend that text prefix and suffixes in the `fill` and `outline` appearances only be used in
+conjunction with the `floatLabel="always"` option. This is because the resting label and the input
+value do not have  the same alignment, and it is therefore impossible to align the prefix or suffix
+in a way that looks good when compared with both. In the `standard` and `legacy` appearances, the 
+resting label and input value align, so this isn't an issue. We plan to improve support for text
+prefix and suffixes in the future so they can be used without `floatLabel="always"`.
 
 在 `legacy` 外观和较新的 `standard`、`fill` 和 `outline` 外观之间有几点值得注意的差异。
 在新外观中，`matPrefix` 和 `matSuffix` 默认是中心对齐的，Material Design 规范将其视为新外观中对齐前缀图标和后缀图标的标准方法。
@@ -55,7 +57,19 @@ The second important difference is that the `standard`, `fill`, and `outline` ap
 promote placeholders to labels. For the `legacy` appearance specifying
 `<input placeholder="placeholder">` will result in a floating label being added to the
 `mat-form-field`. For the newer variants it will just add a normal placeholder to the input. If you
-want a floating label, add a `<mat-label>` to the `mat-form-field`.
+want a floating label, add a `<mat-label>` to the `mat-form-field` instead.
+
+Out of the box, if you do not specify an `appearance` for the `<mat-form-field>` it will default to
+`legacy`. However, this can be configured using a global provider to choose a different default
+appearance for your app.
+
+```ts
+@NgModule({
+  providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}}
+  ]
+})
+```
 
 第二个重要的不同点是 `standard`、`fill` 或 `outline` 不会把占位符（placeholder）提升为标签。
 对于 `legacy` 外观来说，指定 `<input placeholder="placeholder">` 将导致为 `mat-form-field` 添加一个浮动标签。
@@ -68,10 +82,9 @@ want a floating label, add a `<mat-label>` to the `mat-form-field`.
 ### 浮动标签
 
 The floating label is a text label displayed on top of the form field control when
-the control does not contain any text or when `<select matNativeControl>` does not show any option text. 
-By default, when text is present the floating label
-floats above the form field control. The label for a form field can be specified by adding a
-`mat-label` element.
+the control does not contain any text or when `<select matNativeControl>` does not show any option
+text. By default, when text is present the floating label floats above the form field control. The
+label for a form field can be specified by adding a `mat-label` element.
 
 当控件不包含任何文本时，显示在表单字段控件顶部的那个文本标签就叫做浮动标签。
 默认情况下，如果存在文本，则浮动标签将显示在表单字段控件的上方。
@@ -233,16 +246,24 @@ mat-form-field.mat-form-field {
 
 ### 无障碍性
 
+By itself, `MatFormField` does not apply any additional accessibility treatment to a control.
+However, several of the form field's optional features interact with the control contained within
+the form field.
+
+When you provide a label via `<mat-label>`, `MatFormField` automatically associates this label with
+the field's control via a native `<label>` element, using the `for` attribute to reference the
+control's ID.
+
 If a floating label is specified, it will be automatically used as the label for the form
 field control. If no floating label is specified, the user should label the form field control
 themselves using `aria-label`, `aria-labelledby` or `<label for=...>`.
 
 如果指定了浮动标签，它就会自动用作表单字段控件的标签。如果没有指定浮动标签，用户就应该使用 `aria-label`、`aria-labelledby` 或 `<label for=...>` 来给表单字段控件提供标签。
 
-Any errors and hints added to the form field are automatically added to the form field control's
-`aria-describedby` set.
-
-任何添加到表单字段中的错误信息或提示信息都会自动添加到表单字段控件的 `aria-describedby` 集合中。
+When you provide informational text via `<mat-hint>` or `<mat-error>`, `MatFormField` automatically
+adds these elements' IDs to the control's `aria-describedby` attribute. Additionally, `MatError`
+applies `aria-live="polite"` by default such that assistive technology will announce errors when
+they appear.
 
 ### Troubleshooting
 

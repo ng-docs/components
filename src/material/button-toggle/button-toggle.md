@@ -19,11 +19,13 @@ button and `ngModel` is supported.
 在这种模式下，`mat-button-toggle-group` 的 `value` 表示当前选中的按钮，还支持 `ngModel`。
 
 Adding the `multiple` attribute allows multiple items to be selected (checkbox behavior). In this
-mode the values of the toggles are not used, the `mat-button-toggle-group` does not have a value, 
+mode the values of the toggles are not used, the `mat-button-toggle-group` does not have a value,
 and `ngModel` is not supported.
 
 添加 `multiple` 属性将会允许同时选中多个条目（就像检查框那样）。
 在这种模式下，这些开关的值是没用的，`mat-button-toggle-group` 没有值，不支持 `ngModel`。
+
+<!-- example(button-toggle-mode) -->
 
 ### Appearance
 
@@ -42,26 +44,6 @@ be configured globally using the `MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS` injection t
 `<mat-button-toggle-group>` is compatible with `@angular/forms` and supports both `FormsModule`
 and `ReactiveFormsModule`.
 
-### Accessibility
-
-### 无障碍性
-
-The button-toggles internally use native `button` elements with `aria-pressed` to convey
-their toggled state. The button-toggle-group surrounding the individual buttons applies
-`role="group"` to convey the association between the individual toggles.
-
-这些按钮开关内部会使用带有 `aria-pressed` 的原生 `button` 元素来表达其切换状态。按钮开关组（button-toggle-group）会把带有 `role="group"` 的这些独立按钮都包裹起来，以表达这些独立开关之间的联系。
-
-For button toggles containing only icons, each button toggle should be given a meaningful label via
-`aria-label` or `aria-labelledby`.
-
-对于只包含图标的按钮开关，每个按钮开关都应该通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。
-
-For button toggle groups, each group should be given a meaningful label via `aria-label` or
-`aria-labelledby`.
-
-对于按钮开关组，每个组都要通过 `aria-label` 或 `aria-labelledby` 给出一个有意义的标签。
-
 ### Orientation
 
 ### 方向
@@ -69,3 +51,22 @@ For button toggle groups, each group should be given a meaningful label via `ari
 The button-toggles can be rendered in a vertical orientation by adding the `vertical` attribute.
 
 通过添加 `vertical` 属性，按钮开关组可以沿垂直方向渲染。
+
+### Accessibility
+`MatButtonToggle` internally uses native `button` elements with `aria-pressed` to convey toggle
+state. If a toggle contains only an icon, you should specify a meaningful label via `aria-label`
+or `aria-labelledby`. For dynamic labels, `MatButtonToggle` provides input properties for binding
+`aria-label` and `aria-labelledby`. This means that you should not use the `attr.` prefix when
+binding these properties, as demonstrated below.
+
+```html
+<mat-button-toggle [aria-label]="alertsEnabled ? 'Disable alerts' : 'Enable alerts'">
+  <mat-icon>notifications</mat-icon>
+</mat-button-toggle>
+```
+
+The `MatButtonToggleGroup` surrounding the individual buttons applies
+`role="group"` to convey the association between the individual toggles. Each
+`<mat-button-toggle-group>` element should be given a label with `aria-label` or `aria-labelledby`
+that communicates the collective meaning of all toggles. For example, if you have toggles for
+"Bold", "Italic", and "Underline", you might label the parent group "Font styles".

@@ -88,7 +88,7 @@ export class MatDatepickerIntl {
    * 前一个多年按钮的标签（由屏幕阅读器使用）。
    *
    */
-  prevMultiYearLabel: string = 'Previous 20 years';
+  prevMultiYearLabel: string = 'Previous 24 years';
 
   /**
    * A label for the next multi-year button (used by screen readers).
@@ -96,7 +96,7 @@ export class MatDatepickerIntl {
    * 下一个多年按钮的标签（由屏幕阅读器使用）。
    *
    */
-  nextMultiYearLabel: string = 'Next 20 years';
+  nextMultiYearLabel: string = 'Next 24 years';
 
   /**
    * A label for the 'switch to month view' button (used by screen readers).

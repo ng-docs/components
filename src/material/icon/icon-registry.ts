@@ -21,7 +21,7 @@ import {
 import {DomSanitizer, SafeResourceUrl, SafeHtml} from '@angular/platform-browser';
 import {forkJoin, Observable, of as observableOf, throwError as observableThrow} from 'rxjs';
 import {catchError, finalize, map, share, tap} from 'rxjs/operators';
-
+import {TrustedHTML, trustedHTMLFromString} from './trusted-types';
 /**
  * Returns an exception to be thrown in the case when attempting to
  * load an icon with a name that cannot be found.
@@ -43,9 +43,11 @@ export function getMatIconNameNotFoundError(iconName: string): Error {
  * @docs-private
  */
 export function getMatIconNoHttpProviderError(): Error {
-  return Error('Could not find HttpClient provider for use with Angular Material icons. ' +
-               'Please include the HttpClientModule from @angular/common/http in your ' +
-               'app imports.');
+  return Error(
+    'Could not find HttpClient provider for use with Angular Material icons. ' +
+      'Please include the HttpClientModule from @angular/common/http in your ' +
+      'app imports.',
+  );
 }
 
 /**
@@ -60,8 +62,10 @@ export function getMatIconNoHttpProviderError(): Error {
  * @docs-private
  */
 export function getMatIconFailedToSanitizeUrlError(url: SafeResourceUrl): Error {
-  return Error(`The URL provided to MatIconRegistry was not trusted as a resource URL ` +
-               `via Angular's DomSanitizer. Attempted URL was "${url}".`);
+  return Error(
+    `The URL provided to MatIconRegistry was not trusted as a resource URL ` +
+      `via Angular's DomSanitizer. Attempted URL was "${url}".`,
+  );
 }
 
 /**
@@ -76,8 +80,10 @@ export function getMatIconFailedToSanitizeUrlError(url: SafeResourceUrl): Error 
  * @docs-private
  */
 export function getMatIconFailedToSanitizeLiteralError(literal: SafeHtml): Error {
-  return Error(`The literal provided to MatIconRegistry was not trusted as safe HTML by ` +
-               `Angular's DomSanitizer. Attempted literal was "${literal}".`);
+  return Error(
+    `The literal provided to MatIconRegistry was not trusted as safe HTML by ` +
+      `Angular's DomSanitizer. Attempted literal was "${literal}".`,
+  );
 }
 
 /**
@@ -111,8 +117,10 @@ export interface IconOptions {
  * 尝试解析用来提取图标的 URL 时，图标注册表会调用该函数。返回的 URL 将用于发出图标请求。
  *
  */
-export type IconResolver = (name: string, namespace: string) =>
-    (SafeResourceUrl | SafeResourceUrlWithIconOptions | null);
+export type IconResolver = (
+  name: string,
+  namespace: string,
+) => SafeResourceUrl | SafeResourceUrlWithIconOptions | null;
 
 /**
  * Object that specifies a URL from which to fetch an icon and the options to use for it.
@@ -137,8 +145,9 @@ class SvgIconConfig {
 
   constructor(
     public url: SafeResourceUrl,
-    public svgText: string | null,
-    public options?: IconOptions) {}
+    public svgText: TrustedHTML | null,
+    public options?: IconOptions,
+  ) {}
 }
 
 /**
@@ -147,7 +156,7 @@ class SvgIconConfig {
  * 已加载过内容的图标配置。
  *
  */
-type LoadedSvgIconConfig = SvgIconConfig & {svgText: string};
+type LoadedSvgIconConfig = SvgIconConfig & {svgText: TrustedHTML};
 
 /**
  * Service to register and display icons used by the `<mat-icon>` component.
@@ -205,7 +214,7 @@ export class MatIconRegistry implements OnDestroy {
    * 正进行中的图标提取请求。用来把多个请求合并成同一个 URL。
    *
    */
-  private _inProgressUrlFetches = new Map<string, Observable<string>>();
+  private _inProgressUrlFetches = new Map<string, Observable<TrustedHTML>>();
 
   /**
    * Map from font identifiers to their CSS class names. Used for icon fonts.
@@ -236,9 +245,10 @@ export class MatIconRegistry implements OnDestroy {
     @Optional() private _httpClient: HttpClient,
     private _sanitizer: DomSanitizer,
     @Optional() @Inject(DOCUMENT) document: any,
-    private readonly _errorHandler: ErrorHandler) {
-      this._document = document;
-    }
+    private readonly _errorHandler: ErrorHandler,
+  ) {
+    this._document = document;
+  }
 
   /**
    * Registers an icon by URL in the default namespace.
@@ -288,8 +298,12 @@ export class MatIconRegistry implements OnDestroy {
    *
    * @param url
    */
-  addSvgIconInNamespace(namespace: string, iconName: string, url: SafeResourceUrl,
-                        options?: IconOptions): this {
+  addSvgIconInNamespace(
+    namespace: string,
+    iconName: string,
+    url: SafeResourceUrl,
+    options?: IconOptions,
+  ): this {
     return this._addSvgIconConfig(namespace, iconName, new SvgIconConfig(url, null, options));
   }
 
@@ -330,8 +344,12 @@ export class MatIconRegistry implements OnDestroy {
    * 图标的 SVG 源码。
    *
    */
-  addSvgIconLiteralInNamespace(namespace: string, iconName: string, literal: SafeHtml,
-                               options?: IconOptions): this {
+  addSvgIconLiteralInNamespace(
+    namespace: string,
+    iconName: string,
+    literal: SafeHtml,
+    options?: IconOptions,
+  ): this {
     const cleanLiteral = this._sanitizer.sanitize(SecurityContext.HTML, literal);
 
     // TODO: add an ngDevMode check
@@ -339,8 +357,13 @@ export class MatIconRegistry implements OnDestroy {
       throw getMatIconFailedToSanitizeLiteralError(literal);
     }
 
-    return this._addSvgIconConfig(namespace, iconName,
-        new SvgIconConfig('', cleanLiteral, options));
+    // Security: The literal is passed in as SafeHtml, and is thus trusted.
+    const trustedLiteral = trustedHTMLFromString(cleanLiteral);
+    return this._addSvgIconConfig(
+      namespace,
+      iconName,
+      new SvgIconConfig('', trustedLiteral, options),
+    );
   }
 
   /**
@@ -397,15 +420,20 @@ export class MatIconRegistry implements OnDestroy {
    * 图标集的 SVG 源码。
    *
    */
-  addSvgIconSetLiteralInNamespace(namespace: string, literal: SafeHtml,
-                                  options?: IconOptions): this {
+  addSvgIconSetLiteralInNamespace(
+    namespace: string,
+    literal: SafeHtml,
+    options?: IconOptions,
+  ): this {
     const cleanLiteral = this._sanitizer.sanitize(SecurityContext.HTML, literal);
 
     if (!cleanLiteral) {
       throw getMatIconFailedToSanitizeLiteralError(literal);
     }
 
-    return this._addSvgIconSetConfig(namespace, new SvgIconConfig('', cleanLiteral, options));
+    // Security: The literal is passed in as SafeHtml, and is thus trusted.
+    const trustedLiteral = trustedHTMLFromString(cleanLiteral);
+    return this._addSvgIconSetConfig(namespace, new SvgIconConfig('', trustedLiteral, options));
   }
 
   /**
@@ -573,8 +601,10 @@ export class MatIconRegistry implements OnDestroy {
    * 尝试在任何一个 SVG 图标集中找到一个具有指定名字的图标。首先会在可用的缓存图标中搜索名称能匹配的嵌套元素，如果找到，则把该元素复制到新的 `<svg>` 元素中。如果找不到，则获取所有尚未缓存的图标集，并在全部获取完后再次搜索。如果找到，返回的 Observable 就会发出 SVG 元素，否则就抛出一个错误。
    *
    */
-  private _getSvgFromIconSetConfigs(name: string, iconSetConfigs: SvgIconConfig[]):
-      Observable<SVGElement> {
+  private _getSvgFromIconSetConfigs(
+    name: string,
+    iconSetConfigs: SvgIconConfig[],
+  ): Observable<SVGElement> {
     // For all the icon set SVG elements we've fetched, see if any contain an icon with the
     // requested name.
     const namedIcon = this._extractIconWithNameFromAnySet(name, iconSetConfigs);
@@ -588,7 +618,7 @@ export class MatIconRegistry implements OnDestroy {
 
     // Not found in any cached icon sets. If there are icon sets with URLs that we haven't
     // fetched, fetch them now and look for iconName in the results.
-    const iconSetFetchRequests: Observable<string | null>[] = iconSetConfigs
+    const iconSetFetchRequests: Observable<TrustedHTML | null>[] = iconSetConfigs
       .filter(iconSetConfig => !iconSetConfig.svgText)
       .map(iconSetConfig => {
         return this._loadSvgIconSetFromConfig(iconSetConfig).pipe(
@@ -600,22 +630,24 @@ export class MatIconRegistry implements OnDestroy {
             const errorMessage = `Loading icon set URL: ${url} failed: ${err.message}`;
             this._errorHandler.handleError(new Error(errorMessage));
             return observableOf(null);
-          })
+          }),
         );
       });
 
     // Fetch all the icon set URLs. When the requests complete, every IconSet should have a
     // cached SVG element (unless the request failed), and we can check again for the icon.
-    return forkJoin(iconSetFetchRequests).pipe(map(() => {
-      const foundIcon = this._extractIconWithNameFromAnySet(name, iconSetConfigs);
+    return forkJoin(iconSetFetchRequests).pipe(
+      map(() => {
+        const foundIcon = this._extractIconWithNameFromAnySet(name, iconSetConfigs);
 
-      // TODO: add an ngDevMode check
-      if (!foundIcon) {
-        throw getMatIconNameNotFoundError(name);
-      }
+        // TODO: add an ngDevMode check
+        if (!foundIcon) {
+          throw getMatIconNameNotFoundError(name);
+        }
 
-      return foundIcon;
-    }));
+        return foundIcon;
+      }),
+    );
   }
 
   /**
@@ -626,8 +658,10 @@ export class MatIconRegistry implements OnDestroy {
    * 在指定图标集的缓存 SVG 元素中搜索 “id” 标签与指定名称相匹配的嵌套图标元素。如果找到，就把嵌套元素复制到一个新的 SVG 元素中并返回它。如果找不到，则返回 null。
    *
    */
-  private _extractIconWithNameFromAnySet(iconName: string, iconSetConfigs: SvgIconConfig[]):
-      SVGElement | null {
+  private _extractIconWithNameFromAnySet(
+    iconName: string,
+    iconSetConfigs: SvgIconConfig[],
+  ): SVGElement | null {
     // Iterate backwards, so icon sets added later have precedence.
     for (let i = iconSetConfigs.length - 1; i >= 0; i--) {
       const config = iconSetConfigs[i];
@@ -636,7 +670,7 @@ export class MatIconRegistry implements OnDestroy {
       // the parsing by doing a quick check using `indexOf` to see if there's any chance for the
       // icon to be in the set. This won't be 100% accurate, but it should help us avoid at least
       // some of the parsing.
-      if (config.svgText && config.svgText.indexOf(iconName) > -1) {
+      if (config.svgText && config.svgText.toString().indexOf(iconName) > -1) {
         const svg = this._svgElementFromConfig(config as LoadedSvgIconConfig);
         const foundIcon = this._extractSvgIconFromSet(svg, iconName, config.options);
         if (foundIcon) {
@@ -656,8 +690,8 @@ export class MatIconRegistry implements OnDestroy {
    */
   private _loadSvgIconFromConfig(config: SvgIconConfig): Observable<SVGElement> {
     return this._fetchIcon(config).pipe(
-      tap(svgText => config.svgText = svgText),
-      map(() => this._svgElementFromConfig(config as LoadedSvgIconConfig))
+      tap(svgText => (config.svgText = svgText)),
+      map(() => this._svgElementFromConfig(config as LoadedSvgIconConfig)),
     );
   }
 
@@ -668,12 +702,12 @@ export class MatIconRegistry implements OnDestroy {
    * 加载 SvgIconConfig 中指定的图标集 URL 的内容，并把它附加到配置对象中。
    *
    */
-  private _loadSvgIconSetFromConfig(config: SvgIconConfig): Observable<string | null> {
+  private _loadSvgIconSetFromConfig(config: SvgIconConfig): Observable<TrustedHTML | null> {
     if (config.svgText) {
       return observableOf(null);
     }
 
-    return this._fetchIcon(config).pipe(tap(svgText => config.svgText = svgText));
+    return this._fetchIcon(config).pipe(tap(svgText => (config.svgText = svgText)));
   }
 
   /**
@@ -684,8 +718,11 @@ export class MatIconRegistry implements OnDestroy {
    * 在指定的 SvgIconConfig 的缓存元素中搜索 “id” 标签与指定名称匹配的嵌套图标元素。如果找到，就把嵌套元素复制到一个新的 SVG 元素中并返回它。如果找不到，则返回 null。
    *
    */
-  private _extractSvgIconFromSet(iconSet: SVGElement, iconName: string,
-                                 options?: IconOptions): SVGElement | null {
+  private _extractSvgIconFromSet(
+    iconSet: SVGElement,
+    iconName: string,
+    options?: IconOptions,
+  ): SVGElement | null {
     // Use the `id="iconName"` syntax in order to escape special
     // characters in the ID (versus using the #iconName syntax).
     const iconSource = iconSet.querySelector(`[id="${iconName}"]`);
@@ -717,7 +754,7 @@ export class MatIconRegistry implements OnDestroy {
     // have to create an empty SVG node using innerHTML and append its content.
     // Elements created using DOMParser.parseFromString have the same problem.
     // http://stackoverflow.com/questions/23003278/svg-innerhtml-in-firefox-can-not-display
-    const svg = this._svgElementFromString('<svg></svg>');
+    const svg = this._svgElementFromString(trustedHTMLFromString('<svg></svg>'));
     // Clone the node so we don't remove it from the parent icon set element.
     svg.appendChild(iconElement);
 
@@ -730,9 +767,9 @@ export class MatIconRegistry implements OnDestroy {
    * 根据指定的 SVG 字符串创建一个 DOM 元素。
    *
    */
-  private _svgElementFromString(str: string): SVGElement {
+  private _svgElementFromString(str: TrustedHTML): SVGElement {
     const div = this._document.createElement('DIV');
-    div.innerHTML = str;
+    div.innerHTML = str as unknown as string;
     const svg = div.querySelector('svg') as SVGElement;
 
     // TODO: add an ngDevMode check
@@ -750,7 +787,7 @@ export class MatIconRegistry implements OnDestroy {
    *
    */
   private _toSvgElement(element: Element): SVGElement {
-    const svg = this._svgElementFromString('<svg></svg>');
+    const svg = this._svgElementFromString(trustedHTMLFromString('<svg></svg>'));
     const attributes = element.attributes;
 
     // Copy over all the attributes from the `symbol` to the new SVG, except the id.
@@ -798,7 +835,7 @@ export class MatIconRegistry implements OnDestroy {
    * 返回一个 Observable，它生成指定图标的字符串内容。这些结果可能会被缓存，所以将来使用相同的 URL 调用它时可能不会导致其它 HTTP 请求。
    *
    */
-  private _fetchIcon(iconConfig: SvgIconConfig): Observable<string> {
+  private _fetchIcon(iconConfig: SvgIconConfig): Observable<TrustedHTML> {
     const {url: safeUrl, options} = iconConfig;
     const withCredentials = options?.withCredentials ?? false;
 
@@ -828,6 +865,11 @@ export class MatIconRegistry implements OnDestroy {
     }
 
     const req = this._httpClient.get(url, {responseType: 'text', withCredentials}).pipe(
+      map(svg => {
+        // Security: This SVG is fetched from a SafeResourceUrl, and is thus
+        // trusted HTML.
+        return trustedHTMLFromString(svg);
+      }),
       finalize(() => this._inProgressUrlFetches.delete(url)),
       share(),
     );
@@ -912,9 +954,9 @@ export class MatIconRegistry implements OnDestroy {
       const result = this._resolvers[i](name, namespace);
 
       if (result) {
-        return isSafeUrlWithOptions(result) ?
-          new SvgIconConfig(result.url, null, result.options) :
-          new SvgIconConfig(result, null);
+        return isSafeUrlWithOptions(result)
+          ? new SvgIconConfig(result.url, null, result.options)
+          : new SvgIconConfig(result, null);
       }
     }
 
@@ -928,7 +970,8 @@ export function ICON_REGISTRY_PROVIDER_FACTORY(
   httpClient: HttpClient,
   sanitizer: DomSanitizer,
   errorHandler: ErrorHandler,
-  document?: any) {
+  document?: any,
+) {
   return parentRegistry || new MatIconRegistry(httpClient, sanitizer, document, errorHandler);
 }
 

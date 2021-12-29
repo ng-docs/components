@@ -38,8 +38,9 @@ export class MatDrawerContentHarness extends ContentContainerComponentHarness<st
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: DrawerContentHarnessFilters = {}):
-    HarnessPredicate<MatDrawerContentHarness> {
+  static with(
+    options: DrawerContentHarnessFilters = {},
+  ): HarnessPredicate<MatDrawerContentHarness> {
     return new HarnessPredicate(MatDrawerContentHarness, options);
   }
 }

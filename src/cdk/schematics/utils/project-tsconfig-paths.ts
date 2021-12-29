@@ -30,8 +30,10 @@ const defaultWorkspaceConfigPaths = ['/angular.json', '/.angular.json'];
  * 从指定项目中的给定目标获取 tsconfig 路径。
  *
  */
-export function getTargetTsconfigPath(project: ProjectDefinition,
-                                      targetName: string): WorkspacePath|null {
+export function getTargetTsconfigPath(
+  project: ProjectDefinition,
+  targetName: string,
+): WorkspacePath | null {
   const tsconfig = project.targets?.get(targetName)?.options?.tsConfig;
   return tsconfig ? normalize(tsconfig as string) : null;
 }
@@ -42,7 +44,9 @@ export function getTargetTsconfigPath(project: ProjectDefinition,
  * 正常解析指定树的工作区配置。
  *
  */
-export async function getWorkspaceConfigGracefully(tree: Tree): Promise<WorkspaceDefinition|null> {
+export async function getWorkspaceConfigGracefully(
+  tree: Tree,
+): Promise<WorkspaceDefinition | null> {
   const path = defaultWorkspaceConfigPaths.find(filePath => tree.exists(filePath));
   const configBuffer = tree.read(path!);
 
@@ -52,7 +56,7 @@ export async function getWorkspaceConfigGracefully(tree: Tree): Promise<Workspac
 
   try {
     return await readJsonWorkspace(path, {
-      readFile: async filePath => tree.read(filePath)!.toString()
+      readFile: async filePath => tree.read(filePath)!.toString(),
     } as WorkspaceHost);
   } catch (e) {
     return null;

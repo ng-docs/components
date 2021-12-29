@@ -15,7 +15,7 @@ import {DragRefConfig, Point, DragRef} from '../drag-ref';
  * 可用于配置拖动开始延迟的可能值。
  *
  */
-export type DragStartDelay = number | {touch: number, mouse: number};
+export type DragStartDelay = number | {touch: number; mouse: number};
 
 /**
  * Possible axis along which dragging can be locked.

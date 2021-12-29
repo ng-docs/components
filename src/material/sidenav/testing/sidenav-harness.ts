@@ -40,9 +40,11 @@ export class MatSidenavHarness extends MatDrawerHarnessBase {
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: DrawerHarnessFilters = {}): HarnessPredicate<MatSidenavHarness> {
-    return new HarnessPredicate(MatSidenavHarness, options)
-        .addOption('position', options.position,
-            async (harness, position) => (await harness.getPosition()) === position);
+    return new HarnessPredicate(MatSidenavHarness, options).addOption(
+      'position',
+      options.position,
+      async (harness, position) => (await harness.getPosition()) === position,
+    );
   }
 
   /**

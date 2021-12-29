@@ -101,8 +101,10 @@ export class CdkAccordionItem implements OnDestroy {
    *
    */
   @Input()
-  get expanded(): boolean { return this._expanded; }
-  set expanded(expanded: boolean) {
+  get expanded(): boolean {
+    return this._expanded;
+  }
+  set expanded(expanded: BooleanInput) {
     expanded = coerceBooleanProperty(expanded);
 
     // Only emit events and update the internal value if the value changes.
@@ -139,8 +141,12 @@ export class CdkAccordionItem implements OnDestroy {
    *
    */
   @Input()
-  get disabled(): boolean { return this._disabled; }
-  set disabled(disabled: boolean) { this._disabled = coerceBooleanProperty(disabled); }
+  get disabled(): boolean {
+    return this._disabled;
+  }
+  set disabled(disabled: BooleanInput) {
+    this._disabled = coerceBooleanProperty(disabled);
+  }
   private _disabled = false;
 
   /**
@@ -151,16 +157,23 @@ export class CdkAccordionItem implements OnDestroy {
    */
   private _removeUniqueSelectionListener: () => void = () => {};
 
-  constructor(@Optional() @Inject(CDK_ACCORDION) @SkipSelf() public accordion: CdkAccordion,
-              private _changeDetectorRef: ChangeDetectorRef,
-              protected _expansionDispatcher: UniqueSelectionDispatcher) {
-    this._removeUniqueSelectionListener =
-      _expansionDispatcher.listen((id: string, accordionId: string) => {
-        if (this.accordion && !this.accordion.multi &&
-            this.accordion.id === accordionId && this.id !== id) {
+  constructor(
+    @Optional() @Inject(CDK_ACCORDION) @SkipSelf() public accordion: CdkAccordion,
+    private _changeDetectorRef: ChangeDetectorRef,
+    protected _expansionDispatcher: UniqueSelectionDispatcher,
+  ) {
+    this._removeUniqueSelectionListener = _expansionDispatcher.listen(
+      (id: string, accordionId: string) => {
+        if (
+          this.accordion &&
+          !this.accordion.multi &&
+          this.accordion.id === accordionId &&
+          this.id !== id
+        ) {
           this.expanded = false;
         }
-      });
+      },
+    );
 
     // When an accordion item is hosted in an accordion, subscribe to open/close events.
     if (this.accordion) {
@@ -227,7 +240,4 @@ export class CdkAccordionItem implements OnDestroy {
       }
     });
   }
-
-  static ngAcceptInputType_expanded: BooleanInput;
-  static ngAcceptInputType_disabled: BooleanInput;
 }

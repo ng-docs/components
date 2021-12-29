@@ -46,7 +46,7 @@ export class ViewportRuler implements OnDestroy {
    * 缓存的视口规格。
    *
    */
-  private _viewportSize: {width: number; height: number};
+  private _viewportSize: {width: number; height: number} | null;
 
   /**
    * Stream of viewport change events.
@@ -64,7 +64,7 @@ export class ViewportRuler implements OnDestroy {
    */
   private _changeListener = (event: Event) => {
     this._change.next(event);
-  }
+  };
 
   /**
    * Used to reference correct document/window
@@ -74,9 +74,11 @@ export class ViewportRuler implements OnDestroy {
    */
   protected _document: Document;
 
-  constructor(private _platform: Platform,
-              ngZone: NgZone,
-              @Optional() @Inject(DOCUMENT) document: any) {
+  constructor(
+    private _platform: Platform,
+    ngZone: NgZone,
+    @Optional() @Inject(DOCUMENT) document: any,
+  ) {
     this._document = document;
 
     ngZone.runOutsideAngular(() => {
@@ -89,9 +91,9 @@ export class ViewportRuler implements OnDestroy {
         window.addEventListener('orientationchange', this._changeListener);
       }
 
-      // We don't need to keep track of the subscription,
-      // because we complete the `change` stream on destroy.
-      this.change().subscribe(() => this._updateViewportSize());
+      // Clear the cached position so that the viewport is re-measured next time it is required.
+      // We don't need to keep track of the subscription, because it is completed on destroy.
+      this.change().subscribe(() => (this._viewportSize = null));
     });
   }
 
@@ -111,12 +113,12 @@ export class ViewportRuler implements OnDestroy {
    * 返回视口的宽度和高度。
    *
    */
-  getViewportSize(): Readonly<{width: number, height: number}> {
+  getViewportSize(): Readonly<{width: number; height: number}> {
     if (!this._viewportSize) {
       this._updateViewportSize();
     }
 
-    const output = {width: this._viewportSize.width, height: this._viewportSize.height};
+    const output = {width: this._viewportSize!.width, height: this._viewportSize!.height};
 
     // If we're not on a browser, don't cache the size since it'll be mocked out anyway.
     if (!this._platform.isBrowser) {
@@ -132,7 +134,7 @@ export class ViewportRuler implements OnDestroy {
    * 获取视口边界的 ClientRect。
    *
    */
-  getViewportRect(): ClientRect {
+  getViewportRect() {
     // Use the document element's bounding rect rather than the window scroll properties
     // (e.g. pageYOffset, scrollY) due to in issue in Chrome and IE where window scroll
     // properties and client coordinates (boundingClientRect, clientX/Y, etc.) are in different
@@ -179,19 +181,29 @@ export class ViewportRuler implements OnDestroy {
     const documentElement = document.documentElement!;
     const documentRect = documentElement.getBoundingClientRect();
 
-    const top = -documentRect.top || document.body.scrollTop || window.scrollY ||
-                 documentElement.scrollTop || 0;
+    const top =
+      -documentRect.top ||
+      document.body.scrollTop ||
+      window.scrollY ||
+      documentElement.scrollTop ||
+      0;
 
-    const left = -documentRect.left || document.body.scrollLeft || window.scrollX ||
-                  documentElement.scrollLeft || 0;
+    const left =
+      -documentRect.left ||
+      document.body.scrollLeft ||
+      window.scrollX ||
+      documentElement.scrollLeft ||
+      0;
 
     return {top, left};
   }
 
   /**
    * Returns a stream that emits whenever the size of the viewport changes.
+   * This stream emits outside of the Angular zone.
    *
    * 返回当视口大小发生变化时发出通知的流。
+   * 这个流会在 Angular zone 之外发出通知。
    *
    * @param throttleTime Time in milliseconds to throttle the stream.
    *
@@ -220,8 +232,8 @@ export class ViewportRuler implements OnDestroy {
    */
   private _updateViewportSize() {
     const window = this._getWindow();
-    this._viewportSize = this._platform.isBrowser ?
-        {width: window.innerWidth, height: window.innerHeight} :
-        {width: 0, height: 0};
+    this._viewportSize = this._platform.isBrowser
+      ? {width: window.innerWidth, height: window.innerHeight}
+      : {width: 0, height: 0};
   }
 }

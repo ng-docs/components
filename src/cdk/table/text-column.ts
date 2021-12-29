@@ -108,7 +108,7 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
    * 单元格中值的对齐方式。
    *
    */
-  @Input() justify: 'start'|'end' = 'start';
+  @Input() justify: 'start' | 'end' = 'start';
 
   /** @docs-private */
   @ViewChild(CdkColumnDef, {static: true}) columnDef: CdkColumnDef;
@@ -140,11 +140,12 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
   @ViewChild(CdkHeaderCellDef, {static: true}) headerCell: CdkHeaderCellDef;
 
   constructor(
-      // `CdkTextColumn` is always requiring a table, but we just assert it manually
-      // for better error reporting.
-      // tslint:disable-next-line: lightweight-tokens
-      @Optional() private _table: CdkTable<T>,
-      @Optional() @Inject(TEXT_COLUMN_OPTIONS) private _options: TextColumnOptions<T>) {
+    // `CdkTextColumn` is always requiring a table, but we just assert it manually
+    // for better error reporting.
+    // tslint:disable-next-line: lightweight-tokens
+    @Optional() private _table: CdkTable<T>,
+    @Optional() @Inject(TEXT_COLUMN_OPTIONS) private _options: TextColumnOptions<T>,
+  ) {
     this._options = _options || {};
   }
 
@@ -157,7 +158,7 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
 
     if (!this.dataAccessor) {
       this.dataAccessor =
-          this._options.defaultDataAccessor || ((data: T, name: string) => (data as any)[name]);
+        this._options.defaultDataAccessor || ((data: T, name: string) => (data as any)[name]);
     }
 
     if (this._table) {

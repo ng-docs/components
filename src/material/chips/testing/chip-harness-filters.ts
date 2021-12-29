@@ -97,3 +97,6 @@ export interface ChipInputHarnessFilters extends BaseHarnessFilters {
  *
  */
 export interface ChipRemoveHarnessFilters extends BaseHarnessFilters {}
+
+/** A set of criteria that can be used to filter a list of `MatChipAvatarHarness` instances. */
+export interface ChipAvatarHarnessFilters extends BaseHarnessFilters {}
