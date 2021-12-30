@@ -140,7 +140,7 @@ There are other patterns where the deprecated `GestureConfig` is extended, injec
 in combination with a different custom gesture config. These patterns cannot be handled
 automatically, but the migration will report such patterns and ask you to perform manual cleanup.
 
-还有一些模式对弃用的 `GestureConfig`进行了扩展、注入或与其他自定义手势配置组合使用。这些模式无法自动处理，但是本迁移会报告这些模式，并要求你进行手动清理。
+还有一些模式对弃用的 `GestureConfig` 进行了扩展、注入或与其他自定义手势配置组合使用。这些模式无法自动处理，但是本迁移会报告这些模式，并要求你进行手动清理。
 
 <a name="test-migration"></a>
 ## How to migrate my tests?

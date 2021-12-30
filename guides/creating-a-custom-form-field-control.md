@@ -249,6 +249,8 @@ detection can happen.
 In addition to updating the focused state, we use the `focusin` and `focusout` methods to update the
 internal touched state of our component, which we'll use to determine the error state.
 
+除了更新焦点状态之外，我们还使用 `focusin` 和 `focusout` 方法来更新组件内部的已接触（touched）状态，我们将使用它们来确定错误状态。
+
 ```ts
 focused = false;
 

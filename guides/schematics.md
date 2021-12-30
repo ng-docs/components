@@ -1,5 +1,7 @@
 # Installation and Code Generation
 
+# 安装与代码生成
+
 Angular Material comes packaged with Angular CLI schematics to make creating Material applications easier.
 
 Angular Material 带了一份供 Angular CLI 使用的原理图（schematic），可以让创建 Material 应用更简单些。
