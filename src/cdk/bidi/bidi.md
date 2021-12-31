@@ -51,9 +51,15 @@ context.
 `BidiModule` 还包含一个指令，用来匹配所有带 `dir` 属性的元素。该指令与 Directionality 具有相同的 API，并将自身*作为* `Directionality` 的服务提供者。这样一来，任何注入了 `Directionality` 的组件都会得到关于最近祖先的布局方向上下文。
 
 ### Interpreting the `auto` value
+
+### 解释 `auto` 值
+
 The CDK also supports the native `auto` value for the `dir` attribute, however there's a difference
 in how it is interpreted. Some parts of the CDK, like overlays and keyboard navigation, need to know
 if the element is in an RTL or LTR layout in order to work correctly. For performance reasons, we
 resolve the `auto` value by looking at the browser's language (`navigator.language`) and matching
 it against a set of known RTL locales. This differs from the way the browser handles it, which is
 based on the text content of the element.
+
+CDK 还支持 `dir` 属性的原生 `auto` 值，但是它的解释方式有所不同。 CDK 的某些部分，如浮层和键盘导航，需要知道元素是在 RTL 还是 LTR 布局中才能正常工作。出于性能原因，我们通过查看浏览器的语言 (`navigator.language` ) 并将其与一组已知的 RTL 语言环境进行匹配来解析 `auto` 值。这与浏览器处理它的方式不同，后者会基于元素的文本内容。
+

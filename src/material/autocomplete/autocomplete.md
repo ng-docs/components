@@ -23,14 +23,13 @@ track the value of the input.
 接下来，创建输入框并设置 `matAutocomplete` 输入属性以引用我们赋值给此自动完成器的模板引用。我们假设你使用 `ReactiveFormsModule` 中的 `formControl` 指令来跟踪输入框的值。
 
 > Note: It is possible to use template-driven forms instead, if you prefer. We use reactive forms
-in this example because it makes subscribing to changes in the input's value easy. For this
-example, be sure to import `ReactiveFormsModule` from `@angular/forms` into your `NgModule`.
-If you are unfamiliar with using reactive forms, you can read more about the subject in the
-[Angular documentation](https://angular.io/guide/reactive-forms).
+> in this example because it makes subscribing to changes in the input's value easy. For this
+> example, be sure to import `ReactiveFormsModule` from `@angular/forms` into your `NgModule`.
+> If you are unfamiliar with using reactive forms, you can read more about the subject in the
+> [Angular documentation](https://angular.io/guide/reactive-forms).
 >
 > 注意：如果你愿意，也可以用模板驱动表单代替。我们在这个例子中使用响应式表单，是因为这样比较容易订阅输入值的变化。在这个例子中，要确保你的 `NgModule` 从 `@angular/forms` 中导入了 `ReactiveFormsModule`。
 > 如果你对使用响应式表单还不熟，可以阅读 [Angular 官方文档](https://angular.cn/guide/reactive-forms) 中的相关主题。
-
 
 Now we'll need to link the text input to its panel. We can do this by exporting the autocomplete
 panel instance into a local template variable (here we called it "auto"), and binding that variable
@@ -148,14 +147,24 @@ autocomplete is attached to using the `matAutocompleteOrigin` directive together
 ```
 
 ### Keyboard interaction
+
+### 键盘交互
+
 | Keyboard shortcut                      | Action                                                         |
 |----------------------------------------|----------------------------------------------------------------|
+| 快捷键                                    | 操作                                                             |
 | <kbd>Down Arrow</kbd>                  | Navigate to the next option.                                   |
+| <kbd>Down Arrow</kbd>                  | 导航到下一个选项。                                                      |
 | <kbd>Up Arrow</kbd>                    | Navigate to the previous option.                               |
+| <kbd>Up Arrow</kbd>                    | 导航到上一个选项。                                                      |
 | <kbd>Enter</kbd>                       | Select the active option.                                      |
+| <kbd>Enter</kbd>                       | 选择活动选项。                                                        |
 | <kbd>Escape</kbd>                      | Close the autocomplete panel.                                  |
+| <kbd>Escape</kbd>                      | 关闭自动完成面板。                                                      |
 | <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | Close the autocomplete panel.                                  |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | 关闭自动完成面板。                                                      |
 | <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the autocomplete panel if there are any matching options. |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | 如果有任何匹配的选项，请打开自动完成面板。                                          |
 
   <kbd>ESCAPE</kbd>: 关闭自动完成面板
 
@@ -173,15 +182,23 @@ autocomplete is attached to using the `matAutocompleteOrigin` directive together
 
 ### Accessibility
 
+### 无障碍性
+
 `MatAutocomplete` implements the ARIA combobox interaction pattern. The text input trigger specifies
 `role="combobox"` while the content of the pop-up applies `role="listbox"`. Because of this listbox
 pattern, you should _not_ put other interactive controls, such as buttons or checkboxes, inside
 an autocomplete option. Nesting interactive controls like this interferes with most assistive
 technology.
 
+`MatAutocomplete` 实现了 ARIA 组合框交互模式。为文本输入触发器指定 `role="combobox"` 而为弹出窗口的内容应用 `role="listbox"`。由于这种列表框模式，你*不应*将其他交互式控件（例如按钮或复选框）放入自动完成选项中。像这样嵌套交互式控件会干扰大多数辅助技术。
+
 Always provide an accessible label for the autocomplete. This can be done by using a
 `<mat-label>` inside of `<mat-form-field>`, a native `<label>` element, the `aria-label`
 attribute, or the `aria-labelledby` attribute.
 
+始终为自动完成提供无障碍标签。这可以通过在 `<mat-form-field>` 内部使用 `<mat-label>`、原生 `<label>` 元素、`aria-label` 属性或 `aria-labelledby` 属性来完成。
+
 `MatAutocomplete` preserves focus on the text trigger, using `aria-activedescendant` to support
 navigation though the autocomplete options.
+
+`MatAutocomplete` 会保留对文本触发器的焦点，使用 `aria-activedescendant` 可以支持通过自动完成选项进行导航。
