@@ -5,6 +5,8 @@ observers, such as MutationObserver.
 
 ### cdkObserveContent
 
+### cdkObserveContent（cdk 观察内容）
+
 A directive for observing when the content of the host element changes. An event is emitted when a
 mutation to the content is observed.
 

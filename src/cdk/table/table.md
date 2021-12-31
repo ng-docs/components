@@ -181,12 +181,17 @@ sorting and pagination.
 由于*数据源*提供了这个流，因此它要负责触发表格更新。这可能由*任何事情*触发：websocket 连接、用户交互、模型更新、基于时间间隔等。最常见的是，这些更新将由用户交互（如排序和分页）触发。
 
 ##### `fixedLayout`
+
 The CDK table measures the dimensions of sticky elements before applying the styles that make them
 "stick". Because native tables derive column widths from the content within each cell, these
 dimensions are re-checked when the underlying data changes.
 
+CDK 表会应用粘滞样式之前要先测量粘滞元素的尺寸。由于原生表格会根据每个单元格内的内容计算出列宽，因此没当基础数据发生变化时就会重新检查这些尺寸。
+
 Enabling `fixedLayout` will enforce uniform column widths, so the table can reliably cache and reuse
 them when calculating sticky styles. This can reduce rendering latency for large native tables.
+
+启用 `fixedLayout` 将强制统一列宽，这样表格就可以在计算粘滞样式时可靠地缓存和复用它们。这可以减少大型原生表格的渲染延迟。
 
 ```html
 <table cdk-table [dataSource]="dataSource" fixedLayout>
@@ -205,10 +210,13 @@ table how to uniquely identify rows to track how the data changes with each upda
 ```
 
 ##### `recycleRows`
+
 By default, `CdkTable` creates and destroys an internal Angular view for each row. This allows rows 
 to participate in animations and to toggle between different row templates with `cdkRowDefWhen`. If 
 you don't need these features, you can instruct the table to cache and recycle rows by specifying 
 `recycleRows`.
+
+默认情况下， `CdkTable` 会为每一行创建和销毁一个内部 Angular 视图。这允许这些行参与动画并使用 `cdkRowDefWhen` 在不同的行模板之间切换。如果你不需要这些功能，可以通过指定 `recycleRows` 来指示表格缓存和回收这些行。
 
 ```html
 <table cdk-table [dataSource]="dataSource" recycleRows>

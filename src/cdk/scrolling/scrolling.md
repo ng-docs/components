@@ -20,6 +20,8 @@ scrollable containers in the application.
 
 ### ViewportRuler
 
+### ViewportRuler（视口标尺）
+
 The `ViewportRuler` is a service that can be injected and used to measure the bounds of the browser
 viewport.
 
@@ -194,8 +196,13 @@ providing it as the `VIRTUAL_SCROLL_STRATEGY` on the component containing your v
 <!-- example(cdk-virtual-scroll-custom-strategy) -->
 
 ### Append only mode
+
+### 仅追加模式
+
 Virtual scroll viewports that render nontrivial items may find it more performant to simply append
 to the list as the user scrolls without removing rendered views. The `appendOnly` input ensures
 views that are already rendered persist in the DOM after they scroll out of view.
+
+渲染非平凡项目的虚拟滚动视口可能会发现，在用户滚动时简单地附加到列表而用不删除已渲染的视图会更高效。 `appendOnly` 输入确保已渲染的视图在滚动出视图后仍保留在 DOM 中。
 
 <!-- example(cdk-virtual-scroll-append-only) -->

@@ -104,14 +104,24 @@ resetting it will call `reset` on the underlying form control which clears the v
 
 ### Keyboard interaction
 
+### 键盘交互
+
 | Keyboard shortcut      | Action                          |
 |------------------------|---------------------------------|
+| 键盘快捷键                  | 操作                              |
 | <kbd>Left Arrow</kbd>  | Focus the previous step header. |
+| <kbd>Left Arrow</kbd>  | 聚焦上一步标题。                        |
 | <kbd>Right Arrow</kbd> | Focus the next step header.     |
+| <kbd>Right Arrow</kbd> | 聚焦下一步标题。                        |
 | <kbd>Enter</kbd>       | Select the focused step.        |
+| <kbd>Enter</kbd>       | 选择有焦点的步骤。                       |
 | <kbd>Space</kbd>       | Select the focused step.        |
+| <kbd>Space</kbd>       | 选择有焦点的步骤。                       |
 
 ### Accessibility
+
+### 无障碍性
+
 Apart from the built-in keyboard support, the stepper doesn't apply any treatment. When implementing
 your own component, it is recommended that the stepper is treated as a tabbed view for accessibility
 purposes by giving it a `role="tablist"`. The header of step that can be clicked to select the step
@@ -119,4 +129,9 @@ should be given `role="tab"`, and the content that can be expanded upon selectio
 `role="tabpanel"`. Furthermore, the step header should have an `aria-selected` attribute that
 reflects its selected state and the associated content element should have `aria-expanded`.
 
+除了内置的键盘支持外，步进器不进行任何处理。在实现你自己的组件时，建议将步进器视为无障碍性的选项卡式视图，方法是为其指定 `role="tablist"`。可以点击具有 `role="tab"` 属性的步骤头部来选择此步骤，选择后能展开的内容应该具有 `role="tabpanel"` 属性。此外，步骤标题应该有一个 `aria-selected` 属性来反映它的选择状态，并且相关的内容元素应该有 `aria-expanded` 属性。
+
 You can refer to the [Angular Material stepper](https://github.com/angular/components/tree/master/src/material/stepper) as an example of an accessible implementation.
+
+你可以参考 [Angular Material 步进器](https://github.com/angular/components/tree/master/src/material/stepper)作为无障碍实现的示例。
+

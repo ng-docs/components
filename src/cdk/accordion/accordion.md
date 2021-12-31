@@ -17,4 +17,4 @@ the body container as a `role="region"`. Furthermore, the trigger should have `a
 pointing to the body and `aria-expanded` based on the expanded state, while the body should have
 an `aria-labelledby` that points to the header. See the example above for a sample implementation.
 
-CDK 手风琴没有做任何可访问性处理，因为它无法控制其标记脚本。我们建议将手风琴触发器元素设置为 `role="button"` ，而将正文（body）容器设置为 `role="region"` 。此外，触发器应该有指向正文的 `aria-controls` 和基于展开状态的 `aria-expanded`，而正文应该有一个指向标题的 `aria-labelledby` 。有关示例实现，请参见上面的示例。
+CDK 手风琴没有做任何无障碍性处理，因为它无法控制其标记脚本。我们建议将手风琴触发器元素设置为 `role="button"` ，而将正文（body）容器设置为 `role="region"` 。此外，触发器应该有指向正文的 `aria-controls` 和基于展开状态的 `aria-expanded`，而正文应该有一个指向标题的 `aria-labelledby` 。有关示例实现，请参见上面的示例。

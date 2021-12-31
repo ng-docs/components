@@ -1,5 +1,7 @@
 # MapBicyclingLayer
 
+# MapBicyclingLayer（地图自行车层）
+
 The `MapBicyclingLayer` component wraps the [`google.maps.BicyclingLayer` class](https://developers.google.com/maps/documentation/javascript/reference/map#BicyclingLayer) from the Google Maps JavaScript API.
 
 这个 `MapBicyclingLayer` 组件包装了来自 Google Maps JavaScript API 的 [`google.maps.BicyclingLayer`](https://developers.google.com/maps/documentation/javascript/reference/map#BicyclingLayer) 类。

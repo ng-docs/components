@@ -1,5 +1,7 @@
 ### BreakpointsModule
 
+### BreakpointsModule（断点模块）
+
 When including the CDK's `LayoutModule`, components can inject `BreakpointsObserver` to request
 the matching state of a CSS Media Query.
 
@@ -30,4 +32,3 @@ export class MyWidget {
   }
 }
 ```
-
