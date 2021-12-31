@@ -46,6 +46,8 @@ If you're using the `<map-heatmap-layer>` directive, you also have to include th
 library when loading the Google Maps API. To do so, you can add `&libraries=visualization` to the
 script URL:
 
+**注意：**如果你正在使用 `<map-heatmap-layer>` 指令，则在加载 Google Maps API 时还必须包含 `visualization` 库。为此，你可以将 `&libraries=visualization` 添加到脚本 URL：
+
 ```html
   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization"></script>
 ```
@@ -84,7 +86,6 @@ import { GoogleMapsDemoComponent } from './google-maps-demo.component';
   ],
 })
 export class GoogleMapsDemoModule {}
-
 
 // google-maps-demo.component.ts
 
@@ -142,7 +143,6 @@ export class GoogleMapsDemoComponent {
 ## 服务
 
 - [`MapGeocoder`](./map-geocoder/README.md)
-
 
 ## The Options Input
 

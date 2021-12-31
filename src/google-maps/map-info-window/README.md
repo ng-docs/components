@@ -1,5 +1,7 @@
 ## MapInfoWindow
 
+## MapInfoWindow（地图信息窗口）
+
 The `MapInfoWindow` component wraps the [`google.maps.InfoWindow` class](https://developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow) from the Google Maps JavaScript API. The `MapInfoWindow` has an `options` input as well as a convenience `position` input. Content for the `MapInfoWindow` is the inner HTML of the component, and will keep the structure and css styling of any content that is put there when it is displayed as an info window on the map.
 
 这个 `MapInfoWindow` 组件包装了来自 Google Maps JavaScript API 的 [`google.maps.InfoWindow`](https://developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow) 类。`MapInfoWindow` 还有一个输入属性 `options` 和一个便利输入属性 `position`。`MapInfoWindow` 的内容是该组件的内部 HTML，当它在地图上显示为一个信息窗口时，会保留所有内容的结构和 CSS 样式。

@@ -1,5 +1,7 @@
 # MapRectangle
 
+# MapRectangle（地图矩形）
+
 The `MapRectangle` component wraps the [`google.maps.Rectangle` class](https://developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle) from the Google Maps JavaScript API.
 
 `MapRectangle` 组件包装了来自 Google Maps JavaScript API 的 [`google.maps.Rectangle`](https://developers.google.com/maps/documentation/javascript/reference/polygon#Rectangle) 类。

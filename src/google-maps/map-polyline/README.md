@@ -1,5 +1,7 @@
 # MapPolyline
 
+# MapPolyline（地图折线）
+
 The `MapPolyline` component wraps the [`google.maps.Polyline` class](https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline) from the Google Maps JavaScript API.
 
 `MapPolyline` 组件包装了来自 Google Maps JavaScript API 的 [`google.maps.Polyline`](https://developers.google.com/maps/documentation/javascript/reference/polygon#Polyline) 类。
