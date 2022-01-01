@@ -164,7 +164,7 @@ autocomplete is attached to using the `matAutocompleteOrigin` directive together
 | <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | Close the autocomplete panel.                                  |
 | <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | 关闭自动完成面板。                                                      |
 | <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the autocomplete panel if there are any matching options. |
-| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | 如果有任何匹配的选项，请打开自动完成面板。                                          |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | 如果有任何匹配的选项，就打开自动完成面板。                                          |
 
   <kbd>ESCAPE</kbd>: 关闭自动完成面板
 
