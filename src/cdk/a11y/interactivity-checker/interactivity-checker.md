@@ -5,7 +5,7 @@
 `InteractivityChecker` is used to check the interactivity of an element, capturing disabled,
 visible, tabbable, and focusable states for accessibility purposes.
 
-`InteractivityChecker` 用于检查元素的交互性，它会捕获禁用（disabled）、可见（visible）、（可 tab）tabbable 和可获得焦点（focusable）状态，以便检查无障碍性。
+`InteractivityChecker` 用于检查元素的交互性，它会捕获禁用（disabled）、可见（visible）、可 tab 到（tabbable）和可获得焦点（focusable）状态，以便检查无障碍性。
 
 #### Methods
 

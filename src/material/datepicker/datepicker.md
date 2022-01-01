@@ -388,10 +388,14 @@ The calendar popup can be programmatically controlled using the `open` and `clos
 
 ### Using `mat-calendar` inline
 
+### 使用 `mat-calendar` 内联
+
 If you want to allow the user to select a date from a calendar that is inlined on the page rather
 than contained in a popup, you can use `<mat-calendar>` directly. The calendar's height is
 determined automatically based on the width and the number of dates that need to be shown for a
 month. If you want to make the calendar larger or smaller, adjust the width rather than the height.
+
+如果要让用户从页面内联日历而不是从包含在弹出窗口中的日历中选择日期，可以直接使用 `<mat-calendar>`。日历的高度是根据一个月需要显示的宽度和日期数自动确定的。如果你想让日历更大或更小，请调整宽度而不是高度。
 
 <!-- example(datepicker-inline-calendar) -->
 
@@ -484,6 +488,8 @@ The easiest way to ensure this is to import one of the provided date modules:
 
 `MatDateFnsModule` (installed via `@angular/material-date-fns-adapter`)
 
+`MatDateFnsModule` （通过 `@angular/material-date-fns-adapter` 安装）
+
 <table>
   <tbody>
   <tr>
@@ -507,6 +513,8 @@ The easiest way to ensure this is to import one of the provided date modules:
 
 `MatLuxonDateModule` (installed via `@angular/material-luxon-adapter`)
 
+`MatLuxonDateModule` （通过 `@angular/material-luxon-adapter` 安装）
+
 <table>
   <tbody>
   <tr>
@@ -529,6 +537,8 @@ The easiest way to ensure this is to import one of the provided date modules:
 </table>
 
 `MatMomentDateModule` (installed via `@angular/material-moment-adapter`)
+
+`MatMomentDateModule` （通过 `@angular/material-moment-adapter` 安装）
 
 <table>
   <tbody>
@@ -773,6 +783,8 @@ The `MatDatepicker` pop-up uses the `role="dialog"` interaction pattern. This di
 multiple controls, the most prominent being the calendar itself. This calendar implements the
 `role="grid"` interaction pattern.
 
+`MatDatepicker` 弹出窗口使用 `role="dialog"` 交互模式。该对话框包含多个控件，最突出的是日历本身。这个日历实现了 `role="grid"` 交互模式。
+
 The `MatDatepickerInput` and `MatDatepickerToggle` directives both apply the `aria-haspopup`
 attribute to the native input and button elements, respectively.
 
@@ -790,6 +802,8 @@ datepicker pop-up. However, ChromeOS intercepts this key combination at the OS l
 browser only receives a `PageDown` key event. Because of this behavior, you should always include an
 additional means of opening the pop-up, such as `MatDatepickerToggle`.
 
+`MatDatepickerInput` 会添加 <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> 作为键盘快捷键以打开日期选择器弹出窗口。但是，ChromeOS 在操作系统层面拦截了这个组合键，使得浏览器只能接收一个 `PageDown` 键盘事件。由于这种行为，你应该总是提供其他打开弹出窗口的方法，例如 `MatDatepickerToggle` 。
+
 #### Keyboard interaction
 
 #### 键盘快捷键
@@ -805,7 +819,6 @@ The datepicker supports the following keyboard shortcuts:
 | <kbd>Alt</kbd>+ <kbd>Down Arrow</kbd> | 打开日历弹出框 |
 | <kbd>Escape</kbd> | Close the calendar pop-up |
 | `ESCAPE` | 关闭日历弹出框 |
-
 
 In month view:
 
@@ -836,7 +849,6 @@ In month view:
 | <kbd>Alt</kbd>+ <kbd>Page down</kbd> | 转到明年的同一天 |
 | <kbd>Enter</kbd>             | Select current date |
 | <kbd>Enter</kbd>             | 选择当前日期 |
-
 
 In year view:
 

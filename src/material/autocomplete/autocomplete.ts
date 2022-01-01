@@ -264,7 +264,7 @@ export abstract class _MatAutocompleteBase
    * Specify the width of the autocomplete panel.  Can be any CSS sizing value, otherwise it will
    * match the width of its host.
    *
-   * 指定自动完成面板的宽度。可以是任何 CSS 尺寸值，否则就会匹配它的宿主宽度。
+   * 指定自动完成面板的宽度。可以是任意 CSS 尺寸值，否则就会匹配它的宿主宽度。
    *
    */
   @Input() panelWidth: string | number;

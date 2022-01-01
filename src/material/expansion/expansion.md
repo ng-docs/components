@@ -109,5 +109,9 @@ an `ng-template`:
 The expansion panel header applies `role="button"` and the `aria-controls` attribute with the
 content element's ID.
 
+`MatExpansionPanel` 模仿了原生 `<details>` 和 `<summary>` 元素的体验。扩展面板标题要应用 `role="button"` 和带有内容元素 ID 的 `aria-controls` 属性。
+
 Because expansion panel headers are buttons, avoid adding interactive controls as children
 of `<mat-expansion-panel-header>`, including buttons and anchors.
+
+由于可展开面板的标题是按钮，请避免将可交互控件添加为 `<mat-expansion-panel-header>` 的子项，包括按钮和锚点。

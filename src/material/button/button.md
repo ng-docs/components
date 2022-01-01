@@ -35,7 +35,6 @@ There are several button variants, each applied as an attribute:
 | `mat-mini-fab`       | Same as `mat-fab` but smaller                                            |
 | `mat-mini-fab`       | 与 `mat-tab` 一样，但更小 |
 
-
 ### Theming
 
 ### 主题
@@ -73,18 +72,31 @@ Angular Material 使用原生的 `<button>` 和 `<a>` 元素，来保留默认�
 当用户要*导航*到其它视图时，应该使用 `<a>` 元素。
 
 #### Disabling anchors
+
+#### 禁用锚点
+
 `MatAnchor` supports disabling an anchor in addition to the features provided by the native
 `<a>` element. When you disable an anchor, the component sets `aria-disabled="true"` and
 `tabindex="-1"`. Always test disabled anchors in your application to ensure compatibility
 with any assistive technology your application supports.
 
+除了原生 `<a>` 元素提供的特性外， `MatAnchor` 还支持禁用锚点。当你禁用锚点时，组件会设置 `aria-disabled="true"` 和 `tabindex="-1"` 。始终在你的应用程序中测试禁用的锚点，以确保与你的应用程序支持的任何辅助技术兼容。
+
 #### Buttons with icons
+
+#### 带图标的按钮
+
 Buttons or links containing only icons (such as `mat-fab`, `mat-mini-fab`, and `mat-icon-button`)
 should be given a meaningful label via `aria-label` or `aria-labelledby`. [See the documentation
 for `MatIcon`](https://material.angular.io/components/icon) for more
 information on using icons in buttons.
 
+应该通过 `aria-label` 或 `aria-labelledby` 为仅包含图标的按钮或链接（例如 `mat-fab` 、 `mat-mini-fab` 和 `mat-icon-button` ）赋予一个有意义的标签。有关在按钮中使用图标的更多信息，[请参阅 `MatIcon` 的文档](https://material.angular.io/components/icon)。
+
 #### Toggle buttons
+
+#### 切换按钮
+
 [See the documentation for `MatButtonToggle`](https://material.angular.io/components/button-toggle)
 for information on stateful toggle buttons.
 

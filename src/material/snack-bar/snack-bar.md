@@ -11,6 +11,7 @@
 A snackbar can contain either a string message or a given component.
 
 快餐栏可以包含一个字符串消息或指定的组件。
+
 ```ts
 // Simple message.
 let snackBarRef = snackBar.open('Message archived');
@@ -37,7 +38,6 @@ snackBarRef.afterDismissed().subscribe(() => {
   console.log('The snackbar was dismissed');
 });
 
-
 snackBarRef.onAction().subscribe(() => {
   console.log('The snackbar action was triggered!');
 });
@@ -62,6 +62,7 @@ message is still showing, the older message will be automatically dismissed.
 A snackbar can also be given a duration via the optional configuration object:
 
 快餐栏还可以通过一个可选的配置对象来指定持续时间：
+
 ```ts
 snackbar.open('Message archived', 'Undo', {
   duration: 3000
@@ -119,9 +120,13 @@ If you want to override the default snack bar options, you can do so using the
 
 ### Accessibility
 
+### 无障碍性
+
 `MatSnackBar` announces messages via an `aria-live` region. While announcements use the `polite`
 setting by default, you can customize this by setting the `politeness` property of
 `MatSnackBarConfig`.
+
+`MatSnackBar` 通过 `aria-live` 区域来播报消息。虽然默认情况下公告会使用 `polite` 设置，但你也可以通过设置 `MatSnackBarConfig` 的 `politeness` 属性来自定义它。
 
 `MatSnackBar` does not move focus to the snackbar element. Moving focus like this would disrupt
 users in the middle of a workflow. For any action offered in the snackbar, your application should
@@ -130,7 +135,11 @@ shortcuts or menu options. You should dismiss the snackbar once the user perform
 action. A snackbar can contain a single action with an additional optional "dismiss" or "cancel"
 action.
 
+`MatSnackBar` 不会将焦点移动到快餐栏元素。像这样移动焦点会在工作流程中扰乱用户。对于快餐栏中提供的任何操作，你的应用程序都应该提供执行该操作的替代方法。替代交互通常是键盘快捷键或菜单选项。一旦用户执行相应的操作，你应该关闭快餐栏。快餐栏可以包含一个单独的动作和一个额外的可选“关闭”或“取消”动作。
+
 Avoid setting a `duration` for snackbars that have an action available, as screen reader users may
 want to navigate to the snackbar element to activate the action. If the user has manually moved
 their focus within the snackbar, you should return focus somewhere that makes sense in the context
 of the user's workflow.
+
+尽量不要为具有可用操作的快餐栏设置 `duration` ，因为屏幕阅读器用户可能希望导航到快餐栏上的元素以激活该操作。如果用户在快餐栏中手动移动了他们的焦点，你应该将焦点返回到用户工作流程上下文中有意义的某个地方。

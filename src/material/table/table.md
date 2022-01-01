@@ -160,6 +160,8 @@ automatically trigger an update to the rows each time a new data array is emitte
 
 #### DataSource
 
+#### DataSource（数据源）
+
 For most real-world applications, providing the table a `DataSource` instance will be the best way to
 manage data. The `DataSource` is meant to serve as a place to encapsulate any sorting, filtering,
 pagination, and data retrieval logic specific to the application.
@@ -188,16 +190,24 @@ respect Typescript's restriction to only implement one base class.
 
 ### Styling Columns
 
+### 样式列
+
 Each table cell has an automatically generated class based on which column it appears in. The format for this
 generated class is `mat-column-NAME`. For example, cells in a column named "symbol" can be targeted with the
 selector `.mat-column-symbol`.
+
+每个表格单元格都有一个基于它出现在哪一列自动生成的类。这个生成的类的格式是 `mat-column-NAME` 。例如，可以使用选择器 `.mat-column-symbol` 将名为“symbol”的列中的单元格作为目标。
 
 <!-- example(table-column-styling) -->
 
 ### Row Templates
 
+### 行模板
+
 Event handlers and property binding on the row templates will be applied to each row rendered by the table. For example,
 adding a `(click)` handler to the row template will cause each individual row to call the handler when clicked.
+
+行模板上的事件处理程序和属性绑定将应用于表中渲染的每一行。例如，向行模板添加 `(click)` 处理程序将导致每个单独的行在单击时调用处理程序。
 
 <!-- example(table-row-binding) -->
 
@@ -537,7 +547,6 @@ to resolve this.
 此外，在一些特殊情况下，Edge 中的定位也会不稳定。比如，如果滚动容器具有复杂的阴影而且还有兄弟元素，那么钉住的单元格就会抖动。
 这里是 [Edge 上关于此问题的 Issue](https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/17514118/)。
 
-
 #### Multiple row templates
 
 #### 多行模板
@@ -548,14 +557,20 @@ When using the `multiTemplateDataRows` directive to support multiple rows for ea
 
 ### Accessibility
 
+### 无障碍性
+
 By default, `MatTable` applies `role="table"`, assuming the table's contains primarily static
 content. You can change the role by explicitly setting `role="grid"` or `role="treegrid"` on the
 table element. While changing the role will update child element roles, such as changing
 `role="cell"` to `role="gridcell"`, this does _not_ apply additional keyboard input handling or
 focus management to the table.
 
+默认情况下， `MatTable` 会应用 `role="table"`，这里假设表格主要包含静态内容。你可以通过在 table 元素上显式设置 `role="grid"` 或 `role="treegrid"` 来更改其角色。虽然更改角色会更新子元素角色，例如将 `role="cell"` 更改为 `role="gridcell"` ，但这*不会*对表格应用额外的键盘输入处理或焦点管理逻辑。
+
 Always provide an accessible label for your tables via `aria-label` or `aria-labelledby` on the
 table element.
+
+始终通过表格元素上的 `aria-label` 或 `aria-labelledby` 为你的表格提供无障碍标签。
 
 ### Tables with `display: flex`
 
@@ -606,12 +621,18 @@ or have columns that resize themselves based on their content.
 
 ### Tables with `MatRipple`
 
+### 带有 `MatRipple` 的表格
+
 By default, `MatTable` does not set up Material Design ripples for rows. A ripple effect can be
 added to table rows by using the `MatRipple` directive from `@angular/material/core`. Due to
 limitations in browsers, ripples cannot be applied native `th` or `tr` elements. The recommended
 approach for setting up ripples is using the non-native `display: flex` variant of `MatTable`.
 
+默认情况下， `MatTable` 不会为行设置 Material Design 涟漪。可以使用来自 `@angular/material/core` 的 `MatRipple` 指令将涟漪效果添加到表行。由于浏览器的限制，涟漪不能应用于原生 `th` 或 `tr` 元素。设置涟漪的推荐方法是使用 `MatTable` 的非原生 `display: flex` 变体。
+
 <!--- example(table-with-ripples) -->
 
 More details about ripples on native table rows and their limitations can be found [in this issue](https://github.com/angular/components/issues/11883#issuecomment-634942981).
+
+有关原生表行上的涟漪及其限制的更多详细信息，请参见[本错误](https://github.com/angular/components/issues/11883#issuecomment-634942981)。
 

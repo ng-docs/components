@@ -30,6 +30,8 @@ input. The `fill` an `outline` appearances implement the current version of the 
 appearance displays the form field with a filled background box and an underline, while the
 `outline` appearance shows the form field with a border all the way around.
 
+`mat-form-field` 支持 4 种不同的外观变体，可以通过输入属性 `appearance` 进行设置。 `fill` 和 `outline` 外观实现了当前版本的规范。 `fill` 外观会显示带有填充背景框和下划线的表单字段，而 `outline` 外观会显示带有边框的表单字段。
+
 The `legacy` and `standard` appearances implement an older version of the spec where
 `mat-form-field` was shown with an underline beneath it. We recommend not using these appearances as
 they do not  match the current spec.
@@ -41,6 +43,8 @@ they do not  match the current spec.
 最后，`outline` 外观会显示一个带四周边框的表单字段，而不仅有下划线。
 
 There are a couple differences in behavior to be aware of between the different appearances.
+
+注意，在不同的外观之间有一些行为上的差异。
 
 We recommend that text prefix and suffixes in the `fill` and `outline` appearances only be used in
 conjunction with the `floatLabel="always"` option. This is because the resting label and the input
@@ -59,9 +63,13 @@ promote placeholders to labels. For the `legacy` appearance specifying
 `mat-form-field`. For the newer variants it will just add a normal placeholder to the input. If you
 want a floating label, add a `<mat-label>` to the `mat-form-field` instead.
 
+第二个重要区别是 `standard` 、 `fill` 和 `outline` 外观不会将占位符提升为标签。对于 `legacy` 外观，指定 `<input placeholder="placeholder">` 会导致将其浮动标签添加到 `mat-form-field` 中。对于其它较新的变体，它只会向输入框添加一个普通的占位符。如果你想要一个浮动标签，请往 `mat-form-field` 中添加一个 `<mat-label>`。
+
 Out of the box, if you do not specify an `appearance` for the `<mat-form-field>` it will default to
 `legacy`. However, this can be configured using a global provider to choose a different default
 appearance for your app.
+
+开箱即用的情况下，如果你没有为 `<mat-form-field>` 指定 `appearance`，它将默认为 `legacy`。但是，这可以使用全局的提供者进行配置，为你的应用程序选择不同的默认外观。
 
 ```ts
 @NgModule({
@@ -250,9 +258,13 @@ By itself, `MatFormField` does not apply any additional accessibility treatment 
 However, several of the form field's optional features interact with the control contained within
 the form field.
 
+就其本身而言， `MatFormField` 不会对控件应用任何额外的无障碍性处理。但是，表单域的一些可选特性会与表单域中包含的控件交互。
+
 When you provide a label via `<mat-label>`, `MatFormField` automatically associates this label with
 the field's control via a native `<label>` element, using the `for` attribute to reference the
 control's ID.
+
+当你通过 `<mat-label>` 提供标签时， `MatFormField` 会通过原生 `<label>` 元素自动将此标签与字段的控件相关联，使用 `for` 属性来引用控件的 ID。
 
 If a floating label is specified, it will be automatically used as the label for the form
 field control. If no floating label is specified, the user should label the form field control
@@ -264,6 +276,8 @@ When you provide informational text via `<mat-hint>` or `<mat-error>`, `MatFormF
 adds these elements' IDs to the control's `aria-describedby` attribute. Additionally, `MatError`
 applies `aria-live="polite"` by default such that assistive technology will announce errors when
 they appear.
+
+当你通过 `<mat-hint>` 或 `<mat-error>` 来提供信息文本时， `MatFormField` 会自动将这些元素的 ID 添加到控件的 `aria-describedby` 属性中。此外， `MatError` 会应用 `aria-live="polite"` ，这样辅助技术就会在错误出现时播报这些错误。
 
 ### Troubleshooting
 

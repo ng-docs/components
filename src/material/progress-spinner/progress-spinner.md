@@ -42,8 +42,14 @@ progress-spinners use the theme's primary color. This can be changed to `'accent
 
 ### Accessibility
 
+### 无障碍性
+
 `MatProgressSpinner` implements the ARIA `role="progressbar"` pattern. By default, the spinner
 sets `aria-valuemin` to `0` and `aria-valuemax` to `100`. Avoid changing these values, as this may
 cause incompatiblity with some assitive technology.
 
+`MatProgressSpinner` 实现了 ARIA `role="progressbar"` 模式。默认情况下，微调器将 `aria-valuemin` 设置为 `0` ，将 `aria-valuemax` 为 `100` 。尽量不要更改这些值，因为这可能会导致与某些辅助技术不兼容。
+
 Always provide an accessible label via `aria-label` or `aria-labelledby` for each spinner.
+
+始终通过 `aria-label` 或 `aria-labelledby` 为每个微调器提供无障碍标签。

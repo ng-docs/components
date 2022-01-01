@@ -206,18 +206,33 @@ globally cause input errors to show when the input is dirty and invalid.
 ```
 
 ### Keyboard interaction
+
+### 键盘交互
+
 | Keyboard shortcut                      | Action                                                                |
 |----------------------------------------|-----------------------------------------------------------------------|
+| 键盘快捷键                                  | 操作                                                                    |
 | <kbd>Down Arrow</kbd>                  | Navigate to the next option.                                          |
+| <kbd>Down Arrow</kbd>                  | 导航到下一个选项。                                                             |
 | <kbd>Up Arrow</kbd>                    | Navigate to the previous option.                                      |
+| <kbd>Up Arrow</kbd>                    | 导航到上一个选项。                                                             |
 | <kbd>Enter</kbd>                       | If closed, open the select panel. If open, selects the active option. |
+| <kbd>Enter</kbd>                       | 如果关闭，请打开选择面板。如果打开，则选择活动选项。                                            |
 | <kbd>Escape</kbd>                      | Close the select panel.                                               |
+| <kbd>Escape</kbd>                      | 关闭选择面板。                                                               |
 | <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | Close the select panel.                                               |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | 关闭选择面板。                                                               |
 | <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the select panel if there are any matching options.              |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | 如果有任何匹配的选项，请打开选择面板。                                                   |
 
 ### Accessibility
+
+### 无障碍性
+
 When possible, prefer a native `<select>` element over `MatSelect`. The native control
 provides the most accessible experience across the widest range of platforms.
+
+如果可能，更推荐使用原生 `<select>` 元素而不是 `MatSelect` 。原生控件能在最广泛的平台上提供无障碍体验。
 
 `MatSelect` implements the combobox pattern detailed in the [1.2 version of the ARIA
 specification](https://www.w3.org/TR/wai-aria-1.2). The combobox trigger controls a `role="listbox"`
@@ -226,12 +241,18 @@ required that `role="combobox"` apply to a text input control, but the 1.2 versi
 specification supports a wider variety of interaction patterns. This newer usage of ARIA works
 in all browser and screen-reader combinations supported by Angular Material.
 
+`MatSelect` 实现了 [ARIA 规范 1.2 版](https://www.w3.org/TR/wai-aria-1.2)中详述的组合框模式。组合框触发器会控制在弹出窗口中打开的 `role="listbox"` 元素。以前版本的 ARIA 规范要求 `role="combobox"` 应用于文本输入控件，但规范的 1.2 版本支持更广泛的交互模式。 ARIA 的这种新用法适用于 Angular Material 支持的所有浏览器和屏幕阅读器组合。
+
 Because the pop-up uses the `role="listbox"` pattern, you should _not_ put other interactive
 controls, such as buttons or checkboxes, inside a select option. Nesting interactive controls like
 this interferes with most assistive technology.
 
+由于弹出窗口使用 `role="listbox"` 模式，因此*不应*将其他交互控件（例如按钮或复选框）放入选择选项中。如果这样嵌套可交互控件会干扰大多数辅助技术。
+
 Always provide an accessible label for the select. This can be done by adding a `<mat-label>`
 inside of `<mat-form-field>`, the `aria-label` attribute, or the `aria-labelledby` attribute.
+
+始终要为选择框提供一个无障碍标签。这可以通过在 `<mat-form-field>` 中添加一个 `<mat-label>` 组件或 `aria-label`、`aria-labelledby` 属性来实现。
 
 ### Troubleshooting
 

@@ -148,6 +148,11 @@ The slider has the following keyboard bindings:
 
 ### Accessibility
 
+### 无障碍性
+
 `MatSlider` implements the ARIA `role="slider"` pattern, handling keyboard input and focus
 management. Always provide an accessible label for each slider via `aria-label` or
 `aria-labelledby`.
+
+`MatSlider` 实现了 ARIA `role="slider"` 模式，它会处理键盘输入和焦点管理。始终要通过 `aria-label` 或 `aria-labelledby` 为每个滑块提供无障碍标签。
+

@@ -126,28 +126,50 @@ with a different set of data, depending on the trigger that opened it:
 ```
 
 ### Keyboard interaction
+
+### 键盘交互
+
 | Keyboard shortcut      | Action                                      |
 |------------------------|---------------------------------------------|
+| 键盘快捷键                  | 操作                                          |
 | <kbd>Down Arrow</kbd>  | Focus the next menu item.                   |
+| <kbd>Down Arrow</kbd>  | 聚焦下一个菜单项。                                   |
 | <kbd>Up Arrow</kbd>    | Focus the previous menu item.               |
+| <kbd>Up Arrow</kbd>    | 聚焦上一个菜单项。                                   |
 | <kbd>Left Arrow</kbd>  | Close the current menu if it is a sub-menu. |
+| <kbd>Left Arrow</kbd>  | 如果是子菜单，则关闭当前菜单。                             |
 | <kbd>Right Arrow</kbd> | Opens the current menu item's sub-menu.     |
+| <kbd>Right Arrow</kbd> | 打开当前菜单项的子菜单。                                |
 | <kbd>Enter</kbd>       | Activate the focused menu item.             |
+| <kbd>Enter</kbd>       | 激活焦点菜单项。                                    |
 | <kbd>Escape</kbd>      | Close all open menus.                       |
+| <kbd>Escape</kbd>      | 关闭所有打开的菜单。                                  |
 
 ### Accessibility
 
+### 无障碍性
+
 Angular Material's menu component consists of two connected parts: the trigger and the pop-up menu.
+
+Angular Material 的菜单组件由两个相互关连的部分组成：触发器和弹出菜单。
 
 The menu trigger is a standard button element augmented with `aria-haspopup`, `aria-expanded`, and
 `aria-controls` to create the relationship to the pop-up panel.
+
+菜单触发器是一个标准按钮元素，增加了 `aria-haspopup` 、 `aria-expanded` 和 `aria-controls`，以创建与弹出面板的联系。
 
 The pop-up menu implements the `role="menu"` pattern, handling keyboard interaction and focus
 management. Upon opening, the trigger will focus the first focusable menu item. Upon close, the menu
 will return focus to its trigger. Avoid creating a menu in which all items are disabled, instead
 hiding or disabling the menu trigger. 
 
+弹出菜单实现了 `role="menu"` 模式，它会处理键盘交互和焦点管理。打开后，触发器将聚焦第一个可聚焦的菜单项。关闭后，菜单会将焦点返回到其触发器。请避免创建会禁用所有条目的菜单，而是隐藏或禁用菜单触发器。
+
 Angular Material does not support the `menuitemcheckbox` or `menuitemradio` roles.
+
+Angular Material 不支持 `menuitemcheckbox` 或 `menuitemradio` 角色。
 
 Always provide an accessible label via `aria-label` or `aria-labelledby` for any menu
 triggers or menu items without descriptive text content.
+
+总是要通过 `aria-label` 或 `aria-labelledby` 来为没有描述性文本内容的任何菜单触发器或菜单项提供无障碍标签。

@@ -145,6 +145,7 @@ are completed.
   </mat-step>
 </mat-stepper>
 ```
+
 ### Types of steps
 
 ### 步骤的类型
@@ -161,7 +162,6 @@ on `mat-step`.
 <!-- example({"example": "stepper-optional",
               "file": "stepper-optional-example.html",
               "region": "optional"}) -->
-
 
 #### Editable step
 
@@ -266,26 +266,44 @@ will not affect steppers marked as `linear`.
 <!-- example(stepper-errors) -->
 
 ### Lazy rendering
+
+### 延迟渲染
+
 By default, the stepper will render all of it's content when it's initialized. If you have some
 content that you want to defer until the particular step is opened, you can put it inside
 an `ng-template` with the `matStepContent` attribute.
 
+默认情况下，步进器将在初始化时渲染其所有内容。如果你有一些内容要推迟到打开特定步骤之前才渲染，你可以将其放入具有 `matStepContent` 属性的 `ng-template` 中。
+
 <!-- example(stepper-lazy-content) -->
 
 ### Responsive stepper
+
+### 响应式步进器
+
 If your app supports a wide variety of screens and a stepper's layout doesn't fit a particular
 screen size, you can control its `orientation` dynamically to change the layout based on the
 viewport.
 
+如果你的应用支持多种屏幕并且步进器的布局不适合特定的屏幕尺寸，你可以动态控制其 `orientation` 以根据视口更改布局。
+
 <!-- example(stepper-responsive) -->
 
 ### Keyboard interaction
+
+### 键盘交互
+
 | Keyboard shortcut      | Action                          |
 |------------------------|---------------------------------|
+| 键盘快捷键                  | 操作                              |
 | <kbd>Left Arrow</kbd>  | Focus the previous step header. |
+| <kbd>Left Arrow</kbd>  | 聚焦上一步标题。                        |
 | <kbd>Right Arrow</kbd> | Focus the next step header.     |
+| <kbd>Right Arrow</kbd> | 聚焦下一步标题。                        |
 | <kbd>Enter</kbd>       | Select the focused step.        |
+| <kbd>Enter</kbd>       | 选择聚焦的步骤。                        |
 | <kbd>Space</kbd>       | Select the focused step.        |
+| <kbd>Space</kbd>       | 选择聚焦的步骤。                        |
 
   <kbd>TAB</kbd>+<kbd>SHIFT</kbd>：焦点移到上一个可捕获焦点的元素上
 
@@ -335,15 +353,24 @@ content harder to consume for some users. See the [Responsive Stepper section](#
 above for an example on building a stepper that adjusts its layout based on
 viewport size.
 
+在为小屏幕尺寸构建时更喜欢垂直步进器，因为水平步进器通常会占用更多的水平空间，从而引入水平滚动。具有多个滚动维度的应用程序会使某些用户更难以消费内容。有关构建基于视口大小调整其布局的步进器的示例，请参阅上面的[响应式步进器部分](#responsive-stepper)。
+
 #### Forms
+
+#### 表单
+
 Steppers often contain forms and form controls. If validation errors inside of a
 stepper's form prevents moving to another step, make sure that your form
 controls communicate error messages to assistive technology. This helps the user
 know why they can't advance to another step. You can accomplish this by using
 `<mat-error>` with `<mat-form-field>`, or by using an ARIA live region.
 
+步进器通常会包含表单和表单控件。如果步进器表单中的验证错误阻止了移动到另一个步骤，请确保你的表单控件将错误消息传达给辅助技术。这有助于用户了解为什么他们不能前进到另一个步骤。你可以通过将 `<mat-error>` 与 `<mat-form-field>` 结合使用或使用 ARIA 实时区域来完成此操作。
+
 When a step contains a forms validation error, `MatStepper` will display the
 error in the step's header if specified. See the [Error State section](#error-state)
 for an example of a stepper with an error message. For non-linear steppers, you
 should use an ARIA live region to announce error messages when users navigate
 away from a step with an error message.
+
+当某个步骤包含表单验证错误时，`MatStepper` 将在步骤的标题中显示错误（如果指定过）。有关带有错误消息的步进器示例，请参阅[错误状态部分](#error-state)。对于非线性步进器，当用户离开带有错误消息的步骤时，你应该使用 ARIA 实时区域来播报错误消息。

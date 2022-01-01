@@ -140,9 +140,13 @@ duration can be configured globally using the `MAT_TABS_CONFIG` injection token.
 `MatTabGroup` and `MatTabNavBar` implement different interaction patterns for different use-cases.
 You should choose the component that works best for your application.
 
+`MatTabGroup` 和 `MatTabNavBar` 会为不同的用例实现不同的交互模式。你应该选择最适合你的应用程序的组件。
+
 `MatTabGroup` combines `tablist`, `tab`, and `tabpanel` into a single component with
 handling for keyboard inputs and focus management. You should use this component for switching
 between content within a single page. 
+
+`MatTabGroup` 将 `tablist`、`tab` 和 `tabpanel` 组合成一个组件，以处理键盘输入和焦点管理。你应该使用此组件在单个页面中的内容之间切换。
 
 `MatTabNavBar`, implements a navigation interaction pattern by using a `<nav>` element with anchor
 elements as the "tabs". You should use this component when you want your cross-page navigation to
@@ -152,6 +156,8 @@ browser focus to an element at the beginning of the content to which the user is
 Furthermore, consider placing your `<router-outlet>` inside of a
 [landmark region](https://www.w3.org/TR/wai-aria-1.1/#dfn-landmark) appropriate to the page.
 
+`MatTabNavBar` ，通过使用带有锚点元素的 `<nav>` 元素作为“选项卡”来实现导航交互模式。当你希望跨页面导航选项卡式界面时，你应该使用此组件。根据经验，如果更改选项卡会更改浏览器 URL，你应该考虑 `MatTabNavBar`。对于所有导航（包用 `MatTabNavBar`），始终将浏览器焦点移动到用户导航到的内容开头的元素。此外，考虑将你的 `<router-outlet>` 放置在适合页面的[地标区域](https://www.w3.org/TR/wai-aria-1.1/#dfn-landmark)内。
+
 Avoid mixing both `MatTabGroup` and `MatTabNavBar` in your application. The inconsistent interaction
 patterns applied between the components may confuse users.
 
@@ -159,28 +165,41 @@ patterns applied between the components may confuse users.
 
 #### Labels
 
+#### 标签
+
 Always provide an accessible label via `aria-label` or `aria-describedby` for tabs without
 descriptive text content.
 
+始终通过 `aria-label` 或 `aria-describedby` 为没有描述性文本内容的选项卡提供无障碍标签。
+
 When using `MatTabNavGroup`, always specify a label for the `<nav>` element.
+
+使用 `MatTabNavGroup` 时，始终为 `<nav>` 元素指定标签。
 
 #### Keyboard interaction
 
+#### 键盘交互
+
 `MatTabGroup` implements the following keyboard interactions.
 
-| Shortcut             | Action                     |
-|----------------------|----------------------------|
-| 快捷键             | 操作                     |
-| `LEFT_ARROW`         | Move focus to previous tab |
-| `LEFT_ARROW`         | 把焦点移到前一个选项卡 |
-| `RIGHT_ARROW`        | Move focus to next tab     |
-| `RIGHT_ARROW`        | 把焦点移到后一个选项卡 |
-| `HOME`               | Move focus to first tab    |
-| `HOME`               | 把焦点移到第一个选项卡 |
-| `END`                | Move focus to last tab     |
-| `END`                | 把焦点移到最后一个选项卡 |
-| `SPACE` or `ENTER`   | Switch to focused tab      |
-| `SPACE` 或 `ENTER`   | 切换到当前有焦点的选项卡 |
+`MatTabGroup` 实现以下键盘交互。
+
+| Shortcut           | Action                     |
+|--------------------|----------------------------|
+| 快捷键                | 操作                         |
+| `LEFT_ARROW`       | Move focus to previous tab |
+| `LEFT_ARROW`       | 把焦点移到前一个选项卡                |
+| `RIGHT_ARROW`      | Move focus to next tab     |
+| `RIGHT_ARROW`      | 把焦点移到后一个选项卡                |
+| `HOME`             | Move focus to first tab    |
+| `HOME`             | 把焦点移到第一个选项卡                |
+| `END`              | Move focus to last tab     |
+| `END`              | 把焦点移到最后一个选项卡               |
+| `SPACE` or `ENTER` | Switch to focused tab      |
+| `SPACE` 或 `ENTER`  | 切换到当前有焦点的选项卡               |
 
 `MatTabNavBar` does not add additional keyboard handling, deferring to the native behavior of
 anchor elements.
+
+`MatTabNavBar` 不会添加额外的键盘处理，只遵循锚点元素的原生行为。
+

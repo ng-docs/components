@@ -74,6 +74,7 @@ implement customized click actions.
 不要修改 `checked` 或 `indeterminate` 的值。开发人员可以实现自己的点击动作。
 
 #### `check`
+
 Toggle `checked` value of the checkbox, ignore `indeterminate` value. If the
 checkbox is in `indeterminate` state, the checkbox will display as an `indeterminate` checkbox
 regardless the `checked` value.
@@ -81,6 +82,7 @@ regardless the `checked` value.
 切换检查框的 `checked` 值，但不管 `indeterminate` 的值。如果该检查框处于 `indeterminate` 状态，则该检查框会显示为 `indeterminate` 状态，忽略 `checked` 值。
 
 #### `check-indeterminate`
+
 Default behavior of `mat-checkbox`. Always set `indeterminate` to `false`
 when user click on the `mat-checkbox`.
 This matches the behavior of native `<input type="checkbox">`.
@@ -113,6 +115,8 @@ Always provide an accessible label via `aria-label` or `aria-labelledby` for che
 descriptive text content. For dynamic labels, `MatCheckbox` provides input properties for binding
 `aria-label` and `aria-labelledby`. This means that you should not use the `attr.` prefix when
 binding these properties, as demonstrated below.
+
+始终通过 `aria-label` 或 `aria-labelledby` 为没有描述性文本内容的复选框提供无障碍标签。对于动态标签， `MatCheckbox` 提供了用于绑定 `aria-label` 和 `aria-labelledby` 的输入属性。这意味着你不应该使用 `attr.` 作为绑定这些属性时的前缀，如下所示。
 
 ```html
 <mat-checkbox [aria-label]="isSubscribedToEmailsMessage">

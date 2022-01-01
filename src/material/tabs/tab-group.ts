@@ -222,7 +222,7 @@ export abstract class _MatTabGroupBase
    * The `tabindex` will be removed automatically for inactive tabs.
    * Read more at https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html
    *
-   * 在包装制表符内容的内部元素上设置的 `tabindex` 当标签没有聚焦元素或者它具有可滚动的内容时，可用于改进的可访问性。对于无效的标签页，`tabindex` 将会被自动移除。到 https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html 了解更多信息。
+   * 在包装制表符内容的内部元素上设置的 `tabindex` 当标签没有聚焦元素或者它具有可滚动的内容时，可用于改进的无障碍性。对于无效的标签页，`tabindex` 将会被自动移除。到 https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html 了解更多信息。
    *
    */
   @Input()

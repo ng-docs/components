@@ -39,6 +39,8 @@ CSS class that can be used for style (e.g. to add an arrow). The possible classe
 `mat-tooltip-panel-above`, `mat-tooltip-panel-below`, `mat-tooltip-panel-left`,
 `mat-tooltip-panel-right`.
 
+根据显示工具提示的位置， `.mat-tooltip-panel` 元素将接收可用于样式的 CSS 类（例如添加箭头）。可能的类是 `mat-tooltip-panel-above` 、 `mat-tooltip-panel-below` 、 `mat-tooltip-panel-left` 、 `mat-tooltip-panel-right` 。
+
 <!-- example(tooltip-position) -->
 
 ### Showing and hiding
@@ -104,6 +106,8 @@ shown.
 
 ### Accessibility
 
+### 无障碍性
+
 `MatTooltip` adds an `aria-describedby` description that provides a reference
 to a visually hidden element containing the tooltip's message. This provides screenreaders the
 information needed to read out the tooltip's contents when the end-user focuses on tooltip's
@@ -117,3 +121,6 @@ but instead an invisible copy of the tooltip content that is always present in t
 Avoid interactions that exclusively show a tooltip with pointer events like click and mouseenter.
 Always ensure that keyboard users can perform the same set of actions available to mouse and
 touch users.
+
+避免只显示带有鼠标指针事件（如单击和鼠标输入）的工具提示的交互。始终确保键盘用户可以执行鼠标和触摸用户可用的相同操作集。
+

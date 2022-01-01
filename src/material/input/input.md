@@ -176,6 +176,8 @@ The `matInput` directive works with native `<input>` to provide an accessible ex
 
 #### Aria attributes
 
+#### Aria 属性
+
 If the containing `<mat-form-field>` has a label it will automatically be used as the `aria-label`
 for the `<input>`. However, if there's no label specified in the form field, `aria-label`,
 `aria-labelledby` or `<label for=...>` should be added.
@@ -185,6 +187,8 @@ for the `<input>`. However, if there's no label specified in the form field, `ar
 
 #### Errors and hints
 
+#### 错误和提示
+
 Any `mat-error` and `mat-hint` are automatically added to the input's `aria-describedby` list, and
 `aria-invalid` is automatically updated based on the input's validity state.
 
@@ -192,6 +196,8 @@ Any `mat-error` and `mat-hint` are automatically added to the input's `aria-desc
 
 When conveying an error, be sure to not rely soley on color. In the message itself, you can use an
 icon or text such as "Error:" to indicate the message is an error message.
+
+传达错误时，请确保不要仅仅依赖颜色。在消息本身中，你可以使用图标或文本（例如“错误：”）来指示此消息是错误消息。
 
 ### Troubleshooting
 

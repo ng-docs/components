@@ -215,28 +215,44 @@ To add a divider, use `<mat-divider>`.
 
 ### Accessibility
 
+### 无障碍性
+
 Angular Material offers multiple varieties of list so that you can choose the type that best applies
 to your use-case.
 
+Angular Material 提供了多种列表，以便你可以选择最适合你的用例的那种。
+
 #### Navigation
+
+#### 导航
 
 You should use `MatNavList` when every item in the list is an anchor that navigate to another URL.
 The root `<mat-nav-list>` element sets `role="navigation"` and should contain only anchor elements
 with the `mat-list-item` attribute. You should not nest any interactive elements inside these
 anchors, including buttons and checkboxes. 
 
+当列表中的每个项目都是导航到另一个 URL 的锚点时，你应该使用 `MatNavList` 。根 `<mat-nav-list>` 元素会设置 `role="navigation"` 并且应该只包含具有 `mat-list-item` 属性的锚点元素。你不应在这些锚点内嵌套任何交互元素，包括按钮和复选框。
+
 Always provide an accessible label for the `<mat-nav-list>` element via `aria-label` or
 `aria-labelledby`.
 
+始终通过 `aria-label` 或 `aria-labelledby` 为 `<mat-nav-list>` 元素提供无障碍标签。
+
 #### Selection
+
+#### 选取结果
 
 You should use `MatSelectionList` and `MatListOption` for lists that allow the user to select one
 or more values. This list variant uses the `role="listbox"` interaction pattern, handling all
 associated keyboard input and focus management. You should not nest any interactive elements inside
 these options, including buttons and anchors. 
 
+对于允许用户选择一个或多个值的列表，你应该使用 `MatSelectionList` 和 `MatListOption` 。此列表变体使用 `role="listbox"` 交互模式，处理所有相关的键盘输入和焦点管理。你不应在这些选项中嵌套任何交互元素，包括按钮和锚点。
+
 Always provide an accessible label for the `<mat-selection-list>` element via `aria-label` or
 `aria-labelledby` that describes the selection being made.
+
+始终通过 `aria-label` 或 `aria-labelledby` 为 `<mat-selection-list>` 元素提供一个无障碍标签，以描述正在进行的选择。
 
 #### Custom scenarios
 

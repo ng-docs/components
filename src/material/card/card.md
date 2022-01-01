@@ -4,7 +4,6 @@
 
 <!-- example(card-overview) -->
 
-
 ### Basic card sections
 
 ### 基本卡片分节
@@ -56,7 +55,6 @@ header to a card. This header can contain:
 | `<mat-card-subtitle>`   | 头部的小标题 |
 | `<img mat-card-avatar>` | An image used as an avatar within the header |
 | `<img mat-card-avatar>` | 头部用作头像的图片 |
-
 
 ### Title groups
 
@@ -133,6 +131,10 @@ element.
 
 Always test your application to verify the behavior that works best for your users.
 
+多多测试你的应用程序以验证最适合你的用户的行为。
+
 [role-group]: https://www.w3.org/TR/wai-aria/#group
+
 [role-region]: https://www.w3.org/TR/wai-aria/#region
+
 [aria-landmarks]: https://www.w3.org/TR/wai-aria/#landmark

@@ -4,7 +4,6 @@
 
 <!-- example(divider-overview) -->
 
-
 ### Simple divider
 
 ### 简单分割线
@@ -41,7 +40,6 @@ Add the `vertical` attribute in order to set whether or not the divider is verti
 <mat-divider [vertical]="true"></mat-divider>
 ```
 
-
 ### Lists with inset dividers
 
 ### 带有内部分割线的列表
@@ -76,5 +74,9 @@ in a list, because it will overlap with the section divider.
 
 ### Accessibility
 
+### 无障碍性
+
 `MatDivider` applies the ARIA `role="separator"` attribute, exclusively implementing the
 non-focusable style of separator that distinguishes sections of content.
+
+`MatDivider` 会应用 ARIA `role="separator"` 属性，以实现用于区分内容分节的、带有不可聚焦样式的分隔符。

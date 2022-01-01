@@ -67,6 +67,8 @@ by default it will use the id of the column.
 
 ### Accessibility
 
+### 无障碍性
+
 When you apply `MatSortHeader` to a header cell element, the component wraps the content of the
 header cell inside a button. The text content of the header cell then becomes the accessible
 label for the sort button. However, the header cell text typically describes the column and does
@@ -74,11 +76,17 @@ not indicate that interacting with the control performs a sorting action. To cle
 that the header performs sorting, always use the `sortActionDescription` input to provide a
 description for the button element, such as "Sort by last name".
 
+当你将 `MatSortHeader` 应用于标题单元格元素时，该组件会将标题单元格的内容包装在按钮内。然后标题单元格的文本内容就会成为排序按钮的无障碍标签。但是，标题单元格文本通常会描述列，而不会用来与控件交互执行排序操作。要清楚地表达标题如何执行排序，请始终使用输入属性 `sortActionDescription` 来提供按钮元素的描述，例如“按姓氏排序”。
+
 `MatSortHeader` applies the `aria-sort` attribute to communicate the active sort state to
 assistive technology. However, most screen readers do not announce changes to the value of
 `aria-sort`, meaning that screen reader users do not receive feedback that sorting occured. To
 remedy this, use the `matSortChange` event on the `MatSort` directive to announce state
 updates with the `LiveAnnouncer` service from `@angular/cdk/a11y`.
 
+`MatSortHeader` 应用 `aria-sort` 属性将当前排序状态传达给辅助技术。但是，大多数屏幕阅读器不会播报 `aria-sort` 值的更改，这意味着屏幕阅读器用户不会收到排序发生的反馈。要解决此问题，请使用 `MatSort` 指令上的 `matSortChange` 事件通过来自 `@angular/cdk/a11y` 的 `LiveAnnouncer` 服务播报本次状态更新。
+
 If your application contains many tables and sort headers, consider creating a custom
 directives to consistently apply `sortActionDescription` and announce sort state changes. 
+
+如果你的应用程序包含许多表和排序标头，请考虑创建自定义指令以一致地应用 `sortActionDescription` 并播报排序状态更改。

@@ -70,5 +70,9 @@ The paginator uses `role="group"` to semantically group its child controls. You 
 `aria-label` or `aria-labelledby` attribute to `<mat-paginator>` with a label that describes
 the content controlled by the pagination control.
 
+分页器使用 `role="group"` 对其子控件进行语义分组。你必须向 `<mat-paginator>` 添加一个 `aria-label` 或 `aria-labelledby` 属性，并带有一个描述由此分页控件控制的内容的标签。
+
 You can set the `aria-label` attributes for the button and select controls within the paginator in 
 `MatPaginatorIntl`.
+
+你可以为按钮设置 `aria-label` 属性，并在 `MatPaginatorIntl` 中的分页器中选择控件。
