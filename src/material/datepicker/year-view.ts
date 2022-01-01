@@ -62,7 +62,12 @@ import {DateRange} from './date-selection-model';
 export class MatYearView<D> implements AfterContentInit, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;
 
-  /** Flag used to filter out space/enter keyup events that originated outside of the view. */
+  /**
+   * Flag used to filter out space/enter keyup events that originated outside of the view.
+   *
+   * 用于过滤掉源自视图之外的空格/输入键事件的标志。
+   *
+   */
   private _selectionKeyPressed: boolean;
 
   /**
@@ -347,7 +352,12 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
     event.preventDefault();
   }
 
-  /** Handles keyup events on the calendar body when calendar is in year view. */
+  /**
+   * Handles keyup events on the calendar body when calendar is in year view.
+   *
+   * 当日历在年视图中时处理日历正文上的键盘事件。
+   *
+   */
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
     if (event.keyCode === SPACE || event.keyCode === ENTER) {
       if (this._selectionKeyPressed) {

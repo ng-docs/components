@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Horizontal dimension of a connection point on the perimeter of the origin or overlay element. */
+/**
+ * Horizontal dimension of a connection point on the perimeter of the origin or overlay element.
+ *
+ * 原点或浮层元素周边连接点的水平尺寸。
+ *
+ */
 export type HorizontalConnectionPos = 'start' | 'center' | 'end';
 
 /**

@@ -180,27 +180,52 @@ describe('BreakpointObserver', () => {
 });
 
 export class FakeMediaQueryList {
-  /** The callback for change events. */
+  /**
+   * The callback for change events.
+   *
+   * 更改事件的回调。
+   *
+   */
   private _listeners: ((mql: MediaQueryListEvent) => void)[] = [];
 
   constructor(public matches: boolean, public media: string) {}
 
-  /** Toggles the matches state and "emits" a change event. */
+  /**
+   * Toggles the matches state and "emits" a change event.
+   *
+   * 切换匹配状态并“发出”更改事件。
+   *
+   */
   setMatches(matches: boolean) {
     this.matches = matches;
 
-    /** Simulate an asynchronous task. */
+    /**
+     * Simulate an asynchronous task.
+     *
+     * 模拟一个异步任务。
+     *
+     */
     setTimeout(() => {
       this._listeners.forEach(listener => listener(this as any));
     });
   }
 
-  /** Registers a callback method for change events. */
+  /**
+   * Registers a callback method for change events.
+   *
+   * 注册更改事件的回调方法。
+   *
+   */
   addListener(callback: (mql: MediaQueryListEvent) => void) {
     this._listeners.push(callback);
   }
 
-  /** Removes a callback method from the change events. */
+  /**
+   * Removes a callback method from the change events.
+   *
+   * 从更改事件中删除回调方法。
+   *
+   */
   removeListener(callback: (mql: MediaQueryListEvent) => void) {
     const index = this._listeners.indexOf(callback);
 
@@ -212,27 +237,52 @@ export class FakeMediaQueryList {
 
 @Injectable()
 export class FakeMediaMatcher {
-  /** A map of match media queries. */
+  /**
+   * A map of match media queries.
+   *
+   * 匹配媒体查询的映射表。
+   *
+   */
   private _queries = new Map<string, FakeMediaQueryList>();
 
-  /** The number of distinct queries created in the media matcher during a test. */
+  /**
+   * The number of distinct queries created in the media matcher during a test.
+   *
+   * 测试期间在媒体匹配器中创建的不同查询的数量。
+   *
+   */
   get queryCount(): number {
     return this._queries.size;
   }
 
-  /** Fakes the match media response to be controlled in tests. */
+  /**
+   * Fakes the match media response to be controlled in tests.
+   *
+   * 伪造匹配媒体响应以在测试中进行控制。
+   *
+   */
   matchMedia(query: string): FakeMediaQueryList {
     const mql = new FakeMediaQueryList(true, query);
     this._queries.set(query, mql);
     return mql;
   }
 
-  /** Clears all queries from the map of queries. */
+  /**
+   * Clears all queries from the map of queries.
+   *
+   * 从查询映射中清除所有查询。
+   *
+   */
   clear() {
     this._queries.clear();
   }
 
-  /** Toggles the matching state of the provided query. */
+  /**
+   * Toggles the matching state of the provided query.
+   *
+   * 切换提供的查询的匹配状态。
+   *
+   */
   setMatchesQuery(query: string, matches: boolean) {
     if (this._queries.has(query)) {
       this._queries.get(query)!.setMatches(matches);

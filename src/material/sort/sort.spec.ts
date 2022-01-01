@@ -483,6 +483,9 @@ describe('MatSort', () => {
  * Performs a sequence of sorting on a single column to see if the sort directions are
  * consistent with expectations. Detects any changes in the fixture to reflect any changes in
  * the inputs and resets the MatSort to remove any side effects from previous tests.
+ *
+ * 对单个表列执行一系列排序以查看排序方向是否与预期一致。检测夹具中的任何变化以反映输入中的任何变化，并重置 MatSort 以消除先前测试中的任何副作用。
+ *
  */
 function testSingleColumnSortDirectionSequence(
   fixture: ComponentFixture<SimpleMatSortApp | MatSortWithoutExplicitInputs>,
@@ -516,7 +519,12 @@ function testSingleColumnSortDirectionSequence(
   expect(component.matSort.direction).toBe(expectedSequence[0]);
 }
 
-/** Column IDs of the SimpleMatSortApp for typing of function params in the component (e.g. sort) */
+/**
+ * Column IDs of the SimpleMatSortApp for typing of function params in the component (e.g. sort)
+ *
+ * SimpleMatSortApp 的列 ID，用于在组件中输入函数参数（例如排序）
+ *
+ */
 type SimpleMatSortAppColumnIds = 'defaultA' | 'defaultB' | 'overrideStart' | 'overrideDisableClear';
 
 @Component({
@@ -586,6 +594,9 @@ class SimpleMatSortApp {
    * Checks expectations for each sort header's view state and arrow direction states. Receives a
    * map that is keyed by each sort header's ID and contains the expectation for that header's
    * states.
+   *
+   * 检查每个排序标题的视图状态和箭头方向状态的期望值。接收由每个排序标头的 ID 键控的映射，并包含对该标头状态的期望。
+   *
    */
   expectViewAndDirectionStates(
     viewStates: Map<string, {viewState: string; arrowDirection: string}>,

@@ -5,7 +5,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatBadgeModule, MatBadgePosition, MatBadgeSize} from '@angular/material/badge';
 import {MatBadgeHarness} from '@angular/material/badge/testing/badge-harness';
 
-/** Shared tests to run on both the original and MDC-based badges. */
+/**
+ * Shared tests to run on both the original and MDC-based badges.
+ *
+ * 在原始徽章和基于 MDC 的徽章上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   badgeModule: typeof MatBadgeModule,
   badgeHarness: typeof MatBadgeHarness,

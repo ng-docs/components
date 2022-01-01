@@ -693,7 +693,12 @@ class ChocolateInjector {
   }
 }
 
-/** Simple component for testing ComponentPortal. */
+/**
+ * Simple component for testing ComponentPortal.
+ *
+ * 用于测试 ComponentPortal 的简单组件。
+ *
+ */
 @Component({
   selector: 'pizza-msg',
   template: '<p>Pizza</p><p>{{snack}}</p>',
@@ -705,6 +710,9 @@ class PizzaMsg {
 /**
  * Saves the parent node that the directive was attached to on init.
  * Useful to see where the element was in the DOM when it was first attached.
+ *
+ * 保存指令在初始化时附加到的父节点。用于查看元素在第一次附加时在 DOM 中的位置。
+ *
  */
 @Directive({
   selector: '[savesParentNodeOnInit]',
@@ -719,7 +727,12 @@ class SaveParentNodeOnInit implements AfterViewInit {
   }
 }
 
-/** Simple component to grab an arbitrary ViewContainerRef */
+/**
+ * Simple component to grab an arbitrary ViewContainerRef
+ *
+ * 获取任意 ViewContainerRef 的简单组件
+ *
+ */
 @Component({
   selector: 'some-placeholder',
   template: `
@@ -737,7 +750,12 @@ class ArbitraryViewContainerRefComponent {
   constructor(public viewContainerRef: ViewContainerRef, public injector: Injector) {}
 }
 
-/** Test-bed component that contains a portal outlet and a couple of template portals. */
+/**
+ * Test-bed component that contains a portal outlet and a couple of template portals.
+ *
+ * 包含一个门户出口和几个模板门户的测试平台组件。
+ *
+ */
 @Component({
   selector: 'portal-test',
   template: `
@@ -799,7 +817,12 @@ class PortalTestApp {
   }
 }
 
-/** Test-bed component that contains a portal outlet and a couple of template portals. */
+/**
+ * Test-bed component that contains a portal outlet and a couple of template portals.
+ *
+ * 包含一个门户出口和几个模板门户的测试平台组件。
+ *
+ */
 @Component({
   template: `
     <div class="portal-container">

@@ -90,6 +90,9 @@ export function toggleNativeDragInteractions(element: HTMLElement, enable: boole
  * 该元素是否可见。
  *
  * @param importantProperties Properties to be set as `!important`.
+ *
+ * 要设置为 `!important` 的属性。
+ *
  * @docs-private
  */
 export function toggleVisibility(

@@ -27,7 +27,12 @@ export class CdkLinearStepperWithFormExample {
   }
 }
 
-/** Custom CDK linear stepper component */
+/**
+ * Custom CDK linear stepper component
+ *
+ * 自定义 CDK 线性步进器组件
+ *
+ */
 @Component({
   selector: 'example-custom-linear-stepper',
   templateUrl: './example-custom-linear-stepper.html',

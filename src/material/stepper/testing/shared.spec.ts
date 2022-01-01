@@ -10,7 +10,12 @@ import {MatStepperHarness} from './stepper-harness';
 import {MatStepperNextHarness, MatStepperPreviousHarness} from './stepper-button-harnesses';
 import {StepperOrientation} from './step-harness-filters';
 
-/** Shared tests to run on both the original and MDC-based steppers. */
+/**
+ * Shared tests to run on both the original and MDC-based steppers.
+ *
+ * 在原始和基于 MDC 的步进器上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   stepperModule: typeof MatStepperModule,
   stepperHarness: typeof MatStepperHarness,

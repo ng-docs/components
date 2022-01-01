@@ -5,7 +5,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatOptionModule} from '@angular/material/core';
 import {MatOptgroupHarness} from './optgroup-harness';
 
-/** Shared tests to run on both the original and MDC-based option groups. */
+/**
+ * Shared tests to run on both the original and MDC-based option groups.
+ *
+ * 在原始和基于 MDC 的选项组上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   optionModule: typeof MatOptionModule,
   optionGroupHarness: typeof MatOptgroupHarness,

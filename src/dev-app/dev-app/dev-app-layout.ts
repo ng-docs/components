@@ -17,7 +17,12 @@ const isDarkThemeKey = 'ANGULAR_COMPONENTS_DEV_APP_DARK_THEME';
 
 export const ANIMATIONS_STORAGE_KEY = 'ANGULAR_COMPONENTS_ANIMATIONS_DISABLED';
 
-/** Root component for the dev-app demos. */
+/**
+ * Root component for the dev-app demos.
+ *
+ * dev-app 演示的根组件。
+ *
+ */
 @Component({
   selector: 'dev-app-layout',
   templateUrl: 'dev-app-layout.html',
@@ -109,13 +114,28 @@ export class DevAppLayout {
     {name: 'MDC Table', route: '/mdc-table'},
   ];
 
-  /** Currently selected density scale based on the index. */
+  /**
+   * Currently selected density scale based on the index.
+   *
+   * 当前基于索引选择的密度比例。
+   *
+   */
   currentDensityIndex = 0;
 
-  /** List of possible global density scale values. */
+  /**
+   * List of possible global density scale values.
+   *
+   * 可能的全球密度比例值列表。
+   *
+   */
   densityScales = [0, -1, -2, 'minimum', 'maximum'];
 
-  /** Whether animations are disabled. */
+  /**
+   * Whether animations are disabled.
+   *
+   * 是否禁用动画。
+   *
+   */
   animationsDisabled = localStorage.getItem(ANIMATIONS_STORAGE_KEY) === 'true';
 
   constructor(
@@ -196,12 +216,22 @@ export class DevAppLayout {
     location.reload();
   }
 
-  /** Gets the index of the next density scale that can be selected. */
+  /**
+   * Gets the index of the next density scale that can be selected.
+   *
+   * 获取可以选择的下一个密度比例的索引。
+   *
+   */
   getNextDensityIndex() {
     return (this.currentDensityIndex + 1) % this.densityScales.length;
   }
 
-  /** Selects the next possible density scale. */
+  /**
+   * Selects the next possible density scale.
+   *
+   * 选择下一个可能的密度比例。
+   *
+   */
   selectNextDensity() {
     this.currentDensityIndex = this.getNextDensityIndex();
   }
@@ -209,6 +239,9 @@ export class DevAppLayout {
   /**
    * Updates the density classes on the host element. Applies a unique class for
    * a given density scale, so that the density styles are conditionally applied.
+   *
+   * 更新宿主元素上的密度类。为给定的密度比例应用唯一的类，以便有条件地应用密度样式。
+   *
    */
   getDensityClass() {
     return `demo-density-${this.densityScales[this.currentDensityIndex]}`;

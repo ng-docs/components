@@ -1472,9 +1472,16 @@ describe('MatMenu', () => {
      * and access the trigger and overlay positions.
      * Additionally it can take any inputs for the menu wrapper component.
      *
+     * 该测试类用于创建包含菜单的组件。它提供了重定位触发器、打开菜单以及访问触发器和覆盖位置的帮助程序。此外，它可以为菜单包装组件接受任何输入。
+     *
      * Basic usage:
      * const subject = new OverlapSubject(MyComponent);
      * subject.openMenu();
+     *
+     * 基本用法：
+     * const subject = new OverlapSubject(MyComponent);
+     * subject.openMenu();
+     *
      */
     class OverlapSubject<T extends TestableMenu> {
       readonly fixture: ComponentFixture<T>;

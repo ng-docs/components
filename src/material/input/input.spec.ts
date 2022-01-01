@@ -2338,7 +2338,12 @@ class MatInputWithCustomAccessor {}
 })
 class MatInputSelectWithoutOptions {}
 
-/** Custom component that never has a value. Used for testing the `MAT_INPUT_VALUE_ACCESSOR`. */
+/**
+ * Custom component that never has a value. Used for testing the `MAT_INPUT_VALUE_ACCESSOR`.
+ *
+ * 从来没有值的自定义组件。用于测试 `MAT_INPUT_VALUE_ACCESSOR` 。
+ *
+ */
 @Directive({
   selector: 'input[customInputAccessor]',
   providers: [

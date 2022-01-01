@@ -84,7 +84,7 @@ A component can use `@ViewChild` or `@ViewChildren` to get a reference to a
 
 Used to create a portal from a component type.
 
-用于从某个组件类创建传送点。当使用传送点动态创建组件时，如果你的项目使用 ViewEngine，就必须把该组件包含在 `NgModule` 的 `entryComponents` 中。而那些使用 Angular Ivy 的项目不需要 `entryComponents`。
+用于从某个组件类创建传送点。
 
 Usage:
 

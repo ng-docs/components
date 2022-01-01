@@ -1,7 +1,7 @@
 `<mat-slider>` allows for the selection of a value from a range via mouse, touch, or keyboard,
 similar to `<input type="range">`.
 
-像 `<input type="range">` 一样，`<mat-slider>` 允许通过鼠标、触控或键盘来从范围中选择一个值。
+像 `<input type="range">` 一样，`<mat-slider>` 允许通过鼠标、触摸或键盘来从范围中选择一个值。
 
 <!-- example(slider-overview) -->
 

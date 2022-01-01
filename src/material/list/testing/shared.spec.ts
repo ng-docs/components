@@ -22,7 +22,12 @@ import {
 import {MatNavListHarness, MatNavListItemHarness} from './nav-list-harness';
 import {MatListOptionHarness, MatSelectionListHarness} from './selection-list-harness';
 
-/** Tests that apply to all types of mat-list. */
+/**
+ * Tests that apply to all types of mat-list.
+ *
+ * 适用于所有类型的 mat-list 的测试。
+ *
+ */
 function runBaseListFunctionalityTests<
   L extends MatListHarnessBase<
     ComponentHarnessConstructor<I> & {with: (x?: any) => HarnessPredicate<I>},
@@ -229,6 +234,9 @@ function runBaseListFunctionalityTests<
 /**
  * Function that can be used to run the shared tests for either the non-MDC or MDC based list
  * harness.
+ *
+ * 可用于为非 MDC 或基于 MDC 的列表工具运行共享测试的函数。
+ *
  */
 export function runHarnessTests(
   listModule: typeof MatListModule,

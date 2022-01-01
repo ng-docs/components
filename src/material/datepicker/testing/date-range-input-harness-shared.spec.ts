@@ -13,7 +13,12 @@ import {
   MatEndDateHarness,
 } from './date-range-input-harness';
 
-/** Shared tests to run on both the original and MDC-based date range inputs. */
+/**
+ * Shared tests to run on both the original and MDC-based date range inputs.
+ *
+ * 在原始和基于 MDC 的日期范围输入上运行的共享测试。
+ *
+ */
 export function runDateRangeInputHarnessTests(
   datepickerModule: typeof MatDatepickerModule,
   dateRangeInputHarness: typeof MatDateRangeInputHarness,

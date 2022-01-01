@@ -85,7 +85,12 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
     }
   }
 
-  /** Store pointerdown event target to track origin of click. */
+  /**
+   * Store pointerdown event target to track origin of click.
+   *
+   * 存储 pointerdown 事件目标以跟踪点击来源。
+   *
+   */
   private _pointerDownListener = (event: PointerEvent) => {
     this._pointerDownEventTarget = _getEventTarget(event);
   };

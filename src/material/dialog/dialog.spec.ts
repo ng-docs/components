@@ -2102,7 +2102,12 @@ class ComponentWithTemplateRef {
   }
 }
 
-/** Simple component for testing ComponentPortal. */
+/**
+ * Simple component for testing ComponentPortal.
+ *
+ * 用于测试 ComponentPortal 的简单组件。
+ *
+ */
 @Component({template: '<p>Pizza</p> <input> <button>Close</button>'})
 class PizzaMsg {
   constructor(
@@ -2160,7 +2165,12 @@ class ComponentThatProvidesMatDialog {
   constructor(public dialog: MatDialog) {}
 }
 
-/** Simple component for testing ComponentPortal. */
+/**
+ * Simple component for testing ComponentPortal.
+ *
+ * 用于测试 ComponentPortal 的简单组件。
+ *
+ */
 @Component({template: ''})
 class DialogWithInjectedData {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}

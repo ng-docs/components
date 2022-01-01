@@ -1078,6 +1078,9 @@ describe('FlexibleConnectedPositionStrategy', () => {
      * position does not go off-screen. We do this because there are several cases where we
      * want to run the exact same tests with different preconditions (e.g., not scroll, scrolled,
      * different element sized, etc.).
+     *
+     * 针对浮层连接到原点运行所有测试，以确保第一个首选位置不会离开屏幕。我们这样做是因为有几种情况我们想要运行具有不同先决条件（例如，不滚动、滚动、不同元素大小等）的完全相同的测试。
+     *
      */
     function runSimplePositionTests() {
       it('should position a panel below, left-aligned', () => {
@@ -2847,14 +2850,24 @@ describe('FlexibleConnectedPositionStrategy', () => {
   });
 });
 
-/** Creates an absolutely positioned, display: block element with a default size. */
+/**
+ * Creates an absolutely positioned, display: block element with a default size.
+ *
+ * 创建一个绝对定位的、具有默认大小的 `display: block` 元素。
+ *
+ */
 function createPositionedBlockElement() {
   const element = createBlockElement();
   element.style.position = 'absolute';
   return element;
 }
 
-/** Creates a block element with a default size. */
+/**
+ * Creates a block element with a default size.
+ *
+ * 创建一个具有默认大小的块元素。
+ *
+ */
 function createBlockElement(tagName = 'div', namespace?: string) {
   let element;
 
@@ -2871,7 +2884,12 @@ function createBlockElement(tagName = 'div', namespace?: string) {
   return element;
 }
 
-/** Creates an overflow container with a set height and width with margin. */
+/**
+ * Creates an overflow container with a set height and width with margin.
+ *
+ * 创建一个带有边距的设置高度和宽度的 overflow 容器。
+ *
+ */
 function createOverflowContainerElement() {
   const element = document.createElement('div');
   element.style.position = 'relative';

@@ -64,7 +64,7 @@ const EXAGGERATED_OVERSCROLL = 60;
  * Amount of milliseconds to wait before starting to scroll the header automatically.
  * Set a little conservatively in order to handle fake events dispatched on touch devices.
  *
- * 开始自动滚动标头之前需要等待的毫秒数。设置得保守一点，以便处理触控设备上发送的伪事件。
+ * 开始自动滚动标头之前需要等待的毫秒数。设置得保守一点，以便处理触摸设备上发送的伪事件。
  *
  */
 const HEADER_SCROLL_DELAY = 650;

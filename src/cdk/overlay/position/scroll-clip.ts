@@ -9,7 +9,12 @@
 // TODO(jelbourn): move this to live with the rest of the scrolling code
 // TODO(jelbourn): someday replace this with IntersectionObservers
 
-/** Equivalent of `ClientRect` without some of the properties we don't care about. */
+/**
+ * Equivalent of `ClientRect` without some of the properties we don't care about.
+ *
+ * 相当于 `ClientRect`，但没有我们不关心的一些属性。
+ *
+ */
 type Dimensions = Omit<ClientRect, 'x' | 'y' | 'toJSON'>;
 
 /**

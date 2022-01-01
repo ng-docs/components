@@ -121,6 +121,9 @@ export abstract class _MatMenuContentBase implements OnDestroy {
 
 /**
  * Menu content that will be rendered lazily once the menu is opened.
+ *
+ * 打开菜单后将延迟渲染的菜单内容。
+ *
  */
 @Directive({
   selector: 'ng-template[matMenuContent]',

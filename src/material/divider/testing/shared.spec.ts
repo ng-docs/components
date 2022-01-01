@@ -5,7 +5,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatDividerHarness} from './divider-harness';
 
-/** Shared tests to run on both the original and MDC-based dividers. */
+/**
+ * Shared tests to run on both the original and MDC-based dividers.
+ *
+ * 在原始和基于 MDC 的分频器上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   dividerModule: typeof MatDividerModule,
   dividerHarness: typeof MatDividerHarness,

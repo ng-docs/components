@@ -231,7 +231,7 @@ The root `<mat-nav-list>` element sets `role="navigation"` and should contain on
 with the `mat-list-item` attribute. You should not nest any interactive elements inside these
 anchors, including buttons and checkboxes. 
 
-当列表中的每个项目都是导航到另一个 URL 的锚点时，你应该使用 `MatNavList` 。根 `<mat-nav-list>` 元素会设置 `role="navigation"` 并且应该只包含具有 `mat-list-item` 属性的锚点元素。你不应在这些锚点内嵌套任何交互元素，包括按钮和复选框。
+当列表中的每个条目都是导航到另一个 URL 的锚点时，你应该使用 `MatNavList` 。根 `<mat-nav-list>` 元素会设置 `role="navigation"` 并且应该只包含具有 `mat-list-item` 属性的锚点元素。你不应在这些锚点内嵌套任何交互元素，包括按钮和复选框。
 
 Always provide an accessible label for the `<mat-nav-list>` element via `aria-label` or
 `aria-labelledby`.

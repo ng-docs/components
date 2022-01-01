@@ -9,6 +9,9 @@ import {MatSnackBarHarness} from './snack-bar-harness';
 /**
  * Function that can be used to run the shared snack-bar harness tests for either
  * the non-MDC or MDC based snack-bar harness.
+ *
+ * 可用于为非 MDC 或基于 MDC 的快餐栏测试工具运行共享快餐栏测试工具的函数。
+ *
  */
 export function runHarnessTests(
   snackBarModule: typeof MatSnackBarModule,

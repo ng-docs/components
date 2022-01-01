@@ -1009,7 +1009,12 @@ describe('CdkVirtualScrollViewport', () => {
   });
 });
 
-/** Finish initializing the virtual scroll component at the beginning of a test. */
+/**
+ * Finish initializing the virtual scroll component at the beginning of a test.
+ *
+ * 在测试开始时完成虚拟滚动组件的初始化。
+ *
+ */
 function finishInit(fixture: ComponentFixture<any>) {
   // On the first cycle we render and measure the viewport.
   fixture.detectChanges();
@@ -1025,7 +1030,12 @@ function finishInit(fixture: ComponentFixture<any>) {
   fixture.detectChanges();
 }
 
-/** Trigger a scroll event on the viewport (optionally setting a new scroll offset). */
+/**
+ * Trigger a scroll event on the viewport (optionally setting a new scroll offset).
+ *
+ * 在视口上触发滚动事件（可选地设置新的滚动偏移）。
+ *
+ */
 function triggerScroll(viewport: CdkVirtualScrollViewport, offset?: number) {
   if (offset !== undefined) {
     viewport.scrollToOffset(offset);

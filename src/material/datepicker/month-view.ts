@@ -72,7 +72,12 @@ const DAYS_PER_WEEK = 7;
 export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;
 
-  /** Flag used to filter out space/enter keyup events that originated outside of the view. */
+  /**
+   * Flag used to filter out space/enter keyup events that originated outside of the view.
+   *
+   * 用于过滤掉源自视图之外的空格/输入键事件的标志。
+   *
+   */
   private _selectionKeyPressed: boolean;
 
   /**
@@ -465,7 +470,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     event.preventDefault();
   }
 
-  /** Handles keyup events on the calendar body when calendar is in month view. */
+  /**
+   * Handles keyup events on the calendar body when calendar is in month view.
+   *
+   * 当日历处于月视图时，处理日历正文上的键盘事件。
+   *
+   */
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
     if (event.keyCode === SPACE || event.keyCode === ENTER) {
       if (this._selectionKeyPressed && this._canSelect(this._activeDate)) {
@@ -692,7 +702,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     this._comparisonRangeEnd = this._getCellCompareValue(this.comparisonEnd);
   }
 
-  /** Gets whether a date can be selected in the month view. */
+  /**
+   * Gets whether a date can be selected in the month view.
+   *
+   * 获取是否可以在月视图中选择日期。
+   *
+   */
   private _canSelect(date: D) {
     return !this.dateFilter || this.dateFilter(date);
   }

@@ -537,7 +537,12 @@ describe('InteractivityChecker', () => {
     });
   });
 
-  /** Creates an array of elements with the given node names. */
+  /**
+   * Creates an array of elements with the given node names.
+   *
+   * 创建具有给定节点名称的元素数组。
+   *
+   */
   function createElements(...nodeNames: string[]) {
     return nodeNames.map(name => document.createElement(name));
   }
@@ -556,7 +561,12 @@ describe('InteractivityChecker', () => {
     return element as HTMLElement;
   }
 
-  /** Appends elements to the testContainerElement. */
+  /**
+   * Appends elements to the testContainerElement.
+   *
+   * 将元素附加到 testContainerElement。
+   *
+   */
   function appendElements(elements: Element[]) {
     for (const e of elements) {
       testContainerElement.appendChild(e);

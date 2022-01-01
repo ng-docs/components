@@ -1026,13 +1026,23 @@ class ButtonToggleGroupWithIndirectDescendantToggles {
   control = new FormControl();
 }
 
-/** Simple test component with an aria-label set. */
+/**
+ * Simple test component with an aria-label set.
+ *
+ * 带有 aria-label 集的简单测试组件。
+ *
+ */
 @Component({
   template: `<mat-button-toggle aria-label="Super effective"></mat-button-toggle>`,
 })
 class ButtonToggleWithAriaLabel {}
 
-/** Simple test component with an aria-label set. */
+/**
+ * Simple test component with an aria-label set.
+ *
+ * 带有 aria-label 集的简单测试组件。
+ *
+ */
 @Component({
   template: `<mat-button-toggle aria-labelledby="some-id"></mat-button-toggle>`,
 })

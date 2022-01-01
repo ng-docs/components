@@ -1284,7 +1284,12 @@ describe('MatCheckboxDefaultOptions', () => {
   });
 });
 
-/** Simple component for testing a single checkbox. */
+/**
+ * Simple component for testing a single checkbox.
+ *
+ * 用于测试单个复选框的简单组件。
+ *
+ */
 @Component({
   template: `
   <div (click)="parentElementClicked = true" (keyup)="parentElementKeyedUp = true">
@@ -1321,7 +1326,12 @@ class SingleCheckbox {
   onCheckboxChange: (event?: MatCheckboxChange) => void = () => {};
 }
 
-/** Simple component for testing an MatCheckbox with required ngModel. */
+/**
+ * Simple component for testing an MatCheckbox with required ngModel.
+ *
+ * 用于测试具有所需 ngModel 的 MatCheckbox 的简单组件。
+ *
+ */
 @Component({
   template: `<mat-checkbox [required]="isRequired" [(ngModel)]="isGood">Be good</mat-checkbox>`,
 })
@@ -1336,7 +1346,12 @@ class CheckboxWithNgModel {
 })
 class CheckboxWithNgModelAndOnPush extends CheckboxWithNgModel {}
 
-/** Simple test component with multiple checkboxes. */
+/**
+ * Simple test component with multiple checkboxes.
+ *
+ * 带有多个复选框的简单测试组件。
+ *
+ */
 @Component({
   template: `
     <mat-checkbox>Option 1</mat-checkbox>
@@ -1345,7 +1360,12 @@ class CheckboxWithNgModelAndOnPush extends CheckboxWithNgModel {}
 })
 class MultipleCheckboxes {}
 
-/** Simple test component with tabIndex */
+/**
+ * Simple test component with tabIndex
+ *
+ * 带有 tabIndex 的简单测试组件
+ *
+ */
 @Component({
   template: `
     <mat-checkbox
@@ -1358,7 +1378,12 @@ class CheckboxWithTabIndex {
   isDisabled: boolean = false;
 }
 
-/** Simple test component that accesses MatCheckbox using ViewChild. */
+/**
+ * Simple test component that accesses MatCheckbox using ViewChild.
+ *
+ * 使用 ViewChild 访问 MatCheckbox 的简单测试组件。
+ *
+ */
 @Component({
   template: `
     <mat-checkbox></mat-checkbox>`,
@@ -1371,31 +1396,56 @@ class CheckboxUsingViewChild {
   }
 }
 
-/** Simple test component with an aria-label set. */
+/**
+ * Simple test component with an aria-label set.
+ *
+ * 带有 aria-label 集的简单测试组件。
+ *
+ */
 @Component({
   template: `<mat-checkbox aria-label="Super effective"></mat-checkbox>`,
 })
 class CheckboxWithAriaLabel {}
 
-/** Simple test component with an aria-label set. */
+/**
+ * Simple test component with an aria-label set.
+ *
+ * 带有 aria-label 集的简单测试组件。
+ *
+ */
 @Component({
   template: `<mat-checkbox aria-labelledby="some-id"></mat-checkbox>`,
 })
 class CheckboxWithAriaLabelledby {}
 
-/** Simple test component with an aria-describedby set. */
+/**
+ * Simple test component with an aria-describedby set.
+ *
+ * 带有 aria-描述的集合的简单测试组件。
+ *
+ */
 @Component({
   template: `<mat-checkbox aria-describedby="some-id"></mat-checkbox>`,
 })
 class CheckboxWithAriaDescribedby {}
 
-/** Simple test component with name attribute */
+/**
+ * Simple test component with name attribute
+ *
+ * 具有 name 属性的简单测试组件
+ *
+ */
 @Component({
   template: `<mat-checkbox name="test-name"></mat-checkbox>`,
 })
 class CheckboxWithNameAttribute {}
 
-/** Simple test component with change event */
+/**
+ * Simple test component with change event
+ *
+ * 带有更改事件的简单测试组件
+ *
+ */
 @Component({
   template: `<mat-checkbox (change)="lastEvent = $event"></mat-checkbox>`,
 })
@@ -1403,7 +1453,12 @@ class CheckboxWithChangeEvent {
   lastEvent: MatCheckboxChange;
 }
 
-/** Test component with reactive forms */
+/**
+ * Test component with reactive forms
+ *
+ * 具有响应式表单的测试组件
+ *
+ */
 @Component({
   template: `<mat-checkbox [formControl]="formControl"></mat-checkbox>`,
 })
@@ -1411,7 +1466,12 @@ class CheckboxWithFormControl {
   formControl = new FormControl();
 }
 
-/** Test component without label */
+/**
+ * Test component without label
+ *
+ * 无标签的测试组件
+ *
+ */
 @Component({
   template: `<mat-checkbox>{{ label }}</mat-checkbox>`,
 })
@@ -1419,19 +1479,34 @@ class CheckboxWithoutLabel {
   label: string;
 }
 
-/** Test component with the native tabindex attribute. */
+/**
+ * Test component with the native tabindex attribute.
+ *
+ * 具有原生 tabindex 属性的测试组件。
+ *
+ */
 @Component({
   template: `<mat-checkbox tabindex="5"></mat-checkbox>`,
 })
 class CheckboxWithTabindexAttr {}
 
-/** Test component that uses another component for its label. */
+/**
+ * Test component that uses another component for its label.
+ *
+ * 使用另一个组件作为其标签的测试组件。
+ *
+ */
 @Component({
   template: `<mat-checkbox><some-text></some-text></mat-checkbox>`,
 })
 class CheckboxWithProjectedLabel {}
 
-/** Component that renders some text through a binding. */
+/**
+ * Component that renders some text through a binding.
+ *
+ * 通过绑定渲染一些文本的组件。
+ *
+ */
 @Component({
   selector: 'some-text',
   template: '<span>{{text}}</span>',
@@ -1440,6 +1515,11 @@ class TextBindingComponent {
   text: string = 'Some text';
 }
 
-/** Test component with a simple checkbox with no inputs. */
+/**
+ * Test component with a simple checkbox with no inputs.
+ *
+ * 使用没有输入的简单复选框测试组件。
+ *
+ */
 @Component({template: `<mat-checkbox></mat-checkbox>`})
 class SimpleCheckbox {}

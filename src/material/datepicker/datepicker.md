@@ -409,7 +409,7 @@ Internationalization of the datepicker is configured via four aspects:
 
  1. The date locale.
  
-    日期区域设置。
+    日期语言环境。
  
  2. The date implementation that the datepicker accepts.
  

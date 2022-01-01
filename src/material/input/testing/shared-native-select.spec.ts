@@ -7,7 +7,12 @@ import {MatInputModule} from '@angular/material/input';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatNativeSelectHarness} from './native-select-harness';
 
-/** Shared tests to run on both the original and MDC-based native selects. */
+/**
+ * Shared tests to run on both the original and MDC-based native selects.
+ *
+ * 在原始和基于 MDC 的原生选择器上运行的共享测试。
+ *
+ */
 export function runNativeSelectHarnessTests(
   inputModule: typeof MatInputModule,
   selectHarness: typeof MatNativeSelectHarness,

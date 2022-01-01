@@ -70,7 +70,12 @@ import {
   getMatSelectNonFunctionValueError,
 } from './select-errors';
 
-/** Default debounce interval when typing letters to select an option. */
+/**
+ * Default debounce interval when typing letters to select an option.
+ *
+ * 当键入字母以选择特定选项时的默认防抖间隔。
+ *
+ */
 const DEFAULT_TYPEAHEAD_DEBOUNCE_INTERVAL = 200;
 
 describe('MatSelect', () => {
@@ -84,8 +89,17 @@ describe('MatSelect', () => {
    * Configures the test module for MatSelect with the given declarations. This is broken out so
    * that we're only compiling the necessary test components for each test in order to speed up
    * overall test time.
+   *
+   * 使用给定的声明为 MatSelect 配置测试模块。这样做是为了让我们只为每个测试编译必要的测试组件，以加快整体测试时间。
+   *
    * @param declarations Components to declare for this block
+   *
+   * 要为此块声明的组件
+   *
    * @param providers Additional providers for this block
+   *
+   * 此块的其他提供者
+   *
    */
   function configureMatSelectTestingModule(declarations: any[], providers: Provider[] = []) {
     TestBed.configureTestingModule({
@@ -3735,8 +3749,17 @@ describe('MatSelect', () => {
 
     /**
      * Asserts that the given option is aligned with the trigger.
+     *
+     * 断言给定的选项与触发器是对齐的。
+     *
      * @param index The index of the option.
+     *
+     * 选项的索引。
+     *
      * @param selectInstance Instance of the `mat-select` component to check against.
+     *
+     * 要检查的 `mat-select` 组件的实例。
+     *
      */
     function checkTriggerAlignedWithOption(
       index: number,

@@ -64,6 +64,9 @@ export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemConte
    * 查看缓存，用于存储以前已标记过的但当前没有渲染过的嵌入式视图实例。视图复制器会复用这些视图而不是全新的视图。
    *
    * TODO(michaeljamesparsons) Investigate whether using a linked list would improve performance.
+   *
+   * TODO(michaeljamesparsons) 调查使用链表是否会提高性能。
+   *
    */
   private _viewCache: EmbeddedViewRef<C>[] = [];
 

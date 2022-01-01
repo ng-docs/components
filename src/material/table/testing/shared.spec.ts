@@ -5,7 +5,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatTableModule} from '@angular/material/table';
 import {MatTableHarness} from './table-harness';
 
-/** Shared tests to run on both the original and MDC-based table. */
+/**
+ * Shared tests to run on both the original and MDC-based table.
+ *
+ * 在原始表和基于 MDC 的表上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   tableModule: typeof MatTableModule,
   tableHarness: typeof MatTableHarness,

@@ -96,7 +96,7 @@ declare class MarkerClusterer {
 /**
  * Cluster class from the @google/markerclustererplus library.
  *
- * @google/markerclustererplus 库中的聚类类。
+ * 来自 @google/markerclustererplus 库的集群类。
  *
  * See googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.cluster.html
  *

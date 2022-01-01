@@ -54,7 +54,7 @@ certain locales. It is also worth noting that using ALL CAPS in the text itself 
 screen-readers, which will read the text character-by-character. We leave the decision of how to
 approach this to the consuming app.
 
-根据 Material Design 规范，按钮文本应该是大写的，不过我们选择不让它自动通过 `text-transform: uppercase` 进行大写化，因为这可能会在某些区域设置下导致问题。
+根据 Material Design 规范，按钮文本应该是大写的，不过我们选择不让它自动通过 `text-transform: uppercase` 进行大写化，因为这可能会在某些语言环境下导致问题。
 值得注意的是，如果把文字本身写成全大写形式（而不是通过 css），可能会导致某些屏幕阅读器出现问题 —— 它将会一个字符一个字符的把文本读出来。
 所以我们决定让应用开发者自己来决定用哪种形式。
 

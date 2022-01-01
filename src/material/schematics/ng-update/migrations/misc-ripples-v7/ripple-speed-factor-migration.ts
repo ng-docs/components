@@ -13,16 +13,29 @@ import {
   createSpeedFactorConvertExpression,
 } from './ripple-speed-factor';
 
-/** Regular expression that matches [matRippleSpeedFactor]="$NUMBER" in templates. */
+/**
+ * Regular expression that matches [matRippleSpeedFactor]="$NUMBER" in templates.
+ *
+ * 在模板中匹配 `[matRippleSpeedFactor]="$NUMBER"` 的正则表达式。
+ *
+ */
 const speedFactorNumberRegex = /\[matRippleSpeedFactor]="(\d+(?:\.\d+)?)"/g;
 
-/** Regular expression that matches [matRippleSpeedFactor]="$NOT_A_NUMBER" in templates. */
+/**
+ * Regular expression that matches [matRippleSpeedFactor]="$NOT_A_NUMBER" in templates.
+ *
+ * 在模板中匹配 `[matRippleSpeedFactor]="$NOT_A_NUMBER"` 的正则表达式。
+ *
+ */
 const speedFactorNotParseable = /\[matRippleSpeedFactor]="(?!\d+(?:\.\d+)?")(.*)"/g;
 
 /**
  * Note that will be added whenever a speed factor expression has been converted to calculate
  * the according duration. This note should encourage people to clean up their code by switching
  * away from the speed factors to explicit durations.
+ *
+ * 请注意，每当速度因子表达式已被转换以计算相应的持续时间时，就会添加它。这会鼓励人们通过从速度因子切换到明确的持续时间来让他们的代码更整洁。
+ *
  */
 const removeNote = `TODO: Cleanup duration calculation.`;
 
@@ -30,6 +43,9 @@ const removeNote = `TODO: Cleanup duration calculation.`;
  * Migration that walks through every property assignment and switches the global `baseSpeedFactor`
  * ripple option to the new global animation config. Also updates every class member assignment
  * that refers to MatRipple#speedFactor.
+ *
+ * 遍历每个属性赋值并将全局 `baseSpeedFactor` 涟漪选项切换到新的全局动画配置的迁移。还会更新每个引用 MatRipple#speedFactor 的类成员分配。
+ *
  */
 export class RippleSpeedFactorMigration extends Migration<null> {
   // Only enable this rule if the migration targets version 7 as the ripple
@@ -69,7 +85,12 @@ export class RippleSpeedFactorMigration extends Migration<null> {
     }
   }
 
-  /** Switches binary expressions (e.g. myRipple.speedFactor = 0.5) to the new animation config. */
+  /**
+   * Switches binary expressions (e.g. myRipple.speedFactor = 0.5) to the new animation config.
+   *
+   * 将二进制表达式（例如 myRipple.speedFactor = 0.5）切换到新的动画配置。
+   *
+   */
   private _visitBinaryExpression(expression: ts.BinaryExpression) {
     if (!ts.isPropertyAccessExpression(expression.left)) {
       return;
@@ -136,6 +157,9 @@ export class RippleSpeedFactorMigration extends Migration<null> {
    * Switches the global option `baseSpeedFactor` to the new animation config. For this
    * we assume that the `baseSpeedFactor` is not used in combination with individual
    * speed factors.
+   *
+   * 将全局选项 `baseSpeedFactor` 切换到新的动画配置。为此，我们假设 `baseSpeedFactor` 不与单个速度因子结合使用。
+   *
    */
   private _visitPropertyAssignment(assignment: ts.PropertyAssignment) {
     // For switching the `baseSpeedFactor` global option we expect the property assignment

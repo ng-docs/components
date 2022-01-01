@@ -12,7 +12,12 @@ import {ErrorStateMatcher, ThemePalette} from '@angular/material-experimental/md
 import {MatSelectChange} from '@angular/material-experimental/mdc-select';
 import {FloatLabelType} from '@angular/material-experimental/mdc-form-field';
 
-/** Error any time control is invalid */
+/**
+ * Error any time control is invalid
+ *
+ * 任何时候控制无效都要显示的错误
+ *
+ */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null): boolean {
     if (control) {

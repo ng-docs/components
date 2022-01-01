@@ -63,6 +63,9 @@ export interface MatButtonToggleDefaultOptions {
   /**
    * Default appearance to be used by button toggles. Can be overridden by explicitly
    * setting an appearance on a button toggle or group.
+   *
+   * 切换按钮使用的默认外观。可以通过在切换按钮或组上显式设置外观来覆盖。
+   *
    */
   appearance?: MatButtonToggleAppearance;
 }

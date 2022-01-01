@@ -31,7 +31,12 @@ import {CdkTree, CdkTreeNode} from './tree';
 import {getTreeControlFunctionsMissingError} from './tree-errors';
 
 describe('CdkTree', () => {
-  /** Represents an indent for expectNestedTreeToMatch */
+  /**
+   * Represents an indent for expectNestedTreeToMatch
+   *
+   * 表示 expectNestedTreeToMatch 的缩进
+   *
+   */
   const _ = {};
   let dataSource: FakeDataSource;
   let treeElement: HTMLElement;

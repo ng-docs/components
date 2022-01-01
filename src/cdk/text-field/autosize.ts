@@ -325,7 +325,12 @@ export class CdkTextareaAutosize implements AfterViewInit, DoCheck, OnDestroy {
     this._textareaElement.value = value;
   }
 
-  /** Handles `focus` and `blur` events. */
+  /**
+   * Handles `focus` and `blur` events.
+   *
+   * 处理 `focus` 和 `blur` 事件。
+   *
+   */
   private _handleFocusEvent = (event: FocusEvent) => {
     this._hasFocus = event.type === 'focus';
   };

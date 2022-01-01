@@ -12,6 +12,9 @@ import {parse5} from '@angular/cdk/schematics';
 /**
  * Removes the specified element. Additionally, preceding whitespace will be removed
  * to not leave empty lines in the resulting HTML.
+ *
+ * 移除指定的元素。此外，前面的空格将被删除，以免在生成的 HTML 中留下空行。
+ *
  */
 export function removeElementFromHtml(element: parse5.Element, recorder: UpdateRecorder) {
   // sourceCodeLocation is always set since we parse with location info enabled.

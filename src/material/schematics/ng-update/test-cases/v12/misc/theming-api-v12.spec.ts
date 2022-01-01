@@ -18,12 +18,22 @@ describe('v12 theming API migration', () => {
     _writeFile = testSetup.writeFile;
   });
 
-  /** Writes an array of lines as a single file. */
+  /**
+   * Writes an array of lines as a single file.
+   *
+   * 将行数组写入单个文件。
+   *
+   */
   function writeLines(path: string, lines: string[]): void {
     _writeFile(path, lines.join('\n'));
   }
 
-  /** Reads a file and split it into an array where each item is a new line. */
+  /**
+   * Reads a file and split it into an array where each item is a new line.
+   *
+   * 读取文件并将其拆分为一个数组，其中每个条目都是一个新行。
+   *
+   */
   function splitFile(path: string): string[] {
     return tree.readContent(path).split('\n');
   }

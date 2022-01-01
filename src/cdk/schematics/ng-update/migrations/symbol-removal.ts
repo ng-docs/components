@@ -11,9 +11,19 @@ import {Migration} from '../../update-tool/migration';
 import {SymbolRemovalUpgradeData} from '../data';
 import {getVersionUpgradeData, UpgradeData} from '../upgrade-data';
 
-/** Migration that flags imports for symbols that have been removed. */
+/**
+ * Migration that flags imports for symbols that have been removed.
+ *
+ * 迁移已删除符号的导入标记。
+ *
+ */
 export class SymbolRemovalMigration extends Migration<UpgradeData> {
-  /** Change data that upgrades to the specified target version. */
+  /**
+   * Change data that upgrades to the specified target version.
+   *
+   * 更改升级到指定目标版本的数据。
+   *
+   */
   data: SymbolRemovalUpgradeData[] = getVersionUpgradeData(this, 'symbolRemoval');
 
   // Only enable the migration rule if there is upgrade data.

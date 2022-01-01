@@ -17,6 +17,9 @@ import {
 /**
  * Migration that walks through every inline or external template and reports if there
  * are outdated usages of the Angular Material API that needs to be updated manually.
+ *
+ * 遍历每个内联或外部模板并报告是否存在需要手动更新的 Angular Material API 过时用法的迁移。
+ *
  */
 export class MiscTemplateMigration extends Migration<null> {
   // Only enable this rule if the migration targets version 6. The rule

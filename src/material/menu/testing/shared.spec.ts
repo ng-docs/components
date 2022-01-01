@@ -6,7 +6,12 @@ import {MatMenuModule} from '@angular/material/menu';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatMenuHarness} from './menu-harness';
 
-/** Shared tests to run on both the original and MDC-based menues. */
+/**
+ * Shared tests to run on both the original and MDC-based menues.
+ *
+ * 在原始菜单和基于 MDC 的菜单上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   menuModule: typeof MatMenuModule,
   menuHarness: typeof MatMenuHarness,

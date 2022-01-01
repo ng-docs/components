@@ -11,10 +11,20 @@ import {
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatCalendarHarness, CalendarView} from './calendar-harness';
 
-/** Date at which the calendars are set. */
+/**
+ * Date at which the calendars are set.
+ *
+ * 设置日历的日期。
+ *
+ */
 const calendarDate = new Date(2020, 7, 1);
 
-/** Shared tests to run on both the original and MDC-based calendars. */
+/**
+ * Shared tests to run on both the original and MDC-based calendars.
+ *
+ * 在原始日历和基于 MDC 的日历上运行的共享测试。
+ *
+ */
 export function runCalendarHarnessTests(
   datepickerModule: typeof MatDatepickerModule,
   calendarHarness: typeof MatCalendarHarness,

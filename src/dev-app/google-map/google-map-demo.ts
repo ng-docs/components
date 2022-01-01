@@ -42,7 +42,12 @@ const CIRCLE_CENTER: google.maps.LatLngLiteral = {
 };
 const CIRCLE_RADIUS = 500000;
 
-/** Demo Component for @angular/google-maps/map */
+/**
+ * Demo Component for @angular/google-maps/map
+ *
+ * @angular/google-maps/map 的演示组件
+ *
+ */
 @Component({
   selector: 'google-map-demo',
   templateUrl: 'google-map-demo.html',

@@ -11,11 +11,21 @@ import {DIR_DOCUMENT} from './dir-document-token';
 
 export type Direction = 'ltr' | 'rtl';
 
-/** Regex that matches locales with an RTL script. Taken from `goog.i18n.bidi.isRtlLanguage`. */
+/**
+ * Regex that matches locales with an RTL script. Taken from `goog.i18n.bidi.isRtlLanguage`.
+ *
+ * 将语言环境与 RTL 脚本匹配的正则表达式。取自 `goog.i18n.bidi.isRtlLanguage` 。
+ *
+ */
 const RTL_LOCALE_PATTERN =
   /^(ar|ckb|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_](Adlm|Arab|Hebr|Nkoo|Rohg|Thaa))(?!.*[-_](Latn|Cyrl)($|-|_))($|-|_)/i;
 
-/** Resolves a string value to a specific direction. */
+/**
+ * Resolves a string value to a specific direction.
+ *
+ * 将字符串值解析为特定方向。
+ *
+ */
 export function _resolveDirectionality(rawValue: string): Direction {
   const value = rawValue?.toLowerCase() || '';
 

@@ -7,7 +7,12 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatRadioButtonHarness, MatRadioGroupHarness} from './radio-harness';
 
-/** Shared tests to run on both the original and MDC-based radio components. */
+/**
+ * Shared tests to run on both the original and MDC-based radio components.
+ *
+ * 在原始和基于 MDC 的单选按钮组件上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   radioModule: typeof MatRadioModule,
   radioGroupHarness: typeof MatRadioGroupHarness,

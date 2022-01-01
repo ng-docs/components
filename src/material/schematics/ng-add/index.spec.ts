@@ -39,14 +39,24 @@ describe('ng-add schematic', () => {
     });
   });
 
-  /** Expects the given file to be in the styles of the specified workspace project. */
+  /**
+   * Expects the given file to be in the styles of the specified workspace project.
+   *
+   * 期望给定文件采用指定工作区项目的样式。
+   *
+   */
   function expectProjectStyleFile(project: ProjectDefinition, filePath: string) {
     expect(getProjectTargetOptions(project, 'build').styles)
       .withContext(`Expected "${filePath}" to be added to the project styles in the workspace.`)
       .toContain(filePath);
   }
 
-  /** Removes the specified dependency from the /package.json in the given tree. */
+  /**
+   * Removes the specified dependency from the /package.json in the given tree.
+   *
+   * 从给定树中的 /package.json 中删除指定的依赖项。
+   *
+   */
   function removePackageJsonDependency(tree: Tree, dependencyName: string) {
     const packageContent = JSON.parse(getFileContent(tree, '/package.json')) as PackageJson;
     delete packageContent.dependencies[dependencyName];
@@ -254,7 +264,12 @@ describe('ng-add schematic', () => {
   });
 
   describe('custom project builders', () => {
-    /** Overwrites a target builder for the workspace in the given tree */
+    /**
+     * Overwrites a target builder for the workspace in the given tree
+     *
+     * 覆盖给定树中工作区的目标构建器
+     *
+     */
     function overwriteTargetBuilder(tree: Tree, targetName: 'build' | 'test', newBuilder: string) {
       const config = {
         version: 1,
@@ -313,11 +328,21 @@ describe('ng-add schematic', () => {
   });
 
   describe('theme files', () => {
-    /** Path to the default prebuilt theme file that will be added when running ng-add. */
+    /**
+     * Path to the default prebuilt theme file that will be added when running ng-add.
+     *
+     * 运行 ng-add 时将添加的默认预构建主题文件的路径。
+     *
+     */
     const defaultPrebuiltThemePath =
       './node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
 
-    /** Writes a specific style file to the workspace in the given tree */
+    /**
+     * Writes a specific style file to the workspace in the given tree
+     *
+     * 将特定样式文件写入给定树中的工作区
+     *
+     */
     function writeStyleFileToWorkspace(tree: Tree, stylePath: string) {
       tree.overwrite(
         '/angular.json',

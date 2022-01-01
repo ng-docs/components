@@ -13,7 +13,12 @@ import {MatDialog} from '@angular/material/dialog';
 import {FloatLabelType} from '@angular/material/form-field';
 import {MatSelectChange} from '@angular/material/select';
 
-/** Error any time control is invalid */
+/**
+ * Error any time control is invalid
+ *
+ * 任何时候控制无效都要显示的错误
+ *
+ */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null): boolean {
     if (control) {

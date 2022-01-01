@@ -337,7 +337,12 @@ describe('FocusTrap', () => {
   });
 });
 
-/** Gets the currently-focused element while accounting for the shadow DOM. */
+/**
+ * Gets the currently-focused element while accounting for the shadow DOM.
+ *
+ * 获取当前聚焦的元素，同时考虑了 shadow DOM。
+ *
+ */
 function getActiveElement() {
   const activeElement = document.activeElement as HTMLElement | null;
   return (activeElement?.shadowRoot?.activeElement as HTMLElement) || activeElement;

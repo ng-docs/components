@@ -10,7 +10,12 @@ import {ViewContainerRef, ComponentFactoryResolver} from '@angular/core';
 import {Direction} from '@angular/cdk/bidi';
 import {ScrollStrategy} from '@angular/cdk/overlay';
 
-/** Options for where to set focus to automatically on dialog open */
+/**
+ * Options for where to set focus to automatically on dialog open
+ *
+ * 用于指定当对话框打开时自动将焦点设置到何处的选项
+ *
+ */
 export type AutoFocusTarget = 'dialog' | 'first-tabbable' | 'first-heading';
 
 /**
@@ -225,8 +230,14 @@ export class MatDialogConfig<D = any> {
 
   /**
    * Where the dialog should focus on open.
+   *
+   * 当对话框打开时应该聚焦到哪里。
+   *
    * @breaking-change 14.0.0 Remove boolean option from autoFocus. Use string or
    * AutoFocusTarget instead.
+   *
+   * 从 autoFocus 中删除了布尔选项。请改用字符串或 AutoFocusTarget。
+   *
    */
   autoFocus?: AutoFocusTarget | string | boolean = 'first-tabbable';
 

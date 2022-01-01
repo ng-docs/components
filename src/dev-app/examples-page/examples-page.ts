@@ -9,7 +9,12 @@
 import {Component} from '@angular/core';
 import {EXAMPLE_COMPONENTS} from '@angular/components-examples';
 
-/** Renders all material examples listed in the generated EXAMPLE_COMPONENTS. */
+/**
+ * Renders all material examples listed in the generated EXAMPLE_COMPONENTS.
+ *
+ * 渲染生成的 EXAMPLE_COMPONENTS 中列出的所有材质示例。
+ *
+ */
 @Component({
   template: `<material-example-list [ids]="examples"></material-example-list>`,
 })

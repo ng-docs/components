@@ -285,7 +285,12 @@ describe('ScrollDispatcher', () => {
   });
 });
 
-/** Simple component that contains a large div and can be scrolled. */
+/**
+ * Simple component that contains a large div and can be scrolled.
+ *
+ * 包含大型 div 且可以滚动的简单组件。
+ *
+ */
 @Component({
   template: `<div #scrollingElement cdkScrollable style="height: 9999px"></div>`,
 })
@@ -294,7 +299,12 @@ class ScrollingComponent {
   @ViewChild('scrollingElement') scrollingElement: ElementRef<HTMLElement>;
 }
 
-/** Component containing nested scrollables. */
+/**
+ * Component containing nested scrollables.
+ *
+ * 包含嵌套滚动的组件。
+ *
+ */
 @Component({
   template: `
     <div id="scrollable-1" cdkScrollable>

@@ -7334,6 +7334,9 @@ class DraggableWithInvalidCanvasInDropZone extends DraggableInDropZone {}
 /**
  * Component that passes through whatever content is projected into it.
  * Used to test having drag elements being projected into a component.
+ *
+ * 通过投影到其中的任何内容的组件。用于测试将拖动元素投影到组件中。
+ *
  */
 @Component({
   selector: 'passthrough-component',
@@ -7341,7 +7344,12 @@ class DraggableWithInvalidCanvasInDropZone extends DraggableInDropZone {}
 })
 class PassthroughComponent {}
 
-/** Component that wraps a drop container and uses OnPush change detection. */
+/**
+ * Component that wraps a drop container and uses OnPush change detection.
+ *
+ * 包装放置容器并使用 OnPush 变更检测的组件。
+ *
+ */
 @Component({
   selector: 'wrapped-drop-container',
   template: `
@@ -7657,10 +7665,25 @@ class DraggableNgContainerWithAlternateRoot {
 
 /**
  * Drags an element to a position on the page using the mouse.
+ *
+ * 使用鼠标将元素拖动到页面上的某个位置。
+ *
  * @param fixture Fixture on which to run change detection.
+ *
+ * 要在其上运行变更检测的夹具。
+ *
  * @param element Element which is being dragged.
+ *
+ * 被拖动的元素。
+ *
  * @param x Position along the x axis to which to drag the element.
+ *
+ * 沿 x 轴将元素拖动到的位置。
+ *
  * @param y Position along the y axis to which to drag the element.
+ *
+ * 沿 y 轴将元素拖动到的位置。
+ *
  */
 function dragElementViaMouse(
   fixture: ComponentFixture<any>,
@@ -7679,10 +7702,25 @@ function dragElementViaMouse(
 
 /**
  * Dispatches the events for starting a drag sequence.
+ *
+ * 派发开始拖动序列的事件。
+ *
  * @param fixture Fixture on which to run change detection.
+ *
+ * 在其上运行变更检测的夹具。
+ *
  * @param element Element on which to dispatch the events.
+ *
+ * 在其上派发事件的元素。
+ *
  * @param x Position along the x axis to which to drag the element.
+ *
+ * 沿 x 轴将元素拖动到的位置。
+ *
  * @param y Position along the y axis to which to drag the element.
+ *
+ * 沿 y 轴将元素拖动到的位置。
+ *
  */
 function startDraggingViaMouse(
   fixture: ComponentFixture<any>,
@@ -7699,10 +7737,25 @@ function startDraggingViaMouse(
 
 /**
  * Drags an element to a position on the page using a touch device.
+ *
+ * 使用触摸设备将元素拖动到页面上的某个位置。
+ *
  * @param fixture Fixture on which to run change detection.
+ *
+ * 在其上运行变更检测的夹具。
+ *
  * @param element Element which is being dragged.
+ *
+ * 被拖动的元素。
+ *
  * @param x Position along the x axis to which to drag the element.
+ *
+ * 沿 x 轴将元素拖动到的位置。
+ *
  * @param y Position along the y axis to which to drag the element.
+ *
+ * 沿 y 轴将元素拖动到的位置。
+ *
  */
 function dragElementViaTouch(
   fixture: ComponentFixture<any>,
@@ -7717,7 +7770,13 @@ function dragElementViaTouch(
 
 /**
  * @param fixture Fixture on which to run change detection.
+ *
+ * 要在其上运行变更检测的夹具。
+ *
  * @param element Element which is being dragged.
+ *
+ * 被拖动的元素。
+ *
  */
 function startDraggingViaTouch(fixture: ComponentFixture<any>, element: Element) {
   dispatchTouchEvent(element, 'touchstart');
@@ -7729,8 +7788,17 @@ function startDraggingViaTouch(fixture: ComponentFixture<any>, element: Element)
 
 /**
  * @param fixture Fixture on which to run change detection.
+ *
+ * 要在其上运行变更检测的夹具。
+ *
  * @param x Position along the x axis to which to drag the element.
+ *
+ * 沿 x 轴将元素拖动到的位置。
+ *
  * @param y Position along the y axis to which to drag the element.
+ *
+ * 沿 y 轴将元素拖动到的位置。
+ *
  */
 function continueDraggingViaTouch(fixture: ComponentFixture<any>, x: number, y: number) {
   dispatchTouchEvent(document, 'touchmove', x, y);
@@ -7739,20 +7807,39 @@ function continueDraggingViaTouch(fixture: ComponentFixture<any>, x: number, y: 
 
 /**
  * @param fixture Fixture on which to run change detection.
+ *
+ * 要在其上运行变更检测的夹具。
+ *
  * @param x Position along the x axis to which to drag the element.
+ *
+ * 沿 x 轴将元素拖动到的位置。
+ *
  * @param y Position along the y axis to which to drag the element.
+ *
+ * 沿 y 轴将元素拖动到的位置。
+ *
  */
 function stopDraggingViaTouch(fixture: ComponentFixture<any>, x: number, y: number) {
   dispatchTouchEvent(document, 'touchend', x, y);
   fixture.detectChanges();
 }
 
-/** Gets the index of an element among its siblings, based on their position on the page. */
+/**
+ * Gets the index of an element among its siblings, based on their position on the page.
+ *
+ * 根据元素在页面上的位置，获取元素在其兄弟元素中的索引。
+ *
+ */
 function getElementIndexByPosition(element: Element, direction: 'top' | 'left') {
   return getElementSibligsByPosition(element, direction).indexOf(element);
 }
 
-/** Gets the siblings of an element, sorted by their position on the page. */
+/**
+ * Gets the siblings of an element, sorted by their position on the page.
+ *
+ * 获取元素的兄弟元素，按它们在页面上的位置排序。
+ *
+ */
 function getElementSibligsByPosition(element: Element, direction: 'top' | 'left') {
   return element.parentElement
     ? Array.from(element.parentElement.children).sort((a, b) => {
@@ -7763,7 +7850,13 @@ function getElementSibligsByPosition(element: Element, direction: 'top' | 'left'
 
 /**
  * Adds a large element to the page in order to make it scrollable.
+ *
+ * 向页面添加一个大元素以使其可滚动。
+ *
  * @returns Function that should be used to clean up after the test is done.
+ *
+ * 测试完成后应该用来清理的函数。
+ *
  */
 function makeScrollable(
   direction: 'vertical' | 'horizontal' = 'vertical',
@@ -7782,8 +7875,17 @@ function makeScrollable(
 
 /**
  * Asserts that sorting an element down works correctly.
+ *
+ * 断言对元素进行排序工作正常。
+ *
  * @param fixture Fixture against which to run the assertions.
+ *
+ * 运行断言的夹具。
+ *
  * @param items Array of items against which to test sorting.
+ *
+ * 用于测试排序的条目数组。
+ *
  */
 function assertDownwardSorting(fixture: ComponentFixture<any>, items: Element[]) {
   const draggedItem = items[0];
@@ -7810,8 +7912,17 @@ function assertDownwardSorting(fixture: ComponentFixture<any>, items: Element[])
 
 /**
  * Asserts that sorting an element up works correctly.
+ *
+ * 断言对元素进行排序工作正常。
+ *
  * @param fixture Fixture against which to run the assertions.
+ *
+ * 要运行断言的夹具。
+ *
  * @param items Array of items against which to test sorting.
+ *
+ * 用于测试排序的条目数组。
+ *
  */
 function assertUpwardSorting(fixture: ComponentFixture<any>, items: Element[]) {
   const draggedItem = items[items.length - 1];
@@ -7836,7 +7947,12 @@ function assertUpwardSorting(fixture: ComponentFixture<any>, items: Element[]) {
   flush();
 }
 
-/** Ticks the specified amount of `requestAnimationFrame`-s. */
+/**
+ * Ticks the specified amount of `requestAnimationFrame`-s.
+ *
+ * 勾选指定数量的 `requestAnimationFrame` -s。
+ *
+ */
 function tickAnimationFrames(amount: number) {
   tick(16.6 * amount); // Angular turns rAF calls into 16.6ms timeouts in tests.
 }

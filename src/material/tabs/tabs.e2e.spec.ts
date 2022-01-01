@@ -58,6 +58,9 @@ describe('tabs', () => {
 
 /**
  * Returns an array of true/false that represents the focus states of the provided elements.
+ *
+ * 返回代表所提供元素的焦点状态的 true/false 数组。
+ *
  */
 async function getFocusStates(elements: ElementArrayFinder) {
   return elements.map(async el => {
@@ -68,12 +71,22 @@ async function getFocusStates(elements: ElementArrayFinder) {
   });
 }
 
-/** Returns an array of true/false that represents the active states for the provided elements. */
+/**
+ * Returns an array of true/false that represents the active states for the provided elements.
+ *
+ * 返回代表所提供元素的活动状态的 true/false 数组。
+ *
+ */
 function getLabelActiveStates(elements: ElementArrayFinder) {
   return getClassStates(elements, 'mat-tab-label-active');
 }
 
-/** Returns an array of true/false that represents the active states for the provided elements */
+/**
+ * Returns an array of true/false that represents the active states for the provided elements
+ *
+ * 返回代表所提供元素的活动状态的 true/false 数组
+ *
+ */
 function getBodyActiveStates(elements: ElementArrayFinder) {
   return getClassStates(elements, 'mat-tab-body-active');
 }
@@ -81,6 +94,9 @@ function getBodyActiveStates(elements: ElementArrayFinder) {
 /**
  * Returns an array of true/false values that represents whether the provided className is on
  * each element.
+ *
+ * 返回一个 true/false 值数组，表示提供的 className 是否在每个元素上。
+ *
  */
 async function getClassStates(elements: ElementArrayFinder, className: string) {
   return elements.map(async el => {

@@ -575,7 +575,12 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
     this.stateChanges.next();
   }
 
-  /** Focuses the active date. */
+  /**
+   * Focuses the active date.
+   *
+   * 聚焦活动日期。
+   *
+   */
   focusActiveCell() {
     this._getCurrentViewComponent()._focusActiveCell(false);
   }

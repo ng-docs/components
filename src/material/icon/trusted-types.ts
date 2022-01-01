@@ -36,12 +36,18 @@ export declare interface TrustedTypePolicy {
 /**
  * The Trusted Types policy, or null if Trusted Types are not
  * enabled/supported, or undefined if the policy has not been created yet.
+ *
+ * Trusted Types 策略，如果未启用/支持 Trusted Types，则为 null，如果尚未创建策略，则为 undefined。
+ *
  */
 let policy: TrustedTypePolicy | null | undefined;
 
 /**
  * Returns the Trusted Types policy, or null if Trusted Types are not
  * enabled/supported. The first call to this function will create the policy.
+ *
+ * 返回受信任类型策略，如果未启用/支持受信任类型，则返回 null。第一次调用此函数将创建策略。
+ *
  */
 function getPolicy(): TrustedTypePolicy | null {
   if (policy === undefined) {
@@ -61,6 +67,9 @@ function getPolicy(): TrustedTypePolicy | null {
 /**
  * Unsafely promote a string to a TrustedHTML, falling back to strings when
  * Trusted Types are not available.
+ *
+ * 不安全地将字符串提升为 TrustedHTML，当可信类型不可用时回退到字符串。
+ *
  * @security This is a security-sensitive function; any use of this function
  * must go through security review. In particular, it must be assured that the
  * provided string will never cause an XSS vulnerability if used in a context

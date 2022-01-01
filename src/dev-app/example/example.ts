@@ -54,7 +54,12 @@ import {
   ],
 })
 export class Example implements OnInit {
-  /** ID of the material example to display. */
+  /**
+   * ID of the material example to display.
+   *
+   * 要显示的 material 示例的 ID。
+   *
+   */
   @Input() id: string;
 
   @Input()

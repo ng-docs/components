@@ -11,7 +11,12 @@ import {MatSidenavContainerHarness} from './sidenav-container-harness';
 import {MatSidenavContentHarness} from './sidenav-content-harness';
 import {MatSidenavHarness} from './sidenav-harness';
 
-/** Shared tests to run on both the original and MDC-based drawer & sidenav. */
+/**
+ * Shared tests to run on both the original and MDC-based drawer & sidenav.
+ *
+ * 在原始和基于 MDC 的 drawer 和 sidenav 上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   sidenavModule: typeof MatSidenavModule,
   drawerHarness: typeof MatDrawerHarness,

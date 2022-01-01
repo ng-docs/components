@@ -63,7 +63,12 @@ describe('Overlay directives', () => {
     overlayContainerElement = oc.getContainerElement();
   }));
 
-  /** Returns the current open overlay pane element. */
+  /**
+   * Returns the current open overlay pane element.
+   *
+   * 返回当前打开的浮层窗格元素。
+   *
+   */
   function getPaneElement() {
     return overlayContainerElement.querySelector('.cdk-overlay-pane') as HTMLElement;
   }

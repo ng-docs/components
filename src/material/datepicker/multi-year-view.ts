@@ -65,7 +65,12 @@ export const yearsPerRow = 4;
 export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;
 
-  /** Flag used to filter out space/enter keyup events that originated outside of the view. */
+  /**
+   * Flag used to filter out space/enter keyup events that originated outside of the view.
+   *
+   * 用于过滤掉源自视图之外的空格/输入键事件的标志。
+   *
+   */
   private _selectionKeyPressed: boolean;
 
   /**
@@ -366,7 +371,12 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
     event.preventDefault();
   }
 
-  /** Handles keyup events on the calendar body when calendar is in multi-year view. */
+  /**
+   * Handles keyup events on the calendar body when calendar is in multi-year view.
+   *
+   * 当日历处于多年视图时，处理日历正文上的键盘事件。
+   *
+   */
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
     if (event.keyCode === SPACE || event.keyCode === ENTER) {
       if (this._selectionKeyPressed) {

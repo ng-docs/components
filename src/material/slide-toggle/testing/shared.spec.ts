@@ -7,7 +7,12 @@ import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSlideToggleHarness} from '@angular/material/slide-toggle/testing/slide-toggle-harness';
 
-/** Shared tests to run on both the original and MDC-based slide-toggles. */
+/**
+ * Shared tests to run on both the original and MDC-based slide-toggles.
+ *
+ * 在原始和基于 MDC 的滑块开关上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   slideToggleModule: typeof MatSlideToggleModule,
   slideToggleHarness: typeof MatSlideToggleHarness,

@@ -6,7 +6,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {MatPaginatorHarness} from './paginator-harness';
 
-/** Shared tests to run on both the original and MDC-based paginator. */
+/**
+ * Shared tests to run on both the original and MDC-based paginator.
+ *
+ * 在原始和基于 MDC 的分页器上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   paginatorModule: typeof MatPaginatorModule,
   paginatorHarness: typeof MatPaginatorHarness,

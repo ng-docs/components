@@ -1453,7 +1453,12 @@ class TooltipDemoWithoutPositionBinding {
   @ViewChild('button') button: ElementRef<HTMLButtonElement>;
 }
 
-/** Asserts whether a tooltip directive has a tooltip instance. */
+/**
+ * Asserts whether a tooltip directive has a tooltip instance.
+ *
+ * 断言工具提示指令是否具有工具提示实例。
+ *
+ */
 function assertTooltipInstance(tooltip: MatTooltip, shouldExist: boolean): void {
   // Note that we have to cast this to a boolean, because Jasmine will go into an infinite loop
   // if it tries to stringify the `_tooltipInstance` when an assertion fails. The infinite loop

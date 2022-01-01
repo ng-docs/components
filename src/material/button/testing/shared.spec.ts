@@ -8,7 +8,12 @@ import {MatButtonHarness} from '@angular/material/button/testing/button-harness'
 import {MatIconModule} from '@angular/material/icon';
 import {MatIconHarness} from '@angular/material/icon/testing/icon-harness';
 
-/** Shared tests to run on both the original and MDC-based buttons. */
+/**
+ * Shared tests to run on both the original and MDC-based buttons.
+ *
+ * 在原始按钮和基于 MDC 的按钮上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   buttonModule: typeof MatButtonModule,
   buttonHarness: typeof MatButtonHarness,

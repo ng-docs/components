@@ -110,7 +110,12 @@ describe('FullscreenOverlayContainer', () => {
   });
 });
 
-/** Test-bed component that contains a TempatePortal and an ElementRef. */
+/**
+ * Test-bed component that contains a TempatePortal and an ElementRef.
+ *
+ * 包含 TempatePortal 和 ElementRef 的测试平台组件。
+ *
+ */
 @Component({
   template: `<ng-template cdk-portal>Cake</ng-template>`,
   providers: [Overlay],

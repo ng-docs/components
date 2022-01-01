@@ -83,7 +83,12 @@ export class DatepickerDemo {
   customHeaderNgContent = CustomHeaderNgContent;
 }
 
-/** Range selection strategy that preserves the current range. */
+/**
+ * Range selection strategy that preserves the current range.
+ *
+ * 会保留当前范围的范围选择策略。
+ *
+ */
 @Injectable()
 export class PreserveRangeStrategy<D> implements MatDateRangeSelectionStrategy<D> {
   constructor(private _dateAdapter: DateAdapter<D>) {}

@@ -1713,10 +1713,22 @@ class SliderWithTwoWayBinding {
 /**
  * Dispatches a mousedown event sequence (consisting of moueseenter, mousedown) from an element.
  * Note: The mouse event truncates the position for the event.
+ *
+ * 从某元素派发 mousedown 事件序列（由 moueseenter、mousedown 组成）。注意：鼠标事件会截断事件的位置。
+ *
  * @param sliderElement The mat-slider element from which the event will be dispatched.
+ *
+ * 要从中派发本事件的 mat-slider 元素。
+ *
  * @param percentage The percentage of the slider where the event should occur. Used to find the
  * physical location of the pointer.
+ *
+ * 发生本事件的滑块的百分比。用于查找指针的物理位置。
+ *
  * @param button Button that should be held down when starting to drag the slider.
+ *
+ * 开始拖动滑块时应按住的按钮。
+ *
  */
 function dispatchMousedownEventSequence(
   sliderElement: HTMLElement,
@@ -1734,9 +1746,21 @@ function dispatchMousedownEventSequence(
 
 /**
  * Dispatches a slide event sequence (consisting of slidestart, slide, slideend) from an element.
+ *
+ * 从元素派发滑块事件序列（由 slidestart、slide、slideend 组成）。
+ *
  * @param sliderElement The mat-slider element from which the event will be dispatched.
+ *
+ * 要从中派发本事件的 mat-slider 元素。
+ *
  * @param startPercent The percentage of the slider where the slide will begin.
+ *
+ * 滑动要开始时滑块的百分比。
+ *
  * @param endPercent The percentage of the slider where the slide will end.
+ *
+ * 滑动要结束时滑块的百分比。
+ *
  */
 function dispatchSlideEventSequence(
   sliderElement: HTMLElement,
@@ -1752,8 +1776,17 @@ function dispatchSlideEventSequence(
 
 /**
  * Dispatches a slide event from an element.
+ *
+ * 从元素派发 slide 事件。
+ *
  * @param sliderElement The mat-slider element from which the event will be dispatched.
+ *
+ * 要从中派发本事件的 mat-slider 元素。
+ *
  * @param percent The percentage of the slider where the slide will happen.
+ *
+ * 要发生 slide 事件时的滑块百分比。
+ *
  */
 function dispatchSlideEvent(sliderElement: HTMLElement, percent: number): void {
   const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
@@ -1765,8 +1798,17 @@ function dispatchSlideEvent(sliderElement: HTMLElement, percent: number): void {
 
 /**
  * Dispatches a slidestart event from an element.
+ *
+ * 从某元素派发一个 slidestart 事件。
+ *
  * @param sliderElement The mat-slider element from which the event will be dispatched.
+ *
+ * 要从中派发本事件的 mat-slider 元素。
+ *
  * @param percent The percentage of the slider where the slide will begin.
+ *
+ * 要开始滑动时的滑块百分比。
+ *
  */
 function dispatchSlideStartEvent(sliderElement: HTMLElement, percent: number): void {
   const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
@@ -1779,8 +1821,17 @@ function dispatchSlideStartEvent(sliderElement: HTMLElement, percent: number): v
 
 /**
  * Dispatches a slideend event from an element.
+ *
+ * 从元素派发一个 slideend 事件。
+ *
  * @param sliderElement The mat-slider element from which the event will be dispatched.
+ *
+ * 要从中派发本事件的 mat-slider 元素。
+ *
  * @param percent The percentage of the slider where the slide will end.
+ *
+ * 要结束滑动时的滑块百分比。
+ *
  */
 function dispatchSlideEndEvent(sliderElement: HTMLElement, percent: number): void {
   const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
@@ -1793,7 +1844,13 @@ function dispatchSlideEndEvent(sliderElement: HTMLElement, percent: number): voi
 /**
  * Dispatches a mouseenter event from an element.
  * Note: The mouse event truncates the position for the event.
+ *
+ * 从元素派发 mouseenter 事件。注意：鼠标事件会截取事件的位置。
+ *
  * @param element The element from which the event will be dispatched.
+ *
+ * 要从中派发本事件的元素。
+ *
  */
 function dispatchMouseenterEvent(element: HTMLElement): void {
   const dimensions = element.getBoundingClientRect();

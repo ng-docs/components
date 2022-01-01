@@ -95,7 +95,7 @@ const activeEventListenerOptions = normalizePassiveListenerOptions({passive: fal
  * touch devices where the browser fires fake mouse events, in
  * addition to touch events.
  *
- * 在收到 touch 事件后，忽略鼠标事件的时间（以毫秒为单位）。用于避免浏览器除了触控事件之外还触发假鼠标事件导致的双重工作。
+ * 在收到 touch 事件后，忽略鼠标事件的时间（以毫秒为单位）。用于避免浏览器除了触摸事件之外还触发假鼠标事件导致的双重工作。
  *
  */
 const MOUSE_EVENT_IGNORE_TIME = 800;
@@ -146,7 +146,12 @@ export interface Point {
   y: number;
 }
 
-/** Inline styles to be set as `!important` while dragging. */
+/**
+ * Inline styles to be set as `!important` while dragging.
+ *
+ * 拖动时要设置为 `!important` 的内联样式。
+ *
+ */
 const dragImportantProperties = new Set([
   // Needs to be important, because some `mat-table` sets `position: sticky !important`. See #22781.
   'position',
@@ -419,7 +424,7 @@ export class DragRef<T = any> {
    * events multiple times on touch devices where the browser will fire a fake
    * mouse event for each touch event, after a certain time.
    *
-   * 最后一次触控事件发生的时间。用来避免在触控设备上多次触发相同的事件，因为浏览器会在一定时间后触发每个触控事件的假鼠标事件。
+   * 最后一次触摸事件发生的时间。用来避免在触摸设备上多次触发相同的事件，因为浏览器会在一定时间后触发每个触摸事件的假鼠标事件。
    *
    */
   private _lastTouchEventTime: number;
@@ -1686,7 +1691,7 @@ export class DragRef<T = any> {
   /**
    * Determines the point of the page that was touched by the user.
    *
-   * 确定用户触控到的页面坐标。
+   * 确定用户触摸到的页面坐标。
    *
    */
   private _getPointerPositionOnPage(event: MouseEvent | TouchEvent): Point {
@@ -2115,7 +2120,7 @@ function clamp(value: number, min: number, max: number) {
 /**
  * Determines whether an event is a touch event.
  *
- * 确定某个事件是否触控事件。
+ * 确定某个事件是否触摸事件。
  *
  */
 function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {

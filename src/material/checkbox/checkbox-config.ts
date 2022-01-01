@@ -15,9 +15,19 @@ import {ThemePalette} from '@angular/material/core';
  *
  */
 export interface MatCheckboxDefaultOptions {
-  /** Default theme color palette to be used for checkboxes. */
+  /**
+   * Default theme color palette to be used for checkboxes.
+   *
+   * 用于复选框的默认主题调色板。
+   *
+   */
   color?: ThemePalette;
-  /** Default checkbox click action for checkboxes. */
+  /**
+   * Default checkbox click action for checkboxes.
+   *
+   * 复选框的默认复选框单击操作。
+   *
+   */
   clickAction?: MatCheckboxClickAction;
 }
 

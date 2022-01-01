@@ -128,7 +128,12 @@ export class MatDialogClose implements OnInit, OnChanges {
   },
 })
 export class MatDialogTitle implements OnInit {
-  /** Unique id for the dialog title. If none is supplied, it will be auto-generated. */
+  /**
+   * Unique id for the dialog title. If none is supplied, it will be auto-generated.
+   *
+   * 对话框标题的唯一 ID。如果没有提供，它将自动生成。
+   *
+   */
   @Input() id: string = `mat-dialog-title-${dialogElementUid++}`;
 
   constructor(

@@ -6,7 +6,12 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTabGroupHarness} from './tab-group-harness';
 
-/** Shared tests to run on both the original and MDC-based tab-group's. */
+/**
+ * Shared tests to run on both the original and MDC-based tab-group's.
+ *
+ * 在原始和基于 MDC 的选项卡组上运行的共享测试。
+ *
+ */
 export function runTabGroupHarnessTests(
   tabsModule: typeof MatTabsModule,
   tabGroupHarness: typeof MatTabGroupHarness,

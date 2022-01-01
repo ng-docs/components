@@ -60,7 +60,12 @@ const TREE_DATA: ExampleFlatNode[] = [
   },
 ];
 
-/** Flat node with expandable and level information */
+/**
+ * Flat node with expandable and level information
+ *
+ * 具有可展开信息和级别信息的扁平节点
+ *
+ */
 interface ExampleFlatNode {
   expandable: boolean;
   name: string;

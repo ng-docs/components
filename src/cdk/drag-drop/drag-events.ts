@@ -65,7 +65,7 @@ export interface CdkDragEnd<T = any> {
   /**
    * Position where the pointer was when the item was dropped
    *
-   * 放置项目时指针所处的位置
+   * 放置条目时指针所处的位置
    *
    */
   dropPoint: {x: number; y: number};

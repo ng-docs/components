@@ -46,6 +46,9 @@ export function _getShadowRoot(element: HTMLElement): ShadowRoot | null {
 /**
  * Gets the currently-focused element on the page while
  * also piercing through Shadow DOM boundaries.
+ *
+ * 获取页面上当前聚焦的元素，同时也会穿透 Shadow DOM 边界。
+ *
  */
 export function _getFocusedElementPierceShadowDom(): HTMLElement | null {
   let activeElement =
@@ -65,7 +68,12 @@ export function _getFocusedElementPierceShadowDom(): HTMLElement | null {
   return activeElement;
 }
 
-/** Gets the target of an event while accounting for Shadow DOM. */
+/**
+ * Gets the target of an event while accounting for Shadow DOM.
+ *
+ * 在考虑 Shadow DOM 的同时获取事件的目标。
+ *
+ */
 export function _getEventTarget<T extends EventTarget>(event: Event): T | null {
   // If an event is bound outside the Shadow DOM, the `event.target` will
   // point to the shadow root so we have to use `composedPath` instead.

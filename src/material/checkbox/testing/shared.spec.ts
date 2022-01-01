@@ -10,6 +10,9 @@ import {MatCheckboxHarness} from '@angular/material/checkbox/testing/checkbox-ha
 /**
  * Function that can be used to run the shared checkbox harness tests for either the non-MDC or
  * MDC based checkbox harness.
+ *
+ * 可用于为非 MDC 或基于 MDC 的复选框工具运行共享复选框工具测试的函数。
+ *
  */
 export function runHarnessTests(
   checkboxModule: typeof MatCheckboxModule,

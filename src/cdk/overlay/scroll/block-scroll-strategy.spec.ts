@@ -201,11 +201,16 @@ describe('BlockScrollStrategy', () => {
    * programmatic scrolling inside the Karma iframe doesn't work on iOS, which renders these
    * tests unusable. For example, something as basic as the following won't work:
    *
+   * 如果它是在 iOS 上执行的，就跳过指定的测试。这是必要的，因为 Karma 对于 iframe 内的编程滚动在 iOS 上不起作用，导致这些测试无法使用。例如，像下面这样基础的东西就是行不通的：
+   *
    * ```
    * window.scroll(0, 100);
    * expect(viewport.getViewportScrollPosition().top).toBe(100);
    * ```
    * @param spec Test to be executed or skipped.
+   *
+   * 要执行或跳过的测试。
+   *
    */
   function skipIOS(spec: Function) {
     return () => {
@@ -216,6 +221,11 @@ describe('BlockScrollStrategy', () => {
   }
 });
 
-/** Simple component that we can attach to the overlay. */
+/**
+ * Simple component that we can attach to the overlay.
+ *
+ * 我们可以附加到浮层的简单组件。
+ *
+ */
 @Component({template: '<p>Focaccia</p>'})
 class FocacciaMsg {}

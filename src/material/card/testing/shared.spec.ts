@@ -5,7 +5,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
 import {MatCardHarness, MatCardSection} from '@angular/material/card/testing/card-harness';
 
-/** Shared tests to run on both the original and MDC-based cards. */
+/**
+ * Shared tests to run on both the original and MDC-based cards.
+ *
+ * 在原始卡和基于 MDC 的卡上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   cardModule: typeof MatCardModule,
   cardHarness: typeof MatCardHarness,

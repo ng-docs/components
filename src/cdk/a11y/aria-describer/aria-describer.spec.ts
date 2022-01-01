@@ -349,7 +349,12 @@ function getMessageElements(): Element[] | null {
   return messagesContainer ? Array.prototype.slice.call(messagesContainer.children) : null;
 }
 
-/** Checks that the messages array matches the existing created message elements. */
+/**
+ * Checks that the messages array matches the existing created message elements.
+ *
+ * 检查消息数组是否与现有创建的消息元素匹配。
+ *
+ */
 function expectMessages(messages: string[]) {
   const messageElements = getMessageElements();
   expect(messageElements).toBeDefined();
@@ -362,7 +367,12 @@ function expectMessages(messages: string[]) {
   });
 }
 
-/** Checks that an element points to a message element that contains the message. */
+/**
+ * Checks that an element points to a message element that contains the message.
+ *
+ * 检查元素是否指向包含此消息的消息元素。
+ *
+ */
 function expectMessage(el: Element, message: string) {
   const ariaDescribedBy = el.getAttribute('aria-describedby');
   expect(ariaDescribedBy).toBeDefined();

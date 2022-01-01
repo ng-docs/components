@@ -1146,7 +1146,12 @@ class ComponentWithTemplateRef {
   localValue: string;
 }
 
-/** Simple component for testing ComponentPortal. */
+/**
+ * Simple component for testing ComponentPortal.
+ *
+ * 用于测试 ComponentPortal 的简单组件。
+ *
+ */
 @Component({template: '<p>Burritos are on the way.</p>'})
 class BurritosNotification {
   constructor(

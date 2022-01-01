@@ -5,7 +5,12 @@ import {MatToolbarHarness, MatToolbarSection} from '@angular/material/toolbar/te
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 
-/** Shared tests to run on both the original and MDC-based toolbars. */
+/**
+ * Shared tests to run on both the original and MDC-based toolbars.
+ *
+ * 在原始工具栏和基于 MDC 的工具栏上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   toolbarModule: typeof MatToolbarModule,
   toolbarHarness: typeof MatToolbarHarness,

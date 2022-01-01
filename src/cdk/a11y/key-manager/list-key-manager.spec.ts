@@ -9,9 +9,19 @@ import {FocusKeyManager} from './focus-key-manager';
 import {ListKeyManager, ListKeyManagerModifierKey, ListKeyManagerOption} from './list-key-manager';
 
 class FakeFocusable {
-  /** Whether the item is disabled or not. */
+  /**
+   * Whether the item is disabled or not.
+   *
+   * 该条目是否被禁用。
+   *
+   */
   disabled = false;
-  /** Test property that can be used to test the `skipPredicate` functionality. */
+  /**
+   * Test property that can be used to test the `skipPredicate` functionality.
+   *
+   * 可用于测试 `skipPredicate` 功能的测试属性。
+   *
+   */
   skipItem = false;
   constructor(private _label = '') {}
   focus(_focusOrigin?: FocusOrigin) {}
@@ -259,6 +269,9 @@ describe('Key managers', () => {
        * Defines the directional key tests that should be run in a particular context. Note that
        * parameters have to be passed in via Jasmine's context object (`this` inside a `beforeEach`)
        * because this function has to run before any `beforeEach`, `beforeAll` etc. hooks.
+       *
+       * 定义应该在特定上下文中运行的方向键测试。请注意，必须通过 Jasmine 的上下文对象（ `beforeEach` 中的 `this`）传递参数，因为此函数必须在任何 `beforeEach` 、 `beforeAll` 等挂钩之前运行。
+       *
        */
       function runDirectionalKeyTests(this: KeyEventTestContext) {
         it('should set subsequent items as active when the next key is pressed', () => {
@@ -438,7 +451,12 @@ describe('Key managers', () => {
         });
       }
 
-      /** Runs the test that asserts that we handle modifier keys correctly. */
+      /**
+       * Runs the test that asserts that we handle modifier keys correctly.
+       *
+       * 运行断言我们正确处理修饰键的测试。
+       *
+       */
       function runModifierKeyTest(
         context: {
           nextKeyEvent: KeyboardEvent;

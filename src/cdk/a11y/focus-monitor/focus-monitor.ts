@@ -163,6 +163,9 @@ export class FocusMonitor implements OnDestroy {
   /**
    * Whether the origin was determined via a touch interaction. Necessary as properly attributing
    * focus events to touch interactions requires special logic.
+   *
+   * 是否通过触摸交互确定的原点。要正确地将焦点事件归因于触摸交互需要特殊的逻辑。
+   *
    */
   private _originFromTouchInteraction = false;
 
@@ -224,7 +227,12 @@ export class FocusMonitor implements OnDestroy {
    */
   protected _document?: Document;
 
-  /** Subject for stopping our InputModalityDetector subscription. */
+  /**
+   * Subject for stopping our InputModalityDetector subscription.
+   *
+   * 停止我们从 InputModalityDetector 订阅的主题。
+   *
+   */
   private readonly _stopInputModalityDetector = new Subject<void>();
 
   constructor(
@@ -494,7 +502,13 @@ export class FocusMonitor implements OnDestroy {
    * handle a focus event following a touch interaction, we need to determine whether (1) the focus
    * event was directly caused by the touch interaction or (2) the focus event was caused by a
    * subsequent programmatic focus call triggered by the touch interaction.
+   *
+   * 返回焦点事件是否应归因于触摸。回想一下，在 IMMEDIATE 模式下，触摸原点不会在下一个变更检测周期立即重置（请参阅 \_setOrigin）。这意味着，当我们在触摸交互之后处理焦点事件时，我们需要确定 (1) 焦点事件是由触摸交互直接引起的，还是 (2) 焦点事件是由触摸交互触发后续的编程方式的焦点控制引起的。
+   *
    * @param focusEventTarget The target of the focus event under examination.
+   *
+   * 正在检查的焦点事件的目标。
+   *
    */
   private _shouldBeAttributedToTouch(focusEventTarget: HTMLElement | null): boolean {
     // Please note that this check is not perfect. Consider the following edge case:
@@ -547,6 +561,9 @@ export class FocusMonitor implements OnDestroy {
    * 要设置的来源。
    *
    * @param isFromInteraction Whether we are setting the origin from an interaction event.
+   *
+   * 这次设置是否来自交互事件。
+   *
    */
   private _setOrigin(origin: FocusOrigin, isFromInteraction = false): void {
     this._ngZone.runOutsideAngular(() => {

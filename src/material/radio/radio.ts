@@ -746,7 +746,12 @@ export abstract class _MatRadioButtonBase
    */
   @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
 
-  /** Whether animations are disabled. */
+  /**
+   * Whether animations are disabled.
+   *
+   * 是否禁用动画。
+   *
+   */
   _noopAnimations: boolean;
 
   constructor(
@@ -857,7 +862,12 @@ export abstract class _MatRadioButtonBase
     event.stopPropagation();
   }
 
-  /** Triggered when the radio button receives an interaction from the user. */
+  /**
+   * Triggered when the radio button receives an interaction from the user.
+   *
+   * 当单选按钮收到用户的交互时触发。
+   *
+   */
   _onInputInteraction(event: Event) {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and

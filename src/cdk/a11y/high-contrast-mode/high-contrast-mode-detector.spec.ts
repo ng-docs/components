@@ -83,7 +83,12 @@ describe('HighContrastModeDetector', () => {
   });
 });
 
-/** Gets a fake document that includes a fake `window.getComputedStyle` implementation. */
+/**
+ * Gets a fake document that includes a fake `window.getComputedStyle` implementation.
+ *
+ * 获取包含虚假（fake） `window.getComputedStyle` 实现的虚假文档。
+ *
+ */
 function getFakeDocument(fakeComputedBackgroundColor: string) {
   return {
     body: document.createElement('body'),

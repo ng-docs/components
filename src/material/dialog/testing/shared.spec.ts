@@ -6,7 +6,12 @@ import {MatDialog, MatDialogConfig, MatDialogModule} from '@angular/material/dia
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatDialogHarness} from './dialog-harness';
 
-/** Shared tests to run on both the original and MDC-based dialog's. */
+/**
+ * Shared tests to run on both the original and MDC-based dialog's.
+ *
+ * 在原始和基于 MDC 的对话框上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   dialogModule: typeof MatDialogModule,
   dialogHarness: typeof MatDialogHarness,

@@ -440,7 +440,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    */
   @ContentChildren(CdkStepHeader, {descendants: true}) _stepHeader: QueryList<CdkStepHeader>;
 
-  /** List of step headers sorted based on their DOM order. */
+  /**
+   * List of step headers sorted based on their DOM order.
+   *
+   * 根据 DOM 顺序排序的步骤标题列表。
+   *
+   */
   private _sortedHeaders = new QueryList<CdkStepHeader>();
 
   /**

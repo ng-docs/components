@@ -12,13 +12,21 @@ import {FAKE_SVGS} from './fake-svgs';
 import {wrappedErrorMessage} from '../../cdk/testing/private';
 import {MatIcon} from './icon';
 
-/** Returns the CSS classes assigned to an element as a sorted array. */
+/**
+ * Returns the CSS classes assigned to an element as a sorted array.
+ *
+ * 以排序数组的形式返回要赋予元素的 CSS 类。
+ *
+ */
 function sortedClassNames(element: Element): string[] {
   return element.className.split(' ').sort();
 }
 
 /**
  * Verifies that an element contains a single `<svg>` child element, and returns that child.
+ *
+ * 验证元素是否包含单个 `<svg>` 子元素，并返回该子元素。
+ *
  */
 function verifyAndGetSingleSvgChild(element: SVGElement): SVGElement {
   expect(element.id).toBeFalsy();
@@ -31,6 +39,9 @@ function verifyAndGetSingleSvgChild(element: SVGElement): SVGElement {
 /**
  * Verifies that an element contains a single `<path>` child element whose "id" attribute has
  * the specified value.
+ *
+ * 验证元素是否包含单个 `<path>` 子元素，其“id”属性具有指定的值。
+ *
  */
 function verifyPathChildElement(element: Element, attributeValue: string): void {
   expect(element.childNodes.length).toBe(1);
@@ -1192,12 +1203,22 @@ describe('MatIcon', () => {
     tick();
   }));
 
-  /** Marks an SVG icon url as explicitly trusted. */
+  /**
+   * Marks an SVG icon url as explicitly trusted.
+   *
+   * 将 SVG 图标 url 标记为明确受信任。
+   *
+   */
   function trustUrl(iconUrl: string): SafeResourceUrl {
     return sanitizer.bypassSecurityTrustResourceUrl(iconUrl);
   }
 
-  /** Marks an SVG icon string as explicitly trusted. */
+  /**
+   * Marks an SVG icon string as explicitly trusted.
+   *
+   * 将 SVG 图标字符串标记为明确受信任。
+   *
+   */
   function trustHtml(iconHtml: string): SafeHtml {
     return sanitizer.bypassSecurityTrustHtml(iconHtml);
   }

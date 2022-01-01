@@ -782,6 +782,9 @@ describe('MatTabGroup', () => {
   /**
    * Checks that the `selectedIndex` has been updated; checks that the label and body have their
    * respective `active` classes
+   *
+   * 检查 `selectedIndex` 是否已更新；检查标签和正文是否具有各自的 `active` 类
+   *
    */
   function checkSelectedIndex(expectedIndex: number, fixture: ComponentFixture<any>) {
     fixture.detectChanges();

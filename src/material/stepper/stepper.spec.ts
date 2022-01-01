@@ -1582,7 +1582,12 @@ describe('MatStepper', () => {
   });
 });
 
-/** Asserts that keyboard interaction works correctly. */
+/**
+ * Asserts that keyboard interaction works correctly.
+ *
+ * 断言键盘交互工作正常。
+ *
+ */
 function assertCorrectKeyboardInteraction(
   fixture: ComponentFixture<any>,
   stepHeaders: DebugElement[],
@@ -1683,7 +1688,12 @@ function assertCorrectKeyboardInteraction(
     .toBe(true);
 }
 
-/** Asserts that arrow key direction works correctly in RTL mode. */
+/**
+ * Asserts that arrow key direction works correctly in RTL mode.
+ *
+ * 断言箭头键方向在 RTL 模式下正常工作。
+ *
+ */
 function assertArrowKeyInteractionInRtl(
   fixture: ComponentFixture<any>,
   stepHeaders: DebugElement[],
@@ -1705,7 +1715,12 @@ function assertArrowKeyInteractionInRtl(
   expect(stepperComponent._getFocusIndex()).toBe(0);
 }
 
-/** Asserts that keyboard interaction works correctly when the user is pressing a modifier key. */
+/**
+ * Asserts that keyboard interaction works correctly when the user is pressing a modifier key.
+ *
+ * 当用户按下修饰键时，断言键盘交互工作正常。
+ *
+ */
 function assertSelectKeyWithModifierInteraction(
   fixture: ComponentFixture<any>,
   stepHeaders: DebugElement[],

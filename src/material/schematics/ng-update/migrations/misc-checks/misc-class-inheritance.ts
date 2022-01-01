@@ -12,6 +12,9 @@ import * as ts from 'typescript';
 /**
  * Migration that checks for classes that extend Angular Material classes which
  * have changed their API.
+ *
+ * 检查 Angular Material 类的派生类的迁移，因为这些类已更改了其 API。
+ *
  */
 export class MiscClassInheritanceMigration extends Migration<null> {
   // Only enable this rule if the migration targets version 6. The rule

@@ -541,6 +541,9 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
    * 这个方法构建了创建浮层 OverlayState 所需的配置对象。
    *
    * @returns OverlayConfig
+   *
+   * 浮层配置
+   *
    */
   private _getOverlayConfig(): OverlayConfig {
     return new OverlayConfig({
@@ -767,7 +770,12 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
   }
 }
 
-/** Directive applied to an element that should trigger a `mat-menu`. */
+/**
+ * Directive applied to an element that should trigger a `mat-menu`.
+ *
+ * 用于应触发 `mat-menu` 的元素的指令。
+ *
+ */
 @Directive({
   selector: `[mat-menu-trigger-for], [matMenuTriggerFor]`,
   host: {

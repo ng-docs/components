@@ -94,6 +94,11 @@ describe('MixinColor', () => {
 class TestClass {
   testElement: HTMLElement = document.createElement('div');
 
-  /** Fake instance of an ElementRef. */
+  /**
+   * Fake instance of an ElementRef.
+   *
+   * ElementRef 的假实例。
+   *
+   */
   _elementRef = new ElementRef<HTMLElement>(this.testElement);
 }

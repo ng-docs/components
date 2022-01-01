@@ -143,7 +143,12 @@ describe('MapEventManager', () => {
   });
 });
 
-/** Imitates a Google Maps event target and keeps track of the registered events. */
+/**
+ * Imitates a Google Maps event target and keeps track of the registered events.
+ *
+ * 模仿 Google Maps 事件目标并跟踪注册的事件。
+ *
+ */
 class TestEventTarget {
   events = new Map<string, Set<() => void>>();
 

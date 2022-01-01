@@ -65,7 +65,7 @@ export type TooltipPosition = 'left' | 'right' | 'above' | 'below' | 'before' | 
  * Options for how the tooltip trigger should handle touch gestures.
  * See `MatTooltip.touchGestures` for more information.
  *
- * 工具提示触发器如何处理触控手势的选项。有关更多信息，请参阅 `MatTooltip.touchGestures`
+ * 工具提示触发器如何处理触摸手势的选项。有关更多信息，请参阅 `MatTooltip.touchGestures`
  *
  */
 export type TooltipTouchGestures = 'auto' | 'on' | 'off';
@@ -287,7 +287,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
    * trigger, but that might not be desirable on particular elements (e.g. inputs and draggable
    * elements). The different values for this option configure the touch event handling as follows:
    *
-   * 工具提示应如何处理触控手势。在触控设备上，工具提示指令会使用长按手势进行显示和隐藏，但是它可能与原生的浏览器手势冲突。
+   * 工具提示应如何处理触摸手势。在触摸设备上，工具提示指令会使用长按手势进行显示和隐藏，但是它可能与原生的浏览器手势冲突。
    * 为了解决这个冲突，Angular Material 会在触发器上禁用原生手势，但这可能不适用于特定的元素（例如输入框和可拖动的元素）。
    * 此选项有不同的值用来配置 touch 事件的处理方式，如下所示：
    *
@@ -295,18 +295,18 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
    *   browser gestures on particular elements. In particular, it allows text selection on inputs
    *   and textareas, and preserves the native browser dragging on elements marked as `draggable`.
    *
-   *   `auto` - 为所有元素启用触控手势，但会尽量避免与特定元素的原生浏览器手势冲突。
+   *   `auto` - 为所有元素启用触摸手势，但会尽量避免与特定元素的原生浏览器手势冲突。
    *   它特别允许在 input 和 textarea 上进行文本选择，并保留原生浏览器中标记为 `draggable` 的元素上的拖曳效果。
    *
    * - `on` - Enables touch gestures for all elements and disables native
    *   browser gestures with no exceptions.
    *
-   *   `on` - 为所有元素启用触控手势，并禁用原生浏览器手势，没有例外。
+   *   `on` - 为所有元素启用触摸手势，并禁用原生浏览器手势，没有例外。
    *
    * - `off` - Disables touch gestures. Note that this will prevent the tooltip from
    *   showing on touch devices.
    *
-   *   `off` - 禁用触控手势。请注意，这会阻止在触控设备上显示工具提示。
+   *   `off` - 禁用触摸手势。请注意，这会阻止在触摸设备上显示工具提示。
    *
    */
   @Input('matTooltipTouchGestures') touchGestures: TooltipTouchGestures = 'auto';
@@ -1201,6 +1201,9 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    * Callback for when the timeout in this.show() gets completed.
    * This method is only needed by the mdc-tooltip, and so it is only implemented
    * in the mdc-tooltip, not here.
+   *
+   * this.show() 中的超时完成时的回调。这个方法只有 mdc-tooltip 需要，所以只在 mdc-tooltip 里面实现，这里没有。
+   *
    */
   protected _onShow(): void {}
 }

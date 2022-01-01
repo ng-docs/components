@@ -951,11 +951,21 @@ describe('MatDrawerContainer', () => {
   }));
 });
 
-/** Test component that contains an MatDrawerContainer but no MatDrawer. */
+/**
+ * Test component that contains an MatDrawerContainer but no MatDrawer.
+ *
+ * 包含 MatDrawerContainer 但不包含 MatDrawer 的测试组件。
+ *
+ */
 @Component({template: `<mat-drawer-container></mat-drawer-container>`})
 class DrawerContainerNoDrawerTestApp {}
 
-/** Test component that contains an MatDrawerContainer and 2 MatDrawer in the same position. */
+/**
+ * Test component that contains an MatDrawerContainer and 2 MatDrawer in the same position.
+ *
+ * 在同一位置包含一个 MatDrawerContainer 和 2 个 MatDrawer 的测试组件。
+ *
+ */
 @Component({
   template: `
     <mat-drawer-container>
@@ -967,7 +977,12 @@ class DrawerContainerTwoDrawerTestApp {
   @ViewChild(MatDrawerContainer) drawerContainer: MatDrawerContainer;
 }
 
-/** Test component that contains an MatDrawerContainer and one MatDrawer. */
+/**
+ * Test component that contains an MatDrawerContainer and one MatDrawer.
+ *
+ * 包含一个 MatDrawerContainer 和一个 MatDrawer 的测试组件。
+ *
+ */
 @Component({
   template: `
     <mat-drawer-container (backdropClick)="backdropClicked()" [hasBackdrop]="hasBackdrop">

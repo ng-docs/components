@@ -365,8 +365,7 @@ export abstract class DateAdapter<D, L = any> {
    * This method is used to generate date strings that are compatible with native HTML attributes
    * such as the `min` or `max` attribute of an `<input>`.
    *
-   * 获取给定日期的 RFC 3339 兼容字符串（ [https://tools.ietf.org/html/rfc3339](https://tools.ietf.org/html/rfc3339)）此方法用于生成与原生 HTML 属性（例如 `<input>` `min` 或 `max` 属性）兼容的日期字符串。
-   *
+   * 获取给定日期的 RFC 3339 兼容字符串（ <https://tools.ietf.org/html/rfc3339>）此方法用于生成与原生 HTML 属性（例如 `<input>` `min` 或 `max` 属性）兼容的日期字符串。
    * @param date The date to get the ISO date string for.
    *
    * 要获取 ISO 日期字符串的日期。

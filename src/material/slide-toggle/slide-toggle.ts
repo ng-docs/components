@@ -135,7 +135,12 @@ export class MatSlideToggle
   private _required: boolean = false;
   private _checked: boolean = false;
 
-  /** Whether noop animations are enabled. */
+  /**
+   * Whether noop animations are enabled.
+   *
+   * 是否启用 noop 动画。
+   *
+   */
   _noopAnimations: boolean;
 
   /**
@@ -194,7 +199,12 @@ export class MatSlideToggle
    */
   @Input('aria-labelledby') ariaLabelledby: string | null = null;
 
-  /** Used to set the aria-describedby attribute on the underlying input element. */
+  /**
+   * Used to set the aria-describedby attribute on the underlying input element.
+   *
+   * 用于在底层输入元素上设置 aria-describedby 属性。
+   *
+   */
   @Input('aria-describedby') ariaDescribedby: string;
 
   /**

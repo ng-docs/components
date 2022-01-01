@@ -108,6 +108,9 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
    * 在用户拖动某个条目并滚动视口时发出通知。
    *
    * @deprecated To be turned into a private member. Use the `scrolled` method instead.
+   *
+   * 成为私有成员。请改用 `scrolled` 方法。
+   *
    * @breaking-change 13.0.0
    */
   readonly scroll: Subject<Event> = new Subject<Event>();
@@ -278,9 +281,15 @@ export class DragDropRegistry<I extends {isDragging(): boolean}, C> implements O
   /**
    * Gets a stream that will emit when any element on the page is scrolled while an item is being
    * dragged.
+   *
+   * 获取将在拖动条目时滚动页面上的任何元素时发出的流。
+   *
    * @param shadowRoot Optional shadow root that the current dragging sequence started from.
    *   Top-level listeners won't pick up events coming from the shadow DOM so this parameter can
    *   be used to include an additional top-level listener at the shadow root level.
+   *
+   * 当前拖动序列开始的可选 Shadow Root 。顶级侦听器不会接收来自 Shadow DOM 的事件，因此此参数可用于在 Shadow Root 级别包含额外的顶级侦听器。
+   *
    */
   scrolled(shadowRoot?: DocumentOrShadowRoot | null): Observable<Event> {
     const streams: Observable<Event>[] = [this.scroll];

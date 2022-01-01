@@ -119,7 +119,12 @@ export function updateToV12(): Rule {
   );
 }
 
-/** Entry point for the migration schematics with target of Angular CDK 13.0.0 */
+/**
+ * Entry point for the migration schematics with target of Angular CDK 13.0.0
+ *
+ * 以 Angular CDK 13.0.0 为目标的迁移原理图的入口点
+ *
+ */
 export function updateToV13(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V13,

@@ -9,7 +9,12 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatDatepickerInputHarness} from './datepicker-input-harness';
 import {MatCalendarHarness} from './calendar-harness';
 
-/** Shared tests to run on both the original and MDC-based datepicker inputs. */
+/**
+ * Shared tests to run on both the original and MDC-based datepicker inputs.
+ *
+ * 在原始和基于 MDC 的日期选择器输入上运行的共享测试。
+ *
+ */
 export function runDatepickerInputHarnessTests(
   datepickerModule: typeof MatDatepickerModule,
   datepickerInputHarness: typeof MatDatepickerInputHarness,

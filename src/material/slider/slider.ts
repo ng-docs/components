@@ -726,9 +726,21 @@ export class MatSlider
   /**
    * Identifier used to attribute a touch event to a particular slider.
    * Will be undefined if one of the following conditions is true:
+   *
+   * 用于将触摸事件归因于特定滑块的标识符。如果以下条件之一为真，则它将是未定义的：
+   *
    * - The user isn't dragging using a touch device.
+   *
+   *   用户没有使用触摸设备进行拖动。
+   *
    * - The browser doesn't support `Touch.identifier`.
+   *
+   *   浏览器不支持 `Touch.identifier` 。
+   *
    * - Dragging hasn't started yet.
+   *
+   *   拖动尚未开始。
+   *
    */
   private _touchId: number | undefined;
 
@@ -1261,7 +1273,7 @@ export class MatSlider
 /**
  * Returns whether an event is a touch event.
  *
- * 返回事件是否触控事件。
+ * 返回事件是否触摸事件。
  *
  */
 function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
@@ -1274,7 +1286,7 @@ function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
 /**
  * Gets the coordinates of a touch or mouse event relative to the viewport.
  *
- * 获取相对于视口的触控事件或鼠标事件的坐标。
+ * 获取相对于视口的触摸事件或鼠标事件的坐标。
  *
  */
 function getPointerPositionOnPage(event: MouseEvent | TouchEvent, id: number | undefined) {
@@ -1297,7 +1309,12 @@ function getPointerPositionOnPage(event: MouseEvent | TouchEvent, id: number | u
   return point ? {x: point.clientX, y: point.clientY} : undefined;
 }
 
-/** Finds a `Touch` with a specific ID in a `TouchList`. */
+/**
+ * Finds a `Touch` with a specific ID in a `TouchList`.
+ *
+ * 在 `TouchList` 中查找具有特定 ID 的 `Touch` 。
+ *
+ */
 function findMatchingTouch(touches: TouchList, id: number): Touch | undefined {
   for (let i = 0; i < touches.length; i++) {
     if (touches[i].identifier === id) {
@@ -1308,7 +1325,12 @@ function findMatchingTouch(touches: TouchList, id: number): Touch | undefined {
   return undefined;
 }
 
-/** Gets the unique ID of a touch that matches a specific slider. */
+/**
+ * Gets the unique ID of a touch that matches a specific slider.
+ *
+ * 获取与特定滑块匹配的触摸的唯一 ID。
+ *
+ */
 function getTouchIdForSlider(event: TouchEvent, sliderHost: HTMLElement): number | undefined {
   for (let i = 0; i < event.touches.length; i++) {
     const target = event.touches[i].target as HTMLElement;

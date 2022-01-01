@@ -10,6 +10,9 @@ import {MatExpansionPanelHarness} from './expansion-harness';
 /**
  * Function that can be used to run the shared expansion harness tests for either
  * the non-MDC or MDC based expansion harness.
+ *
+ * 可用于为非 MDC 或基于 MDC 的可展开工具运行共享可展开工具测试的函数。
+ *
  */
 export function runHarnessTests(
   expansionModule: typeof MatExpansionModule,

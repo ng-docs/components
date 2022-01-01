@@ -312,7 +312,12 @@ describe('MatButton', () => {
   });
 });
 
-/** Test component that contains an MatButton. */
+/**
+ * Test component that contains an MatButton.
+ *
+ * 包含 MatButton 的测试组件。
+ *
+ */
 @Component({
   selector: 'test-app',
   template: `

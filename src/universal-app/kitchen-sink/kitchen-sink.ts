@@ -67,13 +67,28 @@ export class TestEntryComponent {}
   ],
 })
 export class KitchenSink {
-  /** List of columns for the CDK and Material table. */
+  /**
+   * List of columns for the CDK and Material table.
+   *
+   * CDK 和 Material 表格列的列表。
+   *
+   */
   tableColumns = ['userId'];
 
-  /** Data source for the CDK and Material table. */
+  /**
+   * Data source for the CDK and Material table.
+   *
+   * CDK 和 Material 表格的数据源。
+   *
+   */
   tableDataSource = new TableDataSource();
 
-  /** Data used to render a virtual scrolling list. */
+  /**
+   * Data used to render a virtual scrolling list.
+   *
+   * 用于渲染虚拟滚动列表的数据。
+   *
+   */
   virtualScrollData = Array(10000).fill(50);
 
   constructor(

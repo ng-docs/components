@@ -18,7 +18,12 @@ import {
 } from './index';
 
 describe('MatTree', () => {
-  /** Represents an indent for expectNestedTreeToMatch */
+  /**
+   * Represents an indent for expectNestedTreeToMatch
+   *
+   * 表示 expectNestedTreeToMatch 的缩进
+   *
+   */
   const _ = {};
 
   let treeElement: HTMLElement;
@@ -810,7 +815,12 @@ interface FoodNode {
   children?: FoodNode[] | null;
 }
 
-/** Flat node with expandable and level information */
+/**
+ * Flat node with expandable and level information
+ *
+ * 具有可展开信息和级别信息的扁平节点
+ *
+ */
 interface ExampleFlatNode {
   expandable: boolean;
   name: string;
@@ -820,6 +830,9 @@ interface ExampleFlatNode {
 /**
  * Food data with nested structure.
  * Each node has a name and an optiona list of children.
+ *
+ * 具有嵌套结构的食品数据。每个节点都有一个名称和一个可选的子节点列表。
+ *
  */
 const TREE_DATA: FoodNode[] = [
   {

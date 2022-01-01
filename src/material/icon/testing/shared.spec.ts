@@ -7,7 +7,12 @@ import {MatIconHarness} from '@angular/material/icon/testing/icon-harness';
 import {DomSanitizer} from '@angular/platform-browser';
 import {IconType} from './icon-harness-filters';
 
-/** Shared tests to run on both the original and MDC-based icons. */
+/**
+ * Shared tests to run on both the original and MDC-based icons.
+ *
+ * 在原始图标和基于 MDC 的图标上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   iconModule: typeof MatIconModule,
   iconRegistry: typeof MatIconRegistry,

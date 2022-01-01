@@ -268,7 +268,7 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
    *   3) Setup the HAMMER_GESTURE_CONFIG in the root app module (if not done already).
    *   4) Setup the "HammerModule" in the root app module (if not done already).
    *
-   * 在当前项目中设置锤子手势配置。为此，请执行以下步骤：
+   * 在当前项目中设置 Hammer 手势配置。为此，请执行以下步骤：
    * 1）创建 Angular Material 手势配置的副本。
    * 2）将对 Angular Material 手势配置的所有引用重写为新的手势配置。
    * 3）在根应用程序模块中设置 HAMMER_GESTURE_CONFIG（如果以前没有）。
@@ -455,6 +455,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
    * Checks if the given node is an import to the HammerJS package. Imports to
    * HammerJS which load specific symbols from the package are considered as
    * runtime usage of Hammer. e.g. `import {Symbol} from "hammerjs";`.
+   *
+   * 检查给定节点是否是 HammerJS 包的导入。从包中加载特定符号的 HammerJS 的导入被视为 Hammer 的运行时使用。例如 `import {Symbol} from "hammerjs";` .
+   *
    */
   private _checkHammerImports(node: ts.Node) {
     if (
@@ -483,6 +486,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
   /**
    * Checks if the given node accesses the global "Hammer" symbol at runtime. If so,
    * the migration rule state will be updated to reflect that Hammer is used at runtime.
+   *
+   * 检查给定节点是否在运行时访问全局“Hammer”符号。如果是这样，迁移规则状态将被更新以反映在运行时使用了 Hammer。
+   *
    */
   private _checkForRuntimeHammerUsage(node: ts.Node) {
     if (this._usedInRuntime) {
@@ -533,6 +539,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
   /**
    * Checks if the given node references the gesture config from Angular Material.
    * If so, we keep track of the found symbol reference.
+   *
+   * 检查给定节点是否引用来自 Angular Material 的手势配置。如果是这样，我们会跟踪找到的符号引用。
+   *
    */
   private _checkForMaterialGestureConfig(node: ts.Node) {
     if (ts.isIdentifier(node)) {
@@ -554,6 +563,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
   /**
    * Checks if the given Hammer gesture config token reference is part of an
    * Angular provider definition that sets up a custom gesture config.
+   *
+   * 检查给定的 Hammer 手势配置令牌引用是否是设置自定义手势配置的 Angular 提供程序定义的一部分。
+   *
    */
   private _checkForCustomGestureConfigSetup(tokenRef: IdentifierReference): boolean {
     // Walk up the tree to look for a parent property assignment of the
@@ -583,6 +595,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
   /**
    * Determines an available file name for the gesture config which should
    * be stored in the specified file path.
+   *
+   * 确定应存储在指定文件路径中的手势配置的可用文件名。
+   *
    */
   private _getAvailableGestureConfigFileName(sourceRoot: Path) {
     if (!this.fileSystem.fileExists(join(sourceRoot, `${GESTURE_CONFIG_FILE_NAME}.ts`))) {
@@ -597,7 +612,12 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
     return `${possibleName + index}.ts`;
   }
 
-  /** Replaces a given gesture config reference with a new import. */
+  /**
+   * Replaces a given gesture config reference with a new import.
+   *
+   * 用新的导入替换给定的手势配置引用。
+   *
+   */
   private _replaceGestureConfigReference(
     {node, importData, isImport}: IdentifierReference,
     symbolName: string,
@@ -738,7 +758,12 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
     removeElementFromArrayExpression(objectLiteralExpr, recorder);
   }
 
-  /** Removes the given hammer config token import if it is not used. */
+  /**
+   * Removes the given hammer config token import if it is not used.
+   *
+   * 如果未使用，则删除给定的 Hammer 配置令牌导入。
+   *
+   */
   private _removeHammerConfigTokenImportIfUnused({node, importData}: IdentifierReference) {
     const sourceFile = node.getSourceFile();
     const isTokenUsed = this._hammerConfigTokenReferences.some(
@@ -782,7 +807,12 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
     });
   }
 
-  /** Sets up the Hammer gesture config in the root module if needed. */
+  /**
+   * Sets up the Hammer gesture config in the root module if needed.
+   *
+   * 如果需要，在根模块中设置 Hammer 手势配置。
+   *
+   */
   private _setupNewGestureConfigInRootModule(gestureConfigPath: Path) {
     const {project} = this.context;
     const mainFilePath = getProjectMainFile(project);
@@ -861,6 +891,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
   /**
    * Gets the TypeScript symbol of the root module by looking for the module
    * bootstrap expression in the specified source file.
+   *
+   * 通过在指定的源文件中查找模块引导表达式来获取根模块的 TypeScript 符号。
+   *
    */
   private _getRootModuleSymbol(mainFilePath: Path): ts.Symbol | null {
     const mainFile = this.program.getSourceFile(mainFilePath);
@@ -880,7 +913,12 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
     return appModuleSymbol;
   }
 
-  /** Sets up the "HammerModule" in the root module of the current project. */
+  /**
+   * Sets up the "HammerModule" in the root module of the current project.
+   *
+   * 在当前项目的根模块中设置“HammerModule”。
+   *
+   */
   private _setupHammerModuleInRootModule() {
     const {project} = this.context;
     const mainFilePath = getProjectMainFile(project);
@@ -938,19 +976,34 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
     }
   }
 
-  /** Prints a given node within the specified source file. */
+  /**
+   * Prints a given node within the specified source file.
+   *
+   * 打印指定源文件中的给定节点。
+   *
+   */
   private _printNode(node: ts.Node, sourceFile: ts.SourceFile): string {
     return this._printer.printNode(ts.EmitHint.Unspecified, node, sourceFile);
   }
 
-  /** Gets all referenced gesture config identifiers of a given source file */
+  /**
+   * Gets all referenced gesture config identifiers of a given source file
+   *
+   * 获取给定源文件的所有引用的手势配置标识符
+   *
+   */
   private _getGestureConfigIdentifiersOfFile(sourceFile: ts.SourceFile): ts.Identifier[] {
     return this._gestureConfigReferences
       .filter(d => d.node.getSourceFile() === sourceFile)
       .map(d => d.node);
   }
 
-  /** Gets the symbol that contains the value declaration of the specified node. */
+  /**
+   * Gets the symbol that contains the value declaration of the specified node.
+   *
+   * 获取包含指定节点的值声明的符号。
+   *
+   */
   private _getDeclarationSymbolOfNode(node: ts.Node): ts.Symbol | undefined {
     const symbol = this.typeChecker.getSymbolAtLocation(node);
 
@@ -966,6 +1019,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
   /**
    * Checks whether the given expression resolves to a hammer gesture config
    * token reference from "@angular/platform-browser".
+   *
+   * 检查给定的表达式是否解析为来自 “@angular/platform-browser” 的 Hammer 手势配置令牌引用。
+   *
    */
   private _isReferenceToHammerConfigToken(expr: ts.Expression) {
     const unwrapped = unwrapExpression(expr);
@@ -981,6 +1037,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
    * Creates migration failures of the collected node failures. The returned migration
    * failures are updated to reflect the post-migration state of source files. Meaning
    * that failure positions are corrected if source file modifications shifted lines.
+   *
+   * 创建收集的节点故障的迁移故障。更新返回的迁移失败以反映源文件的迁移后状态。这意味着如果源文件修改移动了行，则会更正故障位置。
+   *
    */
   private _createMigrationFailures(): MigrationFailure[] {
     return this._nodeFailures.map(({node, message}) => {
@@ -995,7 +1054,12 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
     });
   }
 
-  /** Global state of whether Hammer is used in any analyzed project target. */
+  /**
+   * Global state of whether Hammer is used in any analyzed project target.
+   *
+   * 是否在任何分析的项目目标中使用了 Hammer 的全局状态。
+   *
+   */
   static globalUsesHammer = false;
 
   /**
@@ -1003,6 +1067,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
    * have been migrated individually. This method can be used to make changes based
    * on the analysis of the individual targets. For example: we only remove Hammer
    * from the "package.json" if it is not used in *any* project target.
+   *
+   * 静态迁移规则方法，将在所有项目目标单独迁移后调用。此方法可用于根据对单个目标的分析进行更改。例如：如果没有在*任何*项目目标中使用，我们只会从“package.json”中删除 Hammer。
+   *
    */
   static override globalPostMigration(
     tree: Tree,
@@ -1037,7 +1104,13 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
 
   /**
    * Removes the hammer package from the workspace "package.json".
+   *
+   * 从工作区“package.json”中删除 Hammer 包。
+   *
    * @returns Whether Hammer was set up and has been removed from the "package.json"
+   *
+   * Hammer 是否已设置并已从“package.json”中删除
+   *
    */
   private static _removeHammerFromPackageJson(tree: Tree): boolean {
     if (!tree.exists('/package.json')) {
@@ -1055,7 +1128,12 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
     return false;
   }
 
-  /** Gets whether the migration is allowed to run for specified target version. */
+  /**
+   * Gets whether the migration is allowed to run for specified target version.
+   *
+   * 获取是否允许为指定的目标版本运行本迁移。
+   *
+   */
   private static _isAllowedVersion(target: TargetVersion) {
     // This migration is only allowed to run for v9 or v10 target versions.
     return target === TargetVersion.V9 || target === TargetVersion.V10;
@@ -1065,6 +1143,9 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
 /**
  * Recursively unwraps a given expression if it is wrapped
  * by parenthesis, type casts or type assertions.
+ *
+ * 如果给定的表达式被括号、类型转换或类型断言包裹，则递归地解开它。
+ *
  */
 function unwrapExpression(node: ts.Node): ts.Node {
   if (ts.isParenthesizedExpression(node)) {
@@ -1080,6 +1161,9 @@ function unwrapExpression(node: ts.Node): ts.Node {
 /**
  * Converts the specified path to a valid TypeScript module specifier which is
  * relative to the given containing file.
+ *
+ * 将指定的路径转换为有效的 TypeScript 模块说明符，该说明符是相对于给定的包含文件的。
+ *
  */
 function getModuleSpecifier(newPath: Path, containingFile: Path) {
   let result = relative(dirname(containingFile), newPath).replace(/\\/g, '/').replace(/\.ts$/, '');
@@ -1091,7 +1175,13 @@ function getModuleSpecifier(newPath: Path, containingFile: Path) {
 
 /**
  * Gets the text of the given property name.
+ *
+ * 获取给定属性名称的文本。
+ *
  * @returns Text of the given property name. Null if not statically analyzable.
+ *
+ * 给定属性名称的文本。如果不可静态分析，则为 Null。
+ *
  */
 function getPropertyNameText(node: ts.PropertyName): string | null {
   if (ts.isIdentifier(node) || ts.isStringLiteralLike(node)) {
@@ -1100,7 +1190,12 @@ function getPropertyNameText(node: ts.PropertyName): string | null {
   return null;
 }
 
-/** Checks whether the given identifier is part of a namespaced access. */
+/**
+ * Checks whether the given identifier is part of a namespaced access.
+ *
+ * 检查给定的标识符是否是命名空间访问的一部分。
+ *
+ */
 function isNamespacedIdentifierAccess(node: ts.Identifier): boolean {
   return ts.isQualifiedName(node.parent) || ts.isPropertyAccessExpression(node.parent);
 }
@@ -1108,6 +1203,9 @@ function isNamespacedIdentifierAccess(node: ts.Identifier): boolean {
 /**
  * Walks through the specified node and returns all child nodes which match the
  * given predicate.
+ *
+ * 遍历指定的节点并返回与给定谓词匹配的所有子节点。
+ *
  */
 function findMatchingChildNodes<T extends ts.Node>(
   parent: ts.Node,

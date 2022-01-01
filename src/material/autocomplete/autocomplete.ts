@@ -214,10 +214,20 @@ export abstract class _MatAutocompleteBase
    */
   @ViewChild('panel') panel: ElementRef;
 
-  /** Reference to all options within the autocomplete. */
+  /**
+   * Reference to all options within the autocomplete.
+   *
+   * 对自动完成中的所有选项的引用。
+   *
+   */
   abstract options: QueryList<_MatOptionBase>;
 
-  /** Reference to all option groups within the autocomplete. */
+  /**
+   * Reference to all option groups within the autocomplete.
+   *
+   * 对自动完成中所有选项组的引用。
+   *
+   */
   abstract optionGroups: QueryList<_MatOptgroupBase>;
 
   /**
@@ -462,9 +472,19 @@ export abstract class _MatAutocompleteBase
   providers: [{provide: MAT_OPTION_PARENT_COMPONENT, useExisting: MatAutocomplete}],
 })
 export class MatAutocomplete extends _MatAutocompleteBase {
-  /** Reference to all option groups within the autocomplete. */
+  /**
+   * Reference to all option groups within the autocomplete.
+   *
+   * 对自动完成中所有选项组的引用。
+   *
+   */
   @ContentChildren(MAT_OPTGROUP, {descendants: true}) optionGroups: QueryList<MatOptgroup>;
-  /** Reference to all options within the autocomplete. */
+  /**
+   * Reference to all options within the autocomplete.
+   *
+   * 对自动完成中所有选项的引用。
+   *
+   */
   @ContentChildren(MatOption, {descendants: true}) options: QueryList<MatOption>;
   protected _visibleClass = 'mat-autocomplete-visible';
   protected _hiddenClass = 'mat-autocomplete-hidden';

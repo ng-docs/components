@@ -20,13 +20,25 @@ import {SubComponentHarness, SubComponentSpecialHarness} from './harnesses/sub-c
 /**
  * Tests that should behave equal in testbed and protractor environment.
  *
+ * 在测试平台和 Protractor 环境中应该表现相同的测试。
+ *
  * To reduce code duplication and ensure tests will act equal
  * with TestbedHarnessEnvironment and ProtractorHarnessEnvironment, this set of tests is
  * executed in unit tests and tests.
  *
+ * 为了减少代码重复并确保测试与 TestbedHarnessEnvironment 和 ProtractorHarnessEnvironment 相同，这组测试要在单元测试和端到端测试中执行。
+ *
  * @param getHarnessLoaderFromEnvironment env specific closure to get HarnessLoader
+ *
+ * 用于获取 HarnessLoader 的特定环境闭包
+ *
  * @param getMainComponentHarnessFromEnvironment env specific closure to get MainComponentHarness
+ *
+ * 用于获取 MainComponentHarness 的特定环境闭包
+ *
  * @param getActiveElementId env specific closure to get active element
+ *
+ * 要获取活动元素的特定环境闭包
  *
  * @docs-private
  */

@@ -6,7 +6,12 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTabNavBarHarness} from './tab-nav-bar-harness';
 
-/** Shared tests to run on both the original and MDC-based tab nav bars. */
+/**
+ * Shared tests to run on both the original and MDC-based tab nav bars.
+ *
+ * 在原始和基于 MDC 的选项卡导航栏上运行的共享测试。
+ *
+ */
 export function runTabNavBarHarnessTests(
   tabsModule: typeof MatTabsModule,
   tabNavBarHarness: typeof MatTabNavBarHarness,

@@ -141,6 +141,10 @@ export class MatListOption
   /**
    * Emits when the selected state of the option has changed.
    * Use to facilitate two-data binding to the `selected` property.
+   *
+   * 当此选项的已选状态发生变化时发出。
+   * 用于支持对 `selected` 属性的双向数据绑定。
+   *
    * @docs-private
    */
   @Output()

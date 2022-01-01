@@ -671,7 +671,12 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
     }
   }
 
-  /** Removes a backdrop element from the DOM. */
+  /**
+   * Removes a backdrop element from the DOM.
+   *
+   * 从 DOM 中移除背景元素。
+   *
+   */
   private _disposeBackdrop(backdrop: HTMLElement | null) {
     if (backdrop) {
       backdrop.remove();

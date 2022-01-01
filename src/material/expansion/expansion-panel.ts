@@ -372,6 +372,9 @@ export class MatExpansionPanel
 
 /**
  * Actions of a `<mat-expansion-panel>`.
+ *
+ * `<mat-expansion-panel>` 的操作。
+ *
  */
 @Directive({
   selector: 'mat-action-row',

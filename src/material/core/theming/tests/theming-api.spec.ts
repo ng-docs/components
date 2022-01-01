@@ -4,7 +4,12 @@ import {renderSync} from 'sass';
 import {compareNodes} from '../../../../../tools/postcss/compare-nodes';
 
 describe('theming api', () => {
-  /** Map of known selectors for density styles and their corresponding AST rule. */
+  /**
+   * Map of known selectors for density styles and their corresponding AST rule.
+   *
+   * 密度样式的已知选择器及其对应的 AST 规则的映射表。
+   *
+   */
   let knownDensitySelectors: Map<string, Rule>;
 
   // Before all tests, we collect all nodes specific to density styles. We can then
@@ -255,6 +260,9 @@ describe('theming api', () => {
    * Checks whether the given parsed stylesheet contains density styles scoped to
    * a given selector. If the selector is `null`, then density is expected to be
    * generated at top-level.
+   *
+   * 检查给定的已解析样式表是否包含范围为给定选择器的密度样式。如果选择器为 `null` ，则预期在顶层生成密度。
+   *
    */
   function hasDensityStyles(parsed: Root, baseSelector: string | null): 'all' | 'partial' | 'none' {
     expect(parsed.nodes).withContext('Expected CSS to be not empty.').toBeDefined();
@@ -296,7 +304,12 @@ describe('theming api', () => {
     return 'partial';
   }
 
-  /** Transpiles given Sass content into CSS. */
+  /**
+   * Transpiles given Sass content into CSS.
+   *
+   * 将给定的 Sass 内容转译为 CSS。
+   *
+   */
   function transpile(content: string) {
     return renderSync({
       data: `
@@ -318,6 +331,9 @@ describe('theming api', () => {
    * to the `process.stderr` stream, so we spy on the `stderr.write` method. We
    * cannot expect a specific amount of writes as Sass calls `stderr.write` multiple
    * times for a warning (e.g. spacing and stack trace)
+   *
+   * 期望在 Sass 中报告给定的警告。 Dart sass 会直接写入 `process.stderr` 流，所以我们窥探 `stderr.write` 方法。我们不能期望它有特定数量的写入，因为 Sass 会对某个警告多次调用 `stderr.write`（例如间距和堆栈跟踪）
+   *
    */
   function expectWarning(message: RegExp) {
     const writeSpy = process.stderr.write as jasmine.Spy;

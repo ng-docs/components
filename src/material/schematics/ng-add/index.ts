@@ -17,7 +17,7 @@ import {Schema} from './schema';
  * can be no dependency on `@angular/material` in the `package.json` file, and we need
  * to manually insert the dependency based on the build version placeholder.
  *
- * 如果此原理图在 `ng add` 命令之外运行，则将用于指定 Angular CDK 和 Angular Material的版本范围。在这些情况下，`package.json` 文件中可能没有依赖 `@angular/material`，这时我们就需要基于构建版本占位符来手动插入依赖关系。
+ * 如果此原理图在 `ng add` 命令之外运行，则将用于指定 Angular CDK 和 Angular Material 的版本范围。在这些情况下，`package.json` 文件中可能没有依赖 `@angular/material`，这时我们就需要基于构建版本占位符来手动插入依赖关系。
  *
  * Note that the fallback version range does not use caret, but tilde because that is
  * the default for Angular framework dependencies in CLI projects.

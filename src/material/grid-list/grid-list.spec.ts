@@ -587,7 +587,12 @@ describe('MatGridList', () => {
   });
 });
 
-/** Gets the computed dimension of a DebugElement in pixels. */
+/**
+ * Gets the computed dimension of a DebugElement in pixels.
+ *
+ * 获取 DebugElement 的计算尺寸（以像素为单位）。
+ *
+ */
 function getDimension(el: DebugElement, dimension: 'width' | 'height' | 'top' | 'left'): number {
   const nativeElement: HTMLElement = el.nativeElement;
 
@@ -607,7 +612,12 @@ function getDimension(el: DebugElement, dimension: 'width' | 'height' | 'top' | 
   }
 }
 
-/** Gets the `left` position of an element. */
+/**
+ * Gets the `left` position of an element.
+ *
+ * 获取元素的 `left` 位置。
+ *
+ */
 function getComputedLeft(element: DebugElement): number {
   // While the other properties in this test use `getComputedStyle`, we use `getBoundingClientRect`
   // for left because iOS Safari doesn't support using `getComputedStyle` to get the calculated

@@ -7,7 +7,12 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatGridListHarness} from './grid-list-harness';
 import {MatGridTileHarness} from './grid-tile-harness';
 
-/** Shared tests to run on both the original and MDC-based grid-list. */
+/**
+ * Shared tests to run on both the original and MDC-based grid-list.
+ *
+ * 在原始和基于 MDC 的网格列表上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   gridListModule: typeof MatGridListModule,
   gridListHarness: typeof MatGridListHarness,

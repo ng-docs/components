@@ -6,7 +6,12 @@ import {MatSortModule, Sort} from '@angular/material/sort';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSortHarness} from './sort-harness';
 
-/** Shared tests to run on both the original and MDC-based sort. */
+/**
+ * Shared tests to run on both the original and MDC-based sort.
+ *
+ * 在原始排序和基于 MDC 的排序上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   sortModule: typeof MatSortModule,
   sortHarness: typeof MatSortHarness,

@@ -74,7 +74,7 @@ export class MatNavListItemHarness extends MatListItemHarnessBase {
    *
    * @param options Options for filtering which nav list item instances are considered a match.
    *
-   * 用于过滤哪些导航列表项目实例应该视为匹配项的选项。
+   * 用于过滤哪些导航列表条目实例应该视为匹配项的选项。
    *
    * @return a `HarnessPredicate` configured with the given options.
    *

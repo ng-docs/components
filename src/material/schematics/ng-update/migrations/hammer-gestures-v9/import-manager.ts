@@ -59,7 +59,12 @@ interface AnalyzedImport {
  */
 const hasFlag = (data: AnalyzedImport, flag: ImportState) => (data.state & flag) !== 0;
 
-/** Parsed version of TypeScript that can be used for comparisons. */
+/**
+ * Parsed version of TypeScript that can be used for comparisons.
+ *
+ * 可用于比较的 TypeScript 的解析版本。
+ *
+ */
 const PARSED_TS_VERSION = parseFloat(ts.versionMajorMinor);
 
 /**

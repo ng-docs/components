@@ -11,7 +11,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 
-/** Shared tests to run on both the original and MDC-based trees. */
+/**
+ * Shared tests to run on both the original and MDC-based trees.
+ *
+ * 在原始树和基于 MDC 的树上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   treeModule: typeof MatTreeModule,
   treeHarness: typeof MatTreeHarness,

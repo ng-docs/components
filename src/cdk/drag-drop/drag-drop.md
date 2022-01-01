@@ -3,7 +3,7 @@ drag-and-drop interfaces, with support for free dragging, sorting within a list,
 between lists, animations, touch devices, custom drag handles, previews, and placeholders,
 in addition to horizontal lists and locking along an axis.
 
-`@angular/cdk/drag-drop` 模块为你提供了一种方便易用、声明性地创建可拖放界面的方式，它支持自由拖动、在列表中排序、在列表之间转移条目、动画、触控设备、自定义拖动把手、预览和占位符，以及水平列表和轴向锁定。
+`@angular/cdk/drag-drop` 模块为你提供了一种方便易用、声明性地创建可拖放界面的方式，它支持自由拖动、在列表中排序、在列表之间转移条目、动画、触摸设备、自定义拖动把手、预览和占位符，以及水平列表和轴向锁定。
 
 ### Getting started
 
@@ -211,7 +211,7 @@ using the `cdkDragPreviewContainer` input on `cdkDrag`. The possible values are:
 | `global`                      | Default value. Preview is inserted into the `<body>` or the closest shadow root. | Preview won't be affected by `z-index` or `overflow: hidden`. It also won't affect `:nth-child` selectors and flex layouts. | Doesn't retain inherited styles.                                                                                                                                          |
 | `global`                      | 默认值。预览器被插入到 `<body>` 或最近的 Shadow Root 中。                                         | 预览器不会受到 `z-index` 或 `overflow: hidden` 的影响。它也不会影响 `:nth-child` 选择器和 flex 布局。                                                | 不保留继承的样式。                                                                                                                                                                 |
 | `parent`                      | Preview is inserted inside the parent of the item that is being dragged.         | Preview inherits the same styles as the dragged item.                                                                       | Preview may be clipped by `overflow: hidden` or be placed under other elements due to `z-index`. Furthermore, it can affect `:nth-child` selectors and some flex layouts. |
-| `parent`                      | 预览器被插入到被拖动项目的父节点内。                                                               | 预览器继承与拖动项目相同的样式。                                                                                                            | 由于 `z-index` 的影响，预览器可能会被 `overflow: hidden` 裁剪或被放置在其他元素下。此外，它会影响 `:nth-child` 选择器和一些 flex 布局。                                                                             |
+| `parent`                      | 预览器被插入到被拖动条目的父节点内。                                                               | 预览器继承与拖动条目相同的样式。                                                                                                            | 由于 `z-index` 的影响，预览器可能会被 `overflow: hidden` 裁剪或被放置在其他元素下。此外，它会影响 `:nth-child` 选择器和一些 flex 布局。                                                                             |
 | `ElementRef` or `HTMLElement` | Preview will be inserted into the specified element.                             | Preview inherits styles from the specified container element.                                                               | Preview may be clipped by `overflow: hidden` or be placed under other elements due to `z-index`. Furthermore, it can affect `:nth-child` selectors and some flex layouts. |
 | `ElementRef` 或 `HTMLElement`  | 预览器将插入到指定的元素内部。                                                                  | 预览器从指定的容器元素继承样式。                                                                                                            | 由于 `z-index` 的影响，预览器可能会被 `overflow: hidden` 裁剪或被放置在其他元素下。此外，它会影响 `:nth-child` 选择器和一些 flex 布局。                                                                             |
 
@@ -331,7 +331,7 @@ cases like these you can delay the dragging sequence using the `cdkDragStartDela
 will wait for the user to hold down their pointer for the specified number of milliseconds before
 moving the element.
 
-默认情况下，只要用户把指针放在 `cdkDrag`，就会启动拖动序列。这种对于触控设备上的全屏可拖动元素等情况可能并不理想，因为用户在滚动页面时可能会意外触发拖动。对于这类情况，你可以使用输入属性 `cdkDragStartDelay` 来延迟拖动，它会先等待用户按住指定的毫秒数之后才开始移动此元素。
+默认情况下，只要用户把指针放在 `cdkDrag`，就会启动拖动序列。这种对于触摸设备上的全屏可拖动元素等情况可能并不理想，因为用户在滚动页面时可能会意外触发拖动。对于这类情况，你可以使用输入属性 `cdkDragStartDelay` 来延迟拖动，它会先等待用户按住指定的毫秒数之后才开始移动此元素。
 
 <!-- example(cdk-drag-drop-delay) -->
 

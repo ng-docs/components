@@ -45,6 +45,9 @@ function range<T>(length: number, valueFunction: (index: number) => T): T[] {
 export class NativeDateAdapter extends DateAdapter<Date> {
   /**
    * @deprecated No longer being used. To be removed.
+   *
+   * 不再使用。即将被删除。
+   *
    * @breaking-change 14.0.0
    */
   useUtcForDisplay: boolean = false;

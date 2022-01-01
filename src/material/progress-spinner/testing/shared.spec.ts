@@ -5,7 +5,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressSpinnerHarness} from './progress-spinner-harness';
 
-/** Runs the shared unit tests for the progress spinner test harness. */
+/**
+ * Runs the shared unit tests for the progress spinner test harness.
+ *
+ * 为进度微调器测试工具运行共享单元测试。
+ *
+ */
 export function runHarnessTests(
   progressSpinnerModule: typeof MatProgressSpinnerModule,
   progressSpinnerHarness: typeof MatProgressSpinnerHarness,

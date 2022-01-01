@@ -10,7 +10,12 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {EXAMPLE_COMPONENTS} from '@angular/components-examples';
 import {Component, Input} from '@angular/core';
 
-/** Displays a set of components-examples in a mat-accordion. */
+/**
+ * Displays a set of components-examples in a mat-accordion.
+ *
+ * 在 mat-accordion 中显示一组组件示例。
+ *
+ */
 @Component({
   selector: 'material-example-list',
   template: `
@@ -55,10 +60,20 @@ import {Component, Input} from '@angular/core';
   ],
 })
 export class ExampleList {
-  /** Type of examples being displayed. */
+  /**
+   * Type of examples being displayed.
+   *
+   * 正在显示的示例类型。
+   *
+   */
   @Input() type: string;
 
-  /** IDs of the examples to display. */
+  /**
+   * IDs of the examples to display.
+   *
+   * 要显示的示例的 ID。
+   *
+   */
   @Input() ids: string[];
 
   @Input()

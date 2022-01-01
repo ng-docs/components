@@ -6,7 +6,12 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTooltipHarness} from '@angular/material/tooltip/testing/tooltip-harness';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
-/** Shared tests to run on both the original and MDC-based tooltips. */
+/**
+ * Shared tests to run on both the original and MDC-based tooltips.
+ *
+ * 在原始和基于 MDC 的工具提示上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   tooltipModule: typeof MatTooltipModule,
   tooltipHarness: typeof MatTooltipHarness,

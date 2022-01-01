@@ -225,7 +225,12 @@ export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
     return (await this._inputContainer()).click();
   }
 
-  /** Whether the slide-toggle is checked. */
+  /**
+   * Whether the slide-toggle is checked.
+   *
+   * 是否选中滑块开关。
+   *
+   */
   async isChecked(): Promise<boolean> {
     const checked = (await this._nativeElement()).getProperty<boolean>('checked');
     return coerceBooleanProperty(await checked);

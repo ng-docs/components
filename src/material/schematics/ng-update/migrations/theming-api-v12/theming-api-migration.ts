@@ -11,9 +11,19 @@ import {SchematicContext} from '@angular-devkit/schematics';
 import {DevkitMigration, ResolvedResource, TargetVersion} from '@angular/cdk/schematics';
 import {migrateFileContent} from './migration';
 
-/** Migration that switches all Sass files using Material theming APIs to `@use`. */
+/**
+ * Migration that switches all Sass files using Material theming APIs to `@use`.
+ *
+ * 使用 Material 主题 API 将所有 Sass 文件切换到 `@use` 的迁移。
+ *
+ */
 export class ThemingApiMigration extends DevkitMigration<null> {
-  /** Number of files that have been migrated. */
+  /**
+   * Number of files that have been migrated.
+   *
+   * 已迁移的文件数。
+   *
+   */
   static migratedFileCount = 0;
 
   enabled = this.targetVersion === TargetVersion.V12;
@@ -43,7 +53,12 @@ export class ThemingApiMigration extends DevkitMigration<null> {
     }
   }
 
-  /** Logs out the number of migrated files at the end of the migration. */
+  /**
+   * Logs out the number of migrated files at the end of the migration.
+   *
+   * 在迁移结束时记录已迁移文件的数量。
+   *
+   */
   static override globalPostMigration(
     _tree: unknown,
     _targetVersion: TargetVersion,

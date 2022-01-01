@@ -486,7 +486,7 @@ export abstract class MatDatepickerBase<
    * Whether the calendar UI is in touch mode. In touch mode the calendar opens in a dialog rather
    * than a dropdown and elements have more padding to allow for bigger touch targets.
    *
-   * 日历 UI 是否处于触控模式。在触控模式下，日历会在一个对话框中打开，而不是下拉框，而且元素有更大的衬距，以允许更大的触控目标。
+   * 日历 UI 是否处于触摸模式。在触摸模式下，日历会在一个对话框中打开，而不是下拉框，而且元素有更大的衬距，以允许更大的触摸目标。
    *
    */
   @Input()

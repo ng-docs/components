@@ -168,7 +168,13 @@ export class MatChipHarness extends ContentContainerComponentHarness {
 
   /**
    * Gets the avatar inside a chip.
+   *
+   * 获取纸片内部的头像。
+   *
    * @param filter Optionally filters which avatars are included.
+   *
+   * 可选过滤器，指定包括哪些头像。
+   *
    */
   async getAvatar(filter: ChipAvatarHarnessFilters = {}): Promise<MatChipAvatarHarness | null> {
     return this.locatorForOptional(MatChipAvatarHarness.with(filter))();

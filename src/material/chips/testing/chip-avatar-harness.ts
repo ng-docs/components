@@ -9,15 +9,29 @@
 import {HarnessPredicate, ComponentHarness} from '@angular/cdk/testing';
 import {ChipAvatarHarnessFilters} from './chip-harness-filters';
 
-/** Harness for interacting with a standard Material chip avatar in tests. */
+/**
+ * Harness for interacting with a standard Material chip avatar in tests.
+ *
+ * 在测试中与标准 Material 纸片的头像交互的测试工具。
+ *
+ */
 export class MatChipAvatarHarness extends ComponentHarness {
   static hostSelector = '.mat-chip-avatar';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatChipAvatarHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足特定条件的 `MatChipAvatarHarness` 。
+   *
    * @param options Options for filtering which input instances are considered a match.
+   *
+   * 用于过滤哪些输入实例被视为匹配的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate` 。
+   *
    */
   static with(options: ChipAvatarHarnessFilters = {}): HarnessPredicate<MatChipAvatarHarness> {
     return new HarnessPredicate(MatChipAvatarHarness, options);

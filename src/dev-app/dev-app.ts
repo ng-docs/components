@@ -8,7 +8,12 @@
 
 import {Component, ViewEncapsulation} from '@angular/core';
 
-/** Root component for the dev-app demos. */
+/**
+ * Root component for the dev-app demos.
+ *
+ * 开发应用演示的根组件。
+ *
+ */
 @Component({
   selector: 'dev-app',
   template: '<dev-app-layout><router-outlet></router-outlet></dev-app-layout>',

@@ -14,7 +14,12 @@ import {MatChipRemoveHarness} from './chip-remove-harness';
 import {MatChipOptionHarness} from './chip-option-harness';
 import {MatChipListboxHarness} from './chip-listbox-harness';
 
-/** Shared tests to run on both the original and MDC-based chips. */
+/**
+ * Shared tests to run on both the original and MDC-based chips.
+ *
+ * 在原始纸片和基于 MDC 的纸片上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   chipsModule: typeof MatChipsModule,
   chipListHarness: typeof MatChipListHarness,

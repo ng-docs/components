@@ -8,7 +8,12 @@ import {getSupportedInputTypes} from '@angular/cdk/platform';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatInputHarness} from './input-harness';
 
-/** Shared tests to run on both the original and MDC-based input's. */
+/**
+ * Shared tests to run on both the original and MDC-based input's.
+ *
+ * 在原始输入和基于 MDC 的输入框上运行的共享测试。
+ *
+ */
 export function runInputHarnessTests(
   inputModule: typeof MatInputModule,
   inputHarness: typeof MatInputHarness,

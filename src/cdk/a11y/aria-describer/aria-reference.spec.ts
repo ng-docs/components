@@ -61,6 +61,9 @@ describe('AriaReference', () => {
    * Expects the equal array from getAriaReferenceIds and a space-delimited list from
    * the actual element attribute. If ids is empty, assumes the element should not have any
    * value
+   *
+   * 期望来自 getAriaReferenceIds 的相等数组和来自实际元素属性的空格分隔列表。如果 ids 为空，则假定该元素不应有任何值
+   *
    */
   function expectIds(attr: string, ids: string[]) {
     const value = testElement!.getAttribute(attr);

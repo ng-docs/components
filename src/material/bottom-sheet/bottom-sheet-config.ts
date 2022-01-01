@@ -10,7 +10,12 @@ import {Direction} from '@angular/cdk/bidi';
 import {ScrollStrategy} from '@angular/cdk/overlay';
 import {InjectionToken, ViewContainerRef} from '@angular/core';
 
-/** Options for where to set focus to automatically on dialog open */
+/**
+ * Options for where to set focus to automatically on dialog open
+ *
+ * 用于在对话框打开时自动将焦点设置到何处的选项
+ *
+ */
 export type AutoFocusTarget = 'dialog' | 'first-tabbable' | 'first-heading';
 
 /**
@@ -107,8 +112,14 @@ export class MatBottomSheetConfig<D = any> {
   // rest of the bottom sheet content.
   /**
    * Where the bottom sheet should focus on open.
+   *
+   * 底部工作表打开时应聚焦到的位置。。
+   *
    * @breaking-change 14.0.0 Remove boolean option from autoFocus. Use string or
    * AutoFocusTarget instead.
+   *
+   * 从 autoFocus 中删除布尔选项。请改用字符串或 AutoFocusTarget。
+   *
    */
   autoFocus?: AutoFocusTarget | string | boolean = 'dialog';
 

@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Gets whether the code is currently running in a test environment. */
+/**
+ * Gets whether the code is currently running in a test environment.
+ *
+ * 获取代码当前是否正在测试环境中运行。
+ *
+ */
 export function _isTestEnvironment(): boolean {
   // We can't use `declare const` because it causes conflicts inside Google with the real typings
   // for these symbols and we can't read them off the global object, because they don't appear to

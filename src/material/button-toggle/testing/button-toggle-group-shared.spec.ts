@@ -5,7 +5,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatButtonToggleModule, MatButtonToggleAppearance} from '@angular/material/button-toggle';
 import {MatButtonToggleGroupHarness} from './button-toggle-group-harness';
 
-/** Shared tests to run on both the original and MDC-based button toggle group. */
+/**
+ * Shared tests to run on both the original and MDC-based button toggle group.
+ *
+ * 在原始和基于 MDC 的按钮切换组上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   buttonToggleModule: typeof MatButtonToggleModule,
   buttonToggleGroupHarness: typeof MatButtonToggleGroupHarness,

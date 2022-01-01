@@ -27,7 +27,12 @@ describe('MatTableDataSource', () => {
       dataSource.sort = sort;
     });
 
-    /** Test the data source's `sortData` function. */
+    /**
+     * Test the data source's `sortData` function.
+     *
+     * 测试数据源的 `sortData` 函数。
+     *
+     */
     function testSortWithValues(values: any[]) {
       // The data source and MatSort expect the list to contain objects with values, where
       // the sort should be performed over a particular key.

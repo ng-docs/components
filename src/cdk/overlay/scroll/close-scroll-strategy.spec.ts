@@ -136,6 +136,11 @@ describe('CloseScrollStrategy', () => {
   ));
 });
 
-/** Simple component that we can attach to the overlay. */
+/**
+ * Simple component that we can attach to the overlay.
+ *
+ * 我们可以附加到浮层的简单组件。
+ *
+ */
 @Component({template: '<p>Mozarella</p>'})
 class MozarellaMsg {}

@@ -627,6 +627,9 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
   /**
    * Emits when the table completes rendering a set of data rows based on the latest data from the
    * data source, even if the set of rows is empty.
+   *
+   * 当表格使用来自数据源的最新数据渲染完一组数据行时发出，即使该组行是空的。
+   *
    */
   @Output()
   readonly contentChanged = new EventEmitter<void>();
@@ -1155,7 +1158,7 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
   /**
    * Update the map containing the content's column definitions.
    *
-   * 修改包含内容列定义的地图。
+   * 修改包含内容列定义的映射表。
    *
    */
   private _cacheColumnDefs() {

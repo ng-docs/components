@@ -71,7 +71,11 @@ export interface DirectoryEntry {
  */
 export abstract class FileSystem {
   /**
-   * Checks whether the given file exists. */
+   * Checks whether the given file exists.
+   *
+   * 检查给定的文件是否存在。
+   *
+   */
   abstract fileExists(path: WorkspacePath): boolean;
   /** Checks whether the given directory exists.
    *

@@ -210,7 +210,12 @@ describe('MatBadge', () => {
   });
 });
 
-/** Test component that contains a MatBadge. */
+/**
+ * Test component that contains a MatBadge.
+ *
+ * 包含 MatBadge 的测试组件。
+ *
+ */
 @Component({
   // Explicitly set the view encapsulation since we have a test that checks for it.
   encapsulation: ViewEncapsulation.Emulated,

@@ -13,12 +13,22 @@ import {Subject} from 'rxjs';
 })
 export class MdcFormFieldCustomControlExample {}
 
-/** Data structure for holding telephone number. */
+/**
+ * Data structure for holding telephone number.
+ *
+ * 保存电话号码的数据结构。
+ *
+ */
 export class MyTel {
   constructor(public area: string, public exchange: string, public subscriber: string) {}
 }
 
-/** Custom `MatFormFieldControl` for telephone number input. */
+/**
+ * Custom `MatFormFieldControl` for telephone number input.
+ *
+ * 用于电话号码输入的自定义 `MatFormFieldControl` 。
+ *
+ */
 @Component({
   selector: 'example-tel-input',
   templateUrl: 'example-tel-input-example.html',

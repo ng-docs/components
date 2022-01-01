@@ -9,7 +9,12 @@ import {MatSelectModule} from '@angular/material/select';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectHarness} from './select-harness';
 
-/** Shared tests to run on both the original and MDC-based select. */
+/**
+ * Shared tests to run on both the original and MDC-based select.
+ *
+ * 在原始和基于 MDC 的选择上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   formFieldModule: typeof MatFormFieldModule,
   selectModule: typeof MatSelectModule,

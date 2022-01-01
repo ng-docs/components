@@ -121,6 +121,9 @@ export class MatSortHeader
   /**
    * The element with role="button" inside this component's view. We need this
    * in order to apply a description with AriaDescriber.
+   *
+   * 此组件视图中具有 role="button" 的元素。我们需要它来应用 AriaDescriber 的描述。
+   *
    */
   private _sortButton: HTMLElement;
 
@@ -188,6 +191,9 @@ export class MatSortHeader
   /**
    * Description applied to MatSortHeader's button element with aria-describedby. This text should
    * describe the action that will occur when the user clicks the sort header.
+   *
+   * 描述应用于 MatSortHeader 的按钮元素，带有 aria-describedby。此文本应描述用户单击排序标题时将发生的操作。
+   *
    */
   @Input()
   get sortActionDescription(): string {

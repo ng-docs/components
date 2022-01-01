@@ -708,7 +708,13 @@ class RangeCalendarBody {
 
 /**
  * Creates a 2d array of days, split into weeks.
+ *
+ * 创建一个二维数组，拆分成几个星期。
+ *
  * @param weeks Number of weeks that should be generated.
+ *
+ * 应生成的周数。
+ *
  */
 function createCalendarCells(weeks: number): MatCalendarCell[][] {
   const rows: number[][] = [];

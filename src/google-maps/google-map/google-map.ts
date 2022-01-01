@@ -145,13 +145,21 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
   }
   private _options = DEFAULT_OPTIONS;
 
-  /** Event emitted when the map is initialized. */
+  /**
+   * Event emitted when the map is initialized.
+   *
+   * 地图初始化时发出的事件。
+   *
+   */
   @Output() readonly mapInitialized: EventEmitter<google.maps.Map> =
     new EventEmitter<google.maps.Map>();
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/events#auth-errors
+   * <https://developers.google.com/maps/documentation/javascript/events#auth-errors>
+   *
+   * 请参阅<https://developers.google.com/maps/documentation/javascript/events#auth-errors>
+   *
    */
   @Output() readonly authFailure: EventEmitter<void> = new EventEmitter<void>();
 

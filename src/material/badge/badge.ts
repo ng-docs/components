@@ -179,10 +179,20 @@ export class MatBadge extends _MatBadgeBase implements OnInit, OnDestroy, CanDis
    */
   _id: number = nextId++;
 
-  /** Visible badge element. */
+  /**
+   * Visible badge element.
+   *
+   * 可见的徽章元素。
+   *
+   */
   private _badgeElement: HTMLElement | undefined;
 
-  /** Whether the OnInit lifecycle hook has run yet */
+  /**
+   * Whether the OnInit lifecycle hook has run yet
+   *
+   * OnInit 生命周期钩子是否已经运行
+   *
+   */
   private _isInitialized = false;
 
   constructor(
@@ -225,6 +235,9 @@ export class MatBadge extends _MatBadgeBase implements OnInit, OnDestroy, CanDis
   /**
    * Gets the element into which the badge's content is being rendered. Undefined if the element
    * hasn't been created (e.g. if the badge doesn't have content).
+   *
+   * 获取要在其中渲染徽章内容的元素。如果该元素尚未创建（例如，如果徽章没有内容），则为 undefined。
+   *
    */
   getBadgeElement(): HTMLElement | undefined {
     return this._badgeElement;
@@ -291,7 +304,12 @@ export class MatBadge extends _MatBadgeBase implements OnInit, OnDestroy, CanDis
     return badgeElement;
   }
 
-  /** Update the text content of the badge element in the DOM, creating the element if necessary. */
+  /**
+   * Update the text content of the badge element in the DOM, creating the element if necessary.
+   *
+   * 更新 DOM 中徽章元素的文本内容，必要时创建该元素。
+   *
+   */
   private _updateRenderedContent(newContent: string | number | undefined | null): void {
     const newContentNormalized: string = `${newContent ?? ''}`.trim();
 
@@ -309,7 +327,12 @@ export class MatBadge extends _MatBadgeBase implements OnInit, OnDestroy, CanDis
     this._content = newContentNormalized;
   }
 
-  /** Updates the host element's aria description via AriaDescriber. */
+  /**
+   * Updates the host element's aria description via AriaDescriber.
+   *
+   * 通过 AriaDescriber 更新宿主元素的 aria 描述。
+   *
+   */
   private _updateHostAriaDescription(newDescription: string): void {
     this._ariaDescriber.removeDescription(this._elementRef.nativeElement, this.description);
     if (newDescription) {

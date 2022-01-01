@@ -40,7 +40,12 @@ export class StepperDemo implements OnInit {
 
   theme = this.availableThemes[0].value;
 
-  /** Returns a FormArray with the name 'formArray'. */
+  /**
+   * Returns a FormArray with the name 'formArray'.
+   *
+   * 返回一个名为“formArray”的 FormArray。
+   *
+   */
   get formArray(): AbstractControl | null {
     return this.formGroup.get('formArray');
   }

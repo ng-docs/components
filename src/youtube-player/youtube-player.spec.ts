@@ -493,7 +493,12 @@ describe('YoutubePlayer', () => {
   });
 });
 
-/** Test component that contains a YouTubePlayer. */
+/**
+ * Test component that contains a YouTubePlayer.
+ *
+ * 包含 YouTubePlayer 的测试组件。
+ *
+ */
 @Component({
   selector: 'test-app',
   template: `

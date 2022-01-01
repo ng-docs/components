@@ -204,13 +204,13 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
    * Configures the place into which the preview of the item will be inserted. Can be configured
    * globally through `CDK_DROP_LIST`. Possible values:
    *
-   * 配置项目预览的插入位置。可以通过 `CDK_DROP_LIST` 进行全局配置。可能的值有：
+   * 配置条目预览的插入位置。可以通过 `CDK_DROP_LIST` 进行全局配置。可能的值有：
    *
    * - `global` - Preview will be inserted at the bottom of the `<body>`. The advantage is that
    *   you don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain
    *   its inherited styles.
    *
-   *   `global` —— 预览将插入在 `<body>` 的底部。其优点是你不必担心 `overflow: hidden` 或 `z-index`，但项目不会保留它继承的样式。
+   *   `global` —— 预览将插入在 `<body>` 的底部。其优点是你不必担心 `overflow: hidden` 或 `z-index`，但条目不会保留它继承的样式。
    *
    * - `parent` - Preview will be inserted into the parent of the drag item. The advantage is that
    *   inherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be
@@ -692,7 +692,12 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
     }
   }
 
-  /** Sets up the listener that syncs the handles with the drag ref. */
+  /**
+   * Sets up the listener that syncs the handles with the drag ref.
+   *
+   * 设置将拖动抓手与拖动引用同步的侦听器。
+   *
+   */
   private _setupHandlesListener() {
     // Listen for any newly-added handles.
     this._handles.changes

@@ -8,7 +8,12 @@
 
 import {Component, ViewEncapsulation} from '@angular/core';
 
-/** Root component for the e2e-app demos. */
+/**
+ * Root component for the e2e-app demos.
+ *
+ * e2e-app 演示的根组件。
+ *
+ */
 @Component({
   selector: 'e2e-app',
   template: '<e2e-app-layout><router-outlet></router-outlet></e2e-app-layout>',

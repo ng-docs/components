@@ -13,13 +13,33 @@ import {AbstractConstructor, Constructor} from './constructor';
 
 /** @docs-private */
 export interface CanUpdateErrorState {
-  /** Emits whenever the component state changes. */
+  /**
+   * Emits whenever the component state changes.
+   *
+   * 每当组件状态改变时发出事件。
+   *
+   */
   readonly stateChanges: Subject<void>;
-  /** Updates the error state based on the provided error state matcher. */
+  /**
+   * Updates the error state based on the provided error state matcher.
+   *
+   * 根据所提供的错误状态匹配器更新错误状态。
+   *
+   */
   updateErrorState(): void;
-  /** Whether the component is in an error state. */
+  /**
+   * Whether the component is in an error state.
+   *
+   * 组件是否处于错误状态下。
+   *
+   */
   errorState: boolean;
-  /** An object used to control the error state of the component. */
+  /**
+   * An object used to control the error state of the component.
+   *
+   * 用于控制组件错误状态的对象。
+   *
+   */
   errorStateMatcher: ErrorStateMatcher;
 }
 
@@ -52,7 +72,12 @@ export function mixinErrorState<T extends Constructor<HasErrorState>>(
     // a public `stateChanges` observable to emit whenever the form field should be updated.
     // The description is not specifically mentioning the error state, as classes using this
     // mixin can/should emit an event in other cases too.
-    /** Emits whenever the component state changes. */
+    /**
+     * Emits whenever the component state changes.
+     *
+     * 每当组件状态改变时发出。
+     *
+     */
     readonly stateChanges = new Subject<void>();
 
     /**
@@ -63,10 +88,20 @@ export function mixinErrorState<T extends Constructor<HasErrorState>>(
      */
     errorState: boolean = false;
 
-    /** An object used to control the error state of the component. */
+    /**
+     * An object used to control the error state of the component.
+     *
+     * 用于控制组件错误状态的对象。
+     *
+     */
     errorStateMatcher: ErrorStateMatcher;
 
-    /** Updates the error state based on the provided error state matcher. */
+    /**
+     * Updates the error state based on the provided error state matcher.
+     *
+     * 根据所提供的错误状态匹配器更新错误状态。
+     *
+     */
     updateErrorState() {
       const oldState = this.errorState;
       const parent = this._parentFormGroup || this._parentForm;

@@ -20,7 +20,12 @@ import {
   symbolRemoval,
 } from './data';
 
-/** Upgrade data that will be used for the Angular Material ng-update schematic. */
+/**
+ * Upgrade data that will be used for the Angular Material ng-update schematic.
+ *
+ * 将用于 Angular Material ng-update 原理图的升级数据。
+ *
+ */
 export const materialUpgradeData: UpgradeData = {
   attributeSelectors,
   classNames,

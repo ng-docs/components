@@ -26,7 +26,12 @@ import {
   parse,
 } from 'date-fns';
 
-/** Creates an array and fills it with values. */
+/**
+ * Creates an array and fills it with values.
+ *
+ * 创建一个数组并用一些值填充它。
+ *
+ */
 function range<T>(length: number, valueFunction: (index: number) => T): T[] {
   const valuesArray = Array(length);
   for (let i = 0; i < length; i++) {
@@ -49,7 +54,12 @@ const DAY_OF_WEEK_FORMATS = {
   narrow: 'EEEEE',
 };
 
-/** Adds date-fns support to Angular Material. */
+/**
+ * Adds date-fns support to Angular Material.
+ *
+ * 将 date-fns 的支持添加到 Angular Material。
+ *
+ */
 @Injectable()
 export class DateFnsAdapter extends DateAdapter<Date, Locale> {
   constructor(@Optional() @Inject(MAT_DATE_LOCALE) matDateLocale: {}) {
@@ -213,6 +223,9 @@ export class DateFnsAdapter extends DateAdapter<Date, Locale> {
    * Returns the given value if given a valid Date or null. Deserializes valid ISO 8601 strings
    * (https://www.ietf.org/rfc/rfc3339.txt) into valid Dates and empty string into null. Returns an
    * invalid date for all other values.
+   *
+   * 如果给定有效日期或 null，则返回给定值。将有效的 ISO 8601 字符串 ( <https://www.ietf.org/rfc/rfc3339.txt> ) 反序列化为有效日期并将空字符串反序列化为 null。对所有其他值返回无效日期。
+   *
    */
   override deserialize(value: any): Date | null {
     if (typeof value === 'string') {

@@ -9,6 +9,9 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 /**
  * Function that can be used to run the shared autocomplete harness tests for either the non-MDC or
  * MDC based autocomplete harness.
+ *
+ * 可用于为非 MDC 或基于 MDC 的自动完成工具运行共享自动完成工具测试的函数。
+ *
  */
 export function runHarnessTests(
   autocompleteModule: typeof MatAutocompleteModule,

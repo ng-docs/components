@@ -10,14 +10,24 @@ import {ContentContainerComponentHarness, HarnessPredicate, TestKey} from '@angu
 import {DialogRole} from '@angular/material/dialog';
 import {DialogHarnessFilters} from './dialog-harness-filters';
 
-/** Selectors for different sections of the mat-dialog that can contain user content. */
+/**
+ * Selectors for different sections of the mat-dialog that can contain user content.
+ *
+ * 针对包含用户内容的 mat-dialog 不同部分的选择器。
+ *
+ */
 export const enum MatDialogSection {
   TITLE = '.mat-dialog-title',
   CONTENT = '.mat-dialog-content',
   ACTIONS = '.mat-dialog-actions',
 }
 
-/** Base class for the `MatDialogHarness` implementation. */
+/**
+ * Base class for the `MatDialogHarness` implementation.
+ *
+ * `MatDialogHarness` 实现的基类。
+ *
+ */
 export class _MatDialogHarnessBase
   // @breaking-change 14.0.0 change generic type to MatDialogSection.
   extends ContentContainerComponentHarness<MatDialogSection | string>
@@ -93,39 +103,78 @@ export class _MatDialogHarnessBase
     await (await this.host()).sendKeys(TestKey.ESCAPE);
   }
 
-  /** Gets te dialog's text. */
+  /**
+   * Gets te dialog's text.
+   *
+   * 获取对话框的文本。
+   *
+   */
   async getText() {
     return (await this.host()).text();
   }
 
-  /** Gets the dialog's title text. This only works if the dialog is using mat-dialog-title. */
+  /**
+   * Gets the dialog's title text. This only works if the dialog is using mat-dialog-title.
+   *
+   * 获取对话框的标题文本。这仅在对话框使用 mat-dialog-title 时才有效。
+   *
+   */
   async getTitleText() {
     return (await this._title())?.text() ?? '';
   }
 
-  /** Gets the dialog's content text. This only works if the dialog is using mat-dialog-content. */
+  /**
+   * Gets the dialog's content text. This only works if the dialog is using mat-dialog-content.
+   *
+   * 获取对话框的内容文本。这仅在对话框使用 mat-dialog-content 时才有效。
+   *
+   */
   async getContentText() {
     return (await this._content())?.text() ?? '';
   }
 
-  /** Gets the dialog's actions text. This only works if the dialog is using mat-dialog-actions. */
+  /**
+   * Gets the dialog's actions text. This only works if the dialog is using mat-dialog-actions.
+   *
+   * 获取对话框的操作文本。这仅在对话框使用 mat-dialog-actions 时才有效。
+   *
+   */
   async getActionsText() {
     return (await this._actions())?.text() ?? '';
   }
 }
 
-/** Harness for interacting with a standard `MatDialog` in tests. */
+/**
+ * Harness for interacting with a standard `MatDialog` in tests.
+ *
+ * 用于在测试中与标准 `MatDialog` 交互的工具。
+ *
+ */
 export class MatDialogHarness extends _MatDialogHarnessBase {
   // Developers can provide a custom component or template for the
   // dialog. The canonical dialog parent is the "MatDialogContainer".
-  /** The selector for the host element of a `MatDialog` instance. */
+  /**
+   * The selector for the host element of a `MatDialog` instance.
+   *
+   * `MatDialog` 实例的宿主元素的选择器。
+   *
+   */
   static hostSelector = '.mat-dialog-container';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatDialogHarness` that meets
    * certain criteria.
+   *
+   * 获取可用于搜索满足特定条件的 `HarnessPredicate` 的 `MatDialogHarness` 。
+   *
    * @param options Options for filtering which dialog instances are considered a match.
+   *
+   * 用于过滤哪些对话框实例应该视为匹配的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置的 `HarnessPredicate` 。
+   *
    */
   static with(options: DialogHarnessFilters = {}): HarnessPredicate<MatDialogHarness> {
     return new HarnessPredicate(MatDialogHarness, options);

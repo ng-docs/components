@@ -30,13 +30,28 @@ import {join} from 'path';
 import {Schema} from '../schema';
 import {createCustomTheme} from './create-custom-theme';
 
-/** Path segment that can be found in paths that refer to a prebuilt theme. */
+/**
+ * Path segment that can be found in paths that refer to a prebuilt theme.
+ *
+ * 可以在引用预构建主题的路径中找到的路径段。
+ *
+ */
 const prebuiltThemePathSegment = '@angular/material/prebuilt-themes';
 
-/** Default file name of the custom theme that can be generated. */
+/**
+ * Default file name of the custom theme that can be generated.
+ *
+ * 可以生成的自定义主题的默认文件名。
+ *
+ */
 const defaultCustomThemeFilename = 'custom-theme.scss';
 
-/** Add pre-built styles to the main project style file. */
+/**
+ * Add pre-built styles to the main project style file.
+ *
+ * 将预构建的样式添加到主项目样式文件。
+ *
+ */
 export function addThemeToAppStyles(options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
     const themeName = options.theme || 'indigo-pink';
@@ -46,7 +61,12 @@ export function addThemeToAppStyles(options: Schema): Rule {
   };
 }
 
-/** Adds the global typography class to the body element. */
+/**
+ * Adds the global typography class to the body element.
+ *
+ * 将全局排版类添加到 body 元素。
+ *
+ */
 export function addTypographyClass(options: Schema): Rule {
   return async (host: Tree) => {
     const workspace = await getWorkspace(host);
@@ -66,6 +86,9 @@ export function addTypographyClass(options: Schema): Rule {
 /**
  * Insert a custom theme to project style file. If no valid style file could be found, a new
  * Scss file for the custom theme will be created.
+ *
+ * 将自定义主题插入到项目样式文件中。如果找不到有效的样式文件，则会为自定义主题创建一个新的 Scss 文件。
+ *
  */
 async function insertCustomTheme(
   projectName: string,
@@ -107,7 +130,12 @@ async function insertCustomTheme(
   return noop();
 }
 
-/** Insert a pre-built theme into the angular.json file. */
+/**
+ * Insert a pre-built theme into the angular.json file.
+ *
+ * 将预先构建的主题插入 angular.json 文件。
+ *
+ */
 function insertPrebuiltTheme(project: string, theme: string, logger: logging.LoggerApi): Rule {
   // Path needs to be always relative to the `package.json` or workspace root.
   const themePath = `./node_modules/@angular/material/prebuilt-themes/${theme}.css`;
@@ -118,7 +146,12 @@ function insertPrebuiltTheme(project: string, theme: string, logger: logging.Log
   ]);
 }
 
-/** Adds a theming style entry to the given project target options. */
+/**
+ * Adds a theming style entry to the given project target options.
+ *
+ * 将主题样式条目添加到给定的项目目标选项。
+ *
+ */
 function addThemeStyleToTarget(
   projectName: string,
   targetName: 'test' | 'build',
@@ -173,6 +206,9 @@ function addThemeStyleToTarget(
  * Validates that the specified project target is configured with the default builders which are
  * provided by the Angular CLI. If the configured builder does not match the default builder,
  * this function can either throw or just show a warning.
+ *
+ * 验证指定的项目目标是否配置了 Angular CLI 提供的默认构建器。如果配置的构建器与默认构建器不匹配，则此函数可以抛出或仅显示警告。
+ *
  */
 function validateDefaultTargetBuilder(
   project: ProjectDefinition,

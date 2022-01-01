@@ -108,7 +108,12 @@ export class MatCommonModule {
     }
   }
 
-  /** Gets whether a specific sanity check is enabled. */
+  /**
+   * Gets whether a specific sanity check is enabled.
+   *
+   * 获取是否启用了特定的健全性检查。
+   *
+   */
   private _checkIsEnabled(name: keyof GranularSanityChecks): boolean {
     if (_isTestEnvironment()) {
       return false;
@@ -122,7 +127,12 @@ export class MatCommonModule {
   }
 }
 
-/** Checks that the page has a doctype. */
+/**
+ * Checks that the page has a doctype.
+ *
+ * 检查本页面是否有 doctype。
+ *
+ */
 function _checkDoctypeIsDefined(doc: Document): void {
   if (!doc.doctype) {
     console.warn(
@@ -132,7 +142,12 @@ function _checkDoctypeIsDefined(doc: Document): void {
   }
 }
 
-/** Checks that a theme has been included. */
+/**
+ * Checks that a theme has been included.
+ *
+ * 检查是否已包含主题。
+ *
+ */
 function _checkThemeIsPresent(doc: Document): void {
   // We need to assert that the `body` is defined, because these checks run very early
   // and the `body` won't be defined if the consumer put their scripts in the `head`.

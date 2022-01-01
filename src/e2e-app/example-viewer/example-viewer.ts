@@ -9,7 +9,12 @@
 import {loadExample} from '@angular/components-examples/private';
 import {Component, Injector, Input, OnInit, ViewContainerRef} from '@angular/core';
 
-/** Loads an example component from `@angular/components-examples` */
+/**
+ * Loads an example component from `@angular/components-examples`
+ *
+ * 从 `@angular/components-examples` 加载一个示例组件
+ *
+ */
 @Component({
   selector: 'example-viewer',
   template: `
@@ -19,7 +24,12 @@ import {Component, Injector, Input, OnInit, ViewContainerRef} from '@angular/cor
   `,
 })
 export class ExampleViewer implements OnInit {
-  /** ID of the material example to display. */
+  /**
+   * ID of the material example to display.
+   *
+   * 要显示的 material 示例的 ID。
+   *
+   */
   @Input() id: string;
 
   constructor(private _injector: Injector, private _viewContainerRef: ViewContainerRef) {}

@@ -21,18 +21,39 @@ import {addFontsToIndex} from './fonts/material-fonts';
 import {Schema} from './schema';
 import {addThemeToAppStyles, addTypographyClass} from './theming/theming';
 
-/** Name of the Angular module that enables Angular browser animations. */
+/**
+ * Name of the Angular module that enables Angular browser animations.
+ *
+ * 用来启用 Angular 浏览器动画的 Angular 模块的名称。
+ *
+ */
 const browserAnimationsModuleName = 'BrowserAnimationsModule';
 
-/** Name of the module that switches Angular animations to a noop implementation. */
+/**
+ * Name of the module that switches Angular animations to a noop implementation.
+ *
+ * 将 Angular 动画切换到 noop 实现的模块的名称。
+ *
+ */
 const noopAnimationsModuleName = 'NoopAnimationsModule';
 
 /**
  * Scaffolds the basics of a Angular Material application, this includes:
  *
+ * Angular Material 应用程序脚手架的基础步骤，包括：
+ *
  * - Add Packages to package.json
+ *
+ *   将包添加到 package.json
+ *
  * - Adds pre-built themes to styles.ext
+ *
+ *   将预先构建的主题添加到 styles.ext
+ *
  * - Adds Browser Animation to app.module
+ *
+ *   将浏览器动画添加到 app.module
+ *
  */
 export default function (options: Schema): Rule {
   return async (host: Tree, context: SchematicContext) => {
@@ -62,6 +83,9 @@ export default function (options: Schema): Rule {
  * Adds an animation module to the root module of the specified project. In case the "animations"
  * option is set to false, we still add the `NoopAnimationsModule` because otherwise various
  * components of Angular Material will throw an exception.
+ *
+ * 将动画模块添加到指定项目的根模块。如果 “animations” 选项设置为 false，我们仍然要添加 `NoopAnimationsModule` ，否则 Angular Material 的各个组件都会抛出异常。
+ *
  */
 function addAnimationsModule(options: Schema) {
   return async (host: Tree, context: SchematicContext) => {
@@ -105,6 +129,9 @@ function addAnimationsModule(options: Schema) {
 /**
  * Adds custom Material styles to the project style file. The custom CSS sets up the Roboto font
  * and reset the default browser body margin.
+ *
+ * 将自定义 Material 样式添加到项目样式文件。自定义 CSS 会设置 Roboto 字体并重置默认浏览器正文边距。
+ *
  */
 function addMaterialAppStyles(options: Schema) {
   return async (host: Tree, context: SchematicContext) => {

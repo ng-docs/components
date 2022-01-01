@@ -56,7 +56,12 @@ export type FlexibleConnectedPositionStrategyOrigin =
       height?: number;
     });
 
-/** Equivalent of `ClientRect` without some of the properties we don't care about. */
+/**
+ * Equivalent of `ClientRect` without some of the properties we don't care about.
+ *
+ * 相当于 `ClientRect`，但没有我们不关心的一些属性。
+ *
+ */
 type Dimensions = Omit<ClientRect, 'x' | 'y' | 'toJSON'>;
 
 /**
@@ -346,7 +351,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * Updates the position of the overlay element, using whichever preferred position relative
    * to the origin best fits on-screen.
    *
-   * 使用相对于屏幕最适合原点的首选位置来更新叠加元素的位置。
+   * 使用相对于屏幕最适合原点的首选位置来更新浮层元素的位置。
    *
    * The selection of a position goes as follows:
    *

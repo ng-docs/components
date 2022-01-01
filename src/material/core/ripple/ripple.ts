@@ -281,10 +281,19 @@ export class MatRipple implements OnInit, OnDestroy, RippleTarget {
 
   /**
    * Launches a manual ripple at the specified coordinates relative to the viewport.
+   *
+   * 在相对于视口的指定坐标处手动启动涟漪。
+   *
    * @param x Coordinate along the X axis at which to fade-in the ripple. Coordinate
    *   should be relative to the viewport.
+   *
+   * 涟漪淡入时沿 X 轴的坐标。此坐标相对于视口。
+   *
    * @param y Coordinate along the Y axis at which to fade-in the ripple. Coordinate
    *   should be relative to the viewport.
+   *
+   * 涟漪淡入时沿 Y 轴的坐标。此坐标相对于视口。
+   *
    * @param config Optional ripple configuration for the manual ripple.
    *
    * 手动涟漪的可选涟漪配置。

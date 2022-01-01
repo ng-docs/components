@@ -11,7 +11,12 @@ import {ResolvedResource} from '../../../update-tool/component-resource-collecto
 import {TargetVersion} from '../../../update-tool/target-version';
 import {DevkitMigration} from '../../devkit-migration';
 
-/** Migration that removes tilde symbols from imports. */
+/**
+ * Migration that removes tilde symbols from imports.
+ *
+ * 从导入中删除波浪号的迁移。
+ *
+ */
 export class TildeImportMigration extends DevkitMigration<null> {
   enabled = this.targetVersion === TargetVersion.V13;
 

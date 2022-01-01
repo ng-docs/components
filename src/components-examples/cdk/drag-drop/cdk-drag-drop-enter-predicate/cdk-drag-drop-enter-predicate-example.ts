@@ -26,12 +26,22 @@ export class CdkDragDropEnterPredicateExample {
     }
   }
 
-  /** Predicate function that only allows even numbers to be dropped into a list. */
+  /**
+   * Predicate function that only allows even numbers to be dropped into a list.
+   *
+   * 仅允许将偶数放入列表的谓词函数。
+   *
+   */
   evenPredicate(item: CdkDrag<number>) {
     return item.data % 2 === 0;
   }
 
-  /** Predicate function that doesn't allow items to be dropped into a list. */
+  /**
+   * Predicate function that doesn't allow items to be dropped into a list.
+   *
+   * 不允许将条目放入列表的谓词函数。
+   *
+   */
   noReturnPredicate() {
     return false;
   }

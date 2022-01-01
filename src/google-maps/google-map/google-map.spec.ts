@@ -6,7 +6,12 @@ import {GoogleMapsModule} from '../google-maps-module';
 import {createMapConstructorSpy, createMapSpy} from '../testing/fake-google-map-utils';
 import {DEFAULT_HEIGHT, DEFAULT_OPTIONS, DEFAULT_WIDTH, GoogleMap} from './google-map';
 
-/** Represents boundaries of a map to be used in tests. */
+/**
+ * Represents boundaries of a map to be used in tests.
+ *
+ * 表示要在测试中使用的地图的边界。
+ *
+ */
 const testBounds: google.maps.LatLngBoundsLiteral = {
   east: 12,
   north: 13,
@@ -14,7 +19,12 @@ const testBounds: google.maps.LatLngBoundsLiteral = {
   west: 15,
 };
 
-/** Represents a latitude/longitude position to be used in tests. */
+/**
+ * Represents a latitude/longitude position to be used in tests.
+ *
+ * 表示要在测试中使用的纬度/经度位置。
+ *
+ */
 const testPosition: google.maps.LatLngLiteral = {
   lat: 30,
   lng: 35,

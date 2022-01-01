@@ -349,7 +349,12 @@ describe('Overlay', () => {
   }));
 
   it('should be able to use the `Overlay` provider during app initialization', () => {
-    /** Dummy provider that depends on `Overlay`. */
+    /**
+     * Dummy provider that depends on `Overlay`.
+     *
+     * 依赖 `Overlay` 的虚拟提供者。
+     *
+     */
     @Injectable()
     class CustomErrorHandler extends ErrorHandler {
       constructor(private _overlay: Overlay) {
@@ -1065,14 +1070,24 @@ describe('Overlay', () => {
   });
 });
 
-/** Simple component for testing ComponentPortal. */
+/**
+ * Simple component for testing ComponentPortal.
+ *
+ * 用于测试 ComponentPortal 的简单组件。
+ *
+ */
 @Component({
   selector: 'pizza',
   template: '<p>Pizza</p>',
 })
 class PizzaMsg {}
 
-/** Test-bed component that contains a TempatePortal and an ElementRef. */
+/**
+ * Test-bed component that contains a TempatePortal and an ElementRef.
+ *
+ * 包含 TempatePortal 和 ElementRef 的测试平台组件。
+ *
+ */
 @Component({template: `<ng-template cdk-portal>Cake</ng-template>`})
 class TestComponentWithTemplatePortals {
   @ViewChild(CdkPortal) templatePortal: CdkPortal;

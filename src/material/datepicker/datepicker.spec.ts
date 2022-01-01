@@ -2316,6 +2316,9 @@ describe('MatDatepicker', () => {
  * browsers. e.g. in Firefox the input width is uneven, causing unexpected deviations in measuring.
  * Note: The input should be able to shrink as on iOS the viewport width is very little but the
  * datepicker inputs should not leave the viewport (as that throws off measuring too).
+ *
+ * 将输入元素设置为固定宽度的样式。这有助于 client rect 的测量（即日期选择器正确对齐）。输入框在不同的浏览器中具有不同的维度。例如，在 Firefox 中，输入宽度不均匀，会导致测量出现意外偏差。注意：输入应该能够缩小，因为在 iOS 上，视口宽度很小，但日期选择器输入框不应该离开视口（因为这也会影响测量）。
+ *
  */
 const inputFixedWidthStyles = `
   input {

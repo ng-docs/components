@@ -8,7 +8,12 @@
 
 import {ModifierKeys} from '@angular/cdk/testing';
 
-/** Used to generate unique IDs for events. */
+/**
+ * Used to generate unique IDs for events.
+ *
+ * 用于为事件生成唯一 ID。
+ *
+ */
 let uniqueIds = 0;
 
 /**

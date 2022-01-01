@@ -12,6 +12,9 @@ import * as ts from 'typescript';
 /**
  * Migration that walks through every property access expression and and reports a failure if
  * a given property name no longer exists but cannot be automatically migrated.
+ *
+ * 遍历每个属性访问表达式并在给定属性名称不再存在但无法自动迁移时报告失败的迁移。
+ *
  */
 export class MiscPropertyNamesMigration extends Migration<null> {
   // Only enable this rule if the migration targets version 6. The rule

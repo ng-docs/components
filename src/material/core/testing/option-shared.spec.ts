@@ -10,7 +10,12 @@ import {
 } from '@angular/material/core';
 import {MatOptionHarness} from './option-harness';
 
-/** Shared tests to run on both the original and MDC-based options. */
+/**
+ * Shared tests to run on both the original and MDC-based options.
+ *
+ * 在原始选项和基于 MDC 的选项上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   optionModule: typeof MatOptionModule,
   optionHarness: typeof MatOptionHarness,

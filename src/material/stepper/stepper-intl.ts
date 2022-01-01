@@ -34,10 +34,20 @@ export class MatStepperIntl {
    */
   optionalLabel: string = 'Optional';
 
-  /** Label that is used to indicate step as completed to screen readers. */
+  /**
+   * Label that is used to indicate step as completed to screen readers.
+   *
+   * 用于向屏幕阅读器指示步骤已完成的标签。
+   *
+   */
   completedLabel: string = 'Completed';
 
-  /** Label that is used to indicate step as editable to screen readers. */
+  /**
+   * Label that is used to indicate step as editable to screen readers.
+   *
+   * 用于指示步骤对屏幕阅读器是可编辑的标签。
+   *
+   */
   editableLabel: string = 'Editable';
 }
 

@@ -244,7 +244,13 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
   /**
    * Focuses the provided element. If the element is not focusable, it will add a tabIndex
    * attribute to forcefully focus it. The attribute is removed after focus is moved.
+   *
+   * 聚焦所提供的元素。如果该元素不可聚焦，它将添加一个 tabIndex 属性来强制聚焦它。移动焦点后移除该属性。
+   *
    * @param element The element to focus.
+   *
+   * 要聚焦的元素。
+   *
    */
   private _forceFocus(element: HTMLElement, options?: FocusOptions) {
     if (!this._interactivityChecker.isFocusable(element)) {
@@ -260,7 +266,13 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
 
   /**
    * Focuses the first element that matches the given selector within the focus trap.
+   *
+   * 聚焦在与焦点陷阱中的给定选择器匹配的第一个元素。
+   *
    * @param selector The CSS selector for the element to set focus to.
+   *
+   * 要设置焦点的元素的 CSS 选择器。
+   *
    */
   private _focusByCssSelector(selector: string, options?: FocusOptions) {
     let elementToFocus = this._elementRef.nativeElement.querySelector(
@@ -274,6 +286,8 @@ export abstract class _MatDialogContainerBase extends BasePortalOutlet {
   /**
    * Moves the focus inside the focus trap. When autoFocus is not set to 'dialog', if focus
    * cannot be moved then focus will go to the dialog container.
+   *
+   * 在焦点陷阱内移动焦点。当 autoFocus 未设置为 'dialog' 时，如果无法移动焦点，则焦点将转到对话框容器。
    *
    */
   protected _trapFocus() {

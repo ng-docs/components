@@ -122,6 +122,9 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
   /**
    * Whether rendered items should persist in the DOM after scrolling out of view. By default, items
    * will be removed.
+   *
+   * 滚动出视图后，渲染的条目是否应该保留在 DOM 中。默认情况下，条目将被删除。
+   *
    */
   @Input()
   get appendOnly(): boolean {

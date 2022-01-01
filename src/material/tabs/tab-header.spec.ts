@@ -491,8 +491,17 @@ describe('MatTabHeader', () => {
 
       /**
        * Asserts that auto scrolling using the next button works.
+       *
+       * 断言使用“下一个”按钮进行自动滚动是有效的。
+       *
        * @param startEventName Name of the event that is supposed to start the scrolling.
+       *
+       * 用于开始滚动的事件的名称。
+       *
        * @param endEventName Name of the event that is supposed to end the scrolling.
+       *
+       * 用于结束滚动的事件的名称。
+       *
        */
       function assertNextButtonScrolling(startEventName: string, endEventName: string) {
         expect(header.scrollDistance).withContext('Expected to start off not scrolled.').toBe(0);
@@ -524,8 +533,17 @@ describe('MatTabHeader', () => {
 
       /**
        * Asserts that auto scrolling using the previous button works.
+       *
+       * 断言使用“上一个”按钮进行自动滚动是有效的。
+       *
        * @param startEventName Name of the event that is supposed to start the scrolling.
+       *
+       * 用于开始滚动的事件的名称。
+       *
        * @param endEventName Name of the event that is supposed to end the scrolling.
+       *
+       * 用于结束滚动的事件的名称。
+       *
        */
       function assertPrevButtonScrolling(startEventName: string, endEventName: string) {
         header.scrollDistance = Infinity;

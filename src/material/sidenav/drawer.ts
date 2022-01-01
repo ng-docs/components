@@ -67,7 +67,12 @@ export function throwMatDuplicatedDrawerError(position: string) {
   throw Error(`A drawer was already declared for 'position="${position}"'`);
 }
 
-/** Options for where to set focus to automatically on dialog open */
+/**
+ * Options for where to set focus to automatically on dialog open
+ *
+ * 用于在对话框打开时自动将焦点设置到何处的选项
+ *
+ */
 export type AutoFocusTarget = 'dialog' | 'first-tabbable' | 'first-heading';
 
 /**
@@ -243,6 +248,9 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
    *
    * @breaking-change 14.0.0 Remove boolean option from autoFocus. Use string or AutoFocusTarget
    * instead.
+   *
+   * 从 autoFocus 中删除布尔选项。请改用字符串或 AutoFocusTarget。
+   *
    */
   @Input()
   get autoFocus(): AutoFocusTarget | string | boolean {
@@ -470,7 +478,13 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
   /**
    * Focuses the provided element. If the element is not focusable, it will add a tabIndex
    * attribute to forcefully focus it. The attribute is removed after focus is moved.
+   *
+   * 聚焦所提供的元素。如果元素不可聚焦，它将添加一个 tabIndex 属性来强制聚焦它。移动焦点后移除该属性。
+   *
    * @param element The element to focus.
+   *
+   * 要聚焦的元素。
+   *
    */
   private _forceFocus(element: HTMLElement, options?: FocusOptions) {
     if (!this._interactivityChecker.isFocusable(element)) {
@@ -486,7 +500,13 @@ export class MatDrawer implements AfterContentInit, AfterContentChecked, OnDestr
 
   /**
    * Focuses the first element that matches the given selector within the focus trap.
+   *
+   * 聚焦与焦点陷阱中的给定选择器匹配的第一个元素。
+   *
    * @param selector The CSS selector for the element to set focus to.
+   *
+   * 要设置焦点的元素的 CSS 选择器。
+   *
    */
   private _focusByCssSelector(selector: string, options?: FocusOptions) {
     let elementToFocus = this._elementRef.nativeElement.querySelector(

@@ -28,6 +28,9 @@ export const MAT_TAB_LABEL = new InjectionToken<MatTabLabel>('MatTabLabel');
 
 /**
  * Used to provide a tab label to a tab without causing a circular dependency.
+ *
+ * 用于为选项卡提供选项卡标签，而不会导致循环依赖。
+ *
  * @docs-private
  */
 export const MAT_TAB = new InjectionToken<any>('MAT_TAB');

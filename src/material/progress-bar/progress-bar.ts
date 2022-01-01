@@ -89,16 +89,36 @@ export function MAT_PROGRESS_BAR_LOCATION_FACTORY(): MatProgressBarLocation {
 
 export type ProgressBarMode = 'determinate' | 'indeterminate' | 'buffer' | 'query';
 
-/** Default `mat-progress-bar` options that can be overridden. */
+/**
+ * Default `mat-progress-bar` options that can be overridden.
+ *
+ * 可覆盖的默认 `mat-progress-bar` 选项。
+ *
+ */
 export interface MatProgressBarDefaultOptions {
-  /** Default color of the progress bar. */
+  /**
+   * Default color of the progress bar.
+   *
+   * 进度条的默认颜色。
+   *
+   */
   color?: ThemePalette;
 
-  /** Default mode of the progress bar. */
+  /**
+   * Default mode of the progress bar.
+   *
+   * 进度条的默认模式。
+   *
+   */
   mode?: ProgressBarMode;
 }
 
-/** Injection token to be used to override the default options for `mat-progress-bar`. */
+/**
+ * Injection token to be used to override the default options for `mat-progress-bar`.
+ *
+ * 用于覆盖 `mat-progress-bar` 的默认选项的注入令牌。
+ *
+ */
 export const MAT_PROGRESS_BAR_DEFAULT_OPTIONS = new InjectionToken<MatProgressBarDefaultOptions>(
   'MAT_PROGRESS_BAR_DEFAULT_OPTIONS',
 );

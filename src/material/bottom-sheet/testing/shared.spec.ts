@@ -10,7 +10,12 @@ import {
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatBottomSheetHarness} from './bottom-sheet-harness';
 
-/** Shared tests to run on both the original and MDC-based bottom sheets. */
+/**
+ * Shared tests to run on both the original and MDC-based bottom sheets.
+ *
+ * 在原始和基于 MDC 的底部工作表上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   bottomSheetModule: typeof MatBottomSheetModule,
   harness: typeof MatBottomSheetHarness,

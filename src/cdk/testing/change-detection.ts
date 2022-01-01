@@ -289,8 +289,17 @@ export function parallel<T>(values: () => (T | PromiseLike<T>)[]): Promise<T[]>;
  * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
  * detection over the entire operation such that change detection occurs exactly once before
  * resolving the values and once after.
+ *
+ * 并行解析给定的异步值列表（即通过 Promise.all），同时在整个操作中运行批量变更检测，以便在解析值之前和之后只发生一次变更检测。
+ *
  * @param values A getter for the async values to resolve in parallel with batched change detection.
+ *
+ * 异步值的 getter，与批量变更检测并行解析。
+ *
  * @return The resolved values.
+ *
+ * 解析后的值。
+ *
  */
 export async function parallel<T>(values: () => Iterable<T | PromiseLike<T>>): Promise<T[]> {
   return batchChangeDetection(() => Promise.all(values()), true);

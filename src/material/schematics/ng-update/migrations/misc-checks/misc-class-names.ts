@@ -12,6 +12,9 @@ import * as ts from 'typescript';
 /**
  * Migration that looks for class name identifiers that have been removed but
  * cannot be automatically migrated.
+ *
+ * 查找已删除但无法自动迁移的类名标识符的迁移。
+ *
  */
 export class MiscClassNamesMigration extends Migration<null> {
   // Only enable this rule if the migration targets version 6. The rule

@@ -613,7 +613,12 @@ export class MatInput
     }
   }
 
-  /** Whether the form control is a native select that is displayed inline. */
+  /**
+   * Whether the form control is a native select that is displayed inline.
+   *
+   * 表单控件是否是内联显示的原生选择。
+   *
+   */
   _isInlineSelect(): boolean {
     const element = this._elementRef.nativeElement as HTMLSelectElement;
     return this._isNativeSelect && (element.multiple || element.size > 1);

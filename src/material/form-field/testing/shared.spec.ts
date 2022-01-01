@@ -7,7 +7,12 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatFormFieldHarness} from './form-field-harness';
 
-/** Shared tests to run on both the original and MDC-based form-field's. */
+/**
+ * Shared tests to run on both the original and MDC-based form-field's.
+ *
+ * 在原始和基于 MDC 的表单域上运行的共享测试。
+ *
+ */
 export function runHarnessTests(
   modules: Type<any>[],
   {
