@@ -51,3 +51,4 @@ testem.log
 
 # Variables that are inlined into the dev app index.html
 /src/dev-app/variables.json
+/material.github.io
