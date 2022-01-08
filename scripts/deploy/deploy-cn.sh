@@ -3,6 +3,8 @@
 set -x
 set -e
 
+yarn build-docs-content
+
 git clone https://github.com/ng-docs/material.github.io.git
 
 cd ./material.github.io
