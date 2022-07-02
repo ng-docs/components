@@ -21,27 +21,18 @@ const NO_IMPORT_NAMED_SYMBOLS_FAILURE_STR =
 /**
  * Regex for testing file paths against to determine if the file is from the
  * Angular Material library.
- *
- * 用于测试文件路径以确定文件是否来自 Angular Material 库的正则表达式。
- *
  */
 const ANGULAR_MATERIAL_FILEPATH_REGEX = new RegExp(`${materialModuleSpecifier}/(.*?)/`);
 
 /**
  * Mapping of Material symbol names to their module names. Used as a fallback if
  * we didn't manage to resolve the module name of a symbol using the type checker.
- *
- * Material 符号名称到其模块名称的映射。如果我们没有设法使用类型检查器解析符号的模块名称，则将其用作后备。
- *
  */
 const ENTRY_POINT_MAPPINGS: {[name: string]: string} = require('./material-symbols.json');
 
 /**
  * Migration that updates imports which refer to the primary Angular Material
  * entry-point to use the appropriate secondary entry points (e.g. @angular/material/button).
- *
- * 更新引用 Angular Material 主入口点的导入以使用适当的二级入口点（例如 @angular/material/button）的迁移。
- *
  */
 export class SecondaryEntryPointsMigration extends Migration<null> {
   printer = ts.createPrinter();
@@ -130,11 +121,11 @@ export class SecondaryEntryPointsMigration extends Migration<null> {
     const newImportStatements = Array.from(importMap.entries())
       .sort()
       .map(([name, elements]) => {
-        const newImport = ts.createImportDeclaration(
+        const newImport = ts.factory.createImportDeclaration(
           undefined,
           undefined,
-          ts.createImportClause(undefined, ts.createNamedImports(elements)),
-          createStringLiteral(`${materialModuleSpecifier}/${name}`, singleQuoteImport),
+          ts.factory.createImportClause(false, undefined, ts.factory.createNamedImports(elements)),
+          ts.factory.createStringLiteral(`${materialModuleSpecifier}/${name}`, singleQuoteImport),
         );
         return this.printer.printNode(
           ts.EmitHint.Unspecified,
@@ -162,33 +153,7 @@ export class SecondaryEntryPointsMigration extends Migration<null> {
   }
 }
 
-/**
- * Creates a string literal from the specified text.
- *
- * 从指定的文本创建字符串文字。
- *
- * @param text Text of the string literal.
- *
- * 字符串文字的文本。
- *
- * @param singleQuotes Whether single quotes should be used when printing the literal node.
- *
- * 打印文字节点时是否应使用单引号。
- *
- */
-function createStringLiteral(text: string, singleQuotes: boolean): ts.StringLiteral {
-  const literal = ts.createStringLiteral(text);
-  // See: https://github.com/microsoft/TypeScript/blob/master/src/compiler/utilities.ts#L584-L590
-  (literal as any).singleQuote = singleQuotes;
-  return literal;
-}
-
-/**
- * Gets the symbol that contains the value declaration of the given node.
- *
- * 获取包含给定节点的值声明的符号。
- *
- */
+/** Gets the symbol that contains the value declaration of the given node. */
 function getDeclarationSymbolOfNode(node: ts.Node, checker: ts.TypeChecker): ts.Symbol | undefined {
   const symbol = checker.getSymbolAtLocation(node);
 
@@ -201,12 +166,7 @@ function getDeclarationSymbolOfNode(node: ts.Node, checker: ts.TypeChecker): ts.
   return symbol;
 }
 
-/**
- * Tries to resolve the name of the Material module that a node is imported from.
- *
- * 尝试解析要从中导入节点的 Material 模块的名称。
- *
- */
+/** Tries to resolve the name of the Material module that a node is imported from. */
 function resolveModuleName(node: ts.Identifier, typeChecker: ts.TypeChecker): string | null {
   // Get the symbol for the named binding element. Note that we cannot determine the
   // value declaration based on the type of the element as types are not necessarily

@@ -43,9 +43,6 @@ import {Subscription} from 'rxjs';
 /**
  * Autocomplete IDs need to be unique across components, so this counter exists outside of
  * the component definition.
- *
- * 自动完成器的 ID 在组件之间必须是唯一的，所以这个计数器存在于组件定义之外。
- *
  */
 let _uniqueAutocompleteIdCounter = 0;
 
@@ -57,17 +54,9 @@ let _uniqueAutocompleteIdCounter = 0;
  */
 export class MatAutocompleteSelectedEvent {
   constructor(
-    /**
-     * Reference to the autocomplete panel that emitted the event.
-     *
-     * 对发出此事件的自动完成面板的引用。
-     */
+    /** Reference to the autocomplete panel that emitted the event. */
     public source: _MatAutocompleteBase,
-    /**
-     * Option that was selected.
-     *
-     * 已选择的选项。
-     */
+    /** Option that was selected. */
     public option: _MatOptionBase,
   ) {}
 }
@@ -115,6 +104,9 @@ export interface MatAutocompleteDefaultOptions {
    */
   autoActiveFirstOption?: boolean;
 
+  /** Whether the active option should be selected as the user is navigating. */
+  autoSelectActiveOption?: boolean;
+
   /**
    * Class or list of classes to be applied to the autocomplete's overlay panel.
    *
@@ -140,15 +132,10 @@ export const MAT_AUTOCOMPLETE_DEFAULT_OPTIONS = new InjectionToken<MatAutocomple
 
 /** @docs-private */
 export function MAT_AUTOCOMPLETE_DEFAULT_OPTIONS_FACTORY(): MatAutocompleteDefaultOptions {
-  return {autoActiveFirstOption: false};
+  return {autoActiveFirstOption: false, autoSelectActiveOption: false};
 }
 
-/**
- * Base class with all of the `MatAutocomplete` functionality.
- *
- * 具备所有 `MatAutocomplete` 功能的基类。
- *
- */
+/** Base class with all of the `MatAutocomplete` functionality. */
 @Directive()
 export abstract class _MatAutocompleteBase
   extends _MatAutocompleteMixinBase
@@ -156,28 +143,13 @@ export abstract class _MatAutocompleteBase
 {
   private _activeOptionChanges = Subscription.EMPTY;
 
-  /**
-   * Class to apply to the panel when it's visible.
-   *
-   * 当面板可见时应用于此面板的类。
-   *
-   */
+  /** Class to apply to the panel when it's visible. */
   protected abstract _visibleClass: string;
 
-  /**
-   * Class to apply to the panel when it's hidden.
-   *
-   * 当面板隐藏时应用于此面板的类。
-   *
-   */
+  /** Class to apply to the panel when it's hidden. */
   protected abstract _hiddenClass: string;
 
-  /**
-   * Manages active item in option list based on key events.
-   *
-   * 根据某些关键事件来管理选项列表中的活动条目。
-   *
-   */
+  /** Manages active item in option list based on key events. */
   _keyManager: ActiveDescendantKeyManager<_MatOptionBase>;
 
   /**
@@ -217,7 +189,7 @@ export abstract class _MatAutocompleteBase
   /**
    * Reference to all options within the autocomplete.
    *
-   * 对自动完成中的所有选项的引用。
+   * 对自动完成中所有选项的引用。
    *
    */
   abstract options: QueryList<_MatOptionBase>;
@@ -270,6 +242,16 @@ export abstract class _MatAutocompleteBase
   }
   private _autoActiveFirstOption: boolean;
 
+  /** Whether the active option should be selected as the user is navigating. */
+  @Input()
+  get autoSelectActiveOption(): boolean {
+    return this._autoSelectActiveOption;
+  }
+  set autoSelectActiveOption(value: BooleanInput) {
+    this._autoSelectActiveOption = coerceBooleanProperty(value);
+  }
+  private _autoSelectActiveOption: boolean;
+
   /**
    * Specify the width of the autocomplete panel.  Can be any CSS sizing value, otherwise it will
    * match the width of its host.
@@ -291,7 +273,7 @@ export abstract class _MatAutocompleteBase
   /**
    * Event that is emitted when the autocomplete panel is opened.
    *
-   * 自动完成面板打开时发出的事件
+   * 自动完成面板打开时发出的事件。
    *
    */
   @Output() readonly opened: EventEmitter<void> = new EventEmitter<void>();
@@ -299,17 +281,12 @@ export abstract class _MatAutocompleteBase
   /**
    * Event that is emitted when the autocomplete panel is closed.
    *
-   * 自动完成面板关闭时发出的事件
+   * 自动完成面板关闭时发出的事件。
    *
    */
   @Output() readonly closed: EventEmitter<void> = new EventEmitter<void>();
 
-  /**
-   * Emits whenever an option is activated using the keyboard.
-   *
-   * 只要使用键盘激活某个选项，就会发出触发本事件。
-   *
-   */
+  /** Emits whenever an option is activated. */
   @Output() readonly optionActivated: EventEmitter<MatAutocompleteActivatedEvent> =
     new EventEmitter<MatAutocompleteActivatedEvent>();
 
@@ -346,9 +323,6 @@ export abstract class _MatAutocompleteBase
 
   /**
    * Tells any descendant `mat-optgroup` to use the inert a11y pattern.
-   *
-   * 告诉所有后代 `mat-optgroup` 使用惰性 a11y 模式。
-   *
    * @docs-private
    */
   readonly inertGroups: boolean;
@@ -367,6 +341,7 @@ export abstract class _MatAutocompleteBase
     // option altogether.
     this.inertGroups = platform?.SAFARI || false;
     this._autoActiveFirstOption = !!defaults.autoActiveFirstOption;
+    this._autoSelectActiveOption = !!defaults.autoSelectActiveOption;
   }
 
   ngAfterContentInit() {
@@ -388,9 +363,6 @@ export abstract class _MatAutocompleteBase
   /**
    * Sets the panel scrollTop. This allows us to manually scroll to display options
    * above or below the fold, as they are not actually being focused when active.
-   *
-   * 设置此面板的 scrollTop。这样我们就可以通过手动滚动显示出上方或下方的选项，因为它们在激活时实际上没有获得焦点。
-   *
    */
   _setScrollTop(scrollTop: number): void {
     if (this.panel) {
@@ -398,45 +370,25 @@ export abstract class _MatAutocompleteBase
     }
   }
 
-  /**
-   * Returns the panel's scrollTop.
-   *
-   * 返回此面板的 scrollTop。
-   *
-   */
+  /** Returns the panel's scrollTop. */
   _getScrollTop(): number {
     return this.panel ? this.panel.nativeElement.scrollTop : 0;
   }
 
-  /**
-   * Panel should hide itself when the option list is empty.
-   *
-   * 当选项列表为空时，Panel 应自行隐藏。
-   *
-   */
+  /** Panel should hide itself when the option list is empty. */
   _setVisibility() {
     this.showPanel = !!this.options.length;
     this._setVisibilityClasses(this._classList);
     this._changeDetectorRef.markForCheck();
   }
 
-  /**
-   * Emits the `select` event.
-   *
-   * 发出 `select` 事件。
-   *
-   */
+  /** Emits the `select` event. */
   _emitSelectEvent(option: _MatOptionBase): void {
     const event = new MatAutocompleteSelectedEvent(this, option);
     this.optionSelected.emit(event);
   }
 
-  /**
-   * Gets the aria-labelledby for the autocomplete panel.
-   *
-   * 获取此自动完成面板的 aria-labelledby。
-   *
-   */
+  /** Gets the aria-labelledby for the autocomplete panel. */
   _getPanelAriaLabelledby(labelId: string | null): string | null {
     if (this.ariaLabel) {
       return null;
@@ -446,12 +398,7 @@ export abstract class _MatAutocompleteBase
     return this.ariaLabelledby ? labelExpression + this.ariaLabelledby : labelId;
   }
 
-  /**
-   * Sets the autocomplete visibility classes on a classlist based on the panel is visible.
-   *
-   * 基于该面板的是否可见，在类清单中设置此自动完成器的可见性类。
-   *
-   */
+  /** Sets the autocomplete visibility classes on a classlist based on the panel is visible. */
   private _setVisibilityClasses(classList: {[key: string]: boolean}) {
     classList[this._visibleClass] = this.showPanel;
     classList[this._hiddenClass] = !this.showPanel;

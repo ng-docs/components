@@ -45,4 +45,6 @@ export interface RadioButtonHarnessFilters extends BaseHarnessFilters {
    *
    */
   name?: string;
+  /** Only find instances with the given checked value. */
+  checked?: boolean;
 }

@@ -45,12 +45,7 @@ import {startWith} from 'rxjs/operators';
 import {MAT_TAB_GROUP, MatTab} from './tab';
 import {MAT_TABS_CONFIG, MatTabsConfig} from './tab-config';
 
-/**
- * Used to generate unique ID's for each tab component
- *
- * 用于为每个选项卡组件生成唯一的 ID
- *
- */
+/** Used to generate unique ID's for each tab component */
 let nextId = 0;
 
 /**
@@ -96,15 +91,13 @@ const _MatTabGroupMixinBase = mixinColor(
 );
 
 interface MatTabGroupBaseHeader {
-  _alignInkBarToSelectedTab: () => void;
+  _alignInkBarToSelectedTab(): void;
+  updatePagination(): void;
   focusIndex: number;
 }
 
 /**
  * Base class with all of the `MatTabGroupBase` functionality.
- *
- * 具备所有 `MatTabGroupBase` 功能的基类。
- *
  * @docs-private
  */
 @Directive()
@@ -115,52 +108,27 @@ export abstract class _MatTabGroupBase
   /**
    * All tabs inside the tab group. This includes tabs that belong to groups that are nested
    * inside the current one. We filter out only the tabs that belong to this group in `_tabs`.
-   *
-   * 选项卡组中的所有选项卡。这包括属于那些嵌套于当前组的子组中的选项卡。我们会在 `_tabs` 中筛选出只属于本组的选项卡。
-   *
    */
   abstract _allTabs: QueryList<MatTab>;
   abstract _tabBodyWrapper: ElementRef;
   abstract _tabHeader: MatTabGroupBaseHeader;
 
-  /**
-   * All of the tabs that belong to the group.
-   *
-   * 所有属于本组的选项卡
-   *
-   */
+  /** All of the tabs that belong to the group. */
   _tabs: QueryList<MatTab> = new QueryList<MatTab>();
 
-  /**
-   * The tab index that should be selected after the content has been checked.
-   *
-   * 勾选内容后应该选定的选项卡索引。
-   *
-   */
+  /** The tab index that should be selected after the content has been checked. */
   private _indexToSelect: number | null = 0;
 
-  /**
-   * Snapshot of the height of the tab body wrapper before another tab is activated.
-   *
-   * 激活另一个选项卡之前，对此选项卡本体包装器器高度的快照。
-   *
-   */
+  /** Index of the tab that was focused last. */
+  private _lastFocusedTabIndex: number | null = null;
+
+  /** Snapshot of the height of the tab body wrapper before another tab is activated. */
   private _tabBodyWrapperHeight: number = 0;
 
-  /**
-   * Subscription to tabs being added/removed.
-   *
-   * 到“添加/删除选项卡”事件的订阅。
-   *
-   */
+  /** Subscription to tabs being added/removed. */
   private _tabsSubscription = Subscription.EMPTY;
 
-  /**
-   * Subscription to changes in the tab labels.
-   *
-   * 对选项卡标签变更的订阅。
-   *
-   */
+  /** Subscription to changes in the tab labels. */
   private _tabLabelSubscription = Subscription.EMPTY;
 
   /**
@@ -176,7 +144,7 @@ export abstract class _MatTabGroupBase
   set dynamicHeight(value: BooleanInput) {
     this._dynamicHeight = coerceBooleanProperty(value);
   }
-  private _dynamicHeight: boolean;
+  private _dynamicHeight: boolean = false;
 
   /**
    * The index of the active tab.
@@ -220,9 +188,9 @@ export abstract class _MatTabGroupBase
    * `tabindex` to be set on the inner element that wraps the tab content. Can be used for improved
    * accessibility when the tab does not have focusable elements or if it has scrollable content.
    * The `tabindex` will be removed automatically for inactive tabs.
-   * Read more at https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html
+   * Read more at <https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html>
    *
-   * 在包装制表符内容的内部元素上设置的 `tabindex` 当标签没有聚焦元素或者它具有可滚动的内容时，可用于改进的无障碍性。对于无效的标签页，`tabindex` 将会被自动移除。到 https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html 了解更多信息。
+   * 在包装制表符内容的内部元素上设置的 `tabindex` 当标签没有聚焦元素或者它具有可滚动的内容时，可用于改进的无障碍性。对于无效的标签页，`tabindex` 将会被自动移除。到 <https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html> 了解更多信息。
    *
    */
   @Input()
@@ -242,7 +210,27 @@ export abstract class _MatTabGroupBase
    *
    */
   @Input()
-  disablePagination: boolean;
+  get disablePagination(): boolean {
+    return this._disablePagination;
+  }
+  set disablePagination(value: BooleanInput) {
+    this._disablePagination = coerceBooleanProperty(value);
+  }
+  private _disablePagination: boolean = false;
+
+  /**
+   * By default tabs remove their content from the DOM while it's off-screen.
+   * Setting this to `true` will keep it in the DOM which will prevent elements
+   * like iframes and videos from reloading next time it comes back into the view.
+   */
+  @Input()
+  get preserveContent(): boolean {
+    return this._preserveContent;
+  }
+  set preserveContent(value: BooleanInput) {
+    this._preserveContent = coerceBooleanProperty(value);
+  }
+  private _preserveContent: boolean = false;
 
   /**
    * Background color of the tab group.
@@ -320,6 +308,7 @@ export abstract class _MatTabGroupBase
     this.dynamicHeight =
       defaultConfig && defaultConfig.dynamicHeight != null ? defaultConfig.dynamicHeight : false;
     this.contentTabIndex = defaultConfig?.contentTabIndex ?? null;
+    this.preserveContent = !!defaultConfig?.preserveContent;
   }
 
   /**
@@ -327,10 +316,6 @@ export abstract class _MatTabGroupBase
    * and what the selected index should be. This is where we can know exactly what position
    * each tab should be in according to the new selected index, and additionally we know how
    * a new selected tab should transition in (from the left or right).
-   *
-   * 检查内容后，该组件会知道哪些选项卡已定义，以及选定的索引应该是什么。
-   * 这里我们可以根据新选定项的索引准确知道每个选项卡应该在哪个位置，另外我们也知道新选定选项卡应如何过渡（从左边或右边）。
-   *
    */
   ngAfterContentChecked() {
     // Don't clamp the `indexToSelect` immediately in the setter because it can happen that
@@ -377,6 +362,7 @@ export abstract class _MatTabGroupBase
 
     if (this._selectedIndex !== indexToSelect) {
       this._selectedIndex = indexToSelect;
+      this._lastFocusedTabIndex = null;
       this._changeDetectorRef.markForCheck();
     }
   }
@@ -394,6 +380,7 @@ export abstract class _MatTabGroupBase
       // explicit change that selects a different tab.
       if (indexToSelect === this._selectedIndex) {
         const tabs = this._tabs.toArray();
+        let selectedTab: MatTab | undefined;
 
         for (let i = 0; i < tabs.length; i++) {
           if (tabs[i].isActive) {
@@ -401,8 +388,20 @@ export abstract class _MatTabGroupBase
             // event, otherwise the consumer may end up in an infinite loop in some edge cases like
             // adding a tab within the `selectedIndexChange` event.
             this._indexToSelect = this._selectedIndex = i;
+            this._lastFocusedTabIndex = null;
+            selectedTab = tabs[i];
             break;
           }
+        }
+
+        // If we haven't found an active tab and a tab exists at the selected index, it means
+        // that the active tab was swapped out. Since this won't be picked up by the rendering
+        // loop in `ngAfterContentChecked`, we need to sync it up manually.
+        if (!selectedTab && tabs[indexToSelect]) {
+          Promise.resolve().then(() => {
+            tabs[indexToSelect].isActive = true;
+            this.selectedTabChange.emit(this._createChangeEvent(indexToSelect));
+          });
         }
       }
 
@@ -410,12 +409,7 @@ export abstract class _MatTabGroupBase
     });
   }
 
-  /**
-   * Listens to changes in all of the tabs.
-   *
-   * 监听所有选项卡中的变化。
-   *
-   */
+  /** Listens to changes in all of the tabs. */
   private _subscribeToAllTabChanges() {
     // Since we use a query with `descendants: true` to pick up the tabs, we may end up catching
     // some that are inside of nested tab groups. We filter them out manually by checking that
@@ -449,6 +443,22 @@ export abstract class _MatTabGroupBase
   }
 
   /**
+   * Recalculates the tab group's pagination dimensions.
+   *
+   * WARNING: Calling this method can be very costly in terms of performance. It should be called
+   * as infrequently as possible from outside of the Tabs component as it causes a reflow of the
+   * page.
+   *
+   * 警告：就性能而言，调用此方法的成本非常高。它应尽可能从选项卡列表组件的外部调用，因为它会导致页面重排。
+   *
+   */
+  updatePagination() {
+    if (this._tabHeader) {
+      this._tabHeader.updatePagination();
+    }
+  }
+
+  /**
    * Sets focus to a particular tab.
    *
    * 将焦点设置到特定选项卡。
@@ -467,6 +477,7 @@ export abstract class _MatTabGroupBase
   }
 
   _focusChanged(index: number) {
+    this._lastFocusedTabIndex = index;
     this.focusChange.emit(this._createChangeEvent(index));
   }
 
@@ -484,10 +495,6 @@ export abstract class _MatTabGroupBase
    * on the MatTab component, whereas the data binding is inside the MatTabGroup. In order for the
    * binding to be updated, we need to subscribe to changes in it and trigger change detection
    * manually.
-   *
-   * 订阅选项卡标签中的更改。这是必需的，因为选项卡的 @Input 在 MatTab 组件上，而数据绑定在 MatTabGroup 中。
-   * 要想更新绑定，我们就需要订阅其中的更改并手动触发变更检测。
-   *
    */
   private _subscribeToTabLabels() {
     if (this._tabLabelSubscription) {
@@ -499,12 +506,7 @@ export abstract class _MatTabGroupBase
     );
   }
 
-  /**
-   * Clamps the given index to the bounds of 0 and the tabs length.
-   *
-   * 在 0 和选项卡数之间夹取一个索引。
-   *
-   */
+  /** Clamps the given index to the bounds of 0 and the tabs length. */
   private _clampTabIndex(index: number | null): number {
     // Note the `|| 0`, which ensures that values like NaN can't get through
     // and which would otherwise throw the component into an infinite loop
@@ -512,22 +514,12 @@ export abstract class _MatTabGroupBase
     return Math.min(this._tabs.length - 1, Math.max(index || 0, 0));
   }
 
-  /**
-   * Returns a unique id for each tab label element
-   *
-   * 为每个选项卡标签元素返回一个唯一的 id
-   *
-   */
+  /** Returns a unique id for each tab label element */
   _getTabLabelId(i: number): string {
     return `mat-tab-label-${this._groupId}-${i}`;
   }
 
-  /**
-   * Returns a unique id for each tab content element
-   *
-   * 为每个选项卡内容元素返回一个唯一的 id
-   *
-   */
+  /** Returns a unique id for each tab content element */
   _getTabContentId(i: number): string {
     return `mat-tab-content-${this._groupId}-${i}`;
   }
@@ -535,9 +527,6 @@ export abstract class _MatTabGroupBase
   /**
    * Sets the height of the body wrapper to the height of the activating tab if dynamic
    * height property is true.
-   *
-   * 如果 dynamicHeight 属性为 true，则把本体包装器的高度设置为激活选项卡的高度。
-   *
    */
   _setTabBodyWrapperHeight(tabHeight: number): void {
     if (!this._dynamicHeight || !this._tabBodyWrapperHeight) {
@@ -555,12 +544,7 @@ export abstract class _MatTabGroupBase
     }
   }
 
-  /**
-   * Removes the height of the tab body wrapper.
-   *
-   * 去掉选项卡本体包装器的高度。
-   *
-   */
+  /** Removes the height of the tab body wrapper. */
   _removeTabBodyWrapperHeight(): void {
     const wrapper = this._tabBodyWrapper.nativeElement;
     this._tabBodyWrapperHeight = wrapper.clientHeight;
@@ -568,37 +552,23 @@ export abstract class _MatTabGroupBase
     this.animationDone.emit();
   }
 
-  /**
-   * Handle click events, setting new selected index if appropriate.
-   *
-   * 处理点击事件，根据需要设置新的选定项索引。
-   *
-   */
+  /** Handle click events, setting new selected index if appropriate. */
   _handleClick(tab: MatTab, tabHeader: MatTabGroupBaseHeader, index: number) {
     if (!tab.disabled) {
       this.selectedIndex = tabHeader.focusIndex = index;
     }
   }
 
-  /**
-   * Retrieves the tabindex for the tab.
-   *
-   * 获取该选项卡的 tabindex。
-   *
-   */
-  _getTabIndex(tab: MatTab, idx: number): number | null {
+  /** Retrieves the tabindex for the tab. */
+  _getTabIndex(tab: MatTab, index: number): number | null {
     if (tab.disabled) {
       return null;
     }
-    return this.selectedIndex === idx ? 0 : -1;
+    const targetIndex = this._lastFocusedTabIndex ?? this.selectedIndex;
+    return index === targetIndex ? 0 : -1;
   }
 
-  /**
-   * Callback for when the focused state of a tab has changed.
-   *
-   * 选项卡的焦点状态更改时的回调。
-   *
-   */
+  /** Callback for when the focused state of a tab has changed. */
   _tabFocusChanged(focusOrigin: FocusOrigin, index: number) {
     // Mouse/touch focus happens during the `mousedown`/`touchstart` phase which
     // can cause the tab to be moved out from under the pointer, interrupting the
@@ -616,6 +586,7 @@ export abstract class _MatTabGroupBase
  * See: <https://material.io/design/components/tabs.html>
  *
  * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：<https://material.io/design/components/tabs.html>
+ *
  */
 @Component({
   selector: 'mat-tab-group',

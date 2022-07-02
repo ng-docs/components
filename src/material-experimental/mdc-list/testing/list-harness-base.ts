@@ -41,8 +41,17 @@ export abstract class MatListHarnessBase<
 
   /**
    * Gets a list of harnesses representing the items in this list.
+   *
+   * 获取代表此列表中条目的测试工具列表。
+   *
    * @param filters Optional filters used to narrow which harnesses are included
+   *
+   * 用于收窄包括哪些测试工具的可选过滤器
+   *
    * @return The list of items matching the given filters.
+   *
+   * 与给定过滤器匹配的条目列表。
+   *
    */
   async getItems(filters?: F): Promise<C[]> {
     return this.locatorForAll(this._itemHarness.with(filters))();
@@ -51,8 +60,17 @@ export abstract class MatListHarnessBase<
   /**
    * Gets a list of `ListSection` representing the list items grouped by subheaders. If the list has
    * no subheaders it is represented as a single `ListSection` with an undefined `heading` property.
+   *
+   * 获取一个 `ListSection` 的列表，该列表表示已按子标题分组的列表项。如果列表没有子表头，则它表示一个带有未定义 `heading` 属性的单个 `ListSection`。
+   *
    * @param filters Optional filters used to narrow which list item harnesses are included
+   *
+   * 可选过滤器，用于收窄包括哪些列表项测试工具的范围
+   *
    * @return The list of items matching the given filters, grouped into sections by subheader.
+   *
+   * 与给定过滤器匹配的条目列表，按子标题分为几部分。
+   *
    */
   async getItemsGroupedBySubheader(filters?: F): Promise<ListSection<C>[]> {
     type Section = {items: C[]; heading?: Promise<string>};
@@ -90,8 +108,17 @@ export abstract class MatListHarnessBase<
   /**
    * Gets a list of sub-lists representing the list items grouped by dividers. If the list has no
    * dividers it is represented as a list with a single sub-list.
+   *
+   * 获取一个子列表的列表，该列表表示按分隔器分组的列表项。如果此列表没有分隔器，则将其表示为带有单个子列表的列表。
+   *
    * @param filters Optional filters used to narrow which list item harnesses are included
+   *
+   * 可选过滤器，用于收窄包括哪些列表项测试工具的范围
+   *
    * @return The list of items matching the given filters, grouped into sub-lists by divider.
+   *
+   * 与给定过滤器匹配的条目列表，由分隔器分组为子列表。
+   *
    */
   async getItemsGroupedByDividers(filters?: F): Promise<C[][]> {
     const listSections: C[][] = [[]];

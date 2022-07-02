@@ -20,16 +20,13 @@ ng_module(
         "//src/material/icon",
         "//src/material/input",
         "//src/material/select",
-        "@npm//@angular/router",
     ],
 )
 
 sass_binary(
     name = "datepicker_demo_scss",
     src = "datepicker-demo.scss",
-    deps = [
-        "//src/material/datepicker:datepicker_scss_lib",
-    ],
+    deps = ["//src/material:sass_lib"],
 )
 
 sass_binary(

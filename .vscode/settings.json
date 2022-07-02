@@ -4,12 +4,12 @@
     "**/.git/subtree-cache/**": true,
     "**/node_modules/**": true,
     "**/bazel-out/**": true,
-    "**/dist/**": true,
+    "**/dist/**": true
   },
   "search.exclude": {
     "**/node_modules": true,
     "**/bazel-out": true,
-    "**/dist": true,
+    "**/dist": true
   },
   "git.ignoreLimitWarning": true,
   "[javascript]": {
@@ -19,5 +19,6 @@
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

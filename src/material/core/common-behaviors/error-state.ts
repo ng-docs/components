@@ -6,20 +6,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {FormControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
+import {AbstractControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {ErrorStateMatcher} from '../error/error-options';
 import {AbstractConstructor, Constructor} from './constructor';
 
 /** @docs-private */
 export interface CanUpdateErrorState {
-  /**
-   * Emits whenever the component state changes.
-   *
-   * 每当组件状态改变时发出事件。
-   *
-   */
-  readonly stateChanges: Subject<void>;
   /**
    * Updates the error state based on the provided error state matcher.
    *
@@ -51,15 +44,17 @@ export interface HasErrorState {
   _parentFormGroup: FormGroupDirective;
   _parentForm: NgForm;
   _defaultErrorStateMatcher: ErrorStateMatcher;
+
+  // These properties are defined as per the `MatFormFieldControl` interface. Since
+  // this mixin is commonly used with custom form-field controls, we respect the
+  // properties (also with the public name they need according to `MatFormFieldControl`).
   ngControl: NgControl;
+  stateChanges: Subject<void>;
 }
 
 /**
  * Mixin to augment a directive with updateErrorState method.
  * For component with `errorState` and need to update `errorState`.
- *
- * 混入 updateErrorState 方法，以扩展指令。对于具有 `errorState` 组件，需要更新其 `errorState`。
- *
  */
 export function mixinErrorState<T extends AbstractConstructor<HasErrorState>>(
   base: T,
@@ -68,22 +63,10 @@ export function mixinErrorState<T extends Constructor<HasErrorState>>(
   base: T,
 ): CanUpdateErrorStateCtor & T {
   return class extends base {
-    // This class member exists as an interop with `MatFormFieldControl` which expects
-    // a public `stateChanges` observable to emit whenever the form field should be updated.
-    // The description is not specifically mentioning the error state, as classes using this
-    // mixin can/should emit an event in other cases too.
-    /**
-     * Emits whenever the component state changes.
-     *
-     * 每当组件状态改变时发出。
-     *
-     */
-    readonly stateChanges = new Subject<void>();
-
     /**
      * Whether the component is in an error state.
      *
-     * 组件是否处于错误状态。
+     * 组件是否处于错误状态下。
      *
      */
     errorState: boolean = false;
@@ -106,7 +89,7 @@ export function mixinErrorState<T extends Constructor<HasErrorState>>(
       const oldState = this.errorState;
       const parent = this._parentFormGroup || this._parentForm;
       const matcher = this.errorStateMatcher || this._defaultErrorStateMatcher;
-      const control = this.ngControl ? (this.ngControl.control as FormControl) : null;
+      const control = this.ngControl ? (this.ngControl.control as AbstractControl) : null;
       const newState = matcher.isErrorState(control, parent);
 
       if (newState !== oldState) {

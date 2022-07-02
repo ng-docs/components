@@ -23,6 +23,8 @@ export interface CdkDragStart<T = any> {
    *
    */
   source: CdkDrag<T>;
+  /** Native event that started the drag sequence. */
+  event: MouseEvent | TouchEvent;
 }
 
 /**
@@ -39,6 +41,8 @@ export interface CdkDragRelease<T = any> {
    *
    */
   source: CdkDrag<T>;
+  /** Native event that caused the release event. */
+  event: MouseEvent | TouchEvent;
 }
 
 /**
@@ -69,6 +73,8 @@ export interface CdkDragEnd<T = any> {
    *
    */
   dropPoint: {x: number; y: number};
+  /** Native event that caused the dragging to stop. */
+  event: MouseEvent | TouchEvent;
 }
 
 /**
@@ -188,6 +194,8 @@ export interface CdkDragDrop<T, O = T, I = any> {
    *
    */
   dropPoint: {x: number; y: number};
+  /** Native event that caused the drop event. */
+  event: MouseEvent | TouchEvent;
 }
 
 /**

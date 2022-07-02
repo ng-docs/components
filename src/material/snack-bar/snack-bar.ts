@@ -26,7 +26,7 @@ import {
 import {takeUntil} from 'rxjs/operators';
 import {TextOnlySnackBar, SimpleSnackBar} from './simple-snack-bar';
 import {MAT_SNACK_BAR_DATA, MatSnackBarConfig} from './snack-bar-config';
-import {MatSnackBarContainer, _SnackBarContainer} from './snack-bar-container';
+import {MatSnackBarContainer, _MatSnackBarContainerBase} from './snack-bar-container';
 import {MatSnackBarModule} from './snack-bar-module';
 import {MatSnackBarRef} from './snack-bar-ref';
 
@@ -49,21 +49,12 @@ export function MAT_SNACK_BAR_DEFAULT_OPTIONS_FACTORY(): MatSnackBarConfig {
   return new MatSnackBarConfig();
 }
 
-/**
- * Service to dispatch Material Design snack bar messages.
- *
- * 一个服务，用来派发 Material Design 快餐栏的消息。
- *
- */
-@Injectable({providedIn: MatSnackBarModule})
-export class MatSnackBar implements OnDestroy {
+@Injectable()
+export abstract class _MatSnackBarBase implements OnDestroy {
   /**
    * Reference to the current snack bar in the view *at this level* (in the Angular injector tree).
    * If there is a parent snack-bar service, all operations should delegate to that parent
    * via `_openedSnackBarRef`.
-   *
-   * 在 Angular 注入器树的*本级*视图中引用当前的快餐栏。如果有一个父快餐栏服务，那么所有的操作都应该通过 `_openedSnackBarRef` 委托给那个父组件。
-   *
    */
   private _snackBarRefAtThisLevel: MatSnackBarRef<any> | null = null;
 
@@ -73,7 +64,7 @@ export class MatSnackBar implements OnDestroy {
    * 该组件应该被渲染成快餐栏的简单组件。
    *
    */
-  protected simpleSnackBarComponent: Type<TextOnlySnackBar> = SimpleSnackBar;
+  protected abstract simpleSnackBarComponent: Type<TextOnlySnackBar>;
 
   /**
    * The container component that attaches the provided template or component.
@@ -81,7 +72,7 @@ export class MatSnackBar implements OnDestroy {
    * 附加在所提供的模板或组件上的容器组件。
    *
    */
-  protected snackBarContainerComponent: Type<_SnackBarContainer> = MatSnackBarContainer;
+  protected abstract snackBarContainerComponent: Type<_MatSnackBarContainerBase>;
 
   /**
    * The CSS class to apply for handset mode.
@@ -89,14 +80,9 @@ export class MatSnackBar implements OnDestroy {
    * 适用于手机模式的 CSS 类。
    *
    */
-  protected handsetCssClass = 'mat-snack-bar-handset';
+  protected abstract handsetCssClass: string;
 
-  /**
-   * Reference to the currently opened snackbar at *any* level.
-   *
-   * 对目前*在任何*级别的已打开快餐栏的引用。
-   *
-   */
+  /** Reference to the currently opened snackbar at *any* level. */
   get _openedSnackBarRef(): MatSnackBarRef<any> | null {
     const parent = this._parentSnackBar;
     return parent ? parent._openedSnackBarRef : this._snackBarRefAtThisLevel;
@@ -115,7 +101,7 @@ export class MatSnackBar implements OnDestroy {
     private _live: LiveAnnouncer,
     private _injector: Injector,
     private _breakpointObserver: BreakpointObserver,
-    @Optional() @SkipSelf() private _parentSnackBar: MatSnackBar,
+    @Optional() @SkipSelf() private _parentSnackBar: _MatSnackBarBase,
     @Inject(MAT_SNACK_BAR_DEFAULT_OPTIONS) private _defaultConfig: MatSnackBarConfig,
   ) {}
 
@@ -134,7 +120,10 @@ export class MatSnackBar implements OnDestroy {
    * 快餐栏的额外配置。
    *
    */
-  openFromComponent<T>(component: ComponentType<T>, config?: MatSnackBarConfig): MatSnackBarRef<T> {
+  openFromComponent<T, D = any>(
+    component: ComponentType<T>,
+    config?: MatSnackBarConfig<D>,
+  ): MatSnackBarRef<T> {
     return this._attach(component, config) as MatSnackBarRef<T>;
   }
 
@@ -146,7 +135,7 @@ export class MatSnackBar implements OnDestroy {
    *
    * @param template Template to be instantiated.
    *
-   * 要实例化的模板
+   * 要实例化的模板。
    *
    * @param config Extra configuration for the snack bar.
    *
@@ -219,14 +208,11 @@ export class MatSnackBar implements OnDestroy {
 
   /**
    * Attaches the snack bar container component to the overlay.
-   *
-   * 将快餐栏的容器组件附加到浮层上。
-   *
    */
   private _attachSnackBarContainer(
     overlayRef: OverlayRef,
     config: MatSnackBarConfig,
-  ): _SnackBarContainer {
+  ): _MatSnackBarContainerBase {
     const userInjector = config && config.viewContainerRef && config.viewContainerRef.injector;
     const injector = Injector.create({
       parent: userInjector || this._injector,
@@ -238,16 +224,14 @@ export class MatSnackBar implements OnDestroy {
       config.viewContainerRef,
       injector,
     );
-    const containerRef: ComponentRef<_SnackBarContainer> = overlayRef.attach(containerPortal);
+    const containerRef: ComponentRef<_MatSnackBarContainerBase> =
+      overlayRef.attach(containerPortal);
     containerRef.instance.snackBarConfig = config;
     return containerRef.instance;
   }
 
   /**
    * Places a new component or a template as the content of the snack bar container.
-   *
-   * 把一个新组件或模板放进快餐栏的容器里面。
-   *
    */
   private _attach<T>(
     content: ComponentType<T> | TemplateRef<T>,
@@ -296,12 +280,7 @@ export class MatSnackBar implements OnDestroy {
     return this._openedSnackBarRef;
   }
 
-  /**
-   * Animates the old snack bar out and the new one in.
-   *
-   * 在旧的快餐栏和新的快餐栏之间播放动画。
-   *
-   */
+  /** Animates the old snack bar out and the new one in. */
   private _animateSnackBar(snackBarRef: MatSnackBarRef<any>, config: MatSnackBarConfig) {
     // When the snackbar is dismissed, clear the reference to it.
     snackBarRef.afterDismissed().subscribe(() => {
@@ -335,13 +314,7 @@ export class MatSnackBar implements OnDestroy {
 
   /**
    * Creates a new overlay and places it in the correct location.
-   *
-   * 创建一个新的浮层，并把它放在正确的位置。
-   *
    * @param config The user-specified snack bar config.
-   *
-   * 用户指定的快餐栏配置。
-   *
    */
   private _createOverlay(config: MatSnackBarConfig): OverlayRef {
     const overlayConfig = new OverlayConfig();
@@ -375,17 +348,8 @@ export class MatSnackBar implements OnDestroy {
 
   /**
    * Creates an injector to be used inside of a snack bar component.
-   *
-   * 创建一个在快餐栏组件里面使用的注入器。
-   *
    * @param config Config that was used to create the snack bar.
-   *
-   * 用于创建快餐栏的配置。
-   *
    * @param snackBarRef Reference to the snack bar.
-   *
-   * 到快餐栏的引用。
-   *
    */
   private _createInjector<T>(config: MatSnackBarConfig, snackBarRef: MatSnackBarRef<T>): Injector {
     const userInjector = config && config.viewContainerRef && config.viewContainerRef.injector;
@@ -397,5 +361,29 @@ export class MatSnackBar implements OnDestroy {
         {provide: MAT_SNACK_BAR_DATA, useValue: config.data},
       ],
     });
+  }
+}
+
+/**
+ * Service to dispatch Material Design snack bar messages.
+ *
+ * 一个服务，用来派发 Material Design 快餐栏的消息。
+ *
+ */
+@Injectable({providedIn: MatSnackBarModule})
+export class MatSnackBar extends _MatSnackBarBase {
+  protected simpleSnackBarComponent = SimpleSnackBar;
+  protected snackBarContainerComponent = MatSnackBarContainer;
+  protected handsetCssClass = 'mat-snack-bar-handset';
+
+  constructor(
+    overlay: Overlay,
+    live: LiveAnnouncer,
+    injector: Injector,
+    breakpointObserver: BreakpointObserver,
+    @Optional() @SkipSelf() parentSnackBar: MatSnackBar,
+    @Inject(MAT_SNACK_BAR_DEFAULT_OPTIONS) defaultConfig: MatSnackBarConfig,
+  ) {
+    super(overlay, live, injector, breakpointObserver, parentSnackBar, defaultConfig);
   }
 }

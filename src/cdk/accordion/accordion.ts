@@ -10,21 +10,13 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Directive, InjectionToken, Input, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
 import {Subject} from 'rxjs';
 
-/**
- * Used to generate unique ID for each accordion.
- *
- * 用于为每个手风琴生成唯一的 ID。
- *
- */
+/** Used to generate unique ID for each accordion. */
 let nextId = 0;
 
 /**
  * Injection token that can be used to reference instances of `CdkAccordion`. It serves
  * as alternative token to the actual `CdkAccordion` class which could cause unnecessary
  * retention of the class and its directive metadata.
- *
- * 这个注入令牌可以用来引用一些 `CdkAccordion` 实例。它可以作为真实 `CdkAccordion` 类的备用令牌，直接使用该类可能导致该类及其指令的元数据无法被优化掉。
- *
  */
 export const CDK_ACCORDION = new InjectionToken<CdkAccordion>('CdkAccordion');
 
@@ -40,20 +32,10 @@ export const CDK_ACCORDION = new InjectionToken<CdkAccordion>('CdkAccordion');
   providers: [{provide: CDK_ACCORDION, useExisting: CdkAccordion}],
 })
 export class CdkAccordion implements OnDestroy, OnChanges {
-  /**
-   * Emits when the state of the accordion changes
-   *
-   * 当手风琴状态发生变化时会触发
-   *
-   */
+  /** Emits when the state of the accordion changes */
   readonly _stateChanges = new Subject<SimpleChanges>();
 
-  /**
-   * Stream that emits true/false when openAll/closeAll is triggered.
-   *
-   * 当 openAll/closeAll 被触发时，此流会发出 true/false。
-   *
-   */
+  /** Stream that emits true/false when openAll/closeAll is triggered. */
   readonly _openCloseAllActions: Subject<boolean> = new Subject<boolean>();
 
   /**
@@ -62,7 +44,7 @@ export class CdkAccordion implements OnDestroy, OnChanges {
    * 一个只读的 id 值，用于在单选模式下进行协调。
    *
    */
-  readonly id = `cdk-accordion-${nextId++}`;
+  readonly id: string = `cdk-accordion-${nextId++}`;
 
   /**
    * Whether the accordion should allow multiple expanded accordion items simultaneously.
@@ -74,7 +56,6 @@ export class CdkAccordion implements OnDestroy, OnChanges {
   get multi(): boolean {
     return this._multi;
   }
-
   set multi(multi: BooleanInput) {
     this._multi = coerceBooleanProperty(multi);
   }

@@ -30,6 +30,9 @@ import {
 /**
  * Enables the recycle view repeater strategy, which reduces rendering latency. Not compatible with
  * tables that animate rows.
+ *
+ * 启用复写器的视图回收策略，从而减少渲染延迟。与为各个表行设置动画的表格不兼容。
+ *
  */
 @Directive({
   selector: 'mat-table[recycleRows], table[mat-table][recycleRows]',
@@ -62,10 +65,20 @@ export class MatRecycleRows {}
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MatTable<T> extends CdkTable<T> implements OnInit {
-  /** Overrides the sticky CSS class set by the `CdkTable`. */
+  /**
+   * Overrides the sticky CSS class set by the `CdkTable`.
+   *
+   * `CdkTable` 设置的粘性 CSS 类。
+   *
+   */
   protected override stickyCssClass = 'mat-mdc-table-sticky';
 
-  /** Overrides the need to add position: sticky on every sticky cell element in `CdkTable`. */
+  /**
+   * Overrides the need to add position: sticky on every sticky cell element in `CdkTable`.
+   *
+   * 改写在 `CdkTable` 每个粘性单元元素上添加 position: sticky 的需求。
+   *
+   */
   protected override needsPositionStickyOnElement = false;
 
   override ngOnInit() {

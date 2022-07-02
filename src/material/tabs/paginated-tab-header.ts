@@ -22,12 +22,26 @@ import {
   Input,
 } from '@angular/core';
 import {Direction, Directionality} from '@angular/cdk/bidi';
-import {coerceNumberProperty, NumberInput} from '@angular/cdk/coercion';
+import {
+  BooleanInput,
+  coerceBooleanProperty,
+  coerceNumberProperty,
+  NumberInput,
+} from '@angular/cdk/coercion';
 import {ViewportRuler} from '@angular/cdk/scrolling';
 import {FocusKeyManager, FocusableOption} from '@angular/cdk/a11y';
 import {ENTER, SPACE, hasModifierKey} from '@angular/cdk/keycodes';
-import {merge, of as observableOf, Subject, timer, fromEvent} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {
+  merge,
+  of as observableOf,
+  Subject,
+  EMPTY,
+  Observer,
+  Observable,
+  timer,
+  fromEvent,
+} from 'rxjs';
+import {take, switchMap, startWith, skip, takeUntil} from 'rxjs/operators';
 import {Platform, normalizePassiveListenerOptions} from '@angular/cdk/platform';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
@@ -202,7 +216,13 @@ export abstract class MatPaginatedTabHeader
    *
    */
   @Input()
-  disablePagination: boolean = false;
+  get disablePagination(): boolean {
+    return this._disablePagination;
+  }
+  set disablePagination(value: BooleanInput) {
+    this._disablePagination = coerceBooleanProperty(value);
+  }
+  private _disablePagination: boolean = false;
 
   /**
    * The index of the active tab.
@@ -302,17 +322,28 @@ export abstract class MatPaginatedTabHeader
 
     // Defer the first call in order to allow for slower browsers to lay out the elements.
     // This helps in cases where the user lands directly on a page with paginated tabs.
-    typeof requestAnimationFrame !== 'undefined' ? requestAnimationFrame(realign) : realign();
+    // Note that we use `onStable` instead of `requestAnimationFrame`, because the latter
+    // can hold up tests that are in a background tab.
+    this._ngZone.onStable.pipe(take(1)).subscribe(realign);
 
     // On dir change or window resize, realign the ink bar and update the orientation of
     // the key manager if the direction has changed.
-    merge(dirChange, resize, this._items.changes)
+    merge(dirChange, resize, this._items.changes, this._itemsResized())
       .pipe(takeUntil(this._destroyed))
       .subscribe(() => {
         // We need to defer this to give the browser some time to recalculate
         // the element dimensions. The call has to be wrapped in `NgZone.run`,
         // because the viewport change handler runs outside of Angular.
-        this._ngZone.run(() => Promise.resolve().then(realign));
+        this._ngZone.run(() => {
+          Promise.resolve().then(() => {
+            // Clamp the scroll distance, because it can change with the number of tabs.
+            this._scrollDistance = Math.max(
+              0,
+              Math.min(this._getMaxScrollDistance(), this._scrollDistance),
+            );
+            realign();
+          });
+        });
         this._keyManager.withHorizontalOrientation(this._getLayoutDirection());
       });
 
@@ -323,6 +354,36 @@ export abstract class MatPaginatedTabHeader
       this.indexFocused.emit(newFocusIndex);
       this._setTabFocus(newFocusIndex);
     });
+  }
+
+  /** Sends any changes that could affect the layout of the items. */
+  private _itemsResized(): Observable<void> {
+    if (typeof ResizeObserver !== 'function') {
+      return EMPTY;
+    }
+
+    return this._items.changes.pipe(
+      startWith(this._items),
+      switchMap(
+        (tabItems: QueryList<MatPaginatedTabHeaderItem>) =>
+          new Observable((observer: Observer<void>) =>
+            this._ngZone.runOutsideAngular(() => {
+              const resizeObserver = new ResizeObserver(() => {
+                observer.next();
+              });
+              tabItems.forEach(item => {
+                resizeObserver.observe(item.elementRef.nativeElement);
+              });
+              return () => {
+                resizeObserver.disconnect();
+              };
+            }),
+          ),
+      ),
+      // Skip the first emit since the resize observer emits when an item
+      // is observed for new items when the tab is already inserted
+      skip(1),
+    );
   }
 
   ngAfterContentChecked(): void {

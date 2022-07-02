@@ -7,21 +7,15 @@
  */
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   Inject,
   Input,
-  OnDestroy,
   Optional,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  MDCCircularProgressAdapter,
-  MDCCircularProgressFoundation,
-} from '@material/circular-progress';
 import {CanColor, mixinColor} from '@angular/material-experimental/mdc-core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {
@@ -38,7 +32,12 @@ const _MatProgressSpinnerBase = mixinColor(
   'primary',
 );
 
-/** Possible mode for a progress spinner. */
+/**
+ * Possible mode for a progress spinner.
+ *
+ * 进度圈的可能模式。
+ *
+ */
 export type ProgressSpinnerMode = 'determinate' | 'indeterminate';
 
 /**
@@ -61,6 +60,7 @@ const BASE_STROKE_WIDTH = 10;
     // Note: there is a known issue with JAWS that does not read progressbar aria labels on FireFox
     'tabindex': '-1',
     '[class._mat-animation-noopable]': `_noopAnimations`,
+    '[class.mdc-circular-progress--indeterminate]': 'mode === "indeterminate"',
     '[style.width.px]': 'diameter',
     '[style.height.px]': 'diameter',
     '[attr.aria-valuemin]': '0',
@@ -74,40 +74,15 @@ const BASE_STROKE_WIDTH = 10;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class MatProgressSpinner
-  extends _MatProgressSpinnerBase
-  implements AfterViewInit, OnDestroy, CanColor
-{
-  /** Whether the _mat-animation-noopable class should be applied, disabling animations.  */
+export class MatProgressSpinner extends _MatProgressSpinnerBase implements CanColor {
+  /**
+   * Whether the \_mat-animation-noopable class should be applied, disabling animations.
+   *
+   */
   _noopAnimations: boolean;
-
-  /** Implements all of the logic of the MDC circular progress. */
-  _foundation: MDCCircularProgressFoundation;
 
   /** The element of the determinate spinner. */
   @ViewChild('determinateSpinner') _determinateCircle: ElementRef<HTMLElement>;
-
-  /** Adapter used by MDC to interact with the DOM. */
-  // TODO: switch to class when MDC removes object spread in foundation
-  // https://github.com/material-components/material-components-web/pull/6256
-  private _adapter: MDCCircularProgressAdapter = {
-    addClass: (className: string) => this._elementRef.nativeElement.classList.add(className),
-    hasClass: (className: string) => this._elementRef.nativeElement.classList.contains(className),
-    removeClass: (className: string) => this._elementRef.nativeElement.classList.remove(className),
-    removeAttribute: (name: string) => this._elementRef.nativeElement.removeAttribute(name),
-    setAttribute: (name, value) => {
-      if (name !== 'aria-valuenow') {
-        // MDC deals with values between 0 and 1 but Angular Material deals with values between
-        // 0 and 100 so the aria-valuenow should be set through the attr binding in the host
-        // instead of by the MDC adapter
-        this._elementRef.nativeElement.setAttribute(name, value);
-      }
-    },
-    getDeterminateCircleAttribute: (attributeName: string) =>
-      this._determinateCircle.nativeElement.getAttribute(attributeName),
-    setDeterminateCircleAttribute: (attributeName: string, value: string) =>
-      this._determinateCircle.nativeElement.setAttribute(attributeName, value),
-  };
 
   constructor(
     elementRef: ElementRef<HTMLElement>,
@@ -120,6 +95,10 @@ export class MatProgressSpinner
       animationMode === 'NoopAnimations' && !!defaults && !defaults._forceAnimations;
 
     if (defaults) {
+      if (defaults.color) {
+        this.color = this.defaultColor = defaults.color;
+      }
+
       if (defaults.diameter) {
         this.diameter = defaults.diameter;
       }
@@ -130,65 +109,67 @@ export class MatProgressSpinner
     }
   }
 
-  private _mode: ProgressSpinnerMode =
+  /**
+   * Mode of the progress bar.
+   *
+   * 进度条的模式吧。
+   *
+   * Input must be one of these values: determinate, indeterminate, buffer, query, defaults to
+   * 'determinate'.
+   * Mirrored to mode attribute.
+   *
+   * 此输入属性必须是以下值之一：determinate、indeterminate、buffer 和 query，默认为 'determinate'。会镜像到 mode 属性。
+   *
+   */
+  @Input() mode: ProgressSpinnerMode =
     this._elementRef.nativeElement.nodeName.toLowerCase() === 'mat-spinner'
       ? 'indeterminate'
       : 'determinate';
 
   /**
-   * Mode of the progress bar.
+   * Value of the progress bar. Defaults to zero. Mirrored to aria-valuenow.
    *
-   * Input must be one of these values: determinate, indeterminate, buffer, query, defaults to
-   * 'determinate'.
-   * Mirrored to mode attribute.
+   * 进度条的值。默认为零。镜像到 aria-valuenow。
+   *
    */
-  @Input()
-  get mode(): ProgressSpinnerMode {
-    return this._mode;
-  }
-
-  set mode(value: ProgressSpinnerMode) {
-    this._mode = value;
-    this._syncFoundation();
-  }
-
-  private _value = 0;
-
-  /** Value of the progress bar. Defaults to zero. Mirrored to aria-valuenow. */
   @Input()
   get value(): number {
     return this.mode === 'determinate' ? this._value : 0;
   }
-
   set value(v: NumberInput) {
     this._value = Math.max(0, Math.min(100, coerceNumberProperty(v)));
-    this._syncFoundation();
   }
+  private _value = 0;
 
-  private _diameter = BASE_SIZE;
-
-  /** The diameter of the progress spinner (will set width and height of svg). */
+  /**
+   * The diameter of the progress spinner (will set width and height of svg).
+   *
+   * 进度圈的直径（用于设置 svg 的宽度和高度）。
+   *
+   */
   @Input()
   get diameter(): number {
     return this._diameter;
   }
-
   set diameter(size: NumberInput) {
     this._diameter = coerceNumberProperty(size);
-    this._syncFoundation();
   }
+  private _diameter = BASE_SIZE;
 
-  private _strokeWidth: number;
-
-  /** Stroke width of the progress spinner. */
+  /**
+   * Stroke width of the progress spinner.
+   *
+   * 进度圈的线宽。
+   *
+   */
   @Input()
   get strokeWidth(): number {
     return this._strokeWidth ?? this.diameter / 10;
   }
-
   set strokeWidth(value: NumberInput) {
     this._strokeWidth = coerceNumberProperty(value);
   }
+  private _strokeWidth: number;
 
   /** The radius of the spinner, adjusted for stroke width. */
   _circleRadius(): number {
@@ -218,36 +199,18 @@ export class MatProgressSpinner
   _circleStrokeWidth() {
     return (this.strokeWidth / this.diameter) * 100;
   }
-
-  ngAfterViewInit() {
-    this._foundation = new MDCCircularProgressFoundation(this._adapter);
-    this._foundation.init();
-    this._syncFoundation();
-  }
-
-  ngOnDestroy() {
-    if (this._foundation) {
-      this._foundation.destroy();
-    }
-  }
-
-  /** Syncs the state of the progress spinner with the MDC foundation. */
-  private _syncFoundation() {
-    const foundation = this._foundation;
-
-    if (foundation) {
-      const mode = this.mode;
-      foundation.setProgress(this.value / 100);
-      foundation.setDeterminate(mode === 'determinate');
-    }
-  }
 }
 
 /**
  * `<mat-spinner>` component.
  *
+ * `<mat-spinner>` 组件。
+ *
  * This is a component definition to be used as a convenience reference to create an
  * indeterminate `<mat-progress-spinner>` instance.
+ *
+ * 这是一个组件定义，可以作为方便的引用它来创建一个未定 `<mat-progress-spinner>` 的实例。
+ *
  */
 // tslint:disable-next-line:variable-name
 export const MatSpinner = MatProgressSpinner;

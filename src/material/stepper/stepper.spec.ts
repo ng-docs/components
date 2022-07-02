@@ -20,7 +20,6 @@ import {
   Component,
   DebugElement,
   EventEmitter,
-  OnInit,
   Type,
   Provider,
   ViewChildren,
@@ -46,7 +45,7 @@ import {_supportsShadowDom} from '@angular/cdk/platform';
 import {merge, Observable, Subject} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {MatStepHeader, MatStepperModule} from './index';
-import {MatHorizontalStepper, MatStep, MatStepper, MatVerticalStepper} from './stepper';
+import {MatStep, MatStepper} from './stepper';
 import {MatStepperNext, MatStepperPrevious} from './stepper-button';
 import {MatStepperIntl} from './stepper-intl';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -448,6 +447,15 @@ describe('MatStepper', () => {
     it('should hide the header icons from assistive technology', () => {
       const icon = fixture.nativeElement.querySelector('.mat-step-icon span');
       expect(icon.getAttribute('aria-hidden')).toBe('true');
+    });
+
+    it('should add units to unit-less values passed in to animationDuration', () => {
+      const stepperComponent: MatStepper = fixture.debugElement.query(
+        By.directive(MatStepper),
+      )!.componentInstance;
+
+      stepperComponent.animationDuration = '1337';
+      expect(stepperComponent.animationDuration).toBe('1337ms');
     });
   });
 
@@ -979,13 +987,6 @@ describe('MatStepper', () => {
   });
 
   describe('vertical stepper', () => {
-    it('should be able to use the legacy classes in queries', () => {
-      const fixture = createComponent(SimpleMatVerticalStepperApp);
-      fixture.detectChanges();
-
-      expect(fixture.componentInstance.legacyTokenStepper).toBeTruthy();
-    });
-
     it('should set the aria-orientation to "vertical"', () => {
       const fixture = createComponent(SimpleMatVerticalStepperApp);
       fixture.detectChanges();
@@ -1090,13 +1091,6 @@ describe('MatStepper', () => {
   });
 
   describe('horizontal stepper', () => {
-    it('should be able to use the legacy classes in queries', () => {
-      const fixture = createComponent(SimpleMatHorizontalStepperApp);
-      fixture.detectChanges();
-
-      expect(fixture.componentInstance.legacyTokenStepper).toBeTruthy();
-    });
-
     it('should set the aria-orientation to "horizontal"', () => {
       const fixture = createComponent(SimpleMatHorizontalStepperApp);
       fixture.detectChanges();
@@ -1251,6 +1245,19 @@ describe('MatStepper', () => {
       fixture.detectChanges();
       expect(interactedSteps).toEqual([0, 1, 2]);
       subscription.unsubscribe();
+    });
+
+    it('should set a class on the host if the header is positioned at the bottom', () => {
+      const fixture = createComponent(SimpleMatHorizontalStepperApp);
+      fixture.detectChanges();
+      const stepperHost = fixture.nativeElement.querySelector('.mat-stepper-horizontal');
+
+      expect(stepperHost.classList).not.toContain('mat-stepper-header-position-bottom');
+
+      fixture.componentInstance.headerPosition = 'bottom';
+      fixture.detectChanges();
+
+      expect(stepperHost.classList).toContain('mat-stepper-header-position-bottom');
     });
   });
 
@@ -1829,22 +1836,21 @@ function createComponent<T>(
   </form>
   `,
 })
-class MatHorizontalStepperWithErrorsApp implements OnInit {
-  formGroup: FormGroup;
+class MatHorizontalStepperWithErrorsApp {
+  formGroup = this._formBuilder.group({
+    firstNameCtrl: ['', Validators.required],
+    lastNameCtrl: ['', Validators.required],
+  });
 
   constructor(private _formBuilder: FormBuilder) {}
-
-  ngOnInit() {
-    this.formGroup = this._formBuilder.group({
-      firstNameCtrl: ['', Validators.required],
-      lastNameCtrl: ['', Validators.required],
-    });
-  }
 }
 
 @Component({
   template: `
-    <mat-stepper [disableRipple]="disableRipple" [color]="stepperTheme">
+    <mat-stepper
+      [disableRipple]="disableRipple"
+      [color]="stepperTheme"
+      [headerPosition]="headerPosition">
       <mat-step>
         <ng-template matStepLabel>Step 1</ng-template>
         Content 1
@@ -1872,11 +1878,11 @@ class MatHorizontalStepperWithErrorsApp implements OnInit {
   `,
 })
 class SimpleMatHorizontalStepperApp {
-  @ViewChild(MatHorizontalStepper) legacyTokenStepper: MatHorizontalStepper;
   inputLabel = 'Step 3';
   disableRipple = false;
   stepperTheme: ThemePalette;
   secondStepTheme: ThemePalette;
+  headerPosition: string;
 }
 
 @Component({
@@ -1909,7 +1915,6 @@ class SimpleMatHorizontalStepperApp {
   `,
 })
 class SimpleMatVerticalStepperApp {
-  @ViewChild(MatVerticalStepper) legacyTokenStepper: MatVerticalStepper;
   inputLabel = 'Step 3';
   showStepTwo = true;
   disableRipple = false;
@@ -1956,24 +1961,17 @@ class SimpleMatVerticalStepperApp {
     </mat-stepper>
   `,
 })
-class LinearMatVerticalStepperApp implements OnInit {
-  oneGroup: FormGroup;
-  twoGroup: FormGroup;
-  threeGroup: FormGroup;
-
+class LinearMatVerticalStepperApp {
   validationTrigger = new Subject<void>();
-
-  ngOnInit() {
-    this.oneGroup = new FormGroup({
-      oneCtrl: new FormControl('', Validators.required),
-    });
-    this.twoGroup = new FormGroup({
-      twoCtrl: new FormControl('', Validators.required, asyncValidator(3, this.validationTrigger)),
-    });
-    this.threeGroup = new FormGroup({
-      threeCtrl: new FormControl('', Validators.pattern(VALID_REGEX)),
-    });
-  }
+  oneGroup = new FormGroup({
+    oneCtrl: new FormControl('', Validators.required),
+  });
+  twoGroup = new FormGroup({
+    twoCtrl: new FormControl('', Validators.required, asyncValidator(3, this.validationTrigger)),
+  });
+  threeGroup = new FormGroup({
+    threeCtrl: new FormControl('', Validators.pattern(VALID_REGEX)),
+  });
 }
 
 @Component({
@@ -2020,9 +2018,9 @@ class SimpleStepperWithoutStepControl {
 })
 class SimpleStepperWithStepControlAndCompletedBinding {
   steps = [
-    {label: 'One', completed: false, control: new FormControl()},
-    {label: 'Two', completed: false, control: new FormControl()},
-    {label: 'Three', completed: false, control: new FormControl()},
+    {label: 'One', completed: false, control: new FormControl('')},
+    {label: 'Two', completed: false, control: new FormControl('')},
+    {label: 'Three', completed: false, control: new FormControl('')},
   ];
 }
 
@@ -2088,7 +2086,7 @@ class IndirectDescendantIconOverridesStepper extends IconOverridesStepper {}
   `,
 })
 class LinearStepperWithValidOptionalStep {
-  controls = [0, 0, 0].map(() => new FormControl());
+  controls = [0, 0, 0].map(() => new FormControl(''));
   step2Optional = false;
 }
 

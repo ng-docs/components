@@ -46,7 +46,7 @@ export abstract class BasePortalOutlet implements PortalOutlet {
 export class CdkPortal extends TemplatePortal {
     constructor(templateRef: TemplateRef<any>, viewContainerRef: ViewContainerRef);
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkPortal, "[cdkPortal]", ["cdkPortal"], {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkPortal, "[cdkPortal]", ["cdkPortal"], {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<CdkPortal, never>;
 }
@@ -68,7 +68,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
     get portal(): Portal<any> | null;
     set portal(portal: Portal<any> | null | undefined | '');
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkPortalOutlet, "[cdkPortalOutlet]", ["cdkPortalOutlet"], { "portal": "cdkPortalOutlet"; }, { "attached": "attached"; }, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkPortalOutlet, "[cdkPortalOutlet]", ["cdkPortalOutlet"], { "portal": "cdkPortalOutlet"; }, { "attached": "attached"; }, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<CdkPortalOutlet, never>;
 }
@@ -104,7 +104,7 @@ export class DomPortalHost extends DomPortalOutlet {
 // @public
 export class DomPortalOutlet extends BasePortalOutlet {
     constructor(
-    outletElement: Element, _componentFactoryResolver: ComponentFactoryResolver, _appRef: ApplicationRef, _defaultInjector: Injector,
+    outletElement: Element, _componentFactoryResolver?: ComponentFactoryResolver | undefined, _appRef?: ApplicationRef | undefined, _defaultInjector?: Injector | undefined,
     _document?: any);
     attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T>;
     // @deprecated
@@ -128,7 +128,7 @@ export type PortalHost = PortalOutlet;
 // @public @deprecated (undocumented)
 export class PortalHostDirective extends CdkPortalOutlet {
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<PortalHostDirective, "[cdkPortalHost], [portalHost]", ["cdkPortalHost"], { "portal": "cdkPortalHost"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<PortalHostDirective, "[cdkPortalHost], [portalHost]", ["cdkPortalHost"], { "portal": "cdkPortalHost"; }, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<PortalHostDirective, never>;
 }
@@ -160,11 +160,16 @@ export interface PortalOutlet {
 
 // @public
 export class TemplatePortal<C = any> extends Portal<EmbeddedViewRef<C>> {
-    constructor(template: TemplateRef<C>, viewContainerRef: ViewContainerRef, context?: C);
+    constructor(
+    templateRef: TemplateRef<C>,
+    viewContainerRef: ViewContainerRef,
+    context?: C | undefined,
+    injector?: Injector | undefined);
     attach(host: PortalOutlet, context?: C | undefined): EmbeddedViewRef<C>;
-    context: C | undefined;
+    context?: C | undefined;
     // (undocumented)
     detach(): void;
+    injector?: Injector | undefined;
     // (undocumented)
     get origin(): ElementRef;
     templateRef: TemplateRef<C>;
@@ -174,7 +179,7 @@ export class TemplatePortal<C = any> extends Portal<EmbeddedViewRef<C>> {
 // @public @deprecated (undocumented)
 export class TemplatePortalDirective extends CdkPortal {
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<TemplatePortalDirective, "[cdk-portal], [portal]", ["cdkPortal"], {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<TemplatePortalDirective, "[cdk-portal], [portal]", ["cdkPortal"], {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<TemplatePortalDirective, never>;
 }

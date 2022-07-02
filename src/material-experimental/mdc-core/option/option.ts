@@ -25,6 +25,9 @@ import {MatOptgroup} from './optgroup';
 
 /**
  * Single option inside of a `<mat-select>` element.
+ *
+ * `<mat-select>` 元素内的单个选项。
+ *
  */
 @Component({
   selector: 'mat-option',
@@ -48,7 +51,7 @@ import {MatOptgroup} from './optgroup';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatOption extends _MatOptionBase {
+export class MatOption<T = any> extends _MatOptionBase<T> {
   constructor(
     element: ElementRef<HTMLElement>,
     changeDetectorRef: ChangeDetectorRef,

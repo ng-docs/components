@@ -118,7 +118,7 @@ the overlay element. There are four scroll strategies available as part of the l
 
 `BlockScrollStrategy` will block page scrolling while the overlay is open. Note that some
 applications may implement special or customized page scrolling; if the `BlockScrollStrategy`
-conflicts with this kind of situation, it can be overriden by re-providing `BlockScrollStrategy`
+conflicts with this kind of situation, it can be overridden by re-providing `BlockScrollStrategy`
 with a custom implementation.
 
 当浮层打开时，`BlockScrollStrategy` 会阻止页面滚动。注意，某些应用可能会实现特殊或自定义的页面滚动；如果 `BlockScrollStrategy` 与这种情况冲突，可以通过重新提供带有自定义实现的 `BlockScrollStrategy` 来覆盖它。

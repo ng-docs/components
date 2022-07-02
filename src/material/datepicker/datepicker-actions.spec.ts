@@ -1,5 +1,5 @@
 import {Component, ElementRef, Type, ViewChild} from '@angular/core';
-import {ComponentFixture, TestBed, flush, fakeAsync} from '@angular/core/testing';
+import {ComponentFixture, TestBed, flush, fakeAsync, tick} from '@angular/core/testing';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatNativeDateModule} from '@angular/material/core';
@@ -28,30 +28,34 @@ describe('MatDatepickerActions', () => {
     return TestBed.createComponent(component);
   }
 
-  it('should render the actions inside calendar panel in popup mode', () => {
+  it('should render the actions inside calendar panel in popup mode', fakeAsync(() => {
     const fixture = createComponent(DatepickerWithActions);
     fixture.detectChanges();
     fixture.componentInstance.datepicker.open();
     fixture.detectChanges();
+    tick();
+    flush();
 
     const actions = document.querySelector('.mat-datepicker-content .mat-datepicker-actions');
     expect(actions).toBeTruthy();
     expect(actions?.querySelector('.cancel')).toBeTruthy();
     expect(actions?.querySelector('.apply')).toBeTruthy();
-  });
+  }));
 
-  it('should render the actions inside calendar panel in touch UI mode', () => {
+  it('should render the actions inside calendar panel in touch UI mode', fakeAsync(() => {
     const fixture = createComponent(DatepickerWithActions);
     fixture.componentInstance.touchUi = true;
     fixture.detectChanges();
     fixture.componentInstance.datepicker.open();
     fixture.detectChanges();
+    tick();
+    flush();
 
     const actions = document.querySelector('.mat-datepicker-content .mat-datepicker-actions');
     expect(actions).toBeTruthy();
     expect(actions?.querySelector('.cancel')).toBeTruthy();
     expect(actions?.querySelector('.apply')).toBeTruthy();
-  });
+  }));
 
   it('should not assign the value or close the datepicker when a value is selected', fakeAsync(() => {
     const fixture = createComponent(DatepickerWithActions);
@@ -59,6 +63,7 @@ describe('MatDatepickerActions', () => {
     const {control, datepicker, onDateChange, input} = fixture.componentInstance;
     datepicker.open();
     fixture.detectChanges();
+    tick();
 
     const content = document.querySelector('.mat-datepicker-content')!;
     const cells = content.querySelectorAll<HTMLElement>('.mat-calendar-body-cell');
@@ -86,6 +91,8 @@ describe('MatDatepickerActions', () => {
     const {control, datepicker, onDateChange, input} = fixture.componentInstance;
     datepicker.open();
     fixture.detectChanges();
+    tick();
+    flush();
 
     const content = document.querySelector('.mat-datepicker-content')!;
     const cells = content.querySelectorAll<HTMLElement>('.mat-calendar-body-cell');
@@ -98,6 +105,7 @@ describe('MatDatepickerActions', () => {
 
     cells[10].click();
     fixture.detectChanges();
+    tick();
     flush();
 
     expect(datepicker.opened).toBe(true);
@@ -125,6 +133,8 @@ describe('MatDatepickerActions', () => {
     fixture.detectChanges();
     datepicker.open();
     fixture.detectChanges();
+    tick();
+    flush();
 
     const content = document.querySelector('.mat-datepicker-content')!;
     const cells = content.querySelectorAll<HTMLElement>('.mat-calendar-body-cell');
@@ -135,6 +145,7 @@ describe('MatDatepickerActions', () => {
 
     cells[10].click();
     fixture.detectChanges();
+    tick();
     flush();
 
     expect(datepicker.opened).toBe(true);
@@ -156,6 +167,8 @@ describe('MatDatepickerActions', () => {
     const {control, datepicker, onDateChange, input} = fixture.componentInstance;
     datepicker.open();
     fixture.detectChanges();
+    tick();
+    flush();
 
     const content = document.querySelector('.mat-datepicker-content')!;
     const cells = content.querySelectorAll<HTMLElement>('.mat-calendar-body-cell');
@@ -168,6 +181,7 @@ describe('MatDatepickerActions', () => {
 
     cells[10].click();
     fixture.detectChanges();
+    tick();
     flush();
 
     expect(datepicker.opened).toBe(true);
@@ -192,6 +206,8 @@ describe('MatDatepickerActions', () => {
     const {control, datepicker, onDateChange} = fixture.componentInstance;
     datepicker.open();
     fixture.detectChanges();
+    tick();
+    flush();
 
     let content = document.querySelector('.mat-datepicker-content')!;
     let actions = content.querySelector('.mat-datepicker-actions')!;
@@ -204,6 +220,7 @@ describe('MatDatepickerActions', () => {
 
     cells[10].click();
     fixture.detectChanges();
+    tick();
     flush();
 
     expect(datepicker.opened).toBe(true);
@@ -233,11 +250,34 @@ describe('MatDatepickerActions', () => {
 
     cells[10].click();
     fixture.detectChanges();
+    tick();
     flush();
 
     expect(datepicker.opened).toBe(false);
     expect(control.value).toBeTruthy();
     expect(onDateChange).toHaveBeenCalledTimes(1);
+  }));
+
+  it('should be able to toggle the actions while the datepicker is open', fakeAsync(() => {
+    const fixture = createComponent(DatepickerWithActions);
+    fixture.componentInstance.renderActions = false;
+    fixture.detectChanges();
+
+    fixture.componentInstance.datepicker.open();
+    fixture.detectChanges();
+    tick();
+    flush();
+
+    const content = document.querySelector('.mat-datepicker-content')!;
+    expect(content.querySelector('.mat-datepicker-actions')).toBeFalsy();
+
+    fixture.componentInstance.renderActions = true;
+    fixture.detectChanges();
+    expect(content.querySelector('.mat-datepicker-actions')).toBeTruthy();
+
+    fixture.componentInstance.renderActions = false;
+    fixture.detectChanges();
+    expect(content.querySelector('.mat-datepicker-actions')).toBeFalsy();
   }));
 });
 
@@ -263,7 +303,7 @@ describe('MatDatepickerActions', () => {
 class DatepickerWithActions {
   @ViewChild(MatDatepicker) datepicker: MatDatepicker<Date>;
   @ViewChild('input', {read: ElementRef}) input: ElementRef<HTMLInputElement>;
-  control = new FormControl();
+  control = new FormControl<Date | null>(null);
   onDateChange = jasmine.createSpy('dateChange spy');
   touchUi = false;
   startAt = new Date(2021, 0, 15);

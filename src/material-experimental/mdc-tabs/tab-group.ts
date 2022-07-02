@@ -33,7 +33,10 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 /**
  * Material design tab-group component. Supports basic tab pairs (label + content) and includes
  * animated ink-bar, keyboard navigation, and screen reader.
- * See: https://material.io/design/components/tabs.html
+ * See: <https://material.io/design/components/tabs.html>
+ *
+ * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：<https://material.io/design/components/tabs.html>
+ *
  */
 @Component({
   selector: 'mat-tab-group',
@@ -41,7 +44,8 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
   templateUrl: 'tab-group.html',
   styleUrls: ['tab-group.css'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // tslint:disable-next-line:validate-decorators
+  changeDetection: ChangeDetectionStrategy.Default,
   inputs: ['color', 'disableRipple'],
   providers: [
     {
@@ -53,6 +57,7 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
     'class': 'mat-mdc-tab-group',
     '[class.mat-mdc-tab-group-dynamic-height]': 'dynamicHeight',
     '[class.mat-mdc-tab-group-inverted-header]': 'headerPosition === "below"',
+    '[class.mat-mdc-tab-group-stretch-tabs]': 'stretchTabs',
   },
 })
 export class MatTabGroup extends _MatTabGroupBase {
@@ -70,6 +75,16 @@ export class MatTabGroup extends _MatTabGroupBase {
     this._changeDetectorRef.markForCheck();
   }
   private _fitInkBarToContent = false;
+
+  /** Whether tabs should be stretched to fill the header. */
+  @Input('mat-stretch-tabs')
+  get stretchTabs(): boolean {
+    return this._stretchTabs;
+  }
+  set stretchTabs(v: BooleanInput) {
+    this._stretchTabs = coerceBooleanProperty(v);
+  }
+  private _stretchTabs = true;
 
   constructor(
     elementRef: ElementRef,

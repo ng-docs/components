@@ -22,7 +22,6 @@ import {
   Component,
   ContentChild,
   ContentChildren,
-  Directive,
   ElementRef,
   EventEmitter,
   forwardRef,
@@ -38,8 +37,7 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
-import {FormControl, FormGroupDirective, NgForm} from '@angular/forms';
-import {DOCUMENT} from '@angular/common';
+import {AbstractControl, FormGroupDirective, NgForm} from '@angular/forms';
 import {ErrorStateMatcher, ThemePalette} from '@angular/material/core';
 import {TemplatePortal} from '@angular/cdk/portal';
 import {Subject, Subscription} from 'rxjs';
@@ -47,7 +45,11 @@ import {takeUntil, distinctUntilChanged, map, startWith, switchMap} from 'rxjs/o
 
 import {MatStepHeader} from './step-header';
 import {MatStepLabel} from './step-label';
-import {matStepperAnimations} from './stepper-animations';
+import {
+  DEFAULT_HORIZONTAL_ANIMATION_DURATION,
+  DEFAULT_VERTICAL_ANIMATION_DURATION,
+  matStepperAnimations,
+} from './stepper-animations';
 import {MatStepperIcon, MatStepperIconContext} from './stepper-icon';
 import {MatStepContent} from './step-content';
 
@@ -81,20 +83,10 @@ export class MatStep extends CdkStep implements ErrorStateMatcher, AfterContentI
    */
   @Input() color: ThemePalette;
 
-  /**
-   * Content that will be rendered lazily.
-   *
-   * 要延迟渲染的内容。
-   *
-   */
+  /** Content that will be rendered lazily. */
   @ContentChild(MatStepContent, {static: false}) _lazyContent: MatStepContent;
 
-  /**
-   * Currently-attached portal containing the lazy content.
-   *
-   * 当前附着到的门户网站，其中包含惰性渲染的内容。
-   *
-   */
+  /** Currently-attached portal containing the lazy content. */
   _portal: TemplatePortal;
 
   constructor(
@@ -133,7 +125,7 @@ export class MatStep extends CdkStep implements ErrorStateMatcher, AfterContentI
    * 自定义错误状态匹配器，它还要检查交互式表单的有效性。
    *
    */
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+  isErrorState(control: AbstractControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const originalErrorState = this._errorStateMatcher.isErrorState(control, form);
 
     // Custom error state checks for the validity of form that is not submitted or touched
@@ -144,48 +136,6 @@ export class MatStep extends CdkStep implements ErrorStateMatcher, AfterContentI
     return originalErrorState || customErrorState;
   }
 }
-
-/**
- * Proxies the public APIs from `MatStepper` to the deprecated `MatHorizontalStepper` and
- * `MatVerticalStepper`.
- *
- * 从 `MatStepper` 代理到已弃用的 `MatHorizontalStepper` 和 `MatVerticalStepper` 的公共 API。
- *
- * @deprecated Use `MatStepper` instead.
- *
- * 请改用 `MatStepper`。
- *
- * @breaking-change 13.0.0
- * @docs-private
- */
-@Directive()
-abstract class _MatProxyStepperBase extends CdkStepper {
-  override readonly steps: QueryList<MatStep>;
-  readonly animationDone: EventEmitter<void>;
-  disableRipple: boolean;
-  color: ThemePalette;
-  labelPosition: 'bottom' | 'end';
-}
-
-/**
- * @deprecated Use `MatStepper` instead.
- *
- * 请改用 `MatStepper`。
- *
- * @breaking-change 13.0.0
- */
-@Directive({selector: 'mat-horizontal-stepper'})
-export class MatHorizontalStepper extends _MatProxyStepperBase {}
-
-/**
- * @deprecated Use `MatStepper` instead.
- *
- * 请改用 `MatStepper`。
- *
- * @breaking-change 13.0.0
- */
-@Directive({selector: 'mat-vertical-stepper'})
-export class MatVerticalStepper extends _MatProxyStepperBase {}
 
 @Component({
   selector: 'mat-stepper, mat-vertical-stepper, mat-horizontal-stepper, [matStepper]',
@@ -200,6 +150,7 @@ export class MatVerticalStepper extends _MatProxyStepperBase {}
       'orientation === "horizontal" && labelPosition == "end"',
     '[class.mat-stepper-label-position-bottom]':
       'orientation === "horizontal" && labelPosition == "bottom"',
+    '[class.mat-stepper-header-position-bottom]': 'headerPosition === "bottom"',
     '[attr.aria-orientation]': 'orientation',
     'role': 'tablist',
   },
@@ -207,45 +158,26 @@ export class MatVerticalStepper extends _MatProxyStepperBase {}
     matStepperAnimations.horizontalStepTransition,
     matStepperAnimations.verticalStepTransition,
   ],
-  providers: [
-    {provide: CdkStepper, useExisting: MatStepper},
-    {provide: MatHorizontalStepper, useExisting: MatStepper},
-    {provide: MatVerticalStepper, useExisting: MatStepper},
-  ],
+  providers: [{provide: CdkStepper, useExisting: MatStepper}],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatStepper extends CdkStepper implements AfterContentInit {
-  /**
-   * The list of step headers of the steps in the stepper.
-   *
-   * 步进器中各步骤的步骤头列表。
-   *
-   */
+  /** The list of step headers of the steps in the stepper. */
   @ViewChildren(MatStepHeader) override _stepHeader: QueryList<MatStepHeader>;
 
-  /**
-   * Full list of steps inside the stepper, including inside nested steppers.
-   *
-   * 步进器里面的完整步骤列表，也包括嵌套的步进器内部的步骤。
-   *
-   */
+  /** Full list of steps inside the stepper, including inside nested steppers. */
   @ContentChildren(MatStep, {descendants: true}) override _steps: QueryList<MatStep>;
 
   /**
    * Steps that belong to the current stepper, excluding ones from nested steppers.
    *
-   * 属于当前步进器的步骤（不包括那些来自嵌套步进器的步骤）。
+   * 属于当前步进器的步骤（不包括那些来自嵌套步进器中的步骤）。
    *
    */
   override readonly steps: QueryList<MatStep> = new QueryList<MatStep>();
 
-  /**
-   * Custom icon overrides passed in by the consumer.
-   *
-   * 消费者传入的自定义改写图标。
-   *
-   */
+  /** Custom icon overrides passed in by the consumer. */
   @ContentChildren(MatStepperIcon, {descendants: true}) _icons: QueryList<MatStepperIcon>;
 
   /**
@@ -283,28 +215,34 @@ export class MatStepper extends CdkStepper implements AfterContentInit {
   labelPosition: 'bottom' | 'end' = 'end';
 
   /**
-   * Consumer-specified template-refs to be used to override the header icons.
-   *
-   * 由消费者指定的 TemplateRef，用来改写标题图标。
-   *
+   * Position of the stepper's header.
+   * Only applies in the `horizontal` orientation.
    */
+  @Input()
+  headerPosition: 'top' | 'bottom' = 'top';
+
+  /** Consumer-specified template-refs to be used to override the header icons. */
   _iconOverrides: Record<string, TemplateRef<MatStepperIconContext>> = {};
 
-  /**
-   * Stream of animation `done` events when the body expands/collapses.
-   *
-   * 当步骤体展开/折叠时，动画的 `done` 事件流。
-   *
-   */
+  /** Stream of animation `done` events when the body expands/collapses. */
   readonly _animationDone = new Subject<AnimationEvent>();
+
+  /** Duration for the animation. Will be normalized to milliseconds if no units are set. */
+  @Input()
+  get animationDuration(): string {
+    return this._animationDuration;
+  }
+  set animationDuration(value: string) {
+    this._animationDuration = /^\d+$/.test(value) ? value + 'ms' : value;
+  }
+  private _animationDuration = '';
 
   constructor(
     @Optional() dir: Directionality,
     changeDetectorRef: ChangeDetectorRef,
     elementRef: ElementRef<HTMLElement>,
-    @Inject(DOCUMENT) _document: any,
   ) {
-    super(dir, changeDetectorRef, elementRef, _document);
+    super(dir, changeDetectorRef, elementRef);
     const nodeName = elementRef.nativeElement.nodeName.toLowerCase();
     this.orientation = nodeName === 'mat-vertical-stepper' ? 'vertical' : 'horizontal';
   }
@@ -335,5 +273,15 @@ export class MatStepper extends CdkStepper implements AfterContentInit {
 
   _stepIsNavigable(index: number, step: MatStep): boolean {
     return step.completed || this.selectedIndex === index || !this.linear;
+  }
+
+  _getAnimationDuration() {
+    if (this.animationDuration) {
+      return this.animationDuration;
+    }
+
+    return this.orientation === 'horizontal'
+      ? DEFAULT_HORIZONTAL_ANIMATION_DURATION
+      : DEFAULT_VERTICAL_ANIMATION_DURATION;
   }
 }

@@ -7,12 +7,13 @@
  */
 
 import {BidiModule} from '@angular/cdk/bidi';
-import {PlatformModule} from '@angular/cdk/platform';
 import {NgModule} from '@angular/core';
 import {CdkFixedSizeVirtualScroll} from './fixed-size-virtual-scroll';
 import {CdkScrollable} from './scrollable';
 import {CdkVirtualForOf} from './virtual-for-of';
 import {CdkVirtualScrollViewport} from './virtual-scroll-viewport';
+import {CdkVirtualScrollableElement} from './virtual-scrollable-element';
+import {CdkVirtualScrollableWindow} from './virtual-scrollable-window';
 
 @NgModule({
   exports: [CdkScrollable],
@@ -24,14 +25,22 @@ export class CdkScrollableModule {}
  * @docs-primary-export
  */
 @NgModule({
-  imports: [BidiModule, PlatformModule, CdkScrollableModule],
+  imports: [BidiModule, CdkScrollableModule],
   exports: [
     BidiModule,
     CdkScrollableModule,
     CdkFixedSizeVirtualScroll,
     CdkVirtualForOf,
     CdkVirtualScrollViewport,
+    CdkVirtualScrollableWindow,
+    CdkVirtualScrollableElement,
   ],
-  declarations: [CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport],
+  declarations: [
+    CdkFixedSizeVirtualScroll,
+    CdkVirtualForOf,
+    CdkVirtualScrollViewport,
+    CdkVirtualScrollableWindow,
+    CdkVirtualScrollableElement,
+  ],
 })
 export class ScrollingModule {}

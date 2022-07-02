@@ -69,11 +69,12 @@ export abstract class ResizeStrategy {
 }
 
 /**
- * The optimially performing resize strategy for &lt;table&gt; elements with table-layout: fixed.
+ * The optimially performing resize strategy for &lt;table> elements with table-layout: fixed.
  * Tested against and outperformed:
  *   CSS selector
  *   CSS selector w/ CSS variable
  *   Updating all cell nodes
+ *
  */
 @Injectable()
 export class TableLayoutFixedResizeStrategy extends ResizeStrategy {

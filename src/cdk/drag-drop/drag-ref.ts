@@ -25,11 +25,11 @@ import {
   extendStyles,
   toggleNativeDragInteractions,
   toggleVisibility,
-} from './drag-styling';
-import {getTransformTransitionDurationInMs} from './transition-duration';
-import {getMutableClientRect, adjustClientRect} from './client-rect';
-import {ParentPositionTracker} from './parent-position-tracker';
-import {deepCloneNode} from './clone-node';
+} from './dom/styling';
+import {getTransformTransitionDurationInMs} from './dom/transition-duration';
+import {getMutableClientRect, adjustClientRect} from './dom/client-rect';
+import {ParentPositionTracker} from './dom/parent-position-tracker';
+import {deepCloneNode} from './dom/clone-node';
 
 /**
  * Object that can be used to configure the behavior of DragRef.
@@ -73,20 +73,10 @@ export interface DragRefConfig {
   parentDragRef?: DragRef;
 }
 
-/**
- * Options that can be used to bind a passive event listener.
- *
- * 可以用来绑定被动事件监听器的参数。
- *
- */
+/** Options that can be used to bind a passive event listener. */
 const passiveEventListenerOptions = normalizePassiveListenerOptions({passive: true});
 
-/**
- * Options that can be used to bind an active event listener.
- *
- * 可以用来绑定活动事件监听器的参数。
- *
- */
+/** Options that can be used to bind an active event listener. */
 const activeEventListenerOptions = normalizePassiveListenerOptions({passive: false});
 
 /**
@@ -94,9 +84,6 @@ const activeEventListenerOptions = normalizePassiveListenerOptions({passive: fal
  * receiving a touch event. Used to avoid doing double work for
  * touch devices where the browser fires fake mouse events, in
  * addition to touch events.
- *
- * 在收到 touch 事件后，忽略鼠标事件的时间（以毫秒为单位）。用于避免浏览器除了触摸事件之外还触发假鼠标事件导致的双重工作。
- *
  */
 const MOUSE_EVENT_IGNORE_TIME = 800;
 
@@ -106,31 +93,18 @@ const MOUSE_EVENT_IGNORE_TIME = 800;
 /**
  * Internal compile-time-only representation of a `DragRef`.
  * Used to avoid circular import issues between the `DragRef` and the `DropListRef`.
- *
- * `DragRef` 的内部编译期表示法。用来避免 `DragRef` 和 `DropListRef` 之间的循环导入问题。
- *
  * @docs-private
  */
 export interface DragRefInternal extends DragRef {}
 
-/**
- * Template that can be used to create a drag helper element (e.g. a preview or a placeholder).
- *
- * 可用于创建拖动辅助元素（例如预览或占位符）的模板。
- *
- */
+/** Template that can be used to create a drag helper element (e.g. a preview or a placeholder). */
 interface DragHelperTemplate<T = any> {
   template: TemplateRef<T> | null;
   viewContainer: ViewContainerRef;
   context: T;
 }
 
-/**
- * Template that can be used to create a drag preview element.
- *
- * 可用于创建拖动预览元素的模板。
- *
- */
+/** Template that can be used to create a drag preview element. */
 interface DragPreviewTemplate<T = any> extends DragHelperTemplate<T> {
   matchSize?: boolean;
 }
@@ -146,12 +120,7 @@ export interface Point {
   y: number;
 }
 
-/**
- * Inline styles to be set as `!important` while dragging.
- *
- * 拖动时要设置为 `!important` 的内联样式。
- *
- */
+/** Inline styles to be set as `!important` while dragging. */
 const dragImportantProperties = new Set([
   // Needs to be important, because some `mat-table` sets `position: sticky !important`. See #22781.
   'position',
@@ -190,20 +159,10 @@ export type PreviewContainer = 'global' | 'parent' | ElementRef<HTMLElement> | H
  *
  */
 export class DragRef<T = any> {
-  /**
-   * Element displayed next to the user's pointer while the element is dragged.
-   *
-   * 当元素被拖动时，会显示在用户指针旁边的元素。
-   *
-   */
+  /** Element displayed next to the user's pointer while the element is dragged. */
   private _preview: HTMLElement;
 
-  /**
-   * Reference to the view of the preview element.
-   *
-   * 到预览元素视图的引用。
-   *
-   */
+  /** Reference to the view of the preview element. */
   private _previewRef: EmbeddedViewRef<any> | null;
 
   /**
@@ -214,44 +173,21 @@ export class DragRef<T = any> {
    */
   private _previewContainer: PreviewContainer | undefined;
 
-  /**
-   * Reference to the view of the placeholder element.
-   *
-   * 到占位符元素视图的引用。
-   *
-   */
+  /** Reference to the view of the placeholder element. */
   private _placeholderRef: EmbeddedViewRef<any> | null;
 
-  /**
-   * Element that is rendered instead of the draggable item while it is being sorted.
-   *
-   * 在被排序时，用来代替可拖动条目进行渲染的元素。
-   *
-   */
+  /** Element that is rendered instead of the draggable item while it is being sorted. */
   private _placeholder: HTMLElement;
 
-  /**
-   * Coordinates within the element at which the user picked up the element.
-   *
-   * 用户拿起的元素的元素内坐标。
-   *
-   */
+  /** Coordinates within the element at which the user picked up the element. */
   private _pickupPositionInElement: Point;
 
-  /**
-   * Coordinates on the page at which the user picked up the element.
-   *
-   * 用户拿起的元素的页面内坐标。
-   *
-   */
+  /** Coordinates on the page at which the user picked up the element. */
   private _pickupPositionOnPage: Point;
 
   /**
    * Anchor node used to save the place in the DOM where the element was
    * picked up so that it can be restored at the end of the drag sequence.
-   *
-   * 锚点节点用来保存 DOM 中拾取元素的位置，以便在拖曳序列结束时恢复它。
-   *
    */
   private _anchor: Comment;
 
@@ -260,75 +196,34 @@ export class DragRef<T = any> {
    * passive transform in order for the dragged element to retain its new position
    * after the user has stopped dragging and because we need to know the relative
    * position in case they start dragging again. This corresponds to `element.style.transform`.
-   *
-   * CSS `transform` 在拖动的时候会应用于元素。我们需要一个被动变换来让被拖动的元素在用户停止拖动之后保持新的位置，因为我们需要先了解它的相对位置（以防它们再次开始拖动）。这与 `element.style.transform` 相对应。
-   *
    */
   private _passiveTransform: Point = {x: 0, y: 0};
 
-  /**
-   * CSS `transform` that is applied to the element while it's being dragged.
-   *
-   * 在被拖动过程中应用于该元素的 CSS `transform`
-   *
-   */
+  /** CSS `transform` that is applied to the element while it's being dragged. */
   private _activeTransform: Point = {x: 0, y: 0};
 
-  /**
-   * Inline `transform` value that the element had before the first dragging sequence.
-   *
-   * 元素在第一个拖曳序列之前的内联 `transform`
-   *
-   */
+  /** Inline `transform` value that the element had before the first dragging sequence. */
   private _initialTransform?: string;
 
   /**
    * Whether the dragging sequence has been started. Doesn't
    * necessarily mean that the element has been moved.
-   *
-   * 这个拖曳序列是否已经启动过了。但并不等于这个元素移动过。
-   *
    */
   private _hasStartedDragging = false;
 
-  /**
-   * Whether the element has moved since the user started dragging it.
-   *
-   * 元素是否自用户开始拖动以来就已经移动过了。
-   *
-   */
+  /** Whether the element has moved since the user started dragging it. */
   private _hasMoved: boolean;
 
-  /**
-   * Drop container in which the DragRef resided when dragging began.
-   *
-   * 当拖曳开始时 DragRef 所在的投放容器。
-   *
-   */
+  /** Drop container in which the DragRef resided when dragging began. */
   private _initialContainer: DropListRef;
 
-  /**
-   * Index at which the item started in its initial container.
-   *
-   * 该条目在其初始容器中的索引。
-   *
-   */
+  /** Index at which the item started in its initial container. */
   private _initialIndex: number;
 
-  /**
-   * Cached positions of scrollable parent elements.
-   *
-   * 可滚动父元素的已缓存位置。
-   *
-   */
+  /** Cached positions of scrollable parent elements. */
   private _parentPositions: ParentPositionTracker;
 
-  /**
-   * Emits when the item is being moved.
-   *
-   * 移动条目时发出通知。
-   *
-   */
+  /** Emits when the item is being moved. */
   private readonly _moveEvents = new Subject<{
     source: DragRef;
     pointerPosition: {x: number; y: number};
@@ -337,190 +232,96 @@ export class DragRef<T = any> {
     delta: {x: -1 | 0 | 1; y: -1 | 0 | 1};
   }>();
 
-  /**
-   * Keeps track of the direction in which the user is dragging along each axis.
-   *
-   * 跟踪用户沿着每个轴拖动的方向。
-   *
-   */
+  /** Keeps track of the direction in which the user is dragging along each axis. */
   private _pointerDirectionDelta: {x: -1 | 0 | 1; y: -1 | 0 | 1};
 
-  /**
-   * Pointer position at which the last change in the delta occurred.
-   *
-   * 在最后一次改变方向之后的指针位置。
-   *
-   */
+  /** Pointer position at which the last change in the delta occurred. */
   private _pointerPositionAtLastDirectionChange: Point;
 
-  /**
-   * Position of the pointer at the last pointer event.
-   *
-   * 指向最后一次指针事件的位置。
-   *
-   */
+  /** Position of the pointer at the last pointer event. */
   private _lastKnownPointerPosition: Point;
 
   /**
    * Root DOM node of the drag instance. This is the element that will
    * be moved around as the user is dragging.
-   *
-   * 该拖放实例的根 DOM 节点。这是当用户拖动时会被移动的元素。
-   *
    */
   private _rootElement: HTMLElement;
 
   /**
    * Nearest ancestor SVG, relative to which coordinates are calculated if dragging SVGElement
-   *
-   * 最近的祖先 SVG，如果要拖动 SVGElement，就会相对于它来计算坐标
-   *
    */
   private _ownerSVGElement: SVGSVGElement | null;
 
   /**
    * Inline style value of `-webkit-tap-highlight-color` at the time the
    * dragging was started. Used to restore the value once we're done dragging.
-   *
-   * 拖动开始时的 `-webkit-tap-highlight-color` 内联样式值。拖拉完毕后，用来恢复该值。
-   *
    */
   private _rootElementTapHighlight: string;
 
-  /**
-   * Subscription to pointer movement events.
-   *
-   * 订阅指针移动事件。
-   *
-   */
+  /** Subscription to pointer movement events. */
   private _pointerMoveSubscription = Subscription.EMPTY;
 
-  /**
-   * Subscription to the event that is dispatched when the user lifts their pointer.
-   *
-   * 订阅当用户放开指针时派发的事件。
-   *
-   */
+  /** Subscription to the event that is dispatched when the user lifts their pointer. */
   private _pointerUpSubscription = Subscription.EMPTY;
 
-  /**
-   * Subscription to the viewport being scrolled.
-   *
-   * 到视口滚动事件的订阅。
-   *
-   */
+  /** Subscription to the viewport being scrolled. */
   private _scrollSubscription = Subscription.EMPTY;
 
-  /**
-   * Subscription to the viewport being resized.
-   *
-   * 到视口正在调整大小事件的订阅。
-   *
-   */
+  /** Subscription to the viewport being resized. */
   private _resizeSubscription = Subscription.EMPTY;
 
   /**
    * Time at which the last touch event occurred. Used to avoid firing the same
    * events multiple times on touch devices where the browser will fire a fake
    * mouse event for each touch event, after a certain time.
-   *
-   * 最后一次触摸事件发生的时间。用来避免在触摸设备上多次触发相同的事件，因为浏览器会在一定时间后触发每个触摸事件的假鼠标事件。
-   *
    */
   private _lastTouchEventTime: number;
 
-  /**
-   * Time at which the last dragging sequence was started.
-   *
-   * 上一次拖曳序列开始的时间。
-   *
-   */
+  /** Time at which the last dragging sequence was started. */
   private _dragStartTime: number;
 
-  /**
-   * Cached reference to the boundary element.
-   *
-   * 对边界元素的缓存引用。
-   *
-   */
+  /** Cached reference to the boundary element. */
   private _boundaryElement: HTMLElement | null = null;
 
-  /**
-   * Whether the native dragging interactions have been enabled on the root element.
-   *
-   * 是否在根元素上启用了原生拖动交互。
-   *
-   */
+  /** Whether the native dragging interactions have been enabled on the root element. */
   private _nativeInteractionsEnabled = true;
 
-  /**
-   * Cached dimensions of the preview element.
-   *
-   * 缓存的预览元素规格。
-   *
-   */
+  /** Client rect of the root element when the dragging sequence has started. */
+  private _initialClientRect?: ClientRect;
+
+  /** Cached dimensions of the preview element. Should be read via `_getPreviewRect`. */
   private _previewRect?: ClientRect;
 
-  /**
-   * Cached dimensions of the boundary element.
-   *
-   * 缓存的边界元素规格。
-   *
-   */
+  /** Cached dimensions of the boundary element. */
   private _boundaryRect?: ClientRect;
 
-  /**
-   * Element that will be used as a template to create the draggable item's preview.
-   *
-   * 该元素将被用作模板来创建可拖动条目的预览。
-   *
-   */
+  /** Element that will be used as a template to create the draggable item's preview. */
   private _previewTemplate?: DragPreviewTemplate | null;
 
-  /**
-   * Template for placeholder element rendered to show where a draggable would be dropped.
-   *
-   * 占位符元素的模板，用于展示可拖动对象的投放位置。
-   *
-   */
+  /** Template for placeholder element rendered to show where a draggable would be dropped. */
   private _placeholderTemplate?: DragHelperTemplate | null;
 
-  /**
-   * Elements that can be used to drag the draggable item.
-   *
-   * 可以用来拖动条目的元素。
-   *
-   */
+  /** Elements that can be used to drag the draggable item. */
   private _handles: HTMLElement[] = [];
 
-  /**
-   * Registered handles that are currently disabled.
-   *
-   * 当前禁用的已注册把手。
-   *
-   */
+  /** Registered handles that are currently disabled. */
   private _disabledHandles = new Set<HTMLElement>();
 
   /**
    * Droppable container that the draggable is a part of.
    *
-   * 可拖动条目是哪个投放容器的一部分。
+   * 此可拖动对象所属的可拖动容器。
    *
    */
   private _dropContainer?: DropListRef;
 
-  /**
-   * Layout direction of the item.
-   *
-   * 该条目的布局方向。
-   *
-   */
+  /** Layout direction of the item. */
   private _direction: Direction = 'ltr';
 
   /**
    * Ref that the current drag item is nested in.
    *
-   * 嵌套了当前拖动项的引用。
+   * 当前拖动条目所嵌套在的父拖动的引用。
    *
    */
   private _parentDragRef: DragRef<unknown> | null;
@@ -529,9 +330,6 @@ export class DragRef<T = any> {
    * Cached shadow root that the element is placed in. `null` means that the element isn't in
    * the shadow DOM and `undefined` means that it hasn't been resolved yet. Should be read via
    * `_getShadowRoot`, not directly.
-   *
-   * 该元素所在的缓存的 Shadow DOM 根。`null` 表示该元素不在 shadow DOM 中，`undefined` 表示它尚未解析。应该通过 `_getShadowRoot` 读取，而不是直接读取。
-   *
    */
   private _cachedShadowRoot: ShadowRoot | null | undefined;
 
@@ -594,7 +392,7 @@ export class DragRef<T = any> {
    * 当用户开始拖动该条目时会触发。
    *
    */
-  readonly started = new Subject<{source: DragRef}>();
+  readonly started = new Subject<{source: DragRef; event: MouseEvent | TouchEvent}>();
 
   /**
    * Emits when the user has released a drag item, before any animations have started.
@@ -602,7 +400,7 @@ export class DragRef<T = any> {
    * 当用户释放了一个拖动条目时触发。位于任何动画开始之前。
    *
    */
-  readonly released = new Subject<{source: DragRef}>();
+  readonly released = new Subject<{source: DragRef; event: MouseEvent | TouchEvent}>();
 
   /**
    * Emits when the user stops dragging an item in the container.
@@ -610,7 +408,12 @@ export class DragRef<T = any> {
    * 当用户停止拖动容器中的某个条目时，会发出本通知。
    *
    */
-  readonly ended = new Subject<{source: DragRef; distance: Point; dropPoint: Point}>();
+  readonly ended = new Subject<{
+    source: DragRef;
+    distance: Point;
+    dropPoint: Point;
+    event: MouseEvent | TouchEvent;
+  }>();
 
   /**
    * Emits when the user has moved the item into a new container.
@@ -643,6 +446,7 @@ export class DragRef<T = any> {
     distance: Point;
     dropPoint: Point;
     isPointerOverContainer: boolean;
+    event: MouseEvent | TouchEvent;
   }>();
 
   /**
@@ -671,13 +475,14 @@ export class DragRef<T = any> {
   /**
    * Function that can be used to customize the logic of how the position of the drag item
    * is limited while it's being dragged. Gets called with a point containing the current position
-   * of the user's pointer on the page and should return a point describing where the item should
-   * be rendered.
-   *
-   * 一个函数，可以用来自定义拖动条目的位置限制逻辑。通过一个包含该用户指针在页面上的当前位置进行调用，并返回一个描述该条目应该渲染在哪个位置的点。
-   *
+   * of the user's pointer on the page, a reference to the item being dragged and its dimenstions.
+   * Should return a point describing where the item should be rendered.
    */
-  constrainPosition?: (point: Point, dragRef: DragRef) => Point;
+  constrainPosition?: (
+    userPointerPosition: Point,
+    dragRef: DragRef,
+    dimensions: ClientRect,
+  ) => Point;
 
   constructor(
     element: ElementRef<HTMLElement> | HTMLElement,
@@ -688,7 +493,7 @@ export class DragRef<T = any> {
     private _dragDropRegistry: DragDropRegistry<DragRef, DropListRef>,
   ) {
     this.withRootElement(element).withParent(_config.parentDragRef || null);
-    this._parentPositions = new ParentPositionTracker(_document, _viewportRuler);
+    this._parentPositions = new ParentPositionTracker(_document);
     _dragDropRegistry.registerDragItem(this);
   }
 
@@ -798,6 +603,7 @@ export class DragRef<T = any> {
       this._ngZone.runOutsideAngular(() => {
         element.addEventListener('mousedown', this._pointerDown, activeEventListenerOptions);
         element.addEventListener('touchstart', this._pointerDown, passiveEventListenerOptions);
+        element.addEventListener('dragstart', this._nativeDragStart, activeEventListenerOptions);
       });
       this._initialTransform = undefined;
       this._rootElement = element;
@@ -950,12 +756,7 @@ export class DragRef<T = any> {
     return this;
   }
 
-  /**
-   * Sets the container that the item is part of.
-   *
-   * 设置该条目所属的容器。
-   *
-   */
+  /** Sets the container that the item is part of. */
   _withDropContainer(container: DropListRef) {
     this._dropContainer = container;
   }
@@ -1008,12 +809,7 @@ export class DragRef<T = any> {
     return this;
   }
 
-  /**
-   * Updates the item's sort order based on the last-known pointer position.
-   *
-   * 根据最近知道的指针位置更新本条目的排序顺序。
-   *
-   */
+  /** Updates the item's sort order based on the last-known pointer position. */
   _sortFromLastPointerPosition() {
     const position = this._lastKnownPointerPosition;
 
@@ -1022,56 +818,34 @@ export class DragRef<T = any> {
     }
   }
 
-  /**
-   * Unsubscribes from the global subscriptions.
-   *
-   * 取消所有全局订阅。
-   *
-   */
+  /** Unsubscribes from the global subscriptions. */
   private _removeSubscriptions() {
     this._pointerMoveSubscription.unsubscribe();
     this._pointerUpSubscription.unsubscribe();
     this._scrollSubscription.unsubscribe();
   }
 
-  /**
-   * Destroys the preview element and its ViewRef.
-   *
-   * 销毁这个预览元素及其 ViewRef。
-   *
-   */
+  /** Destroys the preview element and its ViewRef. */
   private _destroyPreview() {
     this._preview?.remove();
     this._previewRef?.destroy();
     this._preview = this._previewRef = null!;
   }
 
-  /**
-   * Destroys the placeholder element and its ViewRef.
-   *
-   * 销毁占位符元素及其 ViewRef。
-   *
-   */
+  /** Destroys the placeholder element and its ViewRef. */
   private _destroyPlaceholder() {
     this._placeholder?.remove();
     this._placeholderRef?.destroy();
     this._placeholder = this._placeholderRef = null!;
   }
 
-  /**
-   * Handler for the `mousedown`/`touchstart` events.
-   *
-   * `mousedown` / `touchstart` 事件的处理程序。
-   *
-   */
+  /** Handler for the `mousedown`/`touchstart` events. */
   private _pointerDown = (event: MouseEvent | TouchEvent) => {
     this.beforeStarted.next();
 
     // Delegate the event based on whether it started from a handle or the element itself.
     if (this._handles.length) {
-      const targetHandle = this._handles.find(handle => {
-        return event.target && (event.target === handle || handle.contains(event.target as Node));
-      });
+      const targetHandle = this._getTargetHandle(event);
 
       if (targetHandle && !this._disabledHandles.has(targetHandle) && !this.disabled) {
         this._initializeDragSequence(targetHandle, event);
@@ -1081,12 +855,7 @@ export class DragRef<T = any> {
     }
   };
 
-  /**
-   * Handler that is invoked when the user moves their pointer after they've initiated a drag.
-   *
-   * 当用户启动拖曳后移动指针时调用的处理函数。
-   *
-   */
+  /** Handler that is invoked when the user moves their pointer after they've initiated a drag. */
   private _pointerMove = (event: MouseEvent | TouchEvent) => {
     const pointerPosition = this._getPointerPositionOnPage(event);
 
@@ -1123,15 +892,6 @@ export class DragRef<T = any> {
       return;
     }
 
-    // We only need the preview dimensions if we have a boundary element.
-    if (this._boundaryElement) {
-      // Cache the preview element rect if we haven't cached it already or if
-      // we cached it too early before the element dimensions were computed.
-      if (!this._previewRect || (!this._previewRect.width && !this._previewRect.height)) {
-        this._previewRect = (this._preview || this._rootElement).getBoundingClientRect();
-      }
-    }
-
     // We prevent the default action down here so that we know that dragging has started. This is
     // important for touch devices where doing this too early can unnecessarily block scrolling,
     // if there's a dragging delay.
@@ -1145,12 +905,12 @@ export class DragRef<T = any> {
     if (this._dropContainer) {
       this._updateActiveDropContainer(constrainedPointerPosition, pointerPosition);
     } else {
+      // If there's a position constraint function, we want the element's top/left to be at the
+      // specific position on the page. Use the initial position as a reference if that's the case.
+      const offset = this.constrainPosition ? this._initialClientRect! : this._pickupPositionOnPage;
       const activeTransform = this._activeTransform;
-      activeTransform.x =
-        constrainedPointerPosition.x - this._pickupPositionOnPage.x + this._passiveTransform.x;
-      activeTransform.y =
-        constrainedPointerPosition.y - this._pickupPositionOnPage.y + this._passiveTransform.y;
-
+      activeTransform.x = constrainedPointerPosition.x - offset.x + this._passiveTransform.x;
+      activeTransform.y = constrainedPointerPosition.y - offset.y + this._passiveTransform.y;
       this._applyRootElementTransform(activeTransform.x, activeTransform.y);
     }
 
@@ -1170,25 +930,14 @@ export class DragRef<T = any> {
     }
   };
 
-  /**
-   * Handler that is invoked when the user lifts their pointer up, after initiating a drag.
-   *
-   * 当用户在启动拖曳时把抬起指针时调用的处理程序。
-   *
-   */
+  /** Handler that is invoked when the user lifts their pointer up, after initiating a drag. */
   private _pointerUp = (event: MouseEvent | TouchEvent) => {
     this._endDragSequence(event);
   };
 
   /**
    * Clears subscriptions and stops the dragging sequence.
-   *
-   * 清除订阅并停止拖曳序列。
-   *
    * @param event Browser event object that ended the sequence.
-   *
-   * 停止该序列的浏览器事件对象
-   *
    */
   private _endDragSequence(event: MouseEvent | TouchEvent) {
     // Note that here we use `isDragging` from the service, rather than from `this`.
@@ -1212,7 +961,7 @@ export class DragRef<T = any> {
       return;
     }
 
-    this.released.next({source: this});
+    this.released.next({source: this, event});
 
     if (this._dropContainer) {
       // Stop scrolling immediately, instead of waiting for the animation to finish.
@@ -1234,6 +983,7 @@ export class DragRef<T = any> {
           source: this,
           distance: this._getDragDistance(pointerPosition),
           dropPoint: pointerPosition,
+          event,
         });
       });
       this._cleanupCachedDimensions();
@@ -1241,12 +991,7 @@ export class DragRef<T = any> {
     }
   }
 
-  /**
-   * Starts the dragging sequence.
-   *
-   * 开始拖曳序列。
-   *
-   */
+  /** Starts the dragging sequence. */
   private _startDragSequence(event: MouseEvent | TouchEvent) {
     if (isTouchEvent(event)) {
       this._lastTouchEventTime = Date.now();
@@ -1282,12 +1027,12 @@ export class DragRef<T = any> {
       toggleVisibility(element, false, dragImportantProperties);
       this._document.body.appendChild(parent.replaceChild(placeholder, element));
       this._getPreviewInsertionPoint(parent, shadowRoot).appendChild(this._preview);
-      this.started.next({source: this}); // Emit before notifying the container.
+      this.started.next({source: this, event}); // Emit before notifying the container.
       dropContainer.start();
       this._initialContainer = dropContainer;
       this._initialIndex = dropContainer.getItemIndex(this);
     } else {
-      this.started.next({source: this});
+      this.started.next({source: this, event});
       this._initialContainer = this._initialIndex = undefined!;
     }
 
@@ -1299,17 +1044,8 @@ export class DragRef<T = any> {
   /**
    * Sets up the different variables and subscriptions
    * that will be necessary for the dragging sequence.
-   *
-   * 设置拖曳序列所需的不同变量和订阅。
-   *
    * @param referenceElement Element that started the drag sequence.
-   *
-   * 启动拖曳序列的元素
-   *
    * @param event Browser event object that started the sequence.
-   *
-   * 启动本序列的浏览器事件对象。
-   *
    */
   private _initializeDragSequence(referenceElement: HTMLElement, event: MouseEvent | TouchEvent) {
     // Stop propagation if the item is inside another
@@ -1360,6 +1096,7 @@ export class DragRef<T = any> {
     // Avoid multiple subscriptions and memory leaks when multi touch
     // (isDragging check above isn't enough because of possible temporal and/or dimensional delays)
     this._removeSubscriptions();
+    this._initialClientRect = this._rootElement.getBoundingClientRect();
     this._pointerMoveSubscription = this._dragDropRegistry.pointerMove.subscribe(this._pointerMove);
     this._pointerUpSubscription = this._dragDropRegistry.pointerUp.subscribe(this._pointerUp);
     this._scrollSubscription = this._dragDropRegistry
@@ -1377,7 +1114,7 @@ export class DragRef<T = any> {
     this._pickupPositionInElement =
       previewTemplate && previewTemplate.template && !previewTemplate.matchSize
         ? {x: 0, y: 0}
-        : this._getPointerPositionInElement(referenceElement, event);
+        : this._getPointerPositionInElement(this._initialClientRect, referenceElement, event);
     const pointerPosition =
       (this._pickupPositionOnPage =
       this._lastKnownPointerPosition =
@@ -1388,12 +1125,7 @@ export class DragRef<T = any> {
     this._dragDropRegistry.startDragging(this, event);
   }
 
-  /**
-   * Cleans up the DOM artifacts that were added to facilitate the element being dragged.
-   *
-   * 清理所添加的 DOM 内容，以方便拖动该元素。
-   *
-   */
+  /** Cleans up the DOM artifacts that were added to facilitate the element being dragged. */
   private _cleanupDragArtifacts(event: MouseEvent | TouchEvent) {
     // Restore the element's visibility and insert it at its old position in the DOM.
     // It's important that we maintain the position, because moving the element around in the DOM
@@ -1404,7 +1136,11 @@ export class DragRef<T = any> {
 
     this._destroyPreview();
     this._destroyPlaceholder();
-    this._boundaryRect = this._previewRect = this._initialTransform = undefined;
+    this._initialClientRect =
+      this._boundaryRect =
+      this._previewRect =
+      this._initialTransform =
+        undefined;
 
     // Re-enter the NgZone since we bound `document` events on the outside.
     this._ngZone.run(() => {
@@ -1417,7 +1153,7 @@ export class DragRef<T = any> {
         pointerPosition.y,
       );
 
-      this.ended.next({source: this, distance, dropPoint: pointerPosition});
+      this.ended.next({source: this, distance, dropPoint: pointerPosition, event});
       this.dropped.next({
         item: this,
         currentIndex,
@@ -1427,6 +1163,7 @@ export class DragRef<T = any> {
         isPointerOverContainer,
         distance,
         dropPoint: pointerPosition,
+        event,
       });
       container.drop(
         this,
@@ -1444,9 +1181,6 @@ export class DragRef<T = any> {
   /**
    * Updates the item's position in its drop container, or moves it
    * into a new one, depending on its current drag position.
-   *
-   * 根据当前的拖动位置更新条目在投放容器中的位置，或者把它移动到新的位置。
-   *
    */
   private _updateActiveDropContainer({x, y}: Point, {x: rawX, y: rawY}: Point) {
     // Drop container that draggable has been moved into.
@@ -1494,19 +1228,21 @@ export class DragRef<T = any> {
     if (this.isDragging()) {
       this._dropContainer!._startScrollingIfNecessary(rawX, rawY);
       this._dropContainer!._sortItem(this, x, y, this._pointerDirectionDelta);
-      this._applyPreviewTransform(
-        x - this._pickupPositionInElement.x,
-        y - this._pickupPositionInElement.y,
-      );
+
+      if (this.constrainPosition) {
+        this._applyPreviewTransform(x, y);
+      } else {
+        this._applyPreviewTransform(
+          x - this._pickupPositionInElement.x,
+          y - this._pickupPositionInElement.y,
+        );
+      }
     }
   }
 
   /**
    * Creates the element that will be rendered next to the user's pointer
    * and will be used as a preview of the element that is being dragged.
-   *
-   * 创建一个会渲染在用户指针旁边的元素，并把它当作被拖动元素的预览。
-   *
    */
   private _createPreviewElement(): HTMLElement {
     const previewConfig = this._previewTemplate;
@@ -1517,7 +1253,7 @@ export class DragRef<T = any> {
     if (previewTemplate && previewConfig) {
       // Measure the element before we've inserted the preview
       // since the insertion could throw off the measurement.
-      const rootRect = previewConfig.matchSize ? this._rootElement.getBoundingClientRect() : null;
+      const rootRect = previewConfig.matchSize ? this._initialClientRect : null;
       const viewRef = previewConfig.viewContainer.createEmbeddedView(
         previewTemplate,
         previewConfig.context,
@@ -1534,9 +1270,8 @@ export class DragRef<T = any> {
         );
       }
     } else {
-      const element = this._rootElement;
-      preview = deepCloneNode(element);
-      matchElementSize(preview, element.getBoundingClientRect());
+      preview = deepCloneNode(this._rootElement);
+      matchElementSize(preview, this._initialClientRect!);
 
       if (this._initialTransform) {
         preview.style.transform = this._initialTransform;
@@ -1576,13 +1311,7 @@ export class DragRef<T = any> {
 
   /**
    * Animates the preview element from its current position to the location of the drop placeholder.
-   *
-   * 预览元素从当前位置移到投放占位符位置的动画。
-   *
    * @returns Promise that resolves when the animation completes.
-   *
-   * 在动画完成时会解析的 Promise。
-   *
    */
   private _animatePreviewToPlaceholder(): Promise<void> {
     // If the user hasn't moved yet, the transitionend event won't fire.
@@ -1630,12 +1359,7 @@ export class DragRef<T = any> {
     });
   }
 
-  /**
-   * Creates an element that will be shown instead of the current element while dragging.
-   *
-   * 拖动时，会创建一个要显示的元素，而不是当前元素。
-   *
-   */
+  /** Creates an element that will be shown instead of the current element while dragging. */
   private _createPlaceholderElement(): HTMLElement {
     const placeholderConfig = this._placeholderTemplate;
     const placeholderTemplate = placeholderConfig ? placeholderConfig.template : null;
@@ -1652,29 +1376,23 @@ export class DragRef<T = any> {
       placeholder = deepCloneNode(this._rootElement);
     }
 
+    // Stop pointer events on the preview so the user can't
+    // interact with it while the preview is animating.
+    placeholder.style.pointerEvents = 'none';
     placeholder.classList.add('cdk-drag-placeholder');
     return placeholder;
   }
 
   /**
    * Figures out the coordinates at which an element was picked up.
-   *
-   * 找出拾取元素时的坐标。
-   *
    * @param referenceElement Element that initiated the dragging.
-   *
-   * 那些引发了拖曳的元素。
-   *
    * @param event Event that initiated the dragging.
-   *
-   * 那些引发了拖曳的事件。
-   *
    */
   private _getPointerPositionInElement(
+    elementRect: ClientRect,
     referenceElement: HTMLElement,
     event: MouseEvent | TouchEvent,
   ): Point {
-    const elementRect = this._rootElement.getBoundingClientRect();
     const handleElement = referenceElement === this._rootElement ? null : referenceElement;
     const referenceRect = handleElement ? handleElement.getBoundingClientRect() : elementRect;
     const point = isTouchEvent(event) ? event.targetTouches[0] : event;
@@ -1688,12 +1406,7 @@ export class DragRef<T = any> {
     };
   }
 
-  /**
-   * Determines the point of the page that was touched by the user.
-   *
-   * 确定用户触摸到的页面坐标。
-   *
-   */
+  /** Determines the point of the page that was touched by the user. */
   private _getPointerPositionOnPage(event: MouseEvent | TouchEvent): Point {
     const scrollPosition = this._getViewportScrollPosition();
     const point = isTouchEvent(event)
@@ -1725,15 +1438,12 @@ export class DragRef<T = any> {
     return {x, y};
   }
 
-  /**
-   * Gets the pointer position on the page, accounting for any position constraints.
-   *
-   * 获取页面上的指针位置，考虑了任何位置约束。
-   *
-   */
+  /** Gets the pointer position on the page, accounting for any position constraints. */
   private _getConstrainedPointerPosition(point: Point): Point {
     const dropContainerLock = this._dropContainer ? this._dropContainer.lockAxis : null;
-    let {x, y} = this.constrainPosition ? this.constrainPosition(point, this) : point;
+    let {x, y} = this.constrainPosition
+      ? this.constrainPosition(point, this, this._initialClientRect!)
+      : point;
 
     if (this.lockAxis === 'x' || dropContainerLock === 'x') {
       y = this._pickupPositionOnPage.y;
@@ -1744,11 +1454,11 @@ export class DragRef<T = any> {
     if (this._boundaryRect) {
       const {x: pickupX, y: pickupY} = this._pickupPositionInElement;
       const boundaryRect = this._boundaryRect;
-      const previewRect = this._previewRect!;
+      const {width: previewWidth, height: previewHeight} = this._getPreviewRect();
       const minY = boundaryRect.top + pickupY;
-      const maxY = boundaryRect.bottom - (previewRect.height - pickupY);
+      const maxY = boundaryRect.bottom - (previewHeight - pickupY);
       const minX = boundaryRect.left + pickupX;
-      const maxX = boundaryRect.right - (previewRect.width - pickupX);
+      const maxX = boundaryRect.right - (previewWidth - pickupX);
 
       x = clamp(x, minX, maxX);
       y = clamp(y, minY, maxY);
@@ -1757,12 +1467,7 @@ export class DragRef<T = any> {
     return {x, y};
   }
 
-  /**
-   * Updates the current drag delta, based on the user's current pointer position on the page.
-   *
-   * 根据用户在页面上当前的指针位置，更新当前的拖曳增量。
-   *
-   */
+  /** Updates the current drag delta, based on the user's current pointer position on the page. */
   private _updatePointerDirectionDelta(pointerPositionOnPage: Point) {
     const {x, y} = pointerPositionOnPage;
     const delta = this._pointerDirectionDelta;
@@ -1789,12 +1494,7 @@ export class DragRef<T = any> {
     return delta;
   }
 
-  /**
-   * Toggles the native drag interactions, based on how many handles are registered.
-   *
-   * 根据已注册的手柄数量，来切换原生的拖放交互。
-   *
-   */
+  /** Toggles the native drag interactions, based on how many handles are registered. */
   private _toggleNativeDragInteractions() {
     if (!this._rootElement || !this._handles) {
       return;
@@ -1808,30 +1508,17 @@ export class DragRef<T = any> {
     }
   }
 
-  /**
-   * Removes the manually-added event listeners from the root element.
-   *
-   * 从根元素中删除手工添加的事件监听器。
-   *
-   */
+  /** Removes the manually-added event listeners from the root element. */
   private _removeRootElementListeners(element: HTMLElement) {
     element.removeEventListener('mousedown', this._pointerDown, activeEventListenerOptions);
     element.removeEventListener('touchstart', this._pointerDown, passiveEventListenerOptions);
+    element.removeEventListener('dragstart', this._nativeDragStart, activeEventListenerOptions);
   }
 
   /**
    * Applies a `transform` to the root element, taking into account any existing transforms on it.
-   *
-   * 对根元素应用一个 `transform`，包括它上面的所有转换。
-   *
    * @param x New transform value along the X axis.
-   *
-   * 沿 X 轴的新变换值。
-   *
    * @param y New transform value along the Y axis.
-   *
-   * 沿 Y 轴的新变换值。
-   *
    */
   private _applyRootElementTransform(x: number, y: number) {
     const transform = getTransform(x, y);
@@ -1853,17 +1540,8 @@ export class DragRef<T = any> {
 
   /**
    * Applies a `transform` to the preview, taking into account any existing transforms on it.
-   *
-   * 应用一个 `transform` 到预览对象，计入其任何现有的转换。
-   *
    * @param x New transform value along the X axis.
-   *
-   * 沿 X 轴的新变换值。
-   *
    * @param y New transform value along the Y axis.
-   *
-   * 沿 Y 轴的新变换值。
-   *
    */
   private _applyPreviewTransform(x: number, y: number) {
     // Only apply the initial transform if the preview is a clone of the original element, otherwise
@@ -1875,13 +1553,7 @@ export class DragRef<T = any> {
 
   /**
    * Gets the distance that the user has dragged during the current drag sequence.
-   *
-   * 获取当前拖曳序列中用户拖动的距离。
-   *
    * @param currentPosition Current position of the user's pointer.
-   *
-   * 用户指针的当前位置。
-   *
    */
   private _getDragDistance(currentPosition: Point): Point {
     const pickupPosition = this._pickupPositionOnPage;
@@ -1893,12 +1565,7 @@ export class DragRef<T = any> {
     return {x: 0, y: 0};
   }
 
-  /**
-   * Cleans up any cached element dimensions that we don't need after dragging has stopped.
-   *
-   * 清理拖动停止后我们不再需要的所有缓存元素规格。
-   *
-   */
+  /** Cleans up any cached element dimensions that we don't need after dragging has stopped. */
   private _cleanupCachedDimensions() {
     this._boundaryRect = this._previewRect = undefined;
     this._parentPositions.clear();
@@ -1907,9 +1574,6 @@ export class DragRef<T = any> {
   /**
    * Checks whether the element is still inside its boundary after the viewport has been resized.
    * If not, the position is adjusted so that the element fits again.
-   *
-   * 调整视口大小后，检查该元素是否仍在其边界内。否则，调整元素的位置，以便再次适合它。
-   *
    */
   private _containInsideBoundaryOnResize() {
     let {x, y} = this._passiveTransform;
@@ -1918,8 +1582,9 @@ export class DragRef<T = any> {
       return;
     }
 
-    const boundaryRect = this._boundaryElement.getBoundingClientRect();
+    // Note: don't use `_clientRectAtStart` here, because we want the latest position.
     const elementRect = this._rootElement.getBoundingClientRect();
+    const boundaryRect = this._boundaryElement.getBoundingClientRect();
 
     // It's possible that the element got hidden away after dragging (e.g. by switching to a
     // different tab). Don't do anything in this case so we don't clear the user's position.
@@ -1968,12 +1633,7 @@ export class DragRef<T = any> {
     }
   }
 
-  /**
-   * Gets the drag start delay, based on the event type.
-   *
-   * 根据事件类型获取拖曳的起始延迟。
-   *
-   */
+  /** Gets the drag start delay, based on the event type. */
   private _getDragStartDelay(event: MouseEvent | TouchEvent): number {
     const value = this.dragStartDelay;
 
@@ -1986,12 +1646,7 @@ export class DragRef<T = any> {
     return value ? value.mouse : 0;
   }
 
-  /**
-   * Updates the internal state of the draggable element when scrolling has occurred.
-   *
-   * 当滚动时，会更新可拖动元素的内部状态。
-   *
-   */
+  /** Updates the internal state of the draggable element when scrolling has occurred. */
   private _updateOnScroll(event: Event) {
     const scrollDifference = this._parentPositions.handleScroll(event);
 
@@ -2021,17 +1676,12 @@ export class DragRef<T = any> {
     }
   }
 
-  /**
-   * Gets the scroll position of the viewport.
-   *
-   * 获取视口的滚动位置。
-   *
-   */
+  /** Gets the scroll position of the viewport. */
   private _getViewportScrollPosition() {
-    const cachedPosition = this._parentPositions.positions.get(this._document);
-    return cachedPosition
-      ? cachedPosition.scrollPosition
-      : this._viewportRuler.getViewportScrollPosition();
+    return (
+      this._parentPositions.positions.get(this._document)?.scrollPosition ||
+      this._parentPositions.getViewportScrollPosition()
+    );
   }
 
   /**
@@ -2039,9 +1689,6 @@ export class DragRef<T = any> {
    * than saving it in property directly on init, because we want to resolve it as late as possible
    * in order to ensure that the element has been moved into the shadow DOM. Doing it inside the
    * constructor might be too early if the element is inside of something like `ngFor` or `ngIf`.
-   *
-   * 惰性解析并返回该元素的 Shadow DOM 根。我们在函数中执行此操作，而不是直接在初始化时保存在属性中，因为我们希望尽可能晚地解析它，以确保该元素已被移入了 shadow DOM 中。如果元素位于 `ngFor` 或 `ngIf` 的内部，那么在构造函数中执行此操作可能为时过早了。
-   *
    */
   private _getShadowRoot(): ShadowRoot | null {
     if (this._cachedShadowRoot === undefined) {
@@ -2051,12 +1698,7 @@ export class DragRef<T = any> {
     return this._cachedShadowRoot;
   }
 
-  /**
-   * Gets the element into which the drag preview should be inserted.
-   *
-   * 获取应将拖动预览插入其中的元素。
-   *
-   */
+  /** Gets the element into which the drag preview should be inserted. */
   private _getPreviewInsertionPoint(
     initialParent: HTMLElement,
     shadowRoot: ShadowRoot | null,
@@ -2085,21 +1727,47 @@ export class DragRef<T = any> {
 
     return coerceElement(previewContainer);
   }
+
+  /** Lazily resolves and returns the dimensions of the preview. */
+  private _getPreviewRect(): ClientRect {
+    // Cache the preview element rect if we haven't cached it already or if
+    // we cached it too early before the element dimensions were computed.
+    if (!this._previewRect || (!this._previewRect.width && !this._previewRect.height)) {
+      this._previewRect = this._preview
+        ? this._preview.getBoundingClientRect()
+        : this._initialClientRect!;
+    }
+
+    return this._previewRect;
+  }
+
+  /** Handles a native `dragstart` event. */
+  private _nativeDragStart = (event: DragEvent) => {
+    if (this._handles.length) {
+      const targetHandle = this._getTargetHandle(event);
+
+      if (targetHandle && !this._disabledHandles.has(targetHandle) && !this.disabled) {
+        event.preventDefault();
+      }
+    } else if (!this.disabled) {
+      // Usually this isn't necessary since the we prevent the default action in `pointerDown`,
+      // but some cases like dragging of links can slip through (see #24403).
+      event.preventDefault();
+    }
+  };
+
+  /** Gets a handle that is the target of an event. */
+  private _getTargetHandle(event: Event): HTMLElement | undefined {
+    return this._handles.find(handle => {
+      return event.target && (event.target === handle || handle.contains(event.target as Node));
+    });
+  }
 }
 
 /**
  * Gets a 3d `transform` that can be applied to an element.
- *
- * 获取一个可以应用于元素 `transform`
- *
  * @param x Desired position of the element along the X axis.
- *
- * 元素在 X 轴上的所需位置。
- *
  * @param y Desired position of the element along the Y axis.
- *
- * 元素在 Y 轴上的所需位置。
- *
  */
 function getTransform(x: number, y: number): string {
   // Round the transforms since some browsers will
@@ -2107,22 +1775,12 @@ function getTransform(x: number, y: number): string {
   return `translate3d(${Math.round(x)}px, ${Math.round(y)}px, 0)`;
 }
 
-/**
- * Clamps a value between a minimum and a maximum.
- *
- * 在最小值和最大值之间夹取一个值。
- *
- */
+/** Clamps a value between a minimum and a maximum. */
 function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
 }
 
-/**
- * Determines whether an event is a touch event.
- *
- * 确定某个事件是否触摸事件。
- *
- */
+/** Determines whether an event is a touch event. */
 function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
   // This function is called for every pixel that the user has dragged so we need it to be
   // as fast as possible. Since we only bind mouse events and touch events, we can assume
@@ -2133,9 +1791,6 @@ function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
 /**
  * Gets the root HTML element of an embedded view.
  * If the root is not an HTML element it gets wrapped in one.
- *
- * 获取嵌入视图的根 HTML 元素。如果它的根不是 HTML 元素，就会给它包装一个。
- *
  */
 function getRootNode(viewRef: EmbeddedViewRef<any>, _document: Document): HTMLElement {
   const rootNodes: Node[] = viewRef.rootNodes;
@@ -2151,17 +1806,8 @@ function getRootNode(viewRef: EmbeddedViewRef<any>, _document: Document): HTMLEl
 
 /**
  * Matches the target element's size to the source's size.
- *
- * 把目标元素的大小适配到源的大小。
- *
  * @param target Element that needs to be resized.
- *
- * 需要调整大小的元素。
- *
  * @param sourceRect Dimensions of the source element.
- *
- * 源元素的规格。
- *
  */
 function matchElementSize(target: HTMLElement, sourceRect: ClientRect): void {
   target.style.width = `${sourceRect.width}px`;

@@ -3,6 +3,7 @@ This is a prototype of an alternate version of `MatDialog` built on top of
 experimental and should not be used in production.
 
 ## How to use
+
 Assuming your application is already up and running using Angular Material, you can add this
 component by following these steps:
 
@@ -46,7 +47,7 @@ component by following these steps:
 
 5. Ensure color and typography styles for `@angular/material-experimental` are set up. Either
    use a custom theme and use the `mat-mdc-dialog-theme` mixin, or use a prebuilt theme
-   from `@angular/material-experimental/mdc-theming/prebuilt`.
+   from `@angular/material-experimental/mdc-core/theming/prebuilt`.
 
 ## API differences
 
@@ -67,7 +68,7 @@ directly through CSS, or move them into one of the defined sections the Angular 
 provides.
 
 ```scss
-@use '@angular/material-experimental/mdc-dialog/dialog-legacy-padding' as mat-mdc-dialog;
+@use '@angular/material-experimental' as experimental;
 
-@include mat-mdc-dialog.legacy-padding();
+@include experimental.mdc-dialog-legacy-padding();
 ```

@@ -22,8 +22,6 @@ ng_module(
         "//src/material-experimental/mdc-core",
         "//src/material/form-field",
         "@npm//@angular/forms",
-        "@npm//@material/line-ripple",
-        "@npm//@material/textfield",
         "@npm//rxjs",
     ],
 )
@@ -36,8 +34,9 @@ sass_library(
     ],
     deps = [
         ":form_field_partials",
-        "//src/cdk/a11y:a11y_scss_lib",
-        "//src/material-experimental/mdc-helpers:mdc_helpers_scss_lib",
+        "//src/material:sass_lib",
+        "//src/material-experimental/mdc-core/mdc-helpers:mdc_helpers_scss_lib",
+        "//src/material-experimental/mdc-core/mdc-helpers:mdc_scss_deps_lib",
     ],
 )
 
@@ -49,8 +48,8 @@ sass_binary(
     ],
     deps = [
         ":form_field_partials",
-        "//src/material-experimental/mdc-helpers:mdc_helpers_scss_lib",
-        "//src/material-experimental/mdc-helpers:mdc_scss_deps_lib",
+        "//src/material-experimental/mdc-core/mdc-helpers:mdc_helpers_scss_lib",
+        "//src/material-experimental/mdc-core/mdc-helpers:mdc_scss_deps_lib",
     ],
 )
 
@@ -67,7 +66,8 @@ sass_library(
         "_mdc-text-field-textarea-overrides.scss",
     ],
     deps = [
-        "//src/material-experimental/mdc-helpers:mdc_scss_deps_lib",
-        "//src/material/core:core_scss_lib",
+        "//src/cdk:sass_lib",
+        "//src/material:sass_lib",
+        "//src/material-experimental/mdc-core/mdc-helpers:mdc_scss_deps_lib",
     ],
 )

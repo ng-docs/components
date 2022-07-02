@@ -8,7 +8,6 @@
 
 // Workaround for: https://github.com/bazelbuild/rules_nodejs/issues/1265
 /// <reference types="google.maps" />
-/// <reference path="marker-clusterer-types.ts" />
 
 import {
   AfterContentInit,
@@ -31,23 +30,28 @@ import {takeUntil} from 'rxjs/operators';
 import {GoogleMap} from '../google-map/google-map';
 import {MapEventManager} from '../map-event-manager';
 import {MapMarker} from '../map-marker/map-marker';
+import {
+  AriaLabelFn,
+  Calculator,
+  Cluster,
+  ClusterIconStyle,
+  MarkerClusterer as MarkerClustererInstance,
+  MarkerClustererOptions,
+} from './marker-clusterer-types';
+
+/** Default options for a clusterer. */
+const DEFAULT_CLUSTERER_OPTIONS: MarkerClustererOptions = {};
 
 /**
- * Default options for a clusterer.
- *
- * 聚类器的默认选项。
- *
+ * The clusterer has to be defined and referred to as a global variable,
+ * otherwise it'll cause issues when minified through Closure.
  */
-const DEFAULT_CLUSTERER_OPTIONS: MarkerClustererOptions = {};
+declare const MarkerClusterer: typeof MarkerClustererInstance;
 
 /**
  * Angular component for implementing a Google Maps Marker Clusterer.
  *
- * 用于实现 Google Maps Marker Clusterer 的 Angular 组件。
- *
  * See <https://developers.google.com/maps/documentation/javascript/marker-clustering>
- *
- * 请参阅<https://developers.google.com/maps/documentation/javascript/marker-clustering>
  *
  */
 @Component({
@@ -62,12 +66,7 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
   private readonly _eventManager = new MapEventManager(this._ngZone);
   private readonly _destroy = new Subject<void>();
 
-  /**
-   * Whether the clusterer is allowed to be initialized.
-   *
-   * 是否允许初始化聚类器。
-   *
-   */
+  /** Whether the clusterer is allowed to be initialized. */
   private readonly _canInitialize: boolean;
 
   @Input()
@@ -182,8 +181,6 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
    * googlemaps.github.io/v3-utility-library/modules/
    * \_google_markerclustererplus.html#clusteringbegin
    *
-   * 参见 googlemaps.github.io/v3-utility-library/modules/ \_google_markerclustererplus.html＃clusteringbegin
-   *
    */
   @Output() readonly clusteringbegin: Observable<void> =
     this._eventManager.getLazyEmitter<void>('clusteringbegin');
@@ -192,18 +189,11 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
    * See
    * googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#clusteringend
    *
-   * 参见 googlemaps.github.io/v3-utility-library/modules/\_google_markerclustererplus.html#clusteringend
-   *
    */
   @Output() readonly clusteringend: Observable<void> =
     this._eventManager.getLazyEmitter<void>('clusteringend');
 
-  /**
-   * Emits when a cluster has been clicked.
-   *
-   * 单击聚类后退出。
-   *
-   */
+  /** Emits when a cluster has been clicked. */
   @Output()
   readonly clusterClick: Observable<Cluster> = this._eventManager.getLazyEmitter<Cluster>('click');
 
@@ -212,16 +202,12 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
   /**
    * The underlying MarkerClusterer object.
    *
-   * 基础 MarkerClusterer 对象。
-   *
    * See
    * googlemaps.github.io/v3-utility-library/classes/
    * \_google_markerclustererplus.markerclusterer.html
    *
-   * 参见 googlemaps.github.io/v3-utility-library/classes/ \_google_markerclustererplus.markerclusterer.html
-   *
    */
-  markerClusterer?: MarkerClusterer;
+  markerClusterer?: MarkerClustererInstance;
 
   constructor(private readonly _googleMap: GoogleMap, private readonly _ngZone: NgZone) {
     this._canInitialize = this._googleMap._isBrowser;
@@ -229,11 +215,10 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
 
   ngOnInit() {
     if (this._canInitialize) {
-      const clustererWindow = window as unknown as typeof globalThis & {
-        MarkerClusterer?: MarkerClusterer;
-      };
-
-      if (!clustererWindow.MarkerClusterer && (typeof ngDevMode === 'undefined' || ngDevMode)) {
+      if (
+        typeof MarkerClusterer !== 'function' &&
+        (typeof ngDevMode === 'undefined' || ngDevMode)
+      ) {
         throw Error(
           'MarkerClusterer class not found, cannot construct a marker cluster. ' +
             'Please install the MarkerClustererPlus library: ' +
@@ -519,7 +504,7 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
       .map(markerComponent => markerComponent.marker!);
   }
 
-  private _assertInitialized(): asserts this is {markerClusterer: MarkerClusterer} {
+  private _assertInitialized(): asserts this is {markerClusterer: MarkerClustererInstance} {
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       if (!this._googleMap.googleMap) {
         throw Error(

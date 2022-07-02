@@ -29,23 +29,17 @@ import {buildRelativePath, findModuleFromOptions} from '@schematics/angular/util
 import {parseName} from '@schematics/angular/utility/parse-name';
 import {validateHtmlSelector} from '@schematics/angular/utility/validation';
 import {ProjectType} from '@schematics/angular/utility/workspace-models';
+import {addDeclarationToModule, addExportToModule} from '@schematics/angular/utility/ast-utils';
 import {readFileSync, statSync} from 'fs';
 import {dirname, join, resolve} from 'path';
 import * as ts from 'typescript';
-import {addDeclarationToModule, addExportToModule} from '../utils/vendored-ast-utils';
 import {getProjectFromWorkspace} from './get-project';
 import {getDefaultComponentOptions} from './schematic-options';
 import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
 
 /**
  * Build a default project path for generating.
- *
- * 构建用于生成的默认项目路径。
- *
  * @param project The project to build the path for.
- *
- * 要为项目建立的路径。
- *
  */
 function buildDefaultPath(project: ProjectDefinition): string {
   const root = project.sourceRoot ? `/${project.sourceRoot}/` : `/${project.root}/src/`;
@@ -57,10 +51,7 @@ function buildDefaultPath(project: ProjectDefinition): string {
 
 /**
  * List of style extensions which are CSS compatible. All supported CLI style extensions can be
- * found here: angular/angular-cli/master/packages/schematics/angular/ng-new/schema.json#L118-L122
- *
- * 与 CSS 兼容的样式扩展列表。所有受支持的 CLI 样式扩展都可以在这里找到：angular/angular-cli/master/packages/schematics/angular/ng-new/schema.json#L118-L122
- *
+ * found here: angular/angular-cli/main/packages/schematics/angular/ng-new/schema.json#L118-L122
  */
 const supportedCssExtensions = ['css', 'scss', 'less'];
 
@@ -144,9 +135,6 @@ function buildSelector(options: ComponentOptions, projectPrefix?: string) {
  * Indents the text content with the amount of specified spaces. The spaces will be added after
  * every line-break. This utility function can be used inside of EJS templates to properly
  * include the additional files.
- *
- * 使文本内容缩进指定数量的空格。每次换行后都会添加空格。可以在 EJS 模板内部使用此实用工具功能以正确包含其他文件。
- *
  */
 function indentTextContent(text: string, numSpaces: number): string {
   // In the Material project there should be only LF line-endings, but the schematic files
@@ -159,13 +147,8 @@ function indentTextContent(text: string, numSpaces: number): string {
  * a list of file paths can be passed to this rule in order to expose them inside the EJS
  * template context.
  *
- * 本规则规定哪些要复制和插值的文件属于此原理图上下文。另外，可以将文件路径列表传递给此规则，以将其显示在 EJS 模板上下文中。
- *
  * This allows inlining the external template or stylesheet files in EJS without having
  * to manually duplicate the file content.
- *
- * 这允许在 EJS 中内联外部模板或样式表文件，而无需手动复制文件内容。
- *
  */
 export function buildComponent(
   options: ComponentOptions,

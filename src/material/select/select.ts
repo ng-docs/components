@@ -60,6 +60,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
+  AbstractControl,
   ControlValueAccessor,
   FormGroupDirective,
   NgControl,
@@ -109,41 +110,18 @@ let nextUniqueId = 0;
  * The following style constants are necessary to save here in order
  * to properly calculate the alignment of the selected option over
  * the trigger element.
- *
- * 这里保存下列样式常量是为了正确计算选定的选项在触发器元素上的对齐方式。
- *
  */
 
-/**
- * The max height of the select's overlay panel.
- *
- * 所选内容的浮层面板的最大高度。
- *
- */
+/** The max height of the select's overlay panel. */
 export const SELECT_PANEL_MAX_HEIGHT = 256;
 
-/**
- * The panel's padding on the x-axis.
- *
- * 此面板在 x 轴上的衬距。
- *
- */
+/** The panel's padding on the x-axis. */
 export const SELECT_PANEL_PADDING_X = 16;
 
-/**
- * The panel's x axis padding if it is indented (e.g. there is an option group).
- *
- * 此面板的 x 轴衬距（如果有缩进）（例如选项组）。
- *
- */
+/** The panel's x axis padding if it is indented (e.g. there is an option group). */
 export const SELECT_PANEL_INDENT_PADDING_X = SELECT_PANEL_PADDING_X * 2;
 
-/**
- * The height of the select items in `em` units.
- *
- * 选择此条目的高度，以 `em` 为单位。
- *
- */
+/** The height of the select items in `em` units. */
 export const SELECT_ITEM_HEIGHT_EM = 3;
 
 // TODO(josephperrott): Revert to a constant after 2018 spec updates are fully merged.
@@ -151,15 +129,10 @@ export const SELECT_ITEM_HEIGHT_EM = 3;
  * Distance between the panel edge and the option text in
  * multi-selection mode.
  *
- * 面板边缘与多选模式下的选项文本之间的距离。
- *
  * Calculated as:
  * (SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40
  * The padding is multiplied by 1.5 because the checkbox's margin is half the padding.
  * The checkbox width is 16px.
- *
- * 计算公式为：(SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40。
- * 衬距要乘以 1.5，因为复选框的外边距是衬距的一半。复选框的宽度为 16 像素。
  *
  */
 export const SELECT_MULTIPLE_PANEL_PADDING_X = SELECT_PANEL_PADDING_X * 1.5 + 16;
@@ -167,9 +140,6 @@ export const SELECT_MULTIPLE_PANEL_PADDING_X = SELECT_PANEL_PADDING_X * 1.5 + 16
 /**
  * The select panel will only "fit" inside the viewport if it is positioned at
  * this value or more away from the viewport boundary.
- *
- * 只有当选择面板位于视口内部且位于此值或距视口边界更远的位置时，才认为它“适合”视口。
- *
  */
 export const SELECT_PANEL_VIEWPORT_PADDING = 8;
 
@@ -245,18 +215,9 @@ export const MAT_SELECT_SCROLL_STRATEGY_PROVIDER = {
  */
 export class MatSelectChange {
   constructor(
-    /**
-     * Reference to the select that emitted the change event.
-     *
-     * 对发出此变更事件的选择框的引用。
-     */
+    /** Reference to the select that emitted the change event. */
     public source: MatSelect,
-    /**
-     * Current value of the select that emmited the event.
-     *
-     * 发出此事件的Current value of the select。
-     *
-     */
+    /** Current value of the select that emitted the event. */
     public value: any,
   ) {}
 }
@@ -268,11 +229,23 @@ const _MatSelectMixinBase = mixinDisableRipple(
     mixinDisabled(
       mixinErrorState(
         class {
+          /**
+           * Emits whenever the component state changes and should cause the parent
+           * form-field to update. Implemented as part of `MatFormFieldControl`.
+           * @docs-private
+           */
+          readonly stateChanges = new Subject<void>();
+
           constructor(
             public _elementRef: ElementRef,
             public _defaultErrorStateMatcher: ErrorStateMatcher,
             public _parentForm: NgForm,
             public _parentFormGroup: FormGroupDirective,
+            /**
+             * Form control bound to the component.
+             * Implemented as part of `MatFormFieldControl`.
+             * @docs-private
+             */
             public ngControl: NgControl,
           ) {}
         },
@@ -280,6 +253,7 @@ const _MatSelectMixinBase = mixinDisableRipple(
     ),
   ),
 );
+
 /**
  * Injection token that can be used to reference instances of `MatSelectTrigger`. It serves as
  * alternative token to the actual `MatSelectTrigger` class which could cause unnecessary
@@ -302,12 +276,7 @@ export const MAT_SELECT_TRIGGER = new InjectionToken<MatSelectTrigger>('MatSelec
 })
 export class MatSelectTrigger {}
 
-/**
- * Base class with all of the `MatSelect` functionality.
- *
- * 具备所有 `MatSelect` 功能的基类。
- *
- */
+/** Base class with all of the `MatSelect` functionality. */
 @Directive()
 export abstract class _MatSelectBase<C>
   extends _MatSelectMixinBase
@@ -324,30 +293,15 @@ export abstract class _MatSelectBase<C>
     CanUpdateErrorState,
     CanDisableRipple
 {
-  /**
-   * All of the defined select options.
-   *
-   * 所有已定义的选择框选项。
-   *
-   */
+  /** All of the defined select options. */
   abstract options: QueryList<_MatOptionBase>;
 
   // TODO(crisbeto): this is only necessary for the non-MDC select, but it's technically a
   // public API so we have to keep it. It should be deprecated and removed eventually.
-  /**
-   * All of the defined groups of options.
-   *
-   * 所有已定义的选项组。
-   *
-   */
+  /** All of the defined groups of options. */
   abstract optionGroups: QueryList<MatOptgroup>;
 
-  /**
-   * User-supplied override of the trigger element.
-   *
-   * 用户提供的触发器元素，会代替默认的。
-   *
-   */
+  /** User-supplied override of the trigger element. */
   abstract customTrigger: {};
 
   /**
@@ -355,107 +309,57 @@ export abstract class _MatSelectBase<C>
    * is aligned with with the top "start" of the origin by default (overlapping
    * the trigger completely). If the panel cannot fit below the trigger, it
    * will fall back to a position above the trigger.
-   *
-   * 这个定位选项用于确保默认情况下浮层的顶部 “start” 角对齐到其源的顶部 “start” 角（完全盖住此触发器）。
-   * 如果此面板无法放在触发器的下方，它就会回到触发器上方的某个位置。
-   *
    */
   abstract _positions: ConnectedPosition[];
 
-  /**
-   * Scrolls a particular option into the view.
-   *
-   * 把一个特定的选项滚动到视图中。
-   *
-   */
+  /** Scrolls a particular option into the view. */
   protected abstract _scrollOptionIntoView(index: number): void;
 
-  /**
-   * Called when the panel has been opened and the overlay has settled on its final position.
-   *
-   * 当面板打开并且浮层已经固定在其最终位置时调用。
-   *
-   */
+  /** Called when the panel has been opened and the overlay has settled on its final position. */
   protected abstract _positioningSettled(): void;
 
-  /**
-   * Creates a change event object that should be emitted by the select.
-   *
-   * 创建一个应该由本选择框发出的 change 事件对象。
-   *
-   */
+  /** Creates a change event object that should be emitted by the select. */
   protected abstract _getChangeEvent(value: any): C;
 
-  /**
-   * Factory function used to create a scroll strategy for this select.
-   *
-   * 这个工厂函数用于为这个选择框创建一个滚动策略。
-   *
-   */
+  /** Factory function used to create a scroll strategy for this select. */
   private _scrollStrategyFactory: () => ScrollStrategy;
 
   /**
    * Whether or not the overlay panel is open.
    *
-   * 浮层面板是否打开。
+   * 浮层面板是否打开了。
    *
    */
   private _panelOpen = false;
 
-  /**
-   * Comparison function to specify which option is displayed. Defaults to object equality.
-   *
-   * 比较函数，用于指定要显示哪个选项。默认为比较对象引用。
-   *
-   */
+  /** Comparison function to specify which option is displayed. Defaults to object equality. */
   private _compareWith = (o1: any, o2: any) => o1 === o2;
 
-  /**
-   * Unique id for this input.
-   *
-   * 此输入元素的唯一 ID。
-   *
-   */
+  /** Unique id for this input. */
   private _uid = `mat-select-${nextUniqueId++}`;
 
-  /**
-   * Current `ariar-labelledby` value for the select trigger.
-   *
-   * 此选择框触发器的当前 `aria-labelledby` 值。
-   *
-   */
+  /** Current `ariar-labelledby` value for the select trigger. */
   private _triggerAriaLabelledBy: string | null = null;
 
   /**
-   * Emits whenever the component is destroyed.
-   *
-   * 只要组件被销毁，就会触发。
-   *
+   * Keeps track of the previous form control assigned to the select.
+   * Used to detect if it has changed.
    */
+  private _previousControl: AbstractControl | null | undefined;
+
+  /** Emits whenever the component is destroyed. */
   protected readonly _destroy = new Subject<void>();
 
   /**
-   * The aria-describedby attribute on the select for improved a11y.
-   *
-   * 此选择框的 aria-describedby 属性，用于提升无障碍性。
-   *
+   * Implemented as part of MatFormFieldControl.
+   * @docs-private
    */
-  _ariaDescribedby: string;
+  @Input('aria-describedby') userAriaDescribedBy: string;
 
-  /**
-   * Deals with the selection logic.
-   *
-   * 处理选择逻辑。
-   *
-   */
+  /** Deals with the selection logic. */
   _selectionModel: SelectionModel<MatOption>;
 
-  /**
-   * Manages keyboard events for options in the panel.
-   *
-   * 管理面板中各选项的键盘事件。
-   *
-   */
+  /** Manages keyboard events for options in the panel. */
   _keyManager: ActiveDescendantKeyManager<MatOption>;
 
   /** `View -> model callback called when value changes` */
@@ -464,28 +368,13 @@ export abstract class _MatSelectBase<C>
   /** `View -> model callback called when select has been touched` */
   _onTouched = () => {};
 
-  /**
-   * ID for the DOM node containing the select's value.
-   *
-   * 包含选择框值的 DOM 节点的 ID。
-   *
-   */
+  /** ID for the DOM node containing the select's value. */
   _valueId = `mat-select-value-${nextUniqueId++}`;
 
-  /**
-   * Emits when the panel element is finished transforming in.
-   *
-   * 当面板元素完成转换时会触发。
-   *
-   */
+  /** Emits when the panel element is finished transforming in. */
   readonly _panelDoneAnimatingStream = new Subject<string>();
 
-  /**
-   * Strategy that will be used to handle scrolling while the select panel is open.
-   *
-   * 当选择面板打开时，用来处理滚动的策略。
-   *
-   */
+  /** Strategy that will be used to handle scrolling while the select panel is open. */
   _scrollStrategy: ScrollStrategy;
 
   _overlayPanelClass: string | string[] = this._defaultOptions?.overlayPanelClass || '';
@@ -493,7 +382,7 @@ export abstract class _MatSelectBase<C>
   /**
    * Whether the select is focused.
    *
-   * 此选择框是否拥有焦点。
+   * 此选择器是否拥有焦点。
    *
    */
   get focused(): boolean {
@@ -525,12 +414,7 @@ export abstract class _MatSelectBase<C>
    */
   @ViewChild('panel') panel: ElementRef;
 
-  /**
-   * Overlay pane containing the options.
-   *
-   * 包含此选项的浮层窗格。
-   *
-   */
+  /** Overlay pane containing the options. */
   @ViewChild(CdkConnectedOverlay)
   protected _overlayDir: CdkConnectedOverlay;
 
@@ -642,13 +526,10 @@ export abstract class _MatSelectBase<C>
     return this._value;
   }
   set value(newValue: any) {
-    // Always re-assign an array, because it might have been mutated.
-    if (newValue !== this._value || (this._multiple && Array.isArray(newValue))) {
-      if (this.options) {
-        this._setSelectionByValue(newValue);
-      }
+    const hasAssigned = this._assignValue(newValue);
 
-      this._value = newValue;
+    if (hasAssigned) {
+      this._onChange(newValue);
     }
   }
   private _value: any;
@@ -664,7 +545,7 @@ export abstract class _MatSelectBase<C>
   /**
    * Input that can be used to specify the `aria-labelledby` attribute.
    *
-   * 用来指定 `aria-labelledby` 属性的输入属性。
+   * 用于指定 `aria-labelledby` 属性的输入属性。
    *
    */
   @Input('aria-labelledby') ariaLabelledby: string;
@@ -680,7 +561,7 @@ export abstract class _MatSelectBase<C>
   /**
    * Time to wait in milliseconds after the last keystroke before moving focus to an item.
    *
-   * 在将焦点移动到某个条目之前，最后一次按键后要等待的时间（以毫秒为单位）。
+   * 在将焦点移动到某个条目前，在最后一次按键后要等待的时间（以毫秒为单位）。
    *
    */
   @Input()
@@ -747,23 +628,13 @@ export abstract class _MatSelectBase<C>
    */
   @Output() readonly openedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  /**
-   * Event emitted when the select has been opened.
-   *
-   * 当选择框被打开时会发出本事件。
-   *
-   */
+  /** Event emitted when the select has been opened. */
   @Output('opened') readonly _openedStream: Observable<void> = this.openedChange.pipe(
     filter(o => o),
     map(() => {}),
   );
 
-  /**
-   * Event emitted when the select has been closed.
-   *
-   * 选择框关闭后会触发的事件。
-   *
-   */
+  /** Event emitted when the select has been closed. */
   @Output('closed') readonly _closedStream: Observable<void> = this.openedChange.pipe(
     filter(o => !o),
     map(() => {}),
@@ -780,9 +651,6 @@ export abstract class _MatSelectBase<C>
   /**
    * Event that emits whenever the raw value of the select changes. This is here primarily
    * to facilitate the two-way binding for the `value` input.
-   *
-   * 每当选择框原始值发生变化时都会发出本事件。这主要是为了方便对 `value` 输入属性的双向绑定。
-   *
    * @docs-private
    */
   @Output() readonly valueChange: EventEmitter<any> = new EventEmitter<any>();
@@ -853,6 +721,7 @@ export abstract class _MatSelectBase<C>
 
   ngDoCheck() {
     const newAriaLabelledby = this._getTriggerAriaLabelledby();
+    const ngControl = this.ngControl;
 
     // We have to manage setting the `aria-labelledby` ourselves, because part of its value
     // is computed as a result of a content query which can cause this binding to trigger a
@@ -867,7 +736,20 @@ export abstract class _MatSelectBase<C>
       }
     }
 
-    if (this.ngControl) {
+    if (ngControl) {
+      // The disabled state might go out of sync if the form group is swapped out. See #17860.
+      if (this._previousControl !== ngControl.control) {
+        if (
+          this._previousControl !== undefined &&
+          ngControl.disabled !== null &&
+          ngControl.disabled !== this.disabled
+        ) {
+          this.disabled = ngControl.disabled;
+        }
+
+        this._previousControl = ngControl.control;
+      }
+
       this.updateErrorState();
     }
   }
@@ -875,7 +757,7 @@ export abstract class _MatSelectBase<C>
   ngOnChanges(changes: SimpleChanges) {
     // Updating the disabled state is handled by `mixinDisabled`, but we need to additionally let
     // the parent form field know to run change detection when the disabled state changes.
-    if (changes['disabled']) {
+    if (changes['disabled'] || changes['userAriaDescribedBy']) {
       this.stateChanges.next();
     }
 
@@ -900,12 +782,7 @@ export abstract class _MatSelectBase<C>
     this.panelOpen ? this.close() : this.open();
   }
 
-  /**
-   * Opens the overlay panel.
-   *
-   * 打开浮层面板
-   *
-   */
+  /** Opens the overlay panel. */
   open(): void {
     if (this._canOpen()) {
       this._panelOpen = true;
@@ -934,15 +811,10 @@ export abstract class _MatSelectBase<C>
    * Sets the select's value. Part of the ControlValueAccessor interface
    * required to integrate with Angular's core forms API.
    *
-   * 设置选择框的值。作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
-   *
    * @param value New value to be written to the model.
-   *
-   * 要写入模型的新值。
-   *
    */
   writeValue(value: any): void {
-    this.value = value;
+    this._assignValue(value);
   }
 
   /**
@@ -950,13 +822,7 @@ export abstract class _MatSelectBase<C>
    * changes from user input. Part of the ControlValueAccessor interface
    * required to integrate with Angular's core forms API.
    *
-   * 保存一个回调函数，并在选择框的值因为用户输入而改变时调用它。
-   * 作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
-   *
    * @param fn Callback to be triggered when the value changes.
-   *
-   * 当值发生变化时，会触发的回调函数。
-   *
    */
   registerOnChange(fn: (value: any) => void): void {
     this._onChange = fn;
@@ -967,12 +833,7 @@ export abstract class _MatSelectBase<C>
    * by the user. Part of the ControlValueAccessor interface required
    * to integrate with Angular's core forms API.
    *
-   * 保存一个回调函数，并在用户让此选择框失焦时调用它。作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
-   *
    * @param fn Callback to be triggered when the component has been touched.
-   *
-   * 当该组件被接触过时，会触发的回调函数。
-   *
    */
   registerOnTouched(fn: () => {}): void {
     this._onTouched = fn;
@@ -982,12 +843,7 @@ export abstract class _MatSelectBase<C>
    * Disables the select. Part of the ControlValueAccessor interface required
    * to integrate with Angular's core forms API.
    *
-   * 禁用此选择框。作为 ControlValueAccessor 接口的一部分，需要与 Angular 的核心表单 API 集成。
-   *
    * @param isDisabled Sets whether the component is disabled.
-   *
-   * 设置是否禁用该组件。
-   *
    */
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
@@ -1040,34 +896,19 @@ export abstract class _MatSelectBase<C>
     return this._selectionModel.selected[0].viewValue;
   }
 
-  /**
-   * Whether the element is in RTL mode.
-   *
-   * 该元素是否处于 RTL 模式。
-   *
-   */
+  /** Whether the element is in RTL mode. */
   _isRtl(): boolean {
     return this._dir ? this._dir.value === 'rtl' : false;
   }
 
-  /**
-   * Handles all keydown events on the select.
-   *
-   * 处理选择框中所有 keydown 事件。
-   *
-   */
+  /** Handles all keydown events on the select. */
   _handleKeydown(event: KeyboardEvent): void {
     if (!this.disabled) {
       this.panelOpen ? this._handleOpenKeydown(event) : this._handleClosedKeydown(event);
     }
   }
 
-  /**
-   * Handles keyboard events while the select is closed.
-   *
-   * 此选择框关闭后，处理键盘事件。
-   *
-   */
+  /** Handles keyboard events while the select is closed. */
   private _handleClosedKeydown(event: KeyboardEvent): void {
     const keyCode = event.keyCode;
     const isArrowKey =
@@ -1099,12 +940,7 @@ export abstract class _MatSelectBase<C>
     }
   }
 
-  /**
-   * Handles keyboard events when the selected is open.
-   *
-   * 当选择框打开时，处理键盘事件。
-   *
-   */
+  /** Handles keyboard events when the selected is open. */
   private _handleOpenKeydown(event: KeyboardEvent): void {
     const manager = this._keyManager;
     const keyCode = event.keyCode;
@@ -1161,9 +997,6 @@ export abstract class _MatSelectBase<C>
   /**
    * Calls the touched callback only if the panel is closed. Otherwise, the trigger will
    * "blur" to the panel when it opens, causing a false positive.
-   *
-   * 只有当面板关闭时才调用“被接触过”回调。否则，触发器会在面板打开时“失焦”，造成误报。
-   *
    */
   _onBlur() {
     this._focused = false;
@@ -1177,9 +1010,6 @@ export abstract class _MatSelectBase<C>
 
   /**
    * Callback that is invoked when the overlay panel has been attached.
-   *
-   * 附加到浮层面板时调用的回调函数。
-   *
    */
   _onAttached(): void {
     this._overlayDir.positionChange.pipe(take(1)).subscribe(() => {
@@ -1188,12 +1018,7 @@ export abstract class _MatSelectBase<C>
     });
   }
 
-  /**
-   * Returns the theme to be used on the panel.
-   *
-   * 返回要在面板上使用的主题。
-   *
-   */
+  /** Returns the theme to be used on the panel. */
   _getPanelTheme(): string {
     return this._parentFormField ? `mat-${this._parentFormField.color}` : '';
   }
@@ -1212,7 +1037,11 @@ export abstract class _MatSelectBase<C>
     // Defer setting the value in order to avoid the "Expression
     // has changed after it was checked" errors from Angular.
     Promise.resolve().then(() => {
-      this._setSelectionByValue(this.ngControl ? this.ngControl.value : this._value);
+      if (this.ngControl) {
+        this._value = this.ngControl.value;
+      }
+
+      this._setSelectionByValue(this._value);
       this.stateChanges.next();
     });
   }
@@ -1220,9 +1049,6 @@ export abstract class _MatSelectBase<C>
   /**
    * Sets the selected option based on a value. If no option can be
    * found with the designated value, the select trigger is cleared.
-   *
-   * 根据值设置选定的选项。如果找不到指定值的选项，就清除选择框的触发器。
-   *
    */
   private _setSelectionByValue(value: any | any[]): void {
     this._selectionModel.selected.forEach(option => option.setInactiveStyles());
@@ -1233,10 +1059,10 @@ export abstract class _MatSelectBase<C>
         throw getMatSelectNonArrayValueError();
       }
 
-      value.forEach((currentValue: any) => this._selectValue(currentValue));
+      value.forEach((currentValue: any) => this._selectOptionByValue(currentValue));
       this._sortValues();
     } else {
-      const correspondingOption = this._selectValue(value);
+      const correspondingOption = this._selectOptionByValue(value);
 
       // Shift focus to the active item. Note that we shouldn't do this in multiple
       // mode, because we don't know what option the user interacted with last.
@@ -1254,14 +1080,9 @@ export abstract class _MatSelectBase<C>
 
   /**
    * Finds and selects and option based on its value.
-   *
-   * 根据值在选项中查找，并选定它。
-   *
    * @returns Option that has the corresponding value.
-   *
-   * 具有相应值的选项。
    */
-  private _selectValue(value: any): MatOption | undefined {
+  private _selectOptionByValue(value: any): MatOption | undefined {
     const correspondingOption = this.options.find((option: MatOption) => {
       // Skip options that are already in the model. This allows us to handle cases
       // where the same primitive value is selected multiple times.
@@ -1288,12 +1109,21 @@ export abstract class _MatSelectBase<C>
     return correspondingOption;
   }
 
-  /**
-   * Sets up a key manager to listen to keyboard events on the overlay panel.
-   *
-   * 设置一个按键管理器来监听浮层面板上的键盘事件。
-   *
-   */
+  /** Assigns a specific value to the select. Returns whether the value has changed. */
+  private _assignValue(newValue: any | any[]): boolean {
+    // Always re-assign an array, because it might have been mutated.
+    if (newValue !== this._value || (this._multiple && Array.isArray(newValue))) {
+      if (this.options) {
+        this._setSelectionByValue(newValue);
+      }
+
+      this._value = newValue;
+      return true;
+    }
+    return false;
+  }
+
+  /** Sets up a key manager to listen to keyboard events on the overlay panel. */
   private _initKeyManager() {
     this._keyManager = new ActiveDescendantKeyManager<MatOption>(this.options)
       .withTypeAhead(this._typeaheadDebounceInterval)
@@ -1326,12 +1156,7 @@ export abstract class _MatSelectBase<C>
     });
   }
 
-  /**
-   * Drops current option subscriptions and IDs and resets from scratch.
-   *
-   * 删除当前选项的订阅和 ID，并重置为初始状态。
-   *
-   */
+  /** Drops current option subscriptions and IDs and resets from scratch. */
   private _resetOptions(): void {
     const changedOrDestroyed = merge(this.options.changes, this._destroy);
 
@@ -1354,12 +1179,7 @@ export abstract class _MatSelectBase<C>
       });
   }
 
-  /**
-   * Invoked when an option is clicked.
-   *
-   * 单击某个选项时调用。
-   *
-   */
+  /** Invoked when an option is clicked. */
   private _onSelect(option: MatOption, isUserInput: boolean): void {
     const wasSelected = this._selectionModel.isSelected(option);
 
@@ -1401,12 +1221,7 @@ export abstract class _MatSelectBase<C>
     this.stateChanges.next();
   }
 
-  /**
-   * Sorts the selected values in the selected based on their order in the panel.
-   *
-   * 根据面板中的顺序对选定的值进行排序。
-   *
-   */
+  /** Sorts the selected values in the selected based on their order in the panel. */
   private _sortValues() {
     if (this.multiple) {
       const options = this.options.toArray();
@@ -1420,12 +1235,7 @@ export abstract class _MatSelectBase<C>
     }
   }
 
-  /**
-   * Emits change event to set the model value.
-   *
-   * 发出 change 事件以设置模型的值。
-   *
-   */
+  /** Emits change event to set the model value. */
   private _propagateChanges(fallbackValue?: any): void {
     let valueToEmit: any = null;
 
@@ -1445,9 +1255,6 @@ export abstract class _MatSelectBase<C>
   /**
    * Highlights the selected item. If no option is selected, it will highlight
    * the first item instead.
-   *
-   * 突出显示选定条目。如果没有选定的选项，它会突出显示第一个条目。
-   *
    */
   private _highlightCorrectOption(): void {
     if (this._keyManager) {
@@ -1459,12 +1266,7 @@ export abstract class _MatSelectBase<C>
     }
   }
 
-  /**
-   * Whether the panel is allowed to open.
-   *
-   * 该面板是否允许打开。
-   *
-   */
+  /** Whether the panel is allowed to open. */
   protected _canOpen(): boolean {
     return !this._panelOpen && !this.disabled && this.options?.length > 0;
   }
@@ -1479,12 +1281,7 @@ export abstract class _MatSelectBase<C>
     this._elementRef.nativeElement.focus(options);
   }
 
-  /**
-   * Gets the aria-labelledby for the select panel.
-   *
-   * 获取选择框面板的 aria-labelledby。
-   *
-   */
+  /** Gets the aria-labelledby for the select panel. */
   _getPanelAriaLabelledby(): string | null {
     if (this.ariaLabel) {
       return null;
@@ -1495,12 +1292,7 @@ export abstract class _MatSelectBase<C>
     return this.ariaLabelledby ? labelExpression + this.ariaLabelledby : labelId;
   }
 
-  /**
-   * Determines the `aria-activedescendant` to be set on the host.
-   *
-   * 确定是否要在宿主上设置 `aria-activedescendant`
-   *
-   */
+  /** Determines the `aria-activedescendant` to be set on the host. */
   _getAriaActiveDescendant(): string | null {
     if (this.panelOpen && this._keyManager && this._keyManager.activeItem) {
       return this._keyManager.activeItem.id;
@@ -1509,12 +1301,7 @@ export abstract class _MatSelectBase<C>
     return null;
   }
 
-  /**
-   * Gets the aria-labelledby of the select component trigger.
-   *
-   * 获取此选择框组件触发器的 aria-labelledby。
-   *
-   */
+  /** Gets the aria-labelledby of the select component trigger. */
   private _getTriggerAriaLabelledby(): string | null {
     if (this.ariaLabel) {
       return null;
@@ -1530,32 +1317,25 @@ export abstract class _MatSelectBase<C>
     return value;
   }
 
-  /**
-   * Called when the overlay panel is done animating.
-   *
-   * 当浮层面板播放完动画时调用。
-   *
-   */
+  /** Called when the overlay panel is done animating. */
   protected _panelDoneAnimating(isOpen: boolean) {
     this.openedChange.emit(isOpen);
   }
 
   /**
    * Implemented as part of MatFormFieldControl.
-   *
-   *是 MatFormFieldControl 实现的一部分。
-   *
    * @docs-private
    */
   setDescribedByIds(ids: string[]) {
-    this._ariaDescribedby = ids.join(' ');
+    if (ids.length) {
+      this._elementRef.nativeElement.setAttribute('aria-describedby', ids.join(' '));
+    } else {
+      this._elementRef.nativeElement.removeAttribute('aria-describedby');
+    }
   }
 
   /**
    * Implemented as part of MatFormFieldControl.
-   *
-   *是 MatFormFieldControl 实现的一部分。
-   *
    * @docs-private
    */
   onContainerClick() {
@@ -1565,9 +1345,6 @@ export abstract class _MatSelectBase<C>
 
   /**
    * Implemented as part of MatFormFieldControl.
-   *
-   *是 MatFormFieldControl 实现的一部分。
-   *
    * @docs-private
    */
   get shouldLabelFloat(): boolean {
@@ -1599,7 +1376,6 @@ export abstract class _MatSelectBase<C>
     '[attr.aria-required]': 'required.toString()',
     '[attr.aria-disabled]': 'disabled.toString()',
     '[attr.aria-invalid]': 'errorState',
-    '[attr.aria-describedby]': '_ariaDescribedby || null',
     '[attr.aria-activedescendant]': '_getAriaActiveDescendant()',
     '[class.mat-select-disabled]': 'disabled',
     '[class.mat-select-invalid]': 'errorState',
@@ -1617,46 +1393,22 @@ export abstract class _MatSelectBase<C>
   ],
 })
 export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit {
-  /**
-   * The scroll position of the overlay panel, calculated to center the selected option.
-   *
-   * 浮层面板的滚动位置，计算为选定项的中心位置。
-   *
-   */
+  /** The scroll position of the overlay panel, calculated to center the selected option. */
   private _scrollTop = 0;
 
-  /**
-   * The last measured value for the trigger's client bounding rect.
-   *
-   * 触发器的 BoundingClientRect 的最后一次测量值。
-   *
-   */
+  /** The last measured value for the trigger's client bounding rect. */
   _triggerRect: ClientRect;
 
-  /**
-   * The cached font-size of the trigger element.
-   *
-   * 缓存的触发器元素字体大小。
-   *
-   */
+  /** The cached font-size of the trigger element. */
   _triggerFontSize = 0;
 
-  /**
-   * The value of the select panel's transform-origin property.
-   *
-   * 选择面板的 transform-origin 属性的值。
-   *
-   */
+  /** The value of the select panel's transform-origin property. */
   _transformOrigin: string = 'top';
 
   /**
    * The y-offset of the overlay panel in relation to the trigger's top start corner.
    * This must be adjusted to align the selected option text over the trigger text.
    * when the panel opens. Will change based on the y-position of the selected option.
-   *
-   * 浮层面板相对于触发器顶部 "start" 角的 y 偏移量。
-   * 必须调整它，以便在触发器文本上对齐选定的选项文本。面板打开时会根据选定选项的 y 坐标进行更改。
-   *
    */
   _offsetY = 0;
 
@@ -1684,14 +1436,9 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
   /**
    * Calculates the scroll position of the select's overlay panel.
    *
-   * 计算选择框的浮层面板的滚动位置。
-   *
    * Attempts to center the selected option in the panel. If the option is
    * too high or too low in the panel to be scrolled to the center, it clamps the
    * scroll position to the min or max scroll positions respectively.
-   *
-   * 试图让选定的选项在面板中居中。如果面板中的选项太高或太低而无法滚动到中心位置，它会在最小或最大滚动位置之间夹取此位置。
-   *
    */
   _calculateOverlayScroll(selectedIndex: number, scrollBuffer: number, maxScroll: number): number {
     const itemHeight = this._getItemHeight();
@@ -1743,12 +1490,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     }
   }
 
-  /**
-   * Scrolls the active option into view.
-   *
-   * 把活动选项滚动进视图。
-   *
-   */
+  /** Scrolls the active option into view. */
   protected _scrollOptionIntoView(index: number): void {
     const labelCount = _countGroupLabelsBeforeOption(index, this.options, this.optionGroups);
     const itemHeight = this._getItemHeight();
@@ -1794,10 +1536,6 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
    * the panel opens. Will change based on LTR or RTL text direction. Note that the offset
    * can't be calculated until the panel has been attached, because we need to know the
    * content width in order to constrain the panel within the viewport.
-   *
-   * 设置浮层面板相对于触发器顶部起始角的 x 偏移量。当面板打开时，必须调整它，以便让触发器文本与选定项的文本对齐。
-   * 会根据 LTR 或 RTL 的而改变文本方向。请注意，在连接面板之前，无法计算偏移量，因为我们需要知道内容的宽度才能在视口中约束此面板。
-   *
    */
   private _calculateOverlayOffsetX(): void {
     const overlayRect = this._overlayDir.overlayRef.overlayElement.getBoundingClientRect();
@@ -1846,9 +1584,6 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
    * Calculates the y-offset of the select's overlay panel in relation to the
    * top start corner of the trigger. It has to be adjusted in order for the
    * selected option to be aligned over the trigger when the panel opens.
-   *
-   * 计算选择框的浮层面板相对于触发器顶部起始角的 y 偏移量。必须对它进行调整，以便当面板打开时，选定的选项可以与触发器对齐。
-   *
    */
   private _calculateOverlayOffsetY(
     selectedIndex: number,
@@ -1899,9 +1634,6 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
    * If it will not fit, tries to adjust the scroll position and the associated
    * y-offset so the panel can open fully on-screen. If it still won't fit,
    * sets the offset back to 0 to allow the fallback position to take over.
-   *
-   * 检查尝试的浮层位置是否适合视口。如果它不适合，尝试调整滚动位置和相关的 y 偏移量，这样面板就可以在屏幕上完全打开。如果它仍然不适合，则把偏移量设置回 0，以允许使用回退位置。
-   *
    */
   private _checkOverlayWithinViewport(maxScroll: number): void {
     const itemHeight = this._getItemHeight();
@@ -1924,12 +1656,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     }
   }
 
-  /**
-   * Adjusts the overlay panel up to fit in the viewport.
-   *
-   * 向上调整浮层面板以适合视口。
-   *
-   */
+  /** Adjusts the overlay panel up to fit in the viewport. */
   private _adjustPanelUp(panelHeightBottom: number, bottomSpaceAvailable: number) {
     // Browsers ignore fractional scroll offsets, so we need to round.
     const distanceBelowViewport = Math.round(panelHeightBottom - bottomSpaceAvailable);
@@ -1950,12 +1677,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     }
   }
 
-  /**
-   * Adjusts the overlay panel down to fit in the viewport.
-   *
-   * 向下调整浮层面板以适应视口。
-   *
-   */
+  /** Adjusts the overlay panel down to fit in the viewport. */
   private _adjustPanelDown(panelHeightTop: number, topSpaceAvailable: number, maxScroll: number) {
     // Browsers ignore fractional scroll offsets, so we need to round.
     const distanceAboveViewport = Math.round(panelHeightTop - topSpaceAvailable);
@@ -1977,12 +1699,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     }
   }
 
-  /**
-   * Calculates the scroll position and x- and y-offsets of the overlay panel.
-   *
-   * 计算浮层面板的滚动位置和 x 和 y 偏移量。
-   *
-   */
+  /** Calculates the scroll position and x- and y-offsets of the overlay panel. */
   private _calculateOverlayPosition(): void {
     const itemHeight = this._getItemHeight();
     const items = this._getItemCount();
@@ -2019,12 +1736,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     this._checkOverlayWithinViewport(maxScroll);
   }
 
-  /**
-   * Sets the transform origin point based on the selected option.
-   *
-   * 基于选定的选项设置变换的原点。
-   *
-   */
+  /** Sets the transform origin point based on the selected option. */
   private _getOriginBasedOnOption(): string {
     const itemHeight = this._getItemHeight();
     const optionHeightAdjustment = (itemHeight - this._triggerRect.height) / 2;
@@ -2032,22 +1744,12 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     return `50% ${originY}px 0px`;
   }
 
-  /**
-   * Calculates the height of the select's options.
-   *
-   * 计算选择框选项的高度。
-   *
-   */
+  /** Calculates the height of the select's options. */
   private _getItemHeight(): number {
     return this._triggerFontSize * SELECT_ITEM_HEIGHT_EM;
   }
 
-  /**
-   * Calculates the amount of items in the select. This includes options and group labels.
-   *
-   * 计算选择框中的条目数量。包括选项和组标签。
-   *
-   */
+  /** Calculates the amount of items in the select. This includes options and group labels. */
   private _getItemCount(): number {
     return this.options.length + this.optionGroups.length;
   }

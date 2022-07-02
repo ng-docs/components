@@ -11,6 +11,9 @@ import {MatMenuItem as BaseMatMenuItem} from '@angular/material/menu';
 
 /**
  * Single item inside of a `mat-menu`. Provides the menu item styling and accessibility treatment.
+ *
+ * `mat-menu` 里面的单个菜单项。提供菜单项样式和无障碍性处理。
+ *
  */
 @Component({
   selector: '[mat-menu-item]',

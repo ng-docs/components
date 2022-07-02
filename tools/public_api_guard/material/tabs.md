@@ -82,7 +82,7 @@ export class MatInkBar {
     hide(): void;
     show(): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatInkBar, "mat-ink-bar", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatInkBar, "mat-ink-bar", never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatInkBar, [null, null, null, { optional: true; }]>;
 }
@@ -101,12 +101,14 @@ export class MatTab extends _MatTabBase implements OnInit, CanDisable, OnChanges
     constructor(_viewContainerRef: ViewContainerRef, _closestTabGroup: any);
     ariaLabel: string;
     ariaLabelledby: string;
+    bodyClass: string | string[];
     // (undocumented)
     _closestTabGroup: any;
     get content(): TemplatePortal | null;
     _explicitContent: TemplateRef<any>;
     _implicitContent: TemplateRef<any>;
     isActive: boolean;
+    labelClass: string | string[];
     // (undocumented)
     ngOnChanges(changes: SimpleChanges): void;
     // (undocumented)
@@ -123,7 +125,7 @@ export class MatTab extends _MatTabBase implements OnInit, CanDisable, OnChanges
     protected _templateLabel: MatTabLabel;
     textLabel: string;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatTab, "mat-tab", ["matTab"], { "disabled": "disabled"; "textLabel": "label"; "ariaLabel": "aria-label"; "ariaLabelledby": "aria-labelledby"; }, {}, ["templateLabel", "_explicitContent"], ["*"]>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatTab, "mat-tab", ["matTab"], { "disabled": "disabled"; "textLabel": "label"; "ariaLabel": "aria-label"; "ariaLabelledby": "aria-labelledby"; "labelClass": "labelClass"; "bodyClass": "bodyClass"; }, {}, ["templateLabel", "_explicitContent"], ["*"], false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatTab, [null, { optional: true; }]>;
 }
@@ -134,7 +136,7 @@ export class MatTabBody extends _MatTabBodyBase {
     // (undocumented)
     _portalHost: CdkPortalOutlet;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatTabBody, "mat-tab-body", never, {}, {}, never, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatTabBody, "mat-tab-body", never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatTabBody, [null, { optional: true; }, null]>;
 }
@@ -159,9 +161,10 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
     abstract _portalHost: CdkPortalOutlet;
     set position(position: number);
     _position: MatTabBodyPositionState;
+    preserveContent: boolean;
     readonly _translateTabComplete: Subject<AnimationEvent_2>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatTabBodyBase, never, never, { "_content": "content"; "origin": "origin"; "animationDuration": "animationDuration"; "position": "position"; }, { "_onCentering": "_onCentering"; "_beforeCentering": "_beforeCentering"; "_afterLeavingCenter": "_afterLeavingCenter"; "_onCentered": "_onCentered"; }, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatTabBodyBase, never, never, { "_content": "content"; "origin": "origin"; "animationDuration": "animationDuration"; "preserveContent": "preserveContent"; "position": "position"; }, { "_onCentering": "_onCentering"; "_beforeCentering": "_beforeCentering"; "_afterLeavingCenter": "_afterLeavingCenter"; "_onCentered": "_onCentered"; }, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatTabBodyBase, [null, { optional: true; }, null]>;
 }
@@ -175,7 +178,7 @@ export class MatTabBodyPortal extends CdkPortalOutlet implements OnInit, OnDestr
     ngOnDestroy(): void;
     ngOnInit(): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatTabBodyPortal, "[matTabBodyHost]", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatTabBodyPortal, "[matTabBodyHost]", never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatTabBodyPortal, never>;
 }
@@ -195,7 +198,7 @@ export class MatTabContent {
     // (undocumented)
     template: TemplateRef<any>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatTabContent, "[matTabContent]", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatTabContent, "[matTabContent]", never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatTabContent, never>;
 }
@@ -210,7 +213,7 @@ export class MatTabGroup extends _MatTabGroupBase {
     // (undocumented)
     _tabHeader: MatTabGroupBaseHeader;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatTabGroup, "mat-tab-group", ["matTabGroup"], { "color": "color"; "disableRipple": "disableRipple"; }, {}, ["_allTabs"], never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatTabGroup, "mat-tab-group", ["matTabGroup"], { "color": "color"; "disableRipple": "disableRipple"; }, {}, ["_allTabs"], never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatTabGroup, [null, null, { optional: true; }, { optional: true; }]>;
 }
@@ -230,7 +233,8 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
     protected _changeDetectorRef: ChangeDetectorRef;
     get contentTabIndex(): number | null;
     set contentTabIndex(value: NumberInput);
-    disablePagination: boolean;
+    get disablePagination(): boolean;
+    set disablePagination(value: BooleanInput);
     get dynamicHeight(): boolean;
     set dynamicHeight(value: BooleanInput);
     readonly focusChange: EventEmitter<MatTabChangeEvent>;
@@ -238,7 +242,7 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
     _focusChanged(index: number): void;
     focusTab(index: number): void;
     _getTabContentId(i: number): string;
-    _getTabIndex(tab: MatTab, idx: number): number | null;
+    _getTabIndex(tab: MatTab, index: number): number | null;
     _getTabLabelId(i: number): string;
     _handleClick(tab: MatTab, tabHeader: MatTabGroupBaseHeader, index: number): void;
     headerPosition: MatTabHeaderPosition;
@@ -247,6 +251,8 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
     ngAfterContentInit(): void;
     // (undocumented)
     ngOnDestroy(): void;
+    get preserveContent(): boolean;
+    set preserveContent(value: BooleanInput);
     realignInkBar(): void;
     _removeTabBodyWrapperHeight(): void;
     get selectedIndex(): number | null;
@@ -260,8 +266,9 @@ export abstract class _MatTabGroupBase extends _MatTabGroupMixinBase implements 
     // (undocumented)
     abstract _tabHeader: MatTabGroupBaseHeader;
     _tabs: QueryList<MatTab>;
+    updatePagination(): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatTabGroupBase, never, never, { "dynamicHeight": "dynamicHeight"; "selectedIndex": "selectedIndex"; "headerPosition": "headerPosition"; "animationDuration": "animationDuration"; "contentTabIndex": "contentTabIndex"; "disablePagination": "disablePagination"; "backgroundColor": "backgroundColor"; }, { "selectedIndexChange": "selectedIndexChange"; "focusChange": "focusChange"; "animationDone": "animationDone"; "selectedTabChange": "selectedTabChange"; }, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatTabGroupBase, never, never, { "dynamicHeight": "dynamicHeight"; "selectedIndex": "selectedIndex"; "headerPosition": "headerPosition"; "animationDuration": "animationDuration"; "contentTabIndex": "contentTabIndex"; "disablePagination": "disablePagination"; "preserveContent": "preserveContent"; "backgroundColor": "backgroundColor"; }, { "selectedIndexChange": "selectedIndexChange"; "focusChange": "focusChange"; "animationDone": "animationDone"; "selectedTabChange": "selectedTabChange"; }, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatTabGroupBase, [null, null, { optional: true; }, { optional: true; }]>;
 }
@@ -284,7 +291,7 @@ export class MatTabHeader extends _MatTabHeaderBase {
     // (undocumented)
     _tabListInner: ElementRef;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatTabHeader, "mat-tab-header", never, { "selectedIndex": "selectedIndex"; }, { "selectFocusedIndex": "selectFocusedIndex"; "indexFocused": "indexFocused"; }, ["_items"], ["*"]>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatTabHeader, "mat-tab-header", never, { "selectedIndex": "selectedIndex"; }, { "selectFocusedIndex": "selectFocusedIndex"; "indexFocused": "indexFocused"; }, ["_items"], ["*"], false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatTabHeader, [null, null, null, { optional: true; }, null, null, { optional: true; }]>;
 }
@@ -297,7 +304,7 @@ export abstract class _MatTabHeaderBase extends MatPaginatedTabHeader implements
     // (undocumented)
     protected _itemSelected(event: KeyboardEvent): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatTabHeaderBase, never, never, { "disableRipple": "disableRipple"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatTabHeaderBase, never, never, { "disableRipple": "disableRipple"; }, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatTabHeaderBase, [null, null, null, { optional: true; }, null, null, { optional: true; }]>;
 }
@@ -311,7 +318,7 @@ export class MatTabLabel extends CdkPortal {
     // (undocumented)
     _closestTab: any;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatTabLabel, "[mat-tab-label], [matTabLabel]", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatTabLabel, "[mat-tab-label], [matTabLabel]", never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatTabLabel, [null, null, { optional: true; }]>;
 }
@@ -327,7 +334,7 @@ export class MatTabLabelWrapper extends _MatTabLabelWrapperBase implements CanDi
     // (undocumented)
     getOffsetWidth(): number;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatTabLabelWrapper, "[matTabLabelWrapper]", never, { "disabled": "disabled"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatTabLabelWrapper, "[matTabLabelWrapper]", never, { "disabled": "disabled"; }, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatTabLabelWrapper, never>;
 }
@@ -338,7 +345,7 @@ export class MatTabLink extends _MatTabLinkBase implements OnDestroy {
     // (undocumented)
     ngOnDestroy(): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatTabLink, "[mat-tab-link], [matTabLink]", ["matTabLink"], { "disabled": "disabled"; "disableRipple": "disableRipple"; "tabIndex": "tabIndex"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatTabLink, "[mat-tab-link], [matTabLink]", ["matTabLink"], { "disabled": "disabled"; "disableRipple": "disableRipple"; "tabIndex": "tabIndex"; }, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatTabLink, [null, null, null, null, { optional: true; }, { attribute: "tabindex"; }, null, { optional: true; }]>;
 }
@@ -352,7 +359,20 @@ export class _MatTabLinkBase extends _MatTabLinkMixinBase implements AfterViewIn
     elementRef: ElementRef;
     focus(): void;
     // (undocumented)
+    _getAriaControls(): string | null;
+    // (undocumented)
+    _getAriaCurrent(): string | null;
+    // (undocumented)
+    _getAriaSelected(): string | null;
+    // (undocumented)
+    _getRole(): string | null;
+    // (undocumented)
+    _getTabIndex(): number;
+    // (undocumented)
     _handleFocus(): void;
+    // (undocumented)
+    _handleKeydown(event: KeyboardEvent): void;
+    id: string;
     protected _isActive: boolean;
     // (undocumented)
     ngAfterViewInit(): void;
@@ -361,7 +381,7 @@ export class _MatTabLinkBase extends _MatTabLinkMixinBase implements AfterViewIn
     rippleConfig: RippleConfig & RippleGlobalOptions;
     get rippleDisabled(): boolean;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatTabLinkBase, never, never, { "active": "active"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatTabLinkBase, never, never, { "active": "active"; "id": "id"; }, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatTabLinkBase, [null, null, { optional: true; }, { attribute: "tabindex"; }, null, { optional: true; }]>;
 }
@@ -384,7 +404,7 @@ export class MatTabNav extends _MatTabNavBase {
     // (undocumented)
     _tabListInner: ElementRef;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatTabNav, "[mat-tab-nav-bar]", ["matTabNavBar", "matTabNav"], { "color": "color"; }, {}, ["_items"], ["*"]>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatTabNav, "[mat-tab-nav-bar]", ["matTabNavBar", "matTabNav"], { "color": "color"; }, {}, ["_items"], ["*"], false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatTabNav, [null, { optional: true; }, null, null, null, null, { optional: true; }]>;
 }
@@ -397,18 +417,32 @@ export abstract class _MatTabNavBase extends MatPaginatedTabHeader implements Af
     color: ThemePalette;
     get disableRipple(): boolean;
     set disableRipple(value: BooleanInput);
+    // (undocumented)
+    _getRole(): string | null;
     abstract _items: QueryList<MatPaginatedTabHeaderItem & {
         active: boolean;
+        id: string;
     }>;
     // (undocumented)
     protected _itemSelected(): void;
     // (undocumented)
     ngAfterContentInit(): void;
+    tabPanel?: MatTabNavPanel;
     updateActiveLink(): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatTabNavBase, never, never, { "backgroundColor": "backgroundColor"; "disableRipple": "disableRipple"; "color": "color"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatTabNavBase, never, never, { "backgroundColor": "backgroundColor"; "disableRipple": "disableRipple"; "color": "color"; "tabPanel": "tabPanel"; }, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatTabNavBase, [null, { optional: true; }, null, null, null, null, { optional: true; }]>;
+}
+
+// @public
+export class MatTabNavPanel {
+    _activeTabId?: string;
+    id: string;
+    // (undocumented)
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatTabNavPanel, "mat-tab-nav-panel", ["matTabNavPanel"], { "id": "id"; }, {}, never, ["*"], false>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<MatTabNavPanel, never>;
 }
 
 // @public
@@ -423,6 +457,7 @@ export interface MatTabsConfig {
     disablePagination?: boolean;
     dynamicHeight?: boolean;
     fitInkBarToContent?: boolean;
+    preserveContent?: boolean;
 }
 
 // @public (undocumented)
@@ -432,7 +467,7 @@ export class MatTabsModule {
     // (undocumented)
     static ɵinj: i0.ɵɵInjectorDeclaration<MatTabsModule>;
     // (undocumented)
-    static ɵmod: i0.ɵɵNgModuleDeclaration<MatTabsModule, [typeof i1.MatTabGroup, typeof i2.MatTabLabel, typeof i3.MatTab, typeof i4.MatInkBar, typeof i5.MatTabLabelWrapper, typeof i6.MatTabNav, typeof i6.MatTabLink, typeof i7.MatTabBody, typeof i7.MatTabBodyPortal, typeof i8.MatTabHeader, typeof i9.MatTabContent], [typeof i10.CommonModule, typeof i11.MatCommonModule, typeof i12.PortalModule, typeof i11.MatRippleModule, typeof i13.ObserversModule, typeof i14.A11yModule], [typeof i11.MatCommonModule, typeof i1.MatTabGroup, typeof i2.MatTabLabel, typeof i3.MatTab, typeof i6.MatTabNav, typeof i6.MatTabLink, typeof i9.MatTabContent]>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<MatTabsModule, [typeof i1.MatTabGroup, typeof i2.MatTabLabel, typeof i3.MatTab, typeof i4.MatInkBar, typeof i5.MatTabLabelWrapper, typeof i6.MatTabNav, typeof i6.MatTabNavPanel, typeof i6.MatTabLink, typeof i7.MatTabBody, typeof i7.MatTabBodyPortal, typeof i8.MatTabHeader, typeof i9.MatTabContent], [typeof i10.CommonModule, typeof i11.MatCommonModule, typeof i12.PortalModule, typeof i11.MatRippleModule, typeof i13.ObserversModule, typeof i14.A11yModule], [typeof i11.MatCommonModule, typeof i1.MatTabGroup, typeof i2.MatTabLabel, typeof i3.MatTab, typeof i6.MatTabNav, typeof i6.MatTabNavPanel, typeof i6.MatTabLink, typeof i9.MatTabContent]>;
 }
 
 // @public

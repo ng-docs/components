@@ -18,7 +18,7 @@ own custom components. The team maintains several npm packages.
 [Documentation, demos, and guides][mat-docs] |
 [Frequently Asked Questions](FAQ.md) |
 [Community Google group](https://groups.google.com/forum/#!forum/angular-material2) |
-[Contributing](https://github.com/angular/components/blob/master/CONTRIBUTING.md) |
+[Contributing](https://github.com/angular/components/blob/main/CONTRIBUTING.md) |
 [StackBlitz Template](https://stackblitz.com/fork/components-issue)
 
 ## Getting started
@@ -70,10 +70,10 @@ What do we mean by "high-quality" components?
 
 ## Browser and screen reader support
 The Angular Components team supports the most recent two versions of all major browsers:
-Chrome (including Android), Firefox, Safari (including iOS), and IE11 / Edge.
+Chrome (including Android), Firefox, Safari (including iOS), and  Edge.
 
 We aim for great user experience with the following screen readers:
-* **Windows**: NVDA and JAWS with IE11 / FF / Chrome.
+* **Windows**: NVDA and JAWS with FF / Chrome.
 * **macOS**: VoiceOver with Safari / Chrome.
 * **iOS**: VoiceOver with Safari
 * **Android**: Android Accessibility Suite (formerly TalkBack) with Chrome.
@@ -86,8 +86,8 @@ We aim for great user experience with the following screen readers:
 [MDC Web]: https://github.com/material-components/material-components-web/
 [cdk-docs]: https://material.angular.io/cdk/categories
 [mat-docs]: https://material.angular.io
-[map-docs]: https://github.com/angular/components/blob/master/src/google-maps/README.md
-[ytp-docs]: https://github.com/angular/components/blob/master/src/youtube-player/README.md
+[map-docs]: https://github.com/angular/components/blob/main/src/google-maps/README.md
+[ytp-docs]: https://github.com/angular/components/blob/main/src/youtube-player/README.md
 [getting-started]: https://material.angular.io/guide/getting-started
-[contributing]: https://github.com/angular/components/blob/master/CONTRIBUTING.md
+[contributing]: https://github.com/angular/components/blob/main/CONTRIBUTING.md
 [help-wanted]: https://github.com/angular/components/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22

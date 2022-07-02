@@ -68,24 +68,11 @@ export interface MatChipEvent {
  */
 export class MatChipSelectionChange {
   constructor(
-    /**
-     * Reference to the chip that emmited the event.
-     *
-     * 到发出此事件的the chip的引用。
-     *
-     */
+    /** Reference to the chip that emitted the event. */
     public source: MatChip,
-    /**
-     * Whether the chip that emitted the event is selected.
-     *
-     * 发出此事件的纸片是否已选中。
-     */
+    /** Whether the chip that emitted the event is selected. */
     public selected: boolean,
-    /**
-     * Whether the selection change was a result of a user interaction.
-     *
-     * 此选中结果的变化是否由用户交互导致的。
-     */
+    /** Whether the selection change was a result of a user interaction. */
     public isUserInput = false,
   ) {}
 }
@@ -133,9 +120,6 @@ const _MatChipMixinBase = mixinTabIndex(mixinColor(mixinDisableRipple(MatChipBas
 
 /**
  * Dummy directive to add CSS class to chip avatar.
- *
- * 这个仿真指令用于把 CSS 类添加到纸片头像中。
- *
  * @docs-private
  */
 @Directive({
@@ -147,9 +131,6 @@ export class MatChipAvatar {}
 
 /**
  * Dummy directive to add CSS class to chip trailing icon.
- *
- * 这个仿真指令用于把 CSS 类添加到纸片的尾部图标中。
- *
  * @docs-private
  */
 @Directive({
@@ -159,12 +140,7 @@ export class MatChipAvatar {}
 })
 export class MatChipTrailingIcon {}
 
-/**
- * Material design styled Chip component. Used inside the MatChipList component.
- *
- * Material Design 风格的纸片组件。在 MatChipList 组件中使用。
- *
- */
+/** Material Design styled chip directive. Used inside the MatChipList component. */
 @Directive({
   selector: `mat-basic-chip, [mat-basic-chip], mat-chip, [mat-chip]`,
   inputs: ['color', 'disableRipple', 'tabIndex'],
@@ -172,7 +148,7 @@ export class MatChipTrailingIcon {}
   host: {
     'class': 'mat-chip mat-focus-indicator',
     '[attr.tabindex]': 'disabled ? null : tabIndex',
-    'role': 'option',
+    '[attr.role]': 'role',
     '[class.mat-chip-selected]': 'selected',
     '[class.mat-chip-with-avatar]': 'avatar',
     '[class.mat-chip-with-trailing-icon]': 'trailingIcon || removeIcon',
@@ -198,21 +174,13 @@ export class MatChip
     HasTabIndex,
     CanDisable
 {
-  /**
-   * Reference to the RippleRenderer for the chip.
-   *
-   * 该纸片引用的 RippleRenderer。
-   *
-   */
+  /** Reference to the RippleRenderer for the chip. */
   private _chipRipple: RippleRenderer;
 
   /**
    * Reference to the element that acts as the chip's ripple target. This element is
    * dynamically added as a child node of the chip. The chip itself cannot be used as the
    * ripple target because it must be the host of the focus indicator.
-   *
-   * 引用作为本纸片的涟漪目标的元素。该元素被动态添加为纸片的子节点。纸片本身不能用作涟漪目标，因为它必须是焦点指示器的宿主元素。
-   *
    */
   private _chipRippleTarget: HTMLElement;
 
@@ -220,18 +188,12 @@ export class MatChip
    * Ripple configuration for ripples that are launched on pointer down. The ripple config
    * is set to the global ripple options since we don't have any configurable options for
    * the chip ripples.
-   *
-   * 当指针按下时的涟漪配置。涟漪配置会设置为全局涟漪选项，因为纸片自身没有任何可配置的涟漪选项。
-   *
    * @docs-private
    */
   rippleConfig: RippleConfig & RippleGlobalOptions;
 
   /**
    * Whether ripples are disabled on interaction
-   *
-   * 是否在交互时禁用了涟漪
-   *
    * @docs-private
    */
   get rippleDisabled(): boolean {
@@ -243,20 +205,10 @@ export class MatChip
     );
   }
 
-  /**
-   * Whether the chip has focus.
-   *
-   * 纸片是否具有焦点。
-   *
-   */
+  /** Whether the chip has focus. */
   _hasFocus: boolean = false;
 
-  /**
-   * Whether animations for the chip are enabled.
-   *
-   * 是否启用了该纸片的动画。
-   *
-   */
+  /** Whether animations for the chip are enabled. */
   _animationsDisabled: boolean;
 
   /**
@@ -267,20 +219,10 @@ export class MatChip
    */
   chipListSelectable: boolean = true;
 
-  /**
-   * Whether the chip list is in multi-selection mode.
-   *
-   * 纸片列表是否处于多选模式。
-   *
-   */
+  /** Whether the chip list is in multi-selection mode. */
   _chipListMultiple: boolean = false;
 
-  /**
-   * Whether the chip list as a whole is disabled.
-   *
-   * 纸片列表是否作为一个整体被禁用了。
-   *
-   */
+  /** Whether the chip list as a whole is disabled. */
   _chipListDisabled: boolean = false;
 
   /**
@@ -307,10 +249,13 @@ export class MatChip
    */
   @ContentChild(MAT_CHIP_REMOVE) removeIcon: MatChipRemove;
 
+  /** ARIA role that should be applied to the chip. */
+  @Input() role: string = 'option';
+
   /**
    * Whether the chip is selected.
    *
-   * 该纸片是否被选定。
+   * 纸片是否被选定。
    *
    */
   @Input()
@@ -363,7 +308,7 @@ export class MatChip
   /**
    * Whether the chip is disabled.
    *
-   * 该纸片是否已禁用了。
+   * 纸片是否已禁用了。
    *
    */
   @Input()
@@ -390,20 +335,10 @@ export class MatChip
   }
   protected _removable: boolean = true;
 
-  /**
-   * Emits when the chip is focused.
-   *
-   * 该纸片获得焦点时会触发。
-   *
-   */
+  /** Emits when the chip is focused. */
   readonly _onFocus = new Subject<MatChipEvent>();
 
-  /**
-   * Emits when the chip is blured.
-   *
-   * 该纸片失焦时会触发。
-   *
-   */
+  /** Emits when the chip is blured. */
   readonly _onBlur = new Subject<MatChipEvent>();
 
   /**
@@ -581,26 +516,14 @@ export class MatChip
     }
   }
 
-  /**
-   * Handles click events on the chip.
-   *
-   * 处理纸片上的点击事件。
-   *
-   */
+  /** Handles click events on the chip. */
   _handleClick(event: Event) {
     if (this.disabled) {
       event.preventDefault();
-    } else {
-      event.stopPropagation();
     }
   }
 
-  /**
-   * Handle custom key presses.
-   *
-   * 处理自定义按键。
-   *
-   */
+  /** Handle custom key presses. */
   _handleKeydown(event: KeyboardEvent): void {
     if (this.disabled) {
       return;
@@ -668,6 +591,7 @@ export class MatChip
  * styles to properly center the icon within the chip.
  *
  * 你*可以*使用自定义图标，但是可能需要改写 `mat-chip-remove` 的定位样式，这样才能让图标在纸片内正确居中。
+ *
  */
 @Directive({
   selector: '[matChipRemove]',
@@ -684,12 +608,7 @@ export class MatChipRemove {
     }
   }
 
-  /**
-   * Calls the parent chip's public `remove()` method if applicable.
-   *
-   * 如果适用的话，调用父纸片的公共方法 `remove()`
-   *
-   */
+  /** Calls the parent chip's public `remove()` method if applicable. */
   _handleClick(event: Event): void {
     const parentChip = this._parentChip;
 
@@ -703,5 +622,6 @@ export class MatChipRemove {
     // the parent click listener of the `MatChip` would prevent propagation, but it can happen
     // that the chip is being removed before the event bubbles up.
     event.stopPropagation();
+    event.preventDefault();
   }
 }

@@ -18,8 +18,17 @@ import {
   Directive,
   Injectable,
 } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {DateAdapter, MAT_DATE_FORMATS, MatDateFormats, ThemePalette} from '@angular/material/core';
+import {CommonModule} from '@angular/common';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MatDateFormats,
+  ThemePalette,
+  MatNativeDateModule,
+} from '@angular/material/core';
 import {
   MatCalendar,
   MatCalendarHeader,
@@ -27,68 +36,16 @@ import {
   MAT_DATE_RANGE_SELECTION_STRATEGY,
   MatDateRangeSelectionStrategy,
   DateRange,
+  MatDatepickerModule,
 } from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-@Component({
-  selector: 'datepicker-demo',
-  templateUrl: 'datepicker-demo.html',
-  styleUrls: ['datepicker-demo.css'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class DatepickerDemo {
-  touch: boolean;
-  filterOdd: boolean;
-  yearView: boolean;
-  inputDisabled: boolean;
-  datepickerDisabled: boolean;
-  minDate: Date;
-  maxDate: Date;
-  startAt: Date;
-  date: any;
-  lastDateInput: Date | null;
-  lastDateChange: Date | null;
-  color: ThemePalette;
-  showActions = false;
-
-  dateCtrl = new FormControl();
-  range1 = new FormGroup({start: new FormControl(), end: new FormControl()});
-  range2 = new FormGroup({start: new FormControl(), end: new FormControl()});
-  range3 = new FormGroup({start: new FormControl(), end: new FormControl()});
-  comparisonStart: Date;
-  comparisonEnd: Date;
-
-  constructor() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    this.comparisonStart = new Date(year, month, 9);
-    this.comparisonEnd = new Date(year, month, 13);
-  }
-
-  dateFilter: (date: Date | null) => boolean = (date: Date | null) => {
-    if (date === null) {
-      return true;
-    }
-    return !(date.getFullYear() % 2) && Boolean(date.getMonth() % 2) && !(date.getDate() % 2);
-  };
-
-  onDateInput = (e: MatDatepickerInputEvent<Date>) => (this.lastDateInput = e.value);
-  onDateChange = (e: MatDatepickerInputEvent<Date>) => (this.lastDateChange = e.value);
-
-  // pass custom header component type as input
-  customHeader = CustomHeader;
-  customHeaderNgContent = CustomHeaderNgContent;
-}
-
-/**
- * Range selection strategy that preserves the current range.
- *
- * 会保留当前范围的范围选择策略。
- *
- */
+/** Range selection strategy that preserves the current range. */
 @Injectable()
 export class PreserveRangeStrategy<D> implements MatDateRangeSelectionStrategy<D> {
   constructor(private _dateAdapter: DateAdapter<D>) {}
@@ -137,6 +94,7 @@ export class PreserveRangeStrategy<D> implements MatDateRangeSelectionStrategy<D
 
 @Directive({
   selector: '[customRangeStrategy]',
+  standalone: true,
   providers: [
     {
       provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
@@ -152,6 +110,8 @@ export class CustomRangeStrategy {}
   templateUrl: 'custom-header.html',
   styleUrls: ['custom-header.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatIconModule],
 })
 export class CustomHeader<D> implements OnDestroy {
   private readonly _destroyed = new Subject<void>();
@@ -198,6 +158,8 @@ export class CustomHeader<D> implements OnDestroy {
         <button mat-button type="button" (click)="todayClicked()">TODAY</button>
       </mat-calendar-header>
     `,
+  standalone: true,
+  imports: [MatDatepickerModule],
 })
 export class CustomHeaderNgContent<D> {
   @ViewChild(MatCalendarHeader)
@@ -211,4 +173,82 @@ export class CustomHeaderNgContent<D> {
     calendar.activeDate = this._dateAdapter.today();
     calendar.currentView = 'month';
   }
+}
+
+@Component({
+  selector: 'datepicker-demo',
+  templateUrl: 'datepicker-demo.html',
+  styleUrls: ['datepicker-demo.css'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    CustomHeader,
+    CustomHeaderNgContent,
+    CustomRangeStrategy,
+  ],
+})
+export class DatepickerDemo {
+  touch: boolean;
+  filterOdd: boolean;
+  yearView: boolean;
+  inputDisabled: boolean;
+  datepickerDisabled: boolean;
+  minDate: Date;
+  maxDate: Date;
+  startAt: Date;
+  date: any;
+  lastDateInput: Date | null;
+  lastDateChange: Date | null;
+  color: ThemePalette;
+  showActions = false;
+
+  dateCtrl = new FormControl<Date | null>(null);
+  range1 = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+  range2 = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+  range3 = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+  comparisonStart: Date;
+  comparisonEnd: Date;
+
+  constructor() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    this.comparisonStart = new Date(year, month, 9);
+    this.comparisonEnd = new Date(year, month, 13);
+  }
+
+  dateFilter: (date: Date | null) => boolean = (date: Date | null) => {
+    if (date === null) {
+      return true;
+    }
+    return !(date.getFullYear() % 2) && Boolean(date.getMonth() % 2) && !(date.getDate() % 2);
+  };
+
+  onDateInput = (e: MatDatepickerInputEvent<Date>) => (this.lastDateInput = e.value);
+  onDateChange = (e: MatDatepickerInputEvent<Date>) => (this.lastDateChange = e.value);
+
+  // pass custom header component type as input
+  customHeader = CustomHeader;
+  customHeaderNgContent = CustomHeaderNgContent;
 }

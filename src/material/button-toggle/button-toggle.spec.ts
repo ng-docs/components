@@ -1007,7 +1007,7 @@ class ButtonToggleGroupWithInitialValue {
   `,
 })
 class ButtonToggleGroupWithFormControl {
-  control = new FormControl();
+  control = new FormControl('');
 }
 
 @Component({
@@ -1023,7 +1023,7 @@ class ButtonToggleGroupWithFormControl {
   `,
 })
 class ButtonToggleGroupWithIndirectDescendantToggles {
-  control = new FormControl();
+  control = new FormControl('');
 }
 
 /**

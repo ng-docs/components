@@ -1,11 +1,4 @@
-import {
-  waitForAsync,
-  fakeAsync,
-  tick,
-  ComponentFixture,
-  inject,
-  TestBed,
-} from '@angular/core/testing';
+import {waitForAsync, fakeAsync, tick, ComponentFixture, TestBed} from '@angular/core/testing';
 import {
   Component,
   ViewChild,
@@ -14,6 +7,7 @@ import {
   Injectable,
   EventEmitter,
   NgZone,
+  Type,
 } from '@angular/core';
 import {Direction, Directionality} from '@angular/cdk/bidi';
 import {MockNgZone, dispatchFakeEvent} from '../testing/private';
@@ -30,6 +24,7 @@ import {
   ScrollStrategy,
 } from './index';
 import {OverlayReference} from './overlay-reference';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('Overlay', () => {
   let overlay: Overlay;
@@ -42,53 +37,49 @@ describe('Overlay', () => {
   let zone: MockNgZone;
   let mockLocation: SpyLocation;
 
-  beforeEach(
-    waitForAsync(() => {
-      dir = 'ltr';
-      TestBed.configureTestingModule({
-        imports: [OverlayModule, PortalModule],
-        declarations: [PizzaMsg, TestComponentWithTemplatePortals],
-        providers: [
-          {
-            provide: Directionality,
-            useFactory: () => {
-              const fakeDirectionality = {};
-              Object.defineProperty(fakeDirectionality, 'value', {get: () => dir});
-              return fakeDirectionality;
-            },
+  function setup(imports: Type<unknown>[] = []) {
+    dir = 'ltr';
+    TestBed.configureTestingModule({
+      imports: [OverlayModule, PortalModule, ...imports],
+      declarations: [PizzaMsg, TestComponentWithTemplatePortals],
+      providers: [
+        {
+          provide: Directionality,
+          useFactory: () => {
+            const fakeDirectionality = {};
+            Object.defineProperty(fakeDirectionality, 'value', {get: () => dir});
+            return fakeDirectionality;
           },
-          {
-            provide: NgZone,
-            useFactory: () => (zone = new MockNgZone()),
-          },
-          {
-            provide: Location,
-            useClass: SpyLocation,
-          },
-        ],
-      }).compileComponents();
-    }),
-  );
+        },
+        {
+          provide: NgZone,
+          useFactory: () => (zone = new MockNgZone()),
+        },
+        {
+          provide: Location,
+          useClass: SpyLocation,
+        },
+      ],
+    }).compileComponents();
 
-  beforeEach(inject(
-    [Overlay, OverlayContainer, Location],
-    (o: Overlay, oc: OverlayContainer, l: Location) => {
-      overlay = o;
-      overlayContainer = oc;
-      overlayContainerElement = oc.getContainerElement();
+    overlay = TestBed.inject(Overlay);
+    overlayContainer = TestBed.inject(OverlayContainer);
+    overlayContainerElement = overlayContainer.getContainerElement();
 
-      const fixture = TestBed.createComponent(TestComponentWithTemplatePortals);
-      fixture.detectChanges();
-      templatePortal = fixture.componentInstance.templatePortal;
-      componentPortal = new ComponentPortal(PizzaMsg, fixture.componentInstance.viewContainerRef);
-      viewContainerFixture = fixture;
-      mockLocation = l as SpyLocation;
-    },
-  ));
+    const fixture = TestBed.createComponent(TestComponentWithTemplatePortals);
+    fixture.detectChanges();
+    templatePortal = fixture.componentInstance.templatePortal;
+    componentPortal = new ComponentPortal(PizzaMsg, fixture.componentInstance.viewContainerRef);
+    viewContainerFixture = fixture;
+    mockLocation = TestBed.inject(Location) as SpyLocation;
+  }
 
-  afterEach(() => {
+  function cleanup() {
     overlayContainer.ngOnDestroy();
-  });
+  }
+
+  beforeEach(waitForAsync(setup));
+  afterEach(cleanup);
 
   it('should load a component into an overlay', () => {
     let overlayRef = overlay.create();
@@ -343,6 +334,16 @@ describe('Overlay', () => {
 
     const backdrop = overlayContainerElement.querySelector('.cdk-overlay-backdrop')!;
     dispatchFakeEvent(backdrop, 'transitionend');
+
+    // Note: we don't `tick` or `flush` here. The assertion is that
+    // `fakeAsync` will throw if we have an unflushed timer.
+  }));
+
+  it('should clear the backdrop timeout if the overlay is disposed', fakeAsync(() => {
+    const overlayRef = overlay.create({hasBackdrop: true});
+    overlayRef.attach(componentPortal);
+    overlayRef.detach();
+    overlayRef.dispose();
 
     // Note: we don't `tick` or `flush` here. The assertion is that
     // `fakeAsync` will throw if we have an unflushed timer.
@@ -863,6 +864,20 @@ describe('Overlay', () => {
 
       backdrop.click();
       expect(backdropClickHandler).toHaveBeenCalledTimes(1);
+    });
+
+    it('should set a class on the backdrop when animations are disabled', () => {
+      cleanup();
+      TestBed.resetTestingModule();
+      setup([NoopAnimationsModule]);
+
+      let overlayRef = overlay.create(config);
+      overlayRef.attach(componentPortal);
+
+      viewContainerFixture.detectChanges();
+      let backdrop = overlayContainerElement.querySelector('.cdk-overlay-backdrop') as HTMLElement;
+
+      expect(backdrop.classList).toContain('cdk-overlay-backdrop-noop-animation');
     });
   });
 

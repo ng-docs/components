@@ -54,7 +54,12 @@ import {CdkSelection} from './selection';
   encapsulation: ViewEncapsulation.None,
 })
 export class CdkSelectionColumn<T> implements OnInit, OnDestroy {
-  /** Column name that should be used to reference this column. */
+  /**
+   * Column name that should be used to reference this column.
+   *
+   * 要用来引用这个列的列名。
+   *
+   */
   @Input('cdkSelectionColumnName')
   get name(): string {
     return this._name;

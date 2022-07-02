@@ -12,7 +12,7 @@ interface Animal {
   templateUrl: 'select-hint-error-example.html',
 })
 export class SelectHintErrorExample {
-  animalControl = new FormControl('', Validators.required);
+  animalControl = new FormControl<Animal | null>(null, Validators.required);
   selectFormControl = new FormControl('', Validators.required);
   animals: Animal[] = [
     {name: 'Dog', sound: 'Woof!'},

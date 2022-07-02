@@ -7,7 +7,7 @@
  */
 
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {BACKSPACE, hasModifierKey, TAB} from '@angular/cdk/keycodes';
+import {BACKSPACE, hasModifierKey} from '@angular/cdk/keycodes';
 import {
   AfterContentInit,
   Directive,
@@ -21,27 +21,42 @@ import {
   Output,
 } from '@angular/core';
 import {MatFormField, MAT_FORM_FIELD} from '@angular/material-experimental/mdc-form-field';
-import {MatChipsDefaultOptions, MAT_CHIPS_DEFAULT_OPTIONS} from './chip-default-options';
+import {MatChipsDefaultOptions, MAT_CHIPS_DEFAULT_OPTIONS} from './tokens';
 import {MatChipGrid} from './chip-grid';
 import {MatChipTextControl} from './chip-text-control';
 
-/** Represents an input event on a `matChipInput`. */
+/**
+ * Represents an input event on a `matChipInput`.
+ *
+ * 表示 `matChipInput` 上的输入事件。
+ *
+ */
 export interface MatChipInputEvent {
   /**
    * The native `<input>` element that the event is being fired for.
+   *
+   * 触发该事件的原生 `<input>`。
+   *
    * @deprecated Use `MatChipInputEvent#chipInput.inputElement` instead.
    * @breaking-change 13.0.0 This property will be removed.
    */
   input: HTMLInputElement;
 
-  /** The value of the input. */
+  /**
+   * The value of the input.
+   *
+   * 输入框的值。
+   *
+   */
   value: string;
 
   /**
    * Reference to the chip input that emitted the event.
-   * @breaking-change 13.0.0 This property will be made required.
+   *
+   * 对发出事件的纸片输入的引用。
+   *
    */
-  chipInput?: MatChipInput;
+  chipInput: MatChipInput;
 }
 
 // Increasing integer for generating unique ids.
@@ -68,6 +83,7 @@ let nextUniqueId = 0;
     '[attr.disabled]': 'disabled || null',
     '[attr.placeholder]': 'placeholder || null',
     '[attr.aria-invalid]': '_chipGrid && _chipGrid.ngControl ? _chipGrid.ngControl.invalid : null',
+    '[attr.aria-describedby]': '_ariaDescribedby || null',
     '[attr.aria-required]': '_chipGrid && _chipGrid.required || null',
     '[attr.required]': '_chipGrid && _chipGrid.required || null',
   },
@@ -76,11 +92,24 @@ export class MatChipInput implements MatChipTextControl, AfterContentInit, OnCha
   /** Used to prevent focus moving to chips while user is holding backspace */
   private _focusLastChipOnBackspace: boolean;
 
-  /** Whether the control is focused. */
+  /** Value for ariaDescribedby property */
+  _ariaDescribedby?: string;
+
+  /**
+   * Whether the control is focused.
+   *
+   * 控件是否有焦点。
+   *
+   */
   focused: boolean = false;
   _chipGrid: MatChipGrid;
 
-  /** Register input for chip list */
+  /**
+   * Register input for chip list
+   *
+   * 注册纸片列表的输入框
+   *
+   */
   @Input('matChipInputFor')
   set chipGrid(value: MatChipGrid) {
     if (value) {
@@ -91,6 +120,9 @@ export class MatChipInput implements MatChipTextControl, AfterContentInit, OnCha
 
   /**
    * Whether or not the chipEnd event will be emitted when the input is blurred.
+   *
+   * 当输入失焦时，是否会发出 chipEnd 事件。
+   *
    */
   @Input('matChipInputAddOnBlur')
   get addOnBlur(): boolean {
@@ -104,23 +136,48 @@ export class MatChipInput implements MatChipTextControl, AfterContentInit, OnCha
   /**
    * The list of key codes that will trigger a chipEnd event.
    *
+   * 会触发 chipEnd 事件的键盘代码列表。
+   *
    * Defaults to `[ENTER]`.
+   *
+   * 默认为 `[ENTER]`。
+   *
    */
   @Input('matChipInputSeparatorKeyCodes')
   separatorKeyCodes: readonly number[] | ReadonlySet<number> =
     this._defaultOptions.separatorKeyCodes;
 
-  /** Emitted when a chip is to be added. */
+  /**
+   * Emitted when a chip is to be added.
+   *
+   * 当要添加纸片时会触发。
+   *
+   */
   @Output('matChipInputTokenEnd')
   readonly chipEnd: EventEmitter<MatChipInputEvent> = new EventEmitter<MatChipInputEvent>();
 
-  /** The input's placeholder text. */
+  /**
+   * The input's placeholder text.
+   *
+   * 输入框的占位符文本。
+   *
+   */
   @Input() placeholder: string = '';
 
-  /** Unique id for the input. */
+  /**
+   * Unique id for the input.
+   *
+   * 该输入框的唯一 ID。
+   *
+   */
   @Input() id: string = `mat-mdc-chip-list-input-${nextUniqueId++}`;
 
-  /** Whether the input is disabled. */
+  /**
+   * Whether the input is disabled.
+   *
+   * 输入框是否已禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._disabled || (this._chipGrid && this._chipGrid.disabled);
@@ -130,12 +187,22 @@ export class MatChipInput implements MatChipTextControl, AfterContentInit, OnCha
   }
   private _disabled: boolean = false;
 
-  /** Whether the input is empty. */
+  /**
+   * Whether the input is empty.
+   *
+   * 输入框是否为空。
+   *
+   */
   get empty(): boolean {
     return !this.inputElement.value;
   }
 
-  /** The native input element to which this directive is attached. */
+  /**
+   * The native input element to which this directive is attached.
+   *
+   * 该指令所附属的原生输入框元素。
+   *
+   */
   readonly inputElement!: HTMLInputElement;
 
   constructor(
@@ -165,19 +232,11 @@ export class MatChipInput implements MatChipTextControl, AfterContentInit, OnCha
   /** Utility method to make host definition/tests more clear. */
   _keydown(event?: KeyboardEvent) {
     if (event) {
-      // Allow the user's focus to escape when they're tabbing forward. Note that we don't
-      // want to do this when going backwards, because focus should go back to the first chip.
-      if (event.keyCode === TAB && !hasModifierKey(event, 'shiftKey')) {
-        this._chipGrid._allowFocusEscape();
-      }
-
       // To prevent the user from accidentally deleting chips when pressing BACKSPACE continuously,
       // We focus the last chip on backspace only after the user has released the backspace button,
       // And the input is empty (see behaviour in _keyup)
       if (event.keyCode === BACKSPACE && this._focusLastChipOnBackspace) {
-        if (this._chipGrid._chips.length) {
-          this._chipGrid._keyManager.setLastCellActive();
-        }
+        this._chipGrid._focusLastChip();
         event.preventDefault();
         return;
       } else {
@@ -220,10 +279,6 @@ export class MatChipInput implements MatChipTextControl, AfterContentInit, OnCha
 
   /** Checks to see if the (chipEnd) event needs to be emitted. */
   _emitChipEnd(event?: KeyboardEvent) {
-    if (!this.inputElement.value && !!event) {
-      this._chipGrid._keydown(event);
-    }
-
     if (!event || this._isSeparatorKey(event)) {
       this.chipEnd.emit({
         input: this.inputElement,
@@ -240,15 +295,29 @@ export class MatChipInput implements MatChipTextControl, AfterContentInit, OnCha
     this._chipGrid.stateChanges.next();
   }
 
-  /** Focuses the input. */
+  /**
+   * Focuses the input.
+   *
+   * 让输入框获得焦点。
+   *
+   */
   focus(): void {
     this.inputElement.focus();
   }
 
-  /** Clears the input */
+  /**
+   * Clears the input
+   *
+   * 清除输入
+   *
+   */
   clear(): void {
     this.inputElement.value = '';
     this._focusLastChipOnBackspace = true;
+  }
+
+  setDescribedByIds(ids: string[]): void {
+    this._ariaDescribedby = ids.join(' ');
   }
 
   /** Checks whether a keycode is one of the configured separators. */

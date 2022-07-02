@@ -11,6 +11,9 @@ import {InjectionToken} from '@angular/core';
 /**
  * Type describing possible positions of a checkbox in a list option
  * with respect to the list item's text.
+ *
+ * 此类型描述列表中的复选框相对于列表条目文本的的可能位置。
+ *
  */
 export type MatListOptionCheckboxPosition = 'before' | 'after';
 

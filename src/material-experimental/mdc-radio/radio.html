@@ -1,13 +1,12 @@
 <div class="mdc-form-field" #formField
      [class.mdc-form-field--align-end]="labelPosition == 'before'">
-  <div class="mdc-radio" [ngClass]="_classes">
+  <div class="mdc-radio" [class.mdc-radio--disabled]="disabled">
     <!-- Render this element first so the input is on top. -->
     <div class="mat-mdc-radio-touch-target" (click)="_onInputInteraction($event)"></div>
     <input #input class="mdc-radio__native-control" type="radio"
            [id]="inputId"
            [checked]="checked"
            [disabled]="disabled"
-           [tabIndex]="tabIndex"
            [attr.name]="name"
            [attr.value]="value"
            [required]="required"
@@ -19,7 +18,6 @@
       <div class="mdc-radio__outer-circle"></div>
       <div class="mdc-radio__inner-circle"></div>
     </div>
-    <div class="mdc-radio__ripple"></div>
     <div mat-ripple class="mat-radio-ripple mat-mdc-focus-indicator"
          [matRippleTrigger]="formField"
          [matRippleDisabled]="_isRippleDisabled()"

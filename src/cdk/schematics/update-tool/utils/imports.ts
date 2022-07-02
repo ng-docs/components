@@ -8,35 +8,15 @@
 
 import * as ts from 'typescript';
 
-/**
- * Interface describing a resolved import.
- *
- * 描述已解析的导入的接口。
- *
- */
+/** Interface describing a resolved import. */
 export interface Import {
-  /**
-   * Name of the imported symbol.
-   *
-   * 已导入符号的名称。
-   *
-   */
+  /** Name of the imported symbol. */
   symbolName: string;
-  /**
-   * Module name from which the symbol has been imported.
-   *
-   * 从中导入符号的模块名称。
-   *
-   */
+  /** Module name from which the symbol has been imported. */
   moduleName: string;
 }
 
-/**
- * Resolves the import of the specified identifier.
- *
- * 解析指定标识符的导入。
- *
- */
+/** Resolves the import of the specified identifier. */
 export function getImportOfIdentifier(
   node: ts.Identifier,
   typeChecker: ts.TypeChecker,
@@ -74,9 +54,6 @@ export function getImportOfIdentifier(
 /**
  * Resolves the import of the specified identifier. Expects the identifier to resolve
  * to a fine-grained import declaration with import specifiers.
- *
- * 解析指定标识符的导入。期望此标识符解析为带有导入说明符的细粒度导入声明。
- *
  */
 function getSpecificImportOfIdentifier(
   node: ts.Identifier,
@@ -106,8 +83,6 @@ function getSpecificImportOfIdentifier(
  * Resolves the import of the specified identifier. Expects the identifier to
  * resolve to a namespaced import declaration. e.g. "import \* as core from ...".
  *
- * 解析指定标识符的导入。期望标识符解析为命名空间的导入声明。例如 "import \* as core from ..."。
- *
  */
 function getImportOfNamespacedIdentifier(
   node: ts.Identifier,
@@ -134,9 +109,6 @@ function getImportOfNamespacedIdentifier(
 /**
  * Gets the root identifier of a qualified type chain. For example: "core.GestureConfig"
  * will return the "core" identifier. Allowing us to find the import of "core".
- *
- * 获取合格类型链的根标识符。例如："core.GestureConfig" 将返回 "core" 标识符。以便我们找到 "core" 的导入。
- *
  */
 function getQualifiedNameRoot(name: ts.QualifiedName): ts.Identifier | null {
   while (ts.isQualifiedName(name.left)) {
@@ -148,9 +120,6 @@ function getQualifiedNameRoot(name: ts.QualifiedName): ts.Identifier | null {
 /**
  * Gets the root identifier of a property access chain. For example: "core.GestureConfig"
  * will return the "core" identifier. Allowing us to find the import of "core".
- *
- * 获取属性访问链的根标识符。例如："core.GestureConfig" 将返回 "core" 标识符。以便我们找到 "core" 的导入。
- *
  */
 function getPropertyAccessRoot(node: ts.PropertyAccessExpression): ts.Identifier | null {
   while (ts.isPropertyAccessExpression(node.expression)) {

@@ -18,7 +18,7 @@ export interface State {
   styleUrls: ['autocomplete-overview-example.css'],
 })
 export class AutocompleteOverviewExample {
-  stateCtrl = new FormControl();
+  stateCtrl = new FormControl('');
   filteredStates: Observable<State[]>;
 
   states: State[] = [

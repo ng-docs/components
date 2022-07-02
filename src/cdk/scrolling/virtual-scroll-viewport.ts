@@ -38,13 +38,9 @@ import {VIRTUAL_SCROLL_STRATEGY, VirtualScrollStrategy} from './virtual-scroll-s
 import {ViewportRuler} from './viewport-ruler';
 import {CdkVirtualScrollRepeater} from './virtual-scroll-repeater';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {CdkVirtualScrollable, VIRTUAL_SCROLLABLE} from './virtual-scrollable';
 
-/**
- * Checks if the given ranges are equal.
- *
- * 检查指定的范围是否相等。
- *
- */
+/** Checks if the given ranges are equal. */
 function rangesEqual(r1: ListRange, r2: ListRange): boolean {
   return r1.start == r2.start && r1.end == r2.end;
 }
@@ -53,9 +49,6 @@ function rangesEqual(r1: ListRange, r2: ListRange): boolean {
  * Scheduler to be used for scroll events. Needs to fall back to
  * something that doesn't rely on requestAnimationFrame on environments
  * that don't support it (e.g. server-side rendering).
- *
- * 用于滚动事件的派发器。在不支持它的环境（例如服务器端渲染）下要回退到不依赖 requestAnimationFrame 派发器。
- *
  */
 const SCROLL_SCHEDULER =
   typeof requestAnimationFrame !== 'undefined' ? animationFrameScheduler : asapScheduler;
@@ -80,25 +73,19 @@ const SCROLL_SCHEDULER =
   providers: [
     {
       provide: CdkScrollable,
-      useExisting: CdkVirtualScrollViewport,
+      useFactory: (
+        virtualScrollable: CdkVirtualScrollable | null,
+        viewport: CdkVirtualScrollViewport,
+      ) => virtualScrollable || viewport,
+      deps: [CdkVirtualScrollable, CdkVirtualScrollViewport],
     },
   ],
 })
-export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, OnDestroy {
-  /**
-   * Emits when the viewport is detached from a CdkVirtualForOf.
-   *
-   * 当视口从 CdkVirtualForOf 上拆除时，就会触发。
-   *
-   */
+export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements OnInit, OnDestroy {
+  /** Emits when the viewport is detached from a CdkVirtualForOf. */
   private readonly _detachedSubject = new Subject<void>();
 
-  /**
-   * Emits when the rendered range changes.
-   *
-   * 当渲染范围发生变化时触发。
-   *
-   */
+  /** Emits when the rendered range changes. */
   private readonly _renderedRangeSubject = new Subject<ListRange>();
 
   /**
@@ -111,6 +98,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
   get orientation() {
     return this._orientation;
   }
+
   set orientation(orientation: 'horizontal' | 'vertical') {
     if (this._orientation !== orientation) {
       this._orientation = orientation;
@@ -152,12 +140,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
     ),
   );
 
-  /**
-   * The element that wraps the rendered content.
-   *
-   * 包装渲染内容的元素。
-   *
-   */
+  /** The element that wraps the rendered content. */
   @ViewChild('contentWrapper', {static: true}) _contentWrapper: ElementRef<HTMLElement>;
 
   /**
@@ -170,108 +153,49 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
 
   /**
    * The total size of all content (in pixels), including content that is not currently rendered.
-   *
-   * 所有内容的总大小（以像素为单位），包括当前未渲染的内容。
-   *
    */
   private _totalContentSize = 0;
 
-  /**
-   * A string representing the `style.width` property value to be used for the spacer element.
-   *
-   * 一个字符串，表示要用于空白元素的 `style.width` 属性值。
-   *
-   */
+  /** A string representing the `style.width` property value to be used for the spacer element. */
   _totalContentWidth = '';
 
-  /**
-   * A string representing the `style.height` property value to be used for the spacer element.
-   *
-   * 一个字符串，表示要用于空白元素 `style.height`
-   *
-   */
+  /** A string representing the `style.height` property value to be used for the spacer element. */
   _totalContentHeight = '';
 
   /**
    * The CSS transform applied to the rendered subset of items so that they appear within the bounds
    * of the visible viewport.
-   *
-   * 要应用于渲染的条目子集的 CSS 变换，以便它们出现在可见视口的边界内。
-   *
    */
   private _renderedContentTransform: string;
 
-  /**
-   * The currently rendered range of indices.
-   *
-   * 当前渲染的索引范围。
-   *
-   */
+  /** The currently rendered range of indices. */
   private _renderedRange: ListRange = {start: 0, end: 0};
 
-  /**
-   * The length of the data bound to this viewport (in number of items).
-   *
-   * 绑定到此视口的数据长度（以条目数表示）。
-   *
-   */
+  /** The length of the data bound to this viewport (in number of items). */
   private _dataLength = 0;
 
-  /**
-   * The size of the viewport (in pixels).
-   *
-   * 视口的大小（以像素为单位）。
-   *
-   */
+  /** The size of the viewport (in pixels). */
   private _viewportSize = 0;
 
-  /**
-   * the currently attached CdkVirtualScrollRepeater.
-   *
-   * 当前已附加的 CdkVirtualScrollRepeater。
-   *
-   */
+  /** the currently attached CdkVirtualScrollRepeater. */
   private _forOf: CdkVirtualScrollRepeater<any> | null;
 
-  /**
-   * The last rendered content offset that was set.
-   *
-   * 已设置的最后一次渲染内容的偏移量。
-   *
-   */
+  /** The last rendered content offset that was set. */
   private _renderedContentOffset = 0;
 
   /**
    * Whether the last rendered content offset was to the end of the content (and therefore needs to
    * be rewritten as an offset to the start of the content).
-   *
-   * 最后渲染的内容偏移量是否为内容的结尾（因此需要重写为内容开头的偏移量）。
-   *
    */
   private _renderedContentOffsetNeedsRewrite = false;
 
-  /**
-   * Whether there is a pending change detection cycle.
-   *
-   * 是否存在挂起的变更检测周期。
-   *
-   */
+  /** Whether there is a pending change detection cycle. */
   private _isChangeDetectionPending = false;
 
-  /**
-   * A list of functions to run after the next change detection cycle.
-   *
-   * 在下次变更检测周期后要运行的函数列表。
-   *
-   */
+  /** A list of functions to run after the next change detection cycle. */
   private _runAfterChangeDetection: Function[] = [];
 
-  /**
-   * Subscription to changes in the viewport size.
-   *
-   * 订阅视口大小的变更。
-   *
-   */
+  /** Subscription to changes in the viewport size. */
   private _viewportChanges = Subscription.EMPTY;
 
   constructor(
@@ -284,6 +208,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
     @Optional() dir: Directionality,
     scrollDispatcher: ScrollDispatcher,
     viewportRuler: ViewportRuler,
+    @Optional() @Inject(VIRTUAL_SCROLLABLE) public scrollable: CdkVirtualScrollable,
   ) {
     super(elementRef, scrollDispatcher, ngZone, dir);
 
@@ -294,11 +219,18 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
     this._viewportChanges = viewportRuler.change().subscribe(() => {
       this.checkViewportSize();
     });
+
+    if (!this.scrollable) {
+      // No scrollable is provided, so the virtual-scroll-viewport needs to become a scrollable
+      this.elementRef.nativeElement.classList.add('cdk-virtual-scrollable');
+      this.scrollable = this;
+    }
   }
 
   override ngOnInit() {
-    super.ngOnInit();
-
+    if (this.scrollable === this) {
+      super.ngOnInit();
+    }
     // It's still too early to measure the viewport at this point. Deferring with a promise allows
     // the Viewport to be rendered with the correct size before we measure. We run this outside the
     // zone to avoid causing more change detection cycles. We handle the change detection loop
@@ -308,7 +240,8 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
         this._measureViewportSize();
         this._scrollStrategy.attach(this);
 
-        this.elementScrolled()
+        this.scrollable
+          .elementScrolled()
           .pipe(
             // Start off with a fake scroll event so we properly detect our initial position.
             startWith(null),
@@ -409,6 +342,10 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
     return this._renderedRange;
   }
 
+  measureBoundingClientRectWithScrollOffset(from: 'left' | 'top' | 'right' | 'bottom'): number {
+    return this.getElementRef().nativeElement.getBoundingClientRect()[from];
+  }
+
   /**
    * Sets the total size of all content (in pixels), including content that is not currently
    * rendered.
@@ -458,6 +395,9 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
    *
    */
   setRenderedContentOffset(offset: number, to: 'to-start' | 'to-end' = 'to-start') {
+    // In appendOnly, we always start from the top
+    offset = this.appendOnly && to === 'to-start' ? 0 : offset;
+
     // For a horizontal viewport in a right-to-left language we need to translate along the x-axis
     // in the negative direction.
     const isRtl = this.dir && this.dir.value == 'rtl';
@@ -512,7 +452,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
     } else {
       options.top = offset;
     }
-    this.scrollTo(options);
+    this.scrollable.scrollTo(options);
   }
 
   /**
@@ -534,10 +474,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
   }
 
   /**
-   * Gets the current scroll offset from the start of the viewport (in pixels).
-   *
-   * 从视口的开头得到当前的滚动偏移量（以像素为单位）。
-   *
+   * Gets the current scroll offset from the start of the scrollable (in pixels).
    * @param from The edge to measure the offset from. Defaults to 'top' in vertical mode and 'start'
    *     in horizontal mode.
    *
@@ -547,9 +484,48 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
   override measureScrollOffset(
     from?: 'top' | 'left' | 'right' | 'bottom' | 'start' | 'end',
   ): number {
-    return from
-      ? super.measureScrollOffset(from)
-      : super.measureScrollOffset(this.orientation === 'horizontal' ? 'start' : 'top');
+    // This is to break the call cycle
+    let measureScrollOffset: InstanceType<typeof CdkVirtualScrollable>['measureScrollOffset'];
+    if (this.scrollable == this) {
+      measureScrollOffset = (_from: NonNullable<typeof from>) => super.measureScrollOffset(_from);
+    } else {
+      measureScrollOffset = (_from: NonNullable<typeof from>) =>
+        this.scrollable.measureScrollOffset(_from);
+    }
+
+    return Math.max(
+      0,
+      measureScrollOffset(from ?? (this.orientation === 'horizontal' ? 'start' : 'top')) -
+        this.measureViewportOffset(),
+    );
+  }
+
+  /**
+   * Measures the offset of the viewport from the scrolling container
+   * @param from The edge to measure from.
+   *
+   * 要测量的边缘。
+   *
+   */
+  measureViewportOffset(from?: 'top' | 'left' | 'right' | 'bottom' | 'start' | 'end') {
+    let fromRect: 'left' | 'top' | 'right' | 'bottom';
+    const LEFT = 'left';
+    const RIGHT = 'right';
+    const isRtl = this.dir?.value == 'rtl';
+    if (from == 'start') {
+      fromRect = isRtl ? RIGHT : LEFT;
+    } else if (from == 'end') {
+      fromRect = isRtl ? LEFT : RIGHT;
+    } else if (from) {
+      fromRect = from;
+    } else {
+      fromRect = this.orientation === 'horizontal' ? 'left' : 'top';
+    }
+
+    const scrollerClientRect = this.scrollable.measureBoundingClientRectWithScrollOffset(fromRect);
+    const viewportClientRect = this.elementRef.nativeElement.getBoundingClientRect()[fromRect];
+
+    return viewportClientRect - scrollerClientRect;
   }
 
   /**
@@ -589,24 +565,12 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
     this._scrollStrategy.onDataLengthChanged();
   }
 
-  /**
-   * Measure the viewport size.
-   *
-   * 测量视口的大小。
-   *
-   */
+  /** Measure the viewport size. */
   private _measureViewportSize() {
-    const viewportEl = this.elementRef.nativeElement;
-    this._viewportSize =
-      this.orientation === 'horizontal' ? viewportEl.clientWidth : viewportEl.clientHeight;
+    this._viewportSize = this.scrollable.measureViewportSize(this.orientation);
   }
 
-  /**
-   * Queue up change detection to run.
-   *
-   * 将队列中的变更检测队列起来运行。
-   *
-   */
+  /** Queue up change detection to run. */
   private _markChangeDetectionNeeded(runAfter?: Function) {
     if (runAfter) {
       this._runAfterChangeDetection.push(runAfter);
@@ -624,12 +588,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
     }
   }
 
-  /**
-   * Run change detection.
-   *
-   * 运行变更检测。
-   *
-   */
+  /** Run change detection. */
   private _doChangeDetection() {
     this._isChangeDetectionPending = false;
 
@@ -650,12 +609,7 @@ export class CdkVirtualScrollViewport extends CdkScrollable implements OnInit, O
     }
   }
 
-  /**
-   * Calculates the `style.width` and `style.height` for the spacer element.
-   *
-   * 为空白元素计算 `style.width` 和 `style.height`。
-   *
-   */
+  /** Calculates the `style.width` and `style.height` for the spacer element. */
   private _calculateSpacerSize() {
     this._totalContentHeight =
       this.orientation === 'horizontal' ? '' : `${this._totalContentSize}px`;

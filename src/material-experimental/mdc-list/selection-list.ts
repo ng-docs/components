@@ -6,9 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {FocusKeyManager} from '@angular/cdk/a11y';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {SelectionModel} from '@angular/cdk/collections';
-import {DOCUMENT} from '@angular/common';
+import {A, ENTER, hasModifierKey, SPACE} from '@angular/cdk/keycodes';
+import {_getFocusedElementPierceShadowDom} from '@angular/cdk/platform';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -17,8 +19,8 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
-  Inject,
   Input,
+  NgZone,
   OnChanges,
   OnDestroy,
   Output,
@@ -28,10 +30,8 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {ThemePalette} from '@angular/material-experimental/mdc-core';
-import {MDCListAdapter, numbers as mdcListNumbers} from '@material/list';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {getInteractiveListAdapter, MatInteractiveListBase} from './interactive-list-base';
 import {MatListBase} from './list-base';
 import {MatListOption, SELECTION_LIST, SelectionList} from './list-option';
 
@@ -41,7 +41,12 @@ const MAT_SELECTION_LIST_VALUE_ACCESSOR: any = {
   multi: true,
 };
 
-/** Change event that is being fired whenever the selected state of an option changes. */
+/**
+ * Change event that is being fired whenever the selected state of an option changes.
+ *
+ * 当选项的某个选定状态发生变化时，就会触发这个事件。
+ *
+ */
 export class MatSelectionListChange {
   constructor(
     /** Reference to the selection list that emitted the event. */
@@ -64,6 +69,7 @@ export class MatSelectionListChange {
     'class': 'mat-mdc-selection-list mat-mdc-list-base mdc-list',
     'role': 'listbox',
     '[attr.aria-multiselectable]': 'multiple',
+    '(keydown)': '_handleKeydown($event)',
   },
   template: '<ng-content></ng-content>',
   styleUrls: ['list.css'],
@@ -76,29 +82,56 @@ export class MatSelectionListChange {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatSelectionList
-  extends MatInteractiveListBase<MatListOption>
+  extends MatListBase
   implements SelectionList, ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy
 {
-  private _multiple = true;
   private _initialized = false;
+  private _keyManager: FocusKeyManager<MatListOption>;
+
+  /** Emits when the list has been destroyed. */
+  private _destroyed = new Subject<void>();
+
+  /** Whether the list has been destroyed. */
+  private _isDestroyed: boolean;
+
+  /** View to model callback that should be called whenever the selected options change. */
+  private _onChange: (value: any) => void = (_: any) => {};
 
   @ContentChildren(MatListOption, {descendants: true}) _items: QueryList<MatListOption>;
 
-  /** Emits a change event whenever the selected state of an option changes. */
+  /**
+   * Emits a change event whenever the selected state of an option changes.
+   *
+   * 每当选项的选定状态发生变化时，就会发出一个 change 事件。
+   *
+   */
   @Output() readonly selectionChange: EventEmitter<MatSelectionListChange> =
     new EventEmitter<MatSelectionListChange>();
 
-  /** Theme color of the selection list. This sets the checkbox color for all list options. */
+  /**
+   * Theme color of the selection list. This sets the checkbox color for all list options.
+   *
+   * 选择列表的主题颜色。这会为所有列表中的选项设置复选框颜色。
+   *
+   */
   @Input() color: ThemePalette = 'accent';
 
   /**
    * Function used for comparing an option against the selected value when determining which
    * options should appear as selected. The first argument is the value of an options. The second
    * one is a value from the selected value. A boolean must be returned.
+   *
+   * 函数用于在确定哪些选项应该显示为选定状态时，比较一个选项和选定的值。第一个参数就是选项的值。第二个参数是选定值的值。必须返回一个布尔值。
+   *
    */
   @Input() compareWith: (o1: any, o2: any) => boolean = (a1, a2) => a1 === a2;
 
-  /** Whether selection is limited to one or multiple items (default multiple). */
+  /**
+   * Whether selection is limited to one or multiple items (default multiple).
+   *
+   * 选择是否限制到一个或多个条目（默认的多个）。
+   *
+   */
   @Input()
   get multiple(): boolean {
     return this._multiple;
@@ -117,57 +150,45 @@ export class MatSelectionList
       this.selectedOptions = new SelectionModel(this._multiple, this.selectedOptions.selected);
     }
   }
+  private _multiple = true;
 
-  /** The currently selected options. */
+  /**
+   * The currently selected options.
+   *
+   * 当前选定的选项。
+   *
+   */
   selectedOptions = new SelectionModel<MatListOption>(this._multiple);
-
-  /** View to model callback that should be called whenever the selected options change. */
-  private _onChange: (value: any) => void = (_: any) => {};
 
   /** Keeps track of the currently-selected value. */
   _value: string[] | null;
 
-  /** Emits when the list has been destroyed. */
-  private _destroyed = new Subject<void>();
-
   /** View to model callback that should be called if the list or its options lost focus. */
   _onTouched: () => void = () => {};
 
-  /** Whether the list has been destroyed. */
-  private _isDestroyed: boolean;
-
-  constructor(element: ElementRef<HTMLElement>, @Inject(DOCUMENT) document: any) {
-    super(element, document);
-    super._initWithAdapter(getSelectionListAdapter(this));
+  constructor(public _element: ElementRef<HTMLElement>, private _ngZone: NgZone) {
+    super();
+    this._isNonInteractive = false;
   }
 
-  override ngAfterViewInit() {
+  ngAfterViewInit() {
     // Mark the selection list as initialized so that the `multiple`
     // binding can no longer be changed.
     this._initialized = true;
+    this._setupRovingTabindex();
 
-    // Update the options if a control value has been set initially. Note that this should happen
-    // before watching for selection changes as otherwise we would sync options with MDC multiple
-    // times as part of view initialization (also the foundation would not be initialized yet).
+    // These events are bound outside the zone, because they don't change
+    // any change-detected properties and they can trigger timeouts.
+    this._ngZone.runOutsideAngular(() => {
+      this._element.nativeElement.addEventListener('focusin', this._handleFocusin);
+      this._element.nativeElement.addEventListener('focusout', this._handleFocusout);
+    });
+
     if (this._value) {
       this._setOptionsFromValues(this._value);
     }
 
-    // Start monitoring the selected options so that the list foundation can be
-    // updated accordingly.
     this._watchForSelectionChange();
-
-    // Initialize the list foundation, including the initial `layout()` invocation.
-    super.ngAfterViewInit();
-
-    // List options can be pre-selected using the `selected` input. We need to sync the selected
-    // options after view initialization with the foundation so that focus can be managed
-    // accordingly. Note that this needs to happen after the initial `layout()` call because the
-    // list wouldn't know about multi-selection and throw.
-    if (this._items.length !== 0) {
-      this._syncSelectedOptionsWithFoundation();
-      this._resetTabindexForItemsIfBlurred();
-    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -182,24 +203,40 @@ export class MatSelectionList
     }
   }
 
-  override ngOnDestroy() {
-    super.ngOnDestroy();
+  ngOnDestroy() {
+    this._element.nativeElement.removeEventListener('focusin', this._handleFocusin);
+    this._element.nativeElement.removeEventListener('focusout', this._handleFocusout);
     this._destroyed.next();
     this._destroyed.complete();
     this._isDestroyed = true;
   }
 
-  /** Focuses the selection list. */
+  /**
+   * Focuses the selection list.
+   *
+   * 让此选择列表获得焦点。
+   *
+   */
   focus(options?: FocusOptions) {
     this._element.nativeElement.focus(options);
   }
 
-  /** Selects all of the options. Returns the options that changed as a result. */
+  /**
+   * Selects all of the options. Returns the options that changed as a result.
+   *
+   * 选择所有选项。返回变化过的选项。
+   *
+   */
   selectAll(): MatListOption[] {
     return this._setAllOptionsSelected(true);
   }
 
-  /** Deselects all of the options. Returns the options that changed as a result. */
+  /**
+   * Deselects all of the options. Returns the options that changed as a result.
+   *
+   * 取消选定所有选项。返回变化过的选项。
+   *
+   */
   deselectAll(): MatListOption[] {
     return this._setAllOptionsSelected(false);
   }
@@ -245,59 +282,22 @@ export class MatSelectionList
     this._onTouched = fn;
   }
 
-  /**
-   * Resets tabindex for all options and sets tabindex for the first selected option so that
-   * it will become active when users tab into the selection-list. This will be a noop if the
-   * list is currently focused as otherwise multiple options might become reachable through tab.
-   * e.g. A user currently already focused an option. We set tabindex to a new option but the
-   * focus on the current option does persist. Pressing `TAB` then might go to the other option
-   * that received a tabindex. We can skip the reset here as the MDC foundation resets the
-   * tabindex to the first selected option automatically once the current item is blurred.
-   */
-  private _resetTabindexForItemsIfBlurred() {
-    // If focus is inside the list already, then we do not change the tab index of the list.
-    // Changing it while an item is focused could cause multiple items to be reachable through
-    // the tab key. The MDC list foundation will update the tabindex on blur to the appropriate
-    // selected or focused item.
-    if (!this._adapter.isFocusInsideList()) {
-      this._resetTabindexToFirstSelectedOrFocusedItem();
-    }
-  }
-
+  /** Watches for changes in the selected state of the options and updates the list accordingly. */
   private _watchForSelectionChange() {
-    // Sync external changes to the model back to the options.
     this.selectedOptions.changed.pipe(takeUntil(this._destroyed)).subscribe(event => {
-      if (event.added) {
-        for (let item of event.added) {
-          item.selected = true;
-        }
+      // Sync external changes to the model back to the options.
+      for (let item of event.added) {
+        item.selected = true;
       }
 
-      if (event.removed) {
-        for (let item of event.removed) {
-          item.selected = false;
-        }
+      for (let item of event.removed) {
+        item.selected = false;
       }
 
-      // Sync the newly selected options with the foundation. Also reset tabindex for all
-      // items if the list is currently not focused. We do this so that always the first
-      // selected list item is focused when users tab into the selection list.
-      this._syncSelectedOptionsWithFoundation();
-      this._resetTabindexForItemsIfBlurred();
+      if (!this._containsFocus()) {
+        this._resetActiveOption();
+      }
     });
-  }
-
-  private _syncSelectedOptionsWithFoundation() {
-    if (this._multiple) {
-      this._foundation.setSelectedIndex(
-        this.selectedOptions.selected.map(o => this._itemsArr.indexOf(o)),
-      );
-    } else {
-      const selected = this.selectedOptions.selected[0];
-      const index =
-        selected === undefined ? mdcListNumbers.UNSET_INDEX : this._itemsArr.indexOf(selected);
-      this._foundation.setSelectedIndex(index);
-    }
   }
 
   /** Sets the selected options based on the specified values. */
@@ -353,53 +353,111 @@ export class MatSelectionList
 
   // Note: This getter exists for backwards compatibility. The `_items` query list
   // cannot be named `options` as it will be picked up by the interactive list base.
-  /** The option components contained within this selection-list. */
+  /**
+   * The option components contained within this selection-list.
+   *
+   * 这个选择列表中包含的选项组件。
+   *
+   */
   get options(): QueryList<MatListOption> {
     return this._items;
   }
-}
 
-// TODO: replace with class using inheritance once material-components-web/pull/6256 is available.
-/** Gets a `MDCListAdapter` instance for the given selection list. */
-function getSelectionListAdapter(list: MatSelectionList): MDCListAdapter {
-  const baseAdapter = getInteractiveListAdapter(list);
-  return {
-    ...baseAdapter,
-    hasRadioAtIndex(): boolean {
-      // If multi selection is not used, we treat the list as a radio list so that
-      // the MDC foundation does not keep track of multiple selected list options.
-      // Note that we cannot use MDC's non-radio single selection mode as that one
-      // will keep track of the selection state internally and we cannot update a
-      // control model, or notify/update list-options on selection change. The radio
-      // mode is similar to what we want but with support for change notification
-      // (i.e. `setCheckedCheckboxOrRadioAtIndex`) while maintaining single selection.
-      return !list.multiple;
-    },
-    hasCheckboxAtIndex() {
-      // If multi selection is used, we treat the list as a checkbox list so that
-      // the MDC foundation can keep track of multiple selected list options.
-      return list.multiple;
-    },
-    isCheckboxCheckedAtIndex(index: number) {
-      return list._itemsArr[index].selected;
-    },
-    setCheckedCheckboxOrRadioAtIndex(index: number, checked: boolean) {
-      list._itemsArr[index].selected = checked;
-    },
-    setAttributeForElementIndex(index: number, attribute: string, value: string): void {
-      // MDC list by default sets `aria-checked` for multi selection lists. We do not want to
-      // use this as that signifies a bad accessibility experience. Instead, we change the
-      // attribute update to `aria-selected` as that works best with list-options. See:
-      // https://github.com/material-components/material-components-web/issues/6367.
-      // TODO: Remove this once material-components-web#6367 is improved/fixed.
-      if (attribute === 'aria-checked') {
-        attribute = 'aria-selected';
+  /** Handles keydown events within the list. */
+  _handleKeydown(event: KeyboardEvent) {
+    const activeItem = this._keyManager.activeItem;
+
+    if (
+      (event.keyCode === ENTER || event.keyCode === SPACE) &&
+      !this._keyManager.isTyping() &&
+      activeItem &&
+      !activeItem.disabled
+    ) {
+      event.preventDefault();
+      activeItem._toggleOnInteraction();
+    } else if (
+      event.keyCode === A &&
+      this.multiple &&
+      !this._keyManager.isTyping() &&
+      hasModifierKey(event, 'ctrlKey')
+    ) {
+      const shouldSelect = this.options.some(option => !option.disabled && !option.selected);
+      event.preventDefault();
+      this._emitChangeEvent(this._setAllOptionsSelected(shouldSelect, true));
+    } else {
+      this._keyManager.onKeydown(event);
+    }
+  }
+
+  /** Handles focusout events within the list. */
+  private _handleFocusout = () => {
+    // Focus takes a while to update so we have to wrap our call in a timeout.
+    setTimeout(() => {
+      if (!this._containsFocus()) {
+        this._resetActiveOption();
       }
-
-      baseAdapter.setAttributeForElementIndex(index, attribute, value);
-    },
-    notifyAction(index: number): void {
-      list._emitChangeEvent([list._itemsArr[index]]);
-    },
+    });
   };
+
+  /** Handles focusin events within the list. */
+  private _handleFocusin = (event: FocusEvent) => {
+    const activeIndex = this._items
+      .toArray()
+      .findIndex(item => item._elementRef.nativeElement.contains(event.target as HTMLElement));
+
+    if (activeIndex > -1) {
+      this._setActiveOption(activeIndex);
+    } else {
+      this._resetActiveOption();
+    }
+  };
+
+  /** Sets up the logic for maintaining the roving tabindex. */
+  private _setupRovingTabindex() {
+    this._keyManager = new FocusKeyManager(this._items)
+      .withHomeAndEnd()
+      .withTypeAhead()
+      .withWrap()
+      // Allow navigation to disabled items.
+      .skipPredicate(() => false);
+
+    // Set the initial focus.
+    this._resetActiveOption();
+
+    // Move the tabindex to the currently-focused list item.
+    this._keyManager.change
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(activeItemIndex => this._setActiveOption(activeItemIndex));
+
+    // If the active item is removed from the list, reset back to the first one.
+    this._items.changes.pipe(takeUntil(this._destroyed)).subscribe(() => {
+      const activeItem = this._keyManager.activeItem;
+
+      if (!activeItem || !this._items.toArray().indexOf(activeItem)) {
+        this._resetActiveOption();
+      }
+    });
+  }
+
+  /**
+   * Sets an option as active.
+   * @param index Index of the active option. If set to -1, no option will be active.
+   */
+  private _setActiveOption(index: number) {
+    this._items.forEach((item, itemIndex) => item._setTabindex(itemIndex === index ? 0 : -1));
+    this._keyManager.updateActiveItem(index);
+  }
+
+  /** Resets the active option to the first selected option. */
+  private _resetActiveOption() {
+    const activeItem =
+      this._items.find(item => item.selected && !item.disabled) || this._items.first;
+    this._setActiveOption(activeItem ? this._items.toArray().indexOf(activeItem) : -1);
+  }
+
+  /** Returns whether the focus is currently within the list. */
+  private _containsFocus() {
+    const activeElement = _getFocusedElementPierceShadowDom();
+    return activeElement && this._element.nativeElement.contains(activeElement);
+  }
 }

@@ -19,9 +19,6 @@ import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
 /**
  * Content of a card, needed as it's used as a selector in the API.
- *
- * 卡片的内容，当需要在 API 中用作选择器时才会用到它。
- *
  * @docs-private
  */
 @Directive({
@@ -32,9 +29,6 @@ export class MatCardContent {}
 
 /**
  * Title of a card, needed as it's used as a selector in the API.
- *
- * 卡片的标题，当需要在 API 中用作选择器时才会用到它。
- *
  * @docs-private
  */
 @Directive({
@@ -47,9 +41,6 @@ export class MatCardTitle {}
 
 /**
  * Sub-title of a card, needed as it's used as a selector in the API.
- *
- * 卡片的副标题，当需要在 API 中用作选择器时才会用到它。
- *
  * @docs-private
  */
 @Directive({
@@ -62,9 +53,6 @@ export class MatCardSubtitle {}
 
 /**
  * Action section of a card, needed as it's used as a selector in the API.
- *
- * 卡片的动作栏部分，当需要在 API 中用作选择器时才会用到它。
- *
  * @docs-private
  */
 @Directive({
@@ -76,20 +64,12 @@ export class MatCardSubtitle {}
   },
 })
 export class MatCardActions {
-  /**
-   * Position of the actions inside the card.
-   *
-   * 动作栏在卡片内的位置。
-   *
-   */
+  /** Position of the actions inside the card. */
   @Input() align: 'start' | 'end' = 'start';
 }
 
 /**
  * Footer of a card, needed as it's used as a selector in the API.
- *
- * 卡片的尾部，当需要在 API 中用作选择器时才会用到它。
- *
  * @docs-private
  */
 @Directive({
@@ -100,9 +80,6 @@ export class MatCardFooter {}
 
 /**
  * Image used in a card, needed to add the mat- CSS styling.
- *
- * 卡片中使用的图像，需要添加 mat- CSS 样式。
- *
  * @docs-private
  */
 @Directive({
@@ -113,9 +90,6 @@ export class MatCardImage {}
 
 /**
  * Image used in a card, needed to add the mat- CSS styling.
- *
- * 卡片中使用的图像，需要添加 mat- CSS 样式。
- *
  * @docs-private
  */
 @Directive({
@@ -126,9 +100,6 @@ export class MatCardSmImage {}
 
 /**
  * Image used in a card, needed to add the mat- CSS styling.
- *
- * 卡片中使用的图像，需要添加 mat- CSS 样式。
- *
  * @docs-private
  */
 @Directive({
@@ -139,9 +110,6 @@ export class MatCardMdImage {}
 
 /**
  * Image used in a card, needed to add the mat- CSS styling.
- *
- * 卡片中使用的图像，需要添加 mat- CSS 样式。
- *
  * @docs-private
  */
 @Directive({
@@ -152,9 +120,6 @@ export class MatCardLgImage {}
 
 /**
  * Large image used in a card, needed to add the mat- CSS styling.
- *
- * 卡片中使用的大图，需要添加 mat- CSS 样式。
- *
  * @docs-private
  */
 @Directive({
@@ -165,9 +130,6 @@ export class MatCardXlImage {}
 
 /**
  * Avatar image used in a card, needed to add the mat- CSS styling.
- *
- * 卡片中使用的头像图，需要添加 mat- CSS 样式。
- *
  * @docs-private
  */
 @Directive({
@@ -187,10 +149,15 @@ export class MatCardAvatar {}
  * 虽然这个组件可以单独使用，但它也为普通的卡片区段提供了一些预设的样式，包括：
  *
  * - mat-card-title
+ *
  * - mat-card-subtitle
+ *
  * - mat-card-content
+ *
  * - mat-card-actions
+ *
  * - mat-card-footer
+ *
  */
 @Component({
   selector: 'mat-card',
@@ -212,9 +179,6 @@ export class MatCard {
 /**
  * Component intended to be used within the `<mat-card>` component. It adds styles for a
  * preset header section (i.e. a title, subtitle, and avatar layout).
- *
- * 那些打算用于 `<mat-card>` 中的组件。它为预设的页头添加了一些样式（比如标题、副标题和头像布局）。
- *
  * @docs-private
  */
 @Component({
@@ -229,9 +193,6 @@ export class MatCardHeader {}
 /**
  * Component intended to be used within the `<mat-card>` component. It adds styles for a preset
  * layout that groups an image with a title section.
- *
- * 那些打算用于 `<mat-card>` 中的组件。它为预设的布局添加了一些样式，用于对带标题的图像进行分组。
- *
  * @docs-private
  */
 @Component({

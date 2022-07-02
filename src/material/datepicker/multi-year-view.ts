@@ -50,9 +50,6 @@ export const yearsPerRow = 4;
 
 /**
  * An internal component used to display a year selector in the datepicker.
- *
- * 一个内部组件，用于在日期选择器中显示年份选择器。
- *
  * @docs-private
  */
 @Component({
@@ -65,20 +62,10 @@ export const yearsPerRow = 4;
 export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
   private _rerenderSubscription = Subscription.EMPTY;
 
-  /**
-   * Flag used to filter out space/enter keyup events that originated outside of the view.
-   *
-   * 用于过滤掉源自视图之外的空格/输入键事件的标志。
-   *
-   */
+  /** Flag used to filter out space/enter keyup events that originated outside of the view. */
   private _selectionKeyPressed: boolean;
 
-  /**
-   * The date to display in this multi-year view (everything other than the year is ignored).
-   *
-   * 在这个多年视图中显示的日期（忽略该年份以外的所有日期）。
-   *
-   */
+  /** The date to display in this multi-year view (everything other than the year is ignored). */
   @Input()
   get activeDate(): D {
     return this._activeDate;
@@ -155,76 +142,31 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
   }
   private _maxDate: D | null;
 
-  /**
-   * A function used to filter which dates are selectable.
-   *
-   * 用来过滤哪些日期可选择的函数。
-   *
-   */
+  /** A function used to filter which dates are selectable. */
   @Input() dateFilter: (date: D) => boolean;
 
-  /**
-   * Function that can be used to add custom CSS classes to date cells.
-   *
-   * 可用于把自定义 CSS 类添加到日期单元格的函数。
-   *
-   */
+  /** Function that can be used to add custom CSS classes to date cells. */
   @Input() dateClass: MatCalendarCellClassFunction<D>;
 
-  /**
-   * Emits when a new year is selected.
-   *
-   * 选择新年之后就会发出通知。
-   *
-   */
+  /** Emits when a new year is selected. */
   @Output() readonly selectedChange: EventEmitter<D> = new EventEmitter<D>();
 
-  /**
-   * Emits the selected year. This doesn't imply a change on the selected date
-   *
-   * 发出选定的年份。这并不会更改选定日期
-   *
-   */
+  /** Emits the selected year. This doesn't imply a change on the selected date */
   @Output() readonly yearSelected: EventEmitter<D> = new EventEmitter<D>();
 
-  /**
-   * Emits when any date is activated.
-   *
-   * 激活任意日期，都会发出通知。
-   *
-   */
+  /** Emits when any date is activated. */
   @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
 
-  /**
-   * The body of calendar table
-   *
-   * 日历表的表体
-   *
-   */
+  /** The body of calendar table */
   @ViewChild(MatCalendarBody) _matCalendarBody: MatCalendarBody;
 
-  /**
-   * Grid of calendar cells representing the currently displayed years.
-   *
-   * 表示当前显示年份的日历单元格。
-   *
-   */
+  /** Grid of calendar cells representing the currently displayed years. */
   _years: MatCalendarCell[][];
 
-  /**
-   * The year that today falls on.
-   *
-   * 这一年是否今年。
-   *
-   */
+  /** The year that today falls on. */
   _todayYear: number;
 
-  /**
-   * The year of the selected date. Null if the selected date is null.
-   *
-   * 选定日期的年份。如果选定日期为 null，则为空。
-   *
-   */
+  /** The year of the selected date. Null if the selected date is null. */
   _selectedYear: number | null;
 
   constructor(
@@ -249,12 +191,7 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
     this._rerenderSubscription.unsubscribe();
   }
 
-  /**
-   * Initializes this multi-year view.
-   *
-   * 初始化这个多年视图。
-   *
-   */
+  /** Initializes this multi-year view. */
   _init() {
     this._todayYear = this._dateAdapter.getYear(this._dateAdapter.today());
 
@@ -279,34 +216,37 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
     this._changeDetectorRef.markForCheck();
   }
 
-  /**
-   * Handles when a new year is selected.
-   *
-   * 选择新年之后的处理方法。
-   *
-   */
+  /** Handles when a new year is selected. */
   _yearSelected(event: MatCalendarUserEvent<number>) {
     const year = event.value;
-    this.yearSelected.emit(this._dateAdapter.createDate(year, 0, 1));
-    let month = this._dateAdapter.getMonth(this.activeDate);
-    let daysInMonth = this._dateAdapter.getNumDaysInMonth(
-      this._dateAdapter.createDate(year, month, 1),
-    );
-    this.selectedChange.emit(
-      this._dateAdapter.createDate(
-        year,
-        month,
-        Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth),
-      ),
-    );
+    const selectedYear = this._dateAdapter.createDate(year, 0, 1);
+    const selectedDate = this._getDateFromYear(year);
+
+    this.yearSelected.emit(selectedYear);
+    this.selectedChange.emit(selectedDate);
   }
 
   /**
-   * Handles keydown events on the calendar body when calendar is in multi-year view.
+   * Takes the index of a calendar body cell wrapped in in an event as argument. For the date that
+   * corresponds to the given cell, set `activeDate` to that date and fire `activeDateChange` with
+   * that date.
    *
-   * 当日历处于多年视图时，会在日历主体上处理 keydown 事件。
-   *
+   * This fucntion is used to match each component's model of the active date with the calendar
+   * body cell that was focused. It updates its value of `activeDate` synchronously and updates the
+   * parent's value asynchonously via the `activeDateChange` event. The child component receives an
+   * updated value asynchronously via the `activeCell` Input.
    */
+  _updateActiveDate(event: MatCalendarUserEvent<number>) {
+    const year = event.value;
+    const oldActiveDate = this._activeDate;
+
+    this.activeDate = this._getDateFromYear(year);
+    if (this._dateAdapter.compareDate(oldActiveDate, this.activeDate)) {
+      this.activeDateChange.emit(this.activeDate);
+    }
+  }
+
+  /** Handles keydown events on the calendar body when calendar is in multi-year view. */
   _handleCalendarBodyKeydown(event: KeyboardEvent): void {
     const oldActiveDate = this._activeDate;
     const isRtl = this._isRtl();
@@ -366,17 +306,12 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
       this.activeDateChange.emit(this.activeDate);
     }
 
-    this._focusActiveCell();
+    this._focusActiveCellAfterViewChecked();
     // Prevent unexpected default actions such as form submission.
     event.preventDefault();
   }
 
-  /**
-   * Handles keyup events on the calendar body when calendar is in multi-year view.
-   *
-   * 当日历处于多年视图时，处理日历正文上的键盘事件。
-   *
-   */
+  /** Handles keyup events on the calendar body when calendar is in multi-year view. */
   _handleCalendarBodyKeyup(event: KeyboardEvent): void {
     if (event.keyCode === SPACE || event.keyCode === ENTER) {
       if (this._selectionKeyPressed) {
@@ -391,22 +326,34 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
     return getActiveOffset(this._dateAdapter, this.activeDate, this.minDate, this.maxDate);
   }
 
-  /**
-   * Focuses the active cell after the microtask queue is empty.
-   *
-   * 在微任务队列为空之后，让这个活动单元格获得焦点。
-   *
-   */
+  /** Focuses the active cell after the microtask queue is empty. */
   _focusActiveCell() {
     this._matCalendarBody._focusActiveCell();
   }
 
+  /** Focuses the active cell after change detection has run and the microtask queue is empty. */
+  _focusActiveCellAfterViewChecked() {
+    this._matCalendarBody._scheduleFocusActiveCellAfterViewChecked();
+  }
+
   /**
-   * Creates an MatCalendarCell for the given year.
-   *
-   * 为指定的年份创建一个 MatCalendarCell。
-   *
+   * Takes a year and returns a new date on the same day and month as the currently active date
+   *  The returned date will have the same year as the argument date.
    */
+  private _getDateFromYear(year: number) {
+    const activeMonth = this._dateAdapter.getMonth(this.activeDate);
+    const daysInMonth = this._dateAdapter.getNumDaysInMonth(
+      this._dateAdapter.createDate(year, activeMonth, 1),
+    );
+    const normalizedDate = this._dateAdapter.createDate(
+      year,
+      activeMonth,
+      Math.min(this._dateAdapter.getDate(this.activeDate), daysInMonth),
+    );
+    return normalizedDate;
+  }
+
+  /** Creates an MatCalendarCell for the given year. */
   private _createCellForYear(year: number) {
     const date = this._dateAdapter.createDate(year, 0, 1);
     const yearName = this._dateAdapter.getYearName(date);
@@ -415,12 +362,7 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
     return new MatCalendarCell(year, yearName, yearName, this._shouldEnableYear(year), cellClasses);
   }
 
-  /**
-   * Whether the given year is enabled.
-   *
-   * 指定年份是否已启用。
-   *
-   */
+  /** Whether the given year is enabled. */
   private _shouldEnableYear(year: number) {
     // disable if the year is greater than maxDate lower than minDate
     if (
@@ -453,22 +395,12 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
     return false;
   }
 
-  /**
-   * Determines whether the user has the RTL layout direction.
-   *
-   * 确定用户是否具有 RTL 布局方向。
-   *
-   */
+  /** Determines whether the user has the RTL layout direction. */
   private _isRtl() {
     return this._dir && this._dir.value === 'rtl';
   }
 
-  /**
-   * Sets the currently-highlighted year based on a model value.
-   *
-   * 根据模型的值设置当前突出显示的年份。
-   *
-   */
+  /** Sets the currently-highlighted year based on a model value. */
   private _setSelectedYear(value: DateRange<D> | D | null) {
     this._selectedYear = null;
 
@@ -504,9 +436,6 @@ export function isSameMultiYearView<D>(
  * When the multi-year view is first opened, the active year will be in view.
  * So we compute how many years are between the active year and the *slot* where our
  * "startingYear" will render when paged into view.
- *
- * 第一次打开多年视图时，活动年份就会出现在视图中。因此，我们要计算当前年份和要渲染的 “startingYear” 之间有多少年，以便对视图进行分页。
- *
  */
 export function getActiveOffset<D>(
   dateAdapter: DateAdapter<D>,
@@ -521,9 +450,6 @@ export function getActiveOffset<D>(
 /**
  * We pick a "starting" year such that either the maximum year would be at the end
  * or the minimum year would be at the beginning of a page.
- *
- * 我们挑选一个“起始”年份，以便最大年份位于页尾，而最小年份位于页头。
- *
  */
 function getStartingYear<D>(
   dateAdapter: DateAdapter<D>,
@@ -540,12 +466,7 @@ function getStartingYear<D>(
   return startingYear;
 }
 
-/**
- * Gets remainder that is non-negative, even if first number is negative
- *
- * 取得非负的余数，即便第一个数是负数
- *
- */
+/** Gets remainder that is non-negative, even if first number is negative */
 function euclideanModulo(a: number, b: number): number {
   return ((a % b) + b) % b;
 }

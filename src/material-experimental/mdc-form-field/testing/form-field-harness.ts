@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testing';
 import {
   FormFieldHarnessFilters,
   _MatFormFieldHarnessBase,
@@ -19,7 +19,12 @@ import {
 } from '@angular/material/datepicker/testing';
 
 // TODO(devversion): support support chip list harness
-/** Possible harnesses of controls which can be bound to a form-field. */
+/**
+ * Possible harnesses of controls which can be bound to a form-field.
+ *
+ * 可以绑定到表单域的可能的控件测试工具。
+ *
+ */
 export type FormFieldControlHarness =
   | MatInputHarness
   | MatSelectHarness
@@ -31,15 +36,21 @@ export class MatFormFieldHarness extends _MatFormFieldHarnessBase<FormFieldContr
   static hostSelector = '.mat-mdc-form-field';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatFormFieldHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a form field with specific
+   * attributes.
    * @param options Options for filtering which form field instances are considered a match.
+   *
+   * 用于过滤哪些表单字段实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: FormFieldHarnessFilters = {}): HarnessPredicate<MatFormFieldHarness> {
-    return new HarnessPredicate(MatFormFieldHarness, options)
+  static with<T extends MatFormFieldHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: FormFieldHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options)
       .addOption('floatingLabelText', options.floatingLabelText, async (harness, text) =>
         HarnessPredicate.stringMatches(await harness.getLabel(), text),
       )
@@ -61,7 +72,12 @@ export class MatFormFieldHarness extends _MatFormFieldHarnessBase<FormFieldContr
   protected _dateRangeInputControl = this.locatorForOptional(MatDateRangeInputHarness);
   private _mdcTextField = this.locatorFor('.mat-mdc-text-field-wrapper');
 
-  /** Gets the appearance of the form-field. */
+  /**
+   * Gets the appearance of the form-field.
+   *
+   * 获取此表单字段的外观。
+   *
+   */
   async getAppearance(): Promise<'fill' | 'outline'> {
     const textFieldEl = await this._mdcTextField();
     if (await textFieldEl.hasClass('mdc-text-field--outlined')) {
@@ -70,12 +86,22 @@ export class MatFormFieldHarness extends _MatFormFieldHarnessBase<FormFieldContr
     return 'fill';
   }
 
-  /** Whether the form-field has a label. */
+  /**
+   * Whether the form-field has a label.
+   *
+   * 此表单字段是否具有标签。
+   *
+   */
   async hasLabel(): Promise<boolean> {
     return (await this._label()) !== null;
   }
 
-  /** Whether the label is currently floating. */
+  /**
+   * Whether the label is currently floating.
+   *
+   * 此标签当前是否浮动的。
+   *
+   */
   async isLabelFloating(): Promise<boolean> {
     const labelEl = await this._label();
     return labelEl !== null ? await labelEl.hasClass('mdc-floating-label--float-above') : false;

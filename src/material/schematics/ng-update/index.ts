@@ -36,12 +36,7 @@ const materialMigrations: NullableDevkitMigration[] = [
   ThemingApiMigration,
 ];
 
-/**
- * Entry point for the migration schematics with target of Angular Material v6
- *
- * 目标为 Angular Material v6 的迁移原理图的入口点
- *
- */
+/** Entry point for the migration schematics with target of Angular Material v6 */
 export function updateToV6(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V6,
@@ -51,12 +46,7 @@ export function updateToV6(): Rule {
   );
 }
 
-/**
- * Entry point for the migration schematics with target of Angular Material v7
- *
- * 目标为 Angular Material v7 的迁移原理图的入口点
- *
- */
+/** Entry point for the migration schematics with target of Angular Material v7 */
 export function updateToV7(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V7,
@@ -66,12 +56,7 @@ export function updateToV7(): Rule {
   );
 }
 
-/**
- * Entry point for the migration schematics with target of Angular Material v8
- *
- * 目标为 Angular Material v8 的迁移原理图的入口点
- *
- */
+/** Entry point for the migration schematics with target of Angular Material v8 */
 export function updateToV8(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V8,
@@ -81,12 +66,7 @@ export function updateToV8(): Rule {
   );
 }
 
-/**
- * Entry point for the migration schematics with target of Angular Material v9
- *
- * 目标为 Angular Material v9 的迁移原理图的入口点
- *
- */
+/** Entry point for the migration schematics with target of Angular Material v9 */
 export function updateToV9(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V9,
@@ -96,12 +76,7 @@ export function updateToV9(): Rule {
   );
 }
 
-/**
- * Entry point for the migration schematics with target of Angular Material v10
- *
- * 目标为 Angular Material v10 的迁移原理图的入口点
- *
- */
+/** Entry point for the migration schematics with target of Angular Material v10 */
 export function updateToV10(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V10,
@@ -111,12 +86,7 @@ export function updateToV10(): Rule {
   );
 }
 
-/**
- * Entry point for the migration schematics with target of Angular Material v11
- *
- * 目标为 Angular Material v11 的迁移原理图的入口点
- *
- */
+/** Entry point for the migration schematics with target of Angular Material v11 */
 export function updateToV11(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V11,
@@ -126,12 +96,7 @@ export function updateToV11(): Rule {
   );
 }
 
-/**
- * Entry point for the migration schematics with target of Angular Material v12
- *
- * 目标为 Angular Material v12 的迁移原理图的入口点
- *
- */
+/** Entry point for the migration schematics with target of Angular Material v12 */
 export function updateToV12(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V12,
@@ -141,12 +106,7 @@ export function updateToV12(): Rule {
   );
 }
 
-/**
- * Entry point for the migration schematics with target of Angular Material v13
- *
- * 以 Angular Material v13 为目标的迁移示意图的入口点
- *
- */
+/** Entry point for the migration schematics with target of Angular Material v13 */
 export function updateToV13(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V13,
@@ -156,12 +116,27 @@ export function updateToV13(): Rule {
   );
 }
 
-/**
- * Function that will be called when the migration completed.
- *
- * 迁移完成时将调用的函数。
- *
- */
+/** Entry point for the migration schematics with target of Angular Material v14 */
+export function updateToV14(): Rule {
+  return createMigrationSchematicRule(
+    TargetVersion.V14,
+    materialMigrations,
+    materialUpgradeData,
+    onMigrationComplete,
+  );
+}
+
+/** Entry point for the migration schematics with target of Angular Material v15 */
+export function updateToV15(): Rule {
+  return createMigrationSchematicRule(
+    TargetVersion.V15,
+    materialMigrations,
+    materialUpgradeData,
+    onMigrationComplete,
+  );
+}
+
+/** Function that will be called when the migration completed. */
 function onMigrationComplete(
   context: SchematicContext,
   targetVersion: TargetVersion,

@@ -25,7 +25,8 @@ import {MatTabLabel} from './tab-label';
   // that creating the extra class will generate more code than just duplicating the template.
   templateUrl: 'tab.html',
   inputs: ['disabled'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // tslint:disable-next-line:validate-decorators
+  changeDetection: ChangeDetectionStrategy.Default,
   encapsulation: ViewEncapsulation.None,
   exportAs: 'matTab',
   providers: [{provide: MAT_TAB, useExisting: MatTab}],
@@ -37,7 +38,12 @@ export class MatTab extends BaseMatTab {
   @ContentChild(MatTabContent, {read: TemplateRef, static: true})
   override _explicitContent: TemplateRef<any>;
 
-  /** Content for the tab label given by `<ng-template mat-tab-label>`. */
+  /**
+   * Content for the tab label given by `<ng-template mat-tab-label>`.
+   *
+   * 选项卡标签的内容由 `<ng-template mat-tab-label>` 指定。
+   *
+   */
   @ContentChild(MatTabLabel)
   override get templateLabel(): MatTabLabel {
     return this._templateLabel;

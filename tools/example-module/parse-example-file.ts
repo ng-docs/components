@@ -1,4 +1,4 @@
-import * as ts from 'typescript';
+import ts from 'typescript';
 
 interface ParsedMetadata {
   isPrimary: boolean;
@@ -10,7 +10,7 @@ interface ParsedMetadata {
 }
 
 interface ParsedMetadataResults {
-  primaryComponent: ParsedMetadata;
+  primaryComponent: ParsedMetadata | undefined;
   secondaryComponents: ParsedMetadata[];
 }
 

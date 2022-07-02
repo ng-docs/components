@@ -55,6 +55,13 @@ export interface MatTabsConfig {
    *
    */
   contentTabIndex?: number;
+
+  /**
+   * By default tabs remove their content from the DOM while it's off-screen.
+   * Setting this to `true` will keep it in the DOM which will prevent elements
+   * like iframes and videos from reloading next time it comes back into the view.
+   */
+  preserveContent?: boolean;
 }
 
 /**

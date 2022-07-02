@@ -35,8 +35,9 @@ sass_library(
     name = "mdc_menu_scss_lib",
     srcs = glob(["**/_*.scss"]),
     deps = [
-        "//src/material-experimental/mdc-helpers:mdc_helpers_scss_lib",
-        "//src/material-experimental/mdc-helpers:mdc_scss_deps_lib",
+        "//src/material:sass_lib",
+        "//src/material-experimental/mdc-core/mdc-helpers:mdc_helpers_scss_lib",
+        "//src/material-experimental/mdc-core/mdc-helpers:mdc_scss_deps_lib",
     ],
 )
 
@@ -47,9 +48,10 @@ sass_binary(
         "external/npm/node_modules",
     ],
     deps = [
-        "//src/material-experimental/mdc-helpers:mdc_helpers_scss_lib",
-        "//src/material-experimental/mdc-helpers:mdc_scss_deps_lib",
-        "//src/material/core:core_scss_lib",
+        "//src/cdk:sass_lib",
+        "//src/material:sass_lib",
+        "//src/material-experimental/mdc-core/mdc-helpers:mdc_helpers_scss_lib",
+        "//src/material-experimental/mdc-core/mdc-helpers:mdc_scss_deps_lib",
     ],
 )
 

@@ -39,6 +39,7 @@ import {Subject} from 'rxjs';
 import {distinctUntilChanged, filter, startWith, take} from 'rxjs/operators';
 import {MatAccordionBase, MatAccordionTogglePosition, MAT_ACCORDION} from './accordion-base';
 import {matExpansionAnimations} from './expansion-animations';
+import {MAT_EXPANSION_PANEL} from './expansion-panel-base';
 import {MatExpansionPanelContent} from './expansion-panel-content';
 
 /**
@@ -121,6 +122,7 @@ export const MAT_EXPANSION_PANEL_DEFAULT_OPTIONS =
     // Provide MatAccordion as undefined to prevent nested expansion panels from registering
     // to the same accordion.
     {provide: MAT_ACCORDION, useValue: undefined},
+    {provide: MAT_EXPANSION_PANEL, useExisting: MatExpansionPanel},
   ],
   host: {
     'class': 'mat-expansion-panel',
@@ -329,7 +331,7 @@ export class MatExpansionPanel
   }
 
   ngAfterContentInit() {
-    if (this._lazyContent) {
+    if (this._lazyContent && this._lazyContent._expansionPanel === this) {
       // Render the content as soon as the panel becomes open.
       this.opened
         .pipe(

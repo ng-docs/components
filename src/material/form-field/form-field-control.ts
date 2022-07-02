@@ -7,7 +7,7 @@
  */
 
 import {Observable} from 'rxjs';
-import {NgControl} from '@angular/forms';
+import {AbstractControlDirective, NgControl} from '@angular/forms';
 import {Directive} from '@angular/core';
 
 /**
@@ -51,18 +51,13 @@ export abstract class MatFormFieldControl<T> {
    */
   readonly placeholder: string;
 
-  /**
-   * Gets the NgControl for this control.
-   *
-   * 获取这个控件的 NgControl。
-   *
-   */
-  readonly ngControl: NgControl | null;
+  /** Gets the AbstractControlDirective for this control. */
+  readonly ngControl: NgControl | AbstractControlDirective | null;
 
   /**
    * Whether the control is focused.
    *
-   * 控件是否有焦点
+   * 控件是否有焦点。
    *
    */
   readonly focused: boolean;

@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import {FocusableOption, FocusMonitor} from '@angular/cdk/a11y';
+import {SPACE} from '@angular/cdk/keycodes';
 import {Directionality} from '@angular/cdk/bidi';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Platform} from '@angular/cdk/platform';
@@ -50,11 +51,11 @@ import {startWith, takeUntil} from 'rxjs/operators';
 import {MatInkBar} from '../ink-bar';
 import {MatPaginatedTabHeader, MatPaginatedTabHeaderItem} from '../paginated-tab-header';
 
+// Increasing integer for generating unique ids for tab nav components.
+let nextUniqueId = 0;
+
 /**
  * Base class with all of the `MatTabNav` functionality.
- *
- * 具有所有 `MatTabNav` 功能的基类。
- *
  * @docs-private
  */
 @Directive()
@@ -62,13 +63,8 @@ export abstract class _MatTabNavBase
   extends MatPaginatedTabHeader
   implements AfterContentChecked, AfterContentInit, OnDestroy
 {
-  /**
-   * Query list of all tab links of the tab navigation.
-   *
-   * 此标签导航的所有标签链接的查询列表。
-   *
-   */
-  abstract override _items: QueryList<MatPaginatedTabHeaderItem & {active: boolean}>;
+  /** Query list of all tab links of the tab navigation. */
+  abstract override _items: QueryList<MatPaginatedTabHeaderItem & {active: boolean; id: string}>;
 
   /**
    * Background color of the tab nav.
@@ -115,6 +111,13 @@ export abstract class _MatTabNavBase
    */
   @Input() color: ThemePalette = 'primary';
 
+  /**
+   * Associated tab panel controlled by the nav bar. If not provided, then the nav bar
+   * follows the ARIA link / navigation landmark pattern. If provided, it follows the
+   * ARIA tabs design pattern.
+   */
+  @Input() tabPanel?: MatTabNavPanel;
+
   constructor(
     elementRef: ElementRef,
     @Optional() dir: Directionality,
@@ -158,6 +161,11 @@ export abstract class _MatTabNavBase
       if (items[i].active) {
         this.selectedIndex = i;
         this._changeDetectorRef.markForCheck();
+
+        if (this.tabPanel) {
+          this.tabPanel._activeTabId = items[i].id;
+        }
+
         return;
       }
     }
@@ -165,6 +173,10 @@ export abstract class _MatTabNavBase
     // The ink bar should hide itself if no items are active.
     this.selectedIndex = -1;
     this._inkBar.hide();
+  }
+
+  _getRole(): string | null {
+    return this.tabPanel ? 'tablist' : this._elementRef.nativeElement.getAttribute('role');
   }
 }
 
@@ -182,6 +194,7 @@ export abstract class _MatTabNavBase
   templateUrl: 'tab-nav-bar.html',
   styleUrls: ['tab-nav-bar.css'],
   host: {
+    '[attr.role]': '_getRole()',
     'class': 'mat-tab-nav-bar mat-tab-header',
     '[class.mat-tab-header-pagination-controls-enabled]': '_showPaginationControls',
     '[class.mat-tab-header-rtl]': "_getLayoutDirection() == 'rtl'",
@@ -218,12 +231,7 @@ export class MatTabNav extends _MatTabNavBase {
 // Boilerplate for applying mixins to MatTabLink.
 const _MatTabLinkMixinBase = mixinTabIndex(mixinDisableRipple(mixinDisabled(class {})));
 
-/**
- * Base class with all of the `MatTabLink` functionality.
- *
- * 具有所有 `MatTabLink` 功能的基类。
- *
- */
+/** Base class with all of the `MatTabLink` functionality. */
 @Directive()
 export class _MatTabLinkBase
   extends _MatTabLinkMixinBase
@@ -236,12 +244,7 @@ export class _MatTabLinkBase
     RippleTarget,
     FocusableOption
 {
-  /**
-   * Whether the tab link is active or not.
-   *
-   * 此选项卡链接是否处于活动状态。
-   *
-   */
+  /** Whether the tab link is active or not. */
   protected _isActive: boolean = false;
 
   /**
@@ -267,18 +270,12 @@ export class _MatTabLinkBase
    * Ripple configuration for ripples that are launched on pointer down. The ripple config
    * is set to the global ripple options since we don't have any configurable options for
    * the tab link ripples.
-   *
-   * 用于在指针设备按下时发出涟漪的涟漪配置。由于我们没有用于标签链接涟漪的任何可配置选项，所以此涟漪配置被设置为全局涟漪选项。
-   *
    * @docs-private
    */
   rippleConfig: RippleConfig & RippleGlobalOptions;
 
   /**
    * Whether ripples are disabled on interaction.
-   *
-   * 交互中是否禁用了涟漪。
-   *
    * @docs-private
    */
   get rippleDisabled(): boolean {
@@ -289,6 +286,9 @@ export class _MatTabLinkBase
       !!this.rippleConfig.disabled
     );
   }
+
+  /** Unique id for the tab. */
+  @Input() id = `mat-tab-link-${nextUniqueId++}`;
 
   constructor(
     private _tabNavBar: _MatTabNavBase,
@@ -331,6 +331,42 @@ export class _MatTabLinkBase
     // have to update the focused index whenever the link receives focus.
     this._tabNavBar.focusIndex = this._tabNavBar._items.toArray().indexOf(this);
   }
+
+  _handleKeydown(event: KeyboardEvent) {
+    if (this._tabNavBar.tabPanel && event.keyCode === SPACE) {
+      this.elementRef.nativeElement.click();
+    }
+  }
+
+  _getAriaControls(): string | null {
+    return this._tabNavBar.tabPanel
+      ? this._tabNavBar.tabPanel?.id
+      : this.elementRef.nativeElement.getAttribute('aria-controls');
+  }
+
+  _getAriaSelected(): string | null {
+    if (this._tabNavBar.tabPanel) {
+      return this.active ? 'true' : 'false';
+    } else {
+      return this.elementRef.nativeElement.getAttribute('aria-selected');
+    }
+  }
+
+  _getAriaCurrent(): string | null {
+    return this.active && !this._tabNavBar.tabPanel ? 'page' : null;
+  }
+
+  _getRole(): string | null {
+    return this._tabNavBar.tabPanel ? 'tab' : this.elementRef.nativeElement.getAttribute('role');
+  }
+
+  _getTabIndex(): number {
+    if (this._tabNavBar.tabPanel) {
+      return this._isActive && !this.disabled ? 0 : -1;
+    } else {
+      return this.tabIndex;
+    }
+  }
 }
 
 /**
@@ -345,21 +381,21 @@ export class _MatTabLinkBase
   inputs: ['disabled', 'disableRipple', 'tabIndex'],
   host: {
     'class': 'mat-tab-link mat-focus-indicator',
-    '[attr.aria-current]': 'active ? "page" : null',
+    '[attr.aria-controls]': '_getAriaControls()',
+    '[attr.aria-current]': '_getAriaCurrent()',
     '[attr.aria-disabled]': 'disabled',
-    '[attr.tabIndex]': 'tabIndex',
+    '[attr.aria-selected]': '_getAriaSelected()',
+    '[attr.id]': 'id',
+    '[attr.tabIndex]': '_getTabIndex()',
+    '[attr.role]': '_getRole()',
     '[class.mat-tab-disabled]': 'disabled',
     '[class.mat-tab-label-active]': 'active',
     '(focus)': '_handleFocus()',
+    '(keydown)': '_handleKeydown($event)',
   },
 })
 export class MatTabLink extends _MatTabLinkBase implements OnDestroy {
-  /**
-   * Reference to the RippleRenderer for the tab-link.
-   *
-   * 对此选项卡链接的 RippleRenderer 的引用。
-   *
-   */
+  /** Reference to the RippleRenderer for the tab-link. */
   private _tabLinkRipple: RippleRenderer;
 
   constructor(
@@ -381,4 +417,28 @@ export class MatTabLink extends _MatTabLinkBase implements OnDestroy {
     super.ngOnDestroy();
     this._tabLinkRipple._removeTriggerEvents();
   }
+}
+
+/**
+ * Tab panel component associated with MatTabNav.
+ */
+@Component({
+  selector: 'mat-tab-nav-panel',
+  exportAs: 'matTabNavPanel',
+  template: '<ng-content></ng-content>',
+  host: {
+    '[attr.aria-labelledby]': '_activeTabId',
+    '[attr.id]': 'id',
+    'class': 'mat-tab-nav-panel',
+    'role': 'tabpanel',
+  },
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class MatTabNavPanel {
+  /** Unique id for the tab panel. */
+  @Input() id = `mat-tab-nav-panel-${nextUniqueId++}`;
+
+  /** Id of the active tab in the nav bar. */
+  _activeTabId?: string;
 }

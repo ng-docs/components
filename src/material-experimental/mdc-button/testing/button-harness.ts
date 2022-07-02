@@ -6,7 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ContentContainerComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  ComponentHarnessConstructor,
+  ContentContainerComponentHarness,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {ButtonHarnessFilters} from '@angular/material/button/testing';
 
@@ -19,29 +23,54 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a button with specific attributes.
    * @param options Options for narrowing the search:
-   *   - `selector` finds a button whose host element matches the given selector.
-   *   - `text` finds a button with specific text content.
+   *
+   * 用来收窄搜索范围的选项：
+   *
+   * - `selector` finds a button whose host element matches the given selector.
+   *
+   * - `text` finds a button with specific text content.
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ButtonHarnessFilters = {}): HarnessPredicate<MatButtonHarness> {
-    return new HarnessPredicate(MatButtonHarness, options).addOption(
-      'text',
-      options.text,
-      (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text),
+  static with<T extends MatButtonHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ButtonHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption('text', options.text, (harness, text) =>
+      HarnessPredicate.stringMatches(harness.getText(), text),
     );
   }
 
   /**
    * Clicks the button at the given position relative to its top-left.
+   *
+   * 在相对于按钮左上角的指定位置单击它。
+   *
    * @param relativeX The relative x position of the click.
+   *
+   * 单击的相对位置 x。
+   *
    * @param relativeY The relative y position of the click.
+   *
+   * 单击的相对位置 y。
+   *
    */
   click(relativeX: number, relativeY: number): Promise<void>;
-  /** Clicks the button at its center. */
+  /**
+   * Clicks the button at its center.
+   *
+   * 单击按钮的中心。
+   *
+   */
   click(location: 'center'): Promise<void>;
-  /** Clicks the button. */
+  /**
+   * Clicks the button.
+   *
+   * 单击此按钮。
+   *
+   */
   click(): Promise<void>;
   async click(...args: [] | ['center'] | [number, number]): Promise<void> {
     return (await this.host()).click(...(args as []));
@@ -68,7 +97,12 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
     return (await this.host()).blur();
   }
 
-  /** Whether the button is focused. */
+  /**
+   * Whether the button is focused.
+   *
+   * 此按钮是否拥有焦点。
+   *
+   */
   async isFocused(): Promise<boolean> {
     return (await this.host()).isFocused();
   }

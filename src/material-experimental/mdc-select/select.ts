@@ -32,7 +32,12 @@ import {MatFormFieldControl} from '@angular/material/form-field';
 import {takeUntil} from 'rxjs/operators';
 import {matSelectAnimations} from './select-animations';
 
-/** Change event object that is emitted when the select value has changed. */
+/**
+ * Change event object that is emitted when the select value has changed.
+ *
+ * 当选择框的值发生更改后触发的事件对象。
+ *
+ */
 export class MatSelectChange {
   constructor(
     /** Reference to the select that emitted the change event. */
@@ -44,6 +49,9 @@ export class MatSelectChange {
 
 /**
  * Allows the user to customize the trigger that is displayed when the select has a value.
+ *
+ * 当选择框具有值时，允许用户自定义要显示的触发器。
+ *
  */
 @Directive({
   selector: 'mat-select-trigger',
@@ -72,7 +80,6 @@ export class MatSelectTrigger {}
     '[attr.aria-required]': 'required.toString()',
     '[attr.aria-disabled]': 'disabled.toString()',
     '[attr.aria-invalid]': 'errorState',
-    '[attr.aria-describedby]': '_ariaDescribedby || null',
     '[attr.aria-activedescendant]': '_getAriaActiveDescendant()',
     '[class.mat-mdc-select-disabled]': 'disabled',
     '[class.mat-mdc-select-invalid]': 'errorState',

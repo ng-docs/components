@@ -75,7 +75,7 @@ export class MatAutocomplete extends _MatAutocompleteBase {
     // (undocumented)
     protected _visibleClass: string;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatAutocomplete, "mat-autocomplete", ["matAutocomplete"], { "disableRipple": "disableRipple"; }, {}, ["optionGroups", "options"], ["*"]>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatAutocomplete, "mat-autocomplete", ["matAutocomplete"], { "disableRipple": "disableRipple"; }, {}, ["optionGroups", "options"], ["*"], false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatAutocomplete, never>;
 }
@@ -93,6 +93,8 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
     ariaLabelledby: string;
     get autoActiveFirstOption(): boolean;
     set autoActiveFirstOption(value: BooleanInput);
+    get autoSelectActiveOption(): boolean;
+    set autoSelectActiveOption(value: BooleanInput);
     set classList(value: string | string[]);
     // (undocumented)
     _classList: {
@@ -127,7 +129,7 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
     template: TemplateRef<any>;
     protected abstract _visibleClass: string;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatAutocompleteBase, never, never, { "ariaLabel": "aria-label"; "ariaLabelledby": "aria-labelledby"; "displayWith": "displayWith"; "autoActiveFirstOption": "autoActiveFirstOption"; "panelWidth": "panelWidth"; "classList": "class"; }, { "optionSelected": "optionSelected"; "opened": "opened"; "closed": "closed"; "optionActivated": "optionActivated"; }, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatAutocompleteBase, never, never, { "ariaLabel": "aria-label"; "ariaLabelledby": "aria-labelledby"; "displayWith": "displayWith"; "autoActiveFirstOption": "autoActiveFirstOption"; "autoSelectActiveOption": "autoSelectActiveOption"; "panelWidth": "panelWidth"; "classList": "class"; }, { "optionSelected": "optionSelected"; "opened": "opened"; "closed": "closed"; "optionActivated": "optionActivated"; }, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatAutocompleteBase, never>;
 }
@@ -135,6 +137,7 @@ export abstract class _MatAutocompleteBase extends _MatAutocompleteMixinBase imp
 // @public
 export interface MatAutocompleteDefaultOptions {
     autoActiveFirstOption?: boolean;
+    autoSelectActiveOption?: boolean;
     overlayPanelClass?: string | string[];
 }
 
@@ -151,7 +154,7 @@ export class MatAutocompleteModule {
 // @public
 export class MatAutocompleteOrigin extends _MatAutocompleteOriginBase {
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatAutocompleteOrigin, "[matAutocompleteOrigin]", ["matAutocompleteOrigin"], {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatAutocompleteOrigin, "[matAutocompleteOrigin]", ["matAutocompleteOrigin"], {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatAutocompleteOrigin, never>;
 }
@@ -162,7 +165,7 @@ export abstract class _MatAutocompleteOriginBase {
     elementRef: ElementRef<HTMLElement>);
     elementRef: ElementRef<HTMLElement>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatAutocompleteOriginBase, never, never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatAutocompleteOriginBase, never, never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatAutocompleteOriginBase, never>;
 }
@@ -181,7 +184,7 @@ export class MatAutocompleteTrigger extends _MatAutocompleteTriggerBase {
     // (undocumented)
     protected _aboveClass: string;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatAutocompleteTrigger, "input[matAutocomplete], textarea[matAutocomplete]", ["matAutocompleteTrigger"], {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatAutocompleteTrigger, "input[matAutocomplete], textarea[matAutocomplete]", ["matAutocompleteTrigger"], {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatAutocompleteTrigger, never>;
 }
@@ -190,13 +193,15 @@ export class MatAutocompleteTrigger extends _MatAutocompleteTriggerBase {
 export abstract class _MatAutocompleteTriggerBase implements ControlValueAccessor, AfterViewInit, OnChanges, OnDestroy {
     constructor(_element: ElementRef<HTMLInputElement>, _overlay: Overlay, _viewContainerRef: ViewContainerRef, _zone: NgZone, _changeDetectorRef: ChangeDetectorRef, scrollStrategy: any, _dir: Directionality, _formField: MatFormField, _document: any, _viewportRuler: ViewportRuler, _defaults?: MatAutocompleteDefaultOptions | undefined);
     protected abstract _aboveClass: string;
-    get activeOption(): MatOption | null;
+    get activeOption(): _MatOptionBase | null;
     autocomplete: _MatAutocompleteBase;
     autocompleteAttribute: string;
     get autocompleteDisabled(): boolean;
     set autocompleteDisabled(value: BooleanInput);
     closePanel(): void;
     connectedTo: _MatAutocompleteOriginBase;
+    // (undocumented)
+    _handleClick(): void;
     // (undocumented)
     _handleFocus(): void;
     // (undocumented)
@@ -226,7 +231,7 @@ export abstract class _MatAutocompleteTriggerBase implements ControlValueAccesso
     // (undocumented)
     writeValue(value: any): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatAutocompleteTriggerBase, never, never, { "autocomplete": "matAutocomplete"; "position": "matAutocompletePosition"; "connectedTo": "matAutocompleteConnectedTo"; "autocompleteAttribute": "autocomplete"; "autocompleteDisabled": "matAutocompleteDisabled"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatAutocompleteTriggerBase, never, never, { "autocomplete": "matAutocomplete"; "position": "matAutocompletePosition"; "connectedTo": "matAutocompleteConnectedTo"; "autocompleteAttribute": "autocomplete"; "autocompleteDisabled": "matAutocompleteDisabled"; }, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatAutocompleteTriggerBase, [null, null, null, null, null, null, { optional: true; }, { optional: true; host: true; }, { optional: true; }, null, { optional: true; }]>;
 }

@@ -6,25 +6,16 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {DialogRef} from '@angular/cdk/dialog';
 import {FocusOrigin} from '@angular/cdk/a11y';
 import {ESCAPE, hasModifierKey} from '@angular/cdk/keycodes';
-import {GlobalPositionStrategy, OverlayRef} from '@angular/cdk/overlay';
-import {Observable, Subject} from 'rxjs';
+import {GlobalPositionStrategy} from '@angular/cdk/overlay';
+import {merge, Observable, Subject} from 'rxjs';
 import {filter, take} from 'rxjs/operators';
-import {DialogPosition} from './dialog-config';
+import {DialogPosition, MatDialogConfig} from './dialog-config';
 import {_MatDialogContainerBase} from './dialog-container';
 
-// TODO(jelbourn): resizing
-
-// Counter for unique dialog ids.
-let uniqueId = 0;
-
-/**
- * Possible states of the lifecycle of a dialog.
- *
- * 对话框生命周期的可能状态。
- *
- */
+/** Possible states of the lifecycle of a dialog. */
 export const enum MatDialogState {
   OPEN,
   CLOSING,
@@ -52,64 +43,40 @@ export class MatDialogRef<T, R = any> {
    * 是否允许用户关闭该对话框。
    *
    */
-  disableClose: boolean | undefined = this._containerInstance._config.disableClose;
+  disableClose: boolean | undefined;
 
-  /**
-   * Subject for notifying the user that the dialog has finished opening.
-   *
-   * 用于通知用户该对话框已经打开的主体对象。
-   *
-   */
+  /** Unique ID for the dialog. */
+  id: string;
+
+  /** Subject for notifying the user that the dialog has finished opening. */
   private readonly _afterOpened = new Subject<void>();
 
-  /**
-   * Subject for notifying the user that the dialog has finished closing.
-   *
-   * 用于通知用户该对话框已经关闭的主体对象。
-   *
-   */
-  private readonly _afterClosed = new Subject<R | undefined>();
-
-  /**
-   * Subject for notifying the user that the dialog has started closing.
-   *
-   * 用于通知用户该对话框即将关闭的主体对象。
-   *
-   */
+  /** Subject for notifying the user that the dialog has started closing. */
   private readonly _beforeClosed = new Subject<R | undefined>();
 
-  /**
-   * Result to be passed to afterClosed.
-   *
-   * 要传递给 afterClosed 的结果。
-   *
-   */
+  /** Result to be passed to afterClosed. */
   private _result: R | undefined;
 
-  /**
-   * Handle to the timeout that's running as a fallback in case the exit animation doesn't fire.
-   *
-   * 在退出动画未触发的情况下，超时指定时间后进行回退处理。
-   *
-   */
+  /** Handle to the timeout that's running as a fallback in case the exit animation doesn't fire. */
   private _closeFallbackTimeout: number;
 
-  /**
-   * Current state of the dialog.
-   *
-   * 该对话框的当前状态。
-   *
-   */
+  /** Current state of the dialog. */
   private _state = MatDialogState.OPEN;
 
+  // TODO(crisbeto): we shouldn't have to declare this property, because `DialogRef.close`
+  // already has a second `options` parameter that we can use. The problem is that internal tests
+  // have assertions like `expect(MatDialogRef.close).toHaveBeenCalledWith(foo)` which will break,
+  // because it'll be called with two arguments by things like `MatDialogClose`.
+  /** Interaction that caused the dialog to close. */
+  private _closeInteractionType: FocusOrigin | undefined;
+
   constructor(
-    private _overlayRef: OverlayRef,
+    private _ref: DialogRef<R, T>,
+    config: MatDialogConfig,
     public _containerInstance: _MatDialogContainerBase,
-    /** Id of the dialog. */
-    readonly id: string = `mat-dialog-${uniqueId++}`,
   ) {
-    // Pass the id along to the container.
-    _containerInstance._id = id;
+    this.disableClose = config.disableClose;
+    this.id = _ref.id;
 
     // Emit when opening animation completes
     _containerInstance._animationStateChanged
@@ -133,32 +100,21 @@ export class MatDialogRef<T, R = any> {
         this._finishDialogClose();
       });
 
-    _overlayRef.detachments().subscribe(() => {
+    _ref.overlayRef.detachments().subscribe(() => {
       this._beforeClosed.next(this._result);
       this._beforeClosed.complete();
-      this._afterClosed.next(this._result);
-      this._afterClosed.complete();
-      this.componentInstance = null!;
-      this._overlayRef.dispose();
+      this._finishDialogClose();
     });
 
-    _overlayRef
-      .keydownEvents()
-      .pipe(
-        filter(event => {
-          return event.keyCode === ESCAPE && !this.disableClose && !hasModifierKey(event);
-        }),
-      )
-      .subscribe(event => {
+    merge(
+      this.backdropClick(),
+      this.keydownEvents().pipe(
+        filter(event => event.keyCode === ESCAPE && !this.disableClose && !hasModifierKey(event)),
+      ),
+    ).subscribe(event => {
+      if (!this.disableClose) {
         event.preventDefault();
-        _closeDialogVia(this, 'keyboard');
-      });
-
-    _overlayRef.backdropClick().subscribe(() => {
-      if (this.disableClose) {
-        this._containerInstance._recaptureFocus();
-      } else {
-        _closeDialogVia(this, 'mouse');
+        _closeDialogVia(this, event.type === 'keydown' ? 'keyboard' : 'mouse');
       }
     });
   }
@@ -185,7 +141,7 @@ export class MatDialogRef<T, R = any> {
       .subscribe(event => {
         this._beforeClosed.next(dialogResult);
         this._beforeClosed.complete();
-        this._overlayRef.detachBackdrop();
+        this._ref.overlayRef.detachBackdrop();
 
         // The logic that disposes of the overlay depends on the exit animation completing, however
         // it isn't guaranteed if the parent view is destroyed while it's running. Add a fallback
@@ -219,7 +175,7 @@ export class MatDialogRef<T, R = any> {
    *
    */
   afterClosed(): Observable<R | undefined> {
-    return this._afterClosed;
+    return this._ref.closed;
   }
 
   /**
@@ -235,21 +191,21 @@ export class MatDialogRef<T, R = any> {
   /**
    * Gets an observable that emits when the overlay's backdrop has been clicked.
    *
-   * 获取一个可观察对象，它会在点击浮层的背景板时发出。
+   * 获取一个可观察对象，当点击浮层的背景板时，它会发出数据。
    *
    */
   backdropClick(): Observable<MouseEvent> {
-    return this._overlayRef.backdropClick();
+    return this._ref.backdropClick;
   }
 
   /**
    * Gets an observable that emits when keydown events are targeted on the overlay.
    *
-   * 获取一个可观察对象，当 keydown 事件的目标是浮层时发出数据。
+   * 获取一个可观察对象，当指定浮层收到 keydown 事件时，它会发出数据。
    *
    */
   keydownEvents(): Observable<KeyboardEvent> {
-    return this._overlayRef.keydownEvents();
+    return this._ref.keydownEvents;
   }
 
   /**
@@ -263,7 +219,7 @@ export class MatDialogRef<T, R = any> {
    *
    */
   updatePosition(position?: DialogPosition): this {
-    let strategy = this._getPositionStrategy();
+    let strategy = this._ref.config.positionStrategy as GlobalPositionStrategy;
 
     if (position && (position.left || position.right)) {
       position.left ? strategy.left(position.left) : strategy.right(position.right);
@@ -277,7 +233,7 @@ export class MatDialogRef<T, R = any> {
       strategy.centerVertically();
     }
 
-    this._overlayRef.updatePosition();
+    this._ref.updatePosition();
 
     return this;
   }
@@ -297,8 +253,7 @@ export class MatDialogRef<T, R = any> {
    *
    */
   updateSize(width: string = '', height: string = ''): this {
-    this._overlayRef.updateSize({width, height});
-    this._overlayRef.updatePosition();
+    this._ref.updateSize(width, height);
     return this;
   }
 
@@ -309,7 +264,7 @@ export class MatDialogRef<T, R = any> {
    *
    */
   addPanelClass(classes: string | string[]): this {
-    this._overlayRef.addPanelClass(classes);
+    this._ref.addPanelClass(classes);
     return this;
   }
 
@@ -320,7 +275,7 @@ export class MatDialogRef<T, R = any> {
    *
    */
   removePanelClass(classes: string | string[]): this {
-    this._overlayRef.removePanelClass(classes);
+    this._ref.removePanelClass(classes);
     return this;
   }
 
@@ -337,23 +292,11 @@ export class MatDialogRef<T, R = any> {
   /**
    * Finishes the dialog close by updating the state of the dialog
    * and disposing the overlay.
-   *
-   * 通过更新对话框的状态并处理浮层来完成对话框的关闭。
-   *
    */
   private _finishDialogClose() {
     this._state = MatDialogState.CLOSED;
-    this._overlayRef.dispose();
-  }
-
-  /**
-   * Fetches the position strategy object from the overlay ref.
-   *
-   * 从浮层引用中获取定位策略对象。
-   *
-   */
-  private _getPositionStrategy(): GlobalPositionStrategy {
-    return this._overlayRef.getConfig().positionStrategy as GlobalPositionStrategy;
+    this._ref.close(this._result, {focusOrigin: this._closeInteractionType});
+    this.componentInstance = null!;
   }
 }
 
@@ -362,14 +305,9 @@ export class MatDialogRef<T, R = any> {
  * `MatDialogRef` as that would conflict with custom dialog ref mocks provided in tests.
  * More details. See: <https://github.com/angular/components/pull/9257#issuecomment-651342226>.
  *
- * 用指定的交互类型关闭对话框。目前它不是 `MatDialogRef` 一部分，因为它会与测试中提供的自定义对话框引用模拟相冲突。更多细节请参阅： <https://github.com/angular/components/pull/9257#issuecomment-651342226。>
  */
-// TODO: TODO: Move this back into `MatDialogRef` when we provide an official mock dialog ref.
+// TODO: Move this back into `MatDialogRef` when we provide an official mock dialog ref.
 export function _closeDialogVia<R>(ref: MatDialogRef<R>, interactionType: FocusOrigin, result?: R) {
-  // Some mock dialog ref instances in tests do not have the `_containerInstance` property.
-  // For those, we keep the behavior as is and do not deal with the interaction type.
-  if (ref._containerInstance !== undefined) {
-    ref._containerInstance._closeInteractionType = interactionType;
-  }
+  (ref as unknown as {_closeInteractionType: FocusOrigin})._closeInteractionType = interactionType;
   return ref.close(result);
 }

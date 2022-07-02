@@ -142,9 +142,9 @@ Run your local dev server:
 ng serve
 ```
 
-Then point your browser to [http://localhost:4200](http://localhost:4200)
+Then point your browser to <http://localhost:4200>
 
-让浏览器访问 [http://localhost:4200](http://localhost:4200)
+让浏览器访问 <http://localhost:4200>
 
 You should see the Material slider component on the page.
 

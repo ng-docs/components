@@ -8,25 +8,19 @@
 
 import {ModifierKeys} from '@angular/cdk/testing';
 
-/**
- * Used to generate unique IDs for events.
- *
- * 用于为事件生成唯一 ID。
- *
- */
+/** Used to generate unique IDs for events. */
 let uniqueIds = 0;
 
 /**
  * Creates a browser MouseEvent with the specified options.
- *
- * 创建具有指定选项的浏览器的 MouseEvent。
- *
  * @docs-private
  */
 export function createMouseEvent(
   type: string,
   clientX = 0,
   clientY = 0,
+  offsetX = 1,
+  offsetY = 1,
   button = 0,
   modifiers: ModifierKeys = {},
 ) {
@@ -58,8 +52,13 @@ export function createMouseEvent(
 
   // The `MouseEvent` constructor doesn't allow us to pass these properties into the constructor.
   // Override them to `1`, because they're used for fake screen reader event detection.
-  defineReadonlyEventProperty(event, 'offsetX', 1);
-  defineReadonlyEventProperty(event, 'offsetY', 1);
+  if (offsetX != null) {
+    defineReadonlyEventProperty(event, 'offsetX', offsetX);
+  }
+
+  if (offsetY != null) {
+    defineReadonlyEventProperty(event, 'offsetY', offsetY);
+  }
 
   return event;
 }
@@ -69,12 +68,8 @@ export function createMouseEvent(
  * by default will appear as if they are the primary pointer of their type.
  * <https://www.w3.org/TR/pointerevents2/#dom-pointerevent-isprimary>.
  *
- * 使用指定的选项创建浏览器的 `PointerEvent`。默认情况下，指针事件将显示为它们类型的主要指针（如左键）。<https://www.w3.org/TR/pointerevents2/#dom-pointerevent-isprimary>。
- *
  * For example, if pointer events for a multi-touch interaction are created, the non-primary
  * pointer touches would need to be represented by non-primary pointer events.
- *
- * 例如，如果创建了用于多点触摸交互的指针事件，则非主要指针触摸将需要由非主要指针事件表示。
  *
  * @docs-private
  */
@@ -82,9 +77,11 @@ export function createPointerEvent(
   type: string,
   clientX = 0,
   clientY = 0,
+  offsetX?: number,
+  offsetY?: number,
   options: PointerEventInit = {isPrimary: true},
 ) {
-  return new PointerEvent(type, {
+  const event = new PointerEvent(type, {
     bubbles: true,
     cancelable: true,
     composed: true, // Required for shadow DOM events.
@@ -93,13 +90,20 @@ export function createPointerEvent(
     clientY,
     ...options,
   });
+
+  if (offsetX != null) {
+    defineReadonlyEventProperty(event, 'offsetX', offsetX);
+  }
+
+  if (offsetY != null) {
+    defineReadonlyEventProperty(event, 'offsetY', offsetY);
+  }
+
+  return event;
 }
 
 /**
  * Creates a browser TouchEvent with the specified pointer coordinates.
- *
- * 创建具有指定指针坐标的浏览器的 TouchEvent。
- *
  * @docs-private
  */
 export function createTouchEvent(type: string, pageX = 0, pageY = 0, clientX = 0, clientY = 0) {
@@ -122,9 +126,6 @@ export function createTouchEvent(type: string, pageX = 0, pageY = 0, clientX = 0
 
 /**
  * Creates a keyboard event with the specified key and modifiers.
- *
- * 使用指定的键和修饰键创建键盘事件。
- *
  * @docs-private
  */
 export function createKeyboardEvent(
@@ -149,9 +150,6 @@ export function createKeyboardEvent(
 
 /**
  * Creates a fake event object with any desired event type.
- *
- * 创建具有任何所需事件类型的假事件对象。
- *
  * @docs-private
  */
 export function createFakeEvent(type: string, bubbles = false, cancelable = true, composed = true) {
@@ -161,9 +159,6 @@ export function createFakeEvent(type: string, bubbles = false, cancelable = true
 /**
  * Defines a readonly property on the given event object. Readonly properties on an event object
  * are always set as configurable as that matches default readonly properties for DOM event objects.
- *
- * 在给定的事件对象上定义一个只读属性。事件对象的只读属性始终设置为可配置的，因为它与 DOM 事件对象的默认只读属性匹配。
- *
  */
 function defineReadonlyEventProperty(event: Event, propertyName: string, value: any) {
   Object.defineProperty(event, propertyName, {get: () => value, configurable: true});

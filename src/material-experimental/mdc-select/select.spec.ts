@@ -42,6 +42,7 @@ import {
 } from '@angular/core/testing';
 import {
   ControlValueAccessor,
+  FormBuilder,
   FormControl,
   FormGroup,
   FormGroupDirective,
@@ -114,18 +115,17 @@ describe('MDC-based MatSelect', () => {
   }
 
   describe('core', () => {
-    beforeEach(
-      waitForAsync(() => {
-        configureMatSelectTestingModule([
-          BasicSelect,
-          MultiSelect,
-          SelectWithGroups,
-          SelectWithGroupsAndNgContainer,
-          SelectWithFormFieldLabel,
-          SelectWithChangeEvent,
-        ]);
-      }),
-    );
+    beforeEach(waitForAsync(() => {
+      configureMatSelectTestingModule([
+        BasicSelect,
+        MultiSelect,
+        SelectWithGroups,
+        SelectWithGroupsAndNgContainer,
+        SelectWithFormFieldLabel,
+        SelectWithChangeEvent,
+        SelectInsideDynamicFormGroup,
+      ]);
+    }));
 
     describe('accessibility', () => {
       describe('for select', () => {
@@ -218,6 +218,22 @@ describe('MDC-based MatSelect', () => {
 
         it('should set the tabindex of the select to 0 by default', fakeAsync(() => {
           expect(select.getAttribute('tabindex')).toEqual('0');
+        }));
+
+        it('should set `aria-describedby` to the id of the mat-hint', fakeAsync(() => {
+          expect(select.getAttribute('aria-describedby')).toBeNull();
+
+          fixture.componentInstance.hint = 'test';
+          fixture.detectChanges();
+          const hint = fixture.debugElement.query(By.css('mat-hint')).nativeElement;
+          expect(select.getAttribute('aria-describedby')).toBe(hint.getAttribute('id'));
+          expect(select.getAttribute('aria-describedby')).toMatch(/^mat-mdc-hint-\d+$/);
+        }));
+
+        it('should support user binding to `aria-describedby`', fakeAsync(() => {
+          fixture.componentInstance.ariaDescribedBy = 'test';
+          fixture.detectChanges();
+          expect(select.getAttribute('aria-describedby')).toBe('test');
         }));
 
         it('should be able to override the tabindex', fakeAsync(() => {
@@ -2142,17 +2158,27 @@ describe('MDC-based MatSelect', () => {
       it('should set an asterisk after the label if control is required', fakeAsync(() => {
         const label = fixture.nativeElement.querySelector('.mat-mdc-form-field label');
 
-        expect(label.classList).not.toContain(
-          'mdc-floating-label--required',
-          `Expected label not to have an asterisk, as control was not required.`,
-        );
+        expect(label.querySelector('.mat-mdc-form-field-required-marker'))
+          .withContext(`Expected label not to have an asterisk, as control was not required.`)
+          .toBeFalsy();
 
         fixture.componentInstance.isRequired = true;
         fixture.detectChanges();
 
-        expect(label.classList)
+        expect(label.querySelector('.mat-mdc-form-field-required-marker'))
           .withContext(`Expected label to have an asterisk, as control was required.`)
-          .toContain('mdc-floating-label--required');
+          .toBeTruthy();
+      }));
+
+      it('should propagate the value set through the `value` property to the form field', fakeAsync(() => {
+        const control = fixture.componentInstance.control;
+
+        expect(control.value).toBeFalsy();
+
+        fixture.componentInstance.select.value = 'pizza-1';
+        fixture.detectChanges();
+
+        expect(control.value).toBe('pizza-1');
       }));
     });
 
@@ -2194,6 +2220,23 @@ describe('MDC-based MatSelect', () => {
           .withContext(`Expected select panelOpen property to become true.`)
           .toBe(true);
       }));
+
+      it(
+        'should keep the disabled state in sync if the form group is swapped and ' +
+          'disabled at the same time',
+        fakeAsync(() => {
+          const fixture = TestBed.createComponent(SelectInsideDynamicFormGroup);
+          fixture.detectChanges();
+          const instance = fixture.componentInstance;
+
+          expect(instance.select.disabled).toBe(false);
+
+          instance.assignGroup(true);
+          fixture.detectChanges();
+
+          expect(instance.select.disabled).toBe(true);
+        }),
+      );
     });
 
     describe('keyboard scrolling', () => {
@@ -2237,9 +2280,8 @@ describe('MDC-based MatSelect', () => {
           dispatchKeyboardEvent(host, 'keydown', DOWN_ARROW);
         }
 
-        // <top padding> + <option index * height> - <panel height> = 8 + 16 * 48 - 256 = 520
-        // <top padding> + <option index * height> - <panel height> = 8 + 16 * 48 - 256 = 520
-        expect(panel.scrollTop).withContext('Expected scroll to be at the 16th option.').toBe(520);
+        // <top padding> + <option index * height> - <panel height> = 8 + 16 * 48 - 275 = 501
+        expect(panel.scrollTop).withContext('Expected scroll to be at the 16th option.').toBe(501);
       }));
 
       it('should scroll up to the active option', fakeAsync(() => {
@@ -2252,7 +2294,6 @@ describe('MDC-based MatSelect', () => {
           dispatchKeyboardEvent(host, 'keydown', UP_ARROW);
         }
 
-        // <top padding> + <option index * height> = 8 + 9 * 48 = 440
         // <top padding> + <option index * height> = 8 + 9 * 48 = 440
         expect(panel.scrollTop).withContext('Expected scroll to be at the 9th option.').toBe(440);
       }));
@@ -2277,12 +2318,8 @@ describe('MDC-based MatSelect', () => {
         // Note that we press down 5 times, but it will skip
         // 3 options because the second group is disabled.
         // <top padding> + <(option index + group labels) * height> - <panel height> =
-        //    8 + (9 + 3) * 48 - 256 = 328
-        // Note that we press down 5 times, but it will skip
-        // 3 options because the second group is disabled.
-        // <top padding> + <(option index + group labels) * height> - <panel height> =
-        //    8 + (9 + 3) * 48 - 256 = 328
-        expect(panel.scrollTop).withContext('Expected scroll to be at the 9th option.').toBe(328);
+        //    8 + (9 + 3) * 48 - 275 = 309
+        expect(panel.scrollTop).withContext('Expected scroll to be at the 9th option.').toBe(309);
       }));
 
       it('should scroll to the top when pressing HOME', fakeAsync(() => {
@@ -2299,7 +2336,6 @@ describe('MDC-based MatSelect', () => {
         fixture.detectChanges();
 
         // 8px is the top padding of the panel.
-        // 8px is the top padding of the panel.
         expect(panel.scrollTop).withContext('Expected panel to be scrolled to the top').toBe(8);
       }));
 
@@ -2308,12 +2344,10 @@ describe('MDC-based MatSelect', () => {
         fixture.detectChanges();
 
         // <top padding> + <option amount> * <option height> - <panel height> =
-        //    8 + 30 * 48 - 256 = 1192
-        // <top padding> + <option amount> * <option height> - <panel height> =
-        //    8 + 30 * 48 - 256 = 1192
+        //    8 + 30 * 48 - 275 = 1173
         expect(panel.scrollTop)
           .withContext('Expected panel to be scrolled to the bottom')
-          .toBe(1192);
+          .toBe(1173);
       }));
 
       it('should scroll to the active option when typing', fakeAsync(() => {
@@ -2325,9 +2359,8 @@ describe('MDC-based MatSelect', () => {
         }
         flush();
 
-        // <top padding> + <option index * height> - <panel height> = 8 + 16 * 48 - 256 = 520
-        // <top padding> + <option index * height> - <panel height> = 8 + 16 * 48 - 256 = 520
-        expect(panel.scrollTop).withContext('Expected scroll to be at the 16th option.').toBe(520);
+        // <top padding> + <option index * height> - <panel height> = 8 + 16 * 48 - 275 = 501
+        expect(panel.scrollTop).withContext('Expected scroll to be at the 16th option.').toBe(501);
       }));
 
       it('should scroll to top when going to first option in top group', fakeAsync(() => {
@@ -2611,11 +2644,8 @@ describe('MDC-based MatSelect', () => {
   });
 
   describe('with a sibling component that throws an error', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([SelectWithErrorSibling, ThrowsErrorOnInit]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([SelectWithErrorSibling, ThrowsErrorOnInit])));
 
     it('should not crash the browser when a sibling throws an error on init', fakeAsync(() => {
       // Note that this test can be considered successful if the error being thrown didn't
@@ -2985,7 +3015,7 @@ describe('MDC-based MatSelect', () => {
 
     it('should set an asterisk after the label if the FormControl is required', fakeAsync(() => {
       const label = fixture.nativeElement.querySelector('.mat-mdc-form-field label');
-      expect(label.classList).toContain('mdc-floating-label--required');
+      expect(label.querySelector('.mat-mdc-form-field-required-marker')).toBeTruthy();
     }));
   });
 
@@ -3011,9 +3041,8 @@ describe('MDC-based MatSelect', () => {
   });
 
   describe('with preselected array values', () => {
-    beforeEach(
-      waitForAsync(() => configureMatSelectTestingModule([SingleSelectWithPreselectedArrayValues])),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([SingleSelectWithPreselectedArrayValues])));
 
     it('should be able to preselect an array value in single-selection mode', fakeAsync(() => {
       const fixture = TestBed.createComponent(SingleSelectWithPreselectedArrayValues);
@@ -3029,11 +3058,8 @@ describe('MDC-based MatSelect', () => {
   });
 
   describe('with custom value accessor', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([CompWithCustomSelect, CustomSelectAccessor]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([CompWithCustomSelect, CustomSelectAccessor])));
 
     it('should support use inside a custom value accessor', fakeAsync(() => {
       const fixture = TestBed.createComponent(CompWithCustomSelect);
@@ -3069,11 +3095,8 @@ describe('MDC-based MatSelect', () => {
   });
 
   describe('with OnPush', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([BasicSelectOnPush, BasicSelectOnPushPreselected]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([BasicSelectOnPush, BasicSelectOnPushPreselected])));
 
     it('should set the trigger text based on the value when initialized', fakeAsync(() => {
       const fixture = TestBed.createComponent(BasicSelectOnPushPreselected);
@@ -3102,6 +3125,15 @@ describe('MDC-based MatSelect', () => {
       fixture.detectChanges();
 
       expect(trigger.textContent).not.toContain('Pizza');
+    }));
+
+    it('should sync up the form control value with the component value', fakeAsync(() => {
+      const fixture = TestBed.createComponent(BasicSelectOnPushPreselected);
+      fixture.detectChanges();
+      flush();
+
+      expect(fixture.componentInstance.control.value).toBe('pizza-1');
+      expect(fixture.componentInstance.select.value).toBe('pizza-1');
     }));
   });
 
@@ -3245,7 +3277,7 @@ describe('MDC-based MatSelect', () => {
       options[0].click();
       fixture.detectChanges();
       flush();
-      expect(fixture.componentInstance.control.value).toBe(undefined);
+      expect(fixture.componentInstance.control.value).toBeUndefined();
     }));
 
     it('should reflect the value in the form control', fakeAsync(() => {
@@ -3258,15 +3290,12 @@ describe('MDC-based MatSelect', () => {
   });
 
   describe('without Angular forms', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([
-          BasicSelectWithoutForms,
-          BasicSelectWithoutFormsPreselected,
-          BasicSelectWithoutFormsMultiple,
-        ]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([
+        BasicSelectWithoutForms,
+        BasicSelectWithoutFormsPreselected,
+        BasicSelectWithoutFormsMultiple,
+      ])));
 
     it('should set the value when options are clicked', fakeAsync(() => {
       const fixture = TestBed.createComponent(BasicSelectWithoutForms);
@@ -3687,11 +3716,8 @@ describe('MDC-based MatSelect', () => {
   });
 
   describe('with multiple selection', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([MultiSelect, MultiSelectWithLotsOfOptions]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([MultiSelect, MultiSelectWithLotsOfOptions])));
 
     let fixture: ComponentFixture<MultiSelect>;
     let testInstance: MultiSelect;
@@ -3898,7 +3924,7 @@ describe('MDC-based MatSelect', () => {
 
     it('should throw an exception when trying to set a non-array value', fakeAsync(() => {
       expect(() => {
-        testInstance.control.setValue('not-an-array');
+        testInstance.control.setValue('not-an-array' as any);
       }).toThrowError(wrappedErrorMessage(getMatSelectNonArrayValueError()));
     }));
 
@@ -3962,7 +3988,7 @@ describe('MDC-based MatSelect', () => {
       options[2].click();
       fixture.detectChanges();
 
-      expect(testInstance.control.value).toEqual([null, 'pizza-1', null]);
+      expect(testInstance.control.value).toEqual([null!, 'pizza-1', null!]);
     }));
 
     it('should select all options when pressing ctrl + a', () => {
@@ -4195,13 +4221,15 @@ describe('MDC-based MatSelect', () => {
     <mat-form-field>
       <mat-label *ngIf="hasLabel">Select a food</mat-label>
       <mat-select placeholder="Food" [formControl]="control" [required]="isRequired"
-        [tabIndex]="tabIndexOverride" [aria-label]="ariaLabel" [aria-labelledby]="ariaLabelledby"
+        [tabIndex]="tabIndexOverride" [aria-describedby]="ariaDescribedBy"
+        [aria-label]="ariaLabel" [aria-labelledby]="ariaLabelledby"
         [panelClass]="panelClass" [disableRipple]="disableRipple"
         [typeaheadDebounceInterval]="typeaheadDebounceInterval">
         <mat-option *ngFor="let food of foods" [value]="food.value" [disabled]="food.disabled">
           {{ food.viewValue }}
         </mat-option>
       </mat-select>
+      <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
     </mat-form-field>
     <div [style.height.px]="heightBelow"></div>
   `,
@@ -4217,12 +4245,14 @@ class BasicSelect {
     {value: 'pasta-6', viewValue: 'Pasta'},
     {value: 'sushi-7', viewValue: 'Sushi'},
   ];
-  control = new FormControl();
+  control = new FormControl<string | null>(null);
   isRequired: boolean;
   heightAbove = 0;
   heightBelow = 0;
   hasLabel = true;
+  hint: string;
   tabIndexOverride: number;
+  ariaDescribedBy: string;
   ariaLabel: string;
   ariaLabelledby: string;
   panelClass = ['custom-one', 'custom-two'];
@@ -4432,7 +4462,7 @@ class BasicSelectOnPush {
     {value: 'pizza-1', viewValue: 'Pizza'},
     {value: 'tacos-2', viewValue: 'Tacos'},
   ];
-  control = new FormControl();
+  control = new FormControl('');
 }
 
 @Component({
@@ -4449,6 +4479,7 @@ class BasicSelectOnPush {
   `,
 })
 class BasicSelectOnPushPreselected {
+  @ViewChild(MatSelect) select: MatSelect;
   foods: any[] = [
     {value: 'steak-0', viewValue: 'Steak'},
     {value: 'pizza-1', viewValue: 'Pizza'},
@@ -4472,7 +4503,7 @@ class BasicSelectOnPushPreselected {
 })
 class FloatLabelSelect {
   floatLabel: FloatLabelType | null = 'auto';
-  control = new FormControl();
+  control = new FormControl('');
   placeholder = 'Food I want to eat right now';
   foods: any[] = [
     {value: 'steak-0', viewValue: 'Steak'},
@@ -4507,7 +4538,7 @@ class MultiSelect {
     {value: 'pasta-6', viewValue: 'Pasta'},
     {value: 'sushi-7', viewValue: 'Sushi'},
   ];
-  control = new FormControl();
+  control = new FormControl<string[] | null>(null);
 
   @ViewChild(MatSelect) select: MatSelect;
   @ViewChildren(MatOption) options: QueryList<MatOption>;
@@ -4596,7 +4627,7 @@ class ResetValuesSelect {
     {viewValue: 'Undefined'},
     {value: null, viewValue: 'Null'},
   ];
-  control = new FormControl();
+  control = new FormControl('' as string | boolean | null);
 
   @ViewChild(MatSelect) select: MatSelect;
 }
@@ -4617,7 +4648,7 @@ class FalsyValueSelect {
     {value: 0, viewValue: 'Steak'},
     {value: 1, viewValue: 'Pizza'},
   ];
-  control = new FormControl();
+  control = new FormControl<number | null>(null);
   @ViewChildren(MatOption) options: QueryList<MatOption>;
 }
 
@@ -4638,7 +4669,7 @@ class FalsyValueSelect {
   `,
 })
 class SelectWithGroups {
-  control = new FormControl();
+  control = new FormControl('');
   pokemonTypes = [
     {
       name: 'Grass',
@@ -4693,7 +4724,7 @@ class SelectWithGroups {
   `,
 })
 class SelectWithGroupsAndNgContainer {
-  control = new FormControl();
+  control = new FormControl('');
   pokemonTypes = [
     {
       name: 'Grass',
@@ -4829,7 +4860,7 @@ class SelectWithCustomTrigger {
     {value: 'steak-0', viewValue: 'Steak'},
     {value: 'pizza-1', viewValue: 'Pizza'},
   ];
-  control = new FormControl();
+  control = new FormControl('');
 }
 
 @Component({
@@ -4891,7 +4922,7 @@ class NgModelCompareWithSelect {
 })
 class CustomErrorBehaviorSelect {
   @ViewChild(MatSelect) select: MatSelect;
-  control = new FormControl();
+  control = new FormControl('');
   foods: any[] = [
     {value: 'steak-0', viewValue: 'Steak'},
     {value: 'pizza-1', viewValue: 'Pizza'},
@@ -5019,7 +5050,7 @@ class MultiSelectWithLotsOfOptions {
 class SelectWithResetOptionAndFormControl {
   @ViewChild(MatSelect) select: MatSelect;
   @ViewChildren(MatOption) options: QueryList<MatOption>;
-  control = new FormControl();
+  control = new FormControl('');
 }
 
 @Component({
@@ -5037,3 +5068,29 @@ class SelectWithResetOptionAndFormControl {
   `,
 })
 class SelectInNgContainer {}
+
+@Component({
+  template: `
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-select formControlName="control">
+          <mat-option value="1">One</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  `,
+})
+class SelectInsideDynamicFormGroup {
+  @ViewChild(MatSelect) select: MatSelect;
+  form: FormGroup;
+
+  constructor(private _formBuilder: FormBuilder) {
+    this.assignGroup(false);
+  }
+
+  assignGroup(isDisabled: boolean) {
+    this.form = this._formBuilder.group({
+      control: {value: '', disabled: isDisabled},
+    });
+  }
+}

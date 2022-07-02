@@ -20,7 +20,6 @@ import {
  * Animation duration and timing values are based on:
  * <https://material.io/guidelines/components/menus.html#menus-usage>
  *
- * 供 mat-menu 组件使用的动画。动画时长和时间值基于：<https://material.io/guidelines/components/menus.html#menus-usage>
  * @docs-private
  */
 export const matMenuAnimations: {

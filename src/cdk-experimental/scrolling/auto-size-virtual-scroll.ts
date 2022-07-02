@@ -122,7 +122,13 @@ export class AutoSizeVirtualScrollStrategy implements VirtualScrollStrategy {
 
   /**
    * Attaches this scroll strategy to a viewport.
+   *
+   * 把这个滚动策略附加到视口中。
+   *
    * @param viewport The viewport to attach this strategy to.
+   *
+   * 要把此策略附加到的视口。
+   *
    */
   attach(viewport: CdkVirtualScrollViewport) {
     this._averager.reset();
@@ -130,7 +136,12 @@ export class AutoSizeVirtualScrollStrategy implements VirtualScrollStrategy {
     this._renderContentForCurrentOffset();
   }
 
-  /** Detaches this scroll strategy from the currently attached viewport. */
+  /**
+   * Detaches this scroll strategy from the currently attached viewport.
+   *
+   * 把这个滚动策略从当前连接的视口中拆除。
+   *
+   */
   detach() {
     this._viewport = null;
   }
@@ -164,7 +175,12 @@ export class AutoSizeVirtualScrollStrategy implements VirtualScrollStrategy {
     }
   }
 
-  /** Scroll to the offset for the given index. */
+  /**
+   * Scroll to the offset for the given index.
+   *
+   * 滚动到指定索引的偏移量。
+   *
+   */
   scrollToIndex(): void {
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       // TODO(mmalerba): Implement.
@@ -467,6 +483,9 @@ export class CdkAutoSizeVirtualScroll implements OnChanges {
   /**
    * The minimum amount of buffer rendered beyond the viewport (in pixels).
    * If the amount of buffer dips below this number, more items will be rendered. Defaults to 100px.
+   *
+   * 缓存在视口之外的最小缓冲区数（以像素为单位）。当缓冲区的数量低于这个数时，就会渲染出更多的条目。默认为 100px。
+   *
    */
   @Input()
   get minBufferPx(): number {

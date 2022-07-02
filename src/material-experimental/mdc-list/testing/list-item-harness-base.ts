@@ -129,6 +129,11 @@ export abstract class MatListItemHarnessBase extends ContentContainerComponentHa
     return (await this._primaryText()).text();
   }
 
+  /** Whether the list item is disabled. */
+  async isDisabled(): Promise<boolean> {
+    return (await this.host()).hasClass('mdc-list-item--disabled');
+  }
+
   /**
    * Gets the secondary line text of the list item. Null if the list item
    * does not have a secondary line.
@@ -181,12 +186,22 @@ export abstract class MatListItemHarnessBase extends ContentContainerComponentHa
     return null;
   }
 
-  /** Whether this list item has an avatar. */
+  /**
+   * Whether this list item has an avatar.
+   *
+   * 此列表项是否具有头像。
+   *
+   */
   async hasAvatar(): Promise<boolean> {
     return !!(await this._avatar());
   }
 
-  /** Whether this list item has an icon. */
+  /**
+   * Whether this list item has an icon.
+   *
+   * 此列表项是否带有图标。
+   *
+   */
   async hasIcon(): Promise<boolean> {
     return !!(await this._icon());
   }

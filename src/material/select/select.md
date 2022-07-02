@@ -85,6 +85,9 @@ In some cases that `<mat-form-field>` may use the placeholder as the label (see 
 
 It is possible to disable the entire select or individual options in the select by using the
 disabled property on the `<select>` or `<mat-select>` and the `<option>` or `<mat-option>` elements respectively.
+When working with Reactive Forms, the select component can be disabled/enabled via form controls.
+This can be accomplished by creating a `FormControl` with the disabled property
+`FormControl({value: '', disabled: true})` or using `FormControl.enable()`, `FormControl.disable()`.
 
 可以通过 `<mat-select>` 上的 `disabled` 属性禁用整个选择框，或通过 `<mat-option>` 上的 `disabled` 属性单独禁用某一个选项。
 

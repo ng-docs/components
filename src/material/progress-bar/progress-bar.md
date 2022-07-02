@@ -87,7 +87,7 @@ use the theme's primary color. This can be changed to `'accent'` or `'warn'`.
 
 `MatProgressBar` implements the ARIA `role="progressbar"` pattern. By default, the progress bar
 sets `aria-valuemin` to `0` and `aria-valuemax` to `100`. Avoid changing these values, as this may
-cause incompatiblity with some assitive technology.
+cause incompatibility with some assistive technology.
 
 `MatProgressBar` 实现了 ARIA `role="progressbar"` 模式。默认情况下，进度条将 `aria-valuemin` 设置为 `0` ，将 `aria-valuemax` 为 `100` 。避免更改这些值，因为这可能会导致与某些辅助技术不兼容。
 

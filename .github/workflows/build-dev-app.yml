@@ -11,6 +11,8 @@ on:
   pull_request:
     types: [synchronize, labeled]
 
+permissions: read-all
+
 jobs:
   dev-app-build:
     runs-on: ubuntu-latest
@@ -20,21 +22,17 @@ jobs:
       (github.event.action == 'labeled' && github.event.label.name == 'dev-app preview') ||
       (github.event.action == 'synchronize' && contains(github.event.pull_request.labels.*.name, 'dev-app preview'))
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2.0.0
       - uses: ./.github/actions/yarn-install
 
       - run: ./scripts/bazel/setup-remote-execution.sh
         env:
           GCP_DECRYPT_TOKEN: angular
 
-      # Build the web package. Note that we also need to make the Github environment
-      # variables available so that the RBE is configured. Note: We run Bazel from a
-      # low-resource Github action container, so we manually need to instruct Bazel to run
-      # more actions concurrently as by default this is computed based on the host resources.
-      - name: Building dev-app
-        run: |
-          source ${GITHUB_ENV}
-          bazel build //src/dev-app:web_package --symlink_prefix=dist/ --jobs=32
+      # Build the web package. Note: We run Bazel from a low-resource Github action container,
+      # so we manually need to instruct Bazel to run more actions concurrently as by default
+      # the number of concurrent actions is determined based on the host resources.
+      - run: bazel build //src/dev-app:web_package --symlink_prefix=dist/ --jobs=32
 
       # Prepare the workflow artifact that is available for the deploy workflow. We store the pull
       # request number and SHA in a file that can be read by the deploy workflow. This is necessary
@@ -46,7 +44,7 @@ jobs:
           echo ${{github.event.pull_request.head.sha}} > dist/devapp/pr_sha
 
       # Upload the generated dev-app archive.
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2 # renovate: tag=v2.0.0
         with:
           name: devapp
           path: dist/devapp

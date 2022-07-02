@@ -7,13 +7,13 @@
  */
 
 import {
+  ApplicationRef,
   ComponentFactoryResolver,
   ComponentRef,
   EmbeddedViewRef,
-  ApplicationRef,
   Injector,
 } from '@angular/core';
-import {BasePortalOutlet, ComponentPortal, TemplatePortal, DomPortal} from './portal';
+import {BasePortalOutlet, ComponentPortal, DomPortal, TemplatePortal} from './portal';
 
 /**
  * A PortalOutlet for attaching portals to an arbitrary DOM element outside of the Angular
@@ -25,6 +25,20 @@ import {BasePortalOutlet, ComponentPortal, TemplatePortal, DomPortal} from './po
 export class DomPortalOutlet extends BasePortalOutlet {
   private _document: Document;
 
+  /**
+   * @param outletElement Element into which the content is projected.
+   *
+   * 此内容要投影进的元素。
+   *
+   * @param _componentFactoryResolver Used to resolve the component factory.
+   *   Only required when attaching component portals.
+   * @param _appRef Reference to the application. Only used in component portals when there
+   *   is no `ViewContainerRef` available.
+   * @param _defaultInjector Injector to use as a fallback when the portal being attached doesn't
+   *   have one. Only used for component portals.
+   * @param _document Reference to the document. Used when attaching a DOM portal. Will eventually
+   *   become a required parameter.
+   */
   constructor(
     /**
      * Element into which the content is projected.
@@ -33,9 +47,9 @@ export class DomPortalOutlet extends BasePortalOutlet {
      *
      */
     public outletElement: Element,
-    private _componentFactoryResolver: ComponentFactoryResolver,
-    private _appRef: ApplicationRef,
-    private _defaultInjector: Injector,
+    private _componentFactoryResolver?: ComponentFactoryResolver,
+    private _appRef?: ApplicationRef,
+    private _defaultInjector?: Injector,
 
     /**
      * @deprecated `_document` Parameter to be made required.
@@ -62,7 +76,12 @@ export class DomPortalOutlet extends BasePortalOutlet {
    *
    */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
-    const resolver = portal.componentFactoryResolver || this._componentFactoryResolver;
+    const resolver = (portal.componentFactoryResolver || this._componentFactoryResolver)!;
+
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && !resolver) {
+      throw Error('Cannot attach component portal to outlet without a ComponentFactoryResolver.');
+    }
+
     const componentFactory = resolver.resolveComponentFactory(portal.component);
     let componentRef: ComponentRef<T>;
 
@@ -79,10 +98,20 @@ export class DomPortalOutlet extends BasePortalOutlet {
 
       this.setDisposeFn(() => componentRef.destroy());
     } else {
-      componentRef = componentFactory.create(portal.injector || this._defaultInjector);
-      this._appRef.attachView(componentRef.hostView);
+      if ((typeof ngDevMode === 'undefined' || ngDevMode) && !this._appRef) {
+        throw Error('Cannot attach component portal to outlet without an ApplicationRef.');
+      }
+
+      componentRef = componentFactory.create(
+        portal.injector || this._defaultInjector || Injector.NULL,
+      );
+      this._appRef!.attachView(componentRef.hostView);
       this.setDisposeFn(() => {
-        this._appRef.detachView(componentRef.hostView);
+        // Verify that the ApplicationRef has registered views before trying to detach a host view.
+        // This check also protects the `detachView` from being called on a destroyed ApplicationRef.
+        if (this._appRef!.viewCount > 0) {
+          this._appRef!.detachView(componentRef.hostView);
+        }
         componentRef.destroy();
       });
     }
@@ -110,7 +139,9 @@ export class DomPortalOutlet extends BasePortalOutlet {
    */
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
     let viewContainer = portal.viewContainerRef;
-    let viewRef = viewContainer.createEmbeddedView(portal.templateRef, portal.context);
+    let viewRef = viewContainer.createEmbeddedView(portal.templateRef, portal.context, {
+      injector: portal.injector,
+    });
 
     // The method `createEmbeddedView` will add the view as a child of the viewContainer.
     // But for the DomPortalOutlet the view can be added everywhere in the DOM

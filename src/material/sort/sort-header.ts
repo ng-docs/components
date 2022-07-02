@@ -24,7 +24,13 @@ import {
 } from '@angular/core';
 import {CanDisable, mixinDisabled} from '@angular/material/core';
 import {merge, Subscription} from 'rxjs';
-import {MatSort, MatSortable} from './sort';
+import {
+  MAT_SORT_DEFAULT_OPTIONS,
+  MatSort,
+  MatSortable,
+  MatSortDefaultOptions,
+  SortHeaderArrowPosition,
+} from './sort';
 import {matSortAnimations} from './sort-animations';
 import {SortDirection} from './sort-direction';
 import {getSortHeaderNotContainedWithinSortError} from './sort-errors';
@@ -40,9 +46,6 @@ const _MatSortHeaderBase = mixinDisabled(class {});
  * hint, the arrow will be in the center with a slight opacity. Active state means the arrow will
  * be fully opaque in the center.
  *
- * 箭头要出现在的有效位置，主要其不透明度和平移值。如果状态是一个排序方向，箭头的位置会高于/低于此值，不透明度为 0。
- * 如果该状态是 hint，那么该箭头将位于中心，且略有不透明度。active 状态表示箭头在中心处是完全不透明的。
- *
  * @docs-private
  */
 export type ArrowViewState = SortDirection | 'hint' | 'active';
@@ -50,9 +53,6 @@ export type ArrowViewState = SortDirection | 'hint' | 'active';
 /**
  * States describing the arrow's animated position (animating fromState to toState).
  * If the fromState is not defined, there will be no animated transition to the toState.
- *
- * 描述箭头动画位置的状态（动画从 fromState 变为 toState）。如果没有定义 fromState，就不会有到 toState 的过渡动画。
- *
  * @docs-private
  */
 export interface ArrowViewStateTransition {
@@ -60,12 +60,7 @@ export interface ArrowViewStateTransition {
   toState?: ArrowViewState;
 }
 
-/**
- * Column definition associated with a `MatSortHeader`.
- *
- * `MatSortHeader` 关联的列定义。
- *
- */
+/** Column definition associated with a `MatSortHeader`. */
 interface MatSortHeaderColumnDef {
   name: string;
 }
@@ -121,18 +116,12 @@ export class MatSortHeader
   /**
    * The element with role="button" inside this component's view. We need this
    * in order to apply a description with AriaDescriber.
-   *
-   * 此组件视图中具有 role="button" 的元素。我们需要它来应用 AriaDescriber 的描述。
-   *
    */
   private _sortButton: HTMLElement;
 
   /**
    * Flag set to true when the indicator should be displayed while the sort is not active. Used to
    * provide an affordance that the header is sortable by showing on focus and hover.
-   *
-   * 当排序处于非活动状态时，如果要显示指示器，此标志为 true。用于在聚焦和悬停时表明可以通过表头进行排序。
-   *
    */
   _showIndicatorHint: boolean = false;
 
@@ -140,26 +129,14 @@ export class MatSortHeader
    * The view transition state of the arrow (translation/ opacity) - indicates its `from` and `to`
    * position through the animation. If animations are currently disabled, the fromState is removed
    * so that there is no animation displayed.
-   *
-   * 箭头的视图过渡状态（平移/透明度） - 表示通过动画来从 `from` 的位置移到 `to` 的位置。
-   * 如果当前禁用了动画，则会删除 fromState，以免显示任何动画。
-   *
    */
   _viewState: ArrowViewStateTransition = {};
 
-  /**
-   * The direction the arrow should be facing according to the current state.
-   *
-   * 箭头应根据当前状态朝向的方向。
-   *
-   */
+  /** The direction the arrow should be facing according to the current state. */
   _arrowDirection: SortDirection = '';
 
   /**
    * Whether the view state animation should show the transition between the `from` and `to` states.
-   *
-   * 视图状态动画是否应该显示在 `from` 和 `to` 状态之间的过渡。
-   *
    */
   _disableViewStateAnimation = false;
 
@@ -178,7 +155,7 @@ export class MatSortHeader
    * 设置排序后显示的箭头位置。
    *
    */
-  @Input() arrowPosition: 'before' | 'after' = 'after';
+  @Input() arrowPosition: SortHeaderArrowPosition = 'after';
 
   /**
    * Overrides the sort start value of the containing MatSort for this MatSortable.
@@ -186,7 +163,7 @@ export class MatSortHeader
    * 改写这个 MatSortable 中包含 MatSort 的 sort 起始值。
    *
    */
-  @Input() start: 'asc' | 'desc';
+  @Input() start: SortDirection;
 
   /**
    * Description applied to MatSortHeader's button element with aria-describedby. This text should
@@ -239,6 +216,9 @@ export class MatSortHeader
     private _elementRef: ElementRef<HTMLElement>,
     /** @breaking-change 14.0.0 _ariaDescriber will be required. */
     @Optional() private _ariaDescriber?: AriaDescriber | null,
+    @Optional()
+    @Inject(MAT_SORT_DEFAULT_OPTIONS)
+    defaultOptions?: MatSortDefaultOptions,
   ) {
     // Note that we use a string token for the `_columnDef`, because the value is provided both by
     // `material/table` and `cdk/table` and we can't have the CDK depending on Material,
@@ -248,6 +228,10 @@ export class MatSortHeader
 
     if (!_sort && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw getSortHeaderNotContainedWithinSortError();
+    }
+
+    if (defaultOptions?.arrowPosition) {
+      this.arrowPosition = defaultOptions?.arrowPosition;
     }
 
     this._handleStateChanges();
@@ -266,7 +250,7 @@ export class MatSortHeader
 
     this._sort.register(this);
 
-    this._sortButton = this._elementRef.nativeElement.querySelector('[role="button"]')!;
+    this._sortButton = this._elementRef.nativeElement.querySelector('.mat-sort-header-container')!;
     this._updateSortActionDescription(this._sortActionDescription);
   }
 
@@ -291,9 +275,6 @@ export class MatSortHeader
   /**
    * Sets the "hint" state such that the arrow will be semi-transparently displayed as a hint to the
    * user showing what the active sort will become. If set to false, the arrow will fade away.
-   *
-   * 设置 “hint” 状态，以便箭头半透明地显示为提示，向用户表明可以激活此排序。如果设置为 false，箭头就会消失。
-   *
    */
   _setIndicatorHintVisible(visible: boolean) {
     // No-op if the sort header is disabled - should not make the hint visible.
@@ -317,9 +298,6 @@ export class MatSortHeader
    * Sets the animation transition view state for the arrow's position and opacity. If the
    * `disableViewStateAnimation` flag is set to true, the `fromState` will be ignored so that
    * no animation appears.
-   *
-   * 为箭头的 position 和 opacity 设置动画过渡视图的状态。如果 `disableViewStateAnimation` 标志设置为 true，那么 `fromState` 就会被忽略，以免出现动画。
-   *
    */
   _setAnimationTransitionState(viewState: ArrowViewStateTransition) {
     this._viewState = viewState || {};
@@ -331,12 +309,7 @@ export class MatSortHeader
     }
   }
 
-  /**
-   * Triggers the sort on this sort header and removes the indicator hint.
-   *
-   * 在这个排序头上触发排序并删除提示指示器。
-   *
-   */
+  /** Triggers the sort on this sort header and removes the indicator hint. */
   _toggleOnInteraction() {
     this._sort.sort(this);
 
@@ -359,12 +332,7 @@ export class MatSortHeader
     }
   }
 
-  /**
-   * Whether this MatSortHeader is currently sorted in either ascending or descending order.
-   *
-   * 这个 MatSortHeader 当前是以升序还是降序的。
-   *
-   */
+  /** Whether this MatSortHeader is currently sorted in either ascending or descending order. */
   _isSorted() {
     return (
       this._sort.active == this.id &&
@@ -372,22 +340,12 @@ export class MatSortHeader
     );
   }
 
-  /**
-   * Returns the animation state for the arrow direction (indicator and pointers).
-   *
-   * 返回箭头方向的动画状态（指示器和指针）。
-   *
-   */
+  /** Returns the animation state for the arrow direction (indicator and pointers). */
   _getArrowDirectionState() {
     return `${this._isSorted() ? 'active-' : ''}${this._arrowDirection}`;
   }
 
-  /**
-   * Returns the arrow position state (opacity, translation).
-   *
-   * 返回箭头位置的状态（不透明度，平移）。
-   *
-   */
+  /** Returns the arrow position state (opacity, translation). */
   _getArrowViewState() {
     const fromState = this._viewState.fromState;
     return (fromState ? `${fromState}-to-` : '') + this._viewState.toState;
@@ -402,12 +360,6 @@ export class MatSortHeader
    * in cases such as the sort becoming deactivated but we want to animate the arrow away while
    * preserving its direction, even though the next sort direction is actually different and should
    * only be changed once the arrow displays again (hint or activation).
-   *
-   * 更新箭头指向的方向。如果没有排序，箭头应朝向起始方向。如果有排序，箭头应指向当前活动的排序方向。
-   * 这就是要通过函数进行更新的原因，因为该方向只能在特定的时候更改 - 当停用时。当排序处于活动状态且方向发生变化时却要显示提示。
-   * 否则箭头的方向会停留在排序刚停止时的情况，但我们希望在保留其方向的同时让箭头以动画方式离开，
-   * 即使下一个排序方向实际上是不同的，也只有在箭头再次显示时才改变（提示或激活） ）。
-   *
    */
   _updateArrowDirection() {
     this._arrowDirection = this._isSorted() ? this._sort.direction : this.start || this._sort.start;
@@ -422,10 +374,6 @@ export class MatSortHeader
    * is not sorted, returns null so that the attribute is removed from the host element. Aria spec
    * says that the aria-sort property should only be present on one header at a time, so removing
    * ensures this is true.
-   *
-   * 获取那些应该应用在此排序头上的 aria-sort 属性。如果这个头没有排序，则返回 null，以便该属性从宿主元素中删除。
-   * Aria 规范规定，aria-sort 属性一次只能出现在一个排序头中，所以删除可以确保这是真的。
-   *
    */
   _getAriaSortAttribute() {
     if (!this._isSorted()) {
@@ -435,12 +383,7 @@ export class MatSortHeader
     return this._sort.direction == 'asc' ? 'ascending' : 'descending';
   }
 
-  /**
-   * Whether the arrow inside the sort header should be rendered.
-   *
-   * 是否应该渲染排序头中的箭头。
-   *
-   */
+  /** Whether the arrow inside the sort header should be rendered. */
   _renderArrow() {
     return !this._isDisabled() || this._isSorted();
   }
@@ -462,12 +405,7 @@ export class MatSortHeader
     this._sortActionDescription = newDescription;
   }
 
-  /**
-   * Handles changes in the sorting state.
-   *
-   * 处理排序状态中的变更。
-   *
-   */
+  /** Handles changes in the sorting state. */
   private _handleStateChanges() {
     this._rerenderSubscription = merge(
       this._sort.sortChange,

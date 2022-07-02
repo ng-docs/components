@@ -10,6 +10,6 @@ import {FormControl} from '@angular/forms';
   styleUrls: ['autocomplete-simple-example.css'],
 })
 export class AutocompleteSimpleExample {
-  myControl = new FormControl();
+  myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
 }

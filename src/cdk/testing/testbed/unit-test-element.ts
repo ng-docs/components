@@ -29,12 +29,7 @@ import {
   dispatchEvent,
 } from './fake-events';
 
-/**
- * Maps `TestKey` constants to the `keyCode` and `key` values used by native browser events.
- *
- * 将 `TestKey` 常量映射到原生浏览器事件使用 `keyCode` 和 `key`。
- *
- */
+/** Maps `TestKey` constants to the `keyCode` and `key` values used by native browser events. */
 const keyMap = {
   [TestKey.BACKSPACE]: {keyCode: keyCodes.BACKSPACE, key: 'Backspace'},
   [TestKey.TAB]: {keyCode: keyCodes.TAB, key: 'Tab'},
@@ -71,7 +66,7 @@ const keyMap = {
 /**
  * A `TestElement` implementation for unit tests.
  *
- * 用于单元测试的 `TestElement`
+ * 用于单元测试的 `TestElement`。
  *
  */
 export class UnitTestElement implements TestElement {
@@ -91,7 +86,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Clear the element's input (for input and textarea elements only).
    *
-   * 清除此元素的输入（仅适用于 input 和 textarea 元素）。
+   * 清除元素的输入（仅适用于 input 和 textarea 元素）。
    *
    */
   async clear(): Promise<void> {
@@ -107,7 +102,7 @@ export class UnitTestElement implements TestElement {
    * the element is clicked at a specific location, consider using `click('center')` or
    * `click(x, y)` instead.
    *
-   * 单击当前环境默认位置上的元素。如果需要确保在特定位置上单击元素，请考虑改用 `click('center')` 或 `click(x, y)`。
+   * 单击当前环境默认位置的元素。如果需要确保在特定位置单击元素，请考虑改用 `click('center')` 或 `click(x, y)`。
    *
    */
   click(modifiers?: ModifierKeys): Promise<void>;
@@ -125,41 +120,49 @@ export class UnitTestElement implements TestElement {
    *
    * @param relativeX Coordinate within the element, along the X-axis at which to click.
    *
-   * 要点击的 X 轴的元素内坐标。
+   * 沿元素的坐标在 X 轴上单击。
    *
    * @param relativeY Coordinate within the element, along the Y-axis at which to click.
    *
-   * 要点击的 Y 轴的元素内坐标。
+   * 在元素内沿单击的 Y 轴进行坐标调整。
    *
    * @param modifiers Modifier keys held while clicking
    *
-   * 单击时按住的修饰键
+   * 单击时按住修饰键
    *
    */
   click(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
   async click(
     ...args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?]
   ): Promise<void> {
-    await this._dispatchMouseEventSequence('click', args, 0);
+    const isDisabled = (this.element as Partial<{disabled?: boolean}>).disabled === true;
+
+    // If the element is `disabled` and has a `disabled` property, we emit the mouse event
+    // sequence but not dispatch the `click` event. This is necessary to keep the behavior
+    // consistent with an actual user interaction. The click event is not necessarily
+    // automatically prevented by the browser. There is mismatch between Firefox and Chromium:
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=329509.
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=1115661.
+    await this._dispatchMouseEventSequence(isDisabled ? null : 'click', args, 0);
     await this._stabilize();
   }
 
   /**
    * Right clicks on the element at the specified coordinates relative to the top-left of it.
    *
-   * 右键单击相对于元素左上角的指定坐标处的元素。
+   * 在相对于该元素左上角的指定坐标处右键单击它。
    *
    * @param relativeX Coordinate within the element, along the X-axis at which to click.
    *
-   * 要点击的 X 轴的元素内坐标。
+   * 沿元素的坐标在 X 轴上单击。
    *
    * @param relativeY Coordinate within the element, along the Y-axis at which to click.
    *
-   * 要点击的 Y 轴的元素内坐标。
+   * 在元素内沿单击的 Y 轴进行坐标调整。
    *
    * @param modifiers Modifier keys held while clicking
    *
-   * 单击时按住的修饰键
+   * 单击时按住修饰键
    *
    */
   rightClick(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
@@ -173,7 +176,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Focus the element.
    *
-   * 让此元素获得焦点。
+   * 让元素获得焦点。
    *
    */
   async focus(): Promise<void> {
@@ -184,7 +187,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Get the computed value of the given CSS property for the element.
    *
-   * 获取此元素的给定 CSS 属性的已计算值。
+   * 获取元素的给定 CSS 属性的已计算值。
    *
    */
   async getCssValue(property: string): Promise<string> {
@@ -197,11 +200,12 @@ export class UnitTestElement implements TestElement {
   /**
    * Hovers the mouse over the element.
    *
-   * 将鼠标悬停在此元素上。
+   * 将鼠标悬停在元素上。
    *
    */
   async hover(): Promise<void> {
     this._dispatchPointerEventIfSupported('pointerenter');
+    dispatchMouseEvent(this.element, 'mouseover');
     dispatchMouseEvent(this.element, 'mouseenter');
     await this._stabilize();
   }
@@ -214,6 +218,7 @@ export class UnitTestElement implements TestElement {
    */
   async mouseAway(): Promise<void> {
     this._dispatchPointerEventIfSupported('pointerleave');
+    dispatchMouseEvent(this.element, 'mouseout');
     dispatchMouseEvent(this.element, 'mouseleave');
     await this._stabilize();
   }
@@ -231,7 +236,7 @@ export class UnitTestElement implements TestElement {
    * Sends the given string to the input as a series of key presses. Also fires input events
    * and attempts to add the string to the Element's value.
    *
-   * 通过一系列按键将给定的字符串发送到输入框。还触发 input 事件，并尝试将字符串添加到 Element 的值。
+   * 通过一系列按键将给定的字符串发送到输入框。还会触发输入事件，并尝试将字符串添加到 Element 的值。
    *
    */
   async sendKeys(modifiers: ModifierKeys, ...keys: (string | TestKey)[]): Promise<void>;
@@ -244,7 +249,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Gets the text from the element.
    *
-   * 从元素获取文本。
+   * 从此元素获取文本。
    *
    * @param options Options that affect what text is included.
    *
@@ -317,7 +322,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Selects the options at the specified indexes inside of a native `select` element.
    *
-   * 选择此 `select` 元素内指定索引处的选择项。
+   * 在 `select` 元素内的指定索引处选择选项。
    *
    */
   async selectOptions(...optionIndexes: number[]): Promise<void> {
@@ -362,7 +367,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Checks whether the element is focused.
    *
-   * 检查此元素是否拥有焦点。
+   * 检查元素是否具有焦点。
    *
    */
   async isFocused(): Promise<boolean> {
@@ -394,30 +399,17 @@ export class UnitTestElement implements TestElement {
 
   /**
    * Dispatches a pointer event on the current element if the browser supports it.
-   *
-   * 如果浏览器支持，则在当前元素上派发指针事件。
-   *
    * @param name Name of the pointer event to be dispatched.
-   *
-   * 要派发的指针事件的名称。
-   *
    * @param clientX Coordinate of the user's pointer along the X axis.
-   *
-   * 用户指针沿 X 轴的坐标。
-   *
    * @param clientY Coordinate of the user's pointer along the Y axis.
-   *
-   * 用户指针沿 Y 轴的坐标。
-   *
    * @param button Mouse button that should be pressed when dispatching the event.
-   *
-   * 派发事件时应按下的鼠标按钮。
-   *
    */
   private _dispatchPointerEventIfSupported(
     name: string,
     clientX?: number,
     clientY?: number,
+    offsetX?: number,
+    offsetY?: number,
     button?: number,
   ) {
     // The latest versions of all browsers we support have the new `PointerEvent` API.
@@ -425,23 +417,26 @@ export class UnitTestElement implements TestElement {
     // need to support Safari 12 at time of writing. Safari 12 does not have support for this,
     // so we need to conditionally create and dispatch these events based on feature detection.
     if (typeof PointerEvent !== 'undefined' && PointerEvent) {
-      dispatchPointerEvent(this.element, name, clientX, clientY, {isPrimary: true, button});
+      dispatchPointerEvent(this.element, name, clientX, clientY, offsetX, offsetY, {
+        isPrimary: true,
+        button,
+      });
     }
   }
 
   /**
-   * Dispatches all the events that are part of a mouse event sequence.
-   *
-   * 派发属于鼠标事件序列的所有事件。
-   *
+   * Dispatches all the events that are part of a mouse event sequence
+   * and then emits a given primary event at the end, if speciifed.
    */
   private async _dispatchMouseEventSequence(
-    name: string,
+    primaryEventName: string | null,
     args: [ModifierKeys?] | ['center', ModifierKeys?] | [number, number, ModifierKeys?],
     button?: number,
   ) {
     let clientX: number | undefined = undefined;
     let clientY: number | undefined = undefined;
+    let offsetX: number | undefined = undefined;
+    let offsetY: number | undefined = undefined;
     let modifiers: ModifierKeys = {};
 
     if (args.length && typeof args[args.length - 1] === 'object') {
@@ -450,24 +445,63 @@ export class UnitTestElement implements TestElement {
 
     if (args.length) {
       const {left, top, width, height} = await this.getDimensions();
-      const relativeX = args[0] === 'center' ? width / 2 : (args[0] as number);
-      const relativeY = args[0] === 'center' ? height / 2 : (args[1] as number);
+      offsetX = args[0] === 'center' ? width / 2 : (args[0] as number);
+      offsetY = args[0] === 'center' ? height / 2 : (args[1] as number);
 
       // Round the computed click position as decimal pixels are not
       // supported by mouse events and could lead to unexpected results.
-      clientX = Math.round(left + relativeX);
-      clientY = Math.round(top + relativeY);
+      clientX = Math.round(left + offsetX);
+      clientY = Math.round(top + offsetY);
     }
 
-    this._dispatchPointerEventIfSupported('pointerdown', clientX, clientY, button);
-    dispatchMouseEvent(this.element, 'mousedown', clientX, clientY, button, modifiers);
-    this._dispatchPointerEventIfSupported('pointerup', clientX, clientY, button);
-    dispatchMouseEvent(this.element, 'mouseup', clientX, clientY, button, modifiers);
-    dispatchMouseEvent(this.element, name, clientX, clientY, button, modifiers);
+    this._dispatchPointerEventIfSupported(
+      'pointerdown',
+      clientX,
+      clientY,
+      offsetX,
+      offsetY,
+      button,
+    );
+    dispatchMouseEvent(
+      this.element,
+      'mousedown',
+      clientX,
+      clientY,
+      offsetX,
+      offsetY,
+      button,
+      modifiers,
+    );
+    this._dispatchPointerEventIfSupported('pointerup', clientX, clientY, offsetX, offsetY, button);
+    dispatchMouseEvent(
+      this.element,
+      'mouseup',
+      clientX,
+      clientY,
+      offsetX,
+      offsetY,
+      button,
+      modifiers,
+    );
+
+    // If a primary event name is specified, emit it after the mouse event sequence.
+    if (primaryEventName !== null) {
+      dispatchMouseEvent(
+        this.element,
+        primaryEventName,
+        clientX,
+        clientY,
+        offsetX,
+        offsetY,
+        button,
+        modifiers,
+      );
+    }
 
     // This call to _stabilize should not be needed since the callers will already do that them-
     // selves. Nevertheless it breaks some tests in g3 without it. It needs to be investigated
     // why removing breaks those tests.
+    // See: https://github.com/angular/components/pull/20758/files#r520886256.
     await this._stabilize();
   }
 }

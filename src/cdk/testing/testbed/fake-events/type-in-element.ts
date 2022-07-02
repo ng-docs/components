@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ModifierKeys} from '@angular/cdk/testing';
+import {getNoKeysSpecifiedError, ModifierKeys} from '@angular/cdk/testing';
 import {PERIOD} from '@angular/cdk/keycodes';
 import {dispatchFakeEvent, dispatchKeyboardEvent} from './dispatch-events';
 import {triggerFocus} from './element-focus';
@@ -40,7 +40,7 @@ export function isTextInput(element: Element): element is HTMLInputElement | HTM
 }
 
 /**
- * Focuses an input, sets its value and dispatches
+ * If keys have been specified, focuses an input, sets its value and dispatches
  * the `input` event, simulating the user typing.
  *
  * 让输入获得焦点，设置其值并派发 `input` 事件，以模拟用户键入。
@@ -61,7 +61,7 @@ export function typeInElement(
 ): void;
 
 /**
- * Focuses an input, sets its value and dispatches
+ * If keys have been specified, focuses an input, sets its value and dispatches
  * the `input` event, simulating the user typing.
  *
  * 让输入获得焦点，设置其值并派发 `input` 事件，以模拟用户键入。
@@ -86,11 +86,16 @@ export function typeInElement(
   ...keys: (string | {keyCode?: number; key?: string})[]
 ): void;
 
-export function typeInElement(element: HTMLElement, ...modifiersAndKeys: any) {
+export function typeInElement(element: HTMLElement, ...modifiersAndKeys: any[]) {
   const first = modifiersAndKeys[0];
   let modifiers: ModifierKeys;
   let rest: (string | {keyCode?: number; key?: string})[];
-  if (typeof first !== 'string' && first.keyCode === undefined && first.key === undefined) {
+  if (
+    first !== undefined &&
+    typeof first !== 'string' &&
+    first.keyCode === undefined &&
+    first.key === undefined
+  ) {
     modifiers = first;
     rest = modifiersAndKeys.slice(1);
   } else {
@@ -107,15 +112,21 @@ export function typeInElement(element: HTMLElement, ...modifiersAndKeys: any) {
     )
     .reduce((arr, k) => arr.concat(k), []);
 
+  // Throw an error if no keys have been specified. Calling this function with no
+  // keys should not result in a focus event being dispatched unexpectedly.
+  if (keys.length === 0) {
+    throw getNoKeysSpecifiedError();
+  }
+
   // We simulate the user typing in a value by incrementally assigning the value below. The problem
   // is that for some input types, the browser won't allow for an invalid value to be set via the
   // `value` property which will always be the case when going character-by-character. If we detect
   // such an input, we have to set the value all at once or listeners to the `input` event (e.g.
   // the `ReactiveFormsModule` uses such an approach) won't receive the correct value.
   const enterValueIncrementally =
-    inputType === 'number' && keys.length > 0
+    inputType === 'number'
       ? // The value can be set character by character in number inputs if it doesn't have any decimals.
-        keys.every(key => key.key !== '.' && key.keyCode !== PERIOD)
+        keys.every(key => key.key !== '.' && key.key !== '-' && key.keyCode !== PERIOD)
       : incrementalInputTypes.has(inputType);
 
   triggerFocus(element);

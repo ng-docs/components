@@ -61,7 +61,7 @@ describe('MatChipGridHarness', () => {
     // Mark the control as touched since the default error
     // state matcher only activates after a control is touched.
     fixture.componentInstance.control.markAsTouched();
-    fixture.componentInstance.control.setValue(undefined);
+    fixture.componentInstance.control.setValue(null);
 
     expect(await harness.isInvalid()).toBe(true);
   });

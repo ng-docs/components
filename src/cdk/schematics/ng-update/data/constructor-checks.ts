@@ -20,6 +20,12 @@ export type ConstructorChecksUpgradeData = string;
  *
  */
 export const constructorChecks: VersionChanges<ConstructorChecksUpgradeData> = {
+  [TargetVersion.V13]: [
+    {
+      pr: 'https://github.com/angular/components/pull/23328',
+      changes: ['CdkStepper'],
+    },
+  ],
   [TargetVersion.V12]: [
     {
       pr: 'https://github.com/angular/components/pull/21876',

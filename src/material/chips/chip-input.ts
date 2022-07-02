@@ -33,16 +33,10 @@ export interface MatChipInputEvent {
   /**
    * The native `<input>` element that the event is being fired for.
    *
-   * 触发该事件的原生 `<input>`
+   * 触发该事件的原生 `<input>`。
    *
    * @deprecated Use `MatChipInputEvent#chipInput.inputElement` instead.
-   *
-   * 请改用 `MatChipInputEvent#chipInput.inputElement`。
-   *
    * @breaking-change 13.0.0 This property will be removed.
-   *
-   * 此属性将被删除。
-   *
    */
   input: HTMLInputElement;
 
@@ -59,12 +53,8 @@ export interface MatChipInputEvent {
    *
    * 对发出事件的纸片输入的引用。
    *
-   * @breaking-change 13.0.0 This property will be made required.
-   *
-   * 此属性为必填项。
-   *
    */
-  chipInput?: MatChipInput;
+  chipInput: MatChipInput;
 }
 
 // Increasing integer for generating unique ids.
@@ -95,12 +85,7 @@ let nextUniqueId = 0;
   },
 })
 export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, AfterContentInit {
-  /**
-   * Used to prevent focus moving to chips while user is holding backspace
-   *
-   * 用于防止在用户按住退格键时将焦点移到纸片上
-   *
-   */
+  /** Used to prevent focus moving to chips while user is holding backspace */
   private _focusLastChipOnBackspace: boolean;
 
   /**
@@ -231,12 +216,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
     this._focusLastChipOnBackspace = this.empty;
   }
 
-  /**
-   * Utility method to make host definition/tests more clear.
-   *
-   * 一种让宿主的定义/测试更清晰的实用工具。
-   *
-   */
+  /** Utility method to make host definition/tests more clear. */
   _keydown(event?: KeyboardEvent) {
     if (event) {
       // Allow the user's focus to escape when they're tabbing forward. Note that we don't
@@ -262,9 +242,6 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
 
   /**
    * Pass events to the keyboard manager. Available here for tests.
-   *
-   * 将事件传递给键盘管理器。这是为测试准备的。
-   *
    */
   _keyup(event: KeyboardEvent) {
     // Allow user to move focus to chips next time he presses backspace
@@ -274,12 +251,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
     }
   }
 
-  /**
-   * Checks to see if the blur should emit the (chipEnd) event.
-   *
-   * 检查失焦时是否应该发出（chipEnd）事件。
-   *
-   */
+  /** Checks to see if the blur should emit the (chipEnd) event. */
   _blur() {
     if (this.addOnBlur) {
       this._emitChipEnd();
@@ -298,12 +270,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
     this._chipList.stateChanges.next();
   }
 
-  /**
-   * Checks to see if the (chipEnd) event needs to be emitted.
-   *
-   * 检查是否需要发出（chipEnd）事件。
-   *
-   */
+  /** Checks to see if the (chipEnd) event needs to be emitted. */
   _emitChipEnd(event?: KeyboardEvent) {
     if (!this.inputElement.value && !!event) {
       this._chipList._keydown(event);
@@ -346,12 +313,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
     this._focusLastChipOnBackspace = true;
   }
 
-  /**
-   * Checks whether a keycode is one of the configured separators.
-   *
-   * 检查键盘代码是否为配置的分隔符之一。
-   *
-   */
+  /** Checks whether a keycode is one of the configured separators. */
   private _isSeparatorKey(event: KeyboardEvent) {
     return !hasModifierKey(event) && new Set(this.separatorKeyCodes).has(event.keyCode);
   }

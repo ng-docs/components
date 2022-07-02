@@ -1,4 +1,6 @@
-@use '../../cdk/a11y';
+@use '@angular/cdk';
+
+@use '../core/focus-indicators/private';
 
 $header-arrow-margin: 6px;
 $header-arrow-container-size: 12px;
@@ -26,6 +28,14 @@ $header-arrow-hint-opacity: 0.38;
 
   .mat-sort-header-disabled & {
     cursor: default;
+  }
+
+  // For the sort-header element, default inset/offset values are necessary to ensure that
+  // the focus indicator is sufficiently contrastive and renders appropriately.
+  &::before {
+    $border-width: var(--mat-focus-indicator-border-width, #{private.$default-border-width});
+    $offset: calc(#{$border-width} + 2px);
+    margin: calc(#{$offset} * -1);
   }
 }
 
@@ -69,7 +79,7 @@ $header-arrow-hint-opacity: 0.38;
   display: flex;
   align-items: center;
 
-  @include a11y.high-contrast(active, off) {
+  @include cdk.high-contrast(active, off) {
     width: 0;
     border-left: solid $header-arrow-thickness;
   }
@@ -92,7 +102,7 @@ $header-arrow-hint-opacity: 0.38;
   background: currentColor;
   transform: rotate(45deg);
 
-  @include a11y.high-contrast(active, off) {
+  @include cdk.high-contrast(active, off) {
     width: 0;
     height: 0;
     border-top: solid $header-arrow-thickness;
@@ -108,7 +118,7 @@ $header-arrow-hint-opacity: 0.38;
   position: absolute;
   top: 0;
 
-  @include a11y.high-contrast(active, off) {
+  @include cdk.high-contrast(active, off) {
     width: 0;
     height: 0;
     border-left: solid $header-arrow-pointer-length;

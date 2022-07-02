@@ -191,6 +191,13 @@ describe('MatChipList', () => {
         expect(chipListNativeElement.hasAttribute('role')).toBe(false);
         expect(chipListNativeElement.hasAttribute('aria-required')).toBe(false);
       });
+
+      it('should be able to set a custom role', () => {
+        fixture.componentInstance.chipList.role = 'grid';
+        fixture.detectChanges();
+
+        expect(chipListNativeElement.getAttribute('role')).toBe('grid');
+      });
     });
 
     describe('focus behaviors', () => {
@@ -1598,7 +1605,7 @@ class BasicChipList {
     {value: 'pasta-6', viewValue: 'Pasta'},
     {value: 'sushi-7', viewValue: 'Sushi'},
   ];
-  control = new FormControl();
+  control = new FormControl<string | null>(null);
   tabIndexOverride: number;
   selectable: boolean;
 
@@ -1631,7 +1638,7 @@ class MultiSelectionChipList {
     {value: 'pasta-6', viewValue: 'Pasta'},
     {value: 'sushi-7', viewValue: 'Sushi'},
   ];
-  control = new FormControl();
+  control = new FormControl<string[] | null>(null);
   isRequired: boolean;
   tabIndexOverride: number;
   selectable: boolean;
@@ -1671,7 +1678,7 @@ class InputChipList {
     {value: 'pasta-6', viewValue: 'Pasta'},
     {value: 'sushi-7', viewValue: 'Sushi'},
   ];
-  control = new FormControl();
+  control = new FormControl<string[] | null>(null);
 
   separatorKeyCodes = [ENTER, SPACE];
   addOnBlur: boolean = true;
@@ -1718,16 +1725,16 @@ class FalsyValueChipList {
     {value: 0, viewValue: 'Steak'},
     {value: 1, viewValue: 'Pizza'},
   ];
-  control = new FormControl();
+  control = new FormControl<number[] | null>(null);
   @ViewChildren(MatChip) chips: QueryList<MatChip>;
 }
 
 @Component({
   template: `
     <mat-chip-list>
-        <mat-chip *ngFor="let food of foods" [value]="food.value" [selected]="food.selected">
-            {{ food.viewValue }}
-        </mat-chip>
+      <mat-chip *ngFor="let food of foods" [value]="food.value" [selected]="food.selected">
+        {{ food.viewValue }}
+      </mat-chip>
     </mat-chip-list>
   `,
 })
@@ -1738,6 +1745,7 @@ class SelectedChipList {
     {value: 2, viewValue: 'Pasta', selected: true},
   ];
   @ViewChildren(MatChip) chips: QueryList<MatChip>;
+  @ViewChild(MatChipList, {static: false}) chipList: MatChipList;
 }
 
 @Component({

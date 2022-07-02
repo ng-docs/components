@@ -28,6 +28,9 @@ import {
   getSortInvalidDirectionError,
 } from './sort-errors';
 
+/** Position of the arrow that displays when sorted. */
+export type SortHeaderArrowPosition = 'before' | 'after';
+
 /**
  * Interface for a directive that holds sorting state consumed by `MatSortHeader`.
  *
@@ -49,7 +52,7 @@ export interface MatSortable {
    * 开始排序的方向。
    *
    */
-  start: 'asc' | 'desc';
+  start: SortDirection;
 
   /**
    * Whether to disable clearing the sorting state.
@@ -98,6 +101,8 @@ export interface MatSortDefaultOptions {
    *
    */
   disableClear?: boolean;
+  /** Position of the arrow that displays when sorted. */
+  arrowPosition?: SortHeaderArrowPosition;
 }
 
 /**
@@ -138,12 +143,7 @@ export class MatSort
    */
   sortables = new Map<string, MatSortable>();
 
-  /**
-   * Used to notify any child components listening to state changes.
-   *
-   * 用来通知那些监听状态变化的子组件。
-   *
-   */
+  /** Used to notify any child components listening to state changes. */
   readonly _stateChanges = new Subject<void>();
 
   /**
@@ -161,7 +161,7 @@ export class MatSort
    * 最初对 MatSortable 进行排序时要设置的方向。可以通过 MatSortable 的输入属性 start 来改写它。
    *
    */
-  @Input('matSortStart') start: 'asc' | 'desc' = 'asc';
+  @Input('matSortStart') start: SortDirection = 'asc';
 
   /**
    * The sort direction of the currently active MatSortable.
@@ -304,13 +304,8 @@ export class MatSort
   }
 }
 
-/**
- * Returns the sort direction cycle to use given the provided parameters of order and clear.
- *
- * 指定所提供的 start 和 disableClear 参数，返回要使用的排序方向循环。
- *
- */
-function getSortDirectionCycle(start: 'asc' | 'desc', disableClear: boolean): SortDirection[] {
+/** Returns the sort direction cycle to use given the provided parameters of order and clear. */
+function getSortDirectionCycle(start: SortDirection, disableClear: boolean): SortDirection[] {
   let sortOrder: SortDirection[] = ['asc', 'desc'];
   if (start == 'desc') {
     sortOrder.reverse();

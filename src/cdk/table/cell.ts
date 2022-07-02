@@ -133,14 +133,12 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
    * do not match are replaced by the '-' character.
    *
    * 列名的转换后版本，可以作为 CSS 类名的一部分。只允许字母、数字和两个特殊字符 “-” 和 “\_”。除此之外的字符都会替换为 “-”。
+   *
    */
   cssClassFriendlyName: string;
 
   /**
    * Class name for cells in this column.
-   *
-   * 该列中单元格的类名。
-   *
    * @docs-private
    */
   _columnCssClassName: string[];
@@ -155,7 +153,6 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
    * In the future, columnCssClassName will change from type string\[] to string and this
    * will set a single string value.
    *
-   * 可改写的方法，它设置要添加到此列的每个单元格的 css 类。将来，columnCssClassName 会从 string\[] 类型变为 string 类型，这样就可以设置一个字符串值。
    * @docs-private
    */
   protected _updateColumnCssClassName() {
@@ -166,9 +163,6 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
    * This has been extracted to a util because of TS 4 and VE.
    * View Engine doesn't support property rename inheritance.
    * TS 4.0 doesn't allow properties to override accessors or vice-versa.
-   *
-   * 由于 TS 4 和 VE 的原因，它已被提取成了一个工具函数。View Engine 不支持继承时进行属性重命名。TS 4.0 不允许改写属性访问器，反之亦然。
-   *
    * @docs-private
    */
   protected _setNameInput(value: string) {
@@ -190,12 +184,7 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
  */
 export class BaseCdkCell {
   constructor(columnDef: CdkColumnDef, elementRef: ElementRef) {
-    // If IE 11 is dropped before we switch to setting a single class name, change to multi param
-    // with destructuring.
-    const classList = elementRef.nativeElement.classList;
-    for (const className of columnDef._columnCssClassName) {
-      classList.add(className);
-    }
+    elementRef.nativeElement.classList.add(...columnDef._columnCssClassName);
   }
 }
 

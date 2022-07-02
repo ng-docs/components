@@ -40,7 +40,7 @@ publishPackage() {
 
   buildDir="$(pwd)/dist/releases/${packageName}"
   buildVersion=$(node -pe "require('./package.json').version")
-  branchName=${CIRCLE_BRANCH:-'master'}
+  branchName=${CIRCLE_BRANCH:-'main'}
 
   commitSha=$(git rev-parse --short HEAD)
   commitAuthorName=$(git --no-pager show -s --format='%an' HEAD)
@@ -55,11 +55,6 @@ publishPackage() {
   repoDir="tmp/${packageRepo}"
 
   echo "Starting publish process of ${packageName} for ${buildVersionName} into ${branchName}.."
-
-  if [[ ! ${COMMAND_ARGS} == *--no-build* ]]; then
-    # Create a release of the current repository.
-    $(npm bin)/gulp ${packageName}:build-release:clean
-  fi
 
   # Prepare cloning the builds repository
   rm -rf ${repoDir}

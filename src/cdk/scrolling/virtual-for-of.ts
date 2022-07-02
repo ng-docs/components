@@ -47,70 +47,28 @@ import {CdkVirtualScrollViewport} from './virtual-scroll-viewport';
  *
  */
 export type CdkVirtualForOfContext<T> = {
-  /**
-   * The item value.
-   *
-   * 条目的值。
-   *
-   */
+  /** The item value. */
   $implicit: T;
   /**
    * The DataSource, Observable, or NgIterable that was passed to \*cdkVirtualFor.
    *
-   * 传递给 \* cdkVirtualFor 的 DataSource、Observable 或 NgIterable。
-   *
    */
   cdkVirtualForOf: DataSource<T> | Observable<T[]> | NgIterable<T>;
-  /**
-   * The index of the item in the DataSource.
-   *
-   * DataSource 中条目的索引。
-   *
-   */
+  /** The index of the item in the DataSource. */
   index: number;
-  /**
-   * The number of items in the DataSource.
-   *
-   * 数据源中的条目数。
-   *
-   */
+  /** The number of items in the DataSource. */
   count: number;
-  /**
-   * Whether this is the first item in the DataSource.
-   *
-   * 这是否为 DataSource 中的第一个条目。
-   *
-   */
+  /** Whether this is the first item in the DataSource. */
   first: boolean;
-  /**
-   * Whether this is the last item in the DataSource.
-   *
-   * 这是否为 DataSource 中的最后一条目。
-   *
-   */
+  /** Whether this is the last item in the DataSource. */
   last: boolean;
-  /**
-   * Whether the index is even.
-   *
-   * 行索引是否偶数。
-   *
-   */
+  /** Whether the index is even. */
   even: boolean;
-  /**
-   * Whether the index is odd.
-   *
-   * 行索引是否为奇数。
-   *
-   */
+  /** Whether the index is odd. */
   odd: boolean;
 };
 
-/**
- * Helper to extract the offset of a DOM Node in a certain direction.
- *
- * 用于从某个特定方向提取 DOM 节点偏移量的辅助函数。
- *
- */
+/** Helper to extract the offset of a DOM Node in a certain direction. */
 function getOffset(orientation: 'horizontal' | 'vertical', direction: 'start' | 'end', node: Node) {
   const el = node as Element;
   if (!el.getBoundingClientRect) {
@@ -147,12 +105,7 @@ export class CdkVirtualForOf<T>
    */
   readonly viewChange = new Subject<ListRange>();
 
-  /**
-   * Subject that emits when a new DataSource instance is given.
-   *
-   * 在指定新的 DataSource 实例时发出通知的主体对象。
-   *
-   */
+  /** Subject that emits when a new DataSource instance is given. */
   private readonly _dataSourceChanges = new Subject<DataSource<T>>();
 
   /**
@@ -246,81 +199,34 @@ export class CdkVirtualForOf<T>
     shareReplay(1),
   );
 
-  /**
-   * The differ used to calculate changes to the data.
-   *
-   * 用于计算数据的变化的差分器。
-   *
-   */
+  /** The differ used to calculate changes to the data. */
   private _differ: IterableDiffer<T> | null = null;
 
-  /**
-   * The most recent data emitted from the DataSource.
-   *
-   * 从 DataSource 发出的最新数据。
-   *
-   */
+  /** The most recent data emitted from the DataSource. */
   private _data: readonly T[];
 
-  /**
-   * The currently rendered items.
-   *
-   * 当前渲染的条目。
-   *
-   */
+  /** The currently rendered items. */
   private _renderedItems: T[];
 
-  /**
-   * The currently rendered range of indices.
-   *
-   * 当前渲染的索引范围。
-   *
-   */
+  /** The currently rendered range of indices. */
   private _renderedRange: ListRange;
 
-  /**
-   * Whether the rendered data should be updated during the next ngDoCheck cycle.
-   *
-   * 渲染的数据是否应该在下次的 ngDoCheck 周期中更新。
-   *
-   */
+  /** Whether the rendered data should be updated during the next ngDoCheck cycle. */
   private _needsUpdate = false;
 
   private readonly _destroyed = new Subject<void>();
 
   constructor(
-    /**
-     * The view container to add items to.
-     *
-     * 要添加元素的视图容器。
-     *
-     */
+    /** The view container to add items to. */
     private _viewContainerRef: ViewContainerRef,
-    /**
-     * The template to use when stamping out new items.
-     *
-     * 当生成新条目时，要使用的模板。
-     *
-     */
+    /** The template to use when stamping out new items. */
     private _template: TemplateRef<CdkVirtualForOfContext<T>>,
-    /**
-     * The set of available differs.
-     *
-     * 可用差分器的集合。
-     */
+    /** The set of available differs. */
     private _differs: IterableDiffers,
-    /**
-     * The strategy used to render items in the virtual scroll viewport.
-     *
-     * 在虚拟滚动视口内渲染条目时使用的策略。
-     */
+    /** The strategy used to render items in the virtual scroll viewport. */
     @Inject(_VIEW_REPEATER_STRATEGY)
     private _viewRepeater: _RecycleViewRepeaterStrategy<T, T, CdkVirtualForOfContext<T>>,
-    /**
-     * The virtual scrolling viewport that these items are being rendered in.
-     *
-     * 要把这些条目渲染到的虚拟滚动视口。
-     */
+    /** The virtual scrolling viewport that these items are being rendered in. */
     @SkipSelf() private _viewport: CdkVirtualScrollViewport,
     ngZone: NgZone,
   ) {
@@ -330,7 +236,9 @@ export class CdkVirtualForOf<T>
     });
     this._viewport.renderedRangeStream.pipe(takeUntil(this._destroyed)).subscribe(range => {
       this._renderedRange = range;
-      ngZone.run(() => this.viewChange.next(this._renderedRange));
+      if (this.viewChange.observers.length) {
+        ngZone.run(() => this.viewChange.next(this._renderedRange));
+      }
       this._onRenderedDataChange();
     });
     this._viewport.attach(this);
@@ -419,12 +327,7 @@ export class CdkVirtualForOf<T>
     this._viewRepeater.detach();
   }
 
-  /**
-   * React to scroll state changes in the viewport.
-   *
-   * 对视口中滚动状态的变化做出反应。
-   *
-   */
+  /** React to scroll state changes in the viewport. */
   private _onRenderedDataChange() {
     if (!this._renderedRange) {
       return;
@@ -440,12 +343,7 @@ export class CdkVirtualForOf<T>
     this._needsUpdate = true;
   }
 
-  /**
-   * Swap out one `DataSource` for another.
-   *
-   * 把一个 `DataSource` 换成另一个。
-   *
-   */
+  /** Swap out one `DataSource` for another. */
   private _changeDataSource(
     oldDs: DataSource<T> | null,
     newDs: DataSource<T> | null,
@@ -458,12 +356,7 @@ export class CdkVirtualForOf<T>
     return newDs ? newDs.connect(this) : observableOf();
   }
 
-  /**
-   * Update the `CdkVirtualForOfContext` for all views.
-   *
-   * 为所有视图更新 `CdkVirtualForOfContext`
-   *
-   */
+  /** Update the `CdkVirtualForOfContext` for all views. */
   private _updateContext() {
     const count = this._data.length;
     let i = this._viewContainerRef.length;
@@ -476,12 +369,7 @@ export class CdkVirtualForOf<T>
     }
   }
 
-  /**
-   * Apply changes to the DOM.
-   *
-   * 把这些变化应用到 DOM 中。
-   *
-   */
+  /** Apply changes to the DOM. */
   private _applyChanges(changes: IterableChanges<T>) {
     this._viewRepeater.applyChanges(
       changes,
@@ -513,12 +401,7 @@ export class CdkVirtualForOf<T>
     }
   }
 
-  /**
-   * Update the computed properties on the `CdkVirtualForOfContext`.
-   *
-   * 更新 `CdkVirtualForOfContext` 上的计算属性。
-   *
-   */
+  /** Update the computed properties on the `CdkVirtualForOfContext`. */
   private _updateComputedContextProperties(context: CdkVirtualForOfContext<any>) {
     context.first = context.index === 0;
     context.last = context.index === context.count - 1;

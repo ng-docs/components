@@ -7,12 +7,21 @@
  */
 
 import {Component} from '@angular/core';
-import {MatListOptionCheckboxPosition} from '@angular/material-experimental/mdc-list';
+import {FormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material-experimental/mdc-button';
+import {
+  MatListModule,
+  MatListOptionCheckboxPosition,
+} from '@angular/material-experimental/mdc-list';
+import {MatIconModule} from '@angular/material/icon';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'mdc-list-demo',
   templateUrl: 'mdc-list-demo.html',
   styleUrls: ['mdc-list-demo.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatButtonModule, MatIconModule, MatListModule],
 })
 export class MdcListDemo {
   items: string[] = ['Pepper', 'Salt', 'Paprika'];
@@ -46,7 +55,12 @@ export class MdcListDemo {
     },
   ];
 
-  links: {name: string}[] = [{name: 'Inbox'}, {name: 'Outbox'}, {name: 'Spam'}, {name: 'Trash'}];
+  links: {name: string; href: string}[] = [
+    {name: 'Inbox', href: '/mdc-list#inbox'},
+    {name: 'Outbox', href: '/mdc-list#outbox'},
+    {name: 'Spam', href: '/mdc-list#spam'},
+    {name: 'Trash', href: '/mdc-list#trash'},
+  ];
 
   thirdLine = false;
   showBoxes = false;
@@ -71,5 +85,9 @@ export class MdcListDemo {
 
   alertItem(msg: string) {
     alert(msg);
+  }
+
+  isActivated(href: string) {
+    return window.location.href === new URL(href, window.location.href).toString();
   }
 }

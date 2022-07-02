@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate, parallel} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+  parallel,
+} from '@angular/cdk/testing';
 import {ChipListboxHarnessFilters, ChipOptionHarnessFilters} from './chip-harness-filters';
 import {MatChipOptionHarness} from './chip-option-harness';
 
@@ -17,9 +22,20 @@ export class MatChipListboxHarness extends ComponentHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a chip listbox with specific
    * attributes.
+   * @param options Options for narrowing the search.
+   *
+   * 用来收窄搜索范围的选项。
+   *
+   * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
-  static with(options: ChipListboxHarnessFilters = {}): HarnessPredicate<MatChipListboxHarness> {
-    return new HarnessPredicate(MatChipListboxHarness, options);
+  static with<T extends MatChipListboxHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ChipListboxHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 
   /** Gets whether the chip listbox is disabled. */
@@ -37,7 +53,12 @@ export class MatChipListboxHarness extends ComponentHarness {
     return (await (await this.host()).getAttribute('aria-multiselectable')) === 'true';
   }
 
-  /** Gets whether the orientation of the chip list. */
+  /**
+   * Gets whether the orientation of the chip list.
+   *
+   * 获取纸片列表的方向。
+   *
+   */
   async getOrientation(): Promise<'horizontal' | 'vertical'> {
     const orientation = await (await this.host()).getAttribute('aria-orientation');
     return orientation === 'vertical' ? 'vertical' : 'horizontal';
@@ -45,7 +66,13 @@ export class MatChipListboxHarness extends ComponentHarness {
 
   /**
    * Gets the list of chips inside the chip list.
+   *
+   * 获取纸片列表中的各个纸片。
+   *
    * @param filter Optionally filters which chips are included.
+   *
+   * 可选择过滤哪些纸片。
+   *
    */
   async getChips(filter: ChipOptionHarnessFilters = {}): Promise<MatChipOptionHarness[]> {
     return this.locatorForAll(MatChipOptionHarness.with(filter))();
@@ -53,8 +80,14 @@ export class MatChipListboxHarness extends ComponentHarness {
 
   /**
    * Selects a chip inside the chip list.
+   *
+   * 选择纸片列表中的纸片。
+   *
    * @param filter An optional filter to apply to the child chips.
    *    All the chips matching the filter will be selected.
+   *
+   * 一个可选的过滤器，适用于子纸片。所有与过滤器匹配的纸片都会被选定。
+   *
    */
   async selectChips(filter: ChipOptionHarnessFilters = {}): Promise<void> {
     const chips = await this.getChips(filter);

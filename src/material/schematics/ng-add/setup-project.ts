@@ -14,45 +14,29 @@ import {
   getProjectMainFile,
   getProjectStyleFile,
   hasNgModuleImport,
+  importsProvidersFrom,
+  addModuleImportToStandaloneBootstrap,
 } from '@angular/cdk/schematics';
-import {getWorkspace} from '@schematics/angular/utility/workspace';
+import {getWorkspace, ProjectDefinition} from '@schematics/angular/utility/workspace';
 import {ProjectType} from '@schematics/angular/utility/workspace-models';
 import {addFontsToIndex} from './fonts/material-fonts';
 import {Schema} from './schema';
 import {addThemeToAppStyles, addTypographyClass} from './theming/theming';
 
-/**
- * Name of the Angular module that enables Angular browser animations.
- *
- * 用来启用 Angular 浏览器动画的 Angular 模块的名称。
- *
- */
+/** Name of the Angular module that enables Angular browser animations. */
 const browserAnimationsModuleName = 'BrowserAnimationsModule';
 
-/**
- * Name of the module that switches Angular animations to a noop implementation.
- *
- * 将 Angular 动画切换到 noop 实现的模块的名称。
- *
- */
+/** Name of the module that switches Angular animations to a noop implementation. */
 const noopAnimationsModuleName = 'NoopAnimationsModule';
 
 /**
  * Scaffolds the basics of a Angular Material application, this includes:
  *
- * Angular Material 应用程序脚手架的基础步骤，包括：
- *
  * - Add Packages to package.json
- *
- *   将包添加到 package.json
  *
  * - Adds pre-built themes to styles.ext
  *
- *   将预先构建的主题添加到 styles.ext
- *
  * - Adds Browser Animation to app.module
- *
- *   将浏览器动画添加到 app.module
  *
  */
 export default function (options: Schema): Rule {
@@ -83,55 +67,116 @@ export default function (options: Schema): Rule {
  * Adds an animation module to the root module of the specified project. In case the "animations"
  * option is set to false, we still add the `NoopAnimationsModule` because otherwise various
  * components of Angular Material will throw an exception.
- *
- * 将动画模块添加到指定项目的根模块。如果 “animations” 选项设置为 false，我们仍然要添加 `NoopAnimationsModule` ，否则 Angular Material 的各个组件都会抛出异常。
- *
  */
 function addAnimationsModule(options: Schema) {
   return async (host: Tree, context: SchematicContext) => {
     const workspace = await getWorkspace(host);
     const project = getProjectFromWorkspace(workspace, options.project);
-    const appModulePath = getAppModulePath(host, getProjectMainFile(project));
 
-    if (options.animations) {
-      // In case the project explicitly uses the NoopAnimationsModule, we should print a warning
-      // message that makes the user aware of the fact that we won't automatically set up
-      // animations. If we would add the BrowserAnimationsModule while the NoopAnimationsModule
-      // is already configured, we would cause unexpected behavior and runtime exceptions.
-      if (hasNgModuleImport(host, appModulePath, noopAnimationsModuleName)) {
-        context.logger.error(
-          `Could not set up "${browserAnimationsModuleName}" ` +
-            `because "${noopAnimationsModuleName}" is already imported.`,
-        );
-        context.logger.info(`Please manually set up browser animations.`);
-        return;
+    try {
+      addAnimationsModuleToNonStandaloneApp(host, project, context, options);
+    } catch (e) {
+      if ((e as {message?: string}).message?.includes('Bootstrap call not found')) {
+        addAnimationsModuleToStandaloneApp(host, project, context, options);
+      } else {
+        throw e;
       }
+    }
+  };
+}
 
+/** Adds the animations module to an app that is bootstrap using the standalone component APIs. */
+function addAnimationsModuleToStandaloneApp(
+  host: Tree,
+  project: ProjectDefinition,
+  context: SchematicContext,
+  options: Schema,
+) {
+  const mainFile = getProjectMainFile(project);
+
+  if (options.animations === 'enabled') {
+    // In case the project explicitly uses the NoopAnimationsModule, we should print a warning
+    // message that makes the user aware of the fact that we won't automatically set up
+    // animations. If we would add the BrowserAnimationsModule while the NoopAnimationsModule
+    // is already configured, we would cause unexpected behavior and runtime exceptions.
+    if (importsProvidersFrom(host, mainFile, noopAnimationsModuleName)) {
+      context.logger.error(
+        `Could not set up "${browserAnimationsModuleName}" ` +
+          `because "${noopAnimationsModuleName}" is already imported.`,
+      );
+      context.logger.info(`Please manually set up browser animations.`);
+    } else {
+      addModuleImportToStandaloneBootstrap(
+        host,
+        mainFile,
+        browserAnimationsModuleName,
+        '@angular/platform-browser/animations',
+      );
+    }
+  } else if (
+    options.animations === 'disabled' &&
+    !importsProvidersFrom(host, mainFile, browserAnimationsModuleName)
+  ) {
+    // Do not add the NoopAnimationsModule module if the project already explicitly uses
+    // the BrowserAnimationsModule.
+    addModuleImportToStandaloneBootstrap(
+      host,
+      mainFile,
+      noopAnimationsModuleName,
+      '@angular/platform-browser/animations',
+    );
+  }
+}
+
+/**
+ * Adds the animations module to an app that is bootstrap
+ * using the non-standalone component APIs.
+ */
+function addAnimationsModuleToNonStandaloneApp(
+  host: Tree,
+  project: ProjectDefinition,
+  context: SchematicContext,
+  options: Schema,
+) {
+  const appModulePath = getAppModulePath(host, getProjectMainFile(project));
+
+  if (options.animations === 'enabled') {
+    // In case the project explicitly uses the NoopAnimationsModule, we should print a warning
+    // message that makes the user aware of the fact that we won't automatically set up
+    // animations. If we would add the BrowserAnimationsModule while the NoopAnimationsModule
+    // is already configured, we would cause unexpected behavior and runtime exceptions.
+    if (hasNgModuleImport(host, appModulePath, noopAnimationsModuleName)) {
+      context.logger.error(
+        `Could not set up "${browserAnimationsModuleName}" ` +
+          `because "${noopAnimationsModuleName}" is already imported.`,
+      );
+      context.logger.info(`Please manually set up browser animations.`);
+    } else {
       addModuleImportToRootModule(
         host,
         browserAnimationsModuleName,
         '@angular/platform-browser/animations',
         project,
       );
-    } else if (!hasNgModuleImport(host, appModulePath, browserAnimationsModuleName)) {
-      // Do not add the NoopAnimationsModule module if the project already explicitly uses
-      // the BrowserAnimationsModule.
-      addModuleImportToRootModule(
-        host,
-        noopAnimationsModuleName,
-        '@angular/platform-browser/animations',
-        project,
-      );
     }
-  };
+  } else if (
+    options.animations === 'disabled' &&
+    !hasNgModuleImport(host, appModulePath, browserAnimationsModuleName)
+  ) {
+    // Do not add the NoopAnimationsModule module if the project already explicitly uses
+    // the BrowserAnimationsModule.
+    addModuleImportToRootModule(
+      host,
+      noopAnimationsModuleName,
+      '@angular/platform-browser/animations',
+      project,
+    );
+  }
 }
 
 /**
  * Adds custom Material styles to the project style file. The custom CSS sets up the Roboto font
  * and reset the default browser body margin.
- *
- * 将自定义 Material 样式添加到项目样式文件。自定义 CSS 会设置 Roboto 字体并重置默认浏览器正文边距。
- *
  */
 function addMaterialAppStyles(options: Schema) {
   return async (host: Tree, context: SchematicContext) => {

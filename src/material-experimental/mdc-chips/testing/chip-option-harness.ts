@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testing';
 import {MatChipHarness} from './chip-harness';
 import {ChipOptionHarnessFilters} from './chip-harness-filters';
 
@@ -17,13 +17,19 @@ export class MatChipOptionHarness extends MatChipHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a chip option with specific
    * attributes.
+   * @param options Options for narrowing the search.
+   *
+   * 用来收窄搜索范围的选项。
+   *
+   * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
-  // Note(mmalerba): generics are used as a workaround for lack of polymorphic `this` in static
-  // methods. See https://github.com/microsoft/TypeScript/issues/5863
-  static override with<T extends typeof MatChipHarness>(
-    this: T,
+  static override with<T extends MatChipHarness>(
+    this: ComponentHarnessConstructor<T>,
     options: ChipOptionHarnessFilters = {},
-  ): HarnessPredicate<InstanceType<T>> {
+  ): HarnessPredicate<T> {
     return new HarnessPredicate(MatChipOptionHarness, options)
       .addOption('text', options.text, (harness, label) =>
         HarnessPredicate.stringMatches(harness.getText(), label),
@@ -32,30 +38,50 @@ export class MatChipOptionHarness extends MatChipHarness {
         'selected',
         options.selected,
         async (harness, selected) => (await harness.isSelected()) === selected,
-      ) as unknown as HarnessPredicate<InstanceType<T>>;
+      ) as unknown as HarnessPredicate<T>;
   }
 
-  /** Whether the chip is selected. */
+  /**
+   * Whether the chip is selected.
+   *
+   * 纸片是否被选定。
+   *
+   */
   async isSelected(): Promise<boolean> {
     return (await this.host()).hasClass('mat-mdc-chip-selected');
   }
 
-  /** Selects the given chip. Only applies if it's selectable. */
+  /**
+   * Selects the given chip. Only applies if it's selectable.
+   *
+   * 选择指定的纸片。仅当它可以选择时才适用。
+   *
+   */
   async select(): Promise<void> {
     if (!(await this.isSelected())) {
       await this.toggle();
     }
   }
 
-  /** Deselects the given chip. Only applies if it's selectable. */
+  /**
+   * Deselects the given chip. Only applies if it's selectable.
+   *
+   * 取消选择指定的纸片。仅当它可以选择时才适用。
+   *
+   */
   async deselect(): Promise<void> {
     if (await this.isSelected()) {
       await this.toggle();
     }
   }
 
-  /** Toggles the selected state of the given chip. */
+  /**
+   * Toggles the selected state of the given chip.
+   *
+   * 切换指定纸片的选定状态。
+   *
+   */
   async toggle(): Promise<void> {
-    return (await this.host()).sendKeys(' ');
+    return (await this._primaryAction()).click();
   }
 }

@@ -27,7 +27,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {NgControl} from '@angular/forms';
+import {AbstractControlDirective} from '@angular/forms';
 import {ThemePalette} from '@angular/material-experimental/mdc-core';
 import {
   getMatFormFieldDuplicatedHintError,
@@ -37,11 +37,6 @@ import {
   MatFormFieldControl,
 } from '@angular/material/form-field';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
-import {
-  MDCTextFieldAdapter,
-  MDCTextFieldFoundation,
-  numbers as mdcTextFieldNumbers,
-} from '@material/textfield';
 import {merge, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {MAT_ERROR, MatError} from './directives/error';
@@ -58,22 +53,49 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 /** Type for the available floatLabel values. */
 export type FloatLabelType = 'always' | 'auto';
 
-/** Possible appearance styles for the form field. */
+/**
+ * Possible appearance styles for the form field.
+ *
+ * 表单字段可能的外观样式。
+ *
+ */
 export type MatFormFieldAppearance = 'fill' | 'outline';
+
+/** Behaviors for how the subscript height is set. */
+export type SubscriptSizing = 'fixed' | 'dynamic';
 
 /**
  * Represents the default options for the form field that can be configured
  * using the `MAT_FORM_FIELD_DEFAULT_OPTIONS` injection token.
+ *
+ * 表示可通过 `MAT_FORM_FIELD_DEFAULT_OPTIONS` 令牌配置的表单字段的默认选项。
+ *
  */
 export interface MatFormFieldDefaultOptions {
+  /** Default form field appearance style. */
   appearance?: MatFormFieldAppearance;
+  /** Default color of the form field. */
+  color?: ThemePalette;
+  /** Whether the required marker should be hidden by default. */
   hideRequiredMarker?: boolean;
+  /**
+   * Whether the label for form fields should by default float `always`,
+   * `never`, or `auto` (only when necessary).
+   *
+   * 表单字段的标签默认应该是 `always`、`never` 还是 `auto`（只在必要时）。
+   *
+   */
   floatLabel?: FloatLabelType;
+  /** Whether the form field should reserve space for one line by default. */
+  subscriptSizing?: SubscriptSizing;
 }
 
 /**
  * Injection token that can be used to configure the
  * default options for all form field within an app.
+ *
+ * 注入令牌，可以用来配置应用中所有表单字段的默认选项。
+ *
  */
 export const MAT_FORM_FIELD_DEFAULT_OPTIONS = new InjectionToken<MatFormFieldDefaultOptions>(
   'MAT_FORM_FIELD_DEFAULT_OPTIONS',
@@ -81,11 +103,17 @@ export const MAT_FORM_FIELD_DEFAULT_OPTIONS = new InjectionToken<MatFormFieldDef
 
 let nextUniqueId = 0;
 
-/** Default appearance used by the form-field. */
+/** Default appearance used by the form field. */
 const DEFAULT_APPEARANCE: MatFormFieldAppearance = 'fill';
 
-/** Default appearance used by the form-field. */
+/**
+ * Whether the label for form fields should by default float `always`,
+ * `never`, or `auto`.
+ */
 const DEFAULT_FLOAT_LABEL: FloatLabelType = 'auto';
+
+/** Default way that the subscript element height is set. */
+const DEFAULT_SUBSCRIPT_SIZING: SubscriptSizing = 'fixed';
 
 /**
  * Default transform for docked floating labels in a MDC text-field. This value has been
@@ -100,7 +128,15 @@ const FLOATING_LABEL_DEFAULT_DOCKED_TRANSFORM = `translateY(-50%)`;
  */
 const WRAPPER_HORIZONTAL_PADDING = 16;
 
-/** Container for form controls that applies Material Design styling and behavior. */
+/** Amount by which to scale the label when the form field is focused. */
+const LABEL_SCALE = 0.75;
+
+/**
+ * Container for form controls that applies Material Design styling and behavior.
+ *
+ * 表单控件的容器，用来应用 Material Design 的样式和行为。
+ *
+ */
 @Component({
   selector: 'mat-form-field',
   exportAs: 'matFormField',
@@ -140,7 +176,7 @@ const WRAPPER_HORIZONTAL_PADDING = 16;
   providers: [{provide: MAT_FORM_FIELD, useExisting: MatFormField}],
 })
 export class MatFormField
-  implements AfterViewInit, OnDestroy, AfterContentChecked, AfterContentInit
+  implements AfterContentInit, AfterContentChecked, AfterViewInit, OnDestroy
 {
   @ViewChild('textField') _textField: ElementRef<HTMLElement>;
   @ViewChild('iconPrefixContainer') _iconPrefixContainer: ElementRef<HTMLElement>;
@@ -157,7 +193,12 @@ export class MatFormField
   @ContentChildren(MAT_ERROR, {descendants: true}) _errorChildren: QueryList<MatError>;
   @ContentChildren(MatHint, {descendants: true}) _hintChildren: QueryList<MatHint>;
 
-  /** Whether the required marker should be hidden. */
+  /**
+   * Whether the required marker should be hidden.
+   *
+   * 是否应隐藏必填项标记。
+   *
+   */
   @Input()
   get hideRequiredMarker(): boolean {
     return this._hideRequiredMarker;
@@ -165,9 +206,9 @@ export class MatFormField
   set hideRequiredMarker(value: BooleanInput) {
     this._hideRequiredMarker = coerceBooleanProperty(value);
   }
-  private _hideRequiredMarker: boolean;
+  private _hideRequiredMarker = false;
 
-  /** The color palette for the form-field. */
+  /** The color palette for the form field. */
   @Input() color: ThemePalette = 'primary';
 
   /** Whether the label should always float or float as the user types. */
@@ -178,8 +219,8 @@ export class MatFormField
   set floatLabel(value: FloatLabelType) {
     if (value !== this._floatLabel) {
       this._floatLabel = value;
-      // For backwards compatibility. Custom form-field controls or directives might set
-      // the "floatLabel" input and expect the form-field view to be updated automatically.
+      // For backwards compatibility. Custom form field controls or directives might set
+      // the "floatLabel" input and expect the form field view to be updated automatically.
       // e.g. autocomplete trigger. Ideally we'd get rid of this and the consumers would just
       // emit the "stateChanges" observable. TODO(devversion): consider removing.
       this._changeDetectorRef.markForCheck();
@@ -187,14 +228,27 @@ export class MatFormField
   }
   private _floatLabel: FloatLabelType;
 
-  /** The form-field appearance style. */
+  /**
+   * The form field appearance style.
+   *
+   * 表单字段的外观样式。
+   *
+   */
   @Input()
   get appearance(): MatFormFieldAppearance {
     return this._appearance;
   }
   set appearance(value: MatFormFieldAppearance) {
     const oldValue = this._appearance;
-    this._appearance = value || (this._defaults && this._defaults.appearance) || DEFAULT_APPEARANCE;
+    const newAppearance = value || this._defaults?.appearance || DEFAULT_APPEARANCE;
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      if (newAppearance !== 'fill' && newAppearance !== 'outline') {
+        throw new Error(
+          `MatFormField: Invalid appearance "${newAppearance}", valid values are "fill" or "outline".`,
+        );
+      }
+    }
+    this._appearance = newAppearance;
     if (this._appearance === 'outline' && this._appearance !== oldValue) {
       this._refreshOutlineNotchWidth();
 
@@ -206,7 +260,26 @@ export class MatFormField
   }
   private _appearance: MatFormFieldAppearance = DEFAULT_APPEARANCE;
 
-  /** Text for the form field hint. */
+  /**
+   * Whether the form field should reserve space for one line of hint/error text (default)
+   * or to have the spacing grow from 0px as needed based on the size of the hint/error content.
+   * Note that when using dynamic sizing, layout shifts will occur when hint/error text changes.
+   */
+  @Input()
+  get subscriptSizing(): SubscriptSizing {
+    return this._subscriptSizing || this._defaults?.subscriptSizing || DEFAULT_SUBSCRIPT_SIZING;
+  }
+  set subscriptSizing(value: SubscriptSizing) {
+    this._subscriptSizing = value || this._defaults?.subscriptSizing || DEFAULT_SUBSCRIPT_SIZING;
+  }
+  private _subscriptSizing: SubscriptSizing | null = null;
+
+  /**
+   * Text for the form field hint.
+   *
+   * 表单字段提示的文本。
+   *
+   */
   @Input()
   get hintLabel(): string {
     return this._hintLabel;
@@ -245,90 +318,7 @@ export class MatFormField
   private _destroyed = new Subject<void>();
   private _isFocused: boolean | null = null;
   private _explicitFormFieldControl: MatFormFieldControl<any>;
-  private _foundation: MDCTextFieldFoundation;
   private _needsOutlineLabelOffsetUpdateOnStable = false;
-  private _adapter: MDCTextFieldAdapter = {
-    addClass: className => this._textField.nativeElement.classList.add(className),
-    removeClass: className => this._textField.nativeElement.classList.remove(className),
-    hasClass: className => this._textField.nativeElement.classList.contains(className),
-
-    hasLabel: () => this._hasFloatingLabel(),
-    isFocused: () => this._control.focused,
-    hasOutline: () => this._hasOutline(),
-
-    // MDC text-field will call this method on focus, blur and value change. It expects us
-    // to update the floating label state accordingly. Though we make this a noop because we
-    // want to react to floating label state changes through change detection. Relying on this
-    // adapter method would mean that the label would not update if the custom form-field control
-    // sets "shouldLabelFloat" to true, or if the "floatLabel" input binding changes to "always".
-    floatLabel: () => {},
-
-    // Label shaking is not supported yet. It will require a new API for form field
-    // controls to trigger the shaking. This can be a feature in the future.
-    // TODO(devversion): explore options on how to integrate label shaking.
-    shakeLabel: () => {},
-
-    // MDC by default updates the notched-outline whenever the text-field receives focus, or
-    // is being blurred. It also computes the label width every time the notch is opened or
-    // closed. This works fine in the standard MDC text-field, but not in Angular where the
-    // floating label could change through interpolation. We want to be able to update the
-    // notched outline whenever the label content changes. Additionally, relying on focus or
-    // blur to open and close the notch does not work for us since abstract form-field controls
-    // have the ability to control the floating label state (i.e. `shouldLabelFloat`), and we
-    // want to update the notch whenever the `_shouldLabelFloat()` value changes.
-    getLabelWidth: () => 0,
-
-    // We don't use `setLabelRequired` as it relies on a mutation observer for determining
-    // when the `required` state changes. This is not reliable and flexible enough for
-    // our form field, as we support custom controls and detect the required state through
-    // a public property in the abstract form control.
-    setLabelRequired: () => {},
-    notchOutline: () => {},
-    closeOutline: () => {},
-
-    activateLineRipple: () => this._lineRipple && this._lineRipple.activate(),
-    deactivateLineRipple: () => this._lineRipple && this._lineRipple.deactivate(),
-
-    // The foundation tries to register events on the input. This is not matching
-    // our concept of abstract form field controls. We handle each event manually
-    // in "stateChanges" based on the form-field control state. The following events
-    // need to be handled: focus, blur. We do not handle the "input" event since
-    // that one is only needed for the text-field character count, which we do
-    // not implement as part of the form-field, but should be implemented manually
-    // by consumers using template bindings.
-    registerInputInteractionHandler: () => {},
-    deregisterInputInteractionHandler: () => {},
-
-    // We do not have a reference to the native input since we work with abstract form field
-    // controls. MDC needs a reference to the native input optionally to handle character
-    // counting and value updating. These are both things we do not handle from within the
-    // form-field, so we can just return null.
-    getNativeInput: () => null,
-
-    // This method will never be called since we do not have the ability to add event listeners
-    // to the native input. This is because the form control is not necessarily an input, and
-    // the form field deals with abstract form controls of any type.
-    setLineRippleTransformOrigin: () => {},
-
-    // The foundation tries to register click and keyboard events on the form-field to figure out
-    // if the input value changes through user interaction. Based on that, the foundation tries
-    // to focus the input. Since we do not handle the input value as part of the form-field, nor
-    // it's guaranteed to be an input (see adapter methods above), this is a noop.
-    deregisterTextFieldInteractionHandler: () => {},
-    registerTextFieldInteractionHandler: () => {},
-
-    // The foundation tries to setup a "MutationObserver" in order to watch for attributes
-    // like "maxlength" or "pattern" to change. The foundation will update the validity state
-    // based on that. We do not need this logic since we handle the validity through the
-    // abstract form control instance.
-    deregisterValidationAttributeChangeHandler: () => {},
-    registerValidationAttributeChangeHandler: () => null as any,
-
-    // Used by foundation to dynamically remove aria-describedby when the hint text
-    // is shown only on invalid state, which should not be applicable here.
-    setInputAttr: () => undefined,
-    removeInputAttr: () => undefined,
-  };
 
   constructor(
     private _elementRef: ElementRef,
@@ -342,34 +332,20 @@ export class MatFormField
     @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string,
     @Inject(DOCUMENT) private _document?: any,
   ) {
-    if (_defaults && _defaults.appearance) {
-      this.appearance = _defaults.appearance;
+    if (_defaults) {
+      if (_defaults.appearance) {
+        this.appearance = _defaults.appearance;
+      }
+      this._hideRequiredMarker = Boolean(_defaults?.hideRequiredMarker);
+      if (_defaults.color) {
+        this.color = _defaults.color;
+      }
     }
-
-    this._hideRequiredMarker = _defaults?.hideRequiredMarker ?? false;
   }
 
   ngAfterViewInit() {
-    this._foundation = new MDCTextFieldFoundation(this._adapter);
-
-    // MDC uses the "shouldFloat" getter to know whether the label is currently floating. This
-    // does not match our implementation of when the label floats because we support more cases.
-    // For example, consumers can set "@Input floatLabel" to always, or the custom form-field
-    // control can set "MatFormFieldControl#shouldLabelFloat" to true. To ensure that MDC knows
-    // when the label is floating, we overwrite the property to be based on the method we use to
-    // determine the current state of the floating label.
-    Object.defineProperty(this._foundation, 'shouldFloat', {
-      get: () => this._shouldLabelFloat(),
-    });
-
-    // By default, the foundation determines the validity of the text-field from the
-    // specified native input. Since we don't pass a native input to the foundation because
-    // abstract form controls are not necessarily consisting of an input, we handle the
-    // text-field validity through the abstract form-field control state.
-    this._foundation.isValid = () => !this._control.errorState;
-
     // Initial focus state sync. This happens rarely, but we want to account for
-    // it in case the form-field control has "focused" set to true on init.
+    // it in case the form field control has "focused" set to true on init.
     this._updateFocusState();
     // Initial notch width update. This is needed in case the text-field label floats
     // on initialization, and renders inside of the notched outline.
@@ -408,21 +384,26 @@ export class MatFormField
   }
 
   ngOnDestroy() {
-    this._foundation?.destroy();
     this._destroyed.next();
     this._destroyed.complete();
   }
 
   /**
    * Gets the id of the label element. If no label is present, returns `null`.
+   *
+   * 获取 label 元素的 id。如果没有 label，则返回 `null`。
+   *
    */
   getLabelId(): string | null {
     return this._hasFloatingLabel() ? this._labelId : null;
   }
 
   /**
-   * Gets an ElementRef for the element that a overlay attached to the form-field
+   * Gets an ElementRef for the element that a overlay attached to the form field
    * should be positioned relative to.
+   *
+   * 获取一个 ElementRef 元素，它为附加到表单字段上的浮层提供相对于该元素定位。
+   *
    */
   getConnectedOverlayOrigin(): ElementRef {
     return this._textField || this._elementRef;
@@ -430,20 +411,20 @@ export class MatFormField
 
   /** Animates the placeholder up and locks it in position. */
   _animateAndLockLabel(): void {
-    // This is for backwards compatibility only. Consumers of the form-field might use
+    // This is for backwards compatibility only. Consumers of the form field might use
     // this method. e.g. the autocomplete trigger. This method has been added to the non-MDC
-    // form-field because setting "floatLabel" to "always" caused the label to float without
+    // form field because setting "floatLabel" to "always" caused the label to float without
     // animation. This is different in MDC where the label always animates, so this method
     // is no longer necessary. There doesn't seem any benefit in adding logic to allow changing
     // the floating label state without animations. The non-MDC implementation was inconsistent
     // because it always animates if "floatLabel" is set away from "always".
-    // TODO(devversion): consider removing this method when releasing the MDC form-field.
+    // TODO(devversion): consider removing this method when releasing the MDC form field.
     if (this._hasFloatingLabel()) {
       this.floatLabel = 'always';
     }
   }
 
-  /** Initializes the registered form-field control. */
+  /** Initializes the registered form field control. */
   private _initializeControl() {
     const control = this._control;
 
@@ -478,7 +459,7 @@ export class MatFormField
   /** Initializes the prefix and suffix containers. */
   private _initializePrefixAndSuffix() {
     this._checkPrefixAndSuffixTypes();
-    // Mark the form-field as dirty whenever the prefix or suffix children change. This
+    // Mark the form field as dirty whenever the prefix or suffix children change. This
     // is necessary because we conditionally display the prefix/suffix containers based
     // on whether there is projected content.
     merge(this._prefixChildren.changes, this._suffixChildren.changes).subscribe(() => {
@@ -489,7 +470,7 @@ export class MatFormField
 
   /**
    * Initializes the subscript by validating hints and synchronizing "aria-describedby" ids
-   * with the custom form-field control. Also subscribes to hint and error changes in order
+   * with the custom form field control. Also subscribes to hint and error changes in order
    * to be able to validate and synchronize ids on change.
    */
   private _initializeSubscript() {
@@ -520,22 +501,27 @@ export class MatFormField
   private _updateFocusState() {
     // Usually the MDC foundation would call "activateFocus" and "deactivateFocus" whenever
     // certain DOM events are emitted. This is not possible in our implementation of the
-    // form-field because we support abstract form field controls which are not necessarily
-    // of type input, nor do we have a reference to a native form-field control element. Instead
-    // we handle the focus by checking if the abstract form-field control focused state changes.
+    // form field because we support abstract form field controls which are not necessarily
+    // of type input, nor do we have a reference to a native form field control element. Instead
+    // we handle the focus by checking if the abstract form field control focused state changes.
     if (this._control.focused && !this._isFocused) {
       this._isFocused = true;
-      this._foundation.activateFocus();
+      this._lineRipple?.activate();
     } else if (!this._control.focused && (this._isFocused || this._isFocused === null)) {
       this._isFocused = false;
-      this._foundation.deactivateFocus();
+      this._lineRipple?.deactivate();
     }
+
+    this._textField?.nativeElement.classList.toggle(
+      'mdc-text-field--focused',
+      this._control.focused,
+    );
   }
 
   /**
    * The floating label in the docked state needs to account for prefixes. The horizontal offset
    * is calculated whenever the appearance changes to `outline`, the prefixes change, or when the
-   * form-field is added to the DOM. This method sets up all subscriptions which are needed to
+   * form field is added to the DOM. This method sets up all subscriptions which are needed to
    * trigger the label offset update. In general, we want to avoid performing measurements often,
    * so we rely on the `NgZone` as indicator when the offset should be recalculated, instead of
    * checking every change detection cycle.
@@ -574,7 +560,7 @@ export class MatFormField
   /**
    * Whether the label should display in the infix. Labels in the outline appearance are
    * displayed as part of the notched-outline and are horizontally offset to account for
-   * form-field prefix content. This won't work in server side rendering since we cannot
+   * form field prefix content. This won't work in server side rendering since we cannot
    * measure the width of the prefix container. To make the docked label appear as if the
    * right offset has been calculated, we forcibly render the label inside the infix. Since
    * the label is part of the infix, the label cannot overflow the prefix content.
@@ -591,10 +577,13 @@ export class MatFormField
     return this._control.shouldLabelFloat || this._shouldAlwaysFloat();
   }
 
-  /** Determines whether a class from the NgControl should be forwarded to the host element. */
-  _shouldForward(prop: keyof NgControl): boolean {
-    const ngControl = this._control ? this._control.ngControl : null;
-    return ngControl && ngControl[prop];
+  /**
+   * Determines whether a class from the AbstractControlDirective
+   * should be forwarded to the host element.
+   */
+  _shouldForward(prop: keyof AbstractControlDirective): boolean {
+    const control = this._control ? this._control.ngControl : null;
+    return control && control[prop];
   }
 
   /** Determines whether to display hints or errors. */
@@ -612,7 +601,7 @@ export class MatFormField
     // The outline notch should be based on the label width, but needs to respect the scaling
     // applied to the label if it actively floats. Since the label always floats when the notch
     // is open, the MDC text-field floating label scaling is respected in notch width calculation.
-    this._outlineNotchWidth = this._floatingLabel.getWidth() * mdcTextFieldNumbers.LABEL_SCALE;
+    this._outlineNotchWidth = this._floatingLabel.getWidth() * LABEL_SCALE;
   }
 
   /** Does any extra processing that is required when handling the hints. */
@@ -708,7 +697,7 @@ export class MatFormField
       floatingLabel.style.transform = '';
       return;
     }
-    // If the form-field is not attached to the DOM yet (e.g. in a tab), we defer
+    // If the form field is not attached to the DOM yet (e.g. in a tab), we defer
     // the label offset update until the zone stabilizes.
     if (!this._isAttachedToDom()) {
       this._needsOutlineLabelOffsetUpdateOnStable = true;
@@ -727,9 +716,13 @@ export class MatFormField
       ((iconPrefixContainer ? iconPrefixContainerWidth - WRAPPER_HORIZONTAL_PADDING : 0) +
         textPrefixContainerWidth);
 
-    // Update the transform the floating label to account for the prefix container. Note
-    // that we do not want to overwrite the default transform for docked floating labels.
-    floatingLabel.style.transform = `${FLOATING_LABEL_DEFAULT_DOCKED_TRANSFORM} translateX(${labelHorizontalOffset}px)`;
+    // Update the translateX of the floating label to account for the prefix container,
+    // but allow the CSS to override this setting via a CSS variable when the label is
+    // floating.
+    floatingLabel.style.transform = `var(
+        --mat-mdc-form-field-label-transform,
+        ${FLOATING_LABEL_DEFAULT_DOCKED_TRANSFORM} translateX(${labelHorizontalOffset}px
+    )`;
   }
 
   /** Checks whether the form field is attached to the DOM. */

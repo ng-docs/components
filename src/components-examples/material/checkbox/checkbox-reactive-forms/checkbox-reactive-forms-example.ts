@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 
 /** @title Checkboxes with reactive forms */
 @Component({
@@ -8,13 +8,11 @@ import {FormBuilder, FormGroup} from '@angular/forms';
   styleUrls: ['checkbox-reactive-forms-example.css'],
 })
 export class CheckboxReactiveFormsExample {
-  toppings: FormGroup;
+  toppings = this._formBuilder.group({
+    pepperoni: false,
+    extracheese: false,
+    mushroom: false,
+  });
 
-  constructor(fb: FormBuilder) {
-    this.toppings = fb.group({
-      pepperoni: false,
-      extracheese: false,
-      mushroom: false,
-    });
-  }
+  constructor(private _formBuilder: FormBuilder) {}
 }

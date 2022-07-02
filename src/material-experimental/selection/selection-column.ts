@@ -50,7 +50,12 @@ import {MatSelection} from './selection';
   encapsulation: ViewEncapsulation.None,
 })
 export class MatSelectionColumn<T> implements OnInit, OnDestroy {
-  /** Column name that should be used to reference this column. */
+  /**
+   * Column name that should be used to reference this column.
+   *
+   * 要用来引用这个列的列名。
+   *
+   */
   @Input()
   get name(): string {
     return this._name;

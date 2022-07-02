@@ -61,35 +61,35 @@ table below.
 
 **排版级别**是与应用程序结构的特定部分（例如标题）相对应的排版样式的集合。每个级别包括字体系列、字体粗细、字体大小和字母间距的样式。 Angular Material 使用 [2014 版 Material Design 规范中的排版级别][2014-typography]，如下表所示。
 
-| Name           | Description                                                                 |
-|----------------|-----------------------------------------------------------------------------|
-| 名称             | 说明                                                                          |
-| `display-4`    | 112px, one-off header, usually at the top of the page (e.g. a hero header). |
-| `display-4`    | 112px，一次性标题，通常在页面顶部（例如英雄的标题）。                                               |
-| `display-3`    | 56px, one-off header, usually at the top of the page (e.g. a hero header).  |
-| `display-3`    | 56px，一次性标题，通常在页面顶部（例如英雄的标题）。                                                |
-| `display-2`    | 45px, one-off header, usually at the top of the page (e.g. a hero header).  |
-| `display-2`    | 45px，一次性标题，通常在页面顶部（例如英雄的标题）。                                                |
-| `display-1`    | 34px, one-off header, usually at the top of the page (e.g. a hero header).  |
-| `display-1`    | 34px，一次性标题，通常在页面顶部（例如英雄的标题）。                                                |
-| `headline`     | Section heading corresponding to the `<h1>` tag.                            |
-| `headline`     | 对应于 `<h1>` 标签的部分标题。                                                         |
-| `title`        | Section heading corresponding to the `<h2>` tag.                            |
-| `title`        | 对应于 `<h2>` 标签的部分标题。                                                         |
-| `subheading-2` | Section heading corresponding to the `<h3>` tag.                            |
-| `subheading-2` | 对应于 `<h3>` 标签的部分标题。                                                         |
-| `subheading-1` | Section heading corresponding to the `<h4>` tag.                            |
-| `subheading-1` | 对应于 `<h4>` 标签的部分标题。                                                         |
-| `body-1`       | Base body text.                                                             |
-| `body-1`       | 基本正文。                                                                       |
-| `body-2`       | Bolder body text.                                                           |
-| `body-2`       | 更粗的正文。                                                                      |
-| `caption`      | Smaller body and hint text.                                                 |
-| `caption`      | 较小的正文和提示文本。                                                                 |
-| `button`       | Buttons and anchors.                                                        |
-| `button`       | 按钮和锚点。                                                                      |
-| `input`        | Form input fields.                                                          |
-| `input`        | 表单输入字段。                                                                     |
+| Name | Description |
+| ---- | ----------- |
+| 名称 | 说明 |
+| `display-4` | 112px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `display-4` | 112px，一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `display-3` | 56px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `display-3` | 56px，一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `display-2` | 45px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `display-2` | 45px，一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `display-1` | 34px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `display-1` | 34px，一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `headline` | Section heading corresponding to the `<h1>` tag. |
+| `headline` | 对应于 `<h1>` 标签的部分标题。 |
+| `title` | Section heading corresponding to the `<h2>` tag. |
+| `title` | 对应于 `<h2>` 标签的部分标题。 |
+| `subheading-2` | Section heading corresponding to the `<h3>` tag. |
+| `subheading-2` | 对应于 `<h3>` 标签的部分标题。 |
+| `subheading-1` | Section heading corresponding to the `<h4>` tag. |
+| `subheading-1` | 对应于 `<h4>` 标签的部分标题。 |
+| `body-1` | Base body text. |
+| `body-1` | 基本正文。 |
+| `body-2` | Bolder body text. |
+| `body-2` | 更粗的正文。 |
+| `caption` | Smaller body and hint text. |
+| `caption` | 较小的正文和提示文本。 |
+| `button` | Buttons and anchors. |
+| `button` | 按钮和锚点。 |
+| `input` | Form input fields. |
+| `input` | 表单输入字段。 |
 
 [2014-typography]: https://material.io/archive/guidelines/style/typography.html#typography-styles
 
@@ -97,11 +97,11 @@ table below.
 
 ### 定义一个级别
 
-You can define a typography level with the `define-typography-config` Sass function. This function
+You can define a typography level with the `define-typography-level` Sass function. This function
 accepts, in order, CSS values for `font-size`, `line-height`, `font-weight`, `font-family`, and
 `letter-spacing`. You can also specify the parameters by name, as demonstrated in the example below.
 
-你可以使用 Sass 函数 `define-typography-config` 来定义排版级别。此函数依次接受 `font-size` 、 `line-height` 、 `font-weight` 、 `font-family` 和 `letter-spacing` 这些 CSS 值。你还可以按名称指定参数，如下例所示。
+你可以使用 Sass 函数 `define-typography-level` 来定义排版级别。此函数依次接受 `font-size` 、 `line-height` 、 `font-weight` 、 `font-family` 和 `letter-spacing` 这些 CSS 值。你还可以按名称指定参数，如下例所示。
 
 ```scss
 @use '@angular/material' as mat;
@@ -245,35 +245,35 @@ class. The table below lists the CSS classes emitted and the native elements sty
 
 除了组件之间共享的样式之外， `core` mixin 还包括用于设置应用程序样式的 CSS 类。这些 CSS 类对应于你的排版配置中的排版级别。此 mixin 还为 `.mat-typography` CSS 类范围内的原生 header 元素生成样式。下表列出了生成的 CSS 类和样式化的原生元素。
 
-| CSS class                           | Level name     | Native elements |
-|-------------------------------------|----------------|-----------------|
-| CSS 类                               | 级别名称           | 原生元素            |
-| `.mat-display-4`                    | `display-4`    | None            |
-| `.mat-display-4`                    | `display-4`    | 无               |
-| `.mat-display-3`                    | `display-3`    | None            |
-| `.mat-display-3`                    | `display-3`    | 无               |
-| `.mat-display-2`                    | `display-2`    | None            |
-| `.mat-display-2`                    | `display-2`    | 无               |
-| `.mat-display-1`                    | `display-1`    | None            |
-| `.mat-display-1`                    | `display-1`    | 无               |
-| `.mat-h1` or `.mat-headline`        | `headline`     | `<h1>`          |
-| `.mat-h1` 或 `.mat-headline`         | `headline`     | `<h1>`          |
-| `.mat-h2` or `.mat-title`           | `title`        | `<h2>`          |
-| `.mat-h2` 或 `.mat-title`            | `title`        | `<h2>`          |
-| `.mat-h3` or `.mat-subheading-2`    | `subheading-2` | `<h3>`          |
-| `.mat-h3` 或 `.mat-subheading-2`     | `subheading-2` | `<h3>`          |
-| `.mat-h4` or `.mat-subheading-1`    | `subheading-1` | `<h4>`          |
-| `.mat-h4` 或 `.mat-subheading-1`     | `subheading-1` | `<h4>`          |
-| `.mat-h5`                           | None           | `<h5>`          |
-| `.mat-h5`                           | 无              | `<h5>`          |
-| `.mat-h6`                           | None           | `<h6>`          |
-| `.mat-h6`                           | 无              | `<h6>`          |
-| `.mat-body` or `.mat-body-1`        | `body-1`       | Body text       |
-| `.mat-body` 或 `.mat-body-1`         | `body-1`       | 文章主体            |
-| `.mat-body-strong` or `.mat-body-2` | `body-2`       | None            |
-| `.mat-body-strong` 或 `.mat-body-2`  | `body-2`       | 无               |
-| `.mat-small` or `.mat-caption`      | `caption`      | None            |
-| `.mat-small` 或 `.mat-caption`       | `caption`      | 无               |
+| CSS class | Level name | Native elements |
+| --------- | ---------- | --------------- |
+| CSS 类 | 级别名称 | 原生元素 |
+| `.mat-display-4` | `display-4` | None |
+| `.mat-display-4` | `display-4` | 无 |
+| `.mat-display-3` | `display-3` | None |
+| `.mat-display-3` | `display-3` | 无 |
+| `.mat-display-2` | `display-2` | None |
+| `.mat-display-2` | `display-2` | 无 |
+| `.mat-display-1` | `display-1` | None |
+| `.mat-display-1` | `display-1` | 无 |
+| `.mat-h1` or `.mat-headline` | `headline` | `<h1>` |
+| `.mat-h1` 或 `.mat-headline` | `headline` | `<h1>` |
+| `.mat-h2` or `.mat-title` | `title` | `<h2>` |
+| `.mat-h2` 或 `.mat-title` | `title` | `<h2>` |
+| `.mat-h3` or `.mat-subheading-2` | `subheading-2` | `<h3>` |
+| `.mat-h3` 或 `.mat-subheading-2` | `subheading-2` | `<h3>` |
+| `.mat-h4` or `.mat-subheading-1` | `subheading-1` | `<h4>` |
+| `.mat-h4` 或 `.mat-subheading-1` | `subheading-1` | `<h4>` |
+| `.mat-h5` | None | `<h5>` |
+| `.mat-h5` | 无 | `<h5>` |
+| `.mat-h6` | None | `<h6>` |
+| `.mat-h6` | 无 | `<h6>` |
+| `.mat-body` or `.mat-body-1` | `body-1` | Body text |
+| `.mat-body` 或 `.mat-body-1` | `body-1` | 文章主体 |
+| `.mat-body-strong` or `.mat-body-2` | `body-2` | None |
+| `.mat-body-strong` 或 `.mat-body-2` | `body-2` | 无 |
+| `.mat-small` or `.mat-caption` | `caption` | None |
+| `.mat-small` 或 `.mat-caption` | `caption` | 无 |
 
 In addition to the typographic styles, these style rules also include a `margin-bottom` for
 headers and paragraphs. For `body-1` styles, text is styled within the provided CSS selector.
@@ -289,6 +289,10 @@ typography level. The `.mat-h5` style uses the `body-1` level with the font-size
 The `button` and `input` typography levels do not map to CSS classes.
 
 `button` 和 `input` 的排版级别没有映射到 CSS 类。
+
+You can also manually emit the CSS rules for these CSS classes and native elements by calling the `typography-hierarchy`
+mixin. This mixin accepts a typography config and a CSS selector under which the styles are scopes (defaulting to
+`.mat-typography`).
 
 The following example demonstrates usage of the typography styles emitted by the `core` mixin.
 
@@ -321,13 +325,13 @@ accepts a typography config and a level.
 
 你可以通过以下 Sass 函数从排版配置中读取排版样式值。它们都接受一个排版配置和一个级别参数。
 
-| Function         | Example usage                            |
-|------------------|------------------------------------------|
-| 功能               | 示例用法                                     |
-| `font-size`      | `mat.font-size($config, 'body-1');`      |
-| `font-family`    | `mat.font-family($config, 'body-1');`    |
-| `font-weight`    | `mat.font-weight($config, 'body-1');`    |
-| `line-height`    | `mat.line-height($config, 'body-1');`    |
+| Function | Example usage |
+| -------- | ------------- |
+| 功能 | 示例用法 |
+| `font-size` | `mat.font-size($config, 'body-1');` |
+| `font-family` | `mat.font-family($config, 'body-1');` |
+| `font-weight` | `mat.font-weight($config, 'body-1');` |
+| `line-height` | `mat.line-height($config, 'body-1');` |
 | `letter-spacing` | `mat.letter-spacing($config, 'body-1');` |
 
 Additionally, you can use the `typography-level` Sass mixin to directly emit the CSS styles for a

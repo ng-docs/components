@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testing';
 import {CheckboxHarnessFilters, _MatCheckboxHarnessBase} from '@angular/material/checkbox/testing';
 
 /** Harness for interacting with a MDC-based mat-checkbox in tests. */
@@ -16,16 +16,25 @@ export class MatCheckboxHarness extends _MatCheckboxHarnessBase {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a checkbox with specific attributes.
    * @param options Options for narrowing the search:
-   *   - `selector` finds a checkbox whose host element matches the given selector.
-   *   - `label` finds a checkbox with specific label text.
-   *   - `name` finds a checkbox with specific name.
+   *
+   * 用来收窄搜索范围的选项：
+   *
+   * - `selector` finds a checkbox whose host element matches the given selector.
+   *
+   * - `label` finds a checkbox with specific label text.
+   *
+   * - `name` finds a checkbox with specific name.
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: CheckboxHarnessFilters = {}): HarnessPredicate<MatCheckboxHarness> {
+  static with<T extends MatCheckboxHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: CheckboxHarnessFilters = {},
+  ): HarnessPredicate<T> {
     return (
-      new HarnessPredicate(MatCheckboxHarness, options)
+      new HarnessPredicate(this, options)
         .addOption('label', options.label, (harness, label) =>
           HarnessPredicate.stringMatches(harness.getLabelText(), label),
         )
@@ -36,6 +45,11 @@ export class MatCheckboxHarness extends _MatCheckboxHarnessBase {
           'name',
           options.name,
           async (harness, name) => (await harness.getName()) === name,
+        )
+        .addOption(
+          'checked',
+          options.checked,
+          async (harness, checked) => (await harness.isChecked()) == checked,
         )
     );
   }

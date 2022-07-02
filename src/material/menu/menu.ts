@@ -37,6 +37,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   OnInit,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {merge, Observable, Subject, Subscription} from 'rxjs';
 import {startWith, switchMap, take} from 'rxjs/operators';
@@ -130,20 +131,10 @@ export function MAT_MENU_DEFAULT_OPTIONS_FACTORY(): MatMenuDefaultOptions {
 
 let menuPanelUid = 0;
 
-/**
- * Reason why the menu was closed.
- *
- * 菜单被关闭的原因。
- *
- */
+/** Reason why the menu was closed. */
 export type MenuCloseReason = void | 'click' | 'keydown' | 'tab';
 
-/**
- * Base class with all of the `MatMenu` functionality.
- *
- * 具有所有 `MatMenu` 功能的基类。
- *
- */
+/** Base class with all of the `MatMenu` functionality. */
 @Directive()
 export class _MatMenuBase
   implements AfterContentInit, MatMenuPanel<MatMenuItem>, OnInit, OnDestroy
@@ -155,60 +146,25 @@ export class _MatMenuBase
   protected _elevationPrefix: string;
   protected _baseElevation: number;
 
-  /**
-   * All items inside the menu. Includes items nested inside another menu.
-   *
-   * 菜单里面的所有菜单项。包括其嵌套菜单中的菜单项。
-   *
-   */
+  /** All items inside the menu. Includes items nested inside another menu. */
   @ContentChildren(MatMenuItem, {descendants: true}) _allItems: QueryList<MatMenuItem>;
 
-  /**
-   * Only the direct descendant menu items.
-   *
-   * 仅包括直接后代的菜单项。
-   *
-   */
-  private _directDescendantItems = new QueryList<MatMenuItem>();
+  /** Only the direct descendant menu items. */
+  _directDescendantItems = new QueryList<MatMenuItem>();
 
-  /**
-   * Subscription to tab events on the menu panel
-   *
-   * 对菜单面板上 tab 事件的订阅
-   *
-   */
+  /** Subscription to tab events on the menu panel */
   private _tabSubscription = Subscription.EMPTY;
 
-  /**
-   * Config object to be passed into the menu's ngClass
-   *
-   * 要传给菜单 ngClass 的配置对象
-   *
-   */
+  /** Config object to be passed into the menu's ngClass */
   _classList: {[key: string]: boolean} = {};
 
-  /**
-   * Current state of the panel animation.
-   *
-   * 面板动画的当前状态
-   *
-   */
+  /** Current state of the panel animation. */
   _panelAnimationState: 'void' | 'enter' = 'void';
 
-  /**
-   * Emits whenever an animation on the menu completes.
-   *
-   * 只要菜单上的动画完成，就会发出通知。
-   *
-   */
+  /** Emits whenever an animation on the menu completes. */
   readonly _animationDone = new Subject<AnimationEvent>();
 
-  /**
-   * Whether the menu is animating.
-   *
-   * 菜单是否正在动画中。
-   *
-   */
+  /** Whether the menu is animating. */
   _isAnimating: boolean;
 
   /**
@@ -322,9 +278,6 @@ export class _MatMenuBase
 
   /**
    * Menu content that will be rendered lazily.
-   *
-   * 菜单内容，会惰性渲染。
-   *
    * @docs-private
    */
   @ContentChild(MAT_MENU_CONTENT) lazyContent: MatMenuContent;
@@ -367,9 +320,6 @@ export class _MatMenuBase
    * 此方法会从宿主的 mat-menu 元素中取得一组类，并将它们应用在浮层容器中显示的菜单模板中。否则，将很难从组件外部设置其内部菜单的样式。
    *
    * @param classes list of class names
-   *
-   * 类名列表
-   *
    */
   @Input('class')
   set panelClass(classes: string) {
@@ -401,9 +351,6 @@ export class _MatMenuBase
    * 此方法会从宿主的 mat-menu 元素中取得一组类，并将它们应用在浮层容器中显示的菜单模板中。否则，将很难从组件外部设置其内部菜单的样式。
    *
    * @deprecated Use `panelClass` instead.
-   *
-   * 请改用 `panelClass`。
-   *
    * @breaking-change 8.0.0
    */
   @Input()
@@ -428,8 +375,6 @@ export class _MatMenuBase
    * 当菜单关闭时会发出本事件。
    *
    * @deprecated Switch to `closed` instead
-   *
-   * 切换到 `closed`
    * @breaking-change 8.0.0
    */
   @Output() readonly close: EventEmitter<MenuCloseReason> = this.closed;
@@ -437,9 +382,29 @@ export class _MatMenuBase
   readonly panelId = `mat-menu-panel-${menuPanelUid++}`;
 
   constructor(
+    elementRef: ElementRef<HTMLElement>,
+    ngZone: NgZone,
+    defaultOptions: MatMenuDefaultOptions,
+    changeDetectorRef: ChangeDetectorRef,
+  );
+
+  /**
+   * @deprecated `_changeDetectorRef` to become a required parameter.
+   * @breaking-change 15.0.0
+   */
+  constructor(
+    elementRef: ElementRef<HTMLElement>,
+    ngZone: NgZone,
+    defaultOptions: MatMenuDefaultOptions,
+    changeDetectorRef?: ChangeDetectorRef,
+  );
+
+  constructor(
     private _elementRef: ElementRef<HTMLElement>,
     private _ngZone: NgZone,
     @Inject(MAT_MENU_DEFAULT_OPTIONS) private _defaultOptions: MatMenuDefaultOptions,
+    // @breaking-change 15.0.0 `_changeDetectorRef` to become a required parameter.
+    private _changeDetectorRef?: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -463,6 +428,24 @@ export class _MatMenuBase
         switchMap(items => merge(...items.map((item: MatMenuItem) => item._focused))),
       )
       .subscribe(focusedItem => this._keyManager.updateActiveItem(focusedItem as MatMenuItem));
+
+    this._directDescendantItems.changes.subscribe((itemsList: QueryList<MatMenuItem>) => {
+      // Move focus to another item, if the active item is removed from the list.
+      // We need to debounce the callback, because multiple items might be removed
+      // in quick succession.
+      const manager = this._keyManager;
+
+      if (this._panelAnimationState === 'enter' && manager.activeItem?._hasFocus()) {
+        const items = itemsList.toArray();
+        const index = Math.max(0, Math.min(items.length - 1, manager.activeItemIndex || 0));
+
+        if (items[index] && !items[index].disabled) {
+          manager.setActiveItem(index);
+        } else {
+          manager.setNextItemActive();
+        }
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -471,12 +454,7 @@ export class _MatMenuBase
     this.closed.complete();
   }
 
-  /**
-   * Stream that emits whenever the hovered menu item changes.
-   *
-   * 当菜单项的悬停状态发生变化时会发出通知的流。
-   *
-   */
+  /** Stream that emits whenever the hovered menu item changes. */
   _hovered(): Observable<MatMenuItem> {
     // Coerce the `changes` property because Angular types it as `Observable<any>`
     const itemChanges = this._directDescendantItems.changes as Observable<QueryList<MatMenuItem>>;
@@ -496,23 +474,13 @@ export class _MatMenuBase
 
   /**
    * Removes an item from the menu.
-   *
-   * 从菜单中删除一个菜单项。
-   *
    * @docs-private
    * @deprecated No longer being used. To be removed.
-   *
-   * 不用了。将来会删除
    * @breaking-change 9.0.0
    */
   removeItem(_item: MatMenuItem) {}
 
-  /**
-   * Handle a keyboard event from the menu, delegating to the appropriate action.
-   *
-   * 从菜单中处理一个键盘事件，委托给相应的动作。
-   *
-   */
+  /** Handle a keyboard event from the menu, delegating to the appropriate action. */
   _handleKeydown(event: KeyboardEvent) {
     const keyCode = event.keyCode;
     const manager = this._keyManager;
@@ -540,7 +508,12 @@ export class _MatMenuBase
         }
 
         manager.onKeydown(event);
+        return;
     }
+
+    // Don't allow the event to propagate if we've already handled it, or it may
+    // end up reaching other overlays that were opened earlier (see #22694).
+    event.stopPropagation();
   }
 
   /**
@@ -554,45 +527,31 @@ export class _MatMenuBase
    *
    */
   focusFirstItem(origin: FocusOrigin = 'program'): void {
-    // When the content is rendered lazily, it takes a bit before the items are inside the DOM.
-    if (this.lazyContent) {
-      this._ngZone.onStable.pipe(take(1)).subscribe(() => this._focusFirstItem(origin));
-    } else {
-      this._focusFirstItem(origin);
-    }
-  }
+    // Wait for `onStable` to ensure iOS VoiceOver screen reader focuses the first item (#24735).
+    this._ngZone.onStable.pipe(take(1)).subscribe(() => {
+      let menuPanel: HTMLElement | null = null;
 
-  /**
-   * Actual implementation that focuses the first item. Needs to be separated
-   * out so we don't repeat the same logic in the public `focusFirstItem` method.
-   *
-   * 让第一项获得焦点的实际实现。要把它分离出去，所以我们不会在公开的 `focusFirstItem` 方法中重复相同的逻辑。
-   *
-   */
-  private _focusFirstItem(origin: FocusOrigin) {
-    const manager = this._keyManager;
+      if (this._directDescendantItems.length) {
+        // Because the `mat-menuPanel` is at the DOM insertion point, not inside the overlay, we don't
+        // have a nice way of getting a hold of the menuPanel panel. We can't use a `ViewChild` either
+        // because the panel is inside an `ng-template`. We work around it by starting from one of
+        // the items and walking up the DOM.
+        menuPanel = this._directDescendantItems.first!._getHostElement().closest('[role="menu"]');
+      }
 
-    manager.setFocusOrigin(origin).setFirstItemActive();
+      // If an item in the menuPanel is already focused, avoid overriding the focus.
+      if (!menuPanel || !menuPanel.contains(document.activeElement)) {
+        const manager = this._keyManager;
+        manager.setFocusOrigin(origin).setFirstItemActive();
 
-    // If there's no active item at this point, it means that all the items are disabled.
-    // Move focus to the menu panel so keyboard events like Escape still work. Also this will
-    // give _some_ feedback to screen readers.
-    if (!manager.activeItem && this._directDescendantItems.length) {
-      let element = this._directDescendantItems.first!._getHostElement().parentElement;
-
-      // Because the `mat-menu` is at the DOM insertion point, not inside the overlay, we don't
-      // have a nice way of getting a hold of the menu panel. We can't use a `ViewChild` either
-      // because the panel is inside an `ng-template`. We work around it by starting from one of
-      // the items and walking up the DOM.
-      while (element) {
-        if (element.getAttribute('role') === 'menu') {
-          element.focus();
-          break;
-        } else {
-          element = element.parentElement;
+        // If there's no active item at this point, it means that all the items are disabled.
+        // Move focus to the menuPanel panel so keyboard events like Escape still work. Also this will
+        // give _some_ feedback to screen readers.
+        if (!manager.activeItem && menuPanel) {
+          menuPanel.focus();
         }
       }
-    }
+    });
   }
 
   /**
@@ -638,17 +597,8 @@ export class _MatMenuBase
   /**
    * Adds classes to the menu panel based on its position. Can be used by
    * consumers to add specific styling based on the position.
-   *
-   * 根据菜单面板的位置，把一些类添加到菜单面板中。消费者可以根据位置添加具体的样式。
-   *
    * @param posX Position of the menu along the x axis.
-   *
-   * 菜单沿 x 轴的位置。
-   *
    * @param posY Position of the menu along the y axis.
-   *
-   * 菜单沿 y 轴的位置。
-   *
    * @docs-private
    */
   setPositionClasses(posX: MenuPositionX = this.xPosition, posY: MenuPositionY = this.yPosition) {
@@ -657,36 +607,24 @@ export class _MatMenuBase
     classes['mat-menu-after'] = posX === 'after';
     classes['mat-menu-above'] = posY === 'above';
     classes['mat-menu-below'] = posY === 'below';
+
+    // @breaking-change 15.0.0 Remove null check for `_changeDetectorRef`.
+    this._changeDetectorRef?.markForCheck();
   }
 
-  /**
-   * Starts the enter animation.
-   *
-   * 启动入场动画。
-   *
-   */
+  /** Starts the enter animation. */
   _startAnimation() {
     // @breaking-change 8.0.0 Combine with _resetAnimation.
     this._panelAnimationState = 'enter';
   }
 
-  /**
-   * Resets the panel animation to its initial state.
-   *
-   * 把面板动画重启为其初始状态。
-   *
-   */
+  /** Resets the panel animation to its initial state. */
   _resetAnimation() {
     // @breaking-change 8.0.0 Combine with _startAnimation.
     this._panelAnimationState = 'void';
   }
 
-  /**
-   * Callback that is invoked when the panel animation completes.
-   *
-   * 面板动画完成后调用的回调函数
-   *
-   */
+  /** Callback that is invoked when the panel animation completes. */
   _onAnimationDone(event: AnimationEvent) {
     this._animationDone.next(event);
     this._isAnimating = false;
@@ -711,9 +649,6 @@ export class _MatMenuBase
    * of direct descendants. We collect the descendants this way, because `_allItems` can include
    * items that are part of child menus, and using a custom way of registering items is unreliable
    * when it comes to maintaining the item order.
-   *
-   * 设置一个流，它会跟踪任何新添加的菜单项，并会更新其直接后代的列表。我们通过这种方式收集后代，因为 `_allItems` 可以包含那些作为子菜单一部分的菜单项。在维护菜单项顺序方面，使用自定义方式注册菜单项是不可靠的。
-   *
    */
   private _updateDirectDescendants() {
     this._allItems.changes
@@ -745,11 +680,22 @@ export class MatMenu extends _MatMenuBase {
   protected override _elevationPrefix = 'mat-elevation-z';
   protected override _baseElevation = 4;
 
+  /**
+   * @deprecated `changeDetectorRef` parameter will become a required parameter.
+   * @breaking-change 15.0.0
+   */
+  constructor(
+    elementRef: ElementRef<HTMLElement>,
+    ngZone: NgZone,
+    defaultOptions: MatMenuDefaultOptions,
+  );
+
   constructor(
     elementRef: ElementRef<HTMLElement>,
     ngZone: NgZone,
     @Inject(MAT_MENU_DEFAULT_OPTIONS) defaultOptions: MatMenuDefaultOptions,
+    changeDetectorRef?: ChangeDetectorRef,
   ) {
-    super(elementRef, ngZone, defaultOptions);
+    super(elementRef, ngZone, defaultOptions, changeDetectorRef);
   }
 }

@@ -5,10 +5,12 @@ on:
     # Run at 00:00 every day
     - cron: '0 0 * * *'
 
+permissions: read-all
+
 jobs:
   lock_closed:
     runs-on: ubuntu-latest
     steps:
-      - uses: angular/dev-infra/github-actions/lock-closed@f0f363cb4ce5b5faf14e3d3bb7eeb7c7aee72da7
+      - uses: angular/dev-infra/github-actions/lock-closed@f5e706a8bd255a86681369fabf0b8ebed4858b30
         with:
           lock-bot-key: ${{ secrets.LOCK_BOT_PRIVATE_KEY }}

@@ -19,7 +19,6 @@ interface Car {
   templateUrl: 'select-reactive-form-example.html',
 })
 export class SelectReactiveFormExample {
-  form: FormGroup;
   foods: Food[] = [
     {value: 'steak-0', viewValue: 'Steak'},
     {value: 'pizza-1', viewValue: 'Pizza'},
@@ -32,11 +31,8 @@ export class SelectReactiveFormExample {
   ];
   foodControl = new FormControl(this.foods[2].value);
   carControl = new FormControl(this.cars[1].value);
-
-  constructor() {
-    this.form = new FormGroup({
-      food: this.foodControl,
-      car: this.carControl,
-    });
-  }
+  form = new FormGroup({
+    food: this.foodControl,
+    car: this.carControl,
+  });
 }

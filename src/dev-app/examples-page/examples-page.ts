@@ -8,6 +8,7 @@
 
 import {Component} from '@angular/core';
 import {EXAMPLE_COMPONENTS} from '@angular/components-examples';
+import {ExampleList} from '../example/example-list';
 
 /**
  * Renders all material examples listed in the generated EXAMPLE_COMPONENTS.
@@ -17,6 +18,8 @@ import {EXAMPLE_COMPONENTS} from '@angular/components-examples';
  */
 @Component({
   template: `<material-example-list [ids]="examples"></material-example-list>`,
+  standalone: true,
+  imports: [ExampleList],
 })
 export class ExamplesPage {
   examples = Object.keys(EXAMPLE_COMPONENTS);

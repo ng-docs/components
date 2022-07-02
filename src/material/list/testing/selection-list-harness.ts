@@ -47,7 +47,8 @@ export class MatSelectionListHarness extends MatListHarnessBase<
    *
    * @return a `HarnessPredicate` configured with the given options.
    *
-   * 用指定选项配置过的 `HarnessPredicate` 服务。
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(
     options: SelectionListHarnessFilters = {},
@@ -97,12 +98,7 @@ export class MatSelectionListHarness extends MatListHarnessBase<
     await parallel(() => items.map(item => item.deselect()));
   }
 
-  /**
-   * Gets all items matching the given list of filters.
-   *
-   * 获取与给定过滤器列表匹配的所有条目。
-   *
-   */
+  /** Gets all items matching the given list of filters. */
   private async _getItems(filters: ListOptionHarnessFilters[]): Promise<MatListOptionHarness[]> {
     if (!filters.length) {
       return this.getItems();
@@ -141,7 +137,8 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    *
    * @return a `HarnessPredicate` configured with the given options.
    *
-   * 用指定选项配置过的 `HarnessPredicate` 服务。
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(options: ListOptionHarnessFilters = {}): HarnessPredicate<MatListOptionHarness> {
     return getListItemPredicate(MatListOptionHarness, options).addOption(
@@ -173,16 +170,6 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    */
   async isSelected(): Promise<boolean> {
     return (await (await this.host()).getAttribute('aria-selected')) === 'true';
-  }
-
-  /**
-   * Whether the list option is disabled.
-   *
-   * 此列表选项是否已禁用。
-   *
-   */
-  async isDisabled(): Promise<boolean> {
-    return (await (await this.host()).getAttribute('aria-disabled')) === 'true';
   }
 
   /**

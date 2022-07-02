@@ -9,6 +9,6 @@ import {FormControl} from '@angular/forms';
   templateUrl: 'button-toggle-forms-example.html',
 })
 export class ButtonToggleFormsExample {
-  fontStyleControl = new FormControl();
+  fontStyleControl = new FormControl('');
   fontStyle?: string;
 }

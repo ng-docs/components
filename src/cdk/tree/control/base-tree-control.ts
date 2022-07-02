@@ -64,7 +64,7 @@ export abstract class BaseTreeControl<T, K = T> implements TreeControl<T, K> {
   /**
    * Get depth of a given data node, return the level number. This is for flat tree node.
    *
-   * 获取给定数据节点的深度，返回其级别数字。这是用于扁平树节点的。
+   * 获取给定数据节点的深度，返回级别号。这是用于扁平树节点的。
    *
    */
   getLevel: (dataNode: T) => number;
@@ -81,7 +81,7 @@ export abstract class BaseTreeControl<T, K = T> implements TreeControl<T, K> {
   /**
    * Gets a stream that emits whenever the given data node's children change.
    *
-   * 获取在给定数据节点的子代发生更改时会发出事件的流。
+   * 获取在给定数据节点的子代发生更改时发出的流。
    *
    */
   getChildren: (dataNode: T) => Observable<T[]> | T[] | undefined | null;

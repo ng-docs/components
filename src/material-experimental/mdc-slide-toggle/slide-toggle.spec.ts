@@ -220,7 +220,7 @@ describe('MDC-based MatSlideToggle without forms', () => {
 
       // We fall back to pointing to the label if a value isn't provided.
       expect(buttonElement.getAttribute('aria-labelledby')).toMatch(
-        /mat-mdc-slide-toggle-label-\d+/,
+        /mat-mdc-slide-toggle-\d+-label/,
       );
     }));
 
@@ -755,6 +755,12 @@ describe('MDC-based MatSlideToggle with forms', () => {
       expect(slideToggleEl.classList).toContain('ng-invalid');
       expect(slideToggleEl.classList).not.toContain('ng-valid');
     }));
+
+    it('should clear static name attribute from the slide toggle host node', () => {
+      const hostNode = fixture.nativeElement.querySelector('.mat-mdc-slide-toggle');
+      expect(buttonElement.getAttribute('name')).toBeTruthy();
+      expect(hostNode.hasAttribute('name')).toBe(false);
+    });
   });
 
   describe('with model and change event', () => {
@@ -857,7 +863,7 @@ class SlideToggleCheckedAndDisabledAttr {}
     </mat-slide-toggle>`,
 })
 class SlideToggleWithFormControl {
-  formControl = new FormControl();
+  formControl = new FormControl(false);
 }
 
 @Component({template: `<mat-slide-toggle tabindex="5" [disabled]="disabled"></mat-slide-toggle>`})

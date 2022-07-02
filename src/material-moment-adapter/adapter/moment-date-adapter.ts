@@ -19,18 +19,11 @@ import {default as _rollupMoment, Moment, MomentFormatSpecification, MomentInput
 
 const moment = _rollupMoment || _moment;
 
-/**
- * Configurable options for {@see MomentDateAdapter}.
- *
- * {@see MomentDateAdapter} 的可配置选项。
- *
- */
+/** Configurable options for {@see MomentDateAdapter}. */
 export interface MatMomentDateAdapterOptions {
   /**
    * When enabled, the dates have to match the format exactly.
-   * See https://momentjs.com/guides/#/parsing/strict-mode/.
-   *
-   * 启用后，日期必须与格式完全匹配。请参阅 <https://momentjs.com/guides/#/parsing/strict-mode/> 。
+   * See <https://momentjs.com/guides/#/parsing/strict-mode/>.
    *
    */
   strict?: boolean;
@@ -39,19 +32,11 @@ export interface MatMomentDateAdapterOptions {
    * Turns the use of utc dates on or off.
    * Changing this will change how Angular Material components like DatePicker output dates.
    * {@default false}
-   *
-   * 打开或关闭 UTC 日期的使用。更改此设置将更改 Angular Material 组件（如 DatePicker）输出日期的方式。 {@default false}
-   *
    */
   useUtc?: boolean;
 }
 
-/**
- * InjectionToken for moment date adapter to configure options.
- *
- * 用于 moment 日期适配器的 InjectionToken 配置选项。
- *
- */
+/** InjectionToken for moment date adapter to configure options. */
 export const MAT_MOMENT_DATE_ADAPTER_OPTIONS = new InjectionToken<MatMomentDateAdapterOptions>(
   'MAT_MOMENT_DATE_ADAPTER_OPTIONS',
   {
@@ -67,12 +52,7 @@ export function MAT_MOMENT_DATE_ADAPTER_OPTIONS_FACTORY(): MatMomentDateAdapterO
   };
 }
 
-/**
- * Creates an array and fills it with values.
- *
- * 创建一个数组并用一些值填充它。
- *
- */
+/** Creates an array and fills it with values. */
 function range<T>(length: number, valueFunction: (index: number) => T): T[] {
   const valuesArray = Array(length);
   for (let i = 0; i < length; i++) {
@@ -81,12 +61,7 @@ function range<T>(length: number, valueFunction: (index: number) => T): T[] {
   return valuesArray;
 }
 
-/**
- * Adapts Moment.js Dates for use with Angular Material.
- *
- * 调整 Moment.js 日期以便与 Angular Material 一起使用。
- *
- */
+/** Adapts Moment.js Dates for use with Angular Material. */
 @Injectable()
 export class MomentDateAdapter extends DateAdapter<Moment> {
   // Note: all of the methods that accept a `Moment` input parameter immediately call `this.clone`
@@ -240,10 +215,8 @@ export class MomentDateAdapter extends DateAdapter<Moment> {
 
   /**
    * Returns the given value if given a valid Moment or null. Deserializes valid ISO 8601 strings
-   * (https://www.ietf.org/rfc/rfc3339.txt) and valid Date objects into valid Moments and empty
+   * (<https://www.ietf.org/rfc/rfc3339.txt>) and valid Date objects into valid Moments and empty
    * string into null. Returns an invalid date for all other values.
-   *
-   * 如果给定有效时刻或 null，则返回给定值。将有效的 ISO 8601 字符串 ( <https://www.ietf.org/rfc/rfc3339.txt> ) 和有效的 Date 对象反序列化为有效的 Moments 并将空字符串反序列化为 null。对于所有其他值返回无效日期。
    *
    */
   override deserialize(value: any): Moment | null {
@@ -278,12 +251,7 @@ export class MomentDateAdapter extends DateAdapter<Moment> {
     return moment.invalid();
   }
 
-  /**
-   * Creates a Moment instance while respecting the current UTC settings.
-   *
-   * 使用当前的 UTC 设置创建一个 Moment 实例。
-   *
-   */
+  /** Creates a Moment instance while respecting the current UTC settings. */
   private _createMoment(
     date?: MomentInput,
     format?: MomentFormatSpecification,

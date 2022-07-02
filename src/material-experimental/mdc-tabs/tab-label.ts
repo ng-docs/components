@@ -9,7 +9,12 @@
 import {Directive} from '@angular/core';
 import {MatTabLabel as BaseMatTabLabel} from '@angular/material/tabs';
 
-/** Used to flag tab labels for use with the portal directive */
+/**
+ * Used to flag tab labels for use with the portal directive
+ *
+ * 标出选项卡标签，以供传送点指令使用
+ *
+ */
 @Directive({
   selector: '[mat-tab-label], [matTabLabel]',
 })

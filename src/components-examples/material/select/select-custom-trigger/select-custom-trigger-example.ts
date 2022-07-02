@@ -8,7 +8,7 @@ import {FormControl} from '@angular/forms';
   styleUrls: ['select-custom-trigger-example.css'],
 })
 export class SelectCustomTriggerExample {
-  toppings = new FormControl();
+  toppings = new FormControl('');
 
   toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
 }

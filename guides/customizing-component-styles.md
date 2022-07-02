@@ -8,6 +8,8 @@ Angular Material components.
 
 Angular Material 支持通过 Sass API 自定义组件样式，如[主题指南][]中所述。本文档提供了一个指南，用于指导如何定义自定义 CSS 规则，以便直接设置 Angular Material 组件的样式。
 
+[theming guide]: https://material.angular.io/guide/theming
+
 [主题指南]: https://material.angular.cn/guide/theming
 
 ## Targeting custom styles
@@ -90,12 +92,12 @@ in your template, you can use one of the following approaches:
    在 `angular.json` 配置文件的 `styles` 数组中声明的全局样式表中自定义样式。
 
 2. Disable view encapsulation for your component. This approach effectively turns your component
-styles into global CSS.
+   styles into global CSS.
 
    禁用组件的视图封装。这种方法可以有效地将你的组件样式转换为全局 CSS。
 
 3. Apply the deprecated `::ng-deep` pseudo-class to a CSS rule. Any CSS rule with `::ng-deep`
-becomes a global style. [See the Angular documentation for more on `::ng-deep`][ng-deep].
+   becomes a global style. [See the Angular documentation for more on `::ng-deep`][ng-deep].
 
    将已弃用的 `::ng-deep` 伪类应用于 CSS 规则。 任何 `::ng-deep` CSS 规则都将成为全局样式。请参阅 Angular 文档以获取有关 [`::ng-deep`][ng-deep] 的更多信息。
 
@@ -112,9 +114,12 @@ difficult to maintain.
 
 ### CSS 特异度
 
-Each CSS declaration has a level of *specificity* based on the type and number of selectors used. More specific styles take precedence over less specific styles. Angular Material generally attempts
-to use the least specific selectors possible . However, Angular Material may change component style
-specificity at any time, making custom overrides brittle and prone to breaking. You can read more about specificity and how it is calculated on the
+Each CSS declaration has a level of *specificity* based on the type and number of selectors used.
+More specific styles take precedence over less specific styles. Angular Material generally attempts
+to use the least specific selectors possible. However, Angular Material may change component style
+specificity at any time, making custom overrides brittle and prone to breaking.
+
+You can read more about specificity and how it is calculated on the
 [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity).
 
 每个 CSS 声明都具有一个*特异度*级别，取决于所用到的选择器的类型和数量。特异度较高的样式也会有较高的优先级。Angular Material 自己会在组件中使用尽可能小的特异度。不过，Angular Material 将来也可能更改组件样式的特异度，这可能会让你的自定义覆盖规则变得脆弱、容易被破坏。你可以到 [MDN Web 文档](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity)中深入了解特异度及其计算方法。
@@ -142,13 +147,13 @@ overlay pane. The following example shows how to add an `outline` style with `Ma
 
 ```scss
 // Add this to your global stylesheet after including theme mixins.
-.my-outlined-dialog  {
-    outline: 2px solid purple;
+.my-outlined-dialog {
+  outline: 2px solid purple;
 }
 ```
 
 ```ts
-this.dialog.open(MyDialogComponent, { panelClass: 'my-outlined-dialog' })
+this.dialog.open(MyDialogComponent, {panelClass: 'my-outlined-dialog'})
 ```
 
 You should always apply an application-specific prefix to global CSS classes to avoid naming

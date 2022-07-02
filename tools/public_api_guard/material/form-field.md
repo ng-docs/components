@@ -5,6 +5,7 @@
 ```ts
 
 import { _AbstractConstructor } from '@angular/material/core';
+import { AbstractControlDirective } from '@angular/forms';
 import { AfterContentChecked } from '@angular/core';
 import { AfterContentInit } from '@angular/core';
 import { AfterViewInit } from '@angular/core';
@@ -26,6 +27,7 @@ import { Observable } from 'rxjs';
 import { OnDestroy } from '@angular/core';
 import { Platform } from '@angular/cdk/platform';
 import { QueryList } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 
 // @public
 export type FloatLabelType = 'always' | 'never' | 'auto';
@@ -63,7 +65,7 @@ export class MatError {
     // (undocumented)
     id: string;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatError, "mat-error", never, { "id": "id"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatError, "mat-error", never, { "id": "id"; }, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatError, [{ attribute: "aria-live"; }, null]>;
 }
@@ -131,7 +133,7 @@ export class MatFormField extends _MatFormFieldBase implements AfterContentInit,
     // (undocumented)
     _prefixChildren: QueryList<MatPrefix>;
     _shouldAlwaysFloat(): boolean;
-    _shouldForward(prop: keyof NgControl): boolean;
+    _shouldForward(prop: keyof AbstractControlDirective): boolean;
     // (undocumented)
     _shouldLabelFloat(): boolean;
     _subscriptAnimationState: string;
@@ -140,7 +142,7 @@ export class MatFormField extends _MatFormFieldBase implements AfterContentInit,
     updateOutlineGap(): void;
     protected _validateControlChild(): void;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatFormField, "mat-form-field", ["matFormField"], { "color": "color"; "appearance": "appearance"; "hideRequiredMarker": "hideRequiredMarker"; "hintLabel": "hintLabel"; "floatLabel": "floatLabel"; }, {}, ["_controlNonStatic", "_controlStatic", "_labelChildNonStatic", "_labelChildStatic", "_placeholderChild", "_errorChildren", "_hintChildren", "_prefixChildren", "_suffixChildren"], ["[matPrefix]", "*", "mat-placeholder", "mat-label", "[matSuffix]", "mat-error", "mat-hint:not([align='end'])", "mat-hint[align='end']"]>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatFormField, "mat-form-field", ["matFormField"], { "color": "color"; "appearance": "appearance"; "hideRequiredMarker": "hideRequiredMarker"; "hintLabel": "hintLabel"; "floatLabel": "floatLabel"; }, {}, ["_controlNonStatic", "_controlStatic", "_labelChildNonStatic", "_labelChildStatic", "_placeholderChild", "_errorChildren", "_hintChildren", "_prefixChildren", "_suffixChildren"], ["[matPrefix]", "*", "mat-placeholder", "mat-label", "[matSuffix]", "mat-error", "mat-hint:not([align='end'])", "mat-hint[align='end']"], false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatFormField, [null, null, { optional: true; }, { optional: true; }, null, null, { optional: true; }]>;
 }
@@ -162,7 +164,7 @@ export abstract class MatFormFieldControl<T> {
     readonly errorState: boolean;
     readonly focused: boolean;
     readonly id: string;
-    readonly ngControl: NgControl | null;
+    readonly ngControl: NgControl | AbstractControlDirective | null;
     abstract onContainerClick(event: MouseEvent): void;
     readonly placeholder: string;
     readonly required: boolean;
@@ -172,17 +174,16 @@ export abstract class MatFormFieldControl<T> {
     readonly userAriaDescribedBy?: string;
     value: T | null;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatFormFieldControl<any>, never, never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatFormFieldControl<any>, never, never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatFormFieldControl<any>, never>;
 }
 
 // @public
 export interface MatFormFieldDefaultOptions {
-    // (undocumented)
     appearance?: MatFormFieldAppearance;
+    color?: ThemePalette;
     floatLabel?: FloatLabelType;
-    // (undocumented)
     hideRequiredMarker?: boolean;
 }
 
@@ -201,7 +202,7 @@ export class MatHint {
     align: 'start' | 'end';
     id: string;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatHint, "mat-hint", never, { "align": "align"; "id": "id"; }, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatHint, "mat-hint", never, { "align": "align"; "id": "id"; }, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatHint, never>;
 }
@@ -209,7 +210,7 @@ export class MatHint {
 // @public
 export class MatLabel {
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatLabel, "mat-label", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatLabel, "mat-label", never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatLabel, never>;
 }
@@ -217,7 +218,7 @@ export class MatLabel {
 // @public @deprecated
 export class MatPlaceholder {
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatPlaceholder, "mat-placeholder", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatPlaceholder, "mat-placeholder", never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatPlaceholder, never>;
 }
@@ -225,7 +226,7 @@ export class MatPlaceholder {
 // @public
 export class MatPrefix {
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatPrefix, "[matPrefix]", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatPrefix, "[matPrefix]", never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatPrefix, never>;
 }
@@ -233,7 +234,7 @@ export class MatPrefix {
 // @public
 export class MatSuffix {
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatSuffix, "[matSuffix]", never, {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatSuffix, "[matSuffix]", never, {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatSuffix, never>;
 }

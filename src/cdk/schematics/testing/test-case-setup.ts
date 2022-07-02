@@ -173,7 +173,8 @@ export function findBazelVersionTestCases(basePath: string) {
   }
 
   // In case runfiles are not symlinked (e.g. on Windows), we resolve all test case files using
-  // the Bazel runfiles manifest. Read more about the manifest here: https://git.io/fhIZE
+  // the Bazel runfiles manifest. Read more about the manifest here:
+  // https://github.com/bazelbuild/bazel/blob/701913139adc0eba49a7a9963fea4f555fcd844f/src/main/java/com/google/devtools/build/lib/analysis/SourceManifestAction.java#L214-L221
   readFileSync(manifestPath, 'utf8')
     .split('\n')
     .forEach(line => {
@@ -211,6 +212,8 @@ export function defineJasmineTestCases(
   // No test cases for the given version are available. Skip setting up tests for that
   // version.
   if (!inputFiles) {
+    // Jasmine throws an error if there's a `describe` without any tests.
+    it('should pass', () => {});
     return;
   }
 

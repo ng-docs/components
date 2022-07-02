@@ -58,7 +58,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要从中提取年份的日期。
    *
-   * @returns The year component.
+   * @returns
+   *
+   * The year component.
    *
    * 年份部分。
    *
@@ -74,7 +76,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要从中提取月份的日期。
    *
-   * @returns The month component (0-indexed, 0 = January).
+   * @returns
+   *
+   * The month component (0-indexed, 0 = January).
    *
    * 月份组成部分（从 0 开始的索引，0 表示一月）。
    *
@@ -90,7 +94,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要从中提取月份日期的日期。
    *
-   * @returns The month component (1-indexed, 1 = first of month).
+   * @returns
+   *
+   * The month component (1-indexed, 1 = first of month).
    *
    * 月份的组成部分（从 1 开始的索引，1 表示月初）。
    *
@@ -106,7 +112,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要从中提取星期几的日期。
    *
-   * @returns The month component (0-indexed, 0 = Sunday).
+   * @returns
+   *
+   * The month component (0-indexed, 0 = Sunday).
    *
    * 月份组成部分（从 0 开始的索引，0 表示星期日）。
    *
@@ -122,7 +130,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 命名样式（例如 long = 'January', short = 'Jan', narrow = 'J'）。
    *
-   * @returns An ordered list of all month names, starting with January.
+   * @returns
+   *
+   * An ordered list of all month names, starting with January.
    *
    * 从一月开始的所有月份名称的有序列表。
    *
@@ -134,7 +144,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 获取月份日期的名称列表。
    *
-   * @returns An ordered list of all date of the month names, starting with '1'.
+   * @returns
+   *
+   * An ordered list of all date of the month names, starting with '1'.
    *
    * 月份名称的所有日期的有序列表，从 “1” 开始。
    *
@@ -150,7 +162,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 命名样式（例如，long = 'Sunday', short = 'Sun', narrow = 'S'）。
    *
-   * @returns An ordered list of all weekday names, starting with Sunday.
+   * @returns
+   *
+   * An ordered list of all weekday names, starting with Sunday.
    *
    * 从星期天开始的所有工作日名称的有序列表。
    *
@@ -166,7 +180,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要获取年份名称的日期。
    *
-   * @returns The name of the given year (e.g. '2017').
+   * @returns
+   *
+   * The name of the given year (e.g. '2017').
    *
    * 给定年份的名称（例如 “2017”）。
    *
@@ -178,7 +194,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 获取一周的第一天。
    *
-   * @returns The first day of the week (0-indexed, 0 = Sunday).
+   * @returns
+   *
+   * The first day of the week (0-indexed, 0 = Sunday).
    *
    * 一周的第一天（从 0 开始的索引，0 表示星期日）。
    *
@@ -194,7 +212,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要检查其月份的日期。
    *
-   * @returns The number of days in the month of the given date.
+   * @returns
+   *
+   * The number of days in the month of the given date.
    *
    * 给定日期的月份中的天数。
    *
@@ -210,7 +230,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要克隆的日期
    *
-   * @returns A new date equal to the given date.
+   * @returns
+   *
+   * A new date equal to the given date.
    *
    * 等于给定日期的新日期。
    *
@@ -235,7 +257,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 日期中的月内日期。必须为整数 1 ~ 给定月份的天数。
    *
-   * @returns The new date, or null if invalid.
+   * @returns
+   *
+   * The new date, or null if invalid.
    *
    * 新日期；如果无效，则为 null。
    *
@@ -247,7 +271,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 获取今天的日期。
    *
-   * @returns Today's date.
+   * @returns
+   *
+   * Today's date.
    *
    * 今天的日期。
    *
@@ -268,7 +294,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要解析值的预期格式（类型取决于实现）。
    *
-   * @returns The parsed date.
+   * @returns
+   *
+   * The parsed date.
    *
    * 解析后的日期。
    *
@@ -288,7 +316,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 用于将日期显示为字符串的格式。
    *
-   * @returns The formatted date string.
+   * @returns
+   *
+   * The formatted date string.
    *
    * 格式化后的日期字符串。
    *
@@ -310,7 +340,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要增加的年数（可能为负）。
    *
-   * @returns A new date equal to the given one with the specified number of years added.
+   * @returns
+   *
+   * A new date equal to the given one with the specified number of years added.
    *
    * 一个等于给定日期加上指定年数的新日期。
    *
@@ -332,7 +364,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要添加的月数（可能为负）。
    *
-   * @returns A new date equal to the given one with the specified number of months added.
+   * @returns
+   *
+   * A new date equal to the given one with the specified number of months added.
    *
    * 一个等于给定的日期加上指定的月份数的新日期。
    *
@@ -353,7 +387,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要添加的天数（可能为负）。
    *
-   * @returns A new date equal to the given one with the specified number of days added.
+   * @returns
+   *
+   * A new date equal to the given one with the specified number of days added.
    *
    * 一个等于给定的日期加上指定的天数的新日期。
    *
@@ -366,11 +402,14 @@ export abstract class DateAdapter<D, L = any> {
    * such as the `min` or `max` attribute of an `<input>`.
    *
    * 获取给定日期的 RFC 3339 兼容字符串（ <https://tools.ietf.org/html/rfc3339>）此方法用于生成与原生 HTML 属性（例如 `<input>` `min` 或 `max` 属性）兼容的日期字符串。
+   *
    * @param date The date to get the ISO date string for.
    *
    * 要获取 ISO 日期字符串的日期。
    *
-   * @returns The ISO date string date string.
+   * @returns
+   *
+   * The ISO date string date string.
    *
    * ISO 日期字符串日期字符串。
    *
@@ -386,7 +425,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要检查的对象
    *
-   * @returns Whether the object is a date instance.
+   * @returns
+   *
+   * Whether the object is a date instance.
    *
    * 该对象是否为日期实例。
    *
@@ -402,7 +443,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要检查的日期。
    *
-   * @returns Whether the date is valid.
+   * @returns
+   *
+   * Whether the date is valid.
    *
    * 此日期是否有效。
    *
@@ -414,7 +457,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 获取无效的日期实例。
    *
-   * @returns An invalid date.
+   * @returns
+   *
+   * An invalid date.
    *
    * 无效的日期。
    *
@@ -431,7 +476,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要检查的对象。
    *
-   * @returns A date or `null`.
+   * @returns
+   *
+   * A date or `null`.
    *
    * 日期或 `null`。
    *
@@ -455,7 +502,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要反序列化为日期对象的值。
    *
-   * @returns The deserialized date object, either a valid date, null if the value can be
+   * @returns
+   *
+   * The deserialized date object, either a valid date, null if the value can be
    *     deserialized into a null date (e.g. the empty string), or an invalid date.
    *
    * 反序列化后的日期对象，可以是有效日期，如果可以将该值反序列化为空日期（例如，空字符串），则为 null 或无效日期。
@@ -496,7 +545,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要比较的第二个日期。
    *
-   * @returns 0 if the dates are equal, a number less than 0 if the first date is earlier,
+   * @returns
+   *
+   * 0 if the dates are equal, a number less than 0 if the first date is earlier,
    *     a number greater than 0 if the first date is later.
    *
    * 如果日期相等，则为 0；如果第一个日期较早，则小于 0；如果第一个日期较晚，则大于 0。
@@ -523,7 +574,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 要检查的第二个日期。
    *
-   * @returns Whether the two dates are equal.
+   * @returns
+   *
+   * Whether the two dates are equal.
    *     Null dates are considered equal to other null dates.
    *
    * 两个日期是否相等。空日期视为等于其他空日期。
@@ -558,7 +611,9 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 允许的最大值。如果为 null 或省略，则不强制使用 max。
    *
-   * @returns `min` if `date` is less than `min`, `max` if date is greater than `max`,
+   * @returns
+   *
+   * `min` if `date` is less than `min`, `max` if date is greater than `max`,
    *     otherwise `date`.
    *
    * 如果 `date` 小于 `min` 则为 `min`，如果日期大于 `max` 则为 `max`，否则为 `date`。

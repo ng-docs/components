@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testing';
 import {
   MatSnackBarHarness as BaseMatSnackBarHarness,
   SnackBarHarnessFilters,
@@ -19,23 +19,31 @@ export class MatSnackBarHarness extends BaseMatSnackBarHarness {
   // are in the process of being dismissed, because the element only gets removed after the
   // animation is finished and since it runs outside of Angular, we don't have a way of being
   // notified when it's done.
-  /** The selector for the host element of a `MatSnackBar` instance. */
+  /**
+   * The selector for the host element of a `MatSnackBar` instance.
+   *
+   * `MatSnackBar` 实例的宿主元素选择器。
+   *
+   */
   static override hostSelector = '.mat-mdc-snack-bar-container:not([mat-exit])';
   protected override _messageSelector = '.mdc-snackbar__label';
   protected override _actionButtonSelector = '.mat-mdc-snack-bar-action';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatSnackBarHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a snack bar with specific attributes.
    * @param options Options for filtering which snack bar instances are considered a match.
+   *
+   * 用于筛选哪些快餐栏实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static override with(
+  static override with<T extends BaseMatSnackBarHarness>(
+    this: ComponentHarnessConstructor<T>,
     options: SnackBarHarnessFilters = {},
-  ): HarnessPredicate<BaseMatSnackBarHarness> {
-    return new HarnessPredicate<BaseMatSnackBarHarness>(MatSnackBarHarness, options);
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 
   protected override async _assertContentAnnotated() {}

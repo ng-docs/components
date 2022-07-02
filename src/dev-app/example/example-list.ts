@@ -7,8 +7,11 @@
  */
 
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {CommonModule} from '@angular/common';
 import {EXAMPLE_COMPONENTS} from '@angular/components-examples';
 import {Component, Input} from '@angular/core';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {Example} from './example';
 
 /**
  * Displays a set of components-examples in a mat-accordion.
@@ -18,6 +21,8 @@ import {Component, Input} from '@angular/core';
  */
 @Component({
   selector: 'material-example-list',
+  standalone: true,
+  imports: [CommonModule, MatExpansionModule, Example],
   template: `
     <mat-accordion multi>
       <mat-expansion-panel *ngFor="let id of ids" [expanded]="expandAll">

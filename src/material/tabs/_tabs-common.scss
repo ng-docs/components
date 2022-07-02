@@ -1,7 +1,8 @@
+@use '@angular/cdk';
+
 @use '../core/style/variables';
 @use '../core/style/private';
 @use '../core/style/vendor-prefixes';
-@use '../../cdk/a11y';
 
 $tab-bar-height: 48px !default;
 $tab-animation-duration: 500ms !default;
@@ -26,18 +27,12 @@ $tab-animation-duration: 500ms !default;
     &:not(.mat-tab-disabled) {
       opacity: 1;
     }
-
-    @include a11y.high-contrast(active, off) {
-      $outline-width: 2px;
-      outline: dotted $outline-width;
-      outline-offset: -$outline-width; // Not supported on IE, but looks better everywhere else.
-    }
   }
 
   &.mat-tab-disabled {
     cursor: default;
 
-    @include a11y.high-contrast(active, off) {
+    @include cdk.high-contrast(active, off) {
       opacity: 0.5;
     }
   }
@@ -49,7 +44,7 @@ $tab-animation-duration: 500ms !default;
     white-space: nowrap;
   }
 
-  @include a11y.high-contrast(active, off) {
+  @include cdk.high-contrast(active, off) {
     opacity: 1;
   }
 }
@@ -69,7 +64,7 @@ $tab-animation-duration: 500ms !default;
     top: 0;
   }
 
-  @include a11y.high-contrast(active, off) {
+  @include cdk.high-contrast(active, off) {
     outline: solid $height;
     height: 0;
   }
@@ -95,6 +90,15 @@ $tab-animation-duration: 500ms !default;
     z-index: 2;
     -webkit-tap-highlight-color: transparent;
     touch-action: none;
+    box-sizing: content-box;
+    background: none;
+    border: none;
+    outline: 0;
+    padding: 0;
+
+    &::-moz-focus-inner {
+      border: 0;
+    }
 
     .mat-tab-header-pagination-controls-enabled & {
       display: flex;

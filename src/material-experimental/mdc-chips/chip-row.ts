@@ -6,12 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directionality} from '@angular/cdk/bidi';
-import {BACKSPACE, DELETE} from '@angular/cdk/keycodes';
+import {ENTER} from '@angular/cdk/keycodes';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {
-  AfterContentInit,
   AfterViewInit,
+  Attribute,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -31,9 +30,11 @@ import {
   MAT_RIPPLE_GLOBAL_OPTIONS,
   RippleGlobalOptions,
 } from '@angular/material-experimental/mdc-core';
+import {FocusMonitor} from '@angular/cdk/a11y';
 import {MatChip, MatChipEvent} from './chip';
 import {MatChipEditInput} from './chip-edit-input';
-import {GridKeyManagerRow} from './grid-key-manager';
+import {takeUntil} from 'rxjs/operators';
+import {MAT_CHIP} from './tokens';
 
 /** Represents an event fired on an individual `mat-chip` when it is edited. */
 export interface MatChipEditedEvent extends MatChipEvent {
@@ -48,34 +49,36 @@ export interface MatChipEditedEvent extends MatChipEvent {
 @Component({
   selector: 'mat-chip-row, mat-basic-chip-row',
   templateUrl: 'chip-row.html',
-  styleUrls: ['chips.css'],
-  inputs: ['color', 'disableRipple', 'tabIndex'],
+  styleUrls: ['chip.css'],
+  inputs: ['color', 'disabled', 'disableRipple', 'tabIndex'],
   host: {
-    'role': 'row',
-    'class': 'mat-mdc-chip-row',
-    '[class.mat-mdc-chip-disabled]': 'disabled',
-    '[class.mat-mdc-chip-highlighted]': 'highlighted',
+    'class': 'mat-mdc-chip mat-mdc-chip-row mdc-evolution-chip',
     '[class.mat-mdc-chip-with-avatar]': 'leadingIcon',
-    '[class.mat-mdc-chip-with-trailing-icon]': 'trailingIcon || removeIcon',
-    '[class.mdc-chip--editable]': 'editable',
+    '[class.mat-mdc-chip-disabled]': 'disabled',
+    '[class.mat-mdc-chip-editing]': '_isEditing',
+    '[class.mat-mdc-chip-editable]': 'editable',
+    '[class.mdc-evolution-chip--disabled]': 'disabled',
+    '[class.mdc-evolution-chip--with-trailing-action]': '_hasTrailingIcon()',
+    '[class.mdc-evolution-chip--with-primary-graphic]': 'leadingIcon',
+    '[class.mdc-evolution-chip--with-primary-icon]': 'leadingIcon',
+    '[class.mdc-evolution-chip--with-avatar]': 'leadingIcon',
+    '[class.mat-mdc-chip-highlighted]': 'highlighted',
+    '[class.mat-mdc-chip-with-trailing-icon]': '_hasTrailingIcon()',
     '[id]': 'id',
-    '[attr.disabled]': 'disabled || null',
-    '[attr.aria-disabled]': 'disabled.toString()',
-    '[tabIndex]': 'tabIndex',
+    '[attr.tabindex]': 'null',
+    '[attr.aria-label]': 'null',
+    '[attr.role]': 'role',
     '(mousedown)': '_mousedown($event)',
-    '(dblclick)': '_dblclick($event)',
-    '(keydown)': '_keydown($event)',
-    '(focusin)': '_focusin($event)',
-    '(focusout)': '_focusout($event)',
+    '(dblclick)': '_doubleclick($event)',
   },
-  providers: [{provide: MatChip, useExisting: MatChipRow}],
+  providers: [
+    {provide: MatChip, useExisting: MatChipRow},
+    {provide: MAT_CHIP, useExisting: MatChipRow},
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatChipRow
-  extends MatChip
-  implements AfterContentInit, AfterViewInit, GridKeyManagerRow<HTMLElement>
-{
+export class MatChipRow extends MatChip implements AfterViewInit {
   protected override basicChipAttrName = 'mat-basic-chip-row';
 
   @Input() editable: boolean = false;
@@ -84,167 +87,116 @@ export class MatChipRow
   @Output() readonly edited: EventEmitter<MatChipEditedEvent> =
     new EventEmitter<MatChipEditedEvent>();
 
-  /**
-   * The focusable wrapper element in the first gridcell, which contains all
-   * chip content other than the remove icon.
-   */
-  @ViewChild('chipContent') chipContent: ElementRef;
-
   /** The default chip edit input that is used if none is projected into this chip row. */
   @ViewChild(MatChipEditInput) defaultEditInput?: MatChipEditInput;
 
   /** The projected chip edit input. */
   @ContentChild(MatChipEditInput) contentEditInput?: MatChipEditInput;
 
-  /** The focusable grid cells for this row. Implemented as part of GridKeyManagerRow. */
-  cells!: HTMLElement[];
-
-  /**
-   * Timeout used to give some time between `focusin` and `focusout`
-   * in order to determine whether focus has left the chip.
-   */
-  private _focusoutTimeout: number | null;
+  _isEditing = false;
 
   constructor(
-    @Inject(DOCUMENT) private readonly _document: any,
     changeDetectorRef: ChangeDetectorRef,
     elementRef: ElementRef,
     ngZone: NgZone,
-    @Optional() dir: Directionality,
+    focusMonitor: FocusMonitor,
+    @Inject(DOCUMENT) _document: any,
     @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
     @Optional()
     @Inject(MAT_RIPPLE_GLOBAL_OPTIONS)
     globalRippleOptions?: RippleGlobalOptions,
+    @Attribute('tabindex') tabIndex?: string,
   ) {
-    super(changeDetectorRef, elementRef, ngZone, dir, animationMode, globalRippleOptions);
-  }
+    super(
+      changeDetectorRef,
+      elementRef,
+      ngZone,
+      focusMonitor,
+      _document,
+      animationMode,
+      globalRippleOptions,
+      tabIndex,
+    );
 
-  override ngAfterContentInit() {
-    super.ngAfterContentInit();
-
-    if (this.removeIcon) {
-      // Defer setting the value in order to avoid the "Expression
-      // has changed after it was checked" errors from Angular.
-      setTimeout(() => {
-        // removeIcon has tabIndex 0 for regular chips, but should only be focusable by
-        // the GridFocusKeyManager for row chips.
-        this.removeIcon.tabIndex = -1;
-      });
-    }
-  }
-
-  override ngAfterViewInit() {
-    super.ngAfterViewInit();
-    this.cells = this.removeIcon
-      ? [this.chipContent.nativeElement, this.removeIcon._elementRef.nativeElement]
-      : [this.chipContent.nativeElement];
-  }
-
-  /**
-   * Allows for programmatic focusing of the chip.
-   * Sends focus to the first grid cell. The row chip element itself
-   * is never focused.
-   */
-  focus(): void {
-    if (this.disabled) {
-      return;
-    }
-
-    if (!this._hasFocusInternal) {
-      this._onFocus.next({chip: this});
-    }
-
-    this.chipContent.nativeElement.focus();
-  }
-
-  /**
-   * Emits a blur event when one of the gridcells loses focus, unless focus moved
-   * to the other gridcell.
-   */
-  _focusout(event: FocusEvent) {
-    if (this._focusoutTimeout) {
-      clearTimeout(this._focusoutTimeout);
-    }
-
-    // Wait to see if focus moves to the other gridcell
-    this._focusoutTimeout = setTimeout(() => {
-      this._hasFocusInternal = false;
-      this._onBlur.next({chip: this});
-      this._handleInteraction(event);
+    this.role = 'row';
+    this._onBlur.pipe(takeUntil(this.destroyed)).subscribe(() => {
+      if (this._isEditing) {
+        this._onEditFinish();
+      }
     });
   }
 
-  /** Records that the chip has focus when one of the gridcells is focused. */
-  _focusin(event: FocusEvent) {
-    if (this._focusoutTimeout) {
-      clearTimeout(this._focusoutTimeout);
-      this._focusoutTimeout = null;
-    }
-
-    this._hasFocusInternal = true;
-    this._handleInteraction(event);
+  override _hasTrailingIcon() {
+    // The trailing icon is hidden while editing.
+    return !this._isEditing && super._hasTrailingIcon();
   }
 
   /** Sends focus to the first gridcell when the user clicks anywhere inside the chip. */
   _mousedown(event: MouseEvent) {
-    if (this._isEditing()) {
-      return;
-    }
+    if (!this._isEditing) {
+      if (!this.disabled) {
+        this.focus();
+      }
 
-    if (!this.disabled) {
-      this.focus();
+      event.preventDefault();
     }
-
-    event.preventDefault();
   }
 
-  _dblclick(event: MouseEvent) {
-    this._handleInteraction(event);
-  }
-
-  /** Handles custom key presses. */
-  _keydown(event: KeyboardEvent): void {
-    if (this.disabled) {
-      return;
-    }
-    if (this._isEditing()) {
-      this._handleInteraction(event);
-      return;
-    }
-    switch (event.keyCode) {
-      case DELETE:
-      case BACKSPACE:
-        // Remove the focused chip
-        this.remove();
-        // Always prevent so page navigation does not occur
+  override _handleKeydown(event: KeyboardEvent): void {
+    if (event.keyCode === ENTER && !this.disabled) {
+      if (this._isEditing) {
         event.preventDefault();
-        break;
-      default:
-        this._handleInteraction(event);
+        this._onEditFinish();
+      } else if (this.editable) {
+        this._startEditing(event);
+      }
+    } else if (this._isEditing) {
+      // Stop the event from reaching the chip set in order to avoid navigating.
+      event.stopPropagation();
+    } else {
+      super._handleKeydown(event);
     }
   }
 
-  _isEditing() {
-    return this._chipFoundation.isEditing();
+  _doubleclick(event: MouseEvent) {
+    if (!this.disabled && this.editable) {
+      this._startEditing(event);
+    }
   }
 
-  protected override _onEditStart() {
+  private _startEditing(event: Event) {
+    if (
+      !this.primaryAction ||
+      (this.removeIcon && this._getSourceAction(event.target as Node) === this.removeIcon)
+    ) {
+      return;
+    }
+
+    // The value depends on the DOM so we need to extract it before we flip the flag.
+    const value = this.value;
+
+    // Make the primary action non-interactive so that it doesn't
+    // navigate when the user presses the arrow keys while editing.
+    this.primaryAction.isInteractive = false;
+    this._isEditing = true;
+
     // Defer initializing the input so it has time to be added to the DOM.
-    setTimeout(() => {
-      this._getEditInput().initialize(this.value);
-    });
+    setTimeout(() => this._getEditInput().initialize(value));
   }
 
-  protected override _onEditFinish() {
+  private _onEditFinish() {
+    this._isEditing = false;
+    this.primaryAction.isInteractive = true;
+    this.edited.emit({chip: this, value: this._getEditInput().getValue()});
+
     // If the edit input is still focused or focus was returned to the body after it was destroyed,
     // return focus to the chip contents.
     if (
       this._document.activeElement === this._getEditInput().getNativeElement() ||
       this._document.activeElement === this._document.body
     ) {
-      this.chipContent.nativeElement.focus();
+      this.primaryAction.focus();
     }
-    this.edited.emit({chip: this, value: this._getEditInput().getValue()});
   }
 
   /**

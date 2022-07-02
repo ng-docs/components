@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testing';
 import {
   RadioButtonHarnessFilters,
   RadioGroupHarnessFilters,
@@ -20,46 +20,73 @@ export class MatRadioGroupHarness extends _MatRadioGroupHarnessBase<
   MatRadioButtonHarness,
   RadioButtonHarnessFilters
 > {
-  /** The selector for the host element of a `MatRadioGroup` instance. */
+  /**
+   * The selector for the host element of a `MatRadioGroup` instance.
+   *
+   * `MatRadioGroup` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-mdc-radio-group';
   protected _buttonClass = MatRadioButtonHarness;
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatRadioGroupHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a radio group with specific
+   * attributes.
    * @param options Options for filtering which radio group instances are considered a match.
+   *
+   * 用于过滤哪些无线电组实例应该视为匹配的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: RadioGroupHarnessFilters = {}): HarnessPredicate<MatRadioGroupHarness> {
-    return new HarnessPredicate<MatRadioGroupHarness>(MatRadioGroupHarness, options).addOption(
+  static with<T extends MatRadioGroupHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: RadioGroupHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption(
       'name',
       options.name,
-      this._checkRadioGroupName,
+      MatRadioGroupHarness._checkRadioGroupName,
     );
   }
 }
 
 /** Harness for interacting with an MDC-based mat-radio-button in tests. */
 export class MatRadioButtonHarness extends _MatRadioButtonHarnessBase {
-  /** The selector for the host element of a `MatRadioButton` instance. */
+  /**
+   * The selector for the host element of a `MatRadioButton` instance.
+   *
+   * `MatRadioButton` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-mdc-radio-button';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatRadioButtonHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a radio button with specific
+   * attributes.
    * @param options Options for filtering which radio button instances are considered a match.
+   *
+   * 用于过滤哪些单选按钮实例应该视为匹配的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: RadioButtonHarnessFilters = {}): HarnessPredicate<MatRadioButtonHarness> {
-    return new HarnessPredicate<MatRadioButtonHarness>(MatRadioButtonHarness, options)
+  static with<T extends MatRadioButtonHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: RadioButtonHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options)
       .addOption('label', options.label, (harness, label) =>
         HarnessPredicate.stringMatches(harness.getLabelText(), label),
       )
-      .addOption('name', options.name, async (harness, name) => (await harness.getName()) === name);
+      .addOption('name', options.name, async (harness, name) => (await harness.getName()) === name)
+      .addOption(
+        'checked',
+        options.checked,
+        async (harness, checked) => (await harness.isChecked()) == checked,
+      );
   }
 
   protected _textLabel = this.locatorFor('label');

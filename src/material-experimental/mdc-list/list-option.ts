@@ -8,8 +8,8 @@
 
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {SelectionModel} from '@angular/cdk/collections';
-import {Platform} from '@angular/cdk/platform';
 import {
+  ANIMATION_MODULE_TYPE,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -33,10 +33,10 @@ import {
   RippleGlobalOptions,
   ThemePalette,
 } from '@angular/material-experimental/mdc-core';
-import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {MatListBase, MatListItemBase} from './list-base';
 import {LIST_OPTION, ListOption, MatListOptionCheckboxPosition} from './list-option-types';
 import {MatListItemLine, MatListItemTitle} from './list-item-sections';
+import {Platform} from '@angular/cdk/platform';
 
 /**
  * Injection token that can be used to reference instances of an `SelectionList`. It serves
@@ -56,8 +56,9 @@ export interface SelectionList extends MatListBase {
   selectedOptions: SelectionModel<MatListOption>;
   compareWith: (o1: any, o2: any) => boolean;
   _value: string[] | null;
-  _reportValueChange: () => void;
-  _onTouched: () => void;
+  _reportValueChange(): void;
+  _emitChangeEvent(options: MatListOption[]): void;
+  _onTouched(): void;
 }
 
 @Component({
@@ -83,7 +84,9 @@ export interface SelectionList extends MatListBase {
     '[class.mat-accent]': 'color !== "primary" && color !== "warn"',
     '[class.mat-warn]': 'color === "warn"',
     '[class._mat-animation-noopable]': '_noopAnimations',
+    '[attr.aria-selected]': 'selected',
     '(blur)': '_handleBlur()',
+    '(click)': '_toggleOnInteraction()',
   },
   templateUrl: 'list-option.html',
   encapsulation: ViewEncapsulation.None,
@@ -97,7 +100,6 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
   @ContentChildren(MatListItemLine, {descendants: true}) _lines: QueryList<MatListItemLine>;
   @ContentChildren(MatListItemTitle, {descendants: true}) _titles: QueryList<MatListItemTitle>;
   @ViewChild('unscopedContent') _unscopedContent: ElementRef<HTMLSpanElement>;
-  @ViewChild('text') _itemText: ElementRef<HTMLElement>;
 
   /**
    * Emits when the selected state of the option has changed.
@@ -107,10 +109,20 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
   @Output()
   readonly selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  /** Whether the label should appear before or after the checkbox. Defaults to 'after' */
+  /**
+   * Whether the label should appear before or after the checkbox. Defaults to 'after'
+   *
+   * 标签是出现在复选框之前还是之后。默认为'after'
+   *
+   */
   @Input() checkboxPosition: MatListOptionCheckboxPosition = 'after';
 
-  /** Theme color of the list option. This sets the color of the checkbox. */
+  /**
+   * Theme color of the list option. This sets the color of the checkbox.
+   *
+   * 列表选项的主题颜色。这会设置复选框的颜色。
+   *
+   */
   @Input()
   get color(): ThemePalette {
     return this._color || this._selectionList.color;
@@ -120,7 +132,12 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
   }
   private _color: ThemePalette;
 
-  /** Value of the option */
+  /**
+   * Value of the option
+   *
+   * 选项的值
+   *
+   */
   @Input()
   get value(): any {
     return this._value;
@@ -134,7 +151,12 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
   }
   private _value: any;
 
-  /** Whether the option is selected. */
+  /**
+   * Whether the option is selected.
+   *
+   * 该选项是否被选定。
+   *
+   */
   @Input()
   get selected(): boolean {
     return this._selectionList.selectedOptions.isSelected(this);
@@ -159,27 +181,23 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
   private _inputsInitialized = false;
 
   constructor(
-    element: ElementRef,
+    elementRef: ElementRef<HTMLElement>,
     ngZone: NgZone,
+    @Inject(SELECTION_LIST) private _selectionList: SelectionList,
     platform: Platform,
-    @Inject(SELECTION_LIST) public _selectionList: SelectionList,
     private _changeDetectorRef: ChangeDetectorRef,
-    @Optional() @Inject(MAT_RIPPLE_GLOBAL_OPTIONS) globalRippleOptions?: RippleGlobalOptions,
+    @Optional()
+    @Inject(MAT_RIPPLE_GLOBAL_OPTIONS)
+    globalRippleOptions?: RippleGlobalOptions,
     @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
   ) {
-    super(element, ngZone, _selectionList, platform, globalRippleOptions, animationMode);
-
-    // By default, we mark all options as unselected. The MDC list foundation will
-    // automatically update the attribute based on selection. Note that we need to
-    // initially set this because MDC does not set the default attributes for list
-    // items but expects items to be set up properly in the static markup.
-    element.nativeElement.setAttribute('aria-selected', 'false');
+    super(elementRef, ngZone, _selectionList, platform, globalRippleOptions, animationMode);
   }
 
   ngOnInit() {
     const list = this._selectionList;
 
-    if (list._value && list._value.some(value => list.compareWith(value, this._value))) {
+    if (list._value && list._value.some(value => list.compareWith(this._value, value))) {
       this._setSelected(true);
     }
 
@@ -211,14 +229,33 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
     }
   }
 
-  /** Toggles the selection state of the option. */
+  /**
+   * Toggles the selection state of the option.
+   *
+   * 切换该选项的选定状态。
+   *
+   */
   toggle(): void {
     this.selected = !this.selected;
   }
 
-  /** Allows for programmatic focusing of the option. */
+  /**
+   * Allows for programmatic focusing of the option.
+   *
+   * 可以通过编程让该选项获得焦点。
+   *
+   */
   focus(): void {
     this._hostElement.focus();
+  }
+
+  /** Gets the text label of the list option. Used for the typeahead functionality in the list. */
+  getLabel() {
+    const titleElement = this._titles?.get(0)?._elementRef.nativeElement;
+    // If there is no explicit title element, the unscoped text content
+    // is treated as the list item title.
+    const labelEl = titleElement || this._unscopedContent?.nativeElement;
+    return labelEl?.textContent || '';
   }
 
   /** Whether a checkbox is shown at the given position. */
@@ -279,5 +316,23 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
    */
   _markForCheck() {
     this._changeDetectorRef.markForCheck();
+  }
+
+  /** Toggles the option's value based on a user interacion. */
+  _toggleOnInteraction() {
+    if (!this.disabled) {
+      if (this._selectionList.multiple) {
+        this.selected = !this.selected;
+        this._selectionList._emitChangeEvent([this]);
+      } else if (!this.selected) {
+        this.selected = true;
+        this._selectionList._emitChangeEvent([this]);
+      }
+    }
+  }
+
+  /** Sets the tabindex of the list option. */
+  _setTabindex(value: number) {
+    this._hostElement.setAttribute('tabindex', value + '');
   }
 }

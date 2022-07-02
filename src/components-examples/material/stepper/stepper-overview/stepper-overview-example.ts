@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
 
 /**
  * @title Stepper overview
@@ -9,19 +9,14 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   templateUrl: 'stepper-overview-example.html',
   styleUrls: ['stepper-overview-example.css'],
 })
-export class StepperOverviewExample implements OnInit {
+export class StepperOverviewExample {
+  firstFormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  secondFormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
   isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
 
   constructor(private _formBuilder: FormBuilder) {}
-
-  ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required],
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required],
-    });
-  }
 }

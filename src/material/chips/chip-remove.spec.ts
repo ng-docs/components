@@ -2,6 +2,7 @@ import {Component, DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {waitForAsync, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatChip, MatChipsModule} from './index';
+import {dispatchMouseEvent} from '@angular/cdk/testing/private';
 
 describe('Chip Remove', () => {
   let fixture: ComponentFixture<TestChip>;
@@ -9,27 +10,23 @@ describe('Chip Remove', () => {
   let chipDebugElement: DebugElement;
   let chipNativeElement: HTMLElement;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [MatChipsModule],
-        declarations: [TestChip],
-      });
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [MatChipsModule],
+      declarations: [TestChip],
+    });
 
-      TestBed.compileComponents();
-    }),
-  );
+    TestBed.compileComponents();
+  }));
 
-  beforeEach(
-    waitForAsync(() => {
-      fixture = TestBed.createComponent(TestChip);
-      testChip = fixture.debugElement.componentInstance;
-      fixture.detectChanges();
+  beforeEach(waitForAsync(() => {
+    fixture = TestBed.createComponent(TestChip);
+    testChip = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
 
-      chipDebugElement = fixture.debugElement.query(By.directive(MatChip))!;
-      chipNativeElement = chipDebugElement.nativeElement;
-    }),
-  );
+    chipDebugElement = fixture.debugElement.query(By.directive(MatChip))!;
+    chipNativeElement = chipDebugElement.nativeElement;
+  }));
 
   describe('basic behavior', () => {
     it('should apply a CSS class to the remove icon', () => {
@@ -77,6 +74,14 @@ describe('Chip Remove', () => {
       fixture.detectChanges();
 
       expect(testChip.didRemove).not.toHaveBeenCalled();
+    });
+
+    it('should prevent the default click action', () => {
+      const buttonElement = chipNativeElement.querySelector('button')!;
+      const event = dispatchMouseEvent(buttonElement, 'click');
+      fixture.detectChanges();
+
+      expect(event.defaultPrevented).toBe(true);
     });
   });
 });

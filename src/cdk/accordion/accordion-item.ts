@@ -22,12 +22,7 @@ import {CDK_ACCORDION, CdkAccordion} from './accordion';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Subscription} from 'rxjs';
 
-/**
- * Used to generate unique ID for each accordion item.
- *
- * 用来为每个手风琴条目生成唯一的 ID。
- *
- */
+/** Used to generate unique ID for each accordion item. */
 let nextId = 0;
 
 /**
@@ -47,12 +42,7 @@ let nextId = 0;
   ],
 })
 export class CdkAccordionItem implements OnDestroy {
-  /**
-   * Subscription to openAll/closeAll events.
-   *
-   * 订阅 openAll / closeAll 事件。
-   *
-   */
+  /** Subscription to openAll/closeAll events. */
   private _openCloseAllSubscription = Subscription.EMPTY;
   /**
    * Event emitted every time the AccordionItem is closed.
@@ -79,9 +69,6 @@ export class CdkAccordionItem implements OnDestroy {
   /**
    * Emits whenever the expanded state of the accordion changes.
    * Primarily used to facilitate two-way binding.
-   *
-   * 每当手风琴展开状态发生变化时，就会触发。主要是为了方便进行双向绑定。
-   *
    * @docs-private
    */
   @Output() readonly expandedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -117,9 +104,6 @@ export class CdkAccordionItem implements OnDestroy {
         /**
          * In the unique selection dispatcher, the id parameter is the id of the CdkAccordionItem,
          * the name value is the id of the accordion.
-         *
-         * 在唯一选项派发器中，其 id 参数是 CdkAccordionItem 的 id，其 name 的值是这个手风琴的 id。
-         *
          */
         const accordionId = this.accordion ? this.accordion.id : this.id;
         this._expansionDispatcher.notify(this.id, accordionId);
@@ -152,8 +136,6 @@ export class CdkAccordionItem implements OnDestroy {
   /**
    * Unregister function for \_expansionDispatcher.
    *
-   * 取消注册 \_expansionDispatcher 的函数。
-   *
    */
   private _removeUniqueSelectionListener: () => void = () => {};
 
@@ -181,12 +163,7 @@ export class CdkAccordionItem implements OnDestroy {
     }
   }
 
-  /**
-   * Emits an event for the accordion item being destroyed.
-   *
-   * 发出此条目被销毁的事件。
-   *
-   */
+  /** Emits an event for the accordion item being destroyed. */
   ngOnDestroy() {
     this.opened.complete();
     this.closed.complete();

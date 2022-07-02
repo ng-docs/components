@@ -39,8 +39,7 @@ import {startWith, distinctUntilChanged} from 'rxjs/operators';
  * position to its respective state. If there is not current position (void, in the case of a new
  * tab body), then there will be no transition animation to its state.
  *
- * 这些位置状态在内部用作选项卡本体的动画状态。将位置状态设置为 left、right 或 center，会把选项卡本体从当前位置转移到各自的状态。
- * 如果没有当前位置（对于新的选项卡本体是 void），那么它的状态就没有过渡动画了）。
+ * 这些位置状态在内部用作选项卡本体的动画状态。将位置状态设置为 left、right 或 center，会把选项卡本体从当前位置转移到各自的状态。 如果没有当前位置（对于新的选项卡本体是 void），那么它的状态就没有过渡动画了）。
  *
  * In the case of a new tab body that should immediately be centered with an animating transition,
  * then left-origin-center or right-origin-center can be used, which will use left or right as its
@@ -62,36 +61,22 @@ export type MatTabBodyPositionState =
  * set to 1, and a new tab is created and selected at index 2, then the tab body would have an
  * origin of right because its index was greater than the prior selected index.
  *
- * 原始状态是一个内部使用的状态，它在新的选项卡本体上设置，表明它是从前一个选定索引的左侧还是右侧开始的。
- * 例如，如果选定索引设置为 1，并且在索引 2 处创建并选定了一个新选项卡，则该选项卡本体的原点是右侧，因为它的索引大于之前选择的索引。
+ * 原始状态是一个内部使用的状态，它在新的选项卡本体上设置，表明它是从前一个选定索引的左侧还是右侧开始的。 例如，如果选定索引设置为 1，并且在索引 2 处创建并选定了一个新选项卡，则该选项卡本体的原点是右侧，因为它的索引大于之前选择的索引。
  *
  */
 export type MatTabBodyOriginState = 'left' | 'right';
 
 /**
  * The portal host directive for the contents of the tab.
- *
- * 该选项卡内容的传送点宿主指令。
- *
  * @docs-private
  */
 @Directive({
   selector: '[matTabBodyHost]',
 })
 export class MatTabBodyPortal extends CdkPortalOutlet implements OnInit, OnDestroy {
-  /**
-   * Subscription to events for when the tab body begins centering.
-   *
-   * 当选项卡主体开始居中时的订阅。
-   *
-   */
+  /** Subscription to events for when the tab body begins centering. */
   private _centeringSub = Subscription.EMPTY;
-  /**
-   * Subscription to events for when the tab body finishes leaving from center position.
-   *
-   * 当选项卡主体从中心位置离开后的订阅。
-   *
-   */
+  /** Subscription to events for when the tab body finishes leaving from center position. */
   private _leavingSub = Subscription.EMPTY;
 
   constructor(
@@ -103,12 +88,7 @@ export class MatTabBodyPortal extends CdkPortalOutlet implements OnInit, OnDestr
     super(componentFactoryResolver, viewContainerRef, _document);
   }
 
-  /**
-   * Set initial visibility or set up subscription for changing visibility.
-   *
-   * 设置初始可见性或设置订阅以改变可见性。
-   *
-   */
+  /** Set initial visibility or set up subscription for changing visibility. */
   override ngOnInit(): void {
     super.ngOnInit();
 
@@ -121,16 +101,13 @@ export class MatTabBodyPortal extends CdkPortalOutlet implements OnInit, OnDestr
       });
 
     this._leavingSub = this._host._afterLeavingCenter.subscribe(() => {
-      this.detach();
+      if (!this._host.preserveContent) {
+        this.detach();
+      }
     });
   }
 
-  /**
-   * Clean up centering subscription.
-   *
-   * 清理居中订阅。
-   *
-   */
+  /** Clean up centering subscription. */
   override ngOnDestroy(): void {
     super.ngOnDestroy();
     this._centeringSub.unsubscribe();
@@ -140,117 +117,52 @@ export class MatTabBodyPortal extends CdkPortalOutlet implements OnInit, OnDestr
 
 /**
  * Base class with all of the `MatTabBody` functionality.
- *
- * 具备所有 `MatTabBody` 功能的基类。
- *
  * @docs-private
  */
 @Directive()
 export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
-  /**
-   * Current position of the tab-body in the tab-group. Zero means that the tab is visible.
-   *
-   * 选项卡组中选项卡本体的当前位置。为零意味着此选项卡是可见的。
-   *
-   */
+  /** Current position of the tab-body in the tab-group. Zero means that the tab is visible. */
   private _positionIndex: number;
 
-  /**
-   * Subscription to the directionality change observable.
-   *
-   * 对方向性变更通知的订阅。
-   *
-   */
+  /** Subscription to the directionality change observable. */
   private _dirChangeSubscription = Subscription.EMPTY;
 
-  /**
-   * Tab body position state. Used by the animation trigger for the current state.
-   *
-   * 选项卡本体的位置状态。供当前状态的动画触发器使用。
-   *
-   */
+  /** Tab body position state. Used by the animation trigger for the current state. */
   _position: MatTabBodyPositionState;
 
-  /**
-   * Emits when an animation on the tab is complete.
-   *
-   * 选项卡的动画完成时发出通知。
-   *
-   */
+  /** Emits when an animation on the tab is complete. */
   readonly _translateTabComplete = new Subject<AnimationEvent>();
 
-  /**
-   * Event emitted when the tab begins to animate towards the center as the active tab.
-   *
-   * 此选项卡开始成为活动项，向中心动画时会发出本事件。
-   *
-   */
+  /** Event emitted when the tab begins to animate towards the center as the active tab. */
   @Output() readonly _onCentering: EventEmitter<number> = new EventEmitter<number>();
 
-  /**
-   * Event emitted before the centering of the tab begins.
-   *
-   * 选项卡开始居中前发出的事件。
-   *
-   */
+  /** Event emitted before the centering of the tab begins. */
   @Output() readonly _beforeCentering: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  /**
-   * Event emitted before the centering of the tab begins.
-   *
-   * 选项卡开始从中心离开前发出的事件。
-   *
-   */
+  /** Event emitted before the centering of the tab begins. */
   @Output() readonly _afterLeavingCenter: EventEmitter<void> = new EventEmitter<void>();
 
-  /**
-   * Event emitted when the tab completes its animation towards the center.
-   *
-   * 选项卡完成居中动画时会发出本事件。
-   *
-   */
+  /** Event emitted when the tab completes its animation towards the center. */
   @Output() readonly _onCentered: EventEmitter<void> = new EventEmitter<void>(true);
 
-  /**
-   * The portal host inside of this container into which the tab body content will be loaded.
-   *
-   * 这个容器里面的传送点宿主，选项卡本体的内容会加载到此处。
-   *
-   */
+  /** The portal host inside of this container into which the tab body content will be loaded. */
   abstract _portalHost: CdkPortalOutlet;
 
-  /**
-   * The tab body content to display.
-   *
-   * 选项卡本体中要显示的内容。
-   *
-   */
+  /** The tab body content to display. */
   @Input('content') _content: TemplatePortal;
 
-  /**
-   * Position that will be used when the tab is immediately becoming visible after creation.
-   *
-   * 当选项卡在创建后立即变为可见时，将使用的位置。
-   *
-   */
+  /** Position that will be used when the tab is immediately becoming visible after creation. */
   @Input() origin: number | null;
 
   // Note that the default value will always be overwritten by `MatTabBody`, but we need one
   // anyway to prevent the animations module from throwing an error if the body is used on its own.
-  /**
-   * Duration for the tab's animation.
-   *
-   * 选项卡动画的持续时间。
-   *
-   */
+  /** Duration for the tab's animation. */
   @Input() animationDuration: string = '500ms';
 
-  /**
-   * The shifted index position of the tab body, where zero represents the active center tab.
-   *
-   * 选项卡主体移动后的索引位置，其中零代表活动的中心选项卡。
-   *
-   */
+  /** Whether the tab's content should be kept in the DOM while it's off-screen. */
+  @Input() preserveContent: boolean = false;
+
+  /** The shifted index position of the tab body, where zero represents the active center tab. */
   @Input()
   set position(position: number) {
     this._positionIndex = position;
@@ -292,9 +204,6 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
   /**
    * After initialized, check if the content is centered and has an origin. If so, set the
    * special position states that transition the tab from the left or right before centering.
-   *
-   * 初始化完成后，检查内容是否居中，是否有原点。如果有，就设置特殊位置状态，以便在居中之前，从左侧或右侧播放选项卡过渡动画。
-   *
    */
   ngOnInit() {
     if (this._position == 'center' && this.origin != null) {
@@ -318,31 +227,21 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
   /**
    * The text direction of the containing app.
    *
-   * 容器应用的文字方向。
+   * 包含该应用的文字方向。
    *
    */
   _getLayoutDirection(): Direction {
     return this._dir && this._dir.value === 'rtl' ? 'rtl' : 'ltr';
   }
 
-  /**
-   * Whether the provided position state is considered center, regardless of origin.
-   *
-   * 无论原点在哪里，都把所提供的位置状态视为居中状态。
-   *
-   */
+  /** Whether the provided position state is considered center, regardless of origin. */
   _isCenterPosition(position: MatTabBodyPositionState | string): boolean {
     return (
       position == 'center' || position == 'left-origin-center' || position == 'right-origin-center'
     );
   }
 
-  /**
-   * Computes the position state that will be used for the tab-body animation trigger.
-   *
-   * 计算将用于选项卡动画触发器的位置状态。
-   *
-   */
+  /** Computes the position state that will be used for the tab-body animation trigger. */
   private _computePositionAnimationState(dir: Direction = this._getLayoutDirection()) {
     if (this._positionIndex < 0) {
       this._position = dir == 'ltr' ? 'left' : 'right';
@@ -356,9 +255,6 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
   /**
    * Computes the position state based on the specified origin position. This is used if the
    * tab is becoming visible immediately after creation.
-   *
-   * 根据指定的原点位置计算位置状态。如果选项卡在创建后立即可见，就会使用此方法。
-   *
    */
   private _computePositionFromOrigin(origin: number): MatTabBodyPositionState {
     const dir = this._getLayoutDirection();
@@ -373,9 +269,6 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
 
 /**
  * Wrapper for the contents of a tab.
- *
- * 包含选项卡内容的包装器。
- *
  * @docs-private
  */
 @Component({

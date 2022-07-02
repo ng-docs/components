@@ -69,9 +69,9 @@ approaches recommended by Angular Material in the past. The migration performs t
 
 HammerJS 可以通过多种方式进行设置。本迁移可以处理最常见的情况，包括过去 Angular Materials 推荐的方法。迁移的执行过程如下：
 
-*1\.* Remove `hammerjs` from your project `package.json`.
+*1.* Remove `hammerjs` from your project `package.json`.
 
-*1.*从项目的 `package.json` 中删除 `hammerjs`。
+\*1.\*从项目的 `package.json` 中删除 `hammerjs`。
 
 ```json
 {
@@ -81,7 +81,7 @@ HammerJS 可以通过多种方式进行设置。本迁移可以处理最常见�
 }
 ```
 
-*2\.* Remove script imports to `hammerjs` in the `index.html` file.
+*2.* Remove script imports to `hammerjs` in the `index.html` file.
 
 *2.* 删除 `index.html` 文件中对 `hammerjs` 的导入。
 
@@ -89,7 +89,7 @@ HammerJS 可以通过多种方式进行设置。本迁移可以处理最常见�
 <script src="https://my-cdn.io/hammer.min.js"></script>
 ```
 
-*3\.* Remove [side-effect imports][2] to `hammerjs`.
+*3.* Remove [side-effect imports][2] to `hammerjs`.
 
 *3.*删除到 `hammerjs` 的[副作用导入][2]。
 
@@ -143,6 +143,7 @@ automatically, but the migration will report such patterns and ask you to perfor
 还有一些模式对弃用的 `GestureConfig` 进行了扩展、注入或与其他自定义手势配置组合使用。这些模式无法自动处理，但是本迁移会报告这些模式，并要求你进行手动清理。
 
 <a name="test-migration"></a>
+
 ## How to migrate my tests?
 
 ## 如何迁移我的测试？
@@ -173,6 +174,7 @@ import 'hammerjs';
 ```
 
 <a name="what-to-do-ambiguous-usage"></a>
+
 ## The migration reported ambiguous usage. What should I do?
 
 ## 本迁移报告了“有歧义用法”。我该怎么办？
@@ -206,4 +208,5 @@ existing, custom gesture config to handle the events provided by the deprecated 
 **案例 2**：弃用的 Angular Material `GestureConfig` 与自定义 [`HAMMER_GESTURE_CONFIG`][1] 结合使用。这种情况有歧义，因为迁移无法检测给定的 HammerJS 事件绑定是对应于自定义手势配置，还是对应于弃用的 Angular Material 手势配置。如果报告了这样的警告，请检查你是否可以移除对弃用的 `GestureConfig` 的引用，或者你是否需要更新现有的自定义手势配置来处理弃用的 Angular Material `GestureConfig` 所提供的事件。
 
 [1]: https://v9.angular.io/api/platform-browser/HammerGestureConfig
+
 [2]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Import_a_module_for_its_side_effects_only

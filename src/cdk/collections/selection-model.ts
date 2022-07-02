@@ -73,6 +73,7 @@ export class SelectionModel<T> {
     private _multiple = false,
     initiallySelectedValues?: T[],
     private _emitChanges = true,
+    private _compareWith?: (o1: T, o2: T) => boolean,
   ) {
     if (initiallySelectedValues && initiallySelectedValues.length) {
       if (_multiple) {
@@ -110,6 +111,17 @@ export class SelectionModel<T> {
     this._emitChangeEvent();
   }
 
+  setSelection(...values: T[]): void {
+    this._verifyValueAssignment(values);
+    const oldValues = this.selected;
+    const newSelectedSet = new Set(values);
+    values.forEach(value => this._markSelected(value));
+    oldValues
+      .filter(value => !newSelectedSet.has(value))
+      .forEach(value => this._unmarkSelected(value));
+    this._emitChangeEvent();
+  }
+
   /**
    * Toggles a value between selected and deselected.
    *
@@ -138,6 +150,14 @@ export class SelectionModel<T> {
    *
    */
   isSelected(value: T): boolean {
+    if (this._compareWith) {
+      for (const otherValue of this._selection) {
+        if (this._compareWith(otherValue, value)) {
+          return true;
+        }
+      }
+      return false;
+    }
     return this._selection.has(value);
   }
 
@@ -217,7 +237,9 @@ export class SelectionModel<T> {
         this._unmarkAll();
       }
 
-      this._selection.add(value);
+      if (!this.isSelected(value)) {
+        this._selection.add(value);
+      }
 
       if (this._emitChanges) {
         this._selectedToEmit.push(value);

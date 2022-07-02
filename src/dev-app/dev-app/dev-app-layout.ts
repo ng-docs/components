@@ -11,7 +11,13 @@ import {ChangeDetectorRef, Component, ElementRef, Inject, ViewEncapsulation} fro
 
 import {DevAppDirectionality} from './dev-app-directionality';
 import {DevAppRippleOptions} from './ripple-options';
-import {DOCUMENT} from '@angular/common';
+import {CommonModule, DOCUMENT} from '@angular/common';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
+import {RouterModule} from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 const isDarkThemeKey = 'ANGULAR_COMPONENTS_DEV_APP_DARK_THEME';
 
@@ -28,6 +34,16 @@ export const ANIMATIONS_STORAGE_KEY = 'ANGULAR_COMPONENTS_ANIMATIONS_DISABLED';
   templateUrl: 'dev-app-layout.html',
   styleUrls: ['dev-app-layout.css'],
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    RouterModule,
+  ],
 })
 export class DevAppLayout {
   readonly darkThemeClass = 'demo-unicorn-dark-theme';
@@ -41,9 +57,10 @@ export class DevAppLayout {
     {name: 'Button Toggle', route: '/button-toggle'},
     {name: 'Button', route: '/button'},
     {name: 'Card', route: '/card'},
-    {name: 'Cdk Experimental Combobox', route: '/cdk-experimental-combobox'},
-    {name: 'Cdk Experimental Listbox', route: '/cdk-experimental-listbox'},
-    {name: 'Cdk Experimental Menu', route: '/cdk-experimental-menu'},
+    {name: 'CDK Dialog', route: '/cdk-dialog'},
+    {name: 'CDK Menu', route: '/cdk-menu'},
+    {name: 'CDK Experimental Combobox', route: '/cdk-experimental-combobox'},
+    {name: 'CDK Experimental Listbox', route: '/cdk-experimental-listbox'},
     {name: 'Checkbox', route: '/checkbox'},
     {name: 'Chips', route: '/chips'},
     {name: 'Clipboard', route: '/clipboard'},
@@ -107,7 +124,6 @@ export class DevAppLayout {
     {name: 'MDC Tabs', route: '/mdc-tabs'},
     {name: 'MDC Tooltip', route: '/mdc-tooltip'},
     {name: 'MDC Select', route: '/mdc-select'},
-    {name: 'MDC Sidenav', route: '/mdc-sidenav'},
     {name: 'MDC Slide Toggle', route: '/mdc-slide-toggle'},
     {name: 'MDC Slider', route: '/mdc-slider'},
     {name: 'MDC Snack Bar', route: '/mdc-snack-bar'},

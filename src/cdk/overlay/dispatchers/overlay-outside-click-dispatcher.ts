@@ -7,7 +7,7 @@
  */
 
 import {DOCUMENT} from '@angular/common';
-import {Inject, Injectable} from '@angular/core';
+import {Inject, Injectable, NgZone, Optional} from '@angular/core';
 import {OverlayReference} from '../overlay-reference';
 import {Platform, _getEventTarget} from '@angular/cdk/platform';
 import {BaseOverlayDispatcher} from './base-overlay-dispatcher';
@@ -26,7 +26,12 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
   private _cursorStyleIsSet = false;
   private _pointerDownEventTarget: EventTarget | null;
 
-  constructor(@Inject(DOCUMENT) document: any, private _platform: Platform) {
+  constructor(
+    @Inject(DOCUMENT) document: any,
+    private _platform: Platform,
+    /** @breaking-change 14.0.0 _ngZone will be required. */
+    @Optional() private _ngZone?: NgZone,
+  ) {
     super(document);
   }
 
@@ -47,10 +52,13 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
     // https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/HandlingEvents/HandlingEvents.html
     if (!this._isAttached) {
       const body = this._document.body;
-      body.addEventListener('pointerdown', this._pointerDownListener, true);
-      body.addEventListener('click', this._clickListener, true);
-      body.addEventListener('auxclick', this._clickListener, true);
-      body.addEventListener('contextmenu', this._clickListener, true);
+
+      /** @breaking-change 14.0.0 _ngZone will be required. */
+      if (this._ngZone) {
+        this._ngZone.runOutsideAngular(() => this._addEventListeners(body));
+      } else {
+        this._addEventListeners(body);
+      }
 
       // click event is not fired on iOS. To make element "clickable" we are
       // setting the cursor to pointer
@@ -85,22 +93,19 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
     }
   }
 
-  /**
-   * Store pointerdown event target to track origin of click.
-   *
-   * 存储 pointerdown 事件目标以跟踪点击来源。
-   *
-   */
+  private _addEventListeners(body: HTMLElement): void {
+    body.addEventListener('pointerdown', this._pointerDownListener, true);
+    body.addEventListener('click', this._clickListener, true);
+    body.addEventListener('auxclick', this._clickListener, true);
+    body.addEventListener('contextmenu', this._clickListener, true);
+  }
+
+  /** Store pointerdown event target to track origin of click. */
   private _pointerDownListener = (event: PointerEvent) => {
     this._pointerDownEventTarget = _getEventTarget(event);
   };
 
-  /**
-   * Click event listener that will be attached to the body propagate phase.
-   *
-   * 单击事件侦听器，该事件将附加到 body 上的传播阶段。
-   *
-   */
+  /** Click event listener that will be attached to the body propagate phase. */
   private _clickListener = (event: MouseEvent) => {
     const target = _getEventTarget(event);
     // In case of a click event, we want to check the origin of the click
@@ -142,7 +147,13 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
         break;
       }
 
-      overlayRef._outsidePointerEvents.next(event);
+      const outsidePointerEvents = overlayRef._outsidePointerEvents;
+      /** @breaking-change 14.0.0 _ngZone will be required. */
+      if (this._ngZone) {
+        this._ngZone.run(() => outsidePointerEvents.next(event));
+      } else {
+        outsidePointerEvents.next(event);
+      }
     }
   };
 }

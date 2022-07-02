@@ -5,7 +5,6 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {AnimationEvent} from '@angular/animations';
 import {AriaDescriber, FocusMonitor} from '@angular/cdk/a11y';
 import {Directionality} from '@angular/cdk/bidi';
 import {
@@ -17,7 +16,6 @@ import {
 import {ESCAPE, hasModifierKey} from '@angular/cdk/keycodes';
 import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 import {
-  ConnectedPosition,
   FlexibleConnectedPositionStrategy,
   HorizontalConnectionPos,
   OriginConnectionPosition,
@@ -27,6 +25,7 @@ import {
   ScrollStrategy,
   VerticalConnectionPos,
   ConnectionPositionPair,
+  ConnectedPosition,
 } from '@angular/cdk/overlay';
 import {Platform, normalizePassiveListenerOptions} from '@angular/cdk/platform';
 import {ComponentPortal, ComponentType} from '@angular/cdk/portal';
@@ -46,12 +45,12 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
   AfterViewInit,
+  ViewChild,
 } from '@angular/core';
 import {DOCUMENT} from '@angular/common';
+import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {Observable, Subject} from 'rxjs';
 import {take, takeUntil} from 'rxjs/operators';
-
-import {matTooltipAnimations} from './tooltip-animations';
 
 /**
  * Possible positions for a tooltip.
@@ -65,7 +64,7 @@ export type TooltipPosition = 'left' | 'right' | 'above' | 'below' | 'before' | 
  * Options for how the tooltip trigger should handle touch gestures.
  * See `MatTooltip.touchGestures` for more information.
  *
- * 工具提示触发器如何处理触摸手势的选项。有关更多信息，请参阅 `MatTooltip.touchGestures`
+ * 工具提示触发器如何处理触摸手势的选项。有关更多信息，请参阅 `MatTooltip.touchGestures`。
  *
  */
 export type TooltipTouchGestures = 'auto' | 'on' | 'off';
@@ -93,36 +92,22 @@ export const SCROLL_THROTTLE_MS = 20;
  *
  * @deprecated
  * @breaking-change 13.0.0 remove this variable
- *
- * 删除此变量
- *
  */
 export const TOOLTIP_PANEL_CLASS = 'mat-tooltip-panel';
 
 const PANEL_CLASS = 'tooltip-panel';
 
-/**
- * Options used to bind passive event listeners.
- *
- * 用于绑定被动事件监听器的选项。
- *
- */
+/** Options used to bind passive event listeners. */
 const passiveListenerOptions = normalizePassiveListenerOptions({passive: true});
 
 /**
  * Time between the user putting the pointer on a tooltip
  * trigger and the long press event being fired.
- *
- * 用户把指针放在工具提示触发器上的时间与触发长按事件之间的时间。
- *
  */
 const LONGPRESS_DELAY = 500;
 
 /**
  * Creates an error to be thrown if the user supplied an invalid tooltip position.
- *
- * 如果用户提供了无效的工具提示位置，则创建一个要抛出的错误。
- *
  * @docs-private
  */
 export function getMatTooltipInvalidPositionError(position: string) {
@@ -158,11 +143,23 @@ export const MAT_TOOLTIP_SCROLL_STRATEGY_FACTORY_PROVIDER = {
  *
  */
 export interface MatTooltipDefaultOptions {
+  /** Default delay when the tooltip is shown. */
   showDelay: number;
+
+  /** Default delay when the tooltip is hidden. */
   hideDelay: number;
+
+  /** Default delay when hiding the tooltip on a touch device. */
   touchendHideDelay: number;
+
+  /** Default touch gesture handling for tooltips. */
   touchGestures?: TooltipTouchGestures;
+
+  /** Default position for tooltips. */
   position?: TooltipPosition;
+
+  /** Disables the ability for the user to interact with the tooltip element. */
+  disableTooltipInteractivity?: boolean;
 }
 
 /**
@@ -277,6 +274,10 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   }
   set hideDelay(value: NumberInput) {
     this._hideDelay = coerceNumberProperty(value);
+
+    if (this._tooltipInstance) {
+      this._tooltipInstance._mouseLeaveHideDelay = this._hideDelay;
+    }
   }
   private _hideDelay = this._defaultOptions.hideDelay;
 
@@ -287,16 +288,13 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
    * trigger, but that might not be desirable on particular elements (e.g. inputs and draggable
    * elements). The different values for this option configure the touch event handling as follows:
    *
-   * 工具提示应如何处理触摸手势。在触摸设备上，工具提示指令会使用长按手势进行显示和隐藏，但是它可能与原生的浏览器手势冲突。
-   * 为了解决这个冲突，Angular Material 会在触发器上禁用原生手势，但这可能不适用于特定的元素（例如输入框和可拖动的元素）。
-   * 此选项有不同的值用来配置 touch 事件的处理方式，如下所示：
+   * 工具提示应如何处理触摸手势。在触摸设备上，工具提示指令会使用长按手势进行显示和隐藏，但是它可能与原生的浏览器手势冲突。 为了解决这个冲突，Angular Material 会在触发器上禁用原生手势，但这可能不适用于特定的元素（例如输入框和可拖动的元素）。 此选项有不同的值用来配置 touch 事件的处理方式，如下所示：
    *
    * - `auto` - Enables touch gestures for all elements, but tries to avoid conflicts with native
    *   browser gestures on particular elements. In particular, it allows text selection on inputs
    *   and textareas, and preserves the native browser dragging on elements marked as `draggable`.
    *
-   *   `auto` - 为所有元素启用触摸手势，但会尽量避免与特定元素的原生浏览器手势冲突。
-   *   它特别允许在 input 和 textarea 上进行文本选择，并保留原生浏览器中标记为 `draggable` 的元素上的拖曳效果。
+   *   `auto` - 为所有元素启用触摸手势，但会尽量避免与特定元素的原生浏览器手势冲突。 它特别允许在 input 和 textarea 上进行文本选择，并保留原生浏览器中标记为 `draggable` 的元素上的拖曳效果。
    *
    * - `on` - Enables touch gestures for all elements and disables native
    *   browser gestures with no exceptions.
@@ -364,37 +362,17 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     }
   }
 
-  /**
-   * Manually-bound passive event listeners.
-   *
-   * 手动绑定的被动事件监听器
-   *
-   */
+  /** Manually-bound passive event listeners. */
   private readonly _passiveListeners: (readonly [string, EventListenerOrEventListenerObject])[] =
     [];
 
-  /**
-   * Reference to the current document.
-   *
-   * 到当前的文档的引用。
-   *
-   */
+  /** Reference to the current document. */
   private _document: Document;
 
-  /**
-   * Timer started at the last `touchstart` event.
-   *
-   * 从最后一次 `touchstart` 事件开始的计时器。
-   *
-   */
+  /** Timer started at the last `touchstart` event. */
   private _touchstartTimeout: number;
 
-  /**
-   * Emits when the component is destroyed.
-   *
-   * 当组件被销毁时会触发。
-   *
-   */
+  /** Emits when the component is destroyed. */
   private readonly _destroyed = new Subject<void>();
 
   constructor(
@@ -429,10 +407,6 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
         this._updatePosition(this._overlayRef);
       }
     });
-
-    _ngZone.runOutsideAngular(() => {
-      _elementRef.nativeElement.addEventListener('keydown', this._handleKeydown);
-    });
   }
 
   ngAfterViewInit() {
@@ -455,9 +429,6 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
 
   /**
    * Dispose the tooltip when destroyed.
-   *
-   * 当被销毁时释放工具提示。
-   *
    */
   ngOnDestroy() {
     const nativeElement = this._elementRef.nativeElement;
@@ -470,7 +441,6 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     }
 
     // Clean up the event listeners set in the constructor
-    nativeElement.removeEventListener('keydown', this._handleKeydown);
     this._passiveListeners.forEach(([event, listener]) => {
       nativeElement.removeEventListener(event, listener, passiveListenerOptions);
     });
@@ -504,14 +474,16 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     this._detach();
     this._portal =
       this._portal || new ComponentPortal(this._tooltipComponent, this._viewContainerRef);
-    this._tooltipInstance = overlayRef.attach(this._portal).instance;
-    this._tooltipInstance
+    const instance = (this._tooltipInstance = overlayRef.attach(this._portal).instance);
+    instance._triggerElement = this._elementRef.nativeElement;
+    instance._mouseLeaveHideDelay = this._hideDelay;
+    instance
       .afterHidden()
       .pipe(takeUntil(this._destroyed))
       .subscribe(() => this._detach());
     this._setTooltipClass(this._tooltipClass);
     this._updateTooltipMessage();
-    this._tooltipInstance!.show(delay);
+    instance.show(delay);
   }
 
   /**
@@ -536,37 +508,12 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     this._isTooltipVisible() ? this.hide() : this.show();
   }
 
-  /**
-   * Returns true if the tooltip is currently visible to the user
-   *
-   * 如果工具提示当前对用户可见，则返回 true
-   *
-   */
+  /** Returns true if the tooltip is currently visible to the user */
   _isTooltipVisible(): boolean {
     return !!this._tooltipInstance && this._tooltipInstance.isVisible();
   }
 
-  /**
-   * Handles the keydown events on the host element.
-   * Needs to be an arrow function so that we can use it in addEventListener.
-   *
-   * 处理宿主元素上的 keydown 事件。需要定义成一个箭头函数才能在 addEventListener 中使用它。
-   *
-   */
-  private _handleKeydown = (event: KeyboardEvent) => {
-    if (this._isTooltipVisible() && event.keyCode === ESCAPE && !hasModifierKey(event)) {
-      event.preventDefault();
-      event.stopPropagation();
-      this._ngZone.run(() => this.hide(0));
-    }
-  };
-
-  /**
-   * Create the overlay config and position strategy
-   *
-   * 创建浮层配置和定位策略
-   *
-   */
+  /** Create the overlay config and position strategy */
   private _createOverlay(): OverlayRef {
     if (this._overlayRef) {
       return this._overlayRef;
@@ -616,15 +563,25 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
       .pipe(takeUntil(this._destroyed))
       .subscribe(() => this._tooltipInstance?._handleBodyInteraction());
 
+    this._overlayRef
+      .keydownEvents()
+      .pipe(takeUntil(this._destroyed))
+      .subscribe(event => {
+        if (this._isTooltipVisible() && event.keyCode === ESCAPE && !hasModifierKey(event)) {
+          event.preventDefault();
+          event.stopPropagation();
+          this._ngZone.run(() => this.hide(0));
+        }
+      });
+
+    if (this._defaultOptions?.disableTooltipInteractivity) {
+      this._overlayRef.addPanelClass(`${this._cssClassPrefix}-tooltip-panel-non-interactive`);
+    }
+
     return this._overlayRef;
   }
 
-  /**
-   * Detaches the currently-attached tooltip.
-   *
-   * 拆除当前附加的工具提示。
-   *
-   */
+  /** Detaches the currently-attached tooltip. */
   private _detach() {
     if (this._overlayRef && this._overlayRef.hasAttached()) {
       this._overlayRef.detach();
@@ -633,12 +590,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     this._tooltipInstance = null;
   }
 
-  /**
-   * Updates the position of the current tooltip.
-   *
-   * 更新当前工具提示的位置。
-   *
-   */
+  /** Updates the position of the current tooltip. */
   private _updatePosition(overlayRef: OverlayRef) {
     const position = overlayRef.getConfig().positionStrategy as FlexibleConnectedPositionStrategy;
     const origin = this._getOrigin();
@@ -650,12 +602,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     ]);
   }
 
-  /**
-   * Adds the configured offset to a position. Used as a hook for child classes.
-   *
-   * 将所配置的偏移量添加到位置。用作子类的钩子。
-   *
-   */
+  /** Adds the configured offset to a position. Used as a hook for child classes. */
   protected _addOffset(position: ConnectedPosition): ConnectedPosition {
     return position;
   }
@@ -663,9 +610,6 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   /**
    * Returns the origin position and a fallback position based on the user's position preference.
    * The fallback position is the inverse of the origin (e.g. `'below' -> 'above'`).
-   *
-   * 根据用户的位置偏好，返回原点位置和后备位置。后备位置与原点相反（例如 `'below' -> 'above'` ）。
-   *
    */
   _getOrigin(): {main: OriginConnectionPosition; fallback: OriginConnectionPosition} {
     const isLtr = !this._dir || this._dir.value == 'ltr';
@@ -698,12 +642,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     };
   }
 
-  /**
-   * Returns the overlay position and a fallback position based on the user's preference
-   *
-   * 根据用户的偏好，返回浮层位置和后备位置
-   *
-   */
+  /** Returns the overlay position and a fallback position based on the user's preference */
   _getOverlayPosition(): {main: OverlayConnectionPosition; fallback: OverlayConnectionPosition} {
     const isLtr = !this._dir || this._dir.value == 'ltr';
     const position = this.position;
@@ -737,12 +676,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     };
   }
 
-  /**
-   * Updates the tooltip message and repositions the overlay according to the new message length
-   *
-   * 更新工具提示信息并根据新的信息长度重新定位浮层
-   *
-   */
+  /** Updates the tooltip message and repositions the overlay according to the new message length */
   private _updateTooltipMessage() {
     // Must wait for the message to be painted to the tooltip so that the overlay can properly
     // calculate the correct positioning based on the size of the text.
@@ -758,12 +692,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     }
   }
 
-  /**
-   * Updates the tooltip class
-   *
-   * 更新工具提示类
-   *
-   */
+  /** Updates the tooltip class */
   private _setTooltipClass(tooltipClass: string | string[] | Set<string> | {[key: string]: any}) {
     if (this._tooltipInstance) {
       this._tooltipInstance.tooltipClass = tooltipClass;
@@ -771,12 +700,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     }
   }
 
-  /**
-   * Inverts an overlay position.
-   *
-   * 反转浮层位置。
-   *
-   */
+  /** Inverts an overlay position. */
   private _invertPosition(x: HorizontalConnectionPos, y: VerticalConnectionPos) {
     if (this.position === 'above' || this.position === 'below') {
       if (y === 'top') {
@@ -795,12 +719,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     return {x, y};
   }
 
-  /**
-   * Updates the class on the overlay panel based on the current position of the tooltip.
-   *
-   * 根据工具提示的当前位置更新浮层面板上的类。
-   *
-   */
+  /** Updates the class on the overlay panel based on the current position of the tooltip. */
   private _updateCurrentPositionClass(connectionPair: ConnectionPositionPair): void {
     const {overlayY, originX, originY} = connectionPair;
     let newPosition: TooltipPosition;
@@ -833,12 +752,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     }
   }
 
-  /**
-   * Binds the pointer events to the tooltip trigger.
-   *
-   * 把指针事件绑定到工具提示的触发器上。
-   *
-   */
+  /** Binds the pointer events to the tooltip trigger. */
   private _setupPointerEnterEventsIfNeeded() {
     // Optimization: Defer hooking up events if there's no message or the tooltip is disabled.
     if (
@@ -887,7 +801,15 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     const exitListeners: (readonly [string, EventListenerOrEventListenerObject])[] = [];
     if (this._platformSupportsMouseEvents()) {
       exitListeners.push(
-        ['mouseleave', () => this.hide()],
+        [
+          'mouseleave',
+          event => {
+            const newTarget = (event as MouseEvent).relatedTarget as Node | null;
+            if (!newTarget || !this._overlayRef?.overlayElement.contains(newTarget)) {
+              this.hide();
+            }
+          },
+        ],
         ['wheel', event => this._wheelListener(event as WheelEvent)],
       );
     } else if (this.touchGestures !== 'off') {
@@ -914,12 +836,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     return !this._platform.IOS && !this._platform.ANDROID;
   }
 
-  /**
-   * Listener for the `wheel` event on the element.
-   *
-   * 监听元素上滚轮（`wheel`）事件的监听器。
-   *
-   */
+  /** Listener for the `wheel` event on the element. */
   private _wheelListener(event: WheelEvent) {
     if (this._isTooltipVisible()) {
       const elementUnderPointer = this._document.elementFromPoint(event.clientX, event.clientY);
@@ -935,12 +852,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     }
   }
 
-  /**
-   * Disables the native browser gestures, based on how the tooltip has been configured.
-   *
-   * 根据工具提示的配置方式，禁用原生浏览器的手势。
-   *
-   */
+  /** Disables the native browser gestures, based on how the tooltip has been configured. */
   private _disableNativeGesturesIfNecessary() {
     const gestures = this.touchGestures;
 
@@ -976,7 +888,8 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
  *
  * 将 Material Design 工具提示附加到主体元素的指令。对工具提示提供的位置的显示和隐藏进行动画处理（默认为元素下方）。
  *
- * https://material.io/design/components/tooltips.html
+ * <https://material.io/design/components/tooltips.html>
+ *
  */
 @Directive({
   selector: '[matTooltip]',
@@ -1021,155 +934,98 @@ export class MatTooltip extends _MatTooltipBase<TooltipComponent> {
 
 @Directive()
 export abstract class _TooltipComponentBase implements OnDestroy {
-  /**
-   * Message to display in the tooltip
-   *
-   * 要在工具提示中显示的消息
-   *
-   */
+  /** Message to display in the tooltip */
   message: string;
 
-  /**
-   * Classes to be added to the tooltip. Supports the same syntax as `ngClass`.
-   *
-   * 要添加到工具提示中的类。语法和 `ngClass` 相同。
-   *
-   */
+  /** Classes to be added to the tooltip. Supports the same syntax as `ngClass`. */
   tooltipClass: string | string[] | Set<string> | {[key: string]: any};
 
-  /**
-   * The timeout ID of any current timer set to show the tooltip
-   *
-   * 用来显示工具提示的当前定时器的超时 ID
-   *
-   */
+  /** The timeout ID of any current timer set to show the tooltip */
   _showTimeoutId: number | undefined;
 
-  /**
-   * The timeout ID of any current timer set to hide the tooltip
-   *
-   * 用来隐藏工具提示的当前定时器的超时 ID
-   *
-   */
+  /** The timeout ID of any current timer set to hide the tooltip */
   _hideTimeoutId: number | undefined;
 
-  /**
-   * Property watched by the animation framework to show or hide the tooltip
-   *
-   * 动画框架要监视的属性，以便显示或隐藏工具提示
-   *
-   */
+  /** Property watched by the animation framework to show or hide the tooltip */
   _visibility: TooltipVisibility = 'initial';
 
-  /**
-   * Whether interactions on the page should close the tooltip
-   *
-   * 页面上的交互是否应该关闭工具提示
-   *
-   */
-  private _closeOnInteraction: boolean = false;
+  /** Element that caused the tooltip to open. */
+  _triggerElement: HTMLElement;
 
-  /**
-   * Subject for notifying that the tooltip has been hidden from the view
-   *
-   * 用于通知工具提示已从视图中隐藏的主体对象
-   *
-   */
+  /** Amount of milliseconds to delay the closing sequence. */
+  _mouseLeaveHideDelay: number;
+
+  /** Whether animations are currently disabled. */
+  private _animationsDisabled: boolean;
+
+  /** Reference to the internal tooltip element. */
+  abstract _tooltip: ElementRef<HTMLElement>;
+
+  /** Whether interactions on the page should close the tooltip */
+  private _closeOnInteraction = false;
+
+  /** Whether the tooltip is currently visible. */
+  private _isVisible = false;
+
+  /** Subject for notifying that the tooltip has been hidden from the view */
   private readonly _onHide: Subject<void> = new Subject();
 
-  constructor(private _changeDetectorRef: ChangeDetectorRef) {}
+  /** Name of the show animation and the class that toggles it. */
+  protected abstract readonly _showAnimation: string;
+
+  /** Name of the hide animation and the class that toggles it. */
+  protected abstract readonly _hideAnimation: string;
+
+  constructor(
+    private _changeDetectorRef: ChangeDetectorRef,
+    @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
+  ) {
+    this._animationsDisabled = animationMode === 'NoopAnimations';
+  }
 
   /**
    * Shows the tooltip with an animation originating from the provided origin
-   *
-   * 从所提供的原点开始，动画显示出工具提示
-   *
    * @param delay Amount of milliseconds to the delay showing the tooltip.
-   *
-   * 显示工具提示的延迟时间，以毫秒为单位。
-   *
    */
   show(delay: number): void {
     // Cancel the delayed hide if it is scheduled
     clearTimeout(this._hideTimeoutId);
 
-    // Body interactions should cancel the tooltip if there is a delay in showing.
-    this._closeOnInteraction = true;
     this._showTimeoutId = setTimeout(() => {
-      this._visibility = 'visible';
+      this._toggleVisibility(true);
       this._showTimeoutId = undefined;
-      this._onShow();
-
-      // Mark for check so if any parent component has set the
-      // ChangeDetectionStrategy to OnPush it will be checked anyways
-      this._markForCheck();
     }, delay);
   }
 
   /**
    * Begins the animation to hide the tooltip after the provided delay in ms.
-   *
-   * 开始动画，以便在所提供的毫秒数之后隐藏工具提示。
-   *
    * @param delay Amount of milliseconds to delay showing the tooltip.
-   *
-   * 延迟显示工具提示的毫秒数。
-   *
    */
   hide(delay: number): void {
     // Cancel the delayed show if it is scheduled
     clearTimeout(this._showTimeoutId);
 
     this._hideTimeoutId = setTimeout(() => {
-      this._visibility = 'hidden';
+      this._toggleVisibility(false);
       this._hideTimeoutId = undefined;
-
-      // Mark for check so if any parent component has set the
-      // ChangeDetectionStrategy to OnPush it will be checked anyways
-      this._markForCheck();
     }, delay);
   }
 
-  /**
-   * Returns an observable that notifies when the tooltip has been hidden from view.
-   *
-   * 返回一个可观察对象，它会在工具提示从视图中被隐藏时发出通知。
-   *
-   */
+  /** Returns an observable that notifies when the tooltip has been hidden from view. */
   afterHidden(): Observable<void> {
     return this._onHide;
   }
 
-  /**
-   * Whether the tooltip is being displayed.
-   *
-   * 是否正在显示工具提示。
-   *
-   */
+  /** Whether the tooltip is being displayed. */
   isVisible(): boolean {
-    return this._visibility === 'visible';
+    return this._isVisible;
   }
 
   ngOnDestroy() {
     clearTimeout(this._showTimeoutId);
     clearTimeout(this._hideTimeoutId);
     this._onHide.complete();
-  }
-
-  _animationStart() {
-    this._closeOnInteraction = false;
-  }
-
-  _animationDone(event: AnimationEvent): void {
-    const toState = event.toState as TooltipVisibility;
-
-    if (toState === 'hidden' && !this.isVisible()) {
-      this._onHide.next();
-    }
-
-    if (toState === 'visible' || toState === 'hidden') {
-      this._closeOnInteraction = true;
-    }
+    this._triggerElement = null!;
   }
 
   /**
@@ -1177,7 +1033,6 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    * material design spec.
    * <https://material.io/design/components/tooltips.html#behavior>
    *
-   * HTML 正文中的交互应该立即关闭工具提示，就像在 Material Design 规范中定义的那样。<https://material.io/design/components/tooltips.html#behavior>
    */
   _handleBodyInteraction(): void {
     if (this._closeOnInteraction) {
@@ -1189,30 +1044,79 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    * Marks that the tooltip needs to be checked in the next change detection run.
    * Mainly used for rendering the initial text before positioning a tooltip, which
    * can be problematic in components with OnPush change detection.
-   *
-   * 标记下次变更检测运行时是否需要检查工具提示。主要用于在定位工具提示之前渲染初始文本，否则对于使用 OnPush 变更检测的组件来说可能有问题。
-   *
    */
   _markForCheck(): void {
     this._changeDetectorRef.markForCheck();
+  }
+
+  _handleMouseLeave({relatedTarget}: MouseEvent) {
+    if (!relatedTarget || !this._triggerElement.contains(relatedTarget as Node)) {
+      this.hide(this._mouseLeaveHideDelay);
+    }
   }
 
   /**
    * Callback for when the timeout in this.show() gets completed.
    * This method is only needed by the mdc-tooltip, and so it is only implemented
    * in the mdc-tooltip, not here.
-   *
-   * this.show() 中的超时完成时的回调。这个方法只有 mdc-tooltip 需要，所以只在 mdc-tooltip 里面实现，这里没有。
-   *
    */
   protected _onShow(): void {}
+
+  /** Event listener dispatched when an animation on the tooltip finishes. */
+  _handleAnimationEnd({animationName}: AnimationEvent) {
+    if (animationName === this._showAnimation || animationName === this._hideAnimation) {
+      this._finalizeAnimation(animationName === this._showAnimation);
+    }
+  }
+
+  /** Handles the cleanup after an animation has finished. */
+  private _finalizeAnimation(toVisible: boolean) {
+    if (toVisible) {
+      this._closeOnInteraction = true;
+    } else if (!this.isVisible()) {
+      this._onHide.next();
+    }
+  }
+
+  /** Toggles the visibility of the tooltip element. */
+  private _toggleVisibility(isVisible: boolean) {
+    // We set the classes directly here ourselves so that toggling the tooltip state
+    // isn't bound by change detection. This allows us to hide it even if the
+    // view ref has been detached from the CD tree.
+    const tooltip = this._tooltip.nativeElement;
+    const showClass = this._showAnimation;
+    const hideClass = this._hideAnimation;
+    tooltip.classList.remove(isVisible ? hideClass : showClass);
+    tooltip.classList.add(isVisible ? showClass : hideClass);
+    this._isVisible = isVisible;
+
+    // It's common for internal apps to disable animations using `* { animation: none !important }`
+    // which can break the opening sequence. Try to detect such cases and work around them.
+    if (isVisible && !this._animationsDisabled && typeof getComputedStyle === 'function') {
+      const styles = getComputedStyle(tooltip);
+
+      // Use `getPropertyValue` to avoid issues with property renaming.
+      if (
+        styles.getPropertyValue('animation-duration') === '0s' ||
+        styles.getPropertyValue('animation-name') === 'none'
+      ) {
+        this._animationsDisabled = true;
+      }
+    }
+
+    if (isVisible) {
+      this._onShow();
+    }
+
+    if (this._animationsDisabled) {
+      tooltip.classList.add('_mat-animation-noopable');
+      this._finalizeAnimation(isVisible);
+    }
+  }
 }
 
 /**
  * Internal component that wraps the tooltip's content.
- *
- * 包装工具提示内容的内部组件。
- *
  * @docs-private
  */
 @Component({
@@ -1221,27 +1125,32 @@ export abstract class _TooltipComponentBase implements OnDestroy {
   styleUrls: ['tooltip.css'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [matTooltipAnimations.tooltipState],
   host: {
     // Forces the element to have a layout in IE and Edge. This fixes issues where the element
     // won't be rendered if the animations are disabled or there is no web animations polyfill.
-    '[style.zoom]': '_visibility === "visible" ? 1 : null',
+    '[style.zoom]': 'isVisible() ? 1 : null',
+    '(mouseleave)': '_handleMouseLeave($event)',
     'aria-hidden': 'true',
   },
 })
 export class TooltipComponent extends _TooltipComponentBase {
-  /**
-   * Stream that emits whether the user has a handset-sized display.
-   *
-   * 发出用户是否具有手机大小的显示器的流。
-   *
-   */
+  /** Stream that emits whether the user has a handset-sized display.  */
   _isHandset: Observable<BreakpointState> = this._breakpointObserver.observe(Breakpoints.Handset);
+  _showAnimation = 'mat-tooltip-show';
+  _hideAnimation = 'mat-tooltip-hide';
+
+  @ViewChild('tooltip', {
+    // Use a static query here since we interact directly with
+    // the DOM which can happen before `ngAfterViewInit`.
+    static: true,
+  })
+  _tooltip: ElementRef<HTMLElement>;
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     private _breakpointObserver: BreakpointObserver,
+    @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
   ) {
-    super(changeDetectorRef);
+    super(changeDetectorRef, animationMode);
   }
 }

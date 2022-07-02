@@ -6,14 +6,15 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ViewContainerRef, ComponentFactoryResolver} from '@angular/core';
+import {ViewContainerRef, ComponentFactoryResolver, Injector} from '@angular/core';
 import {Direction} from '@angular/cdk/bidi';
 import {ScrollStrategy} from '@angular/cdk/overlay';
+import {defaultParams} from './dialog-animations';
 
 /**
  * Options for where to set focus to automatically on dialog open
  *
- * 用于指定当对话框打开时自动将焦点设置到何处的选项
+ * 用于在对话框打开时自动将焦点设置到何处的选项
  *
  */
 export type AutoFocusTarget = 'dialog' | 'first-tabbable' | 'first-heading';
@@ -69,7 +70,7 @@ export interface DialogPosition {
 /**
  * Configuration for opening a modal dialog with the MatDialog service.
  *
- * 使用 MatDialog 服务打开的模态对话框的配置
+ * 使用 MatDialog 服务打开的模态对话框的配置。
  *
  */
 export class MatDialogConfig<D = any> {
@@ -83,6 +84,12 @@ export class MatDialogConfig<D = any> {
    *
    */
   viewContainerRef?: ViewContainerRef;
+
+  /**
+   * Injector used for the instantiation of the component to be attached. If provided,
+   * takes precedence over the injector indirectly provided by `ViewContainerRef`.
+   */
+  injector?: Injector;
 
   /**
    * ID for the dialog. If omitted, a unique one will be generated.
@@ -191,7 +198,7 @@ export class MatDialogConfig<D = any> {
   /**
    * Data being injected into the child component.
    *
-   * 要注入到子组件中的数据。
+   * 注入到子组件中的数据。
    *
    */
   data?: D | null = null;
@@ -199,7 +206,7 @@ export class MatDialogConfig<D = any> {
   /**
    * Layout direction for the dialog's content.
    *
-   * 对话框内容的布局方向
+   * 对话框内容的布局方向。
    *
    */
   direction?: Direction;
@@ -235,9 +242,6 @@ export class MatDialogConfig<D = any> {
    *
    * @breaking-change 14.0.0 Remove boolean option from autoFocus. Use string or
    * AutoFocusTarget instead.
-   *
-   * 从 autoFocus 中删除了布尔选项。请改用字符串或 AutoFocusTarget。
-   *
    */
   autoFocus?: AutoFocusTarget | string | boolean = 'first-tabbable';
 
@@ -249,6 +253,9 @@ export class MatDialogConfig<D = any> {
    *
    */
   restoreFocus?: boolean = true;
+
+  /** Whether to wait for the opening animation to finish before trapping focus. */
+  delayFocusTrap?: boolean = true;
 
   /**
    * Scroll strategy to be used for the dialog.
@@ -275,6 +282,12 @@ export class MatDialogConfig<D = any> {
    *
    */
   componentFactoryResolver?: ComponentFactoryResolver;
+
+  /** Duration of the enter animation. Has to be a valid CSS value (e.g. 100ms). */
+  enterAnimationDuration?: string = defaultParams.params.enterAnimationDuration;
+
+  /** Duration of the exit animation. Has to be a valid CSS value (e.g. 50ms). */
+  exitAnimationDuration?: string = defaultParams.params.exitAnimationDuration;
 
   // TODO(jelbourn): add configuration for lifecycle hooks, ARIA labelling.
 }

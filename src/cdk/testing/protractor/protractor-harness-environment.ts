@@ -28,12 +28,7 @@ export interface ProtractorHarnessEnvironmentOptions {
   queryFn: (selector: string, root: ElementFinder) => ElementArrayFinder;
 }
 
-/**
- * The default environment options.
- *
- * 默认环境选项。
- *
- */
+/** The default environment options. */
 const defaultEnvironmentOptions: ProtractorHarnessEnvironmentOptions = {
   queryFn: (selector: string, root: ElementFinder) => root.all(by.css(selector)),
 };
@@ -43,16 +38,12 @@ const defaultEnvironmentOptions: ProtractorHarnessEnvironmentOptions = {
  *
  * Protractor 的 `HarnessEnvironment` 实现。
  *
- * @deprecated
+ * @deprecated As of v13.0.0, this environment no longer works, as it is not
+ * compatible with the new [Angular Package Format](https://angular.io/guide/angular-package-format).
  * @breaking-change 13.0.0
  */
 export class ProtractorHarnessEnvironment extends HarnessEnvironment<ElementFinder> {
-  /**
-   * The options for this environment.
-   *
-   * 此环境的选项。
-   *
-   */
+  /** The options for this environment. */
   private _options: ProtractorHarnessEnvironmentOptions;
 
   protected constructor(
@@ -66,7 +57,7 @@ export class ProtractorHarnessEnvironment extends HarnessEnvironment<ElementFind
   /**
    * Creates a `HarnessLoader` rooted at the document root.
    *
-   * 创建一个以文档根为根的 `HarnessLoader`
+   * 创建一个以文档根为根的 `HarnessLoader`。
    *
    */
   static loader(options?: ProtractorHarnessEnvironmentOptions): HarnessLoader {

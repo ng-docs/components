@@ -7,35 +7,15 @@
  */
 
 export interface Schema {
-  /**
-   * Name of the project.
-   *
-   * 项目名称。
-   *
-   */
+  /** Name of the project. */
   project: string;
 
-  /**
-   * Whether Angular browser animations should be set up.
-   *
-   * 是否应设置 Angular 浏览器动画。
-   *
-   */
-  animations: boolean;
+  /** Whether the Angular browser animations module should be included and enabled. */
+  animations: 'enabled' | 'disabled' | 'excluded';
 
-  /**
-   * Name of pre-built theme to install.
-   *
-   * 要安装的预构建主题的名称。
-   *
-   */
+  /** Name of pre-built theme to install. */
   theme: 'indigo-pink' | 'deeppurple-amber' | 'pink-bluegrey' | 'purple-green' | 'custom';
 
-  /**
-   * Whether to set up global typography styles.
-   *
-   * 是否设置全局排版样式。
-   *
-   */
+  /** Whether to set up global typography styles. */
   typography: boolean;
 }

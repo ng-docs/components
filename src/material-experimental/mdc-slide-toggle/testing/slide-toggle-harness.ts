@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testing';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {
   _MatSlideToggleHarnessBase,
@@ -21,15 +21,23 @@ export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a slide-toggle w/ specific attributes.
    * @param options Options for narrowing the search:
-   *   - `selector` finds a slide-toggle whose host element matches the given selector.
-   *   - `label` finds a slide-toggle with specific label text.
+   *
+   * 用来收窄搜索范围的选项：
+   *
+   * - `selector` finds a slide-toggle whose host element matches the given selector.
+   *
+   * - `label` finds a slide-toggle with specific label text.
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: SlideToggleHarnessFilters = {}): HarnessPredicate<MatSlideToggleHarness> {
+  static with<T extends MatSlideToggleHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: SlideToggleHarnessFilters = {},
+  ): HarnessPredicate<T> {
     return (
-      new HarnessPredicate(MatSlideToggleHarness, options)
+      new HarnessPredicate(this, options)
         .addOption('label', options.label, (harness, label) =>
           HarnessPredicate.stringMatches(harness.getLabelText(), label),
         )
@@ -40,6 +48,16 @@ export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
           'name',
           options.name,
           async (harness, name) => (await harness.getName()) === name,
+        )
+        .addOption(
+          'checked',
+          options.checked,
+          async (harness, checked) => (await harness.isChecked()) == checked,
+        )
+        .addOption(
+          'disabled',
+          options.disabled,
+          async (harness, disabled) => (await harness.isDisabled()) == disabled,
         )
     );
   }

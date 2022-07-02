@@ -12,14 +12,14 @@ import {map, startWith} from 'rxjs/operators';
   styleUrls: ['autocomplete-auto-active-first-option-example.css'],
 })
 export class AutocompleteAutoActiveFirstOptionExample implements OnInit {
-  myControl = new FormControl();
+  myControl = new FormControl('');
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value)),
+      map(value => this._filter(value || '')),
     );
   }
 

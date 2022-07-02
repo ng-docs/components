@@ -6,7 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {coerceNumberProperty} from '@angular/cdk/coercion';
 import {SliderHarnessFilters, ThumbPosition} from './slider-harness-filters';
 import {MatSliderThumbHarness} from './slider-thumb-harness';
@@ -16,15 +20,20 @@ export class MatSliderHarness extends ComponentHarness {
   static hostSelector = '.mat-mdc-slider';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatSliderHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a slider with specific attributes.
    * @param options Options for filtering which input instances are considered a match.
+   *
+   * 一个选项，用来筛选哪些输入框实例是匹配的。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: SliderHarnessFilters = {}): HarnessPredicate<MatSliderHarness> {
-    return new HarnessPredicate(MatSliderHarness, options).addOption(
+  static with<T extends MatSliderHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: SliderHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption(
       'isRange',
       options.isRange,
       async (harness, value) => {
@@ -66,12 +75,22 @@ export class MatSliderHarness extends ComponentHarness {
     return coerceNumberProperty(await startHost.getProperty<string>('step'));
   }
 
-  /** Gets the maximum value of the slider. */
+  /**
+   * Gets the maximum value of the slider.
+   *
+   * 获取此滑块的最大值。
+   *
+   */
   async getMaxValue(): Promise<number> {
     return (await this.getEndThumb()).getMaxValue();
   }
 
-  /** Gets the minimum value of the slider. */
+  /**
+   * Gets the minimum value of the slider.
+   *
+   * 获取此滑块的最小值。
+   *
+   */
   async getMinValue(): Promise<number> {
     const startThumb = (await this.isRange())
       ? await this.getStartThumb()

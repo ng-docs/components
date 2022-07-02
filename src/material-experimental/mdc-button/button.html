@@ -1,13 +1,15 @@
 <span
-    [class.mdc-button__ripple]="!_isFab"
-    [class.mdc-fab__ripple]="_isFab"></span>
+    class="mat-mdc-button-persistent-ripple"
+    [class.mdc-button__ripple]="!_isFab && !_isIconButton"
+    [class.mdc-fab__ripple]="_isFab"
+    [class.mdc-icon-button__ripple]="_isIconButton"></span>
 
-<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd])">
+<ng-content select=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
 </ng-content>
 
 <span class="mdc-button__label"><ng-content></ng-content></span>
 
-<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd]">
+<ng-content select=".material-icons[iconPositionEnd], mat-icon[iconPositionEnd], [matButtonIcon][iconPositionEnd]">
 </ng-content>
 
 <!--
@@ -18,7 +20,7 @@
 
 <span matRipple class="mat-mdc-button-ripple"
      [matRippleDisabled]="_isRippleDisabled()"
-     [matRippleCentered]="_isRippleCentered"
+     [matRippleCentered]="_isIconButton"
      [matRippleTrigger]="_elementRef.nativeElement"></span>
 
 <span class="mat-mdc-button-touch-target"></span>

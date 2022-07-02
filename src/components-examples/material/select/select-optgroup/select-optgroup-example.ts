@@ -18,7 +18,7 @@ interface PokemonGroup {
   templateUrl: 'select-optgroup-example.html',
 })
 export class SelectOptgroupExample {
-  pokemonControl = new FormControl();
+  pokemonControl = new FormControl('');
   pokemonGroups: PokemonGroup[] = [
     {
       name: 'Grass',

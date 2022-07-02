@@ -21,12 +21,7 @@ export interface MapDirectionsResponse {
  * Angular service that wraps the Google Maps DirectionsService from the Google Maps JavaScript
  * API.
  *
- * Angular 服务，用于包装 Google Maps JavaScript API 中的 Google Maps DirectionsService。
- *
  * See developers.google.com/maps/documentation/javascript/reference/directions#DirectionsService
- *
- * 请参阅 developers.google.com/maps/documentation/javascript/reference/directions#DirectionsService
- *
  */
 @Injectable({providedIn: 'root'})
 export class MapDirectionsService {
@@ -36,10 +31,7 @@ export class MapDirectionsService {
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/directions
-   * #DirectionsService.route
-   *
-   * 请参阅 developers.google.com/maps/documentation/javascript/reference/directions＃DirectionsService.route
+   * developers.google.com/maps/documentation/javascript/reference/directions#DirectionsService.route
    *
    */
   route(request: google.maps.DirectionsRequest): Observable<MapDirectionsResponse> {

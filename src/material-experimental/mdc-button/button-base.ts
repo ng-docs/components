@@ -7,7 +7,7 @@
  */
 
 import {Platform} from '@angular/cdk/platform';
-import {Directive, ElementRef, NgZone, ViewChild} from '@angular/core';
+import {Directive, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
   CanColor,
   CanDisable,
@@ -85,13 +85,18 @@ export class MatButtonBase
   extends _MatButtonMixin
   implements CanDisable, CanColor, CanDisableRipple
 {
-  /** Whether the ripple is centered on the button. */
-  _isRippleCentered = false;
-
   /** Whether this button is a FAB. Used to apply the correct class on the ripple. */
   _isFab = false;
 
-  /** Reference to the MatRipple instance of the button. */
+  /** Whether this button is an icon button. Used to apply the correct class on the ripple. */
+  _isIconButton = false;
+
+  /**
+   * Reference to the MatRipple instance of the button.
+   *
+   * 引用此按钮的 MatRipple 实例。
+   *
+   */
   @ViewChild(MatRipple) ripple: MatRipple;
 
   constructor(
@@ -115,7 +120,12 @@ export class MatButtonBase
     }
   }
 
-  /** Focuses the button. */
+  /**
+   * Focuses the button.
+   *
+   * 让此按钮获得焦点。
+   *
+   */
   focus(_origin: FocusOrigin = 'program', options?: FocusOptions): void {
     this._elementRef.nativeElement.focus(options);
   }
@@ -141,7 +151,7 @@ export const MAT_ANCHOR_HOST = {
   // Note that we ignore the user-specified tabindex when it's disabled for
   // consistency with the `mat-button` applied on native buttons where even
   // though they have an index, they're not tabbable.
-  '[attr.tabindex]': 'disabled ? -1 : (tabIndex || 0)',
+  '[attr.tabindex]': 'disabled ? -1 : tabIndex',
   '[attr.aria-disabled]': 'disabled.toString()',
   // MDC automatically applies the primary theme color to the button, but we want to support
   // an unthemed version. If color is undefined, apply a CSS class that makes it easy to
@@ -155,23 +165,29 @@ export const MAT_ANCHOR_HOST = {
 /**
  * Anchor button base.
  */
-@Directive({
-  host: {
-    '(click)': '_haltDisabledEvents($event)',
-  },
-})
-export class MatAnchorBase extends MatButtonBase {
+@Directive()
+export class MatAnchorBase extends MatButtonBase implements OnInit, OnDestroy {
   tabIndex: number;
 
   constructor(elementRef: ElementRef, platform: Platform, ngZone: NgZone, animationMode?: string) {
     super(elementRef, platform, ngZone, animationMode);
   }
 
-  _haltDisabledEvents(event: Event) {
+  ngOnInit(): void {
+    this._ngZone.runOutsideAngular(() => {
+      this._elementRef.nativeElement.addEventListener('click', this._haltDisabledEvents);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this._elementRef.nativeElement.removeEventListener('click', this._haltDisabledEvents);
+  }
+
+  _haltDisabledEvents = (event: Event): void => {
     // A disabled button shouldn't apply any actions
     if (this.disabled) {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
-  }
+  };
 }

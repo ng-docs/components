@@ -19,7 +19,9 @@ customizable with this system, see [Theming your own components][theme-your-own]
 本文档介绍了自定义颜色的概念和 API。关于排版的定制指南参见 [Angular Material 排版][mat-typography]。关于如何使用此系统来构建自定义组件的指南，请参阅 [主题化你自己的组件][theme-your-own]。
 
 [material-design-theming]: https://material.io/design/material-theming/overview.html
+
 [mat-typography]: https://material.angular.io/guide/typography
+
 [theme-your-own]: https://material.angular.io/guide/theming-your-components
 
 ### Sass
@@ -128,11 +130,11 @@ determine component colors:
 
   在整个应用程序中最常出现的颜色的 **primary(主要)** 调色板
 
-* An **accent**, or *secondary*, palette used to selectively highlight key parts of your UI
+* An **accent**, or _secondary_, palette used to selectively highlight key parts of your UI
 
   用于有选择地突出显示 UI 中某些关键部位的 **accent(强调)** 或 *secondary(辅助)* 调色板
 
-* A **warn**, or *error*, palette used for warnings and error states
+* A **warn**, or _error_, palette used for warnings and error states
 
   用于警告和错误状态的 **warn(警告)** 或 *error(错误)* 调色板
 
@@ -312,17 +314,17 @@ You can use one of these pre-built themes if you don't want to define a custom t
 
 Angular Material 包括四个预构建的主题 CSS 文件，每个文件都选择了不同的调色板。如果你不想使用 Sass 来自定义主题，则可以使用这些预构建的主题之一。
 
-| Theme                  | Light or dark? | Palettes (primary, accent, warn) |
-|------------------------|----------------|----------------------------------|
-| 主题                     | 亮还是暗？          | 调色板（primary, accent, warn）       |
-| `deeppurple-amber.css` | Light          | deep-purple, amber, red          |
-| `deeppurple-amber.css` | 亮              | deep-purple, amber, red          |
-| `indigo-pink.css`      | Light          | indigo, pink, red                |
-| `indigo-pink.css`      | 亮              | indigo, pink, red                |
-| `pink-bluegrey.css`    | Dark           | pink, bluegrey, red              |
-| `pink-bluegrey.css`    | 暗              | pink, bluegrey, red              |
-| `purple-green.css`     | Dark           | purple, green, red               |
-| `purple-green.css`     | 暗              | purple, green, red               |
+| Theme | Light or dark? | Palettes (primary, accent, warn) |
+| ----- | -------------- | -------------------------------- |
+| 主题 | 亮还是暗？ | 调色板（primary, accent, warn） |
+| `deeppurple-amber.css` | Light | deep-purple, amber, red |
+| `deeppurple-amber.css` | 亮 | deep-purple, amber, red |
+| `indigo-pink.css` | Light | indigo, pink, red |
+| `indigo-pink.css` | 亮 | indigo, pink, red |
+| `pink-bluegrey.css` | Dark | pink, bluegrey, red |
+| `pink-bluegrey.css` | 暗 | pink, bluegrey, red |
+| `purple-green.css` | Dark | purple, green, red |
+| `purple-green.css` | 暗 | purple, green, red |
 
 These files include the CSS for every component in the library. To include only the CSS for a subset
 of components, you must use the Sass API detailed in [Defining a theme](#defining-a-theme) above.
@@ -338,14 +340,14 @@ file][adding-styles].
 
 你可以在 Angular Material 的 npm 包 ( `@angular/material/prebuilt-themes` ) 的 `prebuilt-themes` 目录中找到预构建的主题文件。要在你的应用程序中包含预先构建的主题，[请将你选择的 CSS 文件添加到你项目的 `angular.json` 文件的 `styles` 数组中][adding-styles]。
 
-[prebuilt]: https://github.com/angular/components/blob/master/src/material/core/theming/prebuilt
+[prebuilt]: https://github.com/angular/components/blob/main/src/material/core/theming/prebuilt
 
 ### Defining multiple themes
 
 ### 定义多重主题
 
 Using the Sass API described in [Defining a theme](#defining-a-theme), you can also define
-*multiple* themes by repeating the API calls multiple times. You can do this either in the same
+_multiple_ themes by repeating the API calls multiple times. You can do this either in the same
 theme file or in separate theme files.
 
 使用[定义主题](#defining-a-theme)中描述的 Sass API，你还可以通过多次重复 API 调用来定义*多重*主题。你可以在同一个主题文件或几个单独的主题文件中执行此操作。
@@ -384,7 +386,7 @@ $light-theme: mat.define-light-theme((
 
 // Define a dark theme
 $dark-primary: mat.define-palette(mat.$pink-palette);
-$dark-accent: mat.define-palette(mat.$blue-gray-palette);
+$dark-accent: mat.define-palette(mat.$blue-grey-palette);
 $dark-theme: mat.define-dark-theme((
  color: (
    primary: $dark-primary,
@@ -417,6 +419,16 @@ file. The approach for this loading depends on your application.
 
 你可以创建多个主题文件，每个文件[定义一个主题](#defining-a-theme)，然后将这些文件添加到 `angular.json` 的 `styles` 中，就可以在几个单独的文件中定义多重主题了。但是，你还必须将每个文件的 `inject` 选项设置为 `false`，以防止同时加载所有主题文件。当此属性为 `false` 时，你的应用程序要负责手动加载所需的文件。加载的方式则取决于你的应用程序。
 
+### Application background color
+
+By default, Angular Material does not apply any styles to your DOM outside
+of its own components. If you want to set your application's background color
+to match the components' theme, you can either:
+
+1. Put your application's main content inside `mat-sidenav-container`, assuming you're using `MatSidenav`, or
+
+2. Apply the `mat-app-background` CSS class to your main content root element (typically `body`).
+
 ### Scoping style customizations
 
 ### 范围化样式的自定义方式
@@ -448,7 +460,7 @@ The example below shows how to customize the color of all buttons inside element
 
 You can use the `get-color-from-palette` function to get specific hues from a palette by their
 number identifier. You can also access the contrast color for a particular hue by suffixing the
-hue's number idenfier with `-contrast`.
+hue's number identifier with `-contrast`.
 
 你可以使用 `get-color-from-palette` 函数通过数字标识符来从调色板中获取特定色调。你还可以通过在色调的数字标识符后缀 `-contrast` 来获取特定色调的对比色。
 

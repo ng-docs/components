@@ -28,7 +28,7 @@ import {
   ViewEncapsulation,
   OnDestroy,
 } from '@angular/core';
-import {CanColor, mixinColor} from '@angular/material/core';
+import {CanColor, mixinColor, ThemePalette} from '@angular/material/core';
 import {fromEvent, merge, Subject} from 'rxjs';
 import {startWith, take, takeUntil} from 'rxjs/operators';
 import {MAT_ERROR, MatError} from './error';
@@ -45,7 +45,7 @@ import {MatPlaceholder} from './placeholder';
 import {MAT_PREFIX, MatPrefix} from './prefix';
 import {MAT_SUFFIX, MatSuffix} from './suffix';
 import {Platform} from '@angular/cdk/platform';
-import {NgControl} from '@angular/forms';
+import {AbstractControlDirective} from '@angular/forms';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
 let nextUniqueId = 0;
@@ -54,9 +54,6 @@ const outlineGapPadding = 5;
 
 /**
  * Boilerplate for applying mixins to MatFormField.
- *
- * 用于将 mixins 应用到 MatFormField 的样板代码
- *
  * @docs-private
  */
 const _MatFormFieldBase = mixinColor(
@@ -75,7 +72,7 @@ const _MatFormFieldBase = mixinColor(
 export type MatFormFieldAppearance = 'legacy' | 'standard' | 'fill' | 'outline';
 
 /**
- * Possible values for the "floatLabel" form-field input.
+ * Possible values for the "floatLabel" form field input.
  *
  * 表单字段输入属性 “floatLabel” 的可用值。
  *
@@ -90,10 +87,14 @@ export type FloatLabelType = 'always' | 'never' | 'auto';
  *
  */
 export interface MatFormFieldDefaultOptions {
+  /** Default form field appearance style. */
   appearance?: MatFormFieldAppearance;
+  /** Default color of the form field. */
+  color?: ThemePalette;
+  /** Whether the required marker should be hidden by default. */
   hideRequiredMarker?: boolean;
   /**
-   * Whether the label for form-fields should by default float `always`,
+   * Whether the label for form fields should by default float `always`,
    * `never`, or `auto` (only when necessary).
    *
    * 表单字段的标签默认应该是 `always`、`never` 还是 `auto`（只在必要时）。
@@ -180,24 +181,16 @@ export class MatFormField
   /**
    * Whether the outline gap needs to be calculated
    * immediately on the next change detection run.
-   *
-   * 是否需要在下次变更检测运行时立即计算轮廓的间隙。
-   *
    */
   private _outlineGapCalculationNeededImmediately = false;
 
-  /**
-   * Whether the outline gap needs to be calculated next time the zone has stabilized.
-   *
-   * 是否需要在下次 Zone 稳定后计算出轮廓的间隙。
-   *
-   */
+  /** Whether the outline gap needs to be calculated next time the zone has stabilized. */
   private _outlineGapCalculationNeededOnStable = false;
 
   private readonly _destroyed = new Subject<void>();
 
   /**
-   * The form-field appearance style.
+   * The form field appearance style.
    *
    * 表单字段的外观样式。
    *
@@ -209,7 +202,7 @@ export class MatFormField
   set appearance(value: MatFormFieldAppearance) {
     const oldValue = this._appearance;
 
-    this._appearance = value || (this._defaults && this._defaults.appearance) || 'legacy';
+    this._appearance = value || this._defaults?.appearance || 'legacy';
 
     if (this._appearance === 'outline' && oldValue !== value) {
       this._outlineGapCalculationNeededOnStable = true;
@@ -230,42 +223,22 @@ export class MatFormField
   set hideRequiredMarker(value: BooleanInput) {
     this._hideRequiredMarker = coerceBooleanProperty(value);
   }
-  private _hideRequiredMarker: boolean;
+  private _hideRequiredMarker = false;
 
-  /**
-   * Override for the logic that disables the label animation in certain cases.
-   *
-   * 在某些情况下改写禁用标签动画的逻辑。
-   *
-   */
+  /** Override for the logic that disables the label animation in certain cases. */
   private _showAlwaysAnimate = false;
 
-  /**
-   * Whether the floating label should always float or not.
-   *
-   * 浮动标签是否应该始终是浮动的。
-   *
-   */
+  /** Whether the floating label should always float or not. */
   _shouldAlwaysFloat(): boolean {
     return this.floatLabel === 'always' && !this._showAlwaysAnimate;
   }
 
-  /**
-   * Whether the label can float or not.
-   *
-   * 标签是否可以浮动。
-   *
-   */
+  /** Whether the label can float or not. */
   _canLabelFloat(): boolean {
     return this.floatLabel !== 'never';
   }
 
-  /**
-   * State of the mat-hint and mat-error animations.
-   *
-   * mat-hint 和 mat-error 动画的状态。
-   *
-   */
+  /** State of the mat-hint and mat-error animations. */
   _subscriptAnimationState: string = '';
 
   /**
@@ -315,12 +288,7 @@ export class MatFormField
   }
   private _floatLabel: FloatLabelType;
 
-  /**
-   * Whether the Angular animations are enabled.
-   *
-   * 是否启用了 Angular 动画。
-   *
-   */
+  /** Whether the Angular animations are enabled. */
   _animationsEnabled: boolean;
 
   @ViewChild('connectionContainer', {static: true}) _connectionContainerRef: ElementRef;
@@ -365,9 +333,13 @@ export class MatFormField
     this._animationsEnabled = _animationMode !== 'NoopAnimations';
 
     // Set the default through here so we invoke the setter on the first run.
-    this.appearance = _defaults && _defaults.appearance ? _defaults.appearance : 'legacy';
-    this._hideRequiredMarker =
-      _defaults && _defaults.hideRequiredMarker != null ? _defaults.hideRequiredMarker : false;
+    this.appearance = _defaults?.appearance || 'legacy';
+    if (_defaults) {
+      this._hideRequiredMarker = Boolean(_defaults.hideRequiredMarker);
+      if (_defaults.color) {
+        this.color = this.defaultColor = _defaults.color;
+      }
+    }
   }
 
   /**
@@ -381,7 +353,7 @@ export class MatFormField
   }
 
   /**
-   * Gets an ElementRef for the element that a overlay attached to the form-field should be
+   * Gets an ElementRef for the element that a overlay attached to the form field should be
    * positioned relative to.
    *
    * 获取一个 ElementRef 元素，它为附加到表单字段上的浮层提供相对于该元素定位。
@@ -475,14 +447,12 @@ export class MatFormField
   }
 
   /**
-   * Determines whether a class from the NgControl should be forwarded to the host element.
-   *
-   * 确定是否应该把 NgControl 中的类转发给宿主元素。
-   *
+   * Determines whether a class from the AbstractControlDirective
+   * should be forwarded to the host element.
    */
-  _shouldForward(prop: keyof NgControl): boolean {
-    const ngControl = this._control ? this._control.ngControl : null;
-    return ngControl && ngControl[prop];
+  _shouldForward(prop: keyof AbstractControlDirective): boolean {
+    const control = this._control ? this._control.ngControl : null;
+    return control && control[prop];
   }
 
   _hasPlaceholder() {
@@ -513,24 +483,14 @@ export class MatFormField
     return this._hasLabel() || (this.appearance === 'legacy' && this._hasPlaceholder());
   }
 
-  /**
-   * Determines whether to display hints or errors.
-   *
-   * 确定是否显示提示或错误。
-   *
-   */
+  /** Determines whether to display hints or errors. */
   _getDisplayedMessages(): 'error' | 'hint' {
     return this._errorChildren && this._errorChildren.length > 0 && this._control.errorState
       ? 'error'
       : 'hint';
   }
 
-  /**
-   * Animates the placeholder up and locks it in position.
-   *
-   * 为占位符添加动画，并把它锁定到其位置。
-   *
-   */
+  /** Animates the placeholder up and locks it in position. */
   _animateAndLockLabel(): void {
     if (this._hasFloatingLabel() && this._canLabelFloat()) {
       // If animations are disabled, we shouldn't go in here,
@@ -553,9 +513,6 @@ export class MatFormField
   /**
    * Ensure that there is only one placeholder (either `placeholder` attribute on the child control
    * or child element with the `mat-placeholder` directive).
-   *
-   * 确保只有一个占位符（无论是子控件中的 `placeholder` 属性，还是带有 `mat-placeholder` 指令的子元素）。
-   *
    */
   private _validatePlaceholders() {
     if (
@@ -567,12 +524,7 @@ export class MatFormField
     }
   }
 
-  /**
-   * Does any extra processing that is required when handling the hints.
-   *
-   * 处理提示时是否需要进行额外的处理。
-   *
-   */
+  /** Does any extra processing that is required when handling the hints. */
   private _processHints() {
     this._validateHints();
     this._syncDescribedByIds();
@@ -581,9 +533,6 @@ export class MatFormField
   /**
    * Ensure that there is a maximum of one of each `<mat-hint>` alignment specified, with the
    * attribute being considered as `align="start"`.
-   *
-   * 确保每个 `<mat-hint>` 对齐中最只有一个对齐具有等价于 `align="start"` 的属性。
-   *
    */
   private _validateHints() {
     if (this._hintChildren && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -605,12 +554,7 @@ export class MatFormField
     }
   }
 
-  /**
-   * Gets the default float label state.
-   *
-   * 获取默认的浮动标签状态。
-   *
-   */
+  /** Gets the default float label state. */
   private _getDefaultFloatLabelState(): FloatLabelType {
     return (this._defaults && this._defaults.floatLabel) || 'auto';
   }
@@ -618,9 +562,6 @@ export class MatFormField
   /**
    * Sets the list of element IDs that describe the child control. This allows the control to update
    * its `aria-describedby` attribute accordingly.
-   *
-   * 设置描述子控件的元素 ID 列表。这允许控件相应地更新它的 `aria-describedby` 属性。
-   *
    */
   private _syncDescribedByIds() {
     if (this._control) {
@@ -659,12 +600,7 @@ export class MatFormField
     }
   }
 
-  /**
-   * Throws an error if the form field's control is missing.
-   *
-   * 如果缺少表单字段的控件，就会抛出一个错误。
-   *
-   */
+  /** Throws an error if the form field's control is missing. */
   protected _validateControlChild() {
     if (!this._control && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw getMatFormFieldMissingControlError();
@@ -680,20 +616,26 @@ export class MatFormField
    */
   updateOutlineGap() {
     const labelEl = this._label ? this._label.nativeElement : null;
+    const container = this._connectionContainerRef.nativeElement;
+    const outlineStartSelector = '.mat-form-field-outline-start';
+    const outlineGapSelector = '.mat-form-field-outline-gap';
 
-    if (
-      this.appearance !== 'outline' ||
-      !labelEl ||
-      !labelEl.children.length ||
-      !labelEl.textContent!.trim()
-    ) {
+    // getBoundingClientRect isn't available on the server.
+    if (this.appearance !== 'outline' || !this._platform.isBrowser) {
       return;
     }
 
-    if (!this._platform.isBrowser) {
-      // getBoundingClientRect isn't available on the server.
+    // If there is no content, set the gap elements to zero.
+    if (!labelEl || !labelEl.children.length || !labelEl.textContent!.trim()) {
+      const gapElements = container.querySelectorAll(
+        `${outlineStartSelector}, ${outlineGapSelector}`,
+      );
+      for (let i = 0; i < gapElements.length; i++) {
+        gapElements[i].style.width = '0';
+      }
       return;
     }
+
     // If the element is not present in the DOM, the outline gap will need to be calculated
     // the next time it is checked and in the DOM.
     if (!this._isAttachedToDOM()) {
@@ -704,9 +646,8 @@ export class MatFormField
     let startWidth = 0;
     let gapWidth = 0;
 
-    const container = this._connectionContainerRef.nativeElement;
-    const startEls = container.querySelectorAll('.mat-form-field-outline-start');
-    const gapEls = container.querySelectorAll('.mat-form-field-outline-gap');
+    const startEls = container.querySelectorAll(outlineStartSelector);
+    const gapEls = container.querySelectorAll(outlineGapSelector);
 
     if (this._label && this._label.nativeElement.children.length) {
       const containerRect = container.getBoundingClientRect();
@@ -746,22 +687,12 @@ export class MatFormField
       false;
   }
 
-  /**
-   * Gets the start end of the rect considering the current directionality.
-   *
-   * 考虑当前的方向性，取得矩形的起始端。
-   *
-   */
+  /** Gets the start end of the rect considering the current directionality. */
   private _getStartEnd(rect: ClientRect): number {
     return this._dir && this._dir.value === 'rtl' ? rect.right : rect.left;
   }
 
-  /**
-   * Checks whether the form field is attached to the DOM.
-   *
-   * 检查表单字段是否已附加到 DOM。
-   *
-   */
+  /** Checks whether the form field is attached to the DOM. */
   private _isAttachedToDOM(): boolean {
     const element: HTMLElement = this._elementRef.nativeElement;
 

@@ -872,6 +872,12 @@ describe('MatSlideToggle with forms', () => {
       expect(slideToggleEl.classList).toContain('ng-invalid');
       expect(slideToggleEl.classList).not.toContain('ng-valid');
     }));
+
+    it('should clear static name attribute from the slide toggle host node', () => {
+      const hostNode = fixture.nativeElement.querySelector('.mat-slide-toggle');
+      expect(inputElement.getAttribute('name')).toBeTruthy();
+      expect(hostNode.hasAttribute('name')).toBe(false);
+    });
   });
 
   describe('with model and change event', () => {
@@ -965,7 +971,7 @@ class SlideToggleWithModel {
     </mat-slide-toggle>`,
 })
 class SlideToggleWithFormControl {
-  formControl = new FormControl();
+  formControl = new FormControl(false);
 }
 
 @Component({template: `<mat-slide-toggle tabindex="5" [disabled]="disabled"></mat-slide-toggle>`})

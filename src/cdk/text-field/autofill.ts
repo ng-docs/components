@@ -27,39 +27,19 @@ import {EMPTY, Observable, Subject} from 'rxjs';
  *
  */
 export type AutofillEvent = {
-  /**
-   * The element whose autofill state changes.
-   *
-   * 自动填充状态发生变化的元素。
-   *
-   */
+  /** The element whose autofill state changes. */
   target: Element;
-  /**
-   * Whether the element is currently autofilled.
-   *
-   * 该元素当前是否已自动填充。
-   *
-   */
+  /** Whether the element is currently autofilled. */
   isAutofilled: boolean;
 };
 
-/**
- * Used to track info about currently monitored elements.
- *
- * 用于跟踪当前被监控元素的信息。
- *
- */
+/** Used to track info about currently monitored elements. */
 type MonitoredElementInfo = {
   readonly subject: Subject<AutofillEvent>;
   unlisten: () => void;
 };
 
-/**
- * Options to pass to the animationstart listener.
- *
- * 要传递给 animationstart 监听器的选项。
- *
- */
+/** Options to pass to the animationstart listener. */
 const listenerOptions = normalizePassiveListenerOptions({passive: true});
 
 /**
@@ -99,7 +79,7 @@ export class AutofillMonitor implements OnDestroy {
    *
    * @param element The element to monitor.
    *
-   * 要监控的元素
+   * 要监控的元素。
    *
    * @return A stream of autofill state changes.
    *
@@ -158,25 +138,13 @@ export class AutofillMonitor implements OnDestroy {
 
   /**
    * Stop monitoring the autofill state of the given input element.
-   *
-   * 停止监控指定输入元素的自动填充状态。
-   *
    * @param element The element to stop monitoring.
-   *
-   * 要停止监控的元素。
-   *
    */
   stopMonitoring(element: Element): void;
 
   /**
    * Stop monitoring the autofill state of the given input element.
-   *
-   * 停止监控指定输入元素的自动填充状态。
-   *
    * @param element The element to stop monitoring.
-   *
-   * 要停止监控的元素。
-   *
    */
   stopMonitoring(element: ElementRef<Element>): void;
 

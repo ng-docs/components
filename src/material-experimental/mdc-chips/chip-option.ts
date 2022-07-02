@@ -7,7 +7,6 @@
  */
 
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {SPACE} from '@angular/cdk/keycodes';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,11 +14,10 @@ import {
   Input,
   Output,
   ViewEncapsulation,
-  AfterContentInit,
+  OnInit,
 } from '@angular/core';
-import {deprecated} from '@material/chips';
-import {take} from 'rxjs/operators';
 import {MatChip} from './chip';
+import {MAT_CHIP} from './tokens';
 
 /** Event object emitted by MatChipOption when selected or deselected. */
 export class MatChipSelectionChange {
@@ -52,33 +50,47 @@ export class MatChipSelectionChange {
 @Component({
   selector: 'mat-basic-chip-option, mat-chip-option',
   templateUrl: 'chip-option.html',
-  styleUrls: ['chips.css'],
-  inputs: ['color', 'disableRipple', 'tabIndex'],
+  styleUrls: ['chip.css'],
+  inputs: ['color', 'disabled', 'disableRipple', 'tabIndex'],
   host: {
-    'role': 'option',
-    'class': 'mat-mdc-focus-indicator mat-mdc-chip-option',
-    '[class.mat-mdc-chip-disabled]': 'disabled',
-    '[class.mat-mdc-chip-highlighted]': 'highlighted',
-    '[class.mat-mdc-chip-with-avatar]': 'leadingIcon',
-    '[class.mat-mdc-chip-with-trailing-icon]': 'trailingIcon || removeIcon',
+    'class': 'mat-mdc-chip mat-mdc-chip-option mdc-evolution-chip mdc-evolution-chip--filter',
     '[class.mat-mdc-chip-selected]': 'selected',
     '[class.mat-mdc-chip-multiple]': '_chipListMultiple',
+    '[class.mat-mdc-chip-disabled]': 'disabled',
+    '[class.mat-mdc-chip-with-avatar]': 'leadingIcon',
+    '[class.mdc-evolution-chip--selectable]': 'selectable',
+    '[class.mdc-evolution-chip--disabled]': 'disabled',
+    '[class.mdc-evolution-chip--selected]': 'selected',
+    // This class enables the transition on the checkmark. Usually MDC adds it when selection
+    // starts and removes it once the animation is finished. We don't need to go through all
+    // the trouble, because we only care about the selection animation. MDC needs to do it,
+    // because they also have an exit animation that we don't care about.
+    '[class.mdc-evolution-chip--selecting]': '!_animationsDisabled',
+    '[class.mdc-evolution-chip--with-trailing-action]': '_hasTrailingIcon()',
+    '[class.mdc-evolution-chip--with-primary-graphic]': '_hasLeadingGraphic()',
+    '[class.mdc-evolution-chip--with-primary-icon]': 'leadingIcon',
+    '[class.mdc-evolution-chip--with-avatar]': 'leadingIcon',
+    '[class.mat-mdc-chip-highlighted]': 'highlighted',
+    '[class.mat-mdc-chip-with-trailing-icon]': '_hasTrailingIcon()',
+    '[attr.tabindex]': 'null',
+    '[attr.aria-label]': 'null',
+    '[attr.role]': 'role',
     '[id]': 'id',
-    '[tabIndex]': 'tabIndex',
-    '[attr.disabled]': 'disabled || null',
-    '[attr.aria-disabled]': 'disabled.toString()',
-    '[attr.aria-selected]': 'ariaSelected',
-    '(click)': '_click($event)',
-    '(keydown)': '_keydown($event)',
-    '(focus)': 'focus()',
-    '(blur)': '_blur()',
   },
-  providers: [{provide: MatChip, useExisting: MatChipOption}],
+  providers: [
+    {provide: MatChip, useExisting: MatChipOption},
+    {provide: MAT_CHIP, useExisting: MatChipOption},
+  ],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatChipOption extends MatChip implements AfterContentInit {
-  /** Whether the chip list is selectable. */
+export class MatChipOption extends MatChip implements OnInit {
+  /**
+   * Whether the chip list is selectable.
+   *
+   * 纸片列表是否可选。
+   *
+   */
   chipListSelectable: boolean = true;
 
   /** Whether the chip list is in multi-selection mode. */
@@ -100,23 +112,27 @@ export class MatChipOption extends MatChip implements AfterContentInit {
   }
   protected _selectable: boolean = true;
 
-  /** Whether the chip is selected. */
+  /**
+   * Whether the chip is selected.
+   *
+   * 纸片是否被选定。
+   *
+   */
   @Input()
   get selected(): boolean {
-    return this._chipFoundation.isSelected();
+    return this._selected;
   }
   set selected(value: BooleanInput) {
-    if (!this.selectable) {
-      return;
-    }
-    const coercedValue = coerceBooleanProperty(value);
-    if (coercedValue != this._chipFoundation.isSelected()) {
-      this._chipFoundation.setSelected(coerceBooleanProperty(value));
-      this._dispatchSelectionChange();
-    }
+    this._setSelectedState(coerceBooleanProperty(value), false, true);
   }
+  private _selected = false;
 
-  /** The ARIA selected applied to the chip. */
+  /**
+   * The ARIA selected applied to the chip.
+   *
+   * 应用于该纸片的 ARIA 选定属性。
+   *
+   */
   get ariaSelected(): string | null {
     // Remove the `aria-selected` when the chip is deselected in single-selection mode, because
     // it adds noise to NVDA users where "not selected" will be read out for each chip.
@@ -128,120 +144,77 @@ export class MatChipOption extends MatChip implements AfterContentInit {
   /** The unstyled chip selector for this component. */
   protected override basicChipAttrName = 'mat-basic-chip-option';
 
-  /** Emitted when the chip is selected or deselected. */
+  /**
+   * Emitted when the chip is selected or deselected.
+   *
+   * 该纸片被选定或取消选定时会触发。
+   *
+   */
   @Output() readonly selectionChange: EventEmitter<MatChipSelectionChange> =
     new EventEmitter<MatChipSelectionChange>();
 
-  override ngAfterContentInit() {
-    super.ngAfterContentInit();
-
-    if (this.selected && this.leadingIcon) {
-      this.leadingIcon.setClass(deprecated.chipCssClasses.HIDDEN_LEADING_ICON, true);
-    }
+  ngOnInit() {
+    this.role = 'presentation';
   }
 
-  /** Selects the chip. */
+  /**
+   * Selects the chip.
+   *
+   * 选择该纸片。
+   *
+   */
   select(): void {
-    if (!this.selectable) {
-      return;
-    } else if (!this.selected) {
-      this._chipFoundation.setSelected(true);
-      this._dispatchSelectionChange();
-    }
+    this._setSelectedState(true, false, true);
   }
 
-  /** Deselects the chip. */
+  /**
+   * Deselects the chip.
+   *
+   * 取消选择该纸片。
+   *
+   */
   deselect(): void {
-    if (!this.selectable) {
-      return;
-    } else if (this.selected) {
-      this._chipFoundation.setSelected(false);
-      this._dispatchSelectionChange();
-    }
+    this._setSelectedState(false, false, true);
   }
 
   /** Selects this chip and emits userInputSelection event */
   selectViaInteraction(): void {
-    if (!this.selectable) {
-      return;
-    } else if (!this.selected) {
-      this._chipFoundation.setSelected(true);
-      this._dispatchSelectionChange(true);
-    }
+    this._setSelectedState(true, true, true);
   }
 
-  /** Toggles the current selected state of this chip. */
+  /**
+   * Toggles the current selected state of this chip.
+   *
+   * 切换当前纸片的选定状态。
+   *
+   */
   toggleSelected(isUserInput: boolean = false): boolean {
-    if (!this.selectable) {
-      return this.selected;
-    }
-
-    this._chipFoundation.setSelected(!this.selected);
-    this._dispatchSelectionChange(isUserInput);
+    this._setSelectedState(!this.selected, isUserInput, true);
     return this.selected;
   }
 
-  /** Emits a selection change event. */
-  private _dispatchSelectionChange(isUserInput = false) {
-    this.selectionChange.emit({
-      source: this,
-      isUserInput,
-      selected: this.selected,
-    });
-  }
-
-  /** Allows for programmatic focusing of the chip. */
-  focus(): void {
-    if (this.disabled) {
-      return;
-    }
-
-    if (!this._hasFocus()) {
-      this._elementRef.nativeElement.focus();
-      this._onFocus.next({chip: this});
-    }
-    this._hasFocusInternal = true;
-  }
-
-  /** Resets the state of the chip when it loses focus. */
-  _blur(): void {
-    // When animations are enabled, Angular may end up removing the chip from the DOM a little
-    // earlier than usual, causing it to be blurred and throwing off the logic in the chip list
-    // that moves focus not the next item. To work around the issue, we defer marking the chip
-    // as not focused until the next time the zone stabilizes.
-    this._ngZone.onStable.pipe(take(1)).subscribe(() => {
-      this._ngZone.run(() => {
-        this._hasFocusInternal = false;
-        this._onBlur.next({chip: this});
-      });
-    });
-  }
-
-  /** Handles click events on the chip. */
-  _click(event: MouseEvent) {
-    if (this.disabled) {
-      event.preventDefault();
-    } else {
-      this._handleInteraction(event);
-      event.stopPropagation();
+  override _handlePrimaryActionInteraction() {
+    if (this.selectable && !this.disabled) {
+      this.toggleSelected(true);
     }
   }
 
-  /** Handles custom key presses. */
-  _keydown(event: KeyboardEvent): void {
-    if (this.disabled) {
-      return;
-    }
+  _hasLeadingGraphic() {
+    // The checkmark graphic is built in for multi-select chip lists.
+    return this.leadingIcon || (this._chipListMultiple && this.selectable);
+  }
 
-    switch (event.keyCode) {
-      case SPACE:
-        this.toggleSelected(true);
+  _setSelectedState(isSelected: boolean, isUserInput: boolean, emitEvent: boolean) {
+    if (isSelected !== this.selected) {
+      this._selected = isSelected;
 
-        // Always prevent space from scrolling the page since the list has focus
-        event.preventDefault();
-        break;
-      default:
-        this._handleInteraction(event);
+      if (emitEvent) {
+        this.selectionChange.emit({
+          source: this,
+          isUserInput,
+          selected: this.selected,
+        });
+      }
     }
   }
 }

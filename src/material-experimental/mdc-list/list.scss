@@ -1,8 +1,11 @@
+@use '@angular/material' as mat;
 @use '@material/list/evolution-mixins' as mdc-list;
-@use '../mdc-helpers/mdc-helpers';
-@use '../../material/core/style/layout-common';
 
-@include mdc-list.without-ripple($query: mdc-helpers.$mat-base-styles-query);
+@use '../mdc-core/mdc-helpers/mdc-helpers';
+
+@include mdc-helpers.disable-fallback-declarations {
+  @include mdc-list.without-ripple($query: mdc-helpers.$mat-base-styles-query);
+}
 
 // MDC expects the list element to be a `<ul>`, since we use `<mat-list>` instead we need to
 // explicitly set `display: block`
@@ -41,7 +44,7 @@
 // MDC's hover and focus state styles are included with their ripple which we don't use.
 // Instead we add the focus, hover and selected styles ourselves using this pseudo-element
 .mat-mdc-list-item-interactive::before {
-  @include layout-common.fill();
+  @include mat.private-fill();
   content: '';
   opacity: 0;
 }
@@ -55,9 +58,17 @@
 // The MDC-based list items already use the `::before` pseudo element for the standard
 // focus/selected/hover state. Hence, we need to have a separate list-item spanning
 // element that can be used for strong focus indicators.
-.mat-mdc-list-item > .mat-mdc-focus-indicator {
-  @include layout-common.fill();
-  pointer-events: none;
+.mat-mdc-list-item {
+  > .mat-mdc-focus-indicator {
+    @include mat.private-fill();
+    pointer-events: none;
+  }
+
+  // For list items, render the focus indicator when the parent
+  // listem item is focused.
+  &:focus > .mat-mdc-focus-indicator::before {
+    content: '';
+  }
 }
 
 .mat-mdc-list-item.mdc-list-item--with-three-lines {
@@ -78,5 +89,26 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+  }
+}
+
+// MDC doesn't account for button being used as a list item. We override some of
+// the default button styles here so that they look right when used as a list
+// item.
+mat-action-list button {
+  background: none;
+  color: inherit;
+  border: none;
+  font: inherit;
+  outline: inherit;
+  -webkit-tap-highlight-color: transparent;
+  text-align: left;
+
+  [dir='rtl'] & {
+    text-align: right;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
   }
 }

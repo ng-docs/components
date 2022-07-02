@@ -6,6 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {MarkerClusterer} from '../map-marker-clusterer/marker-clusterer-types';
+
 // The global `window` variable is typed as an intersection of `Window` and `globalThis`.
 // We re-declare `window` here and omit `globalThis` as it is typed with the actual Google
 // Maps types which we intend to override with jasmine spies for testing. Keeping `globalThis`
@@ -178,7 +180,7 @@ export function createInfoWindowSpy(
     'get',
   ]);
   infoWindowSpy.addListener.and.returnValue({remove: () => {}});
-  infoWindowSpy.open.and.callFake((_map: any, target: any) => (anchor = target));
+  infoWindowSpy.open.and.callFake((config: any) => (anchor = config.anchor));
   infoWindowSpy.close.and.callFake(() => (anchor = null));
   infoWindowSpy.get.and.callFake((key: string) => (key === 'anchor' ? anchor : null));
   return infoWindowSpy;

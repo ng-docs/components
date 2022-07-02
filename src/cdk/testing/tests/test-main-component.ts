@@ -35,6 +35,7 @@ export class TestMainComponent implements OnDestroy {
   testTools: string[];
   testMethods: string[];
   isHovering = false;
+  isPointerOver = false;
   specialKey = '';
   modifiers: string;
   singleSelect: string;
@@ -46,7 +47,7 @@ export class TestMainComponent implements OnDestroy {
   _shadowDomSupported = _supportsShadowDom();
   clickResult = {x: -1, y: -1};
   rightClickResult = {x: -1, y: -1, button: -1};
-  numberControl = new FormControl();
+  numberControl = new FormControl<number | null>(null);
 
   @ViewChild('clickTestElement') clickTestElement: ElementRef<HTMLElement>;
   @ViewChild('taskStateResult') taskStateResultElement: ElementRef<HTMLElement>;
@@ -122,8 +123,7 @@ export class TestMainComponent implements OnDestroy {
   }
 
   private _assignRelativeCoordinates(event: MouseEvent, obj: {x: number; y: number}) {
-    const {top, left} = this.clickTestElement.nativeElement.getBoundingClientRect();
-    obj.x = Math.round(event.clientX - left);
-    obj.y = Math.round(event.clientY - top);
+    obj.x = Math.round(event.offsetX);
+    obj.y = Math.round(event.offsetY);
   }
 }

@@ -11,9 +11,7 @@ import * as webdriver from 'selenium-webdriver';
 
 /**
  * Maps the `TestKey` constants to WebDriver's `webdriver.Key` constants.
- * See https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/webdriver/key.js#L29
- *
- * 将 `TestKey` 常量映射到 WebDriver 的 `webdriver.Key` 常量。参见<https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/webdriver/key.js#L29>
+ * See <https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/webdriver/key.js#L29>
  *
  */
 export const seleniumWebDriverKeyMap = {
@@ -49,12 +47,7 @@ export const seleniumWebDriverKeyMap = {
   [TestKey.META]: webdriver.Key.META,
 };
 
-/**
- * Gets a list of WebDriver `Key`s for the given `ModifierKeys`.
- *
- * 获取给定 `ModifierKeys` 的 WebDriver `Key` 的列表。
- *
- */
+/** Gets a list of WebDriver `Key`s for the given `ModifierKeys`. */
 export function getSeleniumWebDriverModifierKeys(modifiers: ModifierKeys): string[] {
   const result: string[] = [];
   if (modifiers.control) {

@@ -25,6 +25,9 @@ let dialogElementUid = 0;
 
 /**
  * Button that will close the current dialog.
+ *
+ * 该按钮用于关闭当前对话框。
+ *
  */
 @Directive({
   selector: '[mat-dialog-close], [matDialogClose]',
@@ -36,13 +39,28 @@ let dialogElementUid = 0;
   },
 })
 export class MatDialogClose implements OnInit, OnChanges {
-  /** Screenreader label for the button. */
+  /**
+   * Screenreader label for the button.
+   *
+   * 该按钮的屏幕阅读器标签。
+   *
+   */
   @Input('aria-label') ariaLabel: string;
 
-  /** Default to "button" to prevents accidental form submits. */
+  /**
+   * Default to "button" to prevents accidental form submits.
+   *
+   * 默认为 “button” 以防止意外的表单提交。
+   *
+   */
   @Input() type: 'submit' | 'button' | 'reset' = 'button';
 
-  /** Dialog close input. */
+  /**
+   * Dialog close input.
+   *
+   * 对话框关闭的输入属性。
+   *
+   */
   @Input('mat-dialog-close') dialogResult: any;
 
   @Input('matDialogClose') _matDialogClose: any;
@@ -89,6 +107,9 @@ export class MatDialogClose implements OnInit, OnChanges {
 
 /**
  * Title of a dialog element. Stays fixed to the top of the dialog when scrolling.
+ *
+ * 该对话框元素的标头。当滚动时，它会固定在对话框的顶部。
+ *
  */
 @Directive({
   selector: '[mat-dialog-title], [matDialogTitle]',
@@ -128,6 +149,9 @@ export class MatDialogTitle implements OnInit {
 
 /**
  * Scrollable content container of a dialog.
+ *
+ * 对话框的可滚动内容容器。
+ *
  */
 @Directive({
   selector: `[mat-dialog-content], mat-dialog-content, [matDialogContent]`,
@@ -138,12 +162,24 @@ export class MatDialogContent {}
 /**
  * Container for the bottom action buttons in a dialog.
  * Stays fixed to the bottom when scrolling.
+ *
+ * 对话框中底部操作按钮的容器。当滚动时，它会固定在底部。
+ *
  */
 @Directive({
   selector: `[mat-dialog-actions], mat-dialog-actions, [matDialogActions]`,
-  host: {'class': 'mat-mdc-dialog-actions mdc-dialog__actions'},
+  host: {
+    'class': 'mat-mdc-dialog-actions mdc-dialog__actions',
+    '[class.mat-mdc-dialog-actions-align-center]': 'align === "center"',
+    '[class.mat-mdc-dialog-actions-align-end]': 'align === "end"',
+  },
 })
-export class MatDialogActions {}
+export class MatDialogActions {
+  /**
+   * Horizontal alignment of action buttons.
+   */
+  @Input() align?: 'start' | 'center' | 'end' = 'start';
+}
 
 /**
  * Finds the closest MatDialogRef to an element by looking at the DOM.

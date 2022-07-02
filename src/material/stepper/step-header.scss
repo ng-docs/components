@@ -1,6 +1,7 @@
+@use '@angular/cdk';
+
 @use '../core/style/layout-common';
 @use './stepper-variables';
-@use '../../cdk/a11y';
 
 .mat-step-header {
   overflow: hidden;
@@ -10,11 +11,14 @@
   box-sizing: content-box;
   -webkit-tap-highlight-color: transparent;
 
-  @include a11y.high-contrast(active, off) {
+  // Stepper headers have the focus indicator as a descendant,
+  // because `::before` is used for other styling.
+  &:focus .mat-focus-indicator::before {
+    content: '';
+  }
+
+  @include cdk.high-contrast(active, off) {
     outline: solid 1px;
-    &.cdk-keyboard-focused, &.cdk-program-focused {
-      outline: solid 3px;
-    }
 
     &[aria-selected='true'] {
       .mat-step-label {
@@ -37,13 +41,16 @@
   position: relative;
 }
 
-.mat-step-icon-content,
-.mat-step-icon .mat-icon {
+.mat-step-icon-content {
   // Use absolute positioning to center the content, because it works better with text.
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  // We aren't using any flex features here, but using the `display: flex` prevents
+  // the browser from adding extra whitespace at the bottom of the element.
+  display: flex;
 }
 
 .mat-step-icon .mat-icon {

@@ -162,6 +162,9 @@ export class TestbedHarnessEnvironment extends HarnessEnvironment<Element> {
    */
   private _options: TestbedHarnessEnvironmentOptions;
 
+  /** Environment stabilization callback passed to the created test elements. */
+  private _stabilizeCallback: () => Promise<void>;
+
   protected constructor(
     rawRootElement: Element,
     private _fixture: ComponentFixture<unknown>,
@@ -170,6 +173,7 @@ export class TestbedHarnessEnvironment extends HarnessEnvironment<Element> {
     super(rawRootElement);
     this._options = {...defaultEnvironmentOptions, ...options};
     this._taskState = TaskStateZoneInterceptor.setup();
+    this._stabilizeCallback = () => this.forceStabilize();
     installAutoChangeDetectionStatusHandler(_fixture);
     _fixture.componentRef.onDestroy(() => {
       uninstallAutoChangeDetectionStatusHandler(_fixture);
@@ -296,7 +300,7 @@ export class TestbedHarnessEnvironment extends HarnessEnvironment<Element> {
    *
    */
   protected createTestElement(element: Element): TestElement {
-    return new UnitTestElement(element, () => this.forceStabilize());
+    return new UnitTestElement(element, this._stabilizeCallback);
   }
 
   /**

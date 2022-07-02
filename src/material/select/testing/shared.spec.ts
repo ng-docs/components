@@ -282,7 +282,7 @@ export function runHarnessTests(
   `,
 })
 class SelectHarnessTest {
-  formControl = new FormControl(undefined, [Validators.required]);
+  formControl = new FormControl(undefined as string | undefined, [Validators.required]);
   isDisabled = false;
   isRequired = false;
   states = [

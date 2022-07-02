@@ -29,7 +29,7 @@ This guide discusses the advantages of using component test harnesses and shows 
 ## 组件测试工具的优点
 
 There are two primary benefits to using the Angular Material component harnesses in your tests:
- 
+
 在测试中使用 Angular Material 组件测试工具有两个主要的好处：
 
 1. Harnesses make tests easier to read and understand with straightforward APIs.
@@ -49,23 +49,23 @@ The following sections will illustrate these benefits in more detail.
 ## 哪些测试可以使用测试工具？
 
 The Angular CDK's component harnesses are designed to work in multiple different test environments.
-Support currently includes Angular's Testbed environment in Karma unit tests and Protractor
+Support currently includes Angular's Testbed environment in Karma unit tests and Selenium WebDriver
 end-to-end (e2e) tests. You can also support additional environments by creating custom extensions
 of the CDK's `HarnessEnvironment` and `TestElement` classes.
 
-Angular CDK 的组件测试工具专为多种不同的测试环境而设计。目前支持包括 Karma 单元测试和 Protractor 端到端（e2e）测试在内的 Angular Testbed 环境。你还可以通过创建 CDK 的 `HarnessEnvironment` 和 `TestElement` 类的自定义扩展来支持更多环境。
+Angular CDK 的组件测试工具专为多种不同的测试环境而设计。目前支持包括 Karma 单元测试和 Selenium WebDriver 端到端（e2e）测试在内的 Angular Testbed 环境。你还可以通过创建 CDK 的 `HarnessEnvironment` 和 `TestElement` 类的自定义扩展来支持更多环境。
 
 ## Getting started
 
 ## 入门指南
 
 The foundation for all test harnesses lives in `@angular/cdk/testing`. Start by importing either
-`TestbedHarnessEnvironment` or `ProtractorHarnessEnvironment` based on whether you're writing a
+`TestbedHarnessEnvironment` or `SeleniumWebDriverHarnessEnvironment` based on whether you're writing a
 unit test or an e2e test. From the `HarnessEnvironment`, you can get a `HarnessLoader` instance,
 which you will use to load Angular Material component harnesses. For example, if we're writing unit
 tests for a `UserProfile` component, the code might look like this:
 
-所有测试工具的基础都位于 `@angular/cdk/testing` 中。根据你要写单元测试还是测试端测试，导入 `TestbedHarnessEnvironment` 或 `ProtractorHarnessEnvironment`。从 `HarnessEnvironment` 中，你可以得到一个 `HarnessLoader` 实例，你将用它来加载 Angular Material 组件测试工具。举例来说，如果我们要编写 `UserProfile` 组件的单元测试，代码可能是这样的：
+所有测试工具的基础都位于 `@angular/cdk/testing` 中。根据你要写单元测试还是测试端测试，导入 `TestbedHarnessEnvironment` 或 `SeleniumWebDriverHarnessEnvironment`。从 `HarnessEnvironment` 中，你可以得到一个 `HarnessLoader` 实例，你将用它来加载 Angular Material 组件测试工具。举例来说，如果我们要编写 `UserProfile` 组件的单元测试，代码可能是这样的：
 
 ```ts
 import {HarnessLoader} from '@angular/cdk/testing';
@@ -91,7 +91,7 @@ different paths.
 此代码为 `UserProfile` 创建一个夹具，然后为夹具创建一个 `HarnessLoader`。接着，该 `HarnessLoader` 可以找到 `UserProfile` 中的 Angular Material 组件，并为它们创建测试工具。注意，`HarnessLoader` 和 `TestbedHarnessEnvironment` 要分别从不同的路径加载。
 
 - `@angular/cdk/testing` contains symbols that are shared regardless of the environment your tests
-  are in. 
+  are in.
 
   `@angular/cdk/testing` 包含一些共享符号，无论你的测试位于哪个环境中。
 
@@ -99,10 +99,10 @@ different paths.
 
   `@angular/cdk/testing/testbed` 包含仅用于 Karma 测试中的符号。
 
-- `@angular/cdk/testing/protractor` (not shown above) contains symbols that are used only in
-  Protractor tests.
+- `@angular/cdk/testing/selenium-webdriver` (not shown above) contains symbols that are used only in
+  Selenium WebDriver tests.
 
-  `@angular/cdk/testing/protractor`（上面未演示）包含仅用于 Protractor 测试中的符号。
+  `@angular/cdk/testing/selenium-webdriver`（上面未演示）包含仅用于 Selenium WebDriver 测试中的符号。
 
 ## Loading an Angular Material harness
 
@@ -158,7 +158,7 @@ You can also use the static `with` method implemented on all Angular Material co
 This method creates a `HarnessPredicate`, an object that filters loaded harnesses based on the
 provided constraints. The particular constraint options vary depending on the harness class, but all
 harnesses support at least:
- 
+
 你还可以在所有的 Angular Material 组件测试工具上使用静态方法 `with`。该方法会创建一个 `HarnessPredicate`，它是一个根据所提供的约束条件来过滤已加载测试工具的对象。具体的约束选项取决于测试工具的类型，但所有的测试工具都支持：
 
 - `selector` - CSS selector that the component must match (in addition to its host selector, such
@@ -167,19 +167,19 @@ harnesses support at least:
   `selector` - 该组件必须匹配的 CSS 选择器（还有它的宿主选择器，如 `[mat-button]` ）
 
 - `ancestor` - CSS selector for a some ancestor element above the component in the DOM
- 
+
   `ancestor` - 在 DOM 中该组件上方的一些祖先元素的 CSS 选择器
 
 In addition to these standard options, `MatButtonHarness` also supports
- 
+
 除了这些标准的选择器之外，`MatButtonHarness` 还支持
 
-- `text` - String text or regular expressions that matches the text content of the button 
- 
+- `text` - String text or regular expressions that matches the text content of the button
+
   `text` - 与该按钮的文本内容相匹配的字符串文本或正则表达式
 
 Using this method we could locate buttons as follows in our test:
- 
+
 使用这种方法，我们可以在测试中找到如下按钮：
 
 ```ts

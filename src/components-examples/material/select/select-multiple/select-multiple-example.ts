@@ -7,6 +7,6 @@ import {FormControl} from '@angular/forms';
   templateUrl: 'select-multiple-example.html',
 })
 export class SelectMultipleExample {
-  toppings = new FormControl();
+  toppings = new FormControl('');
   toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
 }

@@ -36,8 +36,7 @@ import {TEXT_COLUMN_OPTIONS, TextColumnOptions} from './tokens';
  * the `dataAccessor` input. Change the text justification to the start or end using the `justify`
  * input.
  *
- * 默认情况下，该列的名称就是表头文本和数据属性访问器。输入属性 `headerText` 可以改写表头文本。输入属性 `dataAccessor` 可以改写单元格的值。
- * 输入属性 `justify` 把文本对齐方式修改为对齐到开头或结尾。
+ * 默认情况下，该列的名称就是表头文本和数据属性访问器。输入属性 `headerText` 可以改写表头文本。输入属性 `dataAccessor` 可以改写单元格的值。 输入属性 `justify` 把文本对齐方式修改为对齐到开头或结尾。
  *
  */
 @Component({
@@ -96,8 +95,7 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
    * the column's name. For example, if the column is named `id`, then the rendered value will be
    * value defined by the data's `id` property.
    *
-   * 访问器函数用来检索为要每个单元格渲染的数据。如果未设置此属性，数据单元格将渲染数据属性中与该列名匹配的值。
-   * 例如，如果列的名字是 `id`，那么渲染的值就是 data 的 `id` 属性定义的值。
+   * 访问器函数用来检索为要每个单元格渲染的数据。如果未设置此属性，数据单元格将渲染数据属性中与该列名匹配的值。 例如，如果列的名字是 `id`，那么渲染的值就是 data 的 `id` 属性定义的值。
    *
    */
   @Input() dataAccessor: (data: T, name: string) => string;
@@ -108,7 +106,7 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
    * 单元格中值的对齐方式。
    *
    */
-  @Input() justify: 'start' | 'end' = 'start';
+  @Input() justify: 'start' | 'end' | 'center' = 'start';
 
   /** @docs-private */
   @ViewChild(CdkColumnDef, {static: true}) columnDef: CdkColumnDef;
@@ -118,10 +116,6 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
    * Normally, this will be retrieved by the column using `ContentChild`, but that assumes the
    * column definition was provided in the same view as the table, which is not the case with this
    * component.
-   *
-   * `ngOnInit` 期间，通过静态查询，列单元格会被提供给列。
-   * 通常情况下，会通过对这个列使用 `ContentChild` 检索它，但这要求列的定义是在同一视图中提供的，但本组件中并非如此。
-   *
    * @docs-private
    */
   @ViewChild(CdkCellDef, {static: true}) cell: CdkCellDef;
@@ -131,10 +125,6 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
    * Normally, this will be retrieved by the column using `ContentChild`, but that assumes the
    * column definition was provided in the same view as the table, which is not the case with this
    * component.
-   *
-   * 该列的 headerCell 是在 `ngOnInit` 中通过静态查询提供给列的。
-   * 通常情况下，会通过对这个列使用 `ContentChild` 检索它，但这要求列的定义是在同一视图中提供的，但本组件中并非如此。
-   *
    * @docs-private
    */
   @ViewChild(CdkHeaderCellDef, {static: true}) headerCell: CdkHeaderCellDef;
@@ -182,9 +172,6 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
   /**
    * Creates a default header text. Use the options' header text transformation function if one
    * has been provided. Otherwise simply capitalize the column name.
-   *
-   * 创建默认的表头文本。如果提供了表头文本的转换函数，请使用这些选项。否则，只需要将列名大写。
-   *
    */
   _createDefaultHeaderText() {
     const name = this.name;
@@ -200,12 +187,7 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
     return name[0].toUpperCase() + name.slice(1);
   }
 
-  /**
-   * Synchronizes the column definition name with the text column name.
-   *
-   * 将列定义名称与列名文本同步。
-   *
-   */
+  /** Synchronizes the column definition name with the text column name. */
   private _syncColumnDefName() {
     if (this.columnDef) {
       this.columnDef.name = this.name;

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testing';
 import {TableHarnessFilters, _MatTableHarnessBase} from '@angular/material/table/testing';
 import {MatRowHarness, MatHeaderRowHarness, MatFooterRowHarness} from './row-harness';
 
@@ -19,7 +19,12 @@ export class MatTableHarness extends _MatTableHarnessBase<
   typeof MatFooterRowHarness,
   MatFooterRowHarness
 > {
-  /** The selector for the host element of a `MatTableHarness` instance. */
+  /**
+   * The selector for the host element of a `MatTableHarness` instance.
+   *
+   * `MatTableHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-mdc-table';
   protected _headerRowHarness = MatHeaderRowHarness;
   protected _rowHarness = MatRowHarness;
@@ -27,12 +32,21 @@ export class MatTableHarness extends _MatTableHarnessBase<
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a table with specific attributes.
+   *
+   * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索具有特定属性的表。
+   *
    * @param options Options for narrowing the search
+   *
+   * 缩小搜索范围的选项
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: TableHarnessFilters = {}): HarnessPredicate<MatTableHarness> {
-    return new HarnessPredicate(MatTableHarness, options);
+  static with<T extends MatTableHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: TableHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 }

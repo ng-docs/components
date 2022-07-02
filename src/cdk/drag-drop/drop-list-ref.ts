@@ -13,92 +13,34 @@ import {ViewportRuler} from '@angular/cdk/scrolling';
 import {_getShadowRoot} from '@angular/cdk/platform';
 import {Subject, Subscription, interval, animationFrameScheduler} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {moveItemInArray} from './drag-utils';
 import {DragDropRegistry} from './drag-drop-registry';
 import {DragRefInternal as DragRef, Point} from './drag-ref';
-import {
-  isPointerNearClientRect,
-  adjustClientRect,
-  getMutableClientRect,
-  isInsideClientRect,
-} from './client-rect';
-import {ParentPositionTracker} from './parent-position-tracker';
-import {combineTransforms, DragCSSStyleDeclaration} from './drag-styling';
+import {isPointerNearClientRect, isInsideClientRect} from './dom/client-rect';
+import {ParentPositionTracker} from './dom/parent-position-tracker';
+import {DragCSSStyleDeclaration} from './dom/styling';
+import {DropListSortStrategy} from './sorting/drop-list-sort-strategy';
+import {SingleAxisSortStrategy} from './sorting/single-axis-sort-strategy';
 
 /**
  * Proximity, as a ratio to width/height, at which a
  * dragged item will affect the drop container.
- *
- * 亲近度（宽度/高度）为多少时被拖动的条目会影响该投放容器。
- *
  */
 const DROP_PROXIMITY_THRESHOLD = 0.05;
 
 /**
  * Proximity, as a ratio to width/height at which to start auto-scrolling the drop list or the
  * viewport. The value comes from trying it out manually until it feels right.
- *
- * 亲近度，是指宽度/高度比，从多少开始自动滚动投放列表或视口。这个值来自于人工尝试，直到感觉合适为止。
- *
  */
 const SCROLL_PROXIMITY_THRESHOLD = 0.05;
 
-/**
- * Entry in the position cache for draggable items.
- *
- * 对可拖放条目的位置缓存结构。
- *
- * @docs-private
- */
-interface CachedItemPosition {
-  /**
-   * Instance of the drag item.
-   *
-   * 拖动条目的实例
-   *
-   */
-  drag: DragRef;
-  /**
-   * Dimensions of the item.
-   *
-   * 此条目的规格。
-   *
-   */
-  clientRect: ClientRect;
-  /**
-   * Amount by which the item has been moved since dragging started.
-   *
-   * 从拖曳开始以来此条目移动的偏移量。
-   *
-   */
-  offset: number;
-  /**
-   * Inline transform that the drag item had when dragging started.
-   *
-   * 开始拖动时，拖动项具有的内联变换。
-   *
-   */
-  initialTransform: string;
-}
-
-/**
- * Vertical direction in which we can auto-scroll.
- *
- * 我们可以自动滚动的垂直方向。
- *
- */
+/** Vertical direction in which we can auto-scroll. */
 const enum AutoScrollVerticalDirection {
   NONE,
   UP,
   DOWN,
 }
 
-/**
- * Horizontal direction in which we can auto-scroll.
- *
- * 我们可以自动滚动的水平方向。
- *
- */
+/** Horizontal direction in which we can auto-scroll. */
 const enum AutoScrollHorizontalDirection {
   NONE,
   LEFT,
@@ -108,9 +50,6 @@ const enum AutoScrollHorizontalDirection {
 /**
  * Internal compile-time-only representation of a `DropListRef`.
  * Used to avoid circular import issues between the `DropListRef` and the `DragRef`.
- *
- * `DropListRef` 的内部编译期表示形式。用于避免 `DropListRef` 和 `DragRef` 之间的循环导入问题。
- *
  * @docs-private
  */
 export interface DropListRefInternal extends DropListRef {}
@@ -132,7 +71,7 @@ export class DropListRef<T = any> {
   /**
    * Element that the drop list is attached to.
    *
-   * 投放表附加到的元素
+   * 投放表附加到的元素。
    *
    */
   element: HTMLElement | ElementRef<HTMLElement>;
@@ -187,12 +126,7 @@ export class DropListRef<T = any> {
    */
   enterPredicate: (drag: DragRef, drop: DropListRef) => boolean = () => true;
 
-  /**
-   * Functions that is used to determine whether an item can be sorted into a particular index.
-   *
-   * 一个函数，用来判断某个条目是否可以被排序到特定索引。
-   *
-   */
+  /** Function that is used to determine whether an item can be sorted into a particular index. */
   sortPredicate: (index: number, drag: DragRef, drop: DropListRef) => boolean = () => true;
 
   /**
@@ -235,6 +169,7 @@ export class DropListRef<T = any> {
     isPointerOverContainer: boolean;
     distance: Point;
     dropPoint: Point;
+    event: MouseEvent | TouchEvent;
   }>();
 
   /**
@@ -258,168 +193,52 @@ export class DropListRef<T = any> {
    */
   data: T;
 
-  /**
-   * Whether an item in the list is being dragged.
-   *
-   * 是否正在拖动列表中的某个条目。
-   *
-   */
+  /** Whether an item in the list is being dragged. */
   private _isDragging = false;
 
-  /**
-   * Cache of the dimensions of all the items inside the container.
-   *
-   * 缓存容器内所有条目的规格。
-   *
-   */
-  private _itemPositions: CachedItemPosition[] = [];
-
-  /**
-   * Keeps track of the positions of any parent scrollable elements.
-   *
-   * 跟踪任何父级可滚动元素的位置。
-   *
-   */
+  /** Keeps track of the positions of any parent scrollable elements. */
   private _parentPositions: ParentPositionTracker;
 
-  /**
-   * Cached `ClientRect` of the drop list.
-   *
-   * 投放列表的缓存 `ClientRect`
-   *
-   */
+  /** Strategy being used to sort items within the list. */
+  private _sortStrategy: DropListSortStrategy<DragRef>;
+
+  /** Cached `ClientRect` of the drop list. */
   private _clientRect: ClientRect | undefined;
 
-  /**
-   * Draggable items that are currently active inside the container. Includes the items
-   * from `_draggables`, as well as any items that have been dragged in, but haven't
-   * been dropped yet.
-   *
-   * 当前在容器内处于活动状态的可拖动条目。`_draggables` 的条目，以及那些已被拖入但尚未被删除的条目。
-   *
-   */
-  private _activeDraggables: DragRef[];
-
-  /**
-   * Keeps track of the item that was last swapped with the dragged item, as well as what direction
-   * the pointer was moving in when the swap occured and whether the user's pointer continued to
-   * overlap with the swapped item after the swapping occurred.
-   *
-   * 跟踪最后与拖动条目换过的条目，以及交换发生时指针移入的方向，以及用户指针在交换后是否继续与所交换的条目重叠。
-   *
-   */
-  private _previousSwap = {drag: null as DragRef | null, delta: 0, overlaps: false};
-
-  /**
-   * Draggable items in the container.
-   *
-   * 容器中的可拖动条目。
-   *
-   */
+  /** Draggable items in the container. */
   private _draggables: readonly DragRef[] = [];
 
-  /**
-   * Drop lists that are connected to the current one.
-   *
-   * 删除那些连接到当前列表的投放列表。
-   *
-   */
+  /** Drop lists that are connected to the current one. */
   private _siblings: readonly DropListRef[] = [];
 
-  /**
-   * Direction in which the list is oriented.
-   *
-   * 列表的指向。
-   *
-   */
-  private _orientation: 'horizontal' | 'vertical' = 'vertical';
-
-  /**
-   * Connected siblings that currently have a dragged item.
-   *
-   * 当前有拖动条目的已连接兄弟列表。
-   *
-   */
+  /** Connected siblings that currently have a dragged item. */
   private _activeSiblings = new Set<DropListRef>();
 
-  /**
-   * Layout direction of the drop list.
-   *
-   * 投放列表的布局方向。
-   *
-   */
-  private _direction: Direction = 'ltr';
-
-  /**
-   * Subscription to the window being scrolled.
-   *
-   * 对窗口滚动事件的订阅。
-   *
-   */
+  /** Subscription to the window being scrolled. */
   private _viewportScrollSubscription = Subscription.EMPTY;
 
-  /**
-   * Vertical direction in which the list is currently scrolling.
-   *
-   * 列表当前正在滚动的垂直方向。
-   *
-   */
+  /** Vertical direction in which the list is currently scrolling. */
   private _verticalScrollDirection = AutoScrollVerticalDirection.NONE;
 
-  /**
-   * Horizontal direction in which the list is currently scrolling.
-   *
-   * 列表当前正在滚动的水平方向。
-   *
-   */
+  /** Horizontal direction in which the list is currently scrolling. */
   private _horizontalScrollDirection = AutoScrollHorizontalDirection.NONE;
 
-  /**
-   * Node that is being auto-scrolled.
-   *
-   * 正在自动滚动的节点
-   *
-   */
+  /** Node that is being auto-scrolled. */
   private _scrollNode: HTMLElement | Window;
 
-  /**
-   * Used to signal to the current auto-scroll sequence when to stop.
-   *
-   * 用于发信号以通知当前自动滚动序列何时停止。
-   *
-   */
+  /** Used to signal to the current auto-scroll sequence when to stop. */
   private readonly _stopScrollTimers = new Subject<void>();
 
-  /**
-   * Shadow root of the current element. Necessary for `elementFromPoint` to resolve correctly.
-   *
-   * 当前元素的 Shadow DOM 根。这对于正确解析 `elementFromPoint` 是必要的。
-   *
-   */
+  /** Shadow root of the current element. Necessary for `elementFromPoint` to resolve correctly. */
   private _cachedShadowRoot: RootNode | null = null;
 
-  /**
-   * Reference to the document.
-   *
-   * 到 document 的引用。
-   *
-   */
+  /** Reference to the document. */
   private _document: Document;
 
-  /**
-   * Elements that can be scrolled while the user is dragging.
-   *
-   * 可以在用户拖动时滚动的元素。
-   *
-   */
+  /** Elements that can be scrolled while the user is dragging. */
   private _scrollableElements: HTMLElement[];
 
-  /**
-   * Initial value for the element's `scroll-snap-type` style.
-   *
-   * 该元素的 `scroll-snap-type` 样式的初始值。
-   *
-   */
+  /** Initial value for the element's `scroll-snap-type` style. */
   private _initialScrollSnap: string;
 
   constructor(
@@ -433,7 +252,9 @@ export class DropListRef<T = any> {
     this._document = _document;
     this.withScrollableParents([this.element]);
     _dragDropRegistry.registerDropContainer(this);
-    this._parentPositions = new ParentPositionTracker(_document, _viewportRuler);
+    this._parentPositions = new ParentPositionTracker(_document);
+    this._sortStrategy = new SingleAxisSortStrategy(this.element, _dragDropRegistry);
+    this._sortStrategy.withSortPredicate((index, item) => this.sortPredicate(index, item, this));
   }
 
   /**
@@ -479,10 +300,7 @@ export class DropListRef<T = any> {
   }
 
   /**
-   * Emits an event to indicate that the user moved an item into the container.
-   *
-   * 发出一个事件，表明用户已经把某个条目移到了容器中。
-   *
+   * Attempts to move an item into the container.
    * @param item Item that was moved into the container.
    *
    * 被移入容器中的条目。
@@ -506,65 +324,14 @@ export class DropListRef<T = any> {
 
     // If sorting is disabled, we want the item to return to its starting
     // position if the user is returning it to its initial container.
-    let newIndex: number;
-
-    if (index == null) {
-      newIndex = this.sortingDisabled ? this._draggables.indexOf(item) : -1;
-
-      if (newIndex === -1) {
-        // We use the coordinates of where the item entered the drop
-        // zone to figure out at which index it should be inserted.
-        newIndex = this._getItemIndexFromPointerPosition(item, pointerX, pointerY);
-      }
-    } else {
-      newIndex = index;
+    if (index == null && this.sortingDisabled) {
+      index = this._draggables.indexOf(item);
     }
 
-    const activeDraggables = this._activeDraggables;
-    const currentIndex = activeDraggables.indexOf(item);
-    const placeholder = item.getPlaceholderElement();
-    let newPositionReference: DragRef | undefined = activeDraggables[newIndex];
+    this._sortStrategy.enter(item, pointerX, pointerY, index);
 
-    // If the item at the new position is the same as the item that is being dragged,
-    // it means that we're trying to restore the item to its initial position. In this
-    // case we should use the next item from the list as the reference.
-    if (newPositionReference === item) {
-      newPositionReference = activeDraggables[newIndex + 1];
-    }
-
-    // If we didn't find a new position reference, it means that either the item didn't start off
-    // in this container, or that the item requested to be inserted at the end of the list.
-    if (
-      !newPositionReference &&
-      (newIndex == null || newIndex === -1 || newIndex < activeDraggables.length - 1) &&
-      this._shouldEnterAsFirstChild(pointerX, pointerY)
-    ) {
-      newPositionReference = activeDraggables[0];
-    }
-
-    // Since the item may be in the `activeDraggables` already (e.g. if the user dragged it
-    // into another container and back again), we have to ensure that it isn't duplicated.
-    if (currentIndex > -1) {
-      activeDraggables.splice(currentIndex, 1);
-    }
-
-    // Don't use items that are being dragged as a reference, because
-    // their element has been moved down to the bottom of the body.
-    if (newPositionReference && !this._dragDropRegistry.isDragging(newPositionReference)) {
-      const element = newPositionReference.getRootElement();
-      element.parentElement!.insertBefore(placeholder, element);
-      activeDraggables.splice(newIndex, 0, item);
-    } else {
-      coerceElement(this.element).appendChild(placeholder);
-      activeDraggables.push(item);
-    }
-
-    // The transform needs to be cleared so it doesn't throw off the measurements.
-    placeholder.style.transform = '';
-
-    // Note that the positions were already cached when we called `start` above,
-    // but we need to refresh them since the amount of items has changed and also parent rects.
-    this._cacheItemPositions();
+    // Note that this usually happens inside `_draggingStarted` as well, but the dimensions
+    // can change when the sort strategy moves the item around inside `enter`.
     this._cacheParentPositions();
 
     // Notify siblings at the end so that the item has been inserted into the `activeDraggables`.
@@ -579,7 +346,7 @@ export class DropListRef<T = any> {
    *
    * @param item Item that was dragged out.
    *
-   * 被拖走的条目
+   * 被拖走的条目。
    *
    */
   exit(item: DragRef): void {
@@ -590,7 +357,7 @@ export class DropListRef<T = any> {
   /**
    * Drops an item into this container.
    *
-   * 把条目投放到这个容器里
+   * 把条目投放到这个容器里。
    *
    * @param item Item being dropped into the container.
    *
@@ -611,12 +378,14 @@ export class DropListRef<T = any> {
    * @param isPointerOverContainer Whether the user's pointer was over the
    *    container when the item was dropped.
    *
-   * 当条目被删除时，用户的指针是否在此容器上。
+   * 当条目被移除时，用户的指针是否还在容器上。
    *
    * @param distance Distance the user has dragged since the start of the dragging sequence.
    *
    * 自拖曳序列开始以来用户拖动过的距离。
    *
+   * @param event Event that triggered the dropping sequence.
+   * @breaking-change 15.0.0 `previousIndex` and `event` parameters to become required.
    */
   drop(
     item: DragRef,
@@ -626,6 +395,7 @@ export class DropListRef<T = any> {
     isPointerOverContainer: boolean,
     distance: Point,
     dropPoint: Point,
+    event: MouseEvent | TouchEvent = {} as any,
   ): void {
     this._reset();
     this.dropped.next({
@@ -637,6 +407,7 @@ export class DropListRef<T = any> {
       isPointerOverContainer,
       distance,
       dropPoint,
+      event,
     });
   }
 
@@ -663,7 +434,7 @@ export class DropListRef<T = any> {
       if (draggedItems.every(item => items.indexOf(item) === -1)) {
         this._reset();
       } else {
-        this._cacheItems();
+        this._sortStrategy.withItems(this._draggables);
       }
     }
 
@@ -677,7 +448,7 @@ export class DropListRef<T = any> {
    *
    */
   withDirection(direction: Direction): this {
-    this._direction = direction;
+    this._sortStrategy.direction = direction;
     return this;
   }
 
@@ -708,7 +479,9 @@ export class DropListRef<T = any> {
    *
    */
   withOrientation(orientation: 'vertical' | 'horizontal'): this {
-    this._orientation = orientation;
+    // TODO(crisbeto): eventually we should be constructing the new sort strategy here based on
+    // the new orientation. For now we can assume that it'll always be `SingleAxisSortStrategy`.
+    (this._sortStrategy as SingleAxisSortStrategy<DragRef>).orientation = orientation;
     return this;
   }
 
@@ -753,19 +526,9 @@ export class DropListRef<T = any> {
    *
    */
   getItemIndex(item: DragRef): number {
-    if (!this._isDragging) {
-      return this._draggables.indexOf(item);
-    }
-
-    // Items are sorted always by top/left in the cache, however they flow differently in RTL.
-    // The rest of the logic still stands no matter what orientation we're in, however
-    // we need to invert the array when determining the index.
-    const items =
-      this._orientation === 'horizontal' && this._direction === 'rtl'
-        ? this._itemPositions.slice().reverse()
-        : this._itemPositions;
-
-    return items.findIndex(currentItem => currentItem.drag === item);
+    return this._isDragging
+      ? this._sortStrategy.getItemIndex(item)
+      : this._draggables.indexOf(item);
   }
 
   /**
@@ -781,13 +544,7 @@ export class DropListRef<T = any> {
 
   /**
    * Sorts an item inside the container based on its position.
-   *
-   * 根据某条目的位置在容器内对其进行排序。
-   *
    * @param item Item to be sorted.
-   *
-   * 要排序的条目
-   *
    * @param pointerX Position of the item along the X axis.
    *
    * 该条目沿 X 轴的位置。
@@ -797,9 +554,6 @@ export class DropListRef<T = any> {
    * 该条目沿 Y 轴的位置。
    *
    * @param pointerDelta Direction in which the pointer is moving along each axis.
-   *
-   * 指针沿每个轴移动的方向。
-   *
    */
   _sortItem(
     item: DragRef,
@@ -816,96 +570,23 @@ export class DropListRef<T = any> {
       return;
     }
 
-    const siblings = this._itemPositions;
-    const newIndex = this._getItemIndexFromPointerPosition(item, pointerX, pointerY, pointerDelta);
+    const result = this._sortStrategy.sort(item, pointerX, pointerY, pointerDelta);
 
-    if (newIndex === -1 && siblings.length > 0) {
-      return;
+    if (result) {
+      this.sorted.next({
+        previousIndex: result.previousIndex,
+        currentIndex: result.currentIndex,
+        container: this,
+        item,
+      });
     }
-
-    const isHorizontal = this._orientation === 'horizontal';
-    const currentIndex = siblings.findIndex(currentItem => currentItem.drag === item);
-    const siblingAtNewPosition = siblings[newIndex];
-    const currentPosition = siblings[currentIndex].clientRect;
-    const newPosition = siblingAtNewPosition.clientRect;
-    const delta = currentIndex > newIndex ? 1 : -1;
-
-    // How many pixels the item's placeholder should be offset.
-    const itemOffset = this._getItemOffsetPx(currentPosition, newPosition, delta);
-
-    // How many pixels all the other items should be offset.
-    const siblingOffset = this._getSiblingOffsetPx(currentIndex, siblings, delta);
-
-    // Save the previous order of the items before moving the item to its new index.
-    // We use this to check whether an item has been moved as a result of the sorting.
-    const oldOrder = siblings.slice();
-
-    // Shuffle the array in place.
-    moveItemInArray(siblings, currentIndex, newIndex);
-
-    this.sorted.next({
-      previousIndex: currentIndex,
-      currentIndex: newIndex,
-      container: this,
-      item,
-    });
-
-    siblings.forEach((sibling, index) => {
-      // Don't do anything if the position hasn't changed.
-      if (oldOrder[index] === sibling) {
-        return;
-      }
-
-      const isDraggedItem = sibling.drag === item;
-      const offset = isDraggedItem ? itemOffset : siblingOffset;
-      const elementToOffset = isDraggedItem
-        ? item.getPlaceholderElement()
-        : sibling.drag.getRootElement();
-
-      // Update the offset to reflect the new position.
-      sibling.offset += offset;
-
-      // Since we're moving the items with a `transform`, we need to adjust their cached
-      // client rects to reflect their new position, as well as swap their positions in the cache.
-      // Note that we shouldn't use `getBoundingClientRect` here to update the cache, because the
-      // elements may be mid-animation which will give us a wrong result.
-      if (isHorizontal) {
-        // Round the transforms since some browsers will
-        // blur the elements, for sub-pixel transforms.
-        elementToOffset.style.transform = combineTransforms(
-          `translate3d(${Math.round(sibling.offset)}px, 0, 0)`,
-          sibling.initialTransform,
-        );
-        adjustClientRect(sibling.clientRect, 0, offset);
-      } else {
-        elementToOffset.style.transform = combineTransforms(
-          `translate3d(0, ${Math.round(sibling.offset)}px, 0)`,
-          sibling.initialTransform,
-        );
-        adjustClientRect(sibling.clientRect, offset, 0);
-      }
-    });
-
-    // Note that it's important that we do this after the client rects have been adjusted.
-    this._previousSwap.overlaps = isInsideClientRect(newPosition, pointerX, pointerY);
-    this._previousSwap.drag = siblingAtNewPosition.drag;
-    this._previousSwap.delta = isHorizontal ? pointerDelta.x : pointerDelta.y;
   }
 
   /**
    * Checks whether the user's pointer is close to the edges of either the
    * viewport or the drop list and starts the auto-scroll sequence.
-   *
-   * 检查用户的指针是否靠近视口或投放列表的边缘，并启动自动滚动序列。
-   *
    * @param pointerX User's pointer position along the x axis.
-   *
-   * 用户指针沿 x 轴的位置。
-   *
    * @param pointerY User's pointer position along the y axis.
-   *
-   * 用户指针沿 y 轴的位置。
-   *
    */
   _startScrollingIfNecessary(pointerX: number, pointerY: number) {
     if (this.autoScrollDisabled) {
@@ -974,22 +655,12 @@ export class DropListRef<T = any> {
     }
   }
 
-  /**
-   * Stops any currently-running auto-scroll sequences.
-   *
-   * 停止当前正在运行的自动滚动序列。
-   *
-   */
+  /** Stops any currently-running auto-scroll sequences. */
   _stopScrolling() {
     this._stopScrollTimers.next();
   }
 
-  /**
-   * Starts the dragging sequence within the list.
-   *
-   * 在列表中开始拖曳序列。
-   *
-   */
+  /** Starts the dragging sequence within the list. */
   private _draggingStarted() {
     const styles = coerceElement(this.element).style as DragCSSStyleDeclaration;
     this.beforeStarted.next();
@@ -1000,17 +671,13 @@ export class DropListRef<T = any> {
     // that we can't increment/decrement the scroll position.
     this._initialScrollSnap = styles.msScrollSnapType || styles.scrollSnapType || '';
     styles.scrollSnapType = styles.msScrollSnapType = 'none';
-    this._cacheItems();
+    this._sortStrategy.start(this._draggables);
+    this._cacheParentPositions();
     this._viewportScrollSubscription.unsubscribe();
     this._listenToScrollEvents();
   }
 
-  /**
-   * Caches the positions of the configured scrollable parents.
-   *
-   * 缓存已配置的可滚动父条目的位置。
-   *
-   */
+  /** Caches the positions of the configured scrollable parents. */
   private _cacheParentPositions() {
     const element = coerceElement(this.element);
     this._parentPositions.cache(this._scrollableElements);
@@ -1020,254 +687,21 @@ export class DropListRef<T = any> {
     this._clientRect = this._parentPositions.positions.get(element)!.clientRect!;
   }
 
-  /**
-   * Refreshes the position cache of the items and sibling containers.
-   *
-   * 刷新各个条目以及各兄弟容器的位置缓存。
-   *
-   */
-  private _cacheItemPositions() {
-    const isHorizontal = this._orientation === 'horizontal';
-
-    this._itemPositions = this._activeDraggables
-      .map(drag => {
-        const elementToMeasure = drag.getVisibleElement();
-        return {
-          drag,
-          offset: 0,
-          initialTransform: elementToMeasure.style.transform || '',
-          clientRect: getMutableClientRect(elementToMeasure),
-        };
-      })
-      .sort((a, b) => {
-        return isHorizontal
-          ? a.clientRect.left - b.clientRect.left
-          : a.clientRect.top - b.clientRect.top;
-      });
-  }
-
-  /**
-   * Resets the container to its initial state.
-   *
-   * 把容器重置为初始状态。
-   *
-   */
+  /** Resets the container to its initial state. */
   private _reset() {
     this._isDragging = false;
 
     const styles = coerceElement(this.element).style as DragCSSStyleDeclaration;
     styles.scrollSnapType = styles.msScrollSnapType = this._initialScrollSnap;
 
-    // TODO(crisbeto): may have to wait for the animations to finish.
-    this._activeDraggables.forEach(item => {
-      const rootElement = item.getRootElement();
-
-      if (rootElement) {
-        const initialTransform = this._itemPositions.find(
-          current => current.drag === item,
-        )?.initialTransform;
-        rootElement.style.transform = initialTransform || '';
-      }
-    });
     this._siblings.forEach(sibling => sibling._stopReceiving(this));
-    this._activeDraggables = [];
-    this._itemPositions = [];
-    this._previousSwap.drag = null;
-    this._previousSwap.delta = 0;
-    this._previousSwap.overlaps = false;
+    this._sortStrategy.reset();
     this._stopScrolling();
     this._viewportScrollSubscription.unsubscribe();
     this._parentPositions.clear();
   }
 
-  /**
-   * Gets the offset in pixels by which the items that aren't being dragged should be moved.
-   *
-   * 获取未被拖动的条目应该移动的偏移量（以像素为单位）。
-   *
-   * @param currentIndex Index of the item currently being dragged.
-   *
-   * 当前被拖动条目的索引。
-   *
-   * @param siblings All of the items in the list.
-   *
-   * 列表中的所有条目。
-   *
-   * @param delta Direction in which the user is moving.
-   *
-   * 用户移动的方向。
-   *
-   */
-  private _getSiblingOffsetPx(currentIndex: number, siblings: CachedItemPosition[], delta: 1 | -1) {
-    const isHorizontal = this._orientation === 'horizontal';
-    const currentPosition = siblings[currentIndex].clientRect;
-    const immediateSibling = siblings[currentIndex + delta * -1];
-    let siblingOffset = currentPosition[isHorizontal ? 'width' : 'height'] * delta;
-
-    if (immediateSibling) {
-      const start = isHorizontal ? 'left' : 'top';
-      const end = isHorizontal ? 'right' : 'bottom';
-
-      // Get the spacing between the start of the current item and the end of the one immediately
-      // after it in the direction in which the user is dragging, or vice versa. We add it to the
-      // offset in order to push the element to where it will be when it's inline and is influenced
-      // by the `margin` of its siblings.
-      if (delta === -1) {
-        siblingOffset -= immediateSibling.clientRect[start] - currentPosition[end];
-      } else {
-        siblingOffset += currentPosition[start] - immediateSibling.clientRect[end];
-      }
-    }
-
-    return siblingOffset;
-  }
-
-  /**
-   * Gets the offset in pixels by which the item that is being dragged should be moved.
-   *
-   * 获取要移动的条目的偏移量（以像素为单位）。
-   *
-   * @param currentPosition Current position of the item.
-   *
-   * 该条目的当前位置
-   *
-   * @param newPosition Position of the item where the current item should be moved.
-   *
-   * 当前条目应该移动到的位置。
-   *
-   * @param delta Direction in which the user is moving.
-   *
-   * 用户移动的方向。
-   *
-   */
-  private _getItemOffsetPx(currentPosition: ClientRect, newPosition: ClientRect, delta: 1 | -1) {
-    const isHorizontal = this._orientation === 'horizontal';
-    let itemOffset = isHorizontal
-      ? newPosition.left - currentPosition.left
-      : newPosition.top - currentPosition.top;
-
-    // Account for differences in the item width/height.
-    if (delta === -1) {
-      itemOffset += isHorizontal
-        ? newPosition.width - currentPosition.width
-        : newPosition.height - currentPosition.height;
-    }
-
-    return itemOffset;
-  }
-
-  /**
-   * Checks if pointer is entering in the first position
-   *
-   * 检查指针是否进入了第一个条目的位置
-   *
-   * @param pointerX Position of the user's pointer along the X axis.
-   *
-   * 用户指针沿 X 轴的位置。
-   *
-   * @param pointerY Position of the user's pointer along the Y axis.
-   *
-   * 用户指针沿 Y 轴的位置。
-   *
-   */
-  private _shouldEnterAsFirstChild(pointerX: number, pointerY: number) {
-    if (!this._activeDraggables.length) {
-      return false;
-    }
-
-    const itemPositions = this._itemPositions;
-    const isHorizontal = this._orientation === 'horizontal';
-
-    // `itemPositions` are sorted by position while `activeDraggables` are sorted by child index
-    // check if container is using some sort of "reverse" ordering (eg: flex-direction: row-reverse)
-    const reversed = itemPositions[0].drag !== this._activeDraggables[0];
-    if (reversed) {
-      const lastItemRect = itemPositions[itemPositions.length - 1].clientRect;
-      return isHorizontal ? pointerX >= lastItemRect.right : pointerY >= lastItemRect.bottom;
-    } else {
-      const firstItemRect = itemPositions[0].clientRect;
-      return isHorizontal ? pointerX <= firstItemRect.left : pointerY <= firstItemRect.top;
-    }
-  }
-
-  /**
-   * Gets the index of an item in the drop container, based on the position of the user's pointer.
-   *
-   * 根据用户指针的位置，获取 drop 容器中一个条目的索引。
-   *
-   * @param item Item that is being sorted.
-   *
-   * 正在排序的条目
-   *
-   * @param pointerX Position of the user's pointer along the X axis.
-   *
-   * 用户指针沿 X 轴的位置。
-   *
-   * @param pointerY Position of the user's pointer along the Y axis.
-   *
-   * 用户指针沿 Y 轴的位置。
-   *
-   * @param delta Direction in which the user is moving their pointer.
-   *
-   * 用户移动指针的方向。
-   *
-   */
-  private _getItemIndexFromPointerPosition(
-    item: DragRef,
-    pointerX: number,
-    pointerY: number,
-    delta?: {x: number; y: number},
-  ): number {
-    const isHorizontal = this._orientation === 'horizontal';
-    const index = this._itemPositions.findIndex(({drag, clientRect}) => {
-      // Skip the item itself.
-      if (drag === item) {
-        return false;
-      }
-
-      if (delta) {
-        const direction = isHorizontal ? delta.x : delta.y;
-
-        // If the user is still hovering over the same item as last time, their cursor hasn't left
-        // the item after we made the swap, and they didn't change the direction in which they're
-        // dragging, we don't consider it a direction swap.
-        if (
-          drag === this._previousSwap.drag &&
-          this._previousSwap.overlaps &&
-          direction === this._previousSwap.delta
-        ) {
-          return false;
-        }
-      }
-
-      return isHorizontal
-        ? // Round these down since most browsers report client rects with
-          // sub-pixel precision, whereas the pointer coordinates are rounded to pixels.
-          pointerX >= Math.floor(clientRect.left) && pointerX < Math.floor(clientRect.right)
-        : pointerY >= Math.floor(clientRect.top) && pointerY < Math.floor(clientRect.bottom);
-    });
-
-    return index === -1 || !this.sortPredicate(index, item, this) ? -1 : index;
-  }
-
-  /**
-   * Caches the current items in the list and their positions.
-   *
-   * 缓存列表中的当前条目及其位置。
-   *
-   */
-  private _cacheItems(): void {
-    this._activeDraggables = this._draggables.slice();
-    this._cacheItemPositions();
-    this._cacheParentPositions();
-  }
-
-  /**
-   * Starts the interval that'll auto-scroll the element.
-   *
-   * 启动自动滚动元素的时间间隔。
-   *
-   */
+  /** Starts the interval that'll auto-scroll the element. */
   private _startScrollInterval = () => {
     this._stopScrolling();
 
@@ -1293,17 +727,8 @@ export class DropListRef<T = any> {
 
   /**
    * Checks whether the user's pointer is positioned over the container.
-   *
-   * 检查用户的指针是否位于容器上方。
-   *
    * @param x Pointer position along the X axis.
-   *
-   * 指针沿 X 轴的位置。
-   *
    * @param y Pointer position along the Y axis.
-   *
-   * 指针沿 Y 轴的位置。
-   *
    */
   _isOverContainer(x: number, y: number): boolean {
     return this._clientRect != null && isInsideClientRect(this._clientRect, x, y);
@@ -1312,13 +737,7 @@ export class DropListRef<T = any> {
   /**
    * Figures out whether an item should be moved into a sibling
    * drop container, based on its current position.
-   *
-   * 根据当前的位置，确定是否应该把一个条目移进一个兄弟投放容器中。
-   *
    * @param item Drag item that is being moved.
-   *
-   * 正被移动的条目。
-   *
    * @param x Position of the item along the X axis.
    *
    * 该条目沿 X 轴的位置。
@@ -1334,13 +753,7 @@ export class DropListRef<T = any> {
 
   /**
    * Checks whether the drop list can receive the passed-in item.
-   *
-   * 检查投放列表是否可以接收该传入的条目。
-   *
    * @param item Item that is being dragged into the list.
-   *
-   * 被拖入本列表中的条目
-   *
    * @param x Position of the item along the X axis.
    *
    * 该条目沿 X 轴的位置。
@@ -1380,13 +793,7 @@ export class DropListRef<T = any> {
 
   /**
    * Called by one of the connected drop lists when a dragging sequence has started.
-   *
-   * 拖曳序列启动时，由其中一个已连接的投放列表调用。
-   *
    * @param sibling Sibling in which dragging has started.
-   *
-   * 开启拖曳序列的兄弟列表。
-   *
    */
   _startReceiving(sibling: DropListRef, items: DragRef[]) {
     const activeSiblings = this._activeSiblings;
@@ -1409,13 +816,7 @@ export class DropListRef<T = any> {
 
   /**
    * Called by a connected drop list when dragging has stopped.
-   *
-   * 当拖动停止时，由连接的投放列表调用。
-   *
    * @param sibling Sibling whose dragging has stopped.
-   *
-   * 停止拖动的兄弟列表。
-   *
    */
   _stopReceiving(sibling: DropListRef) {
     this._activeSiblings.delete(sibling);
@@ -1425,9 +826,6 @@ export class DropListRef<T = any> {
   /**
    * Starts listening to scroll events on the viewport.
    * Used for updating the internal state of the list.
-   *
-   * 开始在视口上监听滚动事件。用于更新列表的内部状态。
-   *
    */
   private _listenToScrollEvents() {
     this._viewportScrollSubscription = this._dragDropRegistry
@@ -1437,23 +835,7 @@ export class DropListRef<T = any> {
           const scrollDifference = this._parentPositions.handleScroll(event);
 
           if (scrollDifference) {
-            // Since we know the amount that the user has scrolled we can shift all of the
-            // client rectangles ourselves. This is cheaper than re-measuring everything and
-            // we can avoid inconsistent behavior where we might be measuring the element before
-            // its position has changed.
-            this._itemPositions.forEach(({clientRect}) => {
-              adjustClientRect(clientRect, scrollDifference.top, scrollDifference.left);
-            });
-
-            // We need two loops for this, because we want all of the cached
-            // positions to be up-to-date before we re-sort the item.
-            this._itemPositions.forEach(({drag}) => {
-              if (this._dragDropRegistry.isDragging(drag)) {
-                // We need to re-sort the item manually, because the pointer move
-                // events won't be dispatched while the user is scrolling.
-                drag._sortFromLastPointerPosition();
-              }
-            });
+            this._sortStrategy.updateOnScroll(scrollDifference.top, scrollDifference.left);
           }
         } else if (this.isReceiving()) {
           this._cacheParentPositions();
@@ -1466,9 +848,6 @@ export class DropListRef<T = any> {
    * than saving it in property directly on init, because we want to resolve it as late as possible
    * in order to ensure that the element has been moved into the shadow DOM. Doing it inside the
    * constructor might be too early if the element is inside of something like `ngFor` or `ngIf`.
-   *
-   * 惰性解析并返回该元素的 Shadow DOM 根。我们在函数中执行此操作，而不是直接在初始化时把它保存在属性中，因为我们希望尽可能晚地解析它，以确保该元素已被移入了 Shadow DOM 中。如果元素位于 `ngFor` 或 `ngIf` 等内部，那么在构造函数中执行此操作可能为时过早。
-   *
    */
   private _getShadowRoot(): RootNode {
     if (!this._cachedShadowRoot) {
@@ -1479,31 +858,19 @@ export class DropListRef<T = any> {
     return this._cachedShadowRoot;
   }
 
-  /**
-   * Notifies any siblings that may potentially receive the item.
-   *
-   * 通知任何可能接收该条目的兄弟列表。
-   *
-   */
+  /** Notifies any siblings that may potentially receive the item. */
   private _notifyReceivingSiblings() {
-    const draggedItems = this._activeDraggables.filter(item => item.isDragging());
+    const draggedItems = this._sortStrategy
+      .getActiveItemsSnapshot()
+      .filter(item => item.isDragging());
     this._siblings.forEach(sibling => sibling._startReceiving(this, draggedItems));
   }
 }
 
 /**
  * Gets whether the vertical auto-scroll direction of a node.
- *
- * 获取节点的垂直自动滚动方向。
- *
  * @param clientRect Dimensions of the node.
- *
- * 该节点的规格。
- *
  * @param pointerY Position of the user's pointer along the y axis.
- *
- * 用户指针沿 y 轴的位置。
- *
  */
 function getVerticalScrollDirection(clientRect: ClientRect, pointerY: number) {
   const {top, bottom, height} = clientRect;
@@ -1520,17 +887,8 @@ function getVerticalScrollDirection(clientRect: ClientRect, pointerY: number) {
 
 /**
  * Gets whether the horizontal auto-scroll direction of a node.
- *
- * 获取节点的水平自动滚动方向。
- *
  * @param clientRect Dimensions of the node.
- *
- * 该节点的规格。
- *
  * @param pointerX Position of the user's pointer along the x axis.
- *
- * 用户指针沿 x 轴的位置。
- *
  */
 function getHorizontalScrollDirection(clientRect: ClientRect, pointerX: number) {
   const {left, right, width} = clientRect;
@@ -1548,25 +906,10 @@ function getHorizontalScrollDirection(clientRect: ClientRect, pointerX: number) 
 /**
  * Gets the directions in which an element node should be scrolled,
  * assuming that the user's pointer is already within it scrollable region.
- *
- * 获取应该滚动的元素节点的方向，这里假设用户的指针已经在它的可滚动区域内了。
- *
  * @param element Element for which we should calculate the scroll direction.
- *
- * 我们应该为其计算滚动方向的元素。
- *
  * @param clientRect Bounding client rectangle of the element.
- *
- * 此元素的客户端外框矩形（BoundingClientRect）。
- *
  * @param pointerX Position of the user's pointer along the x axis.
- *
- * 用户指针沿 x 轴的位置。
- *
  * @param pointerY Position of the user's pointer along the y axis.
- *
- * 用户指针沿 y 轴的位置。
- *
  */
 function getElementScrollDirections(
   element: HTMLElement,

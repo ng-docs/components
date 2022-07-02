@@ -17,9 +17,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ComponentFactoryResolver,
+  createNgModuleRef,
   Directive,
   Inject,
+  Injectable,
   Injector,
+  NgModule,
   NgZone,
   TemplateRef,
   ViewChild,
@@ -1322,6 +1325,7 @@ describe('MDC-based MatDialog', () => {
 
       tick(500);
       viewContainerFixture.detectChanges();
+      flushMicrotasks();
       expect(lastFocusOrigin!).withContext('Expected the trigger button to be blurred').toBeNull();
 
       dispatchKeyboardEvent(document.body, 'keydown', ESCAPE);
@@ -1356,6 +1360,7 @@ describe('MDC-based MatDialog', () => {
 
       tick(500);
       viewContainerFixture.detectChanges();
+      flushMicrotasks();
       expect(lastFocusOrigin!).withContext('Expected the trigger button to be blurred').toBeNull();
 
       const backdrop = overlayContainerElement.querySelector(
@@ -1392,6 +1397,7 @@ describe('MDC-based MatDialog', () => {
 
       tick(500);
       viewContainerFixture.detectChanges();
+      flushMicrotasks();
       expect(lastFocusOrigin!).withContext('Expected the trigger button to be blurred').toBeNull();
 
       const closeButton = overlayContainerElement.querySelector(
@@ -1431,6 +1437,7 @@ describe('MDC-based MatDialog', () => {
 
       tick(500);
       viewContainerFixture.detectChanges();
+      flushMicrotasks();
       expect(lastFocusOrigin!).withContext('Expected the trigger button to be blurred').toBeNull();
 
       const closeButton = overlayContainerElement.querySelector(
@@ -1670,6 +1677,17 @@ describe('MDC-based MatDialog', () => {
           .withContext('Expected the aria-labelledby to match the title id.')
           .toBe(title.id);
       }));
+
+      it('should add correct css class according to given [align] input in [mat-dialog-actions]', () => {
+        let actions = overlayContainerElement.querySelector('mat-dialog-actions')!;
+
+        expect(actions)
+          .withContext('Expected action buttons to not have class align-center')
+          .not.toHaveClass('mat-mdc-dialog-actions-align-center');
+        expect(actions)
+          .withContext('Expected action buttons to have class align-end')
+          .toHaveClass('mat-mdc-dialog-actions-align-end');
+      });
     }
   });
 
@@ -2005,12 +2023,36 @@ describe('MDC-based MatDialog with animations enabled', () => {
     flush();
     expect(dialogRef.getState()).toBe(MatDialogState.CLOSED);
   }));
+});
 
-  it("should return the previous dialogRef if the previous dialog hasn't finished animating open", () => {
-    let dialogRef1: MatDialogRef<PizzaMsg>, dialogRef2: MatDialogRef<PizzaMsg>;
-    dialogRef1 = dialog.open(PizzaMsg);
-    dialogRef2 = dialog.open(PizzaMsg);
-    expect(dialogRef1).toEqual(dialogRef2);
+describe('MatDialog with explicit injector provided', () => {
+  let overlayContainerElement: HTMLElement;
+  let fixture: ComponentFixture<ModuleBoundDialogParentComponent>;
+
+  beforeEach(fakeAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [MatDialogModule, BrowserAnimationsModule],
+      declarations: [ModuleBoundDialogParentComponent],
+    });
+
+    TestBed.compileComponents();
+  }));
+
+  beforeEach(inject([OverlayContainer], (oc: OverlayContainer) => {
+    overlayContainerElement = oc.getContainerElement();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ModuleBoundDialogParentComponent);
+  });
+
+  it('should use the standalone injector and render the dialog successfully', () => {
+    fixture.componentInstance.openDialog();
+    fixture.detectChanges();
+
+    expect(
+      overlayContainerElement.querySelector('module-bound-dialog-child-component')!.innerHTML,
+    ).toEqual('<p>Pasta</p>');
   });
 });
 
@@ -2072,7 +2114,7 @@ class PizzaMsg {
   template: `
     <h1 mat-dialog-title>This is the title</h1>
     <mat-dialog-content>Lorem ipsum dolor sit amet.</mat-dialog-content>
-    <mat-dialog-actions>
+    <mat-dialog-actions align="end">
       <button mat-dialog-close>Close</button>
       <button class="close-with-true" [mat-dialog-close]="true">Close and return true</button>
       <button
@@ -2091,7 +2133,7 @@ class ContentElementDialog {}
     <ng-template>
       <h1 mat-dialog-title>This is the title</h1>
       <mat-dialog-content>Lorem ipsum dolor sit amet.</mat-dialog-content>
-      <mat-dialog-actions>
+      <mat-dialog-actions align="end">
         <button mat-dialog-close>Close</button>
         <button class="close-with-true" [mat-dialog-close]="true">Close and return true</button>
         <button
@@ -2127,3 +2169,38 @@ class DialogWithoutFocusableElements {}
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 class ShadowDomComponent {}
+
+@Component({template: ''})
+class ModuleBoundDialogParentComponent {
+  constructor(private _injector: Injector, private _dialog: MatDialog) {}
+
+  openDialog(): void {
+    const ngModuleRef = createNgModuleRef(
+      ModuleBoundDialogModule,
+      /* parentInjector */ this._injector,
+    );
+
+    this._dialog.open(ModuleBoundDialogComponent, {injector: ngModuleRef.injector});
+  }
+}
+
+@Injectable()
+class ModuleBoundDialogService {
+  name = 'Pasta';
+}
+
+@Component({
+  template: '<module-bound-dialog-child-component></module-bound-dialog-child-component>',
+})
+class ModuleBoundDialogComponent {}
+
+@Component({selector: 'module-bound-dialog-child-component', template: '<p>{{service.name}}</p>'})
+class ModuleBoundDialogChildComponent {
+  constructor(public service: ModuleBoundDialogService) {}
+}
+
+@NgModule({
+  declarations: [ModuleBoundDialogComponent, ModuleBoundDialogChildComponent],
+  providers: [ModuleBoundDialogService],
+})
+class ModuleBoundDialogModule {}

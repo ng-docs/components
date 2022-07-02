@@ -102,7 +102,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
     viewportMargin: number;
     width: number | string;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkConnectedOverlay, "[cdk-connected-overlay], [connected-overlay], [cdkConnectedOverlay]", ["cdkConnectedOverlay"], { "origin": "cdkConnectedOverlayOrigin"; "positions": "cdkConnectedOverlayPositions"; "positionStrategy": "cdkConnectedOverlayPositionStrategy"; "offsetX": "cdkConnectedOverlayOffsetX"; "offsetY": "cdkConnectedOverlayOffsetY"; "width": "cdkConnectedOverlayWidth"; "height": "cdkConnectedOverlayHeight"; "minWidth": "cdkConnectedOverlayMinWidth"; "minHeight": "cdkConnectedOverlayMinHeight"; "backdropClass": "cdkConnectedOverlayBackdropClass"; "panelClass": "cdkConnectedOverlayPanelClass"; "viewportMargin": "cdkConnectedOverlayViewportMargin"; "scrollStrategy": "cdkConnectedOverlayScrollStrategy"; "open": "cdkConnectedOverlayOpen"; "disableClose": "cdkConnectedOverlayDisableClose"; "transformOriginSelector": "cdkConnectedOverlayTransformOriginOn"; "hasBackdrop": "cdkConnectedOverlayHasBackdrop"; "lockPosition": "cdkConnectedOverlayLockPosition"; "flexibleDimensions": "cdkConnectedOverlayFlexibleDimensions"; "growAfterOpen": "cdkConnectedOverlayGrowAfterOpen"; "push": "cdkConnectedOverlayPush"; }, { "backdropClick": "backdropClick"; "positionChange": "positionChange"; "attach": "attach"; "detach": "detach"; "overlayKeydown": "overlayKeydown"; "overlayOutsideClick": "overlayOutsideClick"; }, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkConnectedOverlay, "[cdk-connected-overlay], [connected-overlay], [cdkConnectedOverlay]", ["cdkConnectedOverlay"], { "origin": "cdkConnectedOverlayOrigin"; "positions": "cdkConnectedOverlayPositions"; "positionStrategy": "cdkConnectedOverlayPositionStrategy"; "offsetX": "cdkConnectedOverlayOffsetX"; "offsetY": "cdkConnectedOverlayOffsetY"; "width": "cdkConnectedOverlayWidth"; "height": "cdkConnectedOverlayHeight"; "minWidth": "cdkConnectedOverlayMinWidth"; "minHeight": "cdkConnectedOverlayMinHeight"; "backdropClass": "cdkConnectedOverlayBackdropClass"; "panelClass": "cdkConnectedOverlayPanelClass"; "viewportMargin": "cdkConnectedOverlayViewportMargin"; "scrollStrategy": "cdkConnectedOverlayScrollStrategy"; "open": "cdkConnectedOverlayOpen"; "disableClose": "cdkConnectedOverlayDisableClose"; "transformOriginSelector": "cdkConnectedOverlayTransformOriginOn"; "hasBackdrop": "cdkConnectedOverlayHasBackdrop"; "lockPosition": "cdkConnectedOverlayLockPosition"; "flexibleDimensions": "cdkConnectedOverlayFlexibleDimensions"; "growAfterOpen": "cdkConnectedOverlayGrowAfterOpen"; "push": "cdkConnectedOverlayPush"; }, { "backdropClick": "backdropClick"; "positionChange": "positionChange"; "attach": "attach"; "detach": "detach"; "overlayKeydown": "overlayKeydown"; "overlayOutsideClick": "overlayOutsideClick"; }, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<CdkConnectedOverlay, [null, null, null, null, { optional: true; }]>;
 }
@@ -113,7 +113,7 @@ export class CdkOverlayOrigin {
     elementRef: ElementRef);
     elementRef: ElementRef;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkOverlayOrigin, "[cdk-overlay-origin], [overlay-origin], [cdkOverlayOrigin]", ["cdkOverlayOrigin"], {}, {}, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkOverlayOrigin, "[cdk-overlay-origin], [overlay-origin], [cdkOverlayOrigin]", ["cdkOverlayOrigin"], {}, {}, never, never, false>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<CdkOverlayOrigin, never>;
 }
@@ -230,10 +230,12 @@ export class GlobalPositionStrategy implements PositionStrategy {
     centerHorizontally(offset?: string): this;
     centerVertically(offset?: string): this;
     dispose(): void;
+    end(value?: string): this;
     // @deprecated
     height(value?: string): this;
     left(value?: string): this;
     right(value?: string): this;
+    start(value?: string): this;
     top(value?: string): this;
     // @deprecated
     width(value?: string): this;
@@ -260,12 +262,12 @@ export interface OriginConnectionPosition {
 // @public
 export class Overlay {
     constructor(
-    scrollStrategies: ScrollStrategyOptions, _overlayContainer: OverlayContainer, _componentFactoryResolver: ComponentFactoryResolver, _positionBuilder: OverlayPositionBuilder, _keyboardDispatcher: OverlayKeyboardDispatcher, _injector: Injector, _ngZone: NgZone, _document: any, _directionality: Directionality, _location: Location_2, _outsideClickDispatcher: OverlayOutsideClickDispatcher);
+    scrollStrategies: ScrollStrategyOptions, _overlayContainer: OverlayContainer, _componentFactoryResolver: ComponentFactoryResolver, _positionBuilder: OverlayPositionBuilder, _keyboardDispatcher: OverlayKeyboardDispatcher, _injector: Injector, _ngZone: NgZone, _document: any, _directionality: Directionality, _location: Location_2, _outsideClickDispatcher: OverlayOutsideClickDispatcher, _animationsModuleType?: string | undefined);
     create(config?: OverlayConfig): OverlayRef;
     position(): OverlayPositionBuilder;
     scrollStrategies: ScrollStrategyOptions;
     // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<Overlay, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<Overlay, [null, null, null, null, null, null, null, null, null, null, null, { optional: true; }]>;
     // (undocumented)
     static ɵprov: i0.ɵɵInjectableDeclaration<Overlay>;
 }
@@ -317,11 +319,12 @@ export class OverlayContainer implements OnDestroy {
 
 // @public
 export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
-    constructor(document: any);
+    constructor(document: any,
+    _ngZone?: NgZone | undefined);
     add(overlayRef: OverlayReference): void;
     protected detach(): void;
     // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<OverlayKeyboardDispatcher, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<OverlayKeyboardDispatcher, [null, { optional: true; }]>;
     // (undocumented)
     static ɵprov: i0.ɵɵInjectableDeclaration<OverlayKeyboardDispatcher>;
 }
@@ -338,11 +341,12 @@ export class OverlayModule {
 
 // @public
 export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
-    constructor(document: any, _platform: Platform);
+    constructor(document: any, _platform: Platform,
+    _ngZone?: NgZone | undefined);
     add(overlayRef: OverlayReference): void;
     protected detach(): void;
     // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<OverlayOutsideClickDispatcher, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<OverlayOutsideClickDispatcher, [null, null, { optional: true; }]>;
     // (undocumented)
     static ɵprov: i0.ɵɵInjectableDeclaration<OverlayOutsideClickDispatcher>;
 }
@@ -360,7 +364,7 @@ export class OverlayPositionBuilder {
 
 // @public
 export class OverlayRef implements PortalOutlet, OverlayReference {
-    constructor(_portalOutlet: PortalOutlet, _host: HTMLElement, _pane: HTMLElement, _config: ImmutableObject<OverlayConfig>, _ngZone: NgZone, _keyboardDispatcher: OverlayKeyboardDispatcher, _document: Document, _location: Location_2, _outsideClickDispatcher: OverlayOutsideClickDispatcher);
+    constructor(_portalOutlet: PortalOutlet, _host: HTMLElement, _pane: HTMLElement, _config: ImmutableObject<OverlayConfig>, _ngZone: NgZone, _keyboardDispatcher: OverlayKeyboardDispatcher, _document: Document, _location: Location_2, _outsideClickDispatcher: OverlayOutsideClickDispatcher, _animationsDisabled?: boolean);
     addPanelClass(classes: string | string[]): void;
     // (undocumented)
     attach<T>(portal: ComponentPortal<T>): ComponentRef<T>;
@@ -458,14 +462,20 @@ export interface ScrollStrategy {
 export class ScrollStrategyOptions {
     constructor(_scrollDispatcher: ScrollDispatcher, _viewportRuler: ViewportRuler, _ngZone: NgZone, document: any);
     block: () => BlockScrollStrategy;
-    close: (config?: CloseScrollStrategyConfig | undefined) => CloseScrollStrategy;
+    close: (config?: CloseScrollStrategyConfig) => CloseScrollStrategy;
     noop: () => NoopScrollStrategy;
-    reposition: (config?: RepositionScrollStrategyConfig | undefined) => RepositionScrollStrategy;
+    reposition: (config?: RepositionScrollStrategyConfig) => RepositionScrollStrategy;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<ScrollStrategyOptions, never>;
     // (undocumented)
     static ɵprov: i0.ɵɵInjectableDeclaration<ScrollStrategyOptions>;
 }
+
+// @public (undocumented)
+export const STANDARD_DROPDOWN_ADJACENT_POSITIONS: ConnectedPosition[];
+
+// @public (undocumented)
+export const STANDARD_DROPDOWN_BELOW_POSITIONS: ConnectedPosition[];
 
 // @public
 export function validateHorizontalPosition(property: string, value: HorizontalConnectionPos): void;

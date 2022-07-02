@@ -31,6 +31,9 @@ import {_MatOptgroupBase, MAT_OPTGROUP} from '@angular/material/core';
 
 /**
  * Component that is used to group instances of `mat-option`.
+ *
+ * `mat-option` 实例进行分组的组件。
+ *
  */
 @Component({
   selector: 'mat-optgroup',

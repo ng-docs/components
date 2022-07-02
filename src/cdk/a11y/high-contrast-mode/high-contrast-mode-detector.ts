@@ -6,44 +6,26 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {inject, Inject, Injectable, OnDestroy} from '@angular/core';
+import {BreakpointObserver} from '@angular/cdk/layout';
 import {Platform} from '@angular/cdk/platform';
 import {DOCUMENT} from '@angular/common';
-import {Inject, Injectable} from '@angular/core';
+import {Subscription} from 'rxjs';
 
-/**
- * Set of possible high-contrast mode backgrounds.
- *
- * 一组可能的高对比度模式背景。
- *
- */
+/** Set of possible high-contrast mode backgrounds. */
 export const enum HighContrastMode {
   NONE,
   BLACK_ON_WHITE,
   WHITE_ON_BLACK,
 }
 
-/**
- * CSS class applied to the document body when in black-on-white high-contrast mode.
- *
- * 黑白高对比度模式下，要应用于文档主体的 CSS 类。
- *
- */
+/** CSS class applied to the document body when in black-on-white high-contrast mode. */
 export const BLACK_ON_WHITE_CSS_CLASS = 'cdk-high-contrast-black-on-white';
 
-/**
- * CSS class applied to the document body when in white-on-black high-contrast mode.
- *
- * 在黑白高对比度模式下要应用于文档正文的 CSS 类。
- *
- */
+/** CSS class applied to the document body when in white-on-black high-contrast mode. */
 export const WHITE_ON_BLACK_CSS_CLASS = 'cdk-high-contrast-white-on-black';
 
-/**
- * CSS class applied to the document body when in high-contrast mode.
- *
- * 在高对比度模式下，要应用于文档主体的 CSS 类。
- *
- */
+/** CSS class applied to the document body when in high-contrast mode. */
 export const HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS = 'cdk-high-contrast-active';
 
 /**
@@ -65,19 +47,26 @@ export const HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS = 'cdk-high-contrast-active';
  *
  */
 @Injectable({providedIn: 'root'})
-export class HighContrastModeDetector {
+export class HighContrastModeDetector implements OnDestroy {
   /**
    * Figuring out the high contrast mode and adding the body classes can cause
    * some expensive layouts. This flag is used to ensure that we only do it once.
-   *
-   * 检测高对比度模式并添加 body 上的类可能会导致某些昂贵的布局工作。此标志用于确保我们仅执行一次。
-   *
    */
   private _hasCheckedHighContrastMode: boolean;
   private _document: Document;
+  private _breakpointSubscription: Subscription;
 
   constructor(private _platform: Platform, @Inject(DOCUMENT) document: any) {
     this._document = document;
+
+    this._breakpointSubscription = inject(BreakpointObserver)
+      .observe('(forced-colors: active)')
+      .subscribe(() => {
+        if (this._hasCheckedHighContrastMode) {
+          this._hasCheckedHighContrastMode = false;
+          this._applyBodyHighContrastModeCssClasses();
+        }
+      });
   }
 
   /**
@@ -123,28 +112,26 @@ export class HighContrastModeDetector {
     return HighContrastMode.NONE;
   }
 
-  /**
-   * Applies CSS classes indicating high-contrast mode to document body (browser-only).
-   *
-   * 将指示高对比度模式的 CSS 类应用于文档正文（仅浏览器）。
-   *
-   */
+  ngOnDestroy(): void {
+    this._breakpointSubscription.unsubscribe();
+  }
+
+  /** Applies CSS classes indicating high-contrast mode to document body (browser-only). */
   _applyBodyHighContrastModeCssClasses(): void {
     if (!this._hasCheckedHighContrastMode && this._platform.isBrowser && this._document.body) {
       const bodyClasses = this._document.body.classList;
-      // IE11 doesn't support `classList` operations with multiple arguments
-      bodyClasses.remove(HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS);
-      bodyClasses.remove(BLACK_ON_WHITE_CSS_CLASS);
-      bodyClasses.remove(WHITE_ON_BLACK_CSS_CLASS);
+      bodyClasses.remove(
+        HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS,
+        BLACK_ON_WHITE_CSS_CLASS,
+        WHITE_ON_BLACK_CSS_CLASS,
+      );
       this._hasCheckedHighContrastMode = true;
 
       const mode = this.getHighContrastMode();
       if (mode === HighContrastMode.BLACK_ON_WHITE) {
-        bodyClasses.add(HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS);
-        bodyClasses.add(BLACK_ON_WHITE_CSS_CLASS);
+        bodyClasses.add(HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS, BLACK_ON_WHITE_CSS_CLASS);
       } else if (mode === HighContrastMode.WHITE_ON_BLACK) {
-        bodyClasses.add(HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS);
-        bodyClasses.add(WHITE_ON_BLACK_CSS_CLASS);
+        bodyClasses.add(HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS, WHITE_ON_BLACK_CSS_CLASS);
       }
     }
   }

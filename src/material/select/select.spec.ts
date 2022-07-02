@@ -13,7 +13,6 @@ import {
   ESCAPE,
 } from '@angular/cdk/keycodes';
 import {OverlayContainer} from '@angular/cdk/overlay';
-import {Platform} from '@angular/cdk/platform';
 import {ScrollDispatcher, ViewportRuler} from '@angular/cdk/scrolling';
 import {
   createKeyboardEvent,
@@ -50,6 +49,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
   Validators,
+  FormBuilder,
 } from '@angular/forms';
 import {ErrorStateMatcher, MatOption, MatOptionSelectionChange} from '@angular/material/core';
 import {
@@ -83,7 +83,6 @@ describe('MatSelect', () => {
   let dir: {value: 'ltr' | 'rtl'; change: Observable<string>};
   let scrolledSubject = new Subject();
   let viewportRuler: ViewportRuler;
-  let platform: Platform;
 
   /**
    * Configures the test module for MatSelect with the given declarations. This is broken out so
@@ -123,25 +122,23 @@ describe('MatSelect', () => {
       ],
     }).compileComponents();
 
-    inject([OverlayContainer, Platform], (oc: OverlayContainer, p: Platform) => {
+    inject([OverlayContainer], (oc: OverlayContainer) => {
       overlayContainerElement = oc.getContainerElement();
-      platform = p;
     })();
   }
 
   describe('core', () => {
-    beforeEach(
-      waitForAsync(() => {
-        configureMatSelectTestingModule([
-          BasicSelect,
-          MultiSelect,
-          SelectWithGroups,
-          SelectWithGroupsAndNgContainer,
-          SelectWithFormFieldLabel,
-          SelectWithChangeEvent,
-        ]);
-      }),
-    );
+    beforeEach(waitForAsync(() => {
+      configureMatSelectTestingModule([
+        BasicSelect,
+        MultiSelect,
+        SelectWithGroups,
+        SelectWithGroupsAndNgContainer,
+        SelectWithFormFieldLabel,
+        SelectWithChangeEvent,
+        SelectInsideDynamicFormGroup,
+      ]);
+    }));
 
     describe('accessibility', () => {
       describe('for select', () => {
@@ -312,6 +309,22 @@ describe('MatSelect', () => {
 
           expect(select.getAttribute('aria-labelledby')?.trim()).toBe(valueId);
         });
+
+        it('should set `aria-describedby` to the id of the mat-hint', fakeAsync(() => {
+          expect(select.getAttribute('aria-describedby')).toBeNull();
+
+          fixture.componentInstance.hint = 'test';
+          fixture.detectChanges();
+          const hint = fixture.debugElement.query(By.css('.mat-hint')).nativeElement;
+          expect(select.getAttribute('aria-describedby')).toBe(hint.getAttribute('id'));
+          expect(select.getAttribute('aria-describedby')).toMatch(/^mat-hint-\d+$/);
+        }));
+
+        it('should support user binding to `aria-describedby`', fakeAsync(() => {
+          fixture.componentInstance.ariaDescribedBy = 'test';
+          fixture.detectChanges();
+          expect(select.getAttribute('aria-describedby')).toBe('test');
+        }));
 
         it('should select options via the UP/DOWN arrow keys on a closed select', fakeAsync(() => {
           const formControl = fixture.componentInstance.control;
@@ -2185,6 +2198,17 @@ describe('MatSelect', () => {
           .not.withContext(`Expected label to have an asterisk, as control was required.`)
           .toBeNull();
       }));
+
+      it('should propagate the value set through the `value` property to the form field', fakeAsync(() => {
+        const control = fixture.componentInstance.control;
+
+        expect(control.value).toBeFalsy();
+
+        fixture.componentInstance.select.value = 'pizza-1';
+        fixture.detectChanges();
+
+        expect(control.value).toBe('pizza-1');
+      }));
     });
 
     describe('disabled behavior', () => {
@@ -2225,6 +2249,23 @@ describe('MatSelect', () => {
           .withContext(`Expected select panelOpen property to become true.`)
           .toBe(true);
       }));
+
+      it(
+        'should keep the disabled state in sync if the form group is swapped and ' +
+          'disabled at the same time',
+        fakeAsync(() => {
+          const fixture = TestBed.createComponent(SelectInsideDynamicFormGroup);
+          fixture.detectChanges();
+          const instance = fixture.componentInstance;
+
+          expect(instance.select.disabled).toBe(false);
+
+          instance.assignGroup(true);
+          fixture.detectChanges();
+
+          expect(instance.select.disabled).toBe(true);
+        }),
+      );
     });
 
     describe('animations', () => {
@@ -2699,11 +2740,8 @@ describe('MatSelect', () => {
   });
 
   describe('with a sibling component that throws an error', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([SelectWithErrorSibling, ThrowsErrorOnInit]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([SelectWithErrorSibling, ThrowsErrorOnInit])));
 
     it('should not crash the browser when a sibling throws an error on init', fakeAsync(() => {
       // Note that this test can be considered successful if the error being thrown didn't
@@ -3097,9 +3135,8 @@ describe('MatSelect', () => {
   });
 
   describe('with preselected array values', () => {
-    beforeEach(
-      waitForAsync(() => configureMatSelectTestingModule([SingleSelectWithPreselectedArrayValues])),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([SingleSelectWithPreselectedArrayValues])));
 
     it('should be able to preselect an array value in single-selection mode', fakeAsync(() => {
       const fixture = TestBed.createComponent(SingleSelectWithPreselectedArrayValues);
@@ -3115,11 +3152,8 @@ describe('MatSelect', () => {
   });
 
   describe('with custom value accessor', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([CompWithCustomSelect, CustomSelectAccessor]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([CompWithCustomSelect, CustomSelectAccessor])));
 
     it('should support use inside a custom value accessor', fakeAsync(() => {
       const fixture = TestBed.createComponent(CompWithCustomSelect);
@@ -3155,11 +3189,8 @@ describe('MatSelect', () => {
   });
 
   describe('with OnPush', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([BasicSelectOnPush, BasicSelectOnPushPreselected]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([BasicSelectOnPush, BasicSelectOnPushPreselected])));
 
     it('should set the trigger text based on the value when initialized', fakeAsync(() => {
       const fixture = TestBed.createComponent(BasicSelectOnPushPreselected);
@@ -3188,6 +3219,15 @@ describe('MatSelect', () => {
       fixture.detectChanges();
 
       expect(trigger.textContent).not.toContain('Pizza');
+    }));
+
+    it('should sync up the form control value with the component value', fakeAsync(() => {
+      const fixture = TestBed.createComponent(BasicSelectOnPushPreselected);
+      fixture.detectChanges();
+      flush();
+
+      expect(fixture.componentInstance.control.value).toBe('pizza-1');
+      expect(fixture.componentInstance.select.value).toBe('pizza-1');
     }));
   });
 
@@ -3329,7 +3369,7 @@ describe('MatSelect', () => {
       options[0].click();
       fixture.detectChanges();
       flush();
-      expect(fixture.componentInstance.control.value).toBe(undefined);
+      expect(fixture.componentInstance.control.value).toBeUndefined();
     }));
 
     it('should reflect the value in the form control', fakeAsync(() => {
@@ -3342,15 +3382,12 @@ describe('MatSelect', () => {
   });
 
   describe('without Angular forms', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([
-          BasicSelectWithoutForms,
-          BasicSelectWithoutFormsPreselected,
-          BasicSelectWithoutFormsMultiple,
-        ]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([
+        BasicSelectWithoutForms,
+        BasicSelectWithoutFormsPreselected,
+        BasicSelectWithoutFormsMultiple,
+      ])));
 
     it('should set the value when options are clicked', fakeAsync(() => {
       const fixture = TestBed.createComponent(BasicSelectWithoutForms);
@@ -3721,16 +3758,13 @@ describe('MatSelect', () => {
   });
 
   describe('positioning', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([
-          BasicSelect,
-          MultiSelect,
-          SelectWithGroups,
-          SelectWithIndirectDescendantGroups,
-        ]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([
+        BasicSelect,
+        MultiSelect,
+        SelectWithGroups,
+        SelectWithIndirectDescendantGroups,
+      ])));
 
     beforeEach(inject([ViewportRuler], (vr: ViewportRuler) => {
       viewportRuler = vr;
@@ -3904,12 +3938,6 @@ describe('MatSelect', () => {
       }));
 
       it('should account for preceding label groups when aligning the option', fakeAsync(() => {
-        // Test is off-by-one on edge for some reason, but verified that it looks correct through
-        // manual testing.
-        if (platform.EDGE) {
-          return;
-        }
-
         fixture.destroy();
 
         const groupFixture = TestBed.createComponent(SelectWithGroups);
@@ -3947,12 +3975,6 @@ describe('MatSelect', () => {
       }));
 
       it('should account for indirect preceding label groups when aligning the option', fakeAsync(() => {
-        // Test is off-by-one on edge for some reason, but verified that it looks correct through
-        // manual testing.
-        if (platform.EDGE) {
-          return;
-        }
-
         fixture.destroy();
 
         const groupFixture = TestBed.createComponent(SelectWithIndirectDescendantGroups);
@@ -4656,20 +4678,9 @@ describe('MatSelect', () => {
         const option = overlayContainerElement.querySelector('.cdk-overlay-pane mat-option');
         const optionTop = option ? option.getBoundingClientRect().top : 0;
 
-        // There appears to be a small rounding error on IE, so we verify that the value is close,
-        // not exact.
-        if (platform.TRIDENT) {
-          const difference = Math.abs(
-            optionTop + (menuItemHeight - triggerHeight) / 2 - triggerTop,
-          );
-          expect(difference)
-            .withContext('Expected trigger to align with the first option.')
-            .toBeLessThan(0.1);
-        } else {
-          expect(Math.floor(optionTop + (menuItemHeight - triggerHeight) / 2))
-            .withContext('Expected trigger to align with the first option.')
-            .toBe(Math.floor(triggerTop));
-        }
+        expect(Math.floor(optionTop + (menuItemHeight - triggerHeight) / 2))
+          .withContext('Expected trigger to align with the first option.')
+          .toBe(Math.floor(triggerTop));
       }));
 
       it('should not adjust if option centering is disabled any option under a group is selected', fakeAsync(() => {
@@ -4692,11 +4703,8 @@ describe('MatSelect', () => {
   });
 
   describe('with multiple selection', () => {
-    beforeEach(
-      waitForAsync(() =>
-        configureMatSelectTestingModule([MultiSelect, MultiSelectWithLotsOfOptions]),
-      ),
-    );
+    beforeEach(waitForAsync(() =>
+      configureMatSelectTestingModule([MultiSelect, MultiSelectWithLotsOfOptions])));
 
     let fixture: ComponentFixture<MultiSelect>;
     let testInstance: MultiSelect;
@@ -4904,7 +4912,7 @@ describe('MatSelect', () => {
 
     it('should throw an exception when trying to set a non-array value', fakeAsync(() => {
       expect(() => {
-        testInstance.control.setValue('not-an-array');
+        testInstance.control.setValue('not-an-array' as any);
       }).toThrowError(wrappedErrorMessage(getMatSelectNonArrayValueError()));
     }));
 
@@ -4968,7 +4976,7 @@ describe('MatSelect', () => {
       options[2].click();
       fixture.detectChanges();
 
-      expect(testInstance.control.value).toEqual([null, 'pizza-1', null]);
+      expect(testInstance.control.value).toEqual([null!, 'pizza-1', null!]);
     }));
 
     it('should select all options when pressing ctrl + a', () => {
@@ -5196,13 +5204,15 @@ describe('MatSelect', () => {
     <div [style.height.px]="heightAbove"></div>
     <mat-form-field>
       <mat-select placeholder="Food" [formControl]="control" [required]="isRequired"
-        [tabIndex]="tabIndexOverride" [aria-label]="ariaLabel" [aria-labelledby]="ariaLabelledby"
+        [tabIndex]="tabIndexOverride" [aria-describedby]="ariaDescribedBy"
+        [aria-label]="ariaLabel" [aria-labelledby]="ariaLabelledby"
         [panelClass]="panelClass" [disableRipple]="disableRipple"
         [typeaheadDebounceInterval]="typeaheadDebounceInterval">
         <mat-option *ngFor="let food of foods" [value]="food.value" [disabled]="food.disabled">
           {{ food.viewValue }}
         </mat-option>
       </mat-select>
+      <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
     </mat-form-field>
     <div [style.height.px]="heightBelow"></div>
   `,
@@ -5218,11 +5228,13 @@ class BasicSelect {
     {value: 'pasta-6', viewValue: 'Pasta'},
     {value: 'sushi-7', viewValue: 'Sushi'},
   ];
-  control = new FormControl();
+  control = new FormControl<string | null>(null);
   isRequired: boolean;
   heightAbove = 0;
   heightBelow = 0;
+  hint: string;
   tabIndexOverride: number;
+  ariaDescribedBy: string;
   ariaLabel: string;
   ariaLabelledby: string;
   panelClass = ['custom-one', 'custom-two'];
@@ -5432,7 +5444,7 @@ class BasicSelectOnPush {
     {value: 'pizza-1', viewValue: 'Pizza'},
     {value: 'tacos-2', viewValue: 'Tacos'},
   ];
-  control = new FormControl();
+  control = new FormControl('');
 }
 
 @Component({
@@ -5449,6 +5461,7 @@ class BasicSelectOnPush {
   `,
 })
 class BasicSelectOnPushPreselected {
+  @ViewChild(MatSelect) select: MatSelect;
   foods: any[] = [
     {value: 'steak-0', viewValue: 'Steak'},
     {value: 'pizza-1', viewValue: 'Pizza'},
@@ -5472,7 +5485,7 @@ class BasicSelectOnPushPreselected {
 class FloatLabelSelect {
   floatLabel: FloatLabelType | null = 'auto';
   placeholder = 'Food I want to eat right now';
-  control = new FormControl();
+  control = new FormControl('');
   foods: any[] = [
     {value: 'steak-0', viewValue: 'Steak'},
     {value: 'pizza-1', viewValue: 'Pizza'},
@@ -5506,7 +5519,7 @@ class MultiSelect {
     {value: 'pasta-6', viewValue: 'Pasta'},
     {value: 'sushi-7', viewValue: 'Sushi'},
   ];
-  control = new FormControl();
+  control = new FormControl<string[] | null>(null);
 
   @ViewChild(MatSelect) select: MatSelect;
   @ViewChildren(MatOption) options: QueryList<MatOption>;
@@ -5594,7 +5607,7 @@ class ResetValuesSelect {
     {viewValue: 'Undefined'},
     {value: null, viewValue: 'Null'},
   ];
-  control = new FormControl();
+  control = new FormControl('' as string | boolean | null);
 
   @ViewChild(MatSelect) select: MatSelect;
 }
@@ -5615,7 +5628,7 @@ class FalsyValueSelect {
     {value: 0, viewValue: 'Steak'},
     {value: 1, viewValue: 'Pizza'},
   ];
-  control = new FormControl();
+  control = new FormControl<number | null>(null);
   @ViewChildren(MatOption) options: QueryList<MatOption>;
 }
 
@@ -5636,7 +5649,7 @@ class FalsyValueSelect {
   `,
 })
 class SelectWithGroups {
-  control = new FormControl();
+  control = new FormControl('');
   pokemonTypes = [
     {
       name: 'Grass',
@@ -5713,7 +5726,7 @@ class SelectWithIndirectDescendantGroups extends SelectWithGroups {}
   `,
 })
 class SelectWithGroupsAndNgContainer {
-  control = new FormControl();
+  control = new FormControl('');
   pokemonTypes = [
     {
       name: 'Grass',
@@ -5848,7 +5861,7 @@ class SelectWithCustomTrigger {
     {value: 'steak-0', viewValue: 'Steak'},
     {value: 'pizza-1', viewValue: 'Pizza'},
   ];
-  control = new FormControl();
+  control = new FormControl('');
 }
 
 @Component({
@@ -5910,7 +5923,7 @@ class NgModelCompareWithSelect {
 })
 class CustomErrorBehaviorSelect {
   @ViewChild(MatSelect) select: MatSelect;
-  control = new FormControl();
+  control = new FormControl('');
   foods: any[] = [
     {value: 'steak-0', viewValue: 'Steak'},
     {value: 'pizza-1', viewValue: 'Pizza'},
@@ -6038,7 +6051,7 @@ class MultiSelectWithLotsOfOptions {
 class SelectWithResetOptionAndFormControl {
   @ViewChild(MatSelect) select: MatSelect;
   @ViewChildren(MatOption) options: QueryList<MatOption>;
-  control = new FormControl();
+  control = new FormControl('');
 }
 
 @Component({
@@ -6056,3 +6069,29 @@ class SelectWithResetOptionAndFormControl {
   `,
 })
 class SelectInNgContainer {}
+
+@Component({
+  template: `
+    <form [formGroup]="form">
+      <mat-form-field>
+        <mat-select formControlName="control">
+          <mat-option value="1">One</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  `,
+})
+class SelectInsideDynamicFormGroup {
+  @ViewChild(MatSelect) select: MatSelect;
+  form: FormGroup;
+
+  constructor(private _formBuilder: FormBuilder) {
+    this.assignGroup(false);
+  }
+
+  assignGroup(isDisabled: boolean) {
+    this.form = this._formBuilder.group({
+      control: {value: '', disabled: isDisabled},
+    });
+  }
+}

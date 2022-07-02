@@ -16,7 +16,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import {MatDialog} from './dialog';
-import {_closeDialogVia, MatDialogRef} from './dialog-ref';
+import {MatDialogRef, _closeDialogVia} from './dialog-ref';
 
 /**
  * Counter used to generate unique IDs for dialog elements.
@@ -182,10 +182,23 @@ export class MatDialogContent {}
  */
 @Directive({
   selector: `[mat-dialog-actions], mat-dialog-actions, [matDialogActions]`,
-  host: {'class': 'mat-dialog-actions'},
+  host: {
+    'class': 'mat-dialog-actions',
+    '[class.mat-dialog-actions-align-center]': 'align === "center"',
+    '[class.mat-dialog-actions-align-end]': 'align === "end"',
+  },
 })
-export class MatDialogActions {}
+export class MatDialogActions {
+  /**
+   * Horizontal alignment of action buttons.
+   */
+  @Input() align?: 'start' | 'center' | 'end' = 'start';
+}
 
+// TODO(crisbeto): this utility shouldn't be necessary anymore, because the dialog ref is provided
+// both to component and template dialogs through DI. We need to keep it around, because there are
+// some internal wrappers around `MatDialog` that happened to work by accident, because we had this
+// fallback logic in place.
 /**
  * Finds the closest MatDialogRef to an element by looking at the DOM.
  *

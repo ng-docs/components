@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ContentContainerComponentHarness, HarnessPredicate, TestKey} from '@angular/cdk/testing';
+import {
+  ComponentHarnessConstructor,
+  ContentContainerComponentHarness,
+  HarnessPredicate,
+  TestKey,
+} from '@angular/cdk/testing';
 import {MatChipAvatarHarness} from './chip-avatar-harness';
 import {
   ChipAvatarHarnessFilters,
@@ -17,24 +22,28 @@ import {MatChipRemoveHarness} from './chip-remove-harness';
 
 /** Harness for interacting with a mat-chip in tests. */
 export class MatChipHarness extends ContentContainerComponentHarness {
+  protected _primaryAction = this.locatorFor('.mdc-evolution-chip__action--primary');
+
   static hostSelector = '.mat-mdc-basic-chip, .mat-mdc-chip';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a chip with specific attributes.
+   * @param options Options for narrowing the search.
+   *
+   * 用来收窄搜索范围的选项。
+   *
+   * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
-  // Note(mmalerba): generics are used as a workaround for lack of polymorphic `this` in static
-  // methods. See https://github.com/microsoft/TypeScript/issues/5863
-  static with<T extends typeof MatChipHarness>(
-    this: T,
+  static with<T extends MatChipHarness>(
+    this: ComponentHarnessConstructor<T>,
     options: ChipHarnessFilters = {},
-  ): HarnessPredicate<InstanceType<T>> {
-    return new HarnessPredicate(MatChipHarness, options).addOption(
-      'text',
-      options.text,
-      (harness, label) => {
-        return HarnessPredicate.stringMatches(harness.getText(), label);
-      },
-    ) as unknown as HarnessPredicate<InstanceType<T>>;
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption('text', options.text, (harness, label) => {
+      return HarnessPredicate.stringMatches(harness.getText(), label);
+    });
   }
 
   /** Gets a promise for the text content the option. */
@@ -44,7 +53,12 @@ export class MatChipHarness extends ContentContainerComponentHarness {
     });
   }
 
-  /** Whether the chip is disabled. */
+  /**
+   * Whether the chip is disabled.
+   *
+   * 纸片是否已禁用了。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     return (await this.host()).hasClass('mat-mdc-chip-disabled');
   }
@@ -57,7 +71,13 @@ export class MatChipHarness extends ContentContainerComponentHarness {
 
   /**
    * Gets the remove button inside of a chip.
+   *
+   * 获取一个纸片里面的移除按钮。
+   *
    * @param filter Optionally filters which chips are included.
+   *
+   * 可选择过滤哪些纸片。
+   *
    */
   async getRemoveButton(filter: ChipRemoveHarnessFilters = {}): Promise<MatChipRemoveHarness> {
     return this.locatorFor(MatChipRemoveHarness.with(filter))();
@@ -65,7 +85,13 @@ export class MatChipHarness extends ContentContainerComponentHarness {
 
   /**
    * Gets the avatar inside a chip.
+   *
+   * 获取纸片内部的头像。
+   *
    * @param filter Optionally filters which avatars are included.
+   *
+   * 可选过滤器，指定包括哪些头像。
+   *
    */
   async getAvatar(filter: ChipAvatarHarnessFilters = {}): Promise<MatChipAvatarHarness | null> {
     return this.locatorForOptional(MatChipAvatarHarness.with(filter))();

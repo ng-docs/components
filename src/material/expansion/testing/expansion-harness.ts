@@ -13,12 +13,7 @@ import {
 } from '@angular/cdk/testing';
 import {ExpansionPanelHarnessFilters} from './expansion-harness-filters';
 
-/**
- * Selectors for the various `mat-expansion-panel` sections that may contain user content.
- *
- * 可能包含用户内容的各种 `mat-expansion-panel` 区段。
- *
- */
+/** Selectors for the various `mat-expansion-panel` sections that may contain user content. */
 export const enum MatExpansionPanelSection {
   HEADER = '.mat-expansion-panel-header',
   TITLE = '.mat-expansion-panel-header-title',
@@ -69,7 +64,8 @@ export class MatExpansionPanelHarness extends ContentContainerComponentHarness<M
    *
    * @return a `HarnessPredicate` configured with the given options.
    *
-   * 用指定选项配置过的 `HarnessPredicate` 服务。
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(
     options: ExpansionPanelHarnessFilters = {},
@@ -111,9 +107,11 @@ export class MatExpansionPanelHarness extends ContentContainerComponentHarness<M
    *
    * 获取此面板的标题文本。
    *
-   * @returns Title text or `null` if no title is set up.
+   * @returns
    *
-   * 标题文本；如果未设置标题，则为 `null`
+   * Title text or `null` if no title is set up.
+   *
+   * 标题文本；如果未设置标题，则为 `null`。
    *
    */
   async getTitle(): Promise<string | null> {
@@ -126,9 +124,11 @@ export class MatExpansionPanelHarness extends ContentContainerComponentHarness<M
    *
    * 获取此面板的描述文本。
    *
-   * @returns Description text or `null` if no description is set up.
+   * @returns
    *
-   * 说明文字，如果未设置说明，则为 `null`
+   * Description text or `null` if no description is set up.
+   *
+   * 说明文字，如果未设置说明，则为 `null`。
    *
    */
   async getDescription(): Promise<string | null> {
@@ -199,9 +199,6 @@ export class MatExpansionPanelHarness extends ContentContainerComponentHarness<M
    *
    * @deprecated Use either `getChildLoader(MatExpansionPanelSection.CONTENT)`, `getHarness` or
    *    `getAllHarnesses` instead.
-   *
-   * 请改用 `getChildLoader(MatExpansionPanelSection.CONTENT)`，`getHarness` 或 `getAllHarnesses`。
-   *
    * @breaking-change 12.0.0
    */
   async getHarnessLoaderForContent(): Promise<HarnessLoader> {

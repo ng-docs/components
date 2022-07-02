@@ -435,11 +435,12 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
     let date = this._dateAdapter.parse(value, this._dateFormats.parse.dateInput);
     this._lastValueValid = this._isValidValue(date);
     date = this._dateAdapter.getValidDateOrNull(date);
+    const hasChanged = !this._dateAdapter.sameDate(date, this.value);
 
-    if (!this._dateAdapter.sameDate(date, this.value)) {
-      this._assignValue(date);
+    // We need to fire the CVA change event for all
+    // nulls, otherwise the validators won't run.
+    if (!date || hasChanged) {
       this._cvaOnChange(date);
-      this.dateInput.emit(new MatDatepickerInputEvent(this, this._elementRef.nativeElement));
     } else {
       // Call the CVA change handler for invalid values
       // since this is what marks the control as dirty.
@@ -450,6 +451,11 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
       if (lastValueWasValid !== this._lastValueValid) {
         this._validatorOnChange();
       }
+    }
+
+    if (hasChanged) {
+      this._assignValue(date);
+      this.dateInput.emit(new MatDatepickerInputEvent(this, this._elementRef.nativeElement));
     }
   }
 
@@ -479,9 +485,8 @@ export abstract class MatDatepickerInputBase<S, D = ExtractDateTypeFromSelection
    *
    */
   protected _formatValue(value: D | null) {
-    this._elementRef.nativeElement.value = value
-      ? this._dateAdapter.format(value, this._dateFormats.display.dateInput)
-      : '';
+    this._elementRef.nativeElement.value =
+      value != null ? this._dateAdapter.format(value, this._dateFormats.display.dateInput) : '';
   }
 
   /**

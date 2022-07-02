@@ -13,9 +13,6 @@ import {SeleniumWebDriverElement} from './selenium-web-driver-element';
 /**
  * An Angular framework stabilizer function that takes a callback and calls it when the application
  * is stable, passing a boolean indicating if any work was done.
- *
- * 一个 Angular 框架的稳定器函数，该函数会接受回调并在应用程序进入稳定态时调用它，并传递一个布尔值参数，表示是否已完成任何工作。
- *
  */
 declare interface FrameworkStabilizer {
   (callback: (didWork: boolean) => void): void;
@@ -27,12 +24,8 @@ declare global {
      * These hooks are exposed by Angular to register a callback for when the application is stable
      * (no more pending tasks).
      *
-     * 这些挂钩是由 Angular 暴露出来的，以在应用程序稳定时（没有更多未决任务）注册回调。
-     *
-     * For the implementation, see: https://github.com/
-     *  angular/angular/blob/master/packages/platform-browser/src/browser/testability.ts#L30-L49
-     *
-     * 有关实现，请参见：https://github.com/angular/angular/blob/master/packages/platform-browser/src/browser/testability.ts#L30-L49
+     * For the implementation, see: <https://github.com/>
+     *  angular/angular/blob/main/packages/platform-browser/src/browser/testability.ts#L30-L49
      *
      */
     frameworkStabilizers: FrameworkStabilizer[];
@@ -55,12 +48,7 @@ export interface WebDriverHarnessEnvironmentOptions {
   queryFn: (selector: string, root: () => webdriver.WebElement) => Promise<webdriver.WebElement[]>;
 }
 
-/**
- * The default environment options.
- *
- * 默认环境选项。
- *
- */
+/** The default environment options. */
 const defaultEnvironmentOptions: WebDriverHarnessEnvironmentOptions = {
   queryFn: async (selector: string, root: () => webdriver.WebElement) =>
     root().findElements(webdriver.By.css(selector)),
@@ -69,9 +57,6 @@ const defaultEnvironmentOptions: WebDriverHarnessEnvironmentOptions = {
 /**
  * This function is meant to be executed in the browser. It taps into the hooks exposed by Angular
  * and invokes the specified `callback` when the application is stable (no more pending tasks).
- *
- * 该函数应在浏览器中执行。它会利用 Angular 公开的钩子，并在应用程序进入稳定态时（不再有待处理的任务）调用这个 `callback`。
- *
  */
 function whenStable(callback: (didWork: boolean[]) => void): void {
   Promise.all(window.frameworkStabilizers.map(stabilizer => new Promise(stabilizer))).then(
@@ -82,9 +67,6 @@ function whenStable(callback: (didWork: boolean[]) => void): void {
 /**
  * This function is meant to be executed in the browser. It checks whether the Angular framework has
  * bootstrapped yet.
- *
- * 该函数应在浏览器中执行。它检查 Angular 框架是否已经启动。
- *
  */
 function isBootstrapped() {
   return !!window.frameworkStabilizers;
@@ -110,13 +92,11 @@ export async function waitForAngularReady(wd: webdriver.WebDriver) {
 export class SeleniumWebDriverHarnessEnvironment extends HarnessEnvironment<
   () => webdriver.WebElement
 > {
-  /**
-   * The options for this environment.
-   *
-   * 此环境的选项。
-   *
-   */
+  /** The options for this environment. */
   private _options: WebDriverHarnessEnvironmentOptions;
+
+  /** Environment stabilization callback passed to the created test elements. */
+  private _stabilizeCallback: () => Promise<void>;
 
   protected constructor(
     rawRootElement: () => webdriver.WebElement,
@@ -124,6 +104,7 @@ export class SeleniumWebDriverHarnessEnvironment extends HarnessEnvironment<
   ) {
     super(rawRootElement);
     this._options = {...defaultEnvironmentOptions, ...options};
+    this._stabilizeCallback = () => this.forceStabilize();
   }
 
   /**
@@ -142,7 +123,7 @@ export class SeleniumWebDriverHarnessEnvironment extends HarnessEnvironment<
   /**
    * Creates a `HarnessLoader` rooted at the document root.
    *
-   * 创建一个以本文档的根元素为根的 `HarnessLoader`。
+   * 创建一个以文档根为根的 `HarnessLoader`。
    *
    */
   static loader(
@@ -176,7 +157,7 @@ export class SeleniumWebDriverHarnessEnvironment extends HarnessEnvironment<
   /**
    * Gets the root element for the document.
    *
-   * 获取本文档的根元素。
+   * 获取此文档的根元素。
    *
    */
   protected getDocumentRoot(): () => webdriver.WebElement {
@@ -186,11 +167,11 @@ export class SeleniumWebDriverHarnessEnvironment extends HarnessEnvironment<
   /**
    * Creates a `TestElement` from a raw element.
    *
-   * 从原始元素创建一个 `TestElement`
+   * 从原始元素创建一个 `TestElement`。
    *
    */
   protected createTestElement(element: () => webdriver.WebElement): TestElement {
-    return new SeleniumWebDriverElement(element, () => this.forceStabilize());
+    return new SeleniumWebDriverElement(element, this._stabilizeCallback);
   }
 
   /**

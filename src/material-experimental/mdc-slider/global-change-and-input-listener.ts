@@ -16,9 +16,9 @@ import {finalize, share, takeUntil} from 'rxjs/operators';
  * Handles listening for all change and input events that occur on the document.
  *
  * This service exposes a single method #listen to allow users to subscribe to change and input
- * events that occur on the document. Since listening for these events can be expensive, we use
- * #fromEvent which will lazily attach a listener when the first subscription is made and remove the
+ * events that occur on the document. Since listening for these events can be expensive, we use #fromEvent which will lazily attach a listener when the first subscription is made and remove the
  * listener once the last observer unsubscribes.
+ *
  */
 @Injectable({providedIn: 'root'})
 export class GlobalChangeAndInputListener<K extends 'change' | 'input'> implements OnDestroy {

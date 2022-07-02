@@ -19,9 +19,9 @@ import {
   Attribute,
   OnDestroy,
   AfterContentInit,
+  AfterViewInit,
   NgZone,
   ChangeDetectorRef,
-  OnInit,
   Input,
 } from '@angular/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
@@ -32,22 +32,26 @@ import {
 import {FocusMonitor} from '@angular/cdk/a11y';
 import {
   _MatTabNavBase,
-  _MatTabLinkBase,
+  _MatTabLinkBase as BaseMatTabLink,
   MAT_TABS_CONFIG,
   MatTabsConfig,
 } from '@angular/material/tabs';
-import {DOCUMENT} from '@angular/common';
 import {Directionality} from '@angular/cdk/bidi';
 import {ViewportRuler} from '@angular/cdk/scrolling';
 import {Platform} from '@angular/cdk/platform';
-import {MatInkBar, MatInkBarItem, MatInkBarFoundation} from '../ink-bar';
+import {MatInkBar, MatInkBarItem, mixinInkBarItem} from '../ink-bar';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
+const _MatTabLinkBase = mixinInkBarItem(BaseMatTabLink);
+
 /**
  * Navigation component matching the styles of the tab group header.
  * Provides anchored navigation with animated ink bar.
+ *
+ * 与选项卡组标题样式匹配的导航组件。提供带有动画墨水栏的链接导航。
+ *
  */
 @Component({
   selector: '[mat-tab-nav-bar]',
@@ -56,18 +60,21 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: 'tab-nav-bar.html',
   styleUrls: ['tab-nav-bar.css'],
   host: {
+    '[attr.role]': '_getRole()',
     'class': 'mat-mdc-tab-nav-bar mat-mdc-tab-header',
     '[class.mat-mdc-tab-header-pagination-controls-enabled]': '_showPaginationControls',
     '[class.mat-mdc-tab-header-rtl]': "_getLayoutDirection() == 'rtl'",
+    '[class.mat-mdc-tab-nav-bar-stretch-tabs]': 'stretchTabs',
     '[class.mat-primary]': 'color !== "warn" && color !== "accent"',
     '[class.mat-accent]': 'color === "accent"',
     '[class.mat-warn]': 'color === "warn"',
     '[class._mat-animation-noopable]': '_animationMode === "NoopAnimations"',
   },
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // tslint:disable-next-line:validate-decorators
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class MatTabNav extends _MatTabNavBase implements AfterContentInit {
+export class MatTabNav extends _MatTabNavBase implements AfterContentInit, AfterViewInit {
   /** Whether the ink bar should fit its width to the size of the tab label content. */
   @Input()
   get fitInkBarToContent(): boolean {
@@ -78,6 +85,16 @@ export class MatTabNav extends _MatTabNavBase implements AfterContentInit {
     this._changeDetectorRef.markForCheck();
   }
   _fitInkBarToContent = new BehaviorSubject(false);
+
+  /** Whether tabs should be stretched to fill the header. */
+  @Input('mat-stretch-tabs')
+  get stretchTabs(): boolean {
+    return this._stretchTabs;
+  }
+  set stretchTabs(v: BooleanInput) {
+    this._stretchTabs = coerceBooleanProperty(v);
+  }
+  private _stretchTabs = true;
 
   @ContentChildren(forwardRef(() => MatTabLink), {descendants: true}) _items: QueryList<MatTabLink>;
   @ViewChild('tabListContainer', {static: true}) _tabListContainer: ElementRef;
@@ -112,32 +129,44 @@ export class MatTabNav extends _MatTabNavBase implements AfterContentInit {
     this._inkBar = new MatInkBar(this._items);
     super.ngAfterContentInit();
   }
+
+  override ngAfterViewInit() {
+    if (!this.tabPanel && (typeof ngDevMode === 'undefined' || ngDevMode)) {
+      throw new Error('A mat-tab-nav-panel must be specified via [tabPanel].');
+    }
+  }
 }
 
 /**
  * Link inside of a `mat-tab-nav-bar`.
+ *
+ * 链接到 `mat-tab-nav-bar`。
+ *
  */
 @Component({
   selector: '[mat-tab-link], [matTabLink]',
   exportAs: 'matTabLink',
-  inputs: ['disabled', 'disableRipple', 'tabIndex'],
+  inputs: ['disabled', 'disableRipple', 'tabIndex', 'active', 'id'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   templateUrl: 'tab-link.html',
   styleUrls: ['tab-link.css'],
   host: {
     'class': 'mdc-tab mat-mdc-tab-link mat-mdc-focus-indicator',
-    '[attr.aria-current]': 'active ? "page" : null',
+    '[attr.aria-controls]': '_getAriaControls()',
+    '[attr.aria-current]': '_getAriaCurrent()',
     '[attr.aria-disabled]': 'disabled',
-    '[attr.tabIndex]': 'tabIndex',
+    '[attr.aria-selected]': '_getAriaSelected()',
+    '[attr.id]': 'id',
+    '[attr.tabIndex]': '_getTabIndex()',
+    '[attr.role]': '_getRole()',
     '[class.mat-mdc-tab-disabled]': 'disabled',
     '[class.mdc-tab--active]': 'active',
     '(focus)': '_handleFocus()',
+    '(keydown)': '_handleKeydown($event)',
   },
 })
-export class MatTabLink extends _MatTabLinkBase implements MatInkBarItem, OnInit, OnDestroy {
-  _foundation = new MatInkBarFoundation(this.elementRef.nativeElement, this._document);
-
+export class MatTabLink extends _MatTabLinkBase implements MatInkBarItem, OnDestroy {
   private readonly _destroyed = new Subject<void>();
 
   constructor(
@@ -146,24 +175,45 @@ export class MatTabLink extends _MatTabLinkBase implements MatInkBarItem, OnInit
     @Optional() @Inject(MAT_RIPPLE_GLOBAL_OPTIONS) globalRippleOptions: RippleGlobalOptions | null,
     @Attribute('tabindex') tabIndex: string,
     focusMonitor: FocusMonitor,
-    @Inject(DOCUMENT) private _document: any,
     @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
   ) {
     super(tabNavBar, elementRef, globalRippleOptions, tabIndex, focusMonitor, animationMode);
 
     tabNavBar._fitInkBarToContent.pipe(takeUntil(this._destroyed)).subscribe(fitInkBarToContent => {
-      this._foundation.setFitToContent(fitInkBarToContent);
+      this.fitInkBarToContent = fitInkBarToContent;
     });
-  }
-
-  ngOnInit() {
-    this._foundation.init();
   }
 
   override ngOnDestroy() {
     this._destroyed.next();
     this._destroyed.complete();
     super.ngOnDestroy();
-    this._foundation.destroy();
   }
+}
+
+// Increasing integer for generating unique ids for tab nav components.
+let nextUniqueId = 0;
+
+/**
+ * Tab panel component associated with MatTabNav.
+ */
+@Component({
+  selector: 'mat-tab-nav-panel',
+  exportAs: 'matTabNavPanel',
+  template: '<ng-content></ng-content>',
+  host: {
+    '[attr.aria-labelledby]': '_activeTabId',
+    '[attr.id]': 'id',
+    'class': 'mat-mdc-tab-nav-panel',
+    'role': 'tabpanel',
+  },
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class MatTabNavPanel {
+  /** Unique id for the tab panel. */
+  @Input() id = `mat-tab-nav-panel-${nextUniqueId++}`;
+
+  /** Id of the active tab in the nav bar. */
+  _activeTabId?: string;
 }

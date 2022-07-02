@@ -15,10 +15,11 @@ export interface Entry<FormValue> {
  *
  * Example usage:
  * class MyComponent {
- *   readonly nameEditValues = new FormValueContainer&lt;Item, {name: string}&gt;();
+ *   readonly nameEditValues = new FormValueContainer&lt;Item, {name: string}>();
  * }
  *
- * &lt;form cdkEditControl [(cdkEditControlPreservedFormValue)]="nameEditValues.for(item).value"&gt;
+ * &lt;form cdkEditControl [(cdkEditControlPreservedFormValue)]="nameEditValues.for(item).value">
+ *
  */
 export class FormValueContainer<Key extends object, FormValue> {
   private _formValues = new WeakMap<Key, Entry<FormValue>>();

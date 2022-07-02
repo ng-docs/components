@@ -24,6 +24,7 @@ import {
   ViewEncapsulation,
   Optional,
   Inject,
+  Directive,
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {
@@ -46,7 +47,7 @@ import {
 let nextUniqueId = 0;
 
 /** @docs-private */
-export const MAT_SLIDE_TOGGLE_VALUE_ACCESSOR: any = {
+export const MAT_SLIDE_TOGGLE_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => MatSlideToggle),
   multi: true,
@@ -60,24 +61,16 @@ export const MAT_SLIDE_TOGGLE_VALUE_ACCESSOR: any = {
  */
 export class MatSlideToggleChange {
   constructor(
-    /**
-     * The source MatSlideToggle of the event.
-     *
-     * 发出此事件的源 MatSlideToggle。
-     */
+    /** The source MatSlideToggle of the event. */
     public source: MatSlideToggle,
-    /**
-     * The new `checked` value of the MatSlideToggle.
-     *
-     * 此 MatSlideToggle 的新 `checked` 值。
-     */
+    /** The new `checked` value of the MatSlideToggle. */
     public checked: boolean,
   ) {}
 }
 
 // Boilerplate for applying mixins to MatSlideToggle.
 /** @docs-private */
-const _MatSlideToggleBase = mixinTabIndex(
+const _MatSlideToggleMixinBase = mixinTabIndex(
   mixinColor(
     mixinDisableRipple(
       mixinDisabled(
@@ -89,36 +82,9 @@ const _MatSlideToggleBase = mixinTabIndex(
   ),
 );
 
-/**
- * Represents a slidable "switch" toggle that can be moved between on and off.
- *
- * 表示一个滑动“切换”开关，它可以在打开和关闭之间移动。
- *
- */
-@Component({
-  selector: 'mat-slide-toggle',
-  exportAs: 'matSlideToggle',
-  host: {
-    'class': 'mat-slide-toggle',
-    '[id]': 'id',
-    // Needs to be removed since it causes some a11y issues (see #21266).
-    '[attr.tabindex]': 'null',
-    '[attr.aria-label]': 'null',
-    '[attr.aria-labelledby]': 'null',
-    '[class.mat-checked]': 'checked',
-    '[class.mat-disabled]': 'disabled',
-    '[class.mat-slide-toggle-label-before]': 'labelPosition == "before"',
-    '[class._mat-animation-noopable]': '_noopAnimations',
-  },
-  templateUrl: 'slide-toggle.html',
-  styleUrls: ['slide-toggle.css'],
-  providers: [MAT_SLIDE_TOGGLE_VALUE_ACCESSOR],
-  inputs: ['disabled', 'disableRipple', 'color', 'tabIndex'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class MatSlideToggle
-  extends _MatSlideToggleBase
+@Directive()
+export abstract class _MatSlideToggleBase<T>
+  extends _MatSlideToggleMixinBase
   implements
     OnDestroy,
     AfterContentInit,
@@ -128,36 +94,21 @@ export class MatSlideToggle
     HasTabIndex,
     CanDisableRipple
 {
-  private _onChange = (_: any) => {};
+  protected _onChange = (_: any) => {};
   private _onTouched = () => {};
 
-  private _uniqueId: string = `mat-slide-toggle-${++nextUniqueId}`;
+  protected _uniqueId: string;
   private _required: boolean = false;
   private _checked: boolean = false;
 
-  /**
-   * Whether noop animations are enabled.
-   *
-   * 是否启用 noop 动画。
-   *
-   */
+  protected abstract _createChangeEvent(isChecked: boolean): T;
+  abstract focus(options?: FocusOptions, origin?: FocusOrigin): void;
+
+  /** Whether noop animations are enabled. */
   _noopAnimations: boolean;
 
-  /**
-   * Reference to the thumb HTMLElement.
-   *
-   * 对缩略图 HTMLElement 的引用。
-   *
-   */
-  @ViewChild('thumbContainer') _thumbEl: ElementRef;
-
-  /**
-   * Reference to the thumb bar HTMLElement.
-   *
-   * 对缩略图栏 HTMLElement 的引用。
-   *
-   */
-  @ViewChild('toggleBar') _thumbBarEl: ElementRef;
+  /** Whether the slide toggle is currently focused. */
+  _focused: boolean;
 
   /**
    * Name value will be applied to the input element if present.
@@ -173,7 +124,7 @@ export class MatSlideToggle
    * 滑块开关输入组件的唯一 id。如果没有提供，它就会自动生成。
    *
    */
-  @Input() id: string = this._uniqueId;
+  @Input() id: string;
 
   /**
    * Whether the label should appear after or before the slide-toggle. Defaults to 'after'.
@@ -241,8 +192,7 @@ export class MatSlideToggle
    * 每当滑块开关的值发生变化时，都会派发一个事件。
    *
    */
-  @Output() readonly change: EventEmitter<MatSlideToggleChange> =
-    new EventEmitter<MatSlideToggleChange>();
+  @Output() readonly change: EventEmitter<T> = new EventEmitter<T>();
 
   /**
    * An event will be dispatched each time the slide-toggle input is toggled.
@@ -257,45 +207,44 @@ export class MatSlideToggle
   /**
    * Returns the unique id for the visual hidden input.
    *
-   * 返回隐藏的 input 元素的唯一 id。
+   * 返回不可见输入框的唯一 id。
    *
    */
   get inputId(): string {
     return `${this.id || this._uniqueId}-input`;
   }
 
-  /**
-   * Reference to the underlying input element.
-   *
-   * 引用底层的 input 元素。
-   *
-   */
-  @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
-
   constructor(
     elementRef: ElementRef,
-    private _focusMonitor: FocusMonitor,
-    private _changeDetectorRef: ChangeDetectorRef,
-    @Attribute('tabindex') tabIndex: string,
-    @Inject(MAT_SLIDE_TOGGLE_DEFAULT_OPTIONS)
+    protected _focusMonitor: FocusMonitor,
+    protected _changeDetectorRef: ChangeDetectorRef,
+    tabIndex: string,
     public defaults: MatSlideToggleDefaultOptions,
-    @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
+    animationMode: string | undefined,
+    idPrefix: string,
   ) {
     super(elementRef);
     this.tabIndex = parseInt(tabIndex) || 0;
     this.color = this.defaultColor = defaults.color || 'accent';
     this._noopAnimations = animationMode === 'NoopAnimations';
+    this.id = this._uniqueId = `${idPrefix}${++nextUniqueId}`;
   }
 
   ngAfterContentInit() {
     this._focusMonitor.monitor(this._elementRef, true).subscribe(focusOrigin => {
-      if (!focusOrigin) {
+      if (focusOrigin === 'keyboard' || focusOrigin === 'program') {
+        this._focused = true;
+      } else if (!focusOrigin) {
         // When a focused element becomes disabled, the browser *immediately* fires a blur event.
         // Angular does not expect events to be raised during change detection, so any state
-        // change (such as a form control's 'ng-touched') will cause a changed-after-checked
-        // error. See https://github.com/angular/angular/issues/17793. To work around this,
-        // we defer telling the form control it has been touched until the next tick.
-        Promise.resolve().then(() => this._onTouched());
+        // change (such as a form control's ng-touched) will cause a changed-after-checked error.
+        // See https://github.com/angular/angular/issues/17793. To work around this, we defer
+        // telling the form control it has been touched until the next tick.
+        Promise.resolve().then(() => {
+          this._focused = false;
+          this._onTouched();
+          this._changeDetectorRef.markForCheck();
+        });
       }
     });
   }
@@ -304,12 +253,105 @@ export class MatSlideToggle
     this._focusMonitor.stopMonitoring(this._elementRef);
   }
 
+  /** Implemented as part of ControlValueAccessor. */
+  writeValue(value: any): void {
+    this.checked = !!value;
+  }
+
+  /** Implemented as part of ControlValueAccessor. */
+  registerOnChange(fn: any): void {
+    this._onChange = fn;
+  }
+
+  /** Implemented as part of ControlValueAccessor. */
+  registerOnTouched(fn: any): void {
+    this._onTouched = fn;
+  }
+
+  /** Implemented as a part of ControlValueAccessor. */
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+    this._changeDetectorRef.markForCheck();
+  }
+
   /**
-   * Method being called whenever the underlying input emits a change event.
+   * Toggles the checked state of the slide-toggle.
    *
-   * 每当底层的 input 发出 change 事件时都会调用此方法。
+   * 切换滑块开关的勾选状态。
    *
    */
+  toggle(): void {
+    this.checked = !this.checked;
+    this._onChange(this.checked);
+  }
+
+  /**
+   * Emits a change event on the `change` output. Also notifies the FormControl about the change.
+   */
+  protected _emitChangeEvent() {
+    this._onChange(this.checked);
+    this.change.emit(this._createChangeEvent(this.checked));
+  }
+}
+
+/**
+ * Represents a slidable "switch" toggle that can be moved between on and off.
+ *
+ * 表示一个滑动“切换”开关，它可以在打开和关闭之间移动。
+ *
+ */
+@Component({
+  selector: 'mat-slide-toggle',
+  exportAs: 'matSlideToggle',
+  host: {
+    'class': 'mat-slide-toggle',
+    '[id]': 'id',
+    // Needs to be removed since it causes some a11y issues (see #21266).
+    '[attr.tabindex]': 'null',
+    '[attr.aria-label]': 'null',
+    '[attr.aria-labelledby]': 'null',
+    '[attr.name]': 'null',
+    '[class.mat-checked]': 'checked',
+    '[class.mat-disabled]': 'disabled',
+    '[class.mat-slide-toggle-label-before]': 'labelPosition == "before"',
+    '[class._mat-animation-noopable]': '_noopAnimations',
+  },
+  templateUrl: 'slide-toggle.html',
+  styleUrls: ['slide-toggle.css'],
+  providers: [MAT_SLIDE_TOGGLE_VALUE_ACCESSOR],
+  inputs: ['disabled', 'disableRipple', 'color', 'tabIndex'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class MatSlideToggle extends _MatSlideToggleBase<MatSlideToggleChange> {
+  /** Reference to the underlying input element. */
+  @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
+
+  constructor(
+    elementRef: ElementRef,
+    focusMonitor: FocusMonitor,
+    changeDetectorRef: ChangeDetectorRef,
+    @Attribute('tabindex') tabIndex: string,
+    @Inject(MAT_SLIDE_TOGGLE_DEFAULT_OPTIONS)
+    defaults: MatSlideToggleDefaultOptions,
+    @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
+  ) {
+    super(
+      elementRef,
+      focusMonitor,
+      changeDetectorRef,
+      tabIndex,
+      defaults,
+      animationMode,
+      'mat-slide-toggle-',
+    );
+  }
+
+  protected _createChangeEvent(isChecked: boolean) {
+    return new MatSlideToggleChange(this, isChecked);
+  }
+
+  /** Method being called whenever the underlying input emits a change event. */
   _onChangeEvent(event: Event) {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and
@@ -333,12 +375,7 @@ export class MatSlideToggle
     this._emitChangeEvent();
   }
 
-  /**
-   * Method being called whenever the slide-toggle has been clicked.
-   *
-   * 只要单击了滑块开关，就会调用该方法。
-   *
-   */
+  /** Method being called whenever the slide-toggle has been clicked. */
   _onInputClick(event: Event) {
     // We have to stop propagation for click events on the visual hidden input element.
     // By default, when a user clicks on a label element, a generated click event will be
@@ -348,47 +385,6 @@ export class MatSlideToggle
     // This will lead to multiple click events.
     // Preventing bubbling for the second event will solve that issue.
     event.stopPropagation();
-  }
-
-  /**
-   * Implemented as part of ControlValueAccessor.
-   *
-   *是 ControlValueAccessor 实现的一部分。
-   *
-   */
-  writeValue(value: any): void {
-    this.checked = !!value;
-  }
-
-  /**
-   * Implemented as part of ControlValueAccessor.
-   *
-   *是 ControlValueAccessor 实现的一部分。
-   *
-   */
-  registerOnChange(fn: any): void {
-    this._onChange = fn;
-  }
-
-  /**
-   * Implemented as part of ControlValueAccessor.
-   *
-   *是 ControlValueAccessor 实现的一部分。
-   *
-   */
-  registerOnTouched(fn: any): void {
-    this._onTouched = fn;
-  }
-
-  /**
-   * Implemented as a part of ControlValueAccessor.
-   *
-   *是 ControlValueAccessor 实现的一部分。
-   *
-   */
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-    this._changeDetectorRef.markForCheck();
   }
 
   /**
@@ -405,34 +401,7 @@ export class MatSlideToggle
     }
   }
 
-  /**
-   * Toggles the checked state of the slide-toggle.
-   *
-   * 切换滑块开关的勾选状态。
-   *
-   */
-  toggle(): void {
-    this.checked = !this.checked;
-    this._onChange(this.checked);
-  }
-
-  /**
-   * Emits a change event on the `change` output. Also notifies the FormControl about the change.
-   *
-   * 在输出属性 `change` 上发出一个 change 事件。还要通知 FormControl 此更改。
-   *
-   */
-  private _emitChangeEvent() {
-    this._onChange(this.checked);
-    this.change.emit(new MatSlideToggleChange(this, this.checked));
-  }
-
-  /**
-   * Method being called whenever the label text changes.
-   *
-   * 每当标签文本发生变化时就会被调用。
-   *
-   */
+  /** Method being called whenever the label text changes. */
   _onLabelTextChange() {
     // Since the event of the `cdkObserveContent` directive runs outside of the zone, the
     // slide-toggle component will be only marked for check, but no actual change detection runs

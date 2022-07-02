@@ -30,10 +30,12 @@ export class MatBadgeHarness extends ComponentHarness {
    *
    * - `text` finds a badge host with a particular text.
    *
-   *    `text` 查找带有特定文本的徽章宿主。
+   *   `text` 查找带有特定文本的徽章宿主。
+   *
    * @return a `HarnessPredicate` configured with the given options.
    *
-   * 用指定选项配置过的 `HarnessPredicate` 服务。
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(options: BadgeHarnessFilters = {}): HarnessPredicate<MatBadgeHarness> {
     return new HarnessPredicate(MatBadgeHarness, options).addOption(

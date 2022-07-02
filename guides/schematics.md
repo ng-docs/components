@@ -2,7 +2,8 @@
 
 # 安装与代码生成
 
-Angular Material comes packaged with Angular CLI schematics to make creating Material applications easier.
+Angular Material comes packaged with Angular CLI schematics to make
+creating Material applications easier.
 
 Angular Material 带了一份供 Angular CLI 使用的原理图（schematic），可以让创建 Material 应用更简单些。
 
@@ -10,13 +11,16 @@ Angular Material 带了一份供 Angular CLI 使用的原理图（schematic）�
 
 ## 安装原理图
 
-Schematics are included with both `@angular/cdk` and `@angular/material`. Once you install the npm packages, they will be available through the Angular CLI.
+Schematics are included with both `@angular/cdk` and `@angular/material`. Once you install the npm
+packages, they will be available through the Angular CLI.
 
 Angular Material 附带了一些原理图，一旦你安装了这个 npm 包，就可以通过 Angular CLI 来使用这些原理图了。
 
-Using the command below will install Angular Material, the [Component Dev Kit](https://material.angular.io/cdk) (CDK), and [Angular Animations](https://angular.io/guide/animations) in your project. Then it will run the installation schematic.
+Using the command below will install Angular Material, the [Component Dev Kit](https://material.angular.io/cdk) (CDK),
+and [Angular Animations](https://angular.io/guide/animations) in your project. Then it will run the
+installation schematic.
 
-运行下列命令可以自动为你的项目安装 Angular Material、[组件开发工具](/cdk) (CDK) 和 [Angular 动画库](/guide/animations)，并运行代码原理图。
+运行下列命令可以自动为你的项目安装 Angular Material、[组件开发工具](cdk) (CDK) 和 [Angular 动画库](https://angular.io/guide/animations)，并运行代码原理图。
 
 ```
 ng add @angular/material
@@ -24,7 +28,7 @@ ng add @angular/material
 
 In case you just want to install the `@angular/cdk`, there are also schematics for the [Component Dev Kit](https://material.angular.io/cdk)
 
-如果你只想安装 `@angular/cdk`，也可以使用[组件开发工具](/cdk)的专用代码原理图
+如果你只想安装 `@angular/cdk`，也可以使用[组件开发工具](guide/cdk)的专用代码原理图
 
 ```
 ng add @angular/cdk
@@ -58,21 +62,17 @@ Angular Material 的 `ng add` 原理图会帮助你的 Angular CLI 项目配置 
 
   添加下列全局样式
 
-    - Remove margins from `body`
+  - Remove margins from `body`
 
-      移除 `body` 的边距（margin）
+    移除 `body` 的边距（margin）
 
-    - Set `height: 100%` on `html` and `body`
+  - Set `height: 100%` on `html` and `body`
 
-      为 `html` 和 `body` 设置 `height: 100%`
+    为 `html` 和 `body` 设置 `height: 100%`
 
-    - Make Roboto the default font of your app
+  - Make Roboto the default font of your app
 
-      把 Roboto 设置为应用的默认字体
-
-- Install and import `hammerjs` for [gesture support](./getting-started#step-5-gesture-support) in your project
-
-  安装并导入 `hammerjs`，来为项目提供[手势支持](./getting-started#step-5-gesture-support)
+    把 Roboto 设置为应用的默认字体
 
 ## Component schematics
 
@@ -83,35 +83,36 @@ used to easily generate Material Design components:
 
 除了用于安装的 schematic 之外，Angular Material 还带有多个原理图，用于轻松生成 Material Design 组件：
 
-| Name           | Description                                                                                            |
-|----------------|--------------------------------------------------------------------------------------------------------|
-| 名称           | 说明                                                                                            |
-| `address-form` | Component with a form group that uses Material Design form controls to prompt for a shipping address   |
-| `address-form` | 一个表单组，它使用 Material Design 的多个表单控件接收一个送货地址   |
-| `navigation`   | Creates a component with a responsive Material Design sidenav and a toolbar for showing the app name   |
-| `navigation`   | 创建一个带有响应式 Material Design 侧边栏组件和一个用于显示应用名称的工具栏组件   |
-| `dashboard`    | Component with multiple Material Design cards and menus which are aligned in a grid layout             |
-| `dashboard`    | 带有多个 Material Design 卡片和菜单的网格式布局组件             |
-| `table`        | Generates a component with a Material Design data table that supports sorting and pagination           |
-| `table`        | 生成一个带有 Material Design 并支持排序和分页的数据表组件           |
-| `tree`         | Component that interactively visualizes a nested folder structure by using the `<mat-tree>` component  |
-| `tree`         | 该组件以 `<mat-tree>` 组件来展示一个可交互的文件夹式结构 |
+| Name | Description |
+| ---- | ----------- |
+| 名称 | 说明 |
+| `address-form` | Component with a form group that uses Material Design form controls to prompt for a shipping address |
+| `address-form` | 一个表单组，它使用 Material Design 的多个表单控件接收一个送货地址 |
+| `navigation` | Creates a component with a responsive Material Design sidenav and a toolbar for showing the app name |
+| `navigation` | 创建一个带有响应式 Material Design 侧边栏组件和一个用于显示应用名称的工具栏组件 |
+| `dashboard` | Component with multiple Material Design cards and menus which are aligned in a grid layout |
+| `dashboard` | 带有多个 Material Design 卡片和菜单的网格式布局组件 |
+| `table` | Generates a component with a Material Design data table that supports sorting and pagination |
+| `table` | 生成一个带有 Material Design 并支持排序和分页的数据表组件 |
+| `tree` | Component that interactively visualizes a nested folder structure by using the `<mat-tree>` component |
+| `tree` | 该组件以 `<mat-tree>` 组件来展示一个可交互的文件夹式结构 |
 
 Additionally, the Angular CDK also comes with a collection of component schematics:
 
 此外，Angular CDK 也给出了一些组件的原理图：
 
-| Name           | Description                                                                                        |
-|----------------|----------------------------------------------------------------------------------------------------|
-| 名称           | 说明                                                                                        |
-| `drag-drop`    | Component that uses the `@angular/cdk/drag-drop` directives for creating an interactive to-do list |
-| `drag-drop`    | 该组件使用 `@angular/cdk/drag-drop` 指令来创建一个可交互的 to-do 列表 |
+| Name | Description |
+| ---- | ----------- |
+| 名称 | 说明 |
+| `drag-drop` | Component that uses the `@angular/cdk/drag-drop` directives for creating an interactive to-do list |
+| `drag-drop` | 该组件使用 `@angular/cdk/drag-drop` 指令来创建一个可交互的 to-do 列表 |
 
 ### Address form schematic
 
 ### 地址表单原理图
 
-Running the `address-form` schematic generates a new Angular component that can be used to get started with a Material Design form group consisting of:
+Running the `address-form` schematic generates a new Angular component that can be used to get
+started with a Material Design form group consisting of:
 
 运行 `address-form` 原理图会生成一个新的 Angular 组件，它可用于快速开始一个 Material Design 表单组，其中包括：
 
@@ -135,7 +136,8 @@ ng generate @angular/material:address-form <component-name>
 
 ### 导航原理图
 
-The `navigation` schematic will create a new component that includes a toolbar with the app name, and a responsive side nav based on Material
+The `navigation` schematic will create a new component that includes
+a toolbar with the app name, and a responsive side nav based on Material
 breakpoints.
 
 `navigation` 原理图将会创建一个包括应用名的工具栏和一个能自适应 Material 的断点的侧边栏。
@@ -148,7 +150,8 @@ ng generate @angular/material:navigation <component-name>
 
 ### 表格原理图
 
-The table schematic will create a component that renders an Angular Material `<table>` which has been pre-configured with a datasource for sorting and pagination.
+The table schematic will create a component that renders an Angular Material `<table>` which has
+been pre-configured with a datasource for sorting and pagination.
 
 表格原理图将创建一个组件，它可以渲染出一个预置了可排序、可分页数据源的 Angular Material `<table>`。
 
@@ -160,7 +163,8 @@ ng generate @angular/material:table <component-name>
 
 ### 仪表盘原理图
 
-The `dashboard` schematic will create a new component that contains a dynamic grid list of Material Design cards.
+The `dashboard` schematic will create a new component that contains
+a dynamic grid list of Material Design cards.
 
 `dashboard` 原理图将创建一个新组件，它包含一个由 Material Design 卡片组成的动态网格列表。
 
@@ -172,7 +176,8 @@ ng generate @angular/material:dashboard <component-name>
 
 ### 树原理图
 
-The `tree` schematic can be used to quickly generate an Angular component that uses the Angular Material `<mat-tree>` component to visualize a nested folder structure.
+The `tree` schematic can be used to quickly generate an Angular component that uses the Angular
+Material `<mat-tree>` component to visualize a nested folder structure.
 
 `tree` 原理图可用于快速生成一个 Angular 组件，它使用 Angular Material 的 `<mat-tree>` 组件来展示一个嵌套的文件夹式结构。
 
@@ -184,7 +189,8 @@ ng generate @angular/material:tree <component-name>
 
 ### 拖放原理图
 
-The `drag-drop` schematic is provided by the `@angular/cdk` and can be used to generate a component that uses the CDK drag and drop directives.
+The `drag-drop` schematic is provided by the `@angular/cdk` and can be used to generate a component
+that uses the CDK drag and drop directives.
 
 `drag-drop` 原理图是由 `@angular/cdk` 提供的，它可用来生成带有 CDK 拖放指令的组件。
 

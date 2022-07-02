@@ -6,12 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/**
- * Cached result of whether the user's browser supports passive event listeners.
- *
- * 用户浏览器是否支持被动事件侦听器的缓存结果。
- *
- */
+/** Cached result of whether the user's browser supports passive event listeners. */
 let supportsPassiveEvents: boolean;
 
 /**

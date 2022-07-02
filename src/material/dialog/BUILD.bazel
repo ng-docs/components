@@ -23,6 +23,7 @@ ng_module(
         "//src:dev_mode_types",
         "//src/cdk/a11y",
         "//src/cdk/bidi",
+        "//src/cdk/dialog",
         "//src/cdk/keycodes",
         "//src/cdk/overlay",
         "//src/cdk/platform",
@@ -44,7 +45,7 @@ sass_binary(
     name = "dialog_scss",
     src = "dialog.scss",
     deps = [
-        "//src/cdk/a11y:a11y_scss_lib",
+        "//src/cdk:sass_lib",
         "//src/material/core:core_scss_lib",
     ],
 )

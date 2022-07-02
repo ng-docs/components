@@ -48,11 +48,22 @@ let nextUniqueId = 0;
 /** @docs-private */
 const _MatInputBase = mixinErrorState(
   class {
+    /**
+     * Emits whenever the component state changes and should cause the parent
+     * form field to update. Implemented as part of `MatFormFieldControl`.
+     * @docs-private
+     */
+    readonly stateChanges = new Subject<void>();
+
     constructor(
       public _defaultErrorStateMatcher: ErrorStateMatcher,
       public _parentForm: NgForm,
       public _parentFormGroup: FormGroupDirective,
-      /** @docs-private */
+      /**
+       * Form control bound to the component.
+       * Implemented as part of `MatFormFieldControl`.
+       * @docs-private
+       */
       public ngControl: NgControl,
     ) {}
   },
@@ -83,6 +94,7 @@ const _MatInputBase = mixinErrorState(
     '[attr.data-placeholder]': 'placeholder',
     '[disabled]': 'disabled',
     '[required]': 'required',
+    '[attr.name]': 'name || null',
     '[attr.readonly]': 'readonly && !_isNativeSelect || null',
     '[class.mat-native-select-inline]': '_isInlineSelect()',
     // Only mark the input as invalid for assistive technology if it has a value since the
@@ -230,6 +242,12 @@ export class MatInput
   @Input() placeholder: string;
 
   /**
+   * Name of the input.
+   * @docs-private
+   */
+  @Input() name: string;
+
+  /**
    * Implemented as part of MatFormFieldControl.
    *
    *是 MatFormFieldControl 实现的一部分。
@@ -338,7 +356,7 @@ export class MatInput
     private _autofillMonitor: AutofillMonitor,
     ngZone: NgZone,
     // TODO: Remove this once the legacy appearance has been removed. We only need
-    // to inject the form-field for determining whether the placeholder has been promoted.
+    // to inject the form field for determining whether the placeholder has been promoted.
     @Optional() @Inject(MAT_FORM_FIELD) private _formField?: MatFormField,
   ) {
     super(_defaultErrorStateMatcher, _parentForm, _parentFormGroup, ngControl);
@@ -360,24 +378,7 @@ export class MatInput
     // exists on iOS, we only bother to install the listener on iOS.
     if (_platform.IOS) {
       ngZone.runOutsideAngular(() => {
-        _elementRef.nativeElement.addEventListener('keyup', (event: Event) => {
-          const el = event.target as HTMLInputElement;
-
-          // Note: We specifically check for 0, rather than `!el.selectionStart`, because the two
-          // indicate different things. If the value is 0, it means that the caret is at the start
-          // of the input, whereas a value of `null` means that the input doesn't support
-          // manipulating the selection range. Inputs that don't support setting the selection range
-          // will throw an error so we want to avoid calling `setSelectionRange` on them. See:
-          // https://html.spec.whatwg.org/multipage/input.html#do-not-apply
-          if (!el.value && el.selectionStart === 0 && el.selectionEnd === 0) {
-            // Note: Just setting `0, 0` doesn't fix the issue. Setting
-            // `1, 1` fixes it for the first time that you type text and
-            // then hold delete. Toggling to `1, 1` and then back to
-            // `0, 0` seems to completely fix it.
-            el.setSelectionRange(1, 1);
-            el.setSelectionRange(0, 0);
-          }
-        });
+        _elementRef.nativeElement.addEventListener('keyup', this._iOSKeyupListener);
       });
     }
 
@@ -411,6 +412,10 @@ export class MatInput
 
     if (this._platform.isBrowser) {
       this._autofillMonitor.stopMonitoring(this._elementRef.nativeElement);
+    }
+
+    if (this._platform.IOS) {
+      this._elementRef.nativeElement.removeEventListener('keyup', this._iOSKeyupListener);
     }
   }
 
@@ -476,7 +481,11 @@ export class MatInput
     // screen readers will read it out twice: once from the label and once from the attribute.
     // TODO: can be removed once we get rid of the `legacy` style for the form field, because it's
     // the only one that supports promoting the placeholder to a label.
-    const placeholder = this._formField?._hideControlPlaceholder?.() ? null : this.placeholder;
+    const formField = this._formField;
+    const placeholder =
+      formField && formField.appearance === 'legacy' && !formField._hasLabel?.()
+        ? null
+        : this.placeholder;
     if (placeholder !== this._previousPlaceholder) {
       const element = this._elementRef.nativeElement;
       this._previousPlaceholder = placeholder;
@@ -623,4 +632,23 @@ export class MatInput
     const element = this._elementRef.nativeElement as HTMLSelectElement;
     return this._isNativeSelect && (element.multiple || element.size > 1);
   }
+
+  private _iOSKeyupListener = (event: Event): void => {
+    const el = event.target as HTMLInputElement;
+
+    // Note: We specifically check for 0, rather than `!el.selectionStart`, because the two
+    // indicate different things. If the value is 0, it means that the caret is at the start
+    // of the input, whereas a value of `null` means that the input doesn't support
+    // manipulating the selection range. Inputs that don't support setting the selection range
+    // will throw an error so we want to avoid calling `setSelectionRange` on them. See:
+    // https://html.spec.whatwg.org/multipage/input.html#do-not-apply
+    if (!el.value && el.selectionStart === 0 && el.selectionEnd === 0) {
+      // Note: Just setting `0, 0` doesn't fix the issue. Setting
+      // `1, 1` fixes it for the first time that you type text and
+      // then hold delete. Toggling to `1, 1` and then back to
+      // `0, 0` seems to completely fix it.
+      el.setSelectionRange(1, 1);
+      el.setSelectionRange(0, 0);
+    }
+  };
 }

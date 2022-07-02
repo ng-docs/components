@@ -17,6 +17,12 @@ import {ConstructorChecksUpgradeData, TargetVersion, VersionChanges} from '@angu
  *
  */
 export const constructorChecks: VersionChanges<ConstructorChecksUpgradeData> = {
+  [TargetVersion.V14]: [
+    {
+      pr: 'https://github.com/angular/components/pull/23327',
+      changes: ['MatSelectionList', 'MatSelectionListChange'],
+    },
+  ],
   [TargetVersion.V13]: [
     {
       pr: 'https://github.com/angular/components/pull/23389',
@@ -25,6 +31,10 @@ export const constructorChecks: VersionChanges<ConstructorChecksUpgradeData> = {
     {
       pr: 'https://github.com/angular/components/pull/23573',
       changes: ['MatDatepicker', 'MatDateRangePicker'],
+    },
+    {
+      pr: 'https://github.com/angular/components/pull/23328',
+      changes: ['MatStepper'],
     },
   ],
   [TargetVersion.V12]: [

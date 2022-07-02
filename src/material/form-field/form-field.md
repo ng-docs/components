@@ -26,7 +26,7 @@ The following Angular Material components are designed to work inside a `<mat-fo
 ### 表单字段外观的变体形式
 
 The `mat-form-field` supports 4 different appearance variants which can be set via the `appearance`
-input. The `fill` an `outline` appearances implement the current version of the spec. The `fill`
+input. The `fill` and `outline` appearances implement the current version of the spec. The `fill`
 appearance displays the form field with a filled background box and an underline, while the
 `outline` appearance shows the form field with a border all the way around.
 

@@ -46,6 +46,30 @@ export abstract class _MatMenuContentBase implements OnDestroy {
   readonly _attached = new Subject<void>();
 
   constructor(
+    template: TemplateRef<any>,
+    componentFactoryResolver: ComponentFactoryResolver,
+    appRef: ApplicationRef,
+    injector: Injector,
+    viewContainerRef: ViewContainerRef,
+    document: any,
+    changeDetectorRef: ChangeDetectorRef,
+  );
+
+  /**
+   * @deprecated `changeDetectorRef` is now a required parameter.
+   * @breaking-change 9.0.0
+   */
+  constructor(
+    template: TemplateRef<any>,
+    componentFactoryResolver: ComponentFactoryResolver,
+    appRef: ApplicationRef,
+    injector: Injector,
+    viewContainerRef: ViewContainerRef,
+    document: any,
+    changeDetectorRef?: ChangeDetectorRef,
+  );
+
+  constructor(
     private _template: TemplateRef<any>,
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _appRef: ApplicationRef,
@@ -91,10 +115,7 @@ export abstract class _MatMenuContentBase implements OnDestroy {
     // not be updated by Angular. By explicitly marking for check here, we tell Angular that
     // it needs to check for new menu items and update the `@ContentChild` in `MatMenu`.
     // @breaking-change 9.0.0 Make change detector ref required
-    if (this._changeDetectorRef) {
-      this._changeDetectorRef.markForCheck();
-    }
-
+    this._changeDetectorRef?.markForCheck();
     this._portal.attach(this._outlet, context);
     this._attached.next();
   }
