@@ -119,10 +119,12 @@ More specific styles take precedence over less specific styles. Angular Material
 to use the least specific selectors possible. However, Angular Material may change component style
 specificity at any time, making custom overrides brittle and prone to breaking.
 
+每个 CSS 声明都具有一个*特异度*级别，取决于所用到的选择器的类型和数量。特异度较高的样式也会有较高的优先级。Angular Material 自己会在组件中使用尽可能小的特异度。不过，Angular Material 将来也可能更改组件样式的特异度，这可能会让你的自定义覆盖规则变得脆弱、容易被破坏。
+
 You can read more about specificity and how it is calculated on the
 [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity).
 
-每个 CSS 声明都具有一个*特异度*级别，取决于所用到的选择器的类型和数量。特异度较高的样式也会有较高的优先级。Angular Material 自己会在组件中使用尽可能小的特异度。不过，Angular Material 将来也可能更改组件样式的特异度，这可能会让你的自定义覆盖规则变得脆弱、容易被破坏。你可以到 [MDN Web 文档](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity)中深入了解特异度及其计算方法。
+你可以到 [MDN Web 文档](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity)中深入了解特异度及其计算方法。
 
 ### Rendering location
 

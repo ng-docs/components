@@ -294,6 +294,8 @@ You can also manually emit the CSS rules for these CSS classes and native elemen
 mixin. This mixin accepts a typography config and a CSS selector under which the styles are scopes (defaulting to
 `.mat-typography`).
 
+你还可以通过调用 `typography-hierarchy` mixin 手动为这些 CSS 类和原生元素生成 CSS 规则。这个 mixin 接受一个排版配置和一个 CSS 选择器，此选择器下的样式是范围化的（默认为 `.mat-typography` ）。
+
 The following example demonstrates usage of the typography styles emitted by the `core` mixin.
 
 以下示例演示了 `core` mixin 生成的排版样式的用法。

@@ -421,13 +421,21 @@ file. The approach for this loading depends on your application.
 
 ### Application background color
 
+### 应用背景颜色
+
 By default, Angular Material does not apply any styles to your DOM outside
 of its own components. If you want to set your application's background color
 to match the components' theme, you can either:
 
+默认情况下，Angular Material 不会将任何样式应用到你的 DOM 组件外部。如果想设置应用程序的背景颜色以匹配组件的主题，你可以：
+
 1. Put your application's main content inside `mat-sidenav-container`, assuming you're using `MatSidenav`, or
 
+   假设你正在使用 `MatSidenav` ，请将应用程序的主要内容放入 `mat-sidenav-container` ，或者
+
 2. Apply the `mat-app-background` CSS class to your main content root element (typically `body`).
+
+   将 `mat-app-background` CSS 类应用到你主要内容的根元素（通常是 `body` ）。
 
 ### Scoping style customizations
 

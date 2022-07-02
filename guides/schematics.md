@@ -28,7 +28,7 @@ ng add @angular/material
 
 In case you just want to install the `@angular/cdk`, there are also schematics for the [Component Dev Kit](https://material.angular.io/cdk)
 
-如果你只想安装 `@angular/cdk`，也可以使用[组件开发工具](guide/cdk)的专用代码原理图
+如果你只想安装 `@angular/cdk`，也可以使用[组件开发工具](cdk)的专用代码原理图
 
 ```
 ng add @angular/cdk
