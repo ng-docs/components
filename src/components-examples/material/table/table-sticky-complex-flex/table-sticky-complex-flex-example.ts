@@ -26,12 +26,7 @@ export class TableStickyComplexFlexExample {
     this.displayedColumns[23] = 'symbol';
   }
 
-  /**
-   * Whether the button toggle group contains the id as an active value.
-   *
-   * 按钮切换组是否包含 id 作为活动值。
-   *
-   */
+  /** Whether the button toggle group contains the id as an active value. */
   isSticky(buttonToggleGroup: MatButtonToggleGroup, id: string) {
     return (buttonToggleGroup.value || []).indexOf(id) !== -1;
   }

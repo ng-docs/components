@@ -12,12 +12,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 
 const LOAD_MORE = 'LOAD_MORE';
 
-/**
- * Nested node
- *
- * 嵌套节点
- *
- */
+/** Nested node */
 export class LoadmoreNode {
   childrenChange = new BehaviorSubject<LoadmoreNode[]>([]);
 
@@ -32,12 +27,7 @@ export class LoadmoreNode {
   ) {}
 }
 
-/**
- * Flat node with expandable and level information
- *
- * 具有可展开信息和级别信息的扁平节点
- *
- */
+/** Flat node with expandable and level information */
 export class LoadmoreFlatNode {
   constructor(
     public item: string,
@@ -50,9 +40,6 @@ export class LoadmoreFlatNode {
 /**
  * A database that only load part of the data initially. After user clicks on the `Load more`
  * button, more data will be loaded.
- *
- * 最初仅加载部分数据的数据库。用户单击“ `Load more` ”按钮后，将加载更多数据。
- *
  */
 @Injectable()
 export class LoadmoreDatabase {
@@ -60,12 +47,7 @@ export class LoadmoreDatabase {
   dataChange = new BehaviorSubject<LoadmoreNode[]>([]);
   nodeMap = new Map<string, LoadmoreNode>();
 
-  /**
-   * The data
-   *
-   * 数据
-   *
-   */
+  /** The data */
   rootLevelNodes: string[] = ['Vegetables', 'Fruits'];
   dataMap = new Map<string, string[]>([
     ['Fruits', ['Apple', 'Orange', 'Banana']],
@@ -79,12 +61,7 @@ export class LoadmoreDatabase {
     this.dataChange.next(data);
   }
 
-  /**
-   * Expand a node whose children are not loaded
-   *
-   * 展开其子节点未加载的节点
-   *
-   */
+  /** Expand a node whose children are not loaded */
   loadMore(item: string, onlyFirstTime = false) {
     if (!this.nodeMap.has(item) || !this.dataMap.has(item)) {
       return;
@@ -177,12 +154,7 @@ export class TreeLoadmoreExample {
 
   isLoadMore = (_: number, _nodeData: LoadmoreFlatNode) => _nodeData.item === LOAD_MORE;
 
-  /**
-   * Load more nodes from data source
-   *
-   * 从数据源加载更多节点
-   *
-   */
+  /** Load more nodes from data source */
   loadMore(item: string) {
     this._database.loadMore(item);
   }

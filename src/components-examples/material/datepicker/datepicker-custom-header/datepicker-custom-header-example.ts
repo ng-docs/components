@@ -20,12 +20,7 @@ export class DatepickerCustomHeaderExample {
   exampleHeader = ExampleHeader;
 }
 
-/**
- * Custom header component for datepicker.
- *
- * 日期选择器的自定义标头组件。
- *
- */
+/** Custom header component for datepicker. */
 @Component({
   selector: 'example-header',
   styles: [

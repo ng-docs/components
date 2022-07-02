@@ -43,12 +43,7 @@ export class TableSortingExample implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  /**
-   * Announce the change in sort state for assistive technology.
-   *
-   * 为辅助技术播报排序状态的变化。
-   *
-   */
+  /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
     // This example uses English messages. If your application supports
     // multiple language, you would internationalize these strings.

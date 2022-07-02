@@ -76,12 +76,7 @@ export interface GithubIssue {
   title: string;
 }
 
-/**
- * An example database that the data source uses to retrieve data for the table.
- *
- * 供数据源用于检索表数据的示例数据库。
- *
- */
+/** An example database that the data source uses to retrieve data for the table. */
 export class ExampleHttpDatabase {
   constructor(private _httpClient: HttpClient) {}
 

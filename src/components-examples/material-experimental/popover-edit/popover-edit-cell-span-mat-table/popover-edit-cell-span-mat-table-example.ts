@@ -53,25 +53,12 @@ export class PopoverEditCellSpanMatTableExample {
  * to a common data base, ExampleDatabase. It is not the data source's responsibility to manage
  * the underlying data. Instead, it only needs to take the data and send the table exactly what
  * should be rendered.
- *
- * 本数据源提供要在表中渲染的数据。请注意，数据源可以以任何方式检索其数据。在这种情况下，数据源提供了对公共数据库 ExampleDatabase 的引用。管理底层数据不是数据源的责任。相反，它只需要获取数据并准确发送表格应该渲染的内容。
- *
  */
 export class ExampleDataSource extends DataSource<Person> {
-  /**
-   * Stream of data that is provided to the table.
-   *
-   * 要提供给表格的数据流。
-   *
-   */
+  /** Stream of data that is provided to the table. */
   data = new BehaviorSubject<Person[]>(PERSON_DATA);
 
-  /**
-   * Connect function called by the table to retrieve one stream containing the data to render.
-   *
-   * 供表格调用的连接函数，用来检索一个包含要渲染的数据的流。
-   *
-   */
+  /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<Person[]> {
     return this.data;
   }
