@@ -14,12 +14,20 @@ import {
   DateTimeOptions as LuxonDateTimeOptions,
 } from 'luxon';
 
-/** Configurable options for {@see LuxonDateAdapter}. */
+/**
+ * Configurable options for {@see LuxonDateAdapter}.
+ *
+ * {@see LuxonDateAdapter} 的可配置选项。
+ *
+ */
 export interface MatLuxonDateAdapterOptions {
   /**
    * Turns the use of utc dates on or off.
    * Changing this will change how Angular Material components like DatePicker output dates.
    * {@default false}
+   *
+   * 打开或关闭 UTC 日期的使用。更改此设置将更改 Angular Material 组件（如 DatePicker）输出日期的方式。 {@default false}
+   *
    */
   useUtc: boolean;
 
@@ -27,11 +35,19 @@ export interface MatLuxonDateAdapterOptions {
    * Sets the first day of week.
    * Changing this will change how Angular Material components like DatePicker shows start of week.
    * {@default 0}
+   *
+   * 设置一周的第一天。更改此设置将更改 DatePicker 等 Angular Material 组件显示一周开始的方式。 {@default 0}
+   *
    */
   firstDayOfWeek: number;
 }
 
-/** InjectionToken for LuxonDateAdapter to configure options. */
+/**
+ * InjectionToken for LuxonDateAdapter to configure options.
+ *
+ * LuxonDateAdapter 的 InjectionToken 配置选项。
+ *
+ */
 export const MAT_LUXON_DATE_ADAPTER_OPTIONS = new InjectionToken<MatLuxonDateAdapterOptions>(
   'MAT_LUXON_DATE_ADAPTER_OPTIONS',
   {
@@ -48,7 +64,12 @@ export function MAT_LUXON_DATE_ADAPTER_OPTIONS_FACTORY(): MatLuxonDateAdapterOpt
   };
 }
 
-/** Creates an array and fills it with values. */
+/**
+ * Creates an array and fills it with values.
+ *
+ * 创建一个数组并用一些值填充它。
+ *
+ */
 function range<T>(length: number, valueFunction: (index: number) => T): T[] {
   const valuesArray = Array(length);
   for (let i = 0; i < length; i++) {
@@ -57,7 +78,12 @@ function range<T>(length: number, valueFunction: (index: number) => T): T[] {
   return valuesArray;
 }
 
-/** Adapts Luxon Dates for use with Angular Material. */
+/**
+ * Adapts Luxon Dates for use with Angular Material.
+ *
+ * 调整 Luxon Dates 以便与 Angular Material 一起使用。
+ *
+ */
 @Injectable()
 export class LuxonDateAdapter extends DateAdapter<LuxonDateTime> {
   private _useUTC: boolean;
@@ -218,8 +244,10 @@ export class LuxonDateAdapter extends DateAdapter<LuxonDateTime> {
 
   /**
    * Returns the given value if given a valid Luxon or null. Deserializes valid ISO 8601 strings
-   * (<https://www.ietf.org/rfc/rfc3339.txt>) and valid Date objects into valid DateTime and empty
+   * (https://www.ietf.org/rfc/rfc3339.txt) and valid Date objects into valid DateTime and empty
    * string into null. Returns an invalid date for all other values.
+   *
+   * 如果给定有效的 Luxon 或 null，则返回给定的值。将有效的 ISO 8601 字符串 ( https://www.ietf.org/rfc/rfc3339.txt ) 和有效的 Date 对象反序列化为有效的 DateTime，将空字符串反序列化为 null。对所有其他值返回无效日期。
    *
    */
   override deserialize(value: any): LuxonDateTime | null {
@@ -252,7 +280,12 @@ export class LuxonDateAdapter extends DateAdapter<LuxonDateTime> {
     return LuxonDateTime.invalid('Invalid Luxon DateTime object.');
   }
 
-  /** Gets the options that should be used when constructing a new `DateTime` object. */
+  /**
+   * Gets the options that should be used when constructing a new `DateTime` object.
+   *
+   * 获取构造新的 `DateTime` 对象时应使用的选项。
+   *
+   */
   private _getOptions(): LuxonDateTimeOptions {
     return {
       zone: this._useUTC ? 'utc' : undefined,

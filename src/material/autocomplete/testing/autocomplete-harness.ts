@@ -171,14 +171,24 @@ export abstract class _MatAutocompleteHarnessBase<
     return !!panel && (await panel.hasClass(`${this._prefix}-autocomplete-visible`));
   }
 
-  /** Gets the panel associated with this autocomplete trigger. */
+  /**
+   * Gets the panel associated with this autocomplete trigger.
+   *
+   * 获取与自动完成触发器关联的面板。
+   *
+   */
   private async _getPanel(): Promise<TestElement | null> {
     // Technically this is static, but it needs to be in a
     // function, because the autocomplete's panel ID can changed.
     return this._documentRootLocator.locatorForOptional(await this._getPanelSelector())();
   }
 
-  /** Gets the selector that can be used to find the autocomplete trigger's panel. */
+  /**
+   * Gets the selector that can be used to find the autocomplete trigger's panel.
+   *
+   * 获取一个可以用来查找自动完成触发器面板的选择器。
+   *
+   */
   private async _getPanelSelector(): Promise<string> {
     return `#${await (await this.host()).getAttribute('aria-owns')}`;
   }

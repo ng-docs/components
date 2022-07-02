@@ -32,6 +32,9 @@ export class MatBottomSheetRef<T = any, R = any> {
 
   /**
    * Instance of the component into which the bottom sheet content is projected.
+   *
+   * 底部操作表内容被投影进的组件实例
+   *
    * @docs-private
    */
   containerInstance: MatBottomSheetContainer;
@@ -44,13 +47,28 @@ export class MatBottomSheetRef<T = any, R = any> {
    */
   disableClose: boolean | undefined;
 
-  /** Subject for notifying the user that the bottom sheet has opened and appeared. */
+  /**
+   * Subject for notifying the user that the bottom sheet has opened and appeared.
+   *
+   * 用于通知用户底部操作表已打开并出现的流。
+   *
+   */
   private readonly _afterOpened = new Subject<void>();
 
-  /** Result to be passed down to the `afterDismissed` stream. */
+  /**
+   * Result to be passed down to the `afterDismissed` stream.
+   *
+   * 要传递给 `afterDismissed` 流的结果。
+   *
+   */
   private _result: R | undefined;
 
-  /** Handle to the timeout that's running as a fallback in case the exit animation doesn't fire. */
+  /**
+   * Handle to the timeout that's running as a fallback in case the exit animation doesn't fire.
+   *
+   * 在退出动画未触发的情况下，要超时多久才改用回退逻辑进行处理。
+   *
+   */
   private _closeFallbackTimeout: number;
 
   constructor(

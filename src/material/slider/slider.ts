@@ -62,21 +62,42 @@ const activeEventOptions = normalizePassiveListenerOptions({passive: false});
 /**
  * Visually, a 30px separation between tick marks looks best. This is very subjective but it is
  * the default separation we chose.
+ *
+ * 从外观上看，刻度线之间的距离是 30px 时，其视觉效果最好。这固然非常主观，但它是我们选择的默认间隔。
+ *
  */
 const MIN_AUTO_TICK_SEPARATION = 30;
 
-/** The thumb gap size for a disabled slider. */
+/**
+ * The thumb gap size for a disabled slider.
+ *
+ * 已禁用滑杆的滑块间隙尺寸。
+ *
+ */
 const DISABLED_THUMB_GAP = 7;
 
-/** The thumb gap size for a non-active slider at its minimum value. */
+/**
+ * The thumb gap size for a non-active slider at its minimum value.
+ *
+ * 非活动滑杆在最小值时的滑块间隙大小。
+ *
+ */
 const MIN_VALUE_NONACTIVE_THUMB_GAP = 7;
 
-/** The thumb gap size for an active slider at its minimum value. */
+/**
+ * The thumb gap size for an active slider at its minimum value.
+ *
+ * 活动滑杆在最小值时的滑块间隙大小。
+ *
+ */
 const MIN_VALUE_ACTIVE_THUMB_GAP = 10;
 
 /**
  * Provider Expression that allows mat-slider to register as a ControlValueAccessor.
  * This allows it to support [(ngModel)] and [formControl].
+ *
+ * 这个提供者表达式允许把 mat-slider 注册为 ControlValueAccessor。这能让它支持 [(ngModel)] 和 [formControl]。
+ *
  * @docs-private
  */
 export const MAT_SLIDER_VALUE_ACCESSOR: any = {
@@ -380,6 +401,9 @@ export class MatSlider
   /**
    * Emits when the raw value of the slider changes. This is here primarily
    * to facilitate the two-way binding for the `value` input.
+   *
+   * 当滑杆的原始值发生变化时会触发。这主要是为了方便 `value` 输入的双向绑定。
+   *
    * @docs-private
    */
   @Output() readonly valueChange: EventEmitter<number | null> = new EventEmitter<number | null>();
@@ -449,18 +473,27 @@ export class MatSlider
   /**
    * Whether or not the thumb is sliding and what the user is using to slide it with.
    * Used to determine if there should be a transition for the thumb and fill track.
+   *
+   * 滑块是否在滑动。用来判断滑块和填充轨道是否应该有过渡动画。
+   *
    */
   _isSliding: 'keyboard' | 'pointer' | null = null;
 
   /**
    * Whether or not the slider is active (clicked or sliding).
    * Used to shrink and grow the thumb as according to the Material Design spec.
+   *
+   * 滑杆是否处于活动状态（单击或滑动）。要根据 Material Design 规范缩小和缩放滑块。
+   *
    */
   _isActive: boolean = false;
 
   /**
    * Whether the axis of the slider is inverted.
    * (i.e. whether moving the thumb in the positive x or y direction decreases the slider's value).
+   *
+   * 滑杆的轴是否反转了。也就是说，无论是在 x 或 y 的正方向上移动滑块，都会减小滑杆的值）。
+   *
    */
   _shouldInvertAxis() {
     // Standard non-inverted mode for a vertical slider should be dragging the thumb from bottom to
@@ -468,7 +501,12 @@ export class MatSlider
     return this.vertical ? !this.invert : this.invert;
   }
 
-  /** Whether the slider is at its minimum value. */
+  /**
+   * Whether the slider is at its minimum value.
+   *
+   * 滑杆是否达到了最小值。
+   *
+   */
   _isMinValue() {
     return this.percent === 0;
   }
@@ -476,6 +514,9 @@ export class MatSlider
   /**
    * The amount of space to leave between the slider thumb and the track fill & track background
    * elements.
+   *
+   * 滑杆的滑块与填充轨道和背景轨道元素之间要留出的间隙量。
+   *
    */
   _getThumbGap() {
     if (this.disabled) {
@@ -487,7 +528,12 @@ export class MatSlider
     return 0;
   }
 
-  /** CSS styles for the track background element. */
+  /**
+   * CSS styles for the track background element.
+   *
+   * 背景轨道元素的 CSS 样式。
+   *
+   */
   _getTrackBackgroundStyles(): {[key: string]: string} {
     const axis = this.vertical ? 'Y' : 'X';
     const scale = this.vertical ? `1, ${1 - this.percent}, 1` : `${1 - this.percent}, 1, 1`;
@@ -499,7 +545,12 @@ export class MatSlider
     };
   }
 
-  /** CSS styles for the track fill element. */
+  /**
+   * CSS styles for the track fill element.
+   *
+   * 填充轨道元素的 CSS 样式。
+   *
+   */
   _getTrackFillStyles(): {[key: string]: string} {
     const percent = this.percent;
     const axis = this.vertical ? 'Y' : 'X';
@@ -517,7 +568,12 @@ export class MatSlider
     };
   }
 
-  /** CSS styles for the ticks container element. */
+  /**
+   * CSS styles for the ticks container element.
+   *
+   * 刻度容器元素的 CSS 样式。
+   *
+   */
   _getTicksContainerStyles(): {[key: string]: string} {
     let axis = this.vertical ? 'Y' : 'X';
     // For a horizontal slider in RTL languages we push the ticks container off the left edge
@@ -529,7 +585,12 @@ export class MatSlider
     };
   }
 
-  /** CSS styles for the ticks element. */
+  /**
+   * CSS styles for the ticks element.
+   *
+   * 刻度元素的 CSS 样式。
+   *
+   */
   _getTicksStyles(): {[key: string]: string} {
     let tickSize = this._tickIntervalPercent * 100;
     let backgroundSize = this.vertical ? `2px ${tickSize}%` : `${tickSize}% 2px`;
@@ -574,55 +635,111 @@ export class MatSlider
     };
   }
 
-  /** The size of a tick interval as a percentage of the size of the track. */
+  /**
+   * The size of a tick interval as a percentage of the size of the track.
+   *
+   * 刻度间隔的大小占轨道大小的百分比。
+   *
+   */
   private _tickIntervalPercent: number = 0;
 
-  /** The dimensions of the slider. */
+  /**
+   * The dimensions of the slider.
+   *
+   * 滑杆的规格。
+   *
+   */
   private _sliderDimensions: ClientRect | null = null;
 
   private _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
-  /** Decimal places to round to, based on the step amount. */
+  /**
+   * Decimal places to round to, based on the step amount.
+   *
+   * 根据步数，舍入到的小数位数。
+   *
+   */
   private _roundToDecimal: number;
 
-  /** Subscription to the Directionality change EventEmitter. */
+  /**
+   * Subscription to the Directionality change EventEmitter.
+   *
+   * 对方向性（Directionality）变化事件的订阅。
+   *
+   */
   private _dirChangeSubscription = Subscription.EMPTY;
 
-  /** The value of the slider when the slide start event fires. */
+  /**
+   * The value of the slider when the slide start event fires.
+   *
+   * 当滑杆的开始滑动事件触发时，该滑杆的值是什么。
+   *
+   */
   private _valueOnSlideStart: number | null;
 
-  /** Reference to the inner slider wrapper element. */
+  /**
+   * Reference to the inner slider wrapper element.
+   *
+   * 到内部滑杆的包装元素的引用。
+   *
+   */
   @ViewChild('sliderWrapper') private _sliderWrapper: ElementRef;
 
   /**
    * Whether mouse events should be converted to a slider position by calculating their distance
    * from the right or bottom edge of the slider as opposed to the top or left.
+   *
+   * 鼠标事件是否应该转换为滑杆中的位置，方法是计算到滑杆右边缘或下边缘以及到顶边或左边的距离。
+   *
    */
   _shouldInvertMouseCoords() {
     const shouldInvertAxis = this._shouldInvertAxis();
     return this._getDirection() == 'rtl' && !this.vertical ? !shouldInvertAxis : shouldInvertAxis;
   }
 
-  /** The language direction for this slider element. */
+  /**
+   * The language direction for this slider element.
+   *
+   * 这个滑杆元素的语言方向。
+   *
+   */
   private _getDirection() {
     return this._dir && this._dir.value == 'rtl' ? 'rtl' : 'ltr';
   }
 
-  /** Keeps track of the last pointer event that was captured by the slider. */
+  /**
+   * Keeps track of the last pointer event that was captured by the slider.
+   *
+   * 跟踪滑杆捕获的最后一个指针事件。
+   *
+   */
   private _lastPointerEvent: MouseEvent | TouchEvent | null;
 
-  /** Used to subscribe to global move and end events */
+  /**
+   * Used to subscribe to global move and end events
+   *
+   * 订阅全局移动和结束事件
+   *
+   */
   protected _document: Document;
 
   /**
    * Identifier used to attribute a touch event to a particular slider.
    * Will be undefined if one of the following conditions is true:
    *
+   * 用于将触摸事件归因于特定滑块的标识符。如果以下条件之一为真，则它将是未定义的：
+   *
    * - The user isn't dragging using a touch device.
+   *
+   *   用户没有使用触摸设备进行拖动。
    *
    * - The browser doesn't support `Touch.identifier`.
    *
+   *   浏览器不支持 `Touch.identifier` 。
+   *
    * - Dragging hasn't started yet.
+   *
+   *   拖动尚未开始。
    *
    */
   private _touchId: number | undefined;
@@ -757,7 +874,12 @@ export class MatSlider
     }
   }
 
-  /** Called when the user has put their pointer down on the slider. */
+  /**
+   * Called when the user has put their pointer down on the slider.
+   *
+   * 当用户把指针放在滑杆上时调用。
+   *
+   */
   private _pointerDown = (event: TouchEvent | MouseEvent) => {
     // Don't do anything if the slider is disabled or the
     // user is using anything other than the main mouse button.
@@ -800,6 +922,9 @@ export class MatSlider
   /**
    * Called when the user has moved their pointer after
    * starting to drag. Bound on the document level.
+   *
+   * 当用户在开始拖动后移动指针时调用。绑定在 document 级别。
+   *
    */
   private _pointerMove = (event: TouchEvent | MouseEvent) => {
     if (this._isSliding === 'pointer') {
@@ -820,7 +945,12 @@ export class MatSlider
     }
   };
 
-  /** Called when the user has lifted their pointer. Bound on the document level. */
+  /**
+   * Called when the user has lifted their pointer. Bound on the document level.
+   *
+   * 当用户抬起指针时调用。绑定在 document 级别。
+   *
+   */
   private _pointerUp = (event: TouchEvent | MouseEvent) => {
     if (this._isSliding === 'pointer') {
       if (
@@ -844,7 +974,12 @@ export class MatSlider
     }
   };
 
-  /** Called when the window has lost focus. */
+  /**
+   * Called when the window has lost focus.
+   *
+   * 当窗口失焦时调用。
+   *
+   */
   private _windowBlur = () => {
     // If the window is blurred while dragging we need to stop dragging because the
     // browser won't dispatch the `mouseup` and `touchend` events anymore.
@@ -853,7 +988,12 @@ export class MatSlider
     }
   };
 
-  /** Use defaultView of injected document if available or fallback to global window reference */
+  /**
+   * Use defaultView of injected document if available or fallback to global window reference
+   *
+   * 如果可用，则使用注入 document 的 defaultView，否则回退到全局 window 的引用
+   *
+   */
   private _getWindow(): Window {
     return this._document.defaultView || window;
   }
@@ -862,6 +1002,9 @@ export class MatSlider
    * Binds our global move and end events. They're bound at the document level and only while
    * dragging so that the user doesn't have to keep their pointer exactly over the slider
    * as they're swiping across the screen.
+   *
+   * 绑定我们的全局移动和终止事件。它们只绑定在 document 层次上，并且只是在拖动的时候才绑定，这样当用户在滑动屏幕时就不必把指针放在滑杆上。
+   *
    */
   private _bindGlobalEvents(triggerEvent: TouchEvent | MouseEvent) {
     // Note that we bind the events to the `document`, because it allows us to capture
@@ -884,7 +1027,12 @@ export class MatSlider
     }
   }
 
-  /** Removes any global event listeners that we may have added. */
+  /**
+   * Removes any global event listeners that we may have added.
+   *
+   * 删除那些我们可能添加的全局事件监听器。
+   *
+   */
   private _removeGlobalEvents() {
     const document = this._document;
     document.removeEventListener('mousemove', this._pointerMove, activeEventOptions);
@@ -900,7 +1048,12 @@ export class MatSlider
     }
   }
 
-  /** Increments the slider by the given number of steps (negative number decrements). */
+  /**
+   * Increments the slider by the given number of steps (negative number decrements).
+   *
+   * 按指定的步数递增滑杆（负数递减）。
+   *
+   */
   private _increment(numSteps: number) {
     // Pre-clamp the current value since it's allowed to be
     // out of bounds when assigned programmatically.
@@ -908,7 +1061,12 @@ export class MatSlider
     this.value = this._clamp(clampedValue + this.step * numSteps, this.min, this.max);
   }
 
-  /** Calculate the new value from the new physical location. The value will always be snapped. */
+  /**
+   * Calculate the new value from the new physical location. The value will always be snapped.
+   *
+   * 从新的物理位置计算新值。该值始终会被捕捉。
+   *
+   */
   private _updateValueFromPosition(pos: {x: number; y: number}) {
     if (!this._sliderDimensions) {
       return;
@@ -945,19 +1103,34 @@ export class MatSlider
     }
   }
 
-  /** Emits a change event if the current value is different from the last emitted value. */
+  /**
+   * Emits a change event if the current value is different from the last emitted value.
+   *
+   * 如果当前值与上次发出的值不同，就发出 change 事件。
+   *
+   */
   private _emitChangeEvent() {
     this._controlValueAccessorChangeFn(this.value);
     this.valueChange.emit(this.value);
     this.change.emit(this._createChangeEvent());
   }
 
-  /** Emits an input event when the current value is different from the last emitted value. */
+  /**
+   * Emits an input event when the current value is different from the last emitted value.
+   *
+   * 如果当前值与上次发出的值不同，就发出 input 事件。
+   *
+   */
   private _emitInputEvent() {
     this.input.emit(this._createChangeEvent());
   }
 
-  /** Updates the amount of space between ticks as a percentage of the width of the slider. */
+  /**
+   * Updates the amount of space between ticks as a percentage of the width of the slider.
+   *
+   * 以滑杆宽度的百分比形式更新刻度之间的间距。
+   *
+   */
   private _updateTickIntervalPercent() {
     if (!this.tickInterval || !this._sliderDimensions) {
       return;
@@ -976,7 +1149,12 @@ export class MatSlider
     this._tickIntervalPercent = isSafeNumber(tickIntervalPercent) ? tickIntervalPercent : 0;
   }
 
-  /** Creates a slider change object from the specified value. */
+  /**
+   * Creates a slider change object from the specified value.
+   *
+   * 根据指定的值创建一个滑杆变更对象。
+   *
+   */
   private _createChangeEvent(value = this.value): MatSliderChange {
     let event = new MatSliderChange();
 
@@ -986,18 +1164,33 @@ export class MatSlider
     return event;
   }
 
-  /** Calculates the percentage of the slider that a value is. */
+  /**
+   * Calculates the percentage of the slider that a value is.
+   *
+   * 计算某个值在滑杆上的百分比。
+   *
+   */
   private _calculatePercentage(value: number | null) {
     const percentage = ((value || 0) - this.min) / (this.max - this.min);
     return isSafeNumber(percentage) ? percentage : 0;
   }
 
-  /** Calculates the value a percentage of the slider corresponds to. */
+  /**
+   * Calculates the value a percentage of the slider corresponds to.
+   *
+   * 计算某个百分比在滑杆上的值。
+   *
+   */
   private _calculateValue(percentage: number) {
     return this.min + percentage * (this.max - this.min);
   }
 
-  /** Return a number between two numbers. */
+  /**
+   * Return a number between two numbers.
+   *
+   * 在两个数字之间夹取一个数字。
+   *
+   */
   private _clamp(value: number, min = 0, max = 1) {
     return Math.max(min, Math.min(value, max));
   }
@@ -1006,6 +1199,9 @@ export class MatSlider
    * Get the bounding client rect of the slider track element.
    * The track is used rather than the native element to ignore the extra space that the thumb can
    * take up.
+   *
+   * 获取滑杆轨道元素的 BoundingClientRect。使用该轨道而不是其原生元素来忽略滑块占用的额外空间。
+   *
    */
   private _getSliderDimensions() {
     return this._sliderWrapper ? this._sliderWrapper.nativeElement.getBoundingClientRect() : null;
@@ -1014,18 +1210,29 @@ export class MatSlider
   /**
    * Focuses the native element.
    * Currently only used to allow a blur event to fire but will be used with keyboard input later.
+   *
+   * 为原生元素设置焦点。目前只用来允许触发失焦事件，但以后也会用于键盘输入。
+   *
    */
   private _focusHostElement(options?: FocusOptions) {
     this._elementRef.nativeElement.focus(options);
   }
 
-  /** Blurs the native element. */
+  /**
+   * Blurs the native element.
+   *
+   * 取消原生元素的焦点。
+   *
+   */
   private _blurHostElement() {
     this._elementRef.nativeElement.blur();
   }
 
   /**
    * Sets the model value. Implemented as part of ControlValueAccessor.
+   *
+   * 设置模型值。实现为 ControlValueAccessor 的一部分。
+   *
    * @param value
    */
   writeValue(value: any) {
@@ -1035,7 +1242,13 @@ export class MatSlider
   /**
    * Registers a callback to be triggered when the value has changed.
    * Implemented as part of ControlValueAccessor.
+   *
+   * 当值发生变化时，就会注册一个回调函数。实现为 ControlValueAccessor 的一部分。
+   *
    * @param fn Callback to be registered.
+   *
+   * 要注册的回调。
+   *
    */
   registerOnChange(fn: (value: any) => void) {
     this._controlValueAccessorChangeFn = fn;
@@ -1044,7 +1257,13 @@ export class MatSlider
   /**
    * Registers a callback to be triggered when the component is touched.
    * Implemented as part of ControlValueAccessor.
+   *
+   * 注册一个回调函数，它会在该组件被接触时触发。实现为 ControlValueAccessor 的一部分。
+   *
    * @param fn Callback to be registered.
+   *
+   * 要注册的回调。
+   *
    */
   registerOnTouched(fn: any) {
     this.onTouched = fn;
@@ -1053,6 +1272,9 @@ export class MatSlider
   /**
    * Sets whether the component should be disabled.
    * Implemented as part of ControlValueAccessor.
+   *
+   * 设置是否禁用该组件。实现为 ControlValueAccessor 的一部分。
+   *
    * @param isDisabled
    */
   setDisabledState(isDisabled: boolean) {
@@ -1065,7 +1287,12 @@ function isSafeNumber(value: number) {
   return !isNaN(value) && isFinite(value);
 }
 
-/** Returns whether an event is a touch event. */
+/**
+ * Returns whether an event is a touch event.
+ *
+ * 返回事件是否触摸事件。
+ *
+ */
 function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
   // This function is called for every pixel that the user has dragged so we need it to be
   // as fast as possible. Since we only bind mouse events and touch events, we can assume
@@ -1073,7 +1300,12 @@ function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
   return event.type[0] === 't';
 }
 
-/** Gets the coordinates of a touch or mouse event relative to the viewport. */
+/**
+ * Gets the coordinates of a touch or mouse event relative to the viewport.
+ *
+ * 获取相对于视口的触摸事件或鼠标事件的坐标。
+ *
+ */
 function getPointerPositionOnPage(event: MouseEvent | TouchEvent, id: number | undefined) {
   let point: {clientX: number; clientY: number} | undefined;
 
@@ -1094,7 +1326,12 @@ function getPointerPositionOnPage(event: MouseEvent | TouchEvent, id: number | u
   return point ? {x: point.clientX, y: point.clientY} : undefined;
 }
 
-/** Finds a `Touch` with a specific ID in a `TouchList`. */
+/**
+ * Finds a `Touch` with a specific ID in a `TouchList`.
+ *
+ * 在 `TouchList` 中查找具有特定 ID 的 `Touch` 。
+ *
+ */
 function findMatchingTouch(touches: TouchList, id: number): Touch | undefined {
   for (let i = 0; i < touches.length; i++) {
     if (touches[i].identifier === id) {
@@ -1105,7 +1342,12 @@ function findMatchingTouch(touches: TouchList, id: number): Touch | undefined {
   return undefined;
 }
 
-/** Gets the unique ID of a touch that matches a specific slider. */
+/**
+ * Gets the unique ID of a touch that matches a specific slider.
+ *
+ * 获取与特定滑块匹配的触摸的唯一 ID。
+ *
+ */
 function getTouchIdForSlider(event: TouchEvent, sliderHost: HTMLElement): number | undefined {
   for (let i = 0; i < event.touches.length; i++) {
     const target = event.touches[i].target as HTMLElement;

@@ -26,10 +26,20 @@ import {OverlayContainer} from '../overlay-container';
 // TODO: refactor clipping detection into a separate thing (part of scrolling module)
 // TODO: doesn't handle both flexible width and height when it has to scroll along both axis.
 
-/** Class to be added to the overlay bounding box. */
+/**
+ * Class to be added to the overlay bounding box.
+ *
+ * 要添加到浮层限界框上的类。
+ *
+ */
 const boundingBoxClass = 'cdk-overlay-connected-position-bounding-box';
 
-/** Regex used to split a string on its CSS units. */
+/**
+ * Regex used to split a string on its CSS units.
+ *
+ * 用来从字符串中拆分出 CSS 单位的正则表达式。
+ *
+ */
 const cssUnitPattern = /([A-Za-z%]+)$/;
 
 /**
@@ -46,7 +56,12 @@ export type FlexibleConnectedPositionStrategyOrigin =
       height?: number;
     });
 
-/** Equivalent of `ClientRect` without some of the properties we don't care about. */
+/**
+ * Equivalent of `ClientRect` without some of the properties we don't care about.
+ *
+ * 相当于 `ClientRect`，但没有我们不关心的一些属性。
+ *
+ */
 type Dimensions = Omit<ClientRect, 'x' | 'y' | 'toJSON'>;
 
 /**
@@ -60,22 +75,52 @@ type Dimensions = Omit<ClientRect, 'x' | 'y' | 'toJSON'>;
  *
  */
 export class FlexibleConnectedPositionStrategy implements PositionStrategy {
-  /** The overlay to which this strategy is attached. */
+  /**
+   * The overlay to which this strategy is attached.
+   *
+   * 此策略附加到的浮层。
+   *
+   */
   private _overlayRef: OverlayReference;
 
-  /** Whether we're performing the very first positioning of the overlay. */
+  /**
+   * Whether we're performing the very first positioning of the overlay.
+   *
+   * 是否正在执行浮层的第一个定位。
+   *
+   */
   private _isInitialRender: boolean;
 
-  /** Last size used for the bounding box. Used to avoid resizing the overlay after open. */
+  /**
+   * Last size used for the bounding box. Used to avoid resizing the overlay after open.
+   *
+   * 用于限界框的最后一个尺寸。用于避免打开后再调整浮层的大小。
+   *
+   */
   private _lastBoundingBoxSize = {width: 0, height: 0};
 
-  /** Whether the overlay was pushed in a previous positioning. */
+  /**
+   * Whether the overlay was pushed in a previous positioning.
+   *
+   * 浮层是否被推到了以前的位置。
+   *
+   */
   private _isPushed = false;
 
-  /** Whether the overlay can be pushed on-screen on the initial open. */
+  /**
+   * Whether the overlay can be pushed on-screen on the initial open.
+   *
+   * 初次打开时是否可以把浮层推到屏幕上。
+   *
+   */
   private _canPush = true;
 
-  /** Whether the overlay can grow via flexible width/height after the initial open. */
+  /**
+   * Whether the overlay can grow via flexible width/height after the initial open.
+   *
+   * 初次打开后，浮层是否可以通过灵活的宽度/高度进行增长。
+   *
+   */
   private _growAfterOpen = false;
 
   /**
@@ -86,25 +131,55 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    */
   private _hasFlexibleDimensions = true;
 
-  /** Whether the overlay position is locked. */
+  /**
+   * Whether the overlay position is locked.
+   *
+   * 浮层位置是否已锁定。
+   *
+   */
   private _positionLocked = false;
 
-  /** Cached origin dimensions */
+  /**
+   * Cached origin dimensions
+   *
+   * 缓存的原点规格
+   *
+   */
   private _originRect: Dimensions;
 
-  /** Cached overlay dimensions */
+  /**
+   * Cached overlay dimensions
+   *
+   * 缓存的浮层规格
+   *
+   */
   private _overlayRect: Dimensions;
 
-  /** Cached viewport dimensions */
+  /**
+   * Cached viewport dimensions
+   *
+   * 缓存的视口规格
+   *
+   */
   private _viewportRect: Dimensions;
 
   /** Cached container dimensions */
   private _containerRect: Dimensions;
 
-  /** Amount of space that must be maintained between the overlay and the edge of the viewport. */
+  /**
+   * Amount of space that must be maintained between the overlay and the edge of the viewport.
+   *
+   * 浮层和视口边缘之间必须保留的空隙。
+   *
+   */
   private _viewportMargin = 0;
 
-  /** The Scrollable containers used to check scrollable view properties on position change. */
+  /**
+   * The Scrollable containers used to check scrollable view properties on position change.
+   *
+   * 可滚动容器，用于检查位置更改时可滚动视图的属性。
+   *
+   */
   private _scrollables: CdkScrollable[] = [];
 
   /**
@@ -115,43 +190,101 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    */
   _preferredPositions: ConnectionPositionPair[] = [];
 
-  /** The origin element against which the overlay will be positioned. */
+  /**
+   * The origin element against which the overlay will be positioned.
+   *
+   * 浮层将定位到的原点元素。
+   *
+   */
   private _origin: FlexibleConnectedPositionStrategyOrigin;
 
-  /** The overlay pane element. */
+  /**
+   * The overlay pane element.
+   *
+   * 浮层窗格元素。
+   *
+   */
   private _pane: HTMLElement;
 
-  /** Whether the strategy has been disposed of already. */
+  /**
+   * Whether the strategy has been disposed of already.
+   *
+   * 该策略是否已被释放。
+   *
+   */
   private _isDisposed: boolean;
 
   /**
    * Parent element for the overlay panel used to constrain the overlay panel's size to fit
    * within the viewport.
+   *
+   * 浮层面板的父元素，用于约束浮层面板的大小以适合视口。
+   *
    */
   private _boundingBox: HTMLElement | null;
 
-  /** The last position to have been calculated as the best fit position. */
+  /**
+   * The last position to have been calculated as the best fit position.
+   *
+   * 计算为最佳拟合位置中的最后一个。
+   *
+   */
   private _lastPosition: ConnectedPosition | null;
 
-  /** Subject that emits whenever the position changes. */
+  /**
+   * Subject that emits whenever the position changes.
+   *
+   * 位置改变时触发的主体对象。
+   *
+   */
   private readonly _positionChanges = new Subject<ConnectedOverlayPositionChange>();
 
-  /** Subscription to viewport size changes. */
+  /**
+   * Subscription to viewport size changes.
+   *
+   * 订阅视口大小更改。
+   *
+   */
   private _resizeSubscription = Subscription.EMPTY;
 
-  /** Default offset for the overlay along the x axis. */
+  /**
+   * Default offset for the overlay along the x axis.
+   *
+   * 浮层沿 x 轴的默认偏移量。
+   *
+   */
   private _offsetX = 0;
 
-  /** Default offset for the overlay along the y axis. */
+  /**
+   * Default offset for the overlay along the y axis.
+   *
+   * 浮层沿 y 轴的默认偏移量。
+   *
+   */
   private _offsetY = 0;
 
-  /** Selector to be used when finding the elements on which to set the transform origin. */
+  /**
+   * Selector to be used when finding the elements on which to set the transform origin.
+   *
+   * 本选择器用于查找要在其上设置变换原点的元素。
+   *
+   */
   private _transformOriginSelector: string;
 
-  /** Keeps track of the CSS classes that the position strategy has applied on the overlay panel. */
+  /**
+   * Keeps track of the CSS classes that the position strategy has applied on the overlay panel.
+   *
+   * 跟踪由定位策略应用到浮层面板上的 CSS 类。
+   *
+   */
   private _appliedPanelClasses: string[] = [];
 
-  /** Amount by which the overlay was pushed in each axis during the last time it was positioned. */
+  /**
+   * Amount by which the overlay was pushed in each axis during the last time it was positioned.
+   *
+   * 上一次放置浮层时在每个轴上推动此浮层的距离。
+   *
+   */
   private _previousPushAmount: {x: number; y: number} | null;
 
   /**
@@ -221,18 +354,30 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * Updates the position of the overlay element, using whichever preferred position relative
    * to the origin best fits on-screen.
    *
+   * 使用相对于屏幕最适合原点的首选位置来更新浮层元素的位置。
+   *
    * The selection of a position goes as follows:
+   *
+   * 位置的选择逻辑如下：
    *
    * - If any positions fit completely within the viewport as-is,
    *     choose the first position that does so.
    *
+   *   如果任何位置能完全按原样放置在视口中，请选择第一个适合的位置。
+   *
    * - If flexible dimensions are enabled and at least one satifies the given minimum width/height,
    *     choose the position with the greatest available size modified by the positions' weight.
+   *
+   *   如果启用了灵活规格，并且其中至少有一个满足给定的最小宽度/高度，请选择最大的可用规格（根据位置的权重修订）的位置。
    *
    * - If pushing is enabled, take the position that went off-screen the least and push it
    *     on-screen.
    *
+   *   如果启用了推入功能，则让离开屏幕的位置尽可能少，然后将其推入屏幕。
+   *
    * - If none of the previous criteria were met, use the position that goes off-screen the least.
+   *
+   *   如果没有满足先前的条件，就使用屏幕外部分最少的位置。
    *
    * @docs-private
    */
@@ -596,6 +741,9 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 
   /**
    * Gets the (x, y) coordinate of a connection point on the origin based on a relative position.
+   *
+   * 根据相对位置获取原点上连接点的（x，y）坐标。
+   *
    */
   private _getOriginPoint(
     originRect: Dimensions,
@@ -641,6 +789,9 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   /**
    * Gets the (x, y) coordinate of the top-left corner of the overlay given a given position and
    * origin point to which the overlay should be connected.
+   *
+   * 在指定浮层应连接到的指定位置和原点的情况下，获取浮层左上角的（x，y）坐标。
+   *
    */
   private _getOverlayPoint(
     originPoint: Point,
@@ -672,7 +823,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     };
   }
 
-  /** Gets how well an overlay at the given point will fit within the viewport. */
+  /**
+   * Gets how well an overlay at the given point will fit within the viewport.
+   *
+   * 获取指定点的浮层在视口中的适应程度。
+   *
+   */
   private _getOverlayFit(
     point: Point,
     rawOverlayRect: Dimensions,
@@ -716,9 +872,21 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 
   /**
    * Whether the overlay can fit within the viewport when it may resize either its width or height.
+   *
+   * 当浮层可以调整其宽度或高度的大小时，它是否适合放在此视口中。
+   *
    * @param fit How well the overlay fits in the viewport at some position.
-   * @param point The (x, y) coordinates of the overlay at some position.
+   *
+   * 浮层在某些位置上适合视口的程度。
+   *
+   * @param point The (x, y) coordinates of the overlat at some position.
+   *
+   * 浮层在某些位置的（x，y）坐标。
+   *
    * @param viewport The geometry of the viewport.
+   *
+   * 视口的几何形状。
+   *
    */
   private _canFitWithFlexibleDimensions(fit: OverlayFit, point: Point, viewport: Dimensions) {
     if (this._hasFlexibleDimensions) {
@@ -742,11 +910,25 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * the viewport, the top-left corner will be pushed on-screen (with overflow occuring on the
    * right and bottom).
    *
+   * 获取可以推到屏幕上的浮层的位置。如果浮层大于视口，则屏幕左上角将被推送到屏幕上（在右侧和底部发生溢出）。
+   *
    * @param start Starting point from which the overlay is pushed.
+   *
+   * 推送浮层的起点。
+   *
    * @param rawOverlayRect Dimensions of the overlay.
+   *
+   * 浮层的规格
+   *
    * @param scrollPosition Current viewport scroll position.
+   *
+   * 当前视口的滚动位置。
+   *
    * @returns The point at which to position the overlay after pushing. This is effectively a new
    *     originPoint.
+   *
+   * 推送后放置浮层的位置。这实际上是一个新的原点。
+   *
    */
   private _pushOverlayOnScreen(
     start: Point,
@@ -804,8 +986,17 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 
   /**
    * Applies a computed position to the overlay and emits a position change.
+   *
+   * 将计算出的位置应用于浮层并发出位置变更通知。
+   *
    * @param position The position preference
+   *
+   * 首选位置
+   *
    * @param originPoint The point on the origin element where the overlay is connected.
+   *
+   * 原点元素上浮层的连接点。
+   *
    */
   private _applyPosition(position: ConnectedPosition, originPoint: Point) {
     this._setTransformOrigin(position);
@@ -831,7 +1022,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     this._isInitialRender = false;
   }
 
-  /** Sets the transform origin based on the configured selector and the passed-in position.  */
+  /**
+   * Sets the transform origin based on the configured selector and the passed-in position.
+   *
+   * 根据配置的选择器和传入的位置，设置形变原点。
+   *
+   */
   private _setTransformOrigin(position: ConnectedPosition) {
     if (!this._transformOriginSelector) {
       return;
@@ -859,8 +1055,13 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   /**
    * Gets the position and size of the overlay's sizing container.
    *
+   * 获取浮层大小调整容器的位置和大小。
+   *
    * This method does no measuring and applies no styles so that we can cheaply compute the
    * bounds for all positions and choose the best fit based on these results.
+   *
+   * 此方法不进行任何度量，也不应用任何样式，因此我们可以廉价地计算所有位置的边界，并根据这些结果选择最佳拟合。
+   *
    */
   private _calculateBoundingBoxRect(origin: Point, position: ConnectedPosition): BoundingBoxRect {
     const viewport = this._viewportRect;
@@ -939,8 +1140,16 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * Sets the position and size of the overlay's sizing wrapper. The wrapper is positioned on the
    * origin's connection point and stetches to the bounds of the viewport.
    *
+   * 设置浮层大小调整器的位置和大小。包装器位于原点的连接点上，并拉伸到视口的边界。
+   *
    * @param origin The point on the origin element where the overlay is connected.
+   *
+   * 原点元素上浮层的连接点。
+   *
    * @param position The position preference
+   *
+   * 首选位置
+   *
    */
   private _setBoundingBoxStyles(origin: Point, position: ConnectedPosition): void {
     const boundingBoxRect = this._calculateBoundingBoxRect(origin, position);
@@ -996,7 +1205,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     extendStyles(this._boundingBox!.style, styles);
   }
 
-  /** Resets the styles for the bounding box so that a new positioning can be computed. */
+  /**
+   * Resets the styles for the bounding box so that a new positioning can be computed.
+   *
+   * 重置边界框的样式，以便可以计算新的位置。
+   *
+   */
   private _resetBoundingBoxStyles() {
     extendStyles(this._boundingBox!.style, {
       top: '0',
@@ -1010,7 +1224,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     } as CSSStyleDeclaration);
   }
 
-  /** Resets the styles for the overlay pane so that a new positioning can be computed. */
+  /**
+   * Resets the styles for the overlay pane so that a new positioning can be computed.
+   *
+   * 重置浮层窗格的样式，以便可以计算新的位置。
+   *
+   */
   private _resetOverlayElementStyles() {
     extendStyles(this._pane.style, {
       top: '',
@@ -1022,7 +1241,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     } as CSSStyleDeclaration);
   }
 
-  /** Sets positioning styles to the overlay element. */
+  /**
+   * Sets positioning styles to the overlay element.
+   *
+   * 为浮层元素设置定位样式。
+   *
+   */
   private _setOverlayElementStyles(originPoint: Point, position: ConnectedPosition): void {
     const styles = {} as CSSStyleDeclaration;
     const hasExactPosition = this._hasExactPosition();
@@ -1080,7 +1304,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     extendStyles(this._pane.style, styles);
   }
 
-  /** Gets the exact top/bottom for the overlay when not using flexible sizing or when pushing. */
+  /**
+   * Gets the exact top/bottom for the overlay when not using flexible sizing or when pushing.
+   *
+   * 不使用灵活的大小调整或推入时，获取浮层的确切顶部/底部。
+   *
+   */
   private _getExactOverlayY(
     position: ConnectedPosition,
     originPoint: Point,
@@ -1109,7 +1338,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     return styles;
   }
 
-  /** Gets the exact left/right for the overlay when not using flexible sizing or when pushing. */
+  /**
+   * Gets the exact left/right for the overlay when not using flexible sizing or when pushing.
+   *
+   * 在不使用灵活大小调整或推入时，获取浮层的确切左/右。
+   *
+   */
   private _getExactOverlayX(
     position: ConnectedPosition,
     originPoint: Point,
@@ -1151,6 +1385,9 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   /**
    * Gets the view properties of the trigger and overlay, including whether they are clipped
    * or completely outside the view of any of the strategy's scrollables.
+   *
+   * 获取触发器和浮层的视图属性，包括它们是否被裁剪或完全在此策略的任何可滚动视图的外部。
+   *
    */
   private _getScrollVisibility(): ScrollingVisibility {
     // Note: needs fresh rects since the position could've changed.
@@ -1172,7 +1409,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     };
   }
 
-  /** Subtracts the amount that an element is overflowing on an axis from its length. */
+  /**
+   * Subtracts the amount that an element is overflowing on an axis from its length.
+   *
+   * 从元素的长度中减去元素在轴上的溢出量。
+   *
+   */
   private _subtractOverflows(length: number, ...overflows: number[]): number {
     return overflows.reduce((currentValue: number, currentOverflow: number) => {
       return currentValue - Math.max(currentOverflow, 0);
@@ -1181,6 +1423,8 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 
   /**
    * Narrows the given viewport rect by the current \_viewportMargin.
+   *
+   * 通过当前的 _viewportMargin 缩小指定的视口方框。
    *
    */
   private _getNarrowedViewportRect(): Dimensions {
@@ -1203,17 +1447,32 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     };
   }
 
-  /** Whether the we're dealing with an RTL context */
+  /**
+   * Whether the we're dealing with an RTL context
+   *
+   * 我们是否正在 RTL 上下文中
+   *
+   */
   private _isRtl() {
     return this._overlayRef.getDirection() === 'rtl';
   }
 
-  /** Determines whether the overlay uses exact or flexible positioning. */
+  /**
+   * Determines whether the overlay uses exact or flexible positioning.
+   *
+   * 确定浮层使用的是精确定位还是灵活定位。
+   *
+   */
   private _hasExactPosition() {
     return !this._hasFlexibleDimensions || this._isPushed;
   }
 
-  /** Retrieves the offset of a position along the x or y axis. */
+  /**
+   * Retrieves the offset of a position along the x or y axis.
+   *
+   * 获取沿 x 或 y 轴的位置偏移。
+   *
+   */
   private _getOffset(position: ConnectedPosition, axis: 'x' | 'y') {
     if (axis === 'x') {
       // We don't do something like `position['offset' + axis]` in
@@ -1224,7 +1483,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     return position.offsetY == null ? this._offsetY : position.offsetY;
   }
 
-  /** Validates that the current position match the expected values. */
+  /**
+   * Validates that the current position match the expected values.
+   *
+   * 验证当前位置是否与期望值匹配。
+   *
+   */
   private _validatePositions(): void {
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       if (!this._preferredPositions.length) {
@@ -1242,7 +1506,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     }
   }
 
-  /** Adds a single CSS class or an array of classes on the overlay panel. */
+  /**
+   * Adds a single CSS class or an array of classes on the overlay panel.
+   *
+   * 在浮层面板上添加一个或一组 CSS 类。
+   *
+   */
   private _addPanelClasses(cssClasses: string | string[]) {
     if (this._pane) {
       coerceArray(cssClasses).forEach(cssClass => {
@@ -1254,7 +1523,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     }
   }
 
-  /** Clears the classes that the position strategy has applied from the overlay panel. */
+  /**
+   * Clears the classes that the position strategy has applied from the overlay panel.
+   *
+   * 从浮层面板中清除已应用定位策略的类。
+   *
+   */
   private _clearPanelClasses() {
     if (this._pane) {
       this._appliedPanelClasses.forEach(cssClass => {
@@ -1264,7 +1538,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     }
   }
 
-  /** Returns the ClientRect of the current origin. */
+  /**
+   * Returns the ClientRect of the current origin.
+   *
+   * 返回当前原点的 ClientRect。
+   *
+   */
   private _getOriginRect(): Dimensions {
     const origin = this._origin;
 
@@ -1292,28 +1571,64 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   }
 }
 
-/** A simple (x, y) coordinate. */
+/**
+ * A simple (x, y) coordinate.
+ *
+ * 一个简单的（x，y）坐标。
+ *
+ */
 interface Point {
   x: number;
   y: number;
 }
 
-/** Record of measurements for how an overlay (at a given position) fits into the viewport. */
+/**
+ * Record of measurements for how an overlay (at a given position) fits into the viewport.
+ *
+ * 指定位置的浮层应该如何适合视口的测量记录。
+ *
+ */
 interface OverlayFit {
-  /** Whether the overlay fits completely in the viewport. */
+  /**
+   * Whether the overlay fits completely in the viewport.
+   *
+   * 浮层是否完全适合视口。
+   *
+   */
   isCompletelyWithinViewport: boolean;
 
-  /** Whether the overlay fits in the viewport on the y-axis. */
+  /**
+   * Whether the overlay fits in the viewport on the y-axis.
+   *
+   * 浮层是否适合 y 轴上的视口。
+   *
+   */
   fitsInViewportVertically: boolean;
 
-  /** Whether the overlay fits in the viewport on the x-axis. */
+  /**
+   * Whether the overlay fits in the viewport on the x-axis.
+   *
+   * 浮层是否适合 x 轴上的视口。
+   *
+   */
   fitsInViewportHorizontally: boolean;
 
-  /** The total visible area (in px^2) of the overlay inside the viewport. */
+  /**
+   * The total visible area (in px^2) of the overlay inside the viewport.
+   *
+   * 视口内浮层的总可见区域（以 px^2 为单位）。
+   *
+   */
   visibleArea: number;
 }
 
-/** Record of the measurements determining whether an overlay will fit in a specific position. */
+/**
+ *
+ * Record of the measurements determining whether an overlay will fit in a specific position.
+ *
+ * 确定浮层是否适合特定位置的测量记录。
+ *
+ */
 interface FallbackPosition {
   position: ConnectedPosition;
   originPoint: Point;
@@ -1322,7 +1637,12 @@ interface FallbackPosition {
   overlayRect: Dimensions;
 }
 
-/** Position and size of the overlay sizing wrapper for a specific position. */
+/**
+ * Position and size of the overlay sizing wrapper for a specific position.
+ *
+ * 特定位置的上浮层大小调整器的位置和大小。
+ *
+ */
 interface BoundingBoxRect {
   top: number;
   left: number;
@@ -1332,7 +1652,12 @@ interface BoundingBoxRect {
   width: number;
 }
 
-/** Record of measures determining how well a given position will fit with flexible dimensions. */
+/**
+ * Record of measures determining how well a given position will fit with flexible dimensions.
+ *
+ * 确定指定位置与灵活规格的适应程度的测量记录。
+ *
+ */
 interface FlexibleFit {
   position: ConnectedPosition;
   origin: Point;
@@ -1359,7 +1684,12 @@ export interface ConnectedPosition {
   panelClass?: string | string[];
 }
 
-/** Shallow-extends a stylesheet object with another stylesheet object. */
+/**
+ * Shallow-extends a stylesheet object with another stylesheet object.
+ *
+ * 将样式表对象与另一个样式表对象一起浅扩展。
+ *
+ */
 function extendStyles(
   destination: CSSStyleDeclaration,
   source: CSSStyleDeclaration,
@@ -1376,6 +1706,9 @@ function extendStyles(
 /**
  * Extracts the pixel value as a number from a value, if it's a number
  * or a CSS pixel string (e.g. `1337px`). Otherwise returns null.
+ *
+ * 如果是数字或 CSS 像素字符串（例如 `1337px` ），则从值中提取像素值作为数字。否则返回 null。
+ *
  */
 function getPixelValue(input: number | string | null | undefined): number | null {
   if (typeof input !== 'number' && input != null) {
@@ -1391,6 +1724,9 @@ function getPixelValue(input: number | string | null | undefined): number | null
  * the nearest pixel. This allows us to account for the cases where there may be sub-pixel
  * deviations in the `ClientRect` returned by the browser (e.g. when zoomed in with a percentage
  * size, see #21350).
+ *
+ * 获取元素边界 `ClientRect` 的版本，其中所有值均向下舍入到最接近的像素。`ClientRect` 可能存在亚像素偏差的情况（例如，以百分比大小放大时，请参阅＃21350）。
+ *
  */
 function getRoundedBoundingClientRect(clientRect: Dimensions): Dimensions {
   return {

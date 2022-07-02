@@ -15,7 +15,12 @@ import {filter, take} from 'rxjs/operators';
 import {DialogPosition, MatDialogConfig} from './dialog-config';
 import {_MatDialogContainerBase} from './dialog-container';
 
-/** Possible states of the lifecycle of a dialog. */
+/**
+ * Possible states of the lifecycle of a dialog.
+ *
+ * 对话框生命周期的可能状态。
+ *
+ */
 export const enum MatDialogState {
   OPEN,
   CLOSING,
@@ -48,19 +53,44 @@ export class MatDialogRef<T, R = any> {
   /** Unique ID for the dialog. */
   id: string;
 
-  /** Subject for notifying the user that the dialog has finished opening. */
+  /**
+   * Subject for notifying the user that the dialog has finished opening.
+   *
+   * 用于通知用户该对话框已经打开的主体对象。
+   *
+   */
   private readonly _afterOpened = new Subject<void>();
 
-  /** Subject for notifying the user that the dialog has started closing. */
+  /**
+   * Subject for notifying the user that the dialog has started closing.
+   *
+   * 用于通知用户该对话框即将关闭的主体对象。
+   *
+   */
   private readonly _beforeClosed = new Subject<R | undefined>();
 
-  /** Result to be passed to afterClosed. */
+  /**
+   * Result to be passed to afterClosed.
+   *
+   * 要传递给 afterClosed 的结果。
+   *
+   */
   private _result: R | undefined;
 
-  /** Handle to the timeout that's running as a fallback in case the exit animation doesn't fire. */
+  /**
+   * Handle to the timeout that's running as a fallback in case the exit animation doesn't fire.
+   *
+   * 在退出动画未触发的情况下，超时指定时间后进行回退处理。
+   *
+   */
   private _closeFallbackTimeout: number;
 
-  /** Current state of the dialog. */
+  /**
+   * Current state of the dialog.
+   *
+   * 该对话框的当前状态。
+   *
+   */
   private _state = MatDialogState.OPEN;
 
   // TODO(crisbeto): we shouldn't have to declare this property, because `DialogRef.close`
@@ -292,6 +322,9 @@ export class MatDialogRef<T, R = any> {
   /**
    * Finishes the dialog close by updating the state of the dialog
    * and disposing the overlay.
+   *
+   * 通过更新对话框的状态并处理浮层来完成对话框的关闭。
+   *
    */
   private _finishDialogClose() {
     this._state = MatDialogState.CLOSED;
@@ -303,8 +336,9 @@ export class MatDialogRef<T, R = any> {
 /**
  * Closes the dialog with the specified interaction type. This is currently not part of
  * `MatDialogRef` as that would conflict with custom dialog ref mocks provided in tests.
- * More details. See: <https://github.com/angular/components/pull/9257#issuecomment-651342226>.
+ * More details. See: https://github.com/angular/components/pull/9257#issuecomment-651342226.
  *
+ * 用指定的交互类型关闭对话框。目前它不是 `MatDialogRef` 一部分，因为它会与测试中提供的自定义对话框引用模拟相冲突。更多细节请参阅： https://github.com/angular/components/pull/9257#issuecomment-651342226。
  */
 // TODO: Move this back into `MatDialogRef` when we provide an official mock dialog ref.
 export function _closeDialogVia<R>(ref: MatDialogRef<R>, interactionType: FocusOrigin, result?: R) {

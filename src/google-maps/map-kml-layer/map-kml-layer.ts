@@ -19,7 +19,12 @@ import {MapEventManager} from '../map-event-manager';
 /**
  * Angular component that renders a Google Maps KML Layer via the Google Maps JavaScript API.
  *
+ * 通过 Google Maps JavaScript API 渲染 Google Maps KML 图层的 Angular 组件。
+ *
  * See developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer
+ *
+ * 请参阅 developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer
+ *
  */
 @Directive({
   selector: 'map-kml-layer',
@@ -35,7 +40,12 @@ export class MapKmlLayer implements OnInit, OnDestroy {
   /**
    * The underlying google.maps.KmlLayer object.
    *
+   * 基础 google.maps.KmlLayer 对象。
+   *
    * See developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer
+   *
    */
   kmlLayer?: google.maps.KmlLayer;
 
@@ -51,6 +61,9 @@ export class MapKmlLayer implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.click
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.click
+   *
    */
   @Output() readonly kmlClick: Observable<google.maps.KmlMouseEvent> =
     this._eventManager.getLazyEmitter<google.maps.KmlMouseEvent>('click');
@@ -59,12 +72,17 @@ export class MapKmlLayer implements OnInit, OnDestroy {
    * See
    * developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.defaultviewport_changed
    *
+   * 参阅 developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.defaultviewport_changed
+   *
    */
   @Output() readonly defaultviewportChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('defaultviewport_changed');
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.status_changed
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.status_changed
+   *
    */
   @Output() readonly statusChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('status_changed');
@@ -102,6 +120,9 @@ export class MapKmlLayer implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.getDefaultViewport
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.getDefaultViewport
+   *
    */
   getDefaultViewport(): google.maps.LatLngBounds | null {
     this._assertInitialized();
@@ -110,6 +131,9 @@ export class MapKmlLayer implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.getMetadata
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.getMetadata
+   *
    */
   getMetadata(): google.maps.KmlLayerMetadata | null {
     this._assertInitialized();
@@ -118,6 +142,9 @@ export class MapKmlLayer implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.getStatus
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.getStatus
+   *
    */
   getStatus(): google.maps.KmlLayerStatus {
     this._assertInitialized();
@@ -126,6 +153,9 @@ export class MapKmlLayer implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.getUrl
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.getUrl
+   *
    */
   getUrl(): string {
     this._assertInitialized();
@@ -134,6 +164,9 @@ export class MapKmlLayer implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.getZIndex
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.getZIndex
+   *
    */
   getZIndex(): number {
     this._assertInitialized();

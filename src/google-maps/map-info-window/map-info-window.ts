@@ -20,7 +20,12 @@ import {MapAnchorPoint} from '../map-anchor-point';
 /**
  * Angular component that renders a Google Maps info window via the Google Maps JavaScript API.
  *
+ * 通过 Google Maps JavaScript API 渲染 Google Maps 信息窗口的 Angular 组件。
+ *
  * See developers.google.com/maps/documentation/javascript/reference/info-window
+ *
+ * 请参阅 developers.google.com/maps/documentation/javascript/reference/info-window
+ *
  */
 @Directive({
   selector: 'map-info-window',
@@ -38,7 +43,12 @@ export class MapInfoWindow implements OnInit, OnDestroy {
   /**
    * Underlying google.maps.InfoWindow
    *
+   * 基础 google.maps.InfoWindow
+   *
    * See developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow
+   *
    */
   infoWindow?: google.maps.InfoWindow;
 
@@ -55,6 +65,9 @@ export class MapInfoWindow implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.closeclick
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.closeclick
+   *
    */
   @Output() readonly closeclick: Observable<void> =
     this._eventManager.getLazyEmitter<void>('closeclick');
@@ -63,6 +76,8 @@ export class MapInfoWindow implements OnInit, OnDestroy {
    * See
    * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.content_changed
    *
+   * 参阅 developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.content_changed
+   *
    */
   @Output() readonly contentChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('content_changed');
@@ -70,6 +85,8 @@ export class MapInfoWindow implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.domready
+   *
+   * 参阅 developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.domready
    */
   @Output() readonly domready: Observable<void> =
     this._eventManager.getLazyEmitter<void>('domready');
@@ -78,6 +95,8 @@ export class MapInfoWindow implements OnInit, OnDestroy {
    * See
    * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.position_changed
    *
+   * 参阅 developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.position_changed
+   *
    */
   @Output() readonly positionChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('position_changed');
@@ -85,6 +104,8 @@ export class MapInfoWindow implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.zindex_changed
+   *
+   * 参阅 developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.zindex_changed
    *
    */
   @Output() readonly zindexChanged: Observable<void> =
@@ -130,6 +151,9 @@ export class MapInfoWindow implements OnInit, OnDestroy {
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.close
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.close
+   *
    */
   close() {
     this._assertInitialized();
@@ -139,6 +163,9 @@ export class MapInfoWindow implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.getContent
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.getContent
+   *
    */
   getContent(): string | Node | null {
     this._assertInitialized();
@@ -149,6 +176,8 @@ export class MapInfoWindow implements OnInit, OnDestroy {
    * See
    * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.getPosition
    *
+   * 参阅 developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.getPosition
+   *
    */
   getPosition(): google.maps.LatLng | null {
     this._assertInitialized();
@@ -158,6 +187,9 @@ export class MapInfoWindow implements OnInit, OnDestroy {
   /**
    * See
    * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.getZIndex
+   *
+   * 请参阅 developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.getZIndex
+   *
    */
   getZIndex(): number {
     this._assertInitialized();
@@ -167,6 +199,9 @@ export class MapInfoWindow implements OnInit, OnDestroy {
   /**
    * Opens the MapInfoWindow using the provided anchor. If the anchor is not set,
    * then the position property of the options input is used instead.
+   *
+   * 使用提供的锚点打开 MapInfoWindow。如果未设置锚点，那么将使用选项输入的 position 属性。
+   *
    */
   open(anchor?: MapAnchorPoint, shouldFocus?: boolean) {
     this._assertInitialized();

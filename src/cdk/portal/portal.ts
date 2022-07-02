@@ -123,10 +123,18 @@ export class ComponentPortal<T> extends Portal<ComponentRef<T>> {
    * [Optional] Where the attached component should live in Angular's *logical* component tree.
    * This is different from where the component *renders*, which is determined by the PortalOutlet.
    * The origin is necessary when the host is outside of the Angular application context.
+   *
+   * [可选] 附加组件应该放在 Angular 的*逻辑*组件树中。这与组件*渲染的*位置不同，后者由 PortalOutlet 决定。当宿主在 Angular 应用的上下文之外时，这个原点是必需的。
+   *
    */
   viewContainerRef?: ViewContainerRef | null;
 
-  /** [Optional] Injector used for the instantiation of the component. */
+  /**
+   * [Optional] Injector used for the instantiation of the component.
+   *
+   * [可选] 供组件实例化时使用的注入器。
+   *
+   */
   injector?: Injector | null;
 
   /**
@@ -160,11 +168,26 @@ export class ComponentPortal<T> extends Portal<ComponentRef<T>> {
  */
 export class TemplatePortal<C = any> extends Portal<EmbeddedViewRef<C>> {
   constructor(
-    /** The embedded template that will be used to instantiate an embedded View in the host. */
+    /**
+     * The embedded template that will be used to instantiate an embedded View in the host.
+     *
+     * 嵌入式模板，用于在宿主中实例化一个嵌入式视图。
+     *
+     */
     public templateRef: TemplateRef<C>,
-    /** Reference to the ViewContainer into which the template will be stamped out. */
+    /**
+     * Reference to the ViewContainer into which the template will be stamped out.
+     *
+     * 要容纳模板生成物的 ViewContainer 的引用。
+     *
+     */
     public viewContainerRef: ViewContainerRef,
-    /** Contextual data to be passed in to the embedded view. */
+    /**
+     * Contextual data to be passed in to the embedded view.
+     *
+     * 要传入内嵌式视图中的上下文数据。
+     *
+     */
     public context?: C,
     /** The injector to use for the embedded view. */
     public injector?: Injector,
@@ -260,7 +283,11 @@ export interface PortalOutlet {
 
 /**
  * @deprecated Use `PortalOutlet` instead.
+ *
+ * 请改用 `PortalOutlet`。
+ *
  * @breaking-change 9.0.0
+ *
  */
 export type PortalHost = PortalOutlet;
 
@@ -272,13 +299,28 @@ export type PortalHost = PortalOutlet;
  *
  */
 export abstract class BasePortalOutlet implements PortalOutlet {
-  /** The portal currently attached to the host. */
+  /**
+   * The portal currently attached to the host.
+   *
+   * 这个传送点已经附加到了宿主上。
+   *
+   */
   protected _attachedPortal: Portal<any> | null;
 
-  /** A function that will permanently dispose this host. */
+  /**
+   * A function that will permanently dispose this host.
+   *
+   * 永久销毁这个宿主的函数
+   *
+   */
   private _disposeFn: (() => void) | null;
 
-  /** Whether this host has already been permanently disposed. */
+  /**
+   * Whether this host has already been permanently disposed.
+   *
+   * 该宿主是否已永久销毁。
+   *
+   */
   private _isDisposed: boolean = false;
 
   /**
@@ -295,7 +337,12 @@ export abstract class BasePortalOutlet implements PortalOutlet {
   attach<T>(portal: TemplatePortal<T>): EmbeddedViewRef<T>;
   attach(portal: any): any;
 
-  /** Attaches a portal. */
+  /**
+   * Attaches a portal.
+   *
+   * 附加一个传送点。
+   *
+   */
   attach(portal: Portal<any>): any {
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       if (!portal) {
@@ -380,6 +427,10 @@ export abstract class BasePortalOutlet implements PortalOutlet {
 
 /**
  * @deprecated Use `BasePortalOutlet` instead.
+ *
+ * 请改用 `BasePortalOutlet`。
+ *
  * @breaking-change 9.0.0
+ *
  */
 export abstract class BasePortalHost extends BasePortalOutlet {}

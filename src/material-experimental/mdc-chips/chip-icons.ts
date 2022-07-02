@@ -53,7 +53,7 @@ export class MatChipTrailingIcon extends MatChipAction {
  * when the ENTER key is pressed on it.
  *
  * Recommended for use with the Material Design "cancel" icon
- * available at <https://material.io/icons/#ic_cancel>.
+ * available at https://material.io/icons/#ic_cancel.
  *
  * Example:
  *

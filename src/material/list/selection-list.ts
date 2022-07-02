@@ -61,7 +61,12 @@ export const MAT_SELECTION_LIST_VALUE_ACCESSOR: any = {
  */
 export class MatSelectionListChange {
   constructor(
-    /** Reference to the selection list that emitted the event. */
+    /**
+     * Reference to the selection list that emitted the event.
+     *
+     * 到发出此事件的选择列表的引用。
+     *
+     */
     public source: MatSelectionList,
     /** Reference to the options that have been changed. */
     public options: MatListOption[],
@@ -129,12 +134,21 @@ export class MatListOption
   /**
    * Emits when the selected state of the option has changed.
    * Use to facilitate two-data binding to the `selected` property.
+   *
+   * 当此选项的已选状态发生变化时发出。
+   * 用于支持对 `selected` 属性的双向数据绑定。
+   *
    * @docs-private
    */
   @Output()
   readonly selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  /** DOM element containing the item's text. */
+  /**
+   * DOM element containing the item's text.
+   *
+   * 包含该条目文本的 DOM 元素。
+   *
+   */
   @ViewChild('text') _text: ElementRef;
 
   /**
@@ -163,6 +177,9 @@ export class MatListOption
   /**
    * This is set to true after the first OnChanges cycle so we don't clear the value of `selected`
    * in the first cycle.
+   *
+   * 这会在第一个 OnChanges 检测周期后设置为 true，所以我们不会在第一个检测周期中清除 `selected` 的值。
+   *
    */
   private _inputsInitialized = false;
   /**
@@ -305,13 +322,21 @@ export class MatListOption
 
   /**
    * Returns the list item's text label. Implemented as a part of the FocusKeyManager.
+   *
+   * 返回列表条目的文本标签。实现为 FocusKeyManager 的一部分。
+   *
    * @docs-private
    */
   getLabel() {
     return this._text ? this._text.nativeElement.textContent || '' : '';
   }
 
-  /** Whether this list item should show a ripple effect when clicked. */
+  /**
+   * Whether this list item should show a ripple effect when clicked.
+   *
+   * 此列表条目是否应该在点击时显示涟漪效果。
+   *
+   */
   _isRippleDisabled() {
     return this.disabled || this.disableRipple || this.selectionList.disableRipple;
   }
@@ -335,12 +360,22 @@ export class MatListOption
     this._hasFocus = false;
   }
 
-  /** Retrieves the DOM element of the component host. */
+  /**
+   * Retrieves the DOM element of the component host.
+   *
+   * 检索组件宿主的 DOM 元素。
+   *
+   */
   _getHostElement(): HTMLElement {
     return this._element.nativeElement;
   }
 
-  /** Sets the selected state of the option. Returns whether the value has changed. */
+  /**
+   * Sets the selected state of the option. Returns whether the value has changed.
+   *
+   * 设置选项的选定状态。返回该值是否已更改。
+   *
+   */
   _setSelected(selected: boolean): boolean {
     if (selected === this._selected) {
       return false;
@@ -363,6 +398,9 @@ export class MatListOption
    * Notifies Angular that the option needs to be checked in the next change detection run. Mainly
    * used to trigger an update of the list option if the disabled state of the selection list
    * changed.
+   *
+   * 通知 Angular：在下一次运行变更检测时，需要检查该选项。主要用于在选择列表的禁用状态发生变化时触发 list 选项的更新。
+   *
    */
   _markForCheck() {
     this._changeDetector.markForCheck();
@@ -400,7 +438,12 @@ export class MatSelectionList
   private _multiple = true;
   private _contentInitialized = false;
 
-  /** The FocusKeyManager which handles focus. */
+  /**
+   * The FocusKeyManager which handles focus.
+   *
+   * 用于处理焦点的 FocusKeyManager。
+   *
+   */
   _keyManager: FocusKeyManager<MatListOption>;
 
   /**
@@ -492,22 +535,52 @@ export class MatSelectionList
    */
   selectedOptions = new SelectionModel<MatListOption>(this._multiple);
 
-  /** The tabindex of the selection list. */
+  /**
+   * The tabindex of the selection list.
+   *
+   * 此选择列表的 tabindex。
+   *
+   */
   _tabIndex = -1;
 
-  /** View to model callback that should be called whenever the selected options change. */
+  /**
+   * View to model callback that should be called whenever the selected options change.
+   *
+   * 视图到模型的回调，它应该在选定项发生变化时被调用。
+   *
+   */
   private _onChange: (value: any) => void = (_: any) => {};
 
-  /** Keeps track of the currently-selected value. */
+  /**
+   * Keeps track of the currently-selected value.
+   *
+   * 跟踪当前选定的值。
+   *
+   */
   _value: string[] | null;
 
-  /** Emits when the list has been destroyed. */
+  /**
+   * Emits when the list has been destroyed.
+   *
+   * 当列表被销毁时就会触发。
+   *
+   */
   private readonly _destroyed = new Subject<void>();
 
-  /** View to model callback that should be called if the list or its options lost focus. */
+  /**
+   * View to model callback that should be called if the list or its options lost focus.
+   *
+   * 如果列表或其选项失焦，应该调用的视图到模型回调。
+   *
+   */
   _onTouched: () => void = () => {};
 
-  /** Whether the list has been destroyed. */
+  /**
+   * Whether the list has been destroyed.
+   *
+   * 该列表是否已被销毁。
+   *
+   */
   private _isDestroyed: boolean;
 
   constructor(
@@ -625,14 +698,24 @@ export class MatSelectionList
     return this._setAllOptionsSelected(false);
   }
 
-  /** Sets the focused option of the selection-list. */
+  /**
+   * Sets the focused option of the selection-list.
+   *
+   * 设置此选择列表的 focused 选项。
+   *
+   */
   _setFocusedOption(option: MatListOption) {
     this._keyManager.updateActiveItem(option);
   }
 
   /**
    * Removes an option from the selection list and updates the active item.
+   *
+   * 从选择列表中删除一个选项并更新活动条目。
+   *
    * @returns Currently-active item.
+   *
+   * 当前的活动条目。
    */
   _removeOptionFromList(option: MatListOption): MatListOption | null {
     const optionIndex = this._getOptionIndex(option);
@@ -649,7 +732,12 @@ export class MatSelectionList
     return this._keyManager.activeItem;
   }
 
-  /** Passes relevant key presses to our key manager. */
+  /**
+   * Passes relevant key presses to our key manager.
+   *
+   * 把相关的按键传给按键管理器。
+   *
+   */
   _keydown(event: KeyboardEvent) {
     const keyCode = event.keyCode;
     const manager = this._keyManager;
@@ -691,7 +779,12 @@ export class MatSelectionList
     }
   }
 
-  /** Reports a value change to the ControlValueAccessor */
+  /**
+   * Reports a value change to the ControlValueAccessor
+   *
+   * 向 ControlValueAccessor 报告值的变化
+   *
+   */
   _reportValueChange() {
     // Stop reporting value changes after the list has been destroyed. This avoids
     // cases where the list might wrongly reset its value once it is removed, but
@@ -703,12 +796,22 @@ export class MatSelectionList
     }
   }
 
-  /** Emits a change event if the selected state of an option changed. */
+  /**
+   * Emits a change event if the selected state of an option changed.
+   *
+   * 如果选定的某个选项状态发生了变化，就会发出一个 change 事件。
+   *
+   */
   _emitChangeEvent(options: MatListOption[]) {
     this.selectionChange.emit(new MatSelectionListChange(this, options));
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   *是 ControlValueAccessor 实现的一部分。
+   *
+   */
   writeValue(values: string[]): void {
     this._value = values;
 
@@ -717,22 +820,42 @@ export class MatSelectionList
     }
   }
 
-  /** Implemented as a part of ControlValueAccessor. */
+  /**
+   * Implemented as a part of ControlValueAccessor.
+   *
+   *是 ControlValueAccessor 实现的一部分。
+   *
+   */
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   *是 ControlValueAccessor 实现的一部分。
+   *
+   */
   registerOnChange(fn: (value: any) => void): void {
     this._onChange = fn;
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   *是 ControlValueAccessor 实现的一部分。
+   *
+   */
   registerOnTouched(fn: () => void): void {
     this._onTouched = fn;
   }
 
-  /** Sets the selected options based on the specified values. */
+  /**
+   * Sets the selected options based on the specified values.
+   *
+   * 根据指定的值设置选定的选项。
+   *
+   */
   private _setOptionsFromValues(values: string[]) {
     this.options.forEach(option => option._setSelected(false));
 
@@ -749,12 +872,22 @@ export class MatSelectionList
     });
   }
 
-  /** Returns the values of the selected options. */
+  /**
+   * Returns the values of the selected options.
+   *
+   * 返回选定的选项的值。
+   *
+   */
   private _getSelectedOptionValues(): string[] {
     return this.options.filter(option => option.selected).map(option => option.value);
   }
 
-  /** Toggles the state of the currently focused option if enabled. */
+  /**
+   * Toggles the state of the currently focused option if enabled.
+   *
+   * 如果启用，则切换当前拥有焦点的选项的状态。
+   *
+   */
   private _toggleFocusedOption(): void {
     let focusedIndex = this._keyManager.activeItemIndex;
 
@@ -774,6 +907,9 @@ export class MatSelectionList
   /**
    * Sets the selected state on all of the options
    * and emits an event if anything changed.
+   *
+   * 在所有选项上设置选定状态，并在发生任何变化时发出一个事件。
+   *
    */
   private _setAllOptionsSelected(
     isSelected: boolean,
@@ -803,19 +939,37 @@ export class MatSelectionList
 
   /**
    * Utility to ensure all indexes are valid.
+   *
+   * 用来确保所有索引都有效的工具。
+   *
    * @param index The index to be checked.
+   *
+   * 要检查的索引。
+   *
    * @returns True if the index is valid for our list of options.
+   *
+   * 如果索引对于我们的选项列表有效，则返回 true。
    */
   private _isValidIndex(index: number): boolean {
     return index >= 0 && index < this.options.length;
   }
 
-  /** Returns the index of the specified list option. */
+  /**
+   * Returns the index of the specified list option.
+   *
+   * 返回指定列表项的索引。
+   *
+   */
   private _getOptionIndex(option: MatListOption): number {
     return this.options.toArray().indexOf(option);
   }
 
-  /** Marks all the options to be checked in the next change detection run. */
+  /**
+   * Marks all the options to be checked in the next change detection run.
+   *
+   * 标记为要在下一次变更检测运行中检查的所有选项。
+   *
+   */
   private _markOptionsForCheck() {
     if (this.options) {
       this.options.forEach(option => option._markForCheck());
@@ -826,6 +980,9 @@ export class MatSelectionList
    * Removes the tabindex from the selection list and resets it back afterwards, allowing the user
    * to tab out of it. This prevents the list from capturing focus and redirecting it back within
    * the list, creating a focus trap if it user tries to tab away.
+   *
+   * 从选择列表中删除 tabindex，然后重置它，以便允许用户跳出它。这会阻止该列表捕获焦点并将其重定向到列表中，如果用户试图离开它，就会创建一个焦点陷阱。
+   *
    */
   private _allowFocusEscape() {
     this._tabIndex = -1;
@@ -836,7 +993,12 @@ export class MatSelectionList
     });
   }
 
-  /** Updates the tabindex based upon if the selection list is empty. */
+  /**
+   * Updates the tabindex based upon if the selection list is empty.
+   *
+   * 根据选择列表是否为空来更新 tabindex。
+   *
+   */
   private _updateTabIndex(): void {
     this._tabIndex = this.options.length === 0 ? -1 : 0;
   }

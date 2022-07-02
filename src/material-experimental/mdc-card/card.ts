@@ -30,7 +30,7 @@ export const MAT_CARD_CONFIG = new InjectionToken<MatCardConfig>('MAT_CARD_CONFI
 
 /**
  * Material Design card component. Cards contain content and actions about a single subject.
- * See <https://material.io/design/components/cards.html>
+ * See https://material.io/design/components/cards.html
  *
  * MatCard provides no behaviors, instead serving as a purely visual treatment.
  *

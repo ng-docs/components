@@ -55,6 +55,9 @@ const defaults = MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY();
 /**
  * Provider Expression that allows mat-checkbox to register as a ControlValueAccessor.
  * This allows it to support [(ngModel)].
+ *
+ * 一个提供者表达式，可以把 mat-checkbox 注册为 ControlValueAccessor。这可以让它支持 `[(ngModel)]`。
+ *
  * @docs-private
  */
 export const MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
@@ -65,16 +68,39 @@ export const MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
 
 /**
  * Represents the different states that require custom transitions between them.
+ *
+ * 表示需要在它们之间进行自定义转换的不同状态。
+ *
  * @docs-private
  */
 export const enum TransitionCheckState {
-  /** The initial state of the component before any user interaction. */
+  /**
+   * The initial state of the component before any user interaction.
+   *
+   * 组件尚未与任何用户交互之前的初始状态。
+   *
+   */
   Init,
-  /** The state representing the component when it's becoming checked. */
+  /**
+   * The state representing the component when it's becoming checked.
+   *
+   * 表示当组件已检查过时的状态。
+   *
+   */
   Checked,
-  /** The state representing the component when it's becoming unchecked. */
+  /**
+   * The state representing the component when it's becoming unchecked.
+   *
+   * 表示当组件未检查过时的状态。
+   *
+   */
   Unchecked,
-  /** The state representing the component when it's becoming indeterminate. */
+  /**
+   * The state representing the component when it's becoming indeterminate.
+   *
+   * 当组件变为未决（indeterminate）时的状态。
+   *
+   */
   Indeterminate,
 }
 
@@ -155,7 +181,7 @@ export abstract class _MatCheckboxBase<E>
    * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
    * take precedence so this may be omitted.
    *
-   * 附加在宿主元素上的 aria-label 属性。在大多数情况下，aria-labelledby 优先，所以可省略。
+   * 附加在宿主元素的 aria-label 属性上。在大多数情况下，aria-labelledby 优先，所以这个可以省略。
    *
    */
   @Input('aria-label') ariaLabel: string = '';
@@ -163,7 +189,7 @@ export abstract class _MatCheckboxBase<E>
   /**
    * Users can specify the `aria-labelledby` attribute which will be forwarded to the input element
    *
-   * 用户可以指定 `aria-labelledby` 属性，它会被转发到 input 元素上
+   * 用户可以指定 `aria-labelledby` 属性，它会被转发到 input 元素
    *
    */
   @Input('aria-labelledby') ariaLabelledby: string | null = null;
@@ -251,7 +277,12 @@ export abstract class _MatCheckboxBase<E>
    */
   @Input() value: string;
 
-  /** The native `<input type="checkbox">` element */
+  /**
+   * The native `<input type="checkbox">` element
+   *
+   * 原生 `<input type="checkbox">` 元素
+   *
+   */
   @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
 
   /** The native `<label>` element */
@@ -267,6 +298,9 @@ export abstract class _MatCheckboxBase<E>
 
   /**
    * Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor.
+   *
+   * 当复选框失焦时调用。需要正确实现 ControlValueAccessor。
+   *
    * @docs-private
    */
   _onTouched: () => any = () => {};
@@ -374,7 +408,12 @@ export abstract class _MatCheckboxBase<E>
     return this.disableRipple || this.disabled;
   }
 
-  /** Method being called whenever the label text changes. */
+  /**
+   * Method being called whenever the label text changes.
+   *
+   * 每当标签文本发生变化时就会调用该方法。
+   *
+   */
   _onLabelTextChange() {
     // Since the event of the `cdkObserveContent` directive runs outside of the zone, the checkbox
     // component will be only marked for check, but no actual change detection runs automatically.
@@ -553,10 +592,15 @@ export abstract class _MatCheckboxBase<E>
   /**
    * Syncs the indeterminate value with the checkbox DOM node.
    *
+   * 使用复选框 DOM 节点同步该未决值。
+   *
    * We sync `indeterminate` directly on the DOM node, because in Ivy the check for whether a
    * property is supported on an element boils down to `if (propName in element)`. Domino's
    * HTMLInputElement doesn't have an `indeterminate` property so Ivy will warn during
    * server-side rendering.
+   *
+   * 我们要直接从 DOM 节点同步 `indeterminate` 值，因为在 Ivy 中，检查一个元素是否支持某属性，会归结为代码 `if (propName in element)`。Domino 引擎的 HTMLInputElement 上没有 `indeterminate` 属性，所以 Ivy 会在服务端渲染过程中发出警告。
+   *
    */
   private _syncIndeterminate(value: boolean) {
     const nativeCheckbox = this._inputElement;
@@ -573,7 +617,7 @@ export abstract class _MatCheckboxBase<E>
  * disabled. Note that all additional accessibility attributes are taken care of by the component,
  * so there is no need to provide them yourself. However, if you want to omit a label and still
  * have the checkbox be accessible, you may supply an [aria-label] input.
- * See: <https://material.io/design/components/selection-controls.html>
+ * See: https://material.io/design/components/selection-controls.html
  *
  */
 @Component({

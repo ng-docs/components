@@ -36,7 +36,12 @@ export type EventData =
   | EventData[]
   | {[key: string]: EventData};
 
-/** An enum of non-text keys that can be used with the `sendKeys` method. */
+/**
+ * An enum of non-text keys that can be used with the `sendKeys` method.
+ *
+ * 非文本按键的枚举，可以和 `sendKeys` 方法一起使用。
+ *
+ */
 // NOTE: This is a separate enum from `@angular/cdk/keycodes` because we don't necessarily want to
 // support every possible keyCode. We also can't rely on Protractor's `Key` because we don't want a
 // dependency on any particular testing framework here. Instead we'll just maintain this supported

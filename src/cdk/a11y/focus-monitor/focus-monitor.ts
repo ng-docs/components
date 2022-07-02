@@ -35,9 +35,9 @@ export type FocusOrigin = 'touch' | 'mouse' | 'keyboard' | 'program' | null;
 
 /**
  * Corresponds to the options that can be passed to the native `focus` event.
- * via <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus>
+ * via https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
  *
- * 对应于可以传递给原生 `focus` 事件的选项。通过 <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus>
+ * 对应于可以传递给原生 `focus` 事件的选项。通过 https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
  *
  */
 export interface FocusOptions {
@@ -50,17 +50,28 @@ export interface FocusOptions {
   preventScroll?: boolean;
 }
 
-/** Detection mode used for attributing the origin of a focus event. */
+/**
+ * Detection mode used for attributing the origin of a focus event.
+ *
+ * 用于确定焦点事件起源的检测模式。
+ *
+ */
 export const enum FocusMonitorDetectionMode {
   /**
    * Any mousedown, keydown, or touchstart event that happened in the previous
    * tick or the current tick will be used to assign a focus event's origin (to
    * either mouse, keyboard, or touch). This is the default option.
+   *
+   * 在上一个周期或当前周期中发生的任何 mousedown、keydown 或 touchstart 事件都将用于指定焦点事件的来源（鼠标、键盘或触摸）。这是默认选项。
+   *
    */
   IMMEDIATE,
   /**
    * A focus event's origin is always attributed to the last corresponding
    * mousedown, keydown, or touchstart event, no matter how long ago it occurred.
+   *
+   * 焦点事件的起源总是归因于上次相应的 mousedown、keydown 或 touchstart 事件，无论它发生在多久之前。
+   *
    */
   EVENTUAL,
 }
@@ -94,6 +105,9 @@ type MonitoredElementInfo = {
 /**
  * Event listener options that enable capturing and also
  * mark the listener as passive if the browser supports it.
+ *
+ * 事件侦听器选项可启用捕获功能，并在浏览器支持的情况下将其标记为被动。
+ *
  */
 const captureEventListenerOptions = normalizePassiveListenerOptions({
   passive: true,
@@ -108,31 +122,69 @@ const captureEventListenerOptions = normalizePassiveListenerOptions({
  */
 @Injectable({providedIn: 'root'})
 export class FocusMonitor implements OnDestroy {
-  /** The focus origin that the next focus event is a result of. */
+  /**
+   * The focus origin that the next focus event is a result of.
+   *
+   * 下一个焦点事件所基于的焦点来源。
+   *
+   */
   private _origin: FocusOrigin = null;
 
-  /** The FocusOrigin of the last focus event tracked by the FocusMonitor. */
+  /**
+   * The FocusOrigin of the last focus event tracked by the FocusMonitor.
+   *
+   * FocusMonitor 跟踪的最后一个焦点事件的 FocusOrigin。
+   *
+   */
   private _lastFocusOrigin: FocusOrigin;
 
-  /** Whether the window has just been focused. */
+  /**
+   * Whether the window has just been focused.
+   *
+   * 窗口是否刚刚获得焦点。
+   *
+   */
   private _windowFocused = false;
 
-  /** The timeout id of the window focus timeout. */
+  /**
+   * The timeout id of the window focus timeout.
+   *
+   * 窗口焦点超时的超时 ID。
+   *
+   */
   private _windowFocusTimeoutId: number;
 
-  /** The timeout id of the origin clearing timeout. */
+  /**
+   * The timeout id of the origin clearing timeout.
+   *
+   * 清除源超时的超时 ID。
+   *
+   */
   private _originTimeoutId: number;
 
   /**
    * Whether the origin was determined via a touch interaction. Necessary as properly attributing
    * focus events to touch interactions requires special logic.
+   *
+   * 是否通过触摸交互确定的原点。要正确地将焦点事件归因于触摸交互需要特殊的逻辑。
+   *
    */
   private _originFromTouchInteraction = false;
 
-  /** Map of elements being monitored to their info. */
+  /**
+   * Map of elements being monitored to their info.
+   *
+   * 被监视元素与其信息的映射。
+   *
+   */
   private _elementInfo = new Map<HTMLElement, MonitoredElementInfo>();
 
-  /** The number of elements currently being monitored. */
+  /**
+   * The number of elements currently being monitored.
+   *
+   * 当前正在监视的元素数。
+   *
+   */
   private _monitoredElementCount = 0;
 
   /**
@@ -140,18 +192,27 @@ export class FocusMonitor implements OnDestroy {
    * as well as the number of monitored elements that they contain. We have to treat focus/blur
    * handlers differently from the rest of the events, because the browser won't emit events
    * to the document when focus moves inside of a shadow root.
+   *
+   * 跟踪我们当前已将焦点/失焦处理器绑定到的根节点，以及它们包含的受监视元素的数量。我们必须将焦点/失焦处理程序与其余事件区别对待，因为当焦点移到 Shadow DOM 根内部时，浏览器不会向文档发出事件。
+   *
    */
   private _rootNodeFocusListenerCount = new Map<HTMLElement | Document | ShadowRoot, number>();
 
   /**
    * The specified detection mode, used for attributing the origin of a focus
    * event.
+   *
+   * 指定的检测模式，用于归因于焦点来源事件。
+   *
    */
   private readonly _detectionMode: FocusMonitorDetectionMode;
 
   /**
    * Event listener for `focus` events on the window.
    * Needs to be an arrow function in order to preserve the context when it gets bound.
+   *
+   * 窗口中 `focus` 事件的事件侦听器。需要是一个箭头函数，以便在绑定时保留上下文。
+   *
    */
   private _windowFocusListener = () => {
     // Make a note of when the window regains focus, so we can
@@ -160,10 +221,20 @@ export class FocusMonitor implements OnDestroy {
     this._windowFocusTimeoutId = window.setTimeout(() => (this._windowFocused = false));
   };
 
-  /** Used to reference correct document/window */
+  /**
+   * Used to reference correct document/window
+   *
+   * 用于引用正确的文档/窗口
+   *
+   */
   protected _document?: Document;
 
-  /** Subject for stopping our InputModalityDetector subscription. */
+  /**
+   * Subject for stopping our InputModalityDetector subscription.
+   *
+   * 停止我们从 InputModalityDetector 订阅的主题。
+   *
+   */
   private readonly _stopInputModalityDetector = new Subject<void>();
 
   constructor(
@@ -180,6 +251,9 @@ export class FocusMonitor implements OnDestroy {
   /**
    * Event listener for `focus` and 'blur' events on the document.
    * Needs to be an arrow function in order to preserve the context when it gets bound.
+   *
+   * 事件侦听器，用于文档上的 `focus` 和 `blur` 事件。需要是一个箭头函数，以便在绑定时保留上下文。
+   *
    */
   private _rootNodeFocusAndBlurListener = (event: Event) => {
     const target = _getEventTarget<HTMLElement>(event);
@@ -280,13 +354,25 @@ export class FocusMonitor implements OnDestroy {
 
   /**
    * Stops monitoring an element and removes all focus classes.
+   *
+   * 停止监视元素并删除所有焦点类。
+   *
    * @param element The element to stop monitoring.
+   *
+   * 要停止监视的元素。
+   *
    */
   stopMonitoring(element: HTMLElement): void;
 
   /**
    * Stops monitoring an element and removes all focus classes.
+   *
+   * 停止监视元素并删除所有焦点类。
+   *
    * @param element The element to stop monitoring.
+   *
+   * 要停止监视的元素。
+   *
    */
   stopMonitoring(element: ElementRef<HTMLElement>): void;
 
@@ -372,12 +458,22 @@ export class FocusMonitor implements OnDestroy {
     this._elementInfo.forEach((_info, element) => this.stopMonitoring(element));
   }
 
-  /** Access injected document if available or fallback to global document reference */
+  /**
+   * Access injected document if available or fallback to global document reference
+   *
+   * 访问已注入的文档（如果可用）或回退至全局文档的引用
+   *
+   */
   private _getDocument(): Document {
     return this._document || document;
   }
 
-  /** Use defaultView of injected document if available or fallback to global window reference */
+  /**
+   * Use defaultView of injected document if available or fallback to global window reference
+   *
+   * 使用注入文件的 defaultView（如果可用）或回退至全局窗口的引用
+   *
+   */
   private _getWindow(): Window {
     const doc = this._getDocument();
     return doc.defaultView || window;
@@ -413,7 +509,12 @@ export class FocusMonitor implements OnDestroy {
    * event was directly caused by the touch interaction or (2) the focus event was caused by a
    * subsequent programmatic focus call triggered by the touch interaction.
    *
+   * 返回焦点事件是否应归因于触摸。回想一下，在 IMMEDIATE 模式下，触摸原点不会在下一个变更检测周期立即重置（请参阅 \_setOrigin）。这意味着，当我们在触摸交互之后处理焦点事件时，我们需要确定 (1) 焦点事件是由触摸交互直接引起的，还是 (2) 焦点事件是由触摸交互触发后续的编程方式的焦点控制引起的。
+   *
    * @param focusEventTarget The target of the focus event under examination.
+   *
+   * 正在检查的焦点事件的目标。
+   *
    */
   private _shouldBeAttributedToTouch(focusEventTarget: HTMLElement | null): boolean {
     // Please note that this check is not perfect. Consider the following edge case:
@@ -434,8 +535,17 @@ export class FocusMonitor implements OnDestroy {
 
   /**
    * Sets the focus classes on the element based on the given focus origin.
+   *
+   * 根据指定的焦点来源在元素上设置焦点类。
+   *
    * @param element The element to update the classes on.
+   *
+   * 要更新类的元素。
+   *
    * @param origin The focus origin.
+   *
+   * 焦点来源。
+   *
    */
   private _setClasses(element: HTMLElement, origin?: FocusOrigin): void {
     element.classList.toggle('cdk-focused', !!origin);
@@ -449,8 +559,17 @@ export class FocusMonitor implements OnDestroy {
    * Updates the focus origin. If we're using immediate detection mode, we schedule an async
    * function to clear the origin at the end of a timeout. The duration of the timeout depends on
    * the origin being set.
+   *
+   * 设置来源并安排异步函数，以便在事件队列末尾将其清除。如果该检测模式为 'eventual'，则永远不会清除来源。
+   *
    * @param origin The origin to set.
+   *
+   * 要设置的来源。
+   *
    * @param isFromInteraction Whether we are setting the origin from an interaction event.
+   *
+   * 这次设置是否来自交互事件。
+   *
    */
   private _setOrigin(origin: FocusOrigin, isFromInteraction = false): void {
     this._ngZone.runOutsideAngular(() => {
@@ -472,8 +591,17 @@ export class FocusMonitor implements OnDestroy {
 
   /**
    * Handles focus events on a registered element.
+   *
+   * 处理已注册元素上的焦点事件。
+   *
    * @param event The focus event.
+   *
+   * 焦点事件。
+   *
    * @param element The monitored element.
+   *
+   * 要监视的元素。
+   *
    */
   private _onFocus(event: FocusEvent, element: HTMLElement) {
     // NOTE(mmalerba): We currently set the classes based on the focus origin of the most recent
@@ -494,8 +622,17 @@ export class FocusMonitor implements OnDestroy {
 
   /**
    * Handles blur events on a registered element.
+   *
+   * 处理已注册元素上的失焦事件。
+   *
    * @param event The blur event.
+   *
+   * 失焦事件。
+   *
    * @param element The monitored element.
+   *
+   * 要监视的元素。
+   *
    */
   _onBlur(event: FocusEvent, element: HTMLElement) {
     // If we are counting child-element-focus as focused, make sure that we aren't just blurring in
@@ -601,7 +738,12 @@ export class FocusMonitor implements OnDestroy {
     }
   }
 
-  /** Updates all the state on an element once its focus origin has changed. */
+  /**
+   * Updates all the state on an element once its focus origin has changed.
+   *
+   * 焦点来源更改后，更新元素上的所有状态。
+   *
+   */
   private _originChanged(
     element: HTMLElement,
     origin: FocusOrigin,
@@ -615,7 +757,13 @@ export class FocusMonitor implements OnDestroy {
   /**
    * Collects the `MonitoredElementInfo` of a particular element and
    * all of its ancestors that have enabled `checkChildren`.
+   *
+   * 收集特定元素及其所有祖先上已启用的 `checkChildren` 上的 `MonitoredElementInfo`。
+   *
    * @param element Element from which to start the search.
+   *
+   * 要搜索的起始元素。
+   *
    */
   private _getClosestElementsInfo(element: HTMLElement): [HTMLElement, MonitoredElementInfo][] {
     const results: [HTMLElement, MonitoredElementInfo][] = [];
@@ -640,6 +788,10 @@ export class FocusMonitor implements OnDestroy {
  * 1) cdkMonitorElementFocus: does not consider an element to be focused if one of its children is
  *    focused.
  * 2) cdkMonitorSubtreeFocus: considers an element focused if it or any of its children are focused.
+ *
+ * 此指令有两种变体：
+ * 1）cdkMonitorElementFocus：如果元素的任何一个子元素有焦点，则不认为该元素拥有焦点。
+ * 2）cdkMonitorSubtreeFocus：如果元素或其任何子元素都有焦点，则认为该元素拥有焦点。
  *
  */
 @Directive({

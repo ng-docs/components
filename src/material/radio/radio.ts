@@ -67,6 +67,9 @@ let nextUniqueId = 0;
 /**
  * Provider Expression that allows mat-radio-group to register as a ControlValueAccessor. This
  * allows it to support [(ngModel)] and ngControl.
+ *
+ * 这个提供者表达式允许把 mat-radio-group 注册为 ControlValueAccessor。这能让它支持 [(ngModel)] 和 ngControl。
+ *
  * @docs-private
  */
 export const MAT_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
@@ -83,9 +86,17 @@ export const MAT_RADIO_GROUP_CONTROL_VALUE_ACCESSOR: any = {
  */
 export class MatRadioChange {
   constructor(
-    /** The MatRadioButton that emits the change event. */
+    /**
+     * The MatRadioButton that emits the change event.
+     *
+     * 发出此变更事件的 MatRadioButton。
+     */
     public source: _MatRadioButtonBase,
-    /** The value of the MatRadioButton. */
+    /**
+     * The value of the MatRadioButton.
+     *
+     * 此 MatRadioButton 的值。
+     */
     public value: any,
   ) {}
 }
@@ -104,22 +115,45 @@ export const MAT_RADIO_GROUP = new InjectionToken<_MatRadioGroupBase<_MatRadioBu
 
 /**
  * Base class with all of the `MatRadioGroup` functionality.
+ *
+ * 具备所有 `MatRadioGroup` 功能的基类。
+ *
  * @docs-private
  */
 @Directive()
 export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
   implements AfterContentInit, ControlValueAccessor
 {
-  /** Selected value for the radio group. */
+  /**
+   * Selected value for the radio group.
+   *
+   * 单选组中的选定值。
+   *
+   */
   private _value: any = null;
 
-  /** The HTML name attribute applied to radio buttons in this group. */
+  /**
+   * The HTML name attribute applied to radio buttons in this group.
+   *
+   * HTML 的 name 属性是应用于该组中所有单选按钮的。
+   *
+   */
   private _name: string = `mat-radio-group-${nextUniqueId++}`;
 
-  /** The currently selected radio button. Should match value. */
+  /**
+   * The currently selected radio button. Should match value.
+   *
+   * 当前选定的单选按钮。要匹配其值。
+   *
+   */
   private _selected: T | null = null;
 
-  /** Whether the `value` has been set to its initial value. */
+  /**
+   * Whether the `value` has been set to its initial value.
+   *
+   * 该 `value` 是否已设置为初始值。
+   *
+   */
   private _isInitialized: boolean = false;
 
   /**
@@ -141,18 +175,23 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
   /**
    * Whether the radio group is required.
    *
-   * 单选按钮组是否为必填项。
+   * 单选按钮组是否必填的。
    *
    */
   private _required: boolean = false;
 
-  /** The method to be called in order to update ngModel */
+  /**
+   * The method to be called in order to update ngModel
+   *
+   * 为了更新 ngModel 而要调用的方法
+   *
+   */
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
   /**
    * onTouch function registered via registerOnTouch (ControlValueAccessor).
    *
-   * 通过 ControlValueAccessor 上的 registerOnTouch 注册的 onTouch 函数。
+   * 通过 registerOnTouch（ControlValueAccessor）注册的 onTouch 函数。
    *
    * @docs-private
    */
@@ -168,7 +207,12 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
    */
   @Output() readonly change: EventEmitter<MatRadioChange> = new EventEmitter<MatRadioChange>();
 
-  /** Child radio buttons. */
+  /**
+   * Child radio buttons.
+   *
+   * 子单选按钮。
+   *
+   */
   abstract _radios: QueryList<T>;
 
   /**
@@ -290,6 +334,9 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
   /**
    * Initialize properties once content children are available.
    * This allows us to propagate relevant attributes to associated buttons.
+   *
+   * 当内容子组件可用时，初始化各个属性。这让让我们把相关的属性传播给相关的按钮。
+   *
    */
   ngAfterContentInit() {
     // Mark this component as initialized in AfterContentInit because the initial value can
@@ -301,6 +348,9 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
   /**
    * Mark this group as being "touched" (for ngModel). Meant to be called by the contained
    * radio buttons upon their blur.
+   *
+   * 把这个组标记为“已接触”（对于 ngModel）。所包含的单选按钮在失焦时都会调用它。
+   *
    */
   _touch() {
     if (this.onTouched) {
@@ -320,6 +370,7 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
   /**
    * Updates the `selected` radio button from the internal \_value state.
    *
+   * 从内部值的状态更新 `selected` 单元按钮。
    */
   private _updateSelectedRadioFromValue(): void {
     // If the value already matches the selected radio, do nothing.
@@ -336,7 +387,12 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
     }
   }
 
-  /** Dispatch change event with current selection and group value. */
+  /**
+   * Dispatch change event with current selection and group value.
+   *
+   * 使用当前选定的值和组的值派发 change 事件。
+   *
+   */
   _emitChangeEvent(): void {
     if (this._isInitialized) {
       this.change.emit(new MatRadioChange(this._selected!, this._value));
@@ -351,6 +407,9 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
 
   /**
    * Sets the model value. Implemented as part of ControlValueAccessor.
+   *
+   * 设置模型值。实现为 ControlValueAccessor 的一部分。
+   *
    * @param value
    */
   writeValue(value: any) {
@@ -361,7 +420,13 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
   /**
    * Registers a callback to be triggered when the model value changes.
    * Implemented as part of ControlValueAccessor.
+   *
+   * 当模型值发生变化时，就会注册一个回调函数。实现为 ControlValueAccessor 的一部分。
+   *
    * @param fn Callback to be registered.
+   *
+   * 要注册的回调。
+   *
    */
   registerOnChange(fn: (value: any) => void) {
     this._controlValueAccessorChangeFn = fn;
@@ -370,7 +435,13 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
   /**
    * Registers a callback to be triggered when the control is touched.
    * Implemented as part of ControlValueAccessor.
+   *
+   * 注册一个在控件已接触时触发的回调函数。实现为 ControlValueAccessor 的一部分。
+   *
    * @param fn Callback to be registered.
+   *
+   * 要注册的回调。
+   *
    */
   registerOnTouched(fn: any) {
     this.onTouched = fn;
@@ -378,7 +449,13 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
 
   /**
    * Sets the disabled state of the control. Implemented as a part of ControlValueAccessor.
+   *
+   * 设置控件的禁用状态。实现为 ControlValueAccessor 的一部分。
+   *
    * @param isDisabled Whether the control should be disabled.
+   *
+   * 该控件是否应该被禁用。
+   *
    */
   setDisabledState(isDisabled: boolean) {
     this.disabled = isDisabled;
@@ -423,6 +500,9 @@ const _MatRadioButtonMixinBase = mixinDisableRipple(mixinTabIndex(MatRadioButton
 
 /**
  * Base class with all of the `MatRadioButton` functionality.
+ *
+ * 具备所有 `MatRadioButton` 功能的基类。
+ *
  * @docs-private
  */
 @Directive()
@@ -620,31 +700,62 @@ export abstract class _MatRadioButtonBase
     return `${this.id || this._uniqueId}-input`;
   }
 
-  /** Whether this radio is checked. */
+  /**
+   * Whether this radio is checked.
+   *
+   * 这个单选按钮是否已勾选。
+   *
+   */
   private _checked: boolean = false;
 
-  /** Whether this radio is disabled. */
+  /**
+   * Whether this radio is disabled.
+   *
+   * 这个单选按钮是否已禁用。
+   *
+   */
   private _disabled: boolean;
 
-  /** Whether this radio is required. */
+  /**
+   * Whether this radio is required.
+   *
+   * 这个单选按钮是否为必填项。
+   *
+   */
   private _required: boolean;
 
-  /** Value assigned to this radio. */
+  /**
+   * Value assigned to this radio.
+   *
+   * 赋给这个单选按钮的值。
+   *
+   */
   private _value: any = null;
 
   /**
    * Unregister function for \_radioDispatcher
    *
+   * 取消注册 \_radioDispatcher 的函数
    */
   private _removeUniqueSelectionListener: () => void = () => {};
 
   /** Previous value of the input's tabindex. */
   private _previousTabIndex: number | undefined;
 
-  /** The native `<input type=radio>` element */
+  /**
+   * The native `<input type=radio>` element
+   *
+   * 原生 `<input type=radio>` 元素
+   *
+   */
   @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
 
-  /** Whether animations are disabled. */
+  /**
+   * Whether animations are disabled.
+   *
+   * 是否禁用动画。
+   *
+   */
   _noopAnimations: boolean;
 
   constructor(
@@ -693,6 +804,9 @@ export abstract class _MatRadioButtonBase
    * Marks the radio button as needing checking for change detection.
    * This method is exposed because the parent radio group will directly
    * update bound properties of the radio button.
+   *
+   * 标记单选按钮是否需要进行变更检测。之所以暴露此方法，是因为父组件单选按钮组将会直接更新单选按钮的绑定属性。
+   *
    */
   _markForCheck() {
     // When group value changes, the button will not be notified. Use `markForCheck` to explicit
@@ -732,7 +846,12 @@ export abstract class _MatRadioButtonBase
     this._removeUniqueSelectionListener();
   }
 
-  /** Dispatch change event with current value. */
+  /**
+   * Dispatch change event with current value.
+   *
+   * 使用当前值派发 change 事件。
+   *
+   */
   private _emitChangeEvent(): void {
     this.change.emit(new MatRadioChange(this, this._value));
   }
@@ -752,7 +871,12 @@ export abstract class _MatRadioButtonBase
     event.stopPropagation();
   }
 
-  /** Triggered when the radio button receives an interaction from the user. */
+  /**
+   * Triggered when the radio button receives an interaction from the user.
+   *
+   * 当单选按钮收到用户的交互时触发。
+   *
+   */
   _onInputInteraction(event: Event) {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and
@@ -773,7 +897,12 @@ export abstract class _MatRadioButtonBase
     }
   }
 
-  /** Sets the disabled state and marks for check if a change occurred. */
+  /**
+   * Sets the disabled state and marks for check if a change occurred.
+   *
+   * 设置禁用状态和标记，以检查是否发生了变化。
+   *
+   */
   protected _setDisabled(value: boolean) {
     if (this._disabled !== value) {
       this._disabled = value;

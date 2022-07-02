@@ -6,14 +6,19 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** Cached result of whether the user's browser supports passive event listeners. */
+/**
+ * Cached result of whether the user's browser supports passive event listeners.
+ *
+ * 用户浏览器是否支持被动事件侦听器的缓存结果。
+ *
+ */
 let supportsPassiveEvents: boolean;
 
 /**
  * Checks whether the user's browser supports passive event listeners.
- * See: <https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md>
+ * See: https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
  *
- * 检查用户的浏览器是否支持被动事件侦听器。参见：<https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md>
+ * 检查用户的浏览器是否支持被动事件侦听器。参见：https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
  *
  */
 export function supportsPassiveEventListeners(): boolean {

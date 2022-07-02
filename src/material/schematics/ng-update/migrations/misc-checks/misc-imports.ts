@@ -12,6 +12,9 @@ import * as ts from 'typescript';
 /**
  * Migration that detects import declarations that refer to outdated identifiers from
  * Angular Material which cannot be updated automatically.
+ *
+ * 检测导入声明的迁移，这些声明引用了无法自动更新的 Angular Material 中的过时标识符。
+ *
  */
 export class MiscImportsMigration extends Migration<null> {
   // Only enable this rule if the migration targets version 6. The rule
@@ -43,7 +46,9 @@ export class MiscImportsMigration extends Migration<null> {
 
   /**
    * Checks for named imports that refer to the deleted animation constants.
-   * <https://github.com/angular/components/commit/9f3bf274c4f15f0b0fbd8ab7dbf1a453076e66d9>
+   * https://github.com/angular/components/commit/9f3bf274c4f15f0b0fbd8ab7dbf1a453076e66d9
+   *
+   * 检查引用已删除动画常量的命名导入。 https://github.com/angular/components/commit/9f3bf274c4f15f0b0fbd8ab7dbf1a453076e66d9
    *
    */
   private _checkAnimationConstants(namedImports: ts.NamedImports) {

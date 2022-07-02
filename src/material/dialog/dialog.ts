@@ -81,6 +81,9 @@ let uniqueId = 0;
 /**
  * Base class for dialog services. The base dialog service allows
  * for arbitrary dialog refs and dialog container components.
+ *
+ * 对话框服务的基类。基本对话框服务允许使用任意对话框参数和对话框容器组件。
+ *
  */
 @Injectable()
 export abstract class _MatDialogBase<C extends _MatDialogContainerBase> implements OnDestroy {

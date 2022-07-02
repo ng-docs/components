@@ -55,6 +55,9 @@ export interface HasErrorState {
 /**
  * Mixin to augment a directive with updateErrorState method.
  * For component with `errorState` and need to update `errorState`.
+ *
+ * 混入 updateErrorState 方法，以扩展指令。对于具有 `errorState` 组件，需要更新其 `errorState`。
+ *
  */
 export function mixinErrorState<T extends AbstractConstructor<HasErrorState>>(
   base: T,

@@ -90,6 +90,8 @@ This can be accomplished by creating a `FormControl` with the disabled property
 `FormControl({value: '', disabled: true})` or using `FormControl.enable()`, `FormControl.disable()`.
 
 可以通过 `<mat-select>` 上的 `disabled` 属性禁用整个选择框，或通过 `<mat-option>` 上的 `disabled` 属性单独禁用某一个选项。
+当在响应式表单中使用时，选择框组件可以通过表单控件进行启用/禁用。
+这可以通过创建一个带有 disabled 属性的 `FormControl`（`FormControl({value: '', disabled: true})`）来完成，也可以使用 `FormControl.enable()` 或 `FormControl.disable()`
 
 <!-- example(select-disabled) -->
 

@@ -47,8 +47,7 @@ export class MatSelectionListHarness extends MatListHarnessBase<
    *
    * @return a `HarnessPredicate` configured with the given options.
    *
-   * 使用给定选项配置过的 `HarnessPredicate`。
-   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(
     options: SelectionListHarnessFilters = {},
@@ -98,7 +97,12 @@ export class MatSelectionListHarness extends MatListHarnessBase<
     await parallel(() => items.map(item => item.deselect()));
   }
 
-  /** Gets all items matching the given list of filters. */
+  /**
+   * Gets all items matching the given list of filters.
+   *
+   * 获取与给定过滤器列表匹配的所有条目。
+   *
+   */
   private async _getItems(filters: ListOptionHarnessFilters[]): Promise<MatListOptionHarness[]> {
     if (!filters.length) {
       return this.getItems();
@@ -137,8 +141,7 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    *
    * @return a `HarnessPredicate` configured with the given options.
    *
-   * 使用给定选项配置过的 `HarnessPredicate`。
-   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: ListOptionHarnessFilters = {}): HarnessPredicate<MatListOptionHarness> {
     return getListItemPredicate(MatListOptionHarness, options).addOption(

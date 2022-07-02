@@ -715,7 +715,7 @@ export class MatSlider
    * Whether the browser supports pointer events.
    *
    * We exclude iOS to mirror the MDC Foundation. The MDC Foundation cannot use pointer events on
-   * iOS because of this open bug - <https://bugs.webkit.org/show_bug.cgi?id=220196>.
+   * iOS because of this open bug - https://bugs.webkit.org/show_bug.cgi?id=220196.
    *
    */
   private _SUPPORTS_POINTER_EVENTS =

@@ -29,7 +29,12 @@ import {
   dispatchEvent,
 } from './fake-events';
 
-/** Maps `TestKey` constants to the `keyCode` and `key` values used by native browser events. */
+/**
+ * Maps `TestKey` constants to the `keyCode` and `key` values used by native browser events.
+ *
+ * 将 `TestKey` 常量映射到原生浏览器事件使用 `keyCode` 和 `key`。
+ *
+ */
 const keyMap = {
   [TestKey.BACKSPACE]: {keyCode: keyCodes.BACKSPACE, key: 'Backspace'},
   [TestKey.TAB]: {keyCode: keyCodes.TAB, key: 'Tab'},
@@ -120,15 +125,15 @@ export class UnitTestElement implements TestElement {
    *
    * @param relativeX Coordinate within the element, along the X-axis at which to click.
    *
-   * 沿元素的坐标在 X 轴上单击。
+   * 要点击的 X 轴的元素内坐标。
    *
    * @param relativeY Coordinate within the element, along the Y-axis at which to click.
    *
-   * 在元素内沿单击的 Y 轴进行坐标调整。
+   * 要点击的 Y 轴的元素内坐标。
    *
    * @param modifiers Modifier keys held while clicking
    *
-   * 单击时按住修饰键
+   * 单击时按住的修饰键
    *
    */
   click(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
@@ -150,19 +155,19 @@ export class UnitTestElement implements TestElement {
   /**
    * Right clicks on the element at the specified coordinates relative to the top-left of it.
    *
-   * 在相对于该元素左上角的指定坐标处右键单击它。
+   * 右键单击相对于元素左上角的指定坐标处的元素。
    *
    * @param relativeX Coordinate within the element, along the X-axis at which to click.
    *
-   * 沿元素的坐标在 X 轴上单击。
+   * 要点击的 X 轴的元素内坐标。
    *
    * @param relativeY Coordinate within the element, along the Y-axis at which to click.
    *
-   * 在元素内沿单击的 Y 轴进行坐标调整。
+   * 要点击的 Y 轴的元素内坐标。
    *
    * @param modifiers Modifier keys held while clicking
    *
-   * 单击时按住修饰键
+   * 单击时按住的修饰键
    *
    */
   rightClick(relativeX: number, relativeY: number, modifiers?: ModifierKeys): Promise<void>;
@@ -176,7 +181,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Focus the element.
    *
-   * 让元素获得焦点。
+   * 让此元素获得焦点。
    *
    */
   async focus(): Promise<void> {
@@ -187,7 +192,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Get the computed value of the given CSS property for the element.
    *
-   * 获取元素的给定 CSS 属性的已计算值。
+   * 获取此元素的给定 CSS 属性的已计算值。
    *
    */
   async getCssValue(property: string): Promise<string> {
@@ -200,7 +205,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Hovers the mouse over the element.
    *
-   * 将鼠标悬停在元素上。
+   * 将鼠标悬停在此元素上。
    *
    */
   async hover(): Promise<void> {
@@ -236,7 +241,7 @@ export class UnitTestElement implements TestElement {
    * Sends the given string to the input as a series of key presses. Also fires input events
    * and attempts to add the string to the Element's value.
    *
-   * 通过一系列按键将给定的字符串发送到输入框。还会触发输入事件，并尝试将字符串添加到 Element 的值。
+   * 通过一系列按键将给定的字符串发送到输入框。还触发 input 事件，并尝试将字符串添加到 Element 的值。
    *
    */
   async sendKeys(modifiers: ModifierKeys, ...keys: (string | TestKey)[]): Promise<void>;
@@ -249,7 +254,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Gets the text from the element.
    *
-   * 从此元素获取文本。
+   * 从元素获取文本。
    *
    * @param options Options that affect what text is included.
    *
@@ -322,7 +327,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Selects the options at the specified indexes inside of a native `select` element.
    *
-   * 在 `select` 元素内的指定索引处选择选项。
+   * 选择此 `select` 元素内指定索引处的选择项。
    *
    */
   async selectOptions(...optionIndexes: number[]): Promise<void> {
@@ -367,7 +372,7 @@ export class UnitTestElement implements TestElement {
   /**
    * Checks whether the element is focused.
    *
-   * 检查元素是否具有焦点。
+   * 检查此元素是否拥有焦点。
    *
    */
   async isFocused(): Promise<boolean> {
@@ -399,10 +404,25 @@ export class UnitTestElement implements TestElement {
 
   /**
    * Dispatches a pointer event on the current element if the browser supports it.
+   *
+   * 如果浏览器支持，则在当前元素上派发指针事件。
+   *
    * @param name Name of the pointer event to be dispatched.
+   *
+   * 要派发的指针事件的名称。
+   *
    * @param clientX Coordinate of the user's pointer along the X axis.
+   *
+   * 用户指针沿 X 轴的坐标。
+   *
    * @param clientY Coordinate of the user's pointer along the Y axis.
+   *
+   * 用户指针沿 Y 轴的坐标。
+   *
    * @param button Mouse button that should be pressed when dispatching the event.
+   *
+   * 派发事件时应按下的鼠标按钮。
+   *
    */
   private _dispatchPointerEventIfSupported(
     name: string,
@@ -427,6 +447,8 @@ export class UnitTestElement implements TestElement {
   /**
    * Dispatches all the events that are part of a mouse event sequence
    * and then emits a given primary event at the end, if speciifed.
+   *
+   * 派发属于鼠标事件序列的所有事件，最后发出指定的主事件（如果指定过）。
    */
   private async _dispatchMouseEventSequence(
     primaryEventName: string | null,

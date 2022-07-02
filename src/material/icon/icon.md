@@ -51,7 +51,7 @@ itself or an alias registered with `MatIconRegistry.registerFontClassAlias`), an
 input to the class for the specific icon to show.
 
 字体还可以通过为每个图标字符定义 CSS 类来显示图标，它通常使用 `:before` 选择器来显示图标。
-[FontAwesome](https://fortawesome.github.io/Font-Awesome/examples/) 就是通过这种方式显示图标的。
+[FontAwesome](https://fontawesome.com/icons) 就是通过这种方式显示图标的。
 要使用这类字体，请把输入属性 `fontSet` 设置为该字体的 CSS 类（或者它本身的定义类或者通过 `MatIconRegistry.registerFontClassAlias` 注册的别名），并且把输入属性 `fontIcon` 设置为要显示的图标的专有类。
 
 For both types of font icons, you can specify the default font class to use when `fontSet` is not

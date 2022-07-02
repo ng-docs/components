@@ -61,9 +61,17 @@ export const MAT_SLIDE_TOGGLE_VALUE_ACCESSOR = {
  */
 export class MatSlideToggleChange {
   constructor(
-    /** The source MatSlideToggle of the event. */
+    /**
+     * The source MatSlideToggle of the event.
+     *
+     * 发出此事件的源 MatSlideToggle。
+     */
     public source: MatSlideToggle,
-    /** The new `checked` value of the MatSlideToggle. */
+    /**
+     * The new `checked` value of the MatSlideToggle.
+     *
+     * 此 MatSlideToggle 的新 `checked` 值。
+     */
     public checked: boolean,
   ) {}
 }
@@ -104,7 +112,12 @@ export abstract class _MatSlideToggleBase<T>
   protected abstract _createChangeEvent(isChecked: boolean): T;
   abstract focus(options?: FocusOptions, origin?: FocusOrigin): void;
 
-  /** Whether noop animations are enabled. */
+  /**
+   * Whether noop animations are enabled.
+   *
+   * 是否启用 noop 动画。
+   *
+   */
   _noopAnimations: boolean;
 
   /** Whether the slide toggle is currently focused. */
@@ -375,7 +388,12 @@ export class MatSlideToggle extends _MatSlideToggleBase<MatSlideToggleChange> {
     this._emitChangeEvent();
   }
 
-  /** Method being called whenever the slide-toggle has been clicked. */
+  /**
+   * Method being called whenever the slide-toggle has been clicked.
+   *
+   * 只要单击了滑块开关，就会调用该方法。
+   *
+   */
   _onInputClick(event: Event) {
     // We have to stop propagation for click events on the visual hidden input element.
     // By default, when a user clicks on a label element, a generated click event will be
@@ -401,7 +419,12 @@ export class MatSlideToggle extends _MatSlideToggleBase<MatSlideToggleChange> {
     }
   }
 
-  /** Method being called whenever the label text changes. */
+  /**
+   * Method being called whenever the label text changes.
+   *
+   * 每当标签文本发生变化时就会被调用。
+   *
+   */
   _onLabelTextChange() {
     // Since the event of the `cdkObserveContent` directive runs outside of the zone, the
     // slide-toggle component will be only marked for check, but no actual change detection runs

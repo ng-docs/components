@@ -116,6 +116,10 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
    * Normally, this will be retrieved by the column using `ContentChild`, but that assumes the
    * column definition was provided in the same view as the table, which is not the case with this
    * component.
+   *
+   * `ngOnInit` 期间，通过静态查询，列单元格会被提供给列。
+   * 通常情况下，会通过对这个列使用 `ContentChild` 检索它，但这要求列的定义是在同一视图中提供的，但本组件中并非如此。
+   *
    * @docs-private
    */
   @ViewChild(CdkCellDef, {static: true}) cell: CdkCellDef;
@@ -125,6 +129,10 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
    * Normally, this will be retrieved by the column using `ContentChild`, but that assumes the
    * column definition was provided in the same view as the table, which is not the case with this
    * component.
+   *
+   * 该列的 headerCell 是在 `ngOnInit` 中通过静态查询提供给列的。
+   * 通常情况下，会通过对这个列使用 `ContentChild` 检索它，但这要求列的定义是在同一视图中提供的，但本组件中并非如此。
+   *
    * @docs-private
    */
   @ViewChild(CdkHeaderCellDef, {static: true}) headerCell: CdkHeaderCellDef;
@@ -172,6 +180,9 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
   /**
    * Creates a default header text. Use the options' header text transformation function if one
    * has been provided. Otherwise simply capitalize the column name.
+   *
+   * 创建默认的表头文本。如果提供了表头文本的转换函数，请使用这些选项。否则，只需要将列名大写。
+   *
    */
   _createDefaultHeaderText() {
     const name = this.name;
@@ -187,7 +198,12 @@ export class CdkTextColumn<T> implements OnDestroy, OnInit {
     return name[0].toUpperCase() + name.slice(1);
   }
 
-  /** Synchronizes the column definition name with the text column name. */
+  /**
+   * Synchronizes the column definition name with the text column name.
+   *
+   * 将列定义名称与列名文本同步。
+   *
+   */
   private _syncColumnDefName() {
     if (this.columnDef) {
       this.columnDef.name = this.name;

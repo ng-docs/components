@@ -14,7 +14,7 @@ import {defaultParams} from './dialog-animations';
 /**
  * Options for where to set focus to automatically on dialog open
  *
- * 用于在对话框打开时自动将焦点设置到何处的选项
+ * 用于指定当对话框打开时自动将焦点设置到何处的选项
  *
  */
 export type AutoFocusTarget = 'dialog' | 'first-tabbable' | 'first-heading';
@@ -198,7 +198,7 @@ export class MatDialogConfig<D = any> {
   /**
    * Data being injected into the child component.
    *
-   * 注入到子组件中的数据。
+   * 要注入到子组件中的数据。
    *
    */
   data?: D | null = null;
@@ -206,7 +206,7 @@ export class MatDialogConfig<D = any> {
   /**
    * Layout direction for the dialog's content.
    *
-   * 对话框内容的布局方向。
+   * 对话框内容的布局方向
    *
    */
   direction?: Direction;
@@ -242,6 +242,9 @@ export class MatDialogConfig<D = any> {
    *
    * @breaking-change 14.0.0 Remove boolean option from autoFocus. Use string or
    * AutoFocusTarget instead.
+   *
+   * 从 autoFocus 中删除了布尔选项。请改用字符串或 AutoFocusTarget。
+   *
    */
   autoFocus?: AutoFocusTarget | string | boolean = 'first-tabbable';
 

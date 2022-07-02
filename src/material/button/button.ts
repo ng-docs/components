@@ -31,12 +31,20 @@ import {
 } from '@angular/material/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
-/** Default color palette for round buttons (mat-fab and mat-mini-fab) */
+/**
+ * Default color palette for round buttons (mat-fab and mat-mini-fab)
+ *
+ * 圆形按钮的默认调色板（mat-fab 和 mat-mini-fab）
+ *
+ */
 const DEFAULT_ROUND_BUTTON_COLOR = 'accent';
 
 /**
  * List of classes to add to MatButton instances based on host attributes to
  * style as different variants.
+ *
+ * 要添加到 MatButton 实例中的类列表，它们会根据宿主属性设置为不同的样式。
+ *
  */
 const BUTTON_HOST_ATTRIBUTES = [
   'mat-button',
@@ -168,7 +176,12 @@ export class MatButton
     return this.disableRipple || this.disabled;
   }
 
-  /** Gets whether the button has one of the given attributes. */
+  /**
+   * Gets whether the button has one of the given attributes.
+   *
+   * 获取此按钮是否具有指定属性之一。
+   *
+   */
   _hasHostAttributes(...attributes: string[]) {
     return attributes.some(attribute => this._getHostElement().hasAttribute(attribute));
   }
@@ -202,7 +215,12 @@ export class MatButton
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatAnchor extends MatButton implements AfterViewInit, OnDestroy {
-  /** Tabindex of the button. */
+  /**
+   * Tabindex of the button.
+   *
+   * 此按钮的 Tabindex。
+   *
+   */
   @Input() tabIndex: number;
 
   constructor(

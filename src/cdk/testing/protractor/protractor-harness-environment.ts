@@ -28,7 +28,12 @@ export interface ProtractorHarnessEnvironmentOptions {
   queryFn: (selector: string, root: ElementFinder) => ElementArrayFinder;
 }
 
-/** The default environment options. */
+/**
+ * The default environment options.
+ *
+ * 默认环境选项。
+ *
+ */
 const defaultEnvironmentOptions: ProtractorHarnessEnvironmentOptions = {
   queryFn: (selector: string, root: ElementFinder) => root.all(by.css(selector)),
 };
@@ -43,7 +48,12 @@ const defaultEnvironmentOptions: ProtractorHarnessEnvironmentOptions = {
  * @breaking-change 13.0.0
  */
 export class ProtractorHarnessEnvironment extends HarnessEnvironment<ElementFinder> {
-  /** The options for this environment. */
+  /**
+   * The options for this environment.
+   *
+   * 此环境的选项。
+   *
+   */
   private _options: ProtractorHarnessEnvironmentOptions;
 
   protected constructor(

@@ -12,20 +12,40 @@ import {Platform} from '@angular/cdk/platform';
 import {DOCUMENT} from '@angular/common';
 import {Subscription} from 'rxjs';
 
-/** Set of possible high-contrast mode backgrounds. */
+/**
+ * Set of possible high-contrast mode backgrounds.
+ *
+ * 一组可能的高对比度模式背景。
+ *
+ */
 export const enum HighContrastMode {
   NONE,
   BLACK_ON_WHITE,
   WHITE_ON_BLACK,
 }
 
-/** CSS class applied to the document body when in black-on-white high-contrast mode. */
+/**
+ * CSS class applied to the document body when in black-on-white high-contrast mode.
+ *
+ * 黑白高对比度模式下，要应用于文档主体的 CSS 类。
+ *
+ */
 export const BLACK_ON_WHITE_CSS_CLASS = 'cdk-high-contrast-black-on-white';
 
-/** CSS class applied to the document body when in white-on-black high-contrast mode. */
+/**
+ * CSS class applied to the document body when in white-on-black high-contrast mode.
+ *
+ * 在黑白高对比度模式下要应用于文档正文的 CSS 类。
+ *
+ */
 export const WHITE_ON_BLACK_CSS_CLASS = 'cdk-high-contrast-white-on-black';
 
-/** CSS class applied to the document body when in high-contrast mode. */
+/**
+ * CSS class applied to the document body when in high-contrast mode.
+ *
+ * 在高对比度模式下，要应用于文档主体的 CSS 类。
+ *
+ */
 export const HIGH_CONTRAST_MODE_ACTIVE_CSS_CLASS = 'cdk-high-contrast-active';
 
 /**
@@ -51,6 +71,9 @@ export class HighContrastModeDetector implements OnDestroy {
   /**
    * Figuring out the high contrast mode and adding the body classes can cause
    * some expensive layouts. This flag is used to ensure that we only do it once.
+   *
+   * 检测高对比度模式并添加 body 上的类可能会导致某些昂贵的布局工作。此标志用于确保我们仅执行一次。
+   *
    */
   private _hasCheckedHighContrastMode: boolean;
   private _document: Document;
@@ -116,7 +139,12 @@ export class HighContrastModeDetector implements OnDestroy {
     this._breakpointSubscription.unsubscribe();
   }
 
-  /** Applies CSS classes indicating high-contrast mode to document body (browser-only). */
+  /**
+   * Applies CSS classes indicating high-contrast mode to document body (browser-only).
+   *
+   * 将指示高对比度模式的 CSS 类应用于文档正文（仅浏览器）。
+   *
+   */
   _applyBodyHighContrastModeCssClasses(): void {
     if (!this._hasCheckedHighContrastMode && this._platform.isBrowser && this._document.body) {
       const bodyClasses = this._document.body.classList;

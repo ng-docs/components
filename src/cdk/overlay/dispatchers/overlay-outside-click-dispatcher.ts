@@ -100,12 +100,22 @@ export class OverlayOutsideClickDispatcher extends BaseOverlayDispatcher {
     body.addEventListener('contextmenu', this._clickListener, true);
   }
 
-  /** Store pointerdown event target to track origin of click. */
+  /**
+   * Store pointerdown event target to track origin of click.
+   *
+   * 存储 pointerdown 事件目标以跟踪点击来源。
+   *
+   */
   private _pointerDownListener = (event: PointerEvent) => {
     this._pointerDownEventTarget = _getEventTarget(event);
   };
 
-  /** Click event listener that will be attached to the body propagate phase. */
+  /**
+   * Click event listener that will be attached to the body propagate phase.
+   *
+   * 单击事件侦听器，该事件将附加到 body 上的传播阶段。
+   *
+   */
   private _clickListener = (event: MouseEvent) => {
     const target = _getEventTarget(event);
     // In case of a click event, we want to check the origin of the click

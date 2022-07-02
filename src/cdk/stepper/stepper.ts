@@ -46,7 +46,12 @@ import {startWith, takeUntil} from 'rxjs/operators';
 import {CdkStepHeader} from './step-header';
 import {CdkStepLabel} from './step-label';
 
-/** Used to generate unique ID for each stepper component. */
+/**
+ * Used to generate unique ID for each stepper component.
+ *
+ * 用于为每个步进器组件生成唯一的 ID。
+ *
+ */
 let nextId = 0;
 
 /**
@@ -376,7 +381,12 @@ export class CdkStep implements OnChanges {
     }
   }
 
-  /** Determines whether the error state can be shown. */
+  /**
+   * Determines whether the error state can be shown.
+   *
+   * 确定是否可以显示错误状态。
+   *
+   */
   _showError(): boolean {
     // We want to show the error state either if the user opted into/out of it using the
     // global options, or if they've explicitly set it through the `hasError` input.
@@ -389,13 +399,28 @@ export class CdkStep implements OnChanges {
   exportAs: 'cdkStepper',
 })
 export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
-  /** Emits when the component is destroyed. */
+  /**
+   * Emits when the component is destroyed.
+   *
+   * 当组件被销毁时会触发。
+   *
+   */
   protected readonly _destroyed = new Subject<void>();
 
-  /** Used for managing keyboard focus. */
+  /**
+   * Used for managing keyboard focus.
+   *
+   * 用于管理键盘焦点。
+   *
+   */
   private _keyManager: FocusKeyManager<FocusableOption>;
 
-  /** Full list of steps inside the stepper, including inside nested steppers. */
+  /**
+   * Full list of steps inside the stepper, including inside nested steppers.
+   *
+   * 步进器里面的完整步骤列表，也包括嵌套步进器中的那些。
+   *
+   */
   @ContentChildren(CdkStep, {descendants: true}) _steps: QueryList<CdkStep>;
 
   /**
@@ -406,10 +431,20 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    */
   readonly steps: QueryList<CdkStep> = new QueryList<CdkStep>();
 
-  /** The list of step headers of the steps in the stepper. */
+  /**
+   * The list of step headers of the steps in the stepper.
+   *
+   * 步进器中各步骤的步骤头列表。
+   *
+   */
   @ContentChildren(CdkStepHeader, {descendants: true}) _stepHeader: QueryList<CdkStepHeader>;
 
-  /** List of step headers sorted based on their DOM order. */
+  /**
+   * List of step headers sorted based on their DOM order.
+   *
+   * 根据 DOM 顺序排序的步骤标题列表。
+   *
+   */
   private _sortedHeaders = new QueryList<CdkStepHeader>();
 
   /**
@@ -483,7 +518,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    */
   @Output() readonly selectionChange = new EventEmitter<StepperSelectionEvent>();
 
-  /** Used to track unique ID for each stepper component. */
+  /**
+   * Used to track unique ID for each stepper component.
+   *
+   * 用于跟踪每个步进器组件的唯一 ID。
+   *
+   */
   _groupId: number;
 
   /**
@@ -616,22 +656,42 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     this._stateChanged();
   }
 
-  /** Returns a unique id for each step label element. */
+  /**
+   * Returns a unique id for each step label element.
+   *
+   * 为每个标签元素返回一个唯一的 id。
+   *
+   */
   _getStepLabelId(i: number): string {
     return `cdk-step-label-${this._groupId}-${i}`;
   }
 
-  /** Returns unique id for each step content element. */
+  /**
+   * Returns unique id for each step content element.
+   *
+   * 为每个步骤的内容元素返回唯一的 id。
+   *
+   */
   _getStepContentId(i: number): string {
     return `cdk-step-content-${this._groupId}-${i}`;
   }
 
-  /** Marks the component to be change detected. */
+  /**
+   * Marks the component to be change detected.
+   *
+   * 标记要进行变更检测的组件。
+   *
+   */
   _stateChanged() {
     this._changeDetectorRef.markForCheck();
   }
 
-  /** Returns position state of the step with the given index. */
+  /**
+   * Returns position state of the step with the given index.
+   *
+   * 返回具有指定索引的步骤的位置状态。
+   *
+   */
   _getAnimationDirection(index: number): StepContentPositionState {
     const position = index - this._selectedIndex;
     if (position < 0) {
@@ -642,7 +702,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     return 'current';
   }
 
-  /** Returns the type of icon to be displayed. */
+  /**
+   * Returns the type of icon to be displayed.
+   *
+   * 返回要显示的图标类型。
+   *
+   */
   _getIndicatorType(index: number, state: StepState = STEP_STATE.NUMBER): StepState {
     const step = this.steps.toArray()[index];
     const isCurrentStep = this._isCurrentStep(index);
@@ -684,7 +749,12 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     return this._selectedIndex === index;
   }
 
-  /** Returns the index of the currently-focused step header. */
+  /**
+   * Returns the index of the currently-focused step header.
+   *
+   * 返回当前拥有焦点的步骤头的索引。
+   *
+   */
   _getFocusIndex() {
     return this._keyManager ? this._keyManager.activeItemIndex : this._selectedIndex;
   }
@@ -748,14 +818,24 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     return this._dir && this._dir.value === 'rtl' ? 'rtl' : 'ltr';
   }
 
-  /** Checks whether the stepper contains the focused element. */
+  /**
+   * Checks whether the stepper contains the focused element.
+   *
+   * 检查步进器是否包含有拥焦点的元素。
+   *
+   */
   private _containsFocus(): boolean {
     const stepperElement = this._elementRef.nativeElement;
     const focusedElement = _getFocusedElementPierceShadowDom();
     return stepperElement === focusedElement || stepperElement.contains(focusedElement);
   }
 
-  /** Checks whether the passed-in index is a valid step index. */
+  /**
+   * Checks whether the passed-in index is a valid step index.
+   *
+   * 检查传入的索引是否为有效的步骤索引。
+   *
+   */
   private _isValidIndex(index: number): boolean {
     return index > -1 && (!this.steps || index < this.steps.length);
   }
@@ -764,6 +844,9 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
 /**
  * Simplified representation of an "AbstractControl" from @angular/forms.
  * Used to avoid having to bring in @angular/forms for a single optional interface.
+ *
+ * 来自 @angular/forms 的 “AbstractControl” 的简化表示。用于避免为单个可选接口引入 @angular/forms。
+ *
  * @docs-private
  */
 interface AbstractControlLike {

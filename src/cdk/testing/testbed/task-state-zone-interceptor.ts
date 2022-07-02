@@ -9,16 +9,36 @@
 import {BehaviorSubject, Observable} from 'rxjs';
 import {ProxyZone, ProxyZoneStatic} from './proxy-zone-types';
 
-/** Current state of the intercepted zone. */
+/**
+ * Current state of the intercepted zone.
+ *
+ * 拦截 zone 的当前状态。
+ *
+ */
 export interface TaskState {
-  /** Whether the zone is stable (i.e. no microtasks and macrotasks). */
+  /**
+   * Whether the zone is stable (i.e. no microtasks and macrotasks).
+   *
+   * zone 是否稳定（即没有微任务和宏任务）。
+   *
+   */
   stable: boolean;
 }
 
-/** Unique symbol that is used to patch a property to a proxy zone. */
+/**
+ * Unique symbol that is used to patch a property to a proxy zone.
+ *
+ * 用于将属性 patch 到代理 zone 的唯一符号。
+ *
+ */
 const stateObservableSymbol = Symbol('ProxyZone_PATCHED#stateObservable');
 
-/** Type that describes a potentially patched proxy zone instance. */
+/**
+ * Type that describes a potentially patched proxy zone instance.
+ *
+ * 描述潜在 patch 的代理 zone 实例的类型。
+ *
+ */
 type PatchedProxyZone = ProxyZone & {
   [stateObservableSymbol]: undefined | Observable<TaskState>;
 };
@@ -27,28 +47,52 @@ type PatchedProxyZone = ProxyZone & {
  * Interceptor that can be set up in a `ProxyZone` instance. The interceptor
  * will keep track of the task state and emit whenever the state changes.
  *
- * This serves as a workaround for <https://github.com/angular/angular/issues/32896>.
+ * `ProxyZone` 实例中设置的拦截器。拦截器将跟踪任务状态，并在状态改变时发出。
+ *
+ * This serves as a workaround for https://github.com/angular/angular/issues/32896.
+ *
+ * 这是解决 https://github.com/angular/angular/issues/32896 的变通方法。
  *
  */
 export class TaskStateZoneInterceptor {
-  /** Subject that can be used to emit a new state change. */
+  /**
+   * Subject that can be used to emit a new state change.
+   *
+   * 可用于发出新状态更改的主体对象。
+   *
+   */
   private readonly _stateSubject = new BehaviorSubject<TaskState>(
     this._lastState ? this._getTaskStateFromInternalZoneState(this._lastState) : {stable: true},
   );
 
-  /** Public observable that emits whenever the task state changes. */
+  /**
+   * Public observable that emits whenever the task state changes.
+   *
+   * 任务状态更改时发出通知的公共可观察对象。
+   *
+   */
   readonly state: Observable<TaskState> = this._stateSubject;
 
   constructor(private _lastState: HasTaskState | null) {}
 
-  /** This will be called whenever the task state changes in the intercepted zone. */
+  /**
+   * This will be called whenever the task state changes in the intercepted zone.
+   *
+   * 每当任务状态拦截 zone 中的更改时，将调用此方法。
+   *
+   */
   onHasTask(delegate: ZoneDelegate, current: Zone, target: Zone, hasTaskState: HasTaskState) {
     if (current === target) {
       this._stateSubject.next(this._getTaskStateFromInternalZoneState(hasTaskState));
     }
   }
 
-  /** Gets the task state from the internal ZoneJS task state. */
+  /**
+   * Gets the task state from the internal ZoneJS task state.
+   *
+   * 从内部 ZoneJS 任务状态获取任务状态。
+   *
+   */
   private _getTaskStateFromInternalZoneState(state: HasTaskState): TaskState {
     return {stable: !state.macroTask && !state.microTask};
   }
@@ -56,7 +100,13 @@ export class TaskStateZoneInterceptor {
   /**
    * Sets up the custom task state Zone interceptor in the  `ProxyZone`. Throws if
    * no `ProxyZone` could be found.
+   *
+   * 在 `ProxyZone` 中设置自定义任务状态区域拦截器。`ProxyZone` 抛出该异常。
+   *
    * @returns an observable that emits whenever the task state changes.
+   *
+   * 任务状态更改时发出的可观察对象。
+   *
    */
   static setup(): Observable<TaskState> {
     if (Zone === undefined) {

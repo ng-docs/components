@@ -45,7 +45,12 @@ export class MatBottomSheet implements OnDestroy {
   private _bottomSheetRefAtThisLevel: MatBottomSheetRef<any> | null = null;
   private _dialog: Dialog;
 
-  /** Reference to the currently opened bottom sheet. */
+  /**
+   * Reference to the currently opened bottom sheet.
+   *
+   * 引用当前打开的底部操作表。
+   *
+   */
   get _openedBottomSheetRef(): MatBottomSheetRef<any> | null {
     const parent = this._parentBottomSheet;
     return parent ? parent._openedBottomSheetRef : this._bottomSheetRefAtThisLevel;

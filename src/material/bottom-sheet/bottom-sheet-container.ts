@@ -30,6 +30,9 @@ import {matBottomSheetAnimations} from './bottom-sheet-animations';
 
 /**
  * Internal component that wraps user-provided bottom sheet content.
+ *
+ * 用于包装用户提供的底部操作表内容的内部组件。
+ *
  * @docs-private
  */
 @Component({
@@ -57,13 +60,28 @@ import {matBottomSheetAnimations} from './bottom-sheet-animations';
 export class MatBottomSheetContainer extends CdkDialogContainer implements OnDestroy {
   private _breakpointSubscription: Subscription;
 
-  /** The state of the bottom sheet animations. */
+  /**
+   * The state of the bottom sheet animations.
+   *
+   * 底部操作表动画的状态。
+   *
+   */
   _animationState: 'void' | 'visible' | 'hidden' = 'void';
 
-  /** Emits whenever the state of the animation changes. */
+  /**
+   * Emits whenever the state of the animation changes.
+   *
+   * 每当动画的状态发生变化时就会触发。
+   *
+   */
   _animationStateChanged = new EventEmitter<AnimationEvent>();
 
-  /** Whether the component has been destroyed. */
+  /**
+   * Whether the component has been destroyed.
+   *
+   * 该组件是否已被销毁。
+   *
+   */
   private _destroyed: boolean;
 
   constructor(
@@ -107,7 +125,12 @@ export class MatBottomSheetContainer extends CdkDialogContainer implements OnDes
       });
   }
 
-  /** Begin animation of bottom sheet entrance into view. */
+  /**
+   * Begin animation of bottom sheet entrance into view.
+   *
+   * 启动底部操作表进入视图动画。
+   *
+   */
   enter(): void {
     if (!this._destroyed) {
       this._animationState = 'visible';
@@ -115,7 +138,12 @@ export class MatBottomSheetContainer extends CdkDialogContainer implements OnDes
     }
   }
 
-  /** Begin animation of the bottom sheet exiting from view. */
+  /**
+   * Begin animation of the bottom sheet exiting from view.
+   *
+   * 启动底部操作表离开视图的动画。
+   *
+   */
   exit(): void {
     if (!this._destroyed) {
       this._animationState = 'hidden';

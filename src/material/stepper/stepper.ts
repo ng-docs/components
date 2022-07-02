@@ -83,10 +83,20 @@ export class MatStep extends CdkStep implements ErrorStateMatcher, AfterContentI
    */
   @Input() color: ThemePalette;
 
-  /** Content that will be rendered lazily. */
+  /**
+   * Content that will be rendered lazily.
+   *
+   * 要延迟渲染的内容。
+   *
+   */
   @ContentChild(MatStepContent, {static: false}) _lazyContent: MatStepContent;
 
-  /** Currently-attached portal containing the lazy content. */
+  /**
+   * Currently-attached portal containing the lazy content.
+   *
+   * 当前附着到的门户网站，其中包含惰性渲染的内容。
+   *
+   */
   _portal: TemplatePortal;
 
   constructor(
@@ -163,21 +173,36 @@ export class MatStep extends CdkStep implements ErrorStateMatcher, AfterContentI
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatStepper extends CdkStepper implements AfterContentInit {
-  /** The list of step headers of the steps in the stepper. */
+  /**
+   * The list of step headers of the steps in the stepper.
+   *
+   * 步进器中各步骤的步骤头列表。
+   *
+   */
   @ViewChildren(MatStepHeader) override _stepHeader: QueryList<MatStepHeader>;
 
-  /** Full list of steps inside the stepper, including inside nested steppers. */
+  /**
+   * Full list of steps inside the stepper, including inside nested steppers.
+   *
+   * 步进器里面的完整步骤列表，也包括嵌套的步进器内部的步骤。
+   *
+   */
   @ContentChildren(MatStep, {descendants: true}) override _steps: QueryList<MatStep>;
 
   /**
    * Steps that belong to the current stepper, excluding ones from nested steppers.
    *
-   * 属于当前步进器的步骤（不包括那些来自嵌套步进器中的步骤）。
+   * 属于当前步进器的步骤（不包括那些来自嵌套步进器的步骤）。
    *
    */
   override readonly steps: QueryList<MatStep> = new QueryList<MatStep>();
 
-  /** Custom icon overrides passed in by the consumer. */
+  /**
+   * Custom icon overrides passed in by the consumer.
+   *
+   * 消费者传入的自定义改写图标。
+   *
+   */
   @ContentChildren(MatStepperIcon, {descendants: true}) _icons: QueryList<MatStepperIcon>;
 
   /**
@@ -224,7 +249,12 @@ export class MatStepper extends CdkStepper implements AfterContentInit {
   /** Consumer-specified template-refs to be used to override the header icons. */
   _iconOverrides: Record<string, TemplateRef<MatStepperIconContext>> = {};
 
-  /** Stream of animation `done` events when the body expands/collapses. */
+  /**
+   * Stream of animation `done` events when the body expands/collapses.
+   *
+   * 当步骤体展开/折叠时，动画的 `done` 事件流。
+   *
+   */
   readonly _animationDone = new Subject<AnimationEvent>();
 
   /** Duration for the animation. Will be normalized to milliseconds if no units are set. */

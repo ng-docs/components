@@ -54,6 +54,9 @@ const outlineGapPadding = 5;
 
 /**
  * Boilerplate for applying mixins to MatFormField.
+ *
+ * 用于将 mixins 应用到 MatFormField 的样板代码
+ *
  * @docs-private
  */
 const _MatFormFieldBase = mixinColor(
@@ -181,10 +184,18 @@ export class MatFormField
   /**
    * Whether the outline gap needs to be calculated
    * immediately on the next change detection run.
+   *
+   * 是否需要在下次变更检测运行时立即计算轮廓的间隙。
+   *
    */
   private _outlineGapCalculationNeededImmediately = false;
 
-  /** Whether the outline gap needs to be calculated next time the zone has stabilized. */
+  /**
+   * Whether the outline gap needs to be calculated next time the zone has stabilized.
+   *
+   * 是否需要在下次 Zone 稳定后计算出轮廓的间隙。
+   *
+   */
   private _outlineGapCalculationNeededOnStable = false;
 
   private readonly _destroyed = new Subject<void>();
@@ -225,20 +236,40 @@ export class MatFormField
   }
   private _hideRequiredMarker = false;
 
-  /** Override for the logic that disables the label animation in certain cases. */
+  /**
+   * Override for the logic that disables the label animation in certain cases.
+   *
+   * 在某些情况下改写禁用标签动画的逻辑。
+   *
+   */
   private _showAlwaysAnimate = false;
 
-  /** Whether the floating label should always float or not. */
+  /**
+   * Whether the floating label should always float or not.
+   *
+   * 浮动标签是否应该始终是浮动的。
+   *
+   */
   _shouldAlwaysFloat(): boolean {
     return this.floatLabel === 'always' && !this._showAlwaysAnimate;
   }
 
-  /** Whether the label can float or not. */
+  /**
+   * Whether the label can float or not.
+   *
+   * 标签是否可以浮动。
+   *
+   */
   _canLabelFloat(): boolean {
     return this.floatLabel !== 'never';
   }
 
-  /** State of the mat-hint and mat-error animations. */
+  /**
+   * State of the mat-hint and mat-error animations.
+   *
+   * mat-hint 和 mat-error 动画的状态。
+   *
+   */
   _subscriptAnimationState: string = '';
 
   /**
@@ -288,7 +319,12 @@ export class MatFormField
   }
   private _floatLabel: FloatLabelType;
 
-  /** Whether the Angular animations are enabled. */
+  /**
+   * Whether the Angular animations are enabled.
+   *
+   * 是否启用了 Angular 动画。
+   *
+   */
   _animationsEnabled: boolean;
 
   @ViewChild('connectionContainer', {static: true}) _connectionContainerRef: ElementRef;
@@ -447,8 +483,10 @@ export class MatFormField
   }
 
   /**
-   * Determines whether a class from the AbstractControlDirective
-   * should be forwarded to the host element.
+   * Determines whether a class from the AbstractControlDirective should be forwarded to the host element.
+   *
+   * 确定是否应该把 AbstractControlDirective 中的类转发给宿主元素。
+   *
    */
   _shouldForward(prop: keyof AbstractControlDirective): boolean {
     const control = this._control ? this._control.ngControl : null;
@@ -483,14 +521,24 @@ export class MatFormField
     return this._hasLabel() || (this.appearance === 'legacy' && this._hasPlaceholder());
   }
 
-  /** Determines whether to display hints or errors. */
+  /**
+   * Determines whether to display hints or errors.
+   *
+   * 确定是否显示提示或错误。
+   *
+   */
   _getDisplayedMessages(): 'error' | 'hint' {
     return this._errorChildren && this._errorChildren.length > 0 && this._control.errorState
       ? 'error'
       : 'hint';
   }
 
-  /** Animates the placeholder up and locks it in position. */
+  /**
+   * Animates the placeholder up and locks it in position.
+   *
+   * 为占位符添加动画，并把它锁定到其位置。
+   *
+   */
   _animateAndLockLabel(): void {
     if (this._hasFloatingLabel() && this._canLabelFloat()) {
       // If animations are disabled, we shouldn't go in here,
@@ -513,6 +561,9 @@ export class MatFormField
   /**
    * Ensure that there is only one placeholder (either `placeholder` attribute on the child control
    * or child element with the `mat-placeholder` directive).
+   *
+   * 确保只有一个占位符（无论是子控件中的 `placeholder` 属性，还是带有 `mat-placeholder` 指令的子元素）。
+   *
    */
   private _validatePlaceholders() {
     if (
@@ -524,7 +575,12 @@ export class MatFormField
     }
   }
 
-  /** Does any extra processing that is required when handling the hints. */
+  /**
+   * Does any extra processing that is required when handling the hints.
+   *
+   * 处理提示时是否需要进行额外的处理。
+   *
+   */
   private _processHints() {
     this._validateHints();
     this._syncDescribedByIds();
@@ -533,6 +589,9 @@ export class MatFormField
   /**
    * Ensure that there is a maximum of one of each `<mat-hint>` alignment specified, with the
    * attribute being considered as `align="start"`.
+   *
+   * 确保每个 `<mat-hint>` 对齐中最只有一个对齐具有等价于 `align="start"` 的属性。
+   *
    */
   private _validateHints() {
     if (this._hintChildren && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -554,7 +613,12 @@ export class MatFormField
     }
   }
 
-  /** Gets the default float label state. */
+  /**
+   * Gets the default float label state.
+   *
+   * 获取默认的浮动标签状态。
+   *
+   */
   private _getDefaultFloatLabelState(): FloatLabelType {
     return (this._defaults && this._defaults.floatLabel) || 'auto';
   }
@@ -562,6 +626,9 @@ export class MatFormField
   /**
    * Sets the list of element IDs that describe the child control. This allows the control to update
    * its `aria-describedby` attribute accordingly.
+   *
+   * 设置描述子控件的元素 ID 列表。这允许控件相应地更新它的 `aria-describedby` 属性。
+   *
    */
   private _syncDescribedByIds() {
     if (this._control) {
@@ -600,7 +667,12 @@ export class MatFormField
     }
   }
 
-  /** Throws an error if the form field's control is missing. */
+  /**
+   * Throws an error if the form field's control is missing.
+   *
+   * 如果缺少表单字段的控件，就会抛出一个错误。
+   *
+   */
   protected _validateControlChild() {
     if (!this._control && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw getMatFormFieldMissingControlError();
@@ -687,12 +759,22 @@ export class MatFormField
       false;
   }
 
-  /** Gets the start end of the rect considering the current directionality. */
+  /**
+   * Gets the start end of the rect considering the current directionality.
+   *
+   * 考虑当前的方向性，取得矩形的起始端。
+   *
+   */
   private _getStartEnd(rect: ClientRect): number {
     return this._dir && this._dir.value === 'rtl' ? rect.right : rect.left;
   }
 
-  /** Checks whether the form field is attached to the DOM. */
+  /**
+   * Checks whether the form field is attached to the DOM.
+   *
+   * 检查表单字段是否已附加到 DOM。
+   *
+   */
   private _isAttachedToDOM(): boolean {
     const element: HTMLElement = this._elementRef.nativeElement;
 

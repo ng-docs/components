@@ -38,7 +38,12 @@ import {
 } from '@angular/material/core';
 import {MatFormFieldAppearance} from '@angular/material/form-field';
 
-/** The default page size if there is no page size and there are no provided page size options. */
+/**
+ * The default page size if there is no page size and there are no provided page size options.
+ *
+ * 默认分页大小（如果没有分页大小且没有提供分页大小选项）。
+ *
+ */
 const DEFAULT_PAGE_SIZE = 50;
 
 /**
@@ -63,6 +68,8 @@ export class PageEvent {
    * 以前选择过的分页索引。
    *
    * @breaking-change 8.0.0 To be made into a required property.
+   *
+   * 8.0.0 要求成为必要属性。
    */
   previousPageIndex?: number;
 
@@ -161,6 +168,9 @@ export interface MatPaginatorSelectConfig {
 
 /**
  * Base class with all of the `MatPaginator` functionality.
+ *
+ * 具备所有 `MatPaginator` 功能的基类。
+ *
  * @docs-private
  */
 @Directive()
@@ -221,7 +231,7 @@ export abstract class _MatPaginatorBase<
   /**
    * Number of items to display on a page. By default set to 50.
    *
-   * 分页上显示的条目数。默认情况下，设置为 50。
+   * 每页显示的条目数。默认情况下，设置为 50。
    *
    */
   @Input()
@@ -253,7 +263,7 @@ export abstract class _MatPaginatorBase<
   /**
    * Whether to hide the page size selection UI from the user.
    *
-   * 是否隐藏给用户的分页大小选择界面。
+   * 是否隐藏用户的分页大小选择器界面。
    *
    */
   @Input()
@@ -291,7 +301,12 @@ export abstract class _MatPaginatorBase<
    */
   @Output() readonly page: EventEmitter<PageEvent> = new EventEmitter<PageEvent>();
 
-  /** Displayed set of page size options. Will be sorted and include current page size. */
+  /**
+   * Displayed set of page size options. Will be sorted and include current page size.
+   *
+   * 要显示的分页大小选项集。将被排序并且包含当前分页大小。
+   *
+   */
   _displayedPageSizeOptions: number[];
 
   constructor(
@@ -438,9 +453,14 @@ export abstract class _MatPaginatorBase<
    * Changes the page size so that the first item displayed on the page will still be
    * displayed using the new page size.
    *
+   * 更改分页大小，以便原来分页上显示的第一个条目在新的分页大小下仍然可见。
+   *
    * For example, if the page size is 10 and on the second page (items indexed 10-19) then
    * switching so that the page size is 5 will set the third page as the current page so
    * that the 10th item will still be displayed.
+   *
+   * 例如，如果分页大小为 10，目标在第二页（索引为 10-19 的条目）上，那么切换到分页大小为 5 时，会把第三页设置为当前分页，这样第 10 条仍然会把它显示出来。
+   *
    */
   _changePageSize(pageSize: number) {
     // Current page needs to be updated to reflect the new page size. Navigate to the page
@@ -453,12 +473,22 @@ export abstract class _MatPaginatorBase<
     this._emitPageEvent(previousPageIndex);
   }
 
-  /** Checks whether the buttons for going forwards should be disabled. */
+  /**
+   * Checks whether the buttons for going forwards should be disabled.
+   *
+   * 检查是否应禁用前进按钮。
+   *
+   */
   _nextButtonsDisabled() {
     return this.disabled || !this.hasNextPage();
   }
 
-  /** Checks whether the buttons for going backwards should be disabled. */
+  /**
+   * Checks whether the buttons for going backwards should be disabled.
+   *
+   * 检查是否应禁用后退按钮。
+   *
+   */
   _previousButtonsDisabled() {
     return this.disabled || !this.hasPreviousPage();
   }
@@ -466,6 +496,9 @@ export abstract class _MatPaginatorBase<
   /**
    * Updates the list of page size options to display to the user. Includes making sure that
    * the page size is an option and that the list is sorted.
+   *
+   * 更新要显示给用户的分页大小选项列表。包括确保分页大小是一个选项，以及该列表是排序过的。
+   *
    */
   private _updateDisplayedPageSizeOptions() {
     if (!this._initialized) {
@@ -489,7 +522,12 @@ export abstract class _MatPaginatorBase<
     this._changeDetectorRef.markForCheck();
   }
 
-  /** Emits an event notifying that a change of the paginator's properties has been triggered. */
+  /**
+   * Emits an event notifying that a change of the paginator's properties has been triggered.
+   *
+   * 发出一个事件，以通知此事件分页器属性发生了修改。
+   *
+   */
   private _emitPageEvent(previousPageIndex: number) {
     this.page.emit({
       previousPageIndex,
@@ -522,7 +560,12 @@ export abstract class _MatPaginatorBase<
   encapsulation: ViewEncapsulation.None,
 })
 export class MatPaginator extends _MatPaginatorBase<MatPaginatorDefaultOptions> {
-  /** If set, styles the "page size" form field with the designated style. */
+  /**
+   * If set, styles the "page size" form field with the designated style.
+   *
+   * 如果设置了，则用指定的样式为“分页大小”表单字段设置样式。
+   *
+   */
   _formFieldAppearance?: MatFormFieldAppearance;
 
   constructor(

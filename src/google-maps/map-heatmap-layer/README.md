@@ -35,9 +35,9 @@ script that loads the Google Maps API. E.g.
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization"></script>
 ```
 
-More information: <https://developers.google.com/maps/documentation/javascript/heatmaplayer>
+More information: https://developers.google.com/maps/documentation/javascript/heatmaplayer
 
-更多信息，参见 <https://developers.google.com/maps/documentation/javascript/heatmaplayer>。
+更多信息，参见 https://developers.google.com/maps/documentation/javascript/heatmaplayer。
 
 ## Example
 

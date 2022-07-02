@@ -66,7 +66,12 @@ export const CDK_DESCRIBEDBY_ID_PREFIX = 'cdk-describedby-message';
  */
 export const CDK_DESCRIBEDBY_HOST_ATTRIBUTE = 'cdk-describedby-host';
 
-/** Global incremental identifier for each registered message element. */
+/**
+ * Global incremental identifier for each registered message element.
+ *
+ * 每个已注册消息元素的全局增量标识符。
+ *
+ */
 let nextId = 0;
 
 /**
@@ -140,10 +145,20 @@ export class AriaDescriber implements OnDestroy {
     }
   }
 
-  /** Removes the host element's aria-describedby reference to the message. */
+  /**
+   * Removes the host element's aria-describedby reference to the message.
+   *
+   * 删除宿主元素由 aria-describedby 引用的消息。
+   *
+   */
   removeDescription(hostElement: Element, message: string, role?: string): void;
 
-  /** Removes the host element's aria-describedby reference to the message element. */
+  /**
+   * Removes the host element's aria-describedby reference to the message element.
+   *
+   * 删除宿主元素由 aria-describedby 引用的消息元素。
+   *
+   */
   removeDescription(hostElement: Element, message: HTMLElement): void;
 
   removeDescription(hostElement: Element, message: string | HTMLElement, role?: string): void {
@@ -172,7 +187,12 @@ export class AriaDescriber implements OnDestroy {
     }
   }
 
-  /** Unregisters all created message elements and removes the message container. */
+  /**
+   * Unregisters all created message elements and removes the message container.
+   *
+   * 注销所有已创建的消息元素，并删除消息容器。
+   *
+   */
   ngOnDestroy() {
     const describedElements = this._document.querySelectorAll(
       `[${CDK_DESCRIBEDBY_HOST_ATTRIBUTE}="${this._id}"]`,
@@ -191,6 +211,9 @@ export class AriaDescriber implements OnDestroy {
   /**
    * Creates a new element in the visually hidden message container element with the message
    * as its content and adds it to the message registry.
+   *
+   * 在以消息为内容的可视隐藏消息容器元素中创建一个新元素，并将其添加到消息注册表中。
+   *
    */
   private _createMessageElement(message: string, role?: string) {
     const messageElement = this._document.createElement('div');
@@ -206,13 +229,23 @@ export class AriaDescriber implements OnDestroy {
     this._messageRegistry.set(getKey(message, role), {messageElement, referenceCount: 0});
   }
 
-  /** Deletes the message element from the global messages container. */
+  /**
+   * Deletes the message element from the global messages container.
+   *
+   * 从全局消息容器中删除消息元素。
+   *
+   */
   private _deleteMessageElement(key: string | Element) {
     this._messageRegistry.get(key)?.messageElement?.remove();
     this._messageRegistry.delete(key);
   }
 
-  /** Creates the global container for all aria-describedby messages. */
+  /**
+   * Creates the global container for all aria-describedby messages.
+   *
+   * 为所有由 aria-describedby 引用的消息创建全局容器。
+   *
+   */
   private _createMessagesContainer() {
     if (this._messagesContainer) {
       return;
@@ -252,7 +285,12 @@ export class AriaDescriber implements OnDestroy {
     this._messagesContainer = messagesContainer;
   }
 
-  /** Removes all cdk-describedby messages that are hosted through the element. */
+  /**
+   * Removes all cdk-describedby messages that are hosted through the element.
+   *
+   * 删除以此元素为宿主的所有由 cdk-describedby 引用的消息。
+   *
+   */
   private _removeCdkDescribedByReferenceIds(element: Element) {
     // Remove all aria-describedby reference IDs that are prefixed by CDK_DESCRIBEDBY_ID_PREFIX
     const originalReferenceIds = getAriaReferenceIds(element, 'aria-describedby').filter(
@@ -264,6 +302,9 @@ export class AriaDescriber implements OnDestroy {
   /**
    * Adds a message reference to the element using aria-describedby and increments the registered
    * message's reference count.
+   *
+   * 把一个消息添加到由 aria-describedby 引用的元素，并递增已注册消息的引用计数。
+   *
    */
   private _addMessageReference(element: Element, key: string | Element) {
     const registeredMessage = this._messageRegistry.get(key)!;
@@ -278,6 +319,9 @@ export class AriaDescriber implements OnDestroy {
   /**
    * Removes a message reference from the element using aria-describedby
    * and decrements the registered message's reference count.
+   *
+   * 把一个消息从由 aria-describedby 引用的元素中删除，并递减已注册消息的引用计数。
+   *
    */
   private _removeMessageReference(element: Element, key: string | Element) {
     const registeredMessage = this._messageRegistry.get(key)!;
@@ -287,7 +331,12 @@ export class AriaDescriber implements OnDestroy {
     element.removeAttribute(CDK_DESCRIBEDBY_HOST_ATTRIBUTE);
   }
 
-  /** Returns true if the element has been described by the provided message ID. */
+  /**
+   * Returns true if the element has been described by the provided message ID.
+   *
+   * 如果元素已由提供的消息 ID 描述（described），则返回 true。
+   *
+   */
   private _isElementDescribedByMessage(element: Element, key: string | Element): boolean {
     const referenceIds = getAriaReferenceIds(element, 'aria-describedby');
     const registeredMessage = this._messageRegistry.get(key);
@@ -296,7 +345,12 @@ export class AriaDescriber implements OnDestroy {
     return !!messageId && referenceIds.indexOf(messageId) != -1;
   }
 
-  /** Determines whether a message can be described on a particular element. */
+  /**
+   * Determines whether a message can be described on a particular element.
+   *
+   * 确定是否可以在特定元素上描述消息。
+   *
+   */
   private _canBeDescribed(element: Element, message: string | HTMLElement | void): boolean {
     if (!this._isElementNode(element)) {
       return false;
@@ -317,18 +371,33 @@ export class AriaDescriber implements OnDestroy {
     return trimmedMessage ? !ariaLabel || ariaLabel.trim() !== trimmedMessage : false;
   }
 
-  /** Checks whether a node is an Element node. */
+  /**
+   * Checks whether a node is an Element node.
+   *
+   * 检查节点是否为元素节点。
+   *
+   */
   private _isElementNode(element: Node): element is Element {
     return element.nodeType === this._document.ELEMENT_NODE;
   }
 }
 
-/** Gets a key that can be used to look messages up in the registry. */
+/**
+ * Gets a key that can be used to look messages up in the registry.
+ *
+ * 获取可用于在注册表中查找消息的键。
+ *
+ */
 function getKey(message: string | Element, role?: string): string | Element {
   return typeof message === 'string' ? `${role || ''}/${message}` : message;
 }
 
-/** Assigns a unique ID to an element, if it doesn't have one already. */
+/**
+ * Assigns a unique ID to an element, if it doesn't have one already.
+ *
+ * 如果元素还没有，则为其分配一个唯一的 ID。
+ *
+ */
 function setMessageId(element: HTMLElement, serviceId: string) {
   if (!element.id) {
     element.id = `${CDK_DESCRIBEDBY_ID_PREFIX}-${serviceId}-${nextId++}`;

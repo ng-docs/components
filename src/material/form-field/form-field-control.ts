@@ -51,7 +51,12 @@ export abstract class MatFormFieldControl<T> {
    */
   readonly placeholder: string;
 
-  /** Gets the AbstractControlDirective for this control. */
+  /**
+   * Gets the AbstractControlDirective for this control.
+   *
+   * 获取这个控件的 AbstractControlDirective。
+   *
+   */
   readonly ngControl: NgControl | AbstractControlDirective | null;
 
   /**

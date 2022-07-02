@@ -8,10 +8,20 @@
 import {Injectable} from '@angular/core';
 import {Platform} from '@angular/cdk/platform';
 
-/** Global registry for all dynamically-created, injected media queries. */
+/**
+ * Global registry for all dynamically-created, injected media queries.
+ *
+ * 所有动态创建、注入的媒体查询的全局注册表。
+ *
+ */
 const mediaQueriesForWebkitCompatibility: Set<string> = new Set<string>();
 
-/** Style tag that holds all of the dynamically-created media queries. */
+/**
+ * Style tag that holds all of the dynamically-created media queries.
+ *
+ * 包含所有动态创建的媒体查询的样式标记。
+ *
+ */
 let mediaQueryStyleNode: HTMLStyleElement | undefined;
 
 /**
@@ -22,7 +32,12 @@ let mediaQueryStyleNode: HTMLStyleElement | undefined;
  */
 @Injectable({providedIn: 'root'})
 export class MediaMatcher {
-  /** The internal matchMedia method to return back a MediaQueryList like object. */
+  /**
+   * The internal matchMedia method to return back a MediaQueryList like object.
+   *
+   * 内部的 matchMedia 方法返回类似 MediaQueryList 的对象。
+   *
+   */
   private _matchMedia: (query: string) => MediaQueryList;
 
   constructor(private _platform: Platform) {
@@ -60,7 +75,7 @@ export class MediaMatcher {
  *
  * 2. In some cases Blink browsers will stop firing the `matchMedia` listener if none of the rules
  *    inside the `@media` match existing elements on the page. We work around it by having one rule
- *    targeting the `body`. See <https://github.com/angular/components/issues/23546>.
+ *    targeting the `body`. See https://github.com/angular/components/issues/23546.
  *
  */
 function createEmptyStyleRule(query: string) {
@@ -84,7 +99,12 @@ function createEmptyStyleRule(query: string) {
   }
 }
 
-/** No-op matchMedia replacement for non-browser platforms. */
+/**
+ * No-op matchMedia replacement for non-browser platforms.
+ *
+ * 为非浏览器平台准备的 matchMedia 替代品。
+ *
+ */
 function noopMatchMedia(query: string): MediaQueryList {
   // Use `as any` here to avoid adding additional necessary properties for
   // the noop matcher.

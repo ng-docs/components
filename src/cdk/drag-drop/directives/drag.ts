@@ -78,16 +78,36 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
   private readonly _destroyed = new Subject<void>();
   private static _dragInstances: CdkDrag[] = [];
 
-  /** Reference to the underlying drag instance. */
+  /**
+   * Reference to the underlying drag instance.
+   *
+   * 对底层拖动实例的引用。
+   *
+   */
   _dragRef: DragRef<CdkDrag<T>>;
 
-  /** Elements that can be used to drag the draggable item. */
+  /**
+   * Elements that can be used to drag the draggable item.
+   *
+   * 可用来拖动此可拖动条目的元素。
+   *
+   */
   @ContentChildren(CDK_DRAG_HANDLE, {descendants: true}) _handles: QueryList<CdkDragHandle>;
 
-  /** Element that will be used as a template to create the draggable item's preview. */
+  /**
+   * Element that will be used as a template to create the draggable item's preview.
+   *
+   * 将用作模板以创建可拖动条目预览的元素。
+   *
+   */
   @ContentChild(CDK_DRAG_PREVIEW) _previewTemplate: CdkDragPreview;
 
-  /** Template for placeholder element rendered to show where a draggable would be dropped. */
+  /**
+   * Template for placeholder element rendered to show where a draggable would be dropped.
+   *
+   * 渲染占位符元素的模板，用于显示可拖动对象将被投放到的位置。
+   *
+   */
   @ContentChild(CDK_DRAG_PLACEHOLDER) _placeholderTemplate: CdkDragPlaceholder;
 
   /**
@@ -166,6 +186,8 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
    * is limited while it's being dragged. Gets called with a point containing the current position
    * of the user's pointer on the page, a reference to the item being dragged and its dimenstions.
    * Should return a point describing where the item should be rendered.
+   *
+   * 本函数用于自定义在拖动条目时如何限制其位置的逻辑。使用用户指针在页面上的当前位置进行调用（正在被拖曳的条目的引用及其规格）。要返回描述该条目应该出现在哪里的点。
    */
   @Input('cdkDragConstrainPosition') constrainPosition?: (
     userPointerPosition: Point,
@@ -293,9 +315,19 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
   );
 
   constructor(
-    /** Element that the draggable is attached to. */
+    /**
+     * Element that the draggable is attached to.
+     *
+     * 此可拖动对象要附着到的元素。
+     *
+     */
     public element: ElementRef<HTMLElement>,
-    /** Droppable container that the draggable is a part of. */
+    /**
+     * Droppable container that the draggable is a part of.
+     *
+     * 此可拖动对象所属的可拖动容器。
+     *
+     */
     @Inject(CDK_DROP_LIST) @Optional() @SkipSelf() public dropContainer: CdkDropList,
     /**
      * @deprecated `_document` parameter no longer being used and will be removed.
@@ -351,7 +383,7 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
    * Returns the element that is being used as a placeholder
    * while the current element is being dragged.
    *
-   * 在拖动当前元素的同时，返回当前占位符所在的元素。
+   * 返回在拖动当前元素时要用作占位符的元素。
    *
    */
   getPlaceholderElement(): HTMLElement {
@@ -455,7 +487,12 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
     });
   }
 
-  /** Syncs the root element with the `DragRef`. */
+  /**
+   * Syncs the root element with the `DragRef`.
+   *
+   * 将根元素与 `DragRef` 同步。
+   *
+   */
   private _updateRootElement() {
     const element = this.element.nativeElement as HTMLElement;
     let rootElement = element;
@@ -474,7 +511,12 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
     this._dragRef.withRootElement(rootElement || element);
   }
 
-  /** Gets the boundary element, based on the `boundaryElement` value. */
+  /**
+   * Gets the boundary element, based on the `boundaryElement` value.
+   *
+   * 基于 `boundaryElement` 的值获取限界元素。
+   *
+   */
   private _getBoundaryElement() {
     const boundary = this.boundaryElement;
 
@@ -489,7 +531,12 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
     return coerceElement(boundary);
   }
 
-  /** Syncs the inputs of the CdkDrag with the options of the underlying DragRef. */
+  /**
+   * Syncs the inputs of the CdkDrag with the options of the underlying DragRef.
+   *
+   * 将 CdkDrag 的输入与底层 DragRef 的选项同步。
+   *
+   */
   private _syncInputs(ref: DragRef<CdkDrag<T>>) {
     ref.beforeStarted.subscribe(() => {
       if (!ref.isDragging()) {
@@ -556,7 +603,12 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
     });
   }
 
-  /** Handles the events from the underlying `DragRef`. */
+  /**
+   * Handles the events from the underlying `DragRef`.
+   *
+   * 处理来自底层 `DragRef` 的事件。
+   *
+   */
   private _handleEvents(ref: DragRef<CdkDrag<T>>) {
     ref.started.subscribe(startEvent => {
       this.started.emit({source: this, event: startEvent.event});
@@ -613,7 +665,12 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
     });
   }
 
-  /** Assigns the default input values based on a provided config object. */
+  /**
+   * Assigns the default input values based on a provided config object.
+   *
+   * 根据所提供的配置对象赋值给默认输入。
+   *
+   */
   private _assignDefaults(config: DragDropConfig) {
     const {
       lockAxis,
@@ -654,7 +711,12 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
     }
   }
 
-  /** Sets up the listener that syncs the handles with the drag ref. */
+  /**
+   * Sets up the listener that syncs the handles with the drag ref.
+   *
+   * 设置将拖动抓手与拖动引用同步的侦听器。
+   *
+   */
   private _setupHandlesListener() {
     // Listen for any newly-added handles.
     this._handles.changes

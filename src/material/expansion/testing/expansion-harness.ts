@@ -13,7 +13,12 @@ import {
 } from '@angular/cdk/testing';
 import {ExpansionPanelHarnessFilters} from './expansion-harness-filters';
 
-/** Selectors for the various `mat-expansion-panel` sections that may contain user content. */
+/**
+ * Selectors for the various `mat-expansion-panel` sections that may contain user content.
+ *
+ * 可能包含用户内容的各种 `mat-expansion-panel` 区段。
+ *
+ */
 export const enum MatExpansionPanelSection {
   HEADER = '.mat-expansion-panel-header',
   TITLE = '.mat-expansion-panel-header-title',
@@ -199,6 +204,9 @@ export class MatExpansionPanelHarness extends ContentContainerComponentHarness<M
    *
    * @deprecated Use either `getChildLoader(MatExpansionPanelSection.CONTENT)`, `getHarness` or
    *    `getAllHarnesses` instead.
+   *
+   * 请改用 `getChildLoader(MatExpansionPanelSection.CONTENT)`，`getHarness` 或 `getAllHarnesses`。
+   *
    * @breaking-change 12.0.0
    */
   async getHarnessLoaderForContent(): Promise<HarnessLoader> {

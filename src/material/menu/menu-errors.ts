@@ -9,6 +9,9 @@
 /**
  * Throws an exception for the case when menu's x-position value isn't valid.
  * In other words, it doesn't match 'before' or 'after'.
+ *
+ * 当菜单的 x 位置值无效时会抛出异常。换句话说，它不是 'before' 或 'after' 之一。
+ *
  * @docs-private
  */
 export function throwMatMenuInvalidPositionX() {
@@ -19,6 +22,9 @@ export function throwMatMenuInvalidPositionX() {
 /**
  * Throws an exception for the case when menu's y-position value isn't valid.
  * In other words, it doesn't match 'above' or 'below'.
+ *
+ * 当菜单的 y 位值无效时会抛出异常。它不是 'before' 或 'after' 之一。
+ *
  * @docs-private
  */
 export function throwMatMenuInvalidPositionY() {
@@ -29,6 +35,9 @@ export function throwMatMenuInvalidPositionY() {
 /**
  * Throws an exception for the case when a menu is assigned
  * to a trigger that is placed inside the same menu.
+ *
+ * 当菜单被赋值给位于同一个菜单里面的触发器时会抛出异常。
+ *
  * @docs-private
  */
 export function throwMatMenuRecursiveError() {

@@ -79,7 +79,14 @@ export type HarnessQuery<T extends ComponentHarness> =
  * is equivalent to:
  * `MyHarness | MyOtherHarness | TestElement`.
  *
- * 例如，类型： `LocatorFnResult&lt;[ ComponentHarnessConstructor&lt;MyHarness&gt;, HarnessPredicate&lt;MyOtherHarness&gt;, string ]&gt;` 相当于： `MyHarness | MyOtherHarness | TestElement`.。【模糊翻译】
+ * 例如，类型：
+ * `LocatorFnResult&lt;[
+ *   ComponentHarnessConstructor&lt;MyHarness&gt;,
+ *   HarnessPredicate&lt;MyOtherHarness&gt;,
+ *   string
+ * ]&gt;`
+ * 相当于：
+ * `MyHarness | MyOtherHarness | TestElement`.
  *
  */
 export type LocatorFnResult<T extends (HarnessQuery<any> | string)[]> = {
@@ -119,6 +126,9 @@ export interface HarnessLoader {
    * 一个根据指定选择器匹配的元素为根的 `HarnessLoader`。
    *
    * @throws If a matching element can't be found.
+   *
+   * 是否未找到匹配的元素。
+   *
    */
   getChildLoader(selector: string): Promise<HarnessLoader>;
 
@@ -131,7 +141,7 @@ export interface HarnessLoader {
    *
    * @param selector The selector for the root element of the new `HarnessLoader`
    *
-   * `HarnessLoader` 根元素的选择器
+   * 新 `HarnessLoader` 的根元素的选择器
    *
    * @return A list of `HarnessLoader`s, one for each matching element, rooted at that element.
    *
@@ -157,6 +167,9 @@ export interface HarnessLoader {
    * 指定测试工具类型的一个实例
    *
    * @throws If a matching component instance can't be found.
+   *
+   * 如果匹配的组件实例无法找到。
+   *
    */
   getHarness<T extends ComponentHarness>(query: HarnessQuery<T>): Promise<T>;
 
@@ -231,7 +244,7 @@ export interface LocatorFactory {
    * Creates an asynchronous locator function that can be used to find a `ComponentHarness` instance
    * or element under the root element of this `LocatorFactory`.
    *
-   * 创建一个异步定位器函数，用于查找 `LocatorFactory` 根元素下的 `ComponentHarness` 实例或元素。
+   * 创建一个异步定位器函数，用于在这个 `LocatorFactory` 的根元素下查找 `ComponentHarness` 实例或元素。
    *
    * @param queries A list of queries specifying which harnesses and elements to search for:
    *
@@ -381,14 +394,22 @@ export interface LocatorFactory {
    *     TestElement // for #d2
    *   ]`
    *
-   *   `await lf.locatorForAll(DivHarness, 'div')()` 会得到 `[ DivHarness, // 对于 #d1 TestElement, // 对于 #d1 DivHarness, // 对于 #d2 TestElement // 对于 #d2 ]`【模糊翻译】
+   *   `await lf.locatorForAll(DivHarness, 'div')()` 会得到 `[
+   *     DivHarness, // 对于 #d1
+   *     TestElement, // 对于 #d1
+   *     DivHarness, // 对于 #d2
+   *     TestElement // 对于 #d2
+   *   ]`
    *
    * - `await lf.locatorForAll('div', '#d1')()` gets `[
    *     TestElement, // for #d1
    *     TestElement // for #d2
    *   ]`
    *
-   *   `await lf.locatorForAll('div', '#d1')()` 会得到 `[ TestElement, // 对于 #d1 TestElement // 对于 #d2 ]`【模糊翻译】
+   *   `await lf.locatorForAll('div', '#d1')()` 会得到 `[
+   *     TestElement, // 对于 #d1
+   *     TestElement // 对于 #d2
+   *   ]`
    *
    * - `await lf.locatorForAll(DivHarness, IdIsD1Harness)()` gets `[
    *     DivHarness, // for #d1
@@ -396,7 +417,11 @@ export interface LocatorFactory {
    *     DivHarness // for #d2
    *   ]`
    *
-   *   `await lf.locatorForAll(DivHarness, IdIsD1Harness)()` 会得到 `[ DivHarness, // 对于 #d1 IdIsD1Harness, // 对于 #d1 DivHarness // 对于 #d2 ]`【模糊翻译】
+   *   `await lf.locatorForAll(DivHarness, IdIsD1Harness)()` 会得到 `[
+   *     DivHarness, // 对于 #d1
+   *     IdIsD1Harness, // 对于 #d1
+   *     DivHarness // 对于 #d2
+   *   ]`
    *
    * - `await lf.locatorForAll('span')()` gets `[]`.
    *
@@ -429,6 +454,9 @@ export interface LocatorFactory {
    * 一个以指定选择器匹配的第一个元素为根的 `HarnessLoader`。
    *
    * @throws If no matching element is found for the given selector.
+   *
+   * 是否找不到匹配指定选择器的元素。
+   *
    */
   harnessLoaderFor(selector: string): Promise<HarnessLoader>;
 
@@ -479,7 +507,7 @@ export interface LocatorFactory {
    * Waits for all scheduled or running async tasks to complete. This allows harness
    * authors to wait for async tasks outside of the Angular zone.
    *
-   * 等待所有已计划或正在运行的异步任务完成。这使测试工具作者可以在 Angular Zone 之外等待异步任务。
+   * 等待所有已安排或正在运行的异步任务完成。这使得测试工具的作者可以等待 Angular 中的异步任务。
    *
    */
   waitForTasksOutsideAngular(): Promise<void>;
@@ -676,22 +704,16 @@ export abstract class ComponentHarness {
    *     TestElement // for #d2
    *   ]`
    *
-   *   `await ch.locatorForAll(DivHarness, 'div')()` 会得到 `[ DivHarness, // 对于 #d1 TestElement, // 对于 #d1 DivHarness, // 对于 #d2 TestElement // 对于 #d2 ]`【模糊翻译】
-   *
    * - `await ch.locatorForAll('div', '#d1')()` gets `[
    *     TestElement, // for #d1
    *     TestElement // for #d2
    *   ]`
-   *
-   *   `await ch.locatorForAll('div', '#d1')()` 会得到 `[ TestElement, // 对于 #d1 TestElement // 对于 #d2 ]`【模糊翻译】
    *
    * - `await ch.locatorForAll(DivHarness, IdIsD1Harness)()` gets `[
    *     DivHarness, // for #d1
    *     IdIsD1Harness, // for #d1
    *     DivHarness // for #d2
    *   ]`
-   *
-   *   `await ch.locatorForAll(DivHarness, IdIsD1Harness)()` 会得到 `[ DivHarness, // 对于 #d1 IdIsD1Harness, // 对于 #d1 DivHarness // 对于 #d2 ]`【模糊翻译】
    *
    * - `await ch.locatorForAll('span')()` gets `[]`.
    *
@@ -882,6 +904,9 @@ export class HarnessPredicate<T extends ComponentHarness> {
    * 一个异步谓词函数。
    *
    * @return this (for method chaining).
+   *
+   * this（用于支持方法的链式调用）。
+   *
    */
   add(description: string, predicate: AsyncPredicate<T>) {
     this._descriptions.push(description);
@@ -908,6 +933,9 @@ export class HarnessPredicate<T extends ComponentHarness> {
    * 如果选项值未定义，则要运行的谓词函数。
    *
    * @return this (for method chaining).
+   *
+   * this（用于支持方法的链式调用）。
+   *
    */
   addOption<O>(name: string, option: O | undefined, predicate: AsyncOptionPredicate<T, O>) {
     if (option !== undefined) {
@@ -998,7 +1026,12 @@ export class HarnessPredicate<T extends ComponentHarness> {
     return result.join(', ');
   }
 
-  /** Adds base options common to all harness types. */
+  /**
+   * Adds base options common to all harness types.
+   *
+   * 添加作用于所有测试工具类型的基本选项。
+   *
+   */
   private _addBaseOptions(options: BaseHarnessFilters) {
     this._ancestor = options.ancestor || '';
     if (this._ancestor) {
@@ -1013,7 +1046,12 @@ export class HarnessPredicate<T extends ComponentHarness> {
   }
 }
 
-/** Represent a value as a string for the purpose of logging. */
+/**
+ * Represent a value as a string for the purpose of logging.
+ *
+ * 为了记录日志，把值表示为字符串。
+ *
+ */
 function _valueAsString(value: unknown) {
   if (value === undefined) {
     return 'undefined';
@@ -1044,10 +1082,19 @@ function _valueAsString(value: unknown) {
  * Splits up a compound selector into its parts and escapes any quoted content. The quoted content
  * has to be escaped, because it can contain commas which will throw throw us off when trying to
  * split it.
+ *
+ * 将复合选择器拆分为多个部分，并转义所有引用的内容。带引号的内容必须转义，因为它可能包含逗号，那样当尝试拆分内容时就会抛出错误。
+ *
  * @param selector Selector to be split.
+ *
+ * 要拆分的选择器。
+ *
  * @returns The escaped string where any quoted content is replaced with a placeholder. E.g.
  * `[foo="bar"]` turns into `[foo=__cdkPlaceholder-0__]`. Use `_restoreSelector` to restore
  * the placeholders.
+ *
+ * 已转义的字符串，其中任何引用的内容均会被占位符替换。例如 `[foo="bar"]` 变成 `[foo=__cdkPlaceholder-0__]`。使用 `_restoreSelector` 来还原占位符。
+ *
  */
 function _splitAndEscapeSelector(selector: string): [parts: string[], placeholders: string[]] {
   const placeholders: string[] = [];
@@ -1066,7 +1113,12 @@ function _splitAndEscapeSelector(selector: string): [parts: string[], placeholde
   return [result.split(',').map(part => part.trim()), placeholders];
 }
 
-/** Restores a selector whose content was escaped in `_splitAndEscapeSelector`. */
+/**
+ * Restores a selector whose content was escaped in `_splitAndEscapeSelector`.
+ *
+ * 还原某个选择器，该选择器的内容已在 `_splitAndEscapeSelector` 中转义。
+ *
+ */
 function _restoreSelector(selector: string, placeholders: string[]): string {
   return selector.replace(/__cdkPlaceholder-(\d+)__/g, (_, index) => placeholders[+index]);
 }

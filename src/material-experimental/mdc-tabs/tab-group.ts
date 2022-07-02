@@ -33,9 +33,9 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 /**
  * Material design tab-group component. Supports basic tab pairs (label + content) and includes
  * animated ink-bar, keyboard navigation, and screen reader.
- * See: <https://material.io/design/components/tabs.html>
+ * See: https://material.io/design/components/tabs.html
  *
- * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：<https://material.io/design/components/tabs.html>
+ * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：https://material.io/design/components/tabs.html
  *
  */
 @Component({

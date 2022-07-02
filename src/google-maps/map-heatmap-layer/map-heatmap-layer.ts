@@ -13,7 +13,12 @@ import {Input, OnDestroy, OnInit, NgZone, Directive, OnChanges, SimpleChanges} f
 
 import {GoogleMap} from '../google-map/google-map';
 
-/** Possible data that can be shown on a heatmap layer. */
+/**
+ * Possible data that can be shown on a heatmap layer.
+ *
+ * 可以在热力图图层上显示的可能数据。
+ *
+ */
 export type HeatmapData =
   | google.maps.MVCArray<
       google.maps.LatLng | google.maps.visualization.WeightedLocation | google.maps.LatLngLiteral
@@ -23,7 +28,11 @@ export type HeatmapData =
 /**
  * Angular directive that renders a Google Maps heatmap via the Google Maps JavaScript API.
  *
- * See: <https://developers.google.com/maps/documentation/javascript/reference/visualization>
+ * 通过 Google Maps JavaScript API 渲染 Google Maps 热力图的 Angular 指令。
+ *
+ * See: https://developers.google.com/maps/documentation/javascript/reference/visualization
+ *
+ * 请参阅： https://developers.google.com/maps/documentation/javascript/reference/visualization
  *
  */
 @Directive({
@@ -33,7 +42,9 @@ export type HeatmapData =
 export class MapHeatmapLayer implements OnInit, OnChanges, OnDestroy {
   /**
    * Data shown on the heatmap.
-   * See: <https://developers.google.com/maps/documentation/javascript/reference/visualization>
+   * See: https://developers.google.com/maps/documentation/javascript/reference/visualization
+   *
+   * 数据显示在热力图上。请参阅： https://developers.google.com/maps/documentation/javascript/reference/visualization
    *
    */
   @Input()
@@ -45,6 +56,9 @@ export class MapHeatmapLayer implements OnInit, OnChanges, OnDestroy {
   /**
    * Options used to configure the heatmap. See:
    * developers.google.com/maps/documentation/javascript/reference/visualization#HeatmapLayerOptions
+   *
+   * 用于配置热力图的选项。请参阅：developers.google.com/maps/documentation/javascript/reference/visualization#HeatmapLayerOptions
+   *
    */
   @Input()
   set options(options: Partial<google.maps.visualization.HeatmapLayerOptions>) {
@@ -55,7 +69,11 @@ export class MapHeatmapLayer implements OnInit, OnChanges, OnDestroy {
   /**
    * The underlying google.maps.visualization.HeatmapLayer object.
    *
-   * See: <https://developers.google.com/maps/documentation/javascript/reference/visualization>
+   * 基础 google.maps.visualization.HeatmapLayer 对象。
+   *
+   * See: https://developers.google.com/maps/documentation/javascript/reference/visualization
+   *
+   * 请参阅： https://developers.google.com/maps/documentation/javascript/reference/visualization
    *
    */
   heatmap?: google.maps.visualization.HeatmapLayer;
@@ -106,13 +124,21 @@ export class MapHeatmapLayer implements OnInit, OnChanges, OnDestroy {
   /**
    * Gets the data that is currently shown on the heatmap.
    * See: developers.google.com/maps/documentation/javascript/reference/visualization#HeatmapLayer
+   *
+   * 获取当前在热力图上显示的数据。请参阅：developers.google.com/maps/documentation/javascript/reference/visualization#HeatmapLayer
+   *
    */
   getData(): HeatmapData {
     this._assertInitialized();
     return this.heatmap.getData();
   }
 
-  /** Creates a combined options object using the passed-in options and the individual inputs. */
+  /**
+   * Creates a combined options object using the passed-in options and the individual inputs.
+   *
+   * 使用传入的选项和各个输入属性来创建组合的选项对象。
+   *
+   */
   private _combineOptions(): google.maps.visualization.HeatmapLayerOptions {
     const options = this._options || {};
     return {
@@ -129,6 +155,9 @@ export class MapHeatmapLayer implements OnInit, OnChanges, OnDestroy {
    * object, or it throws a runtime error. Since it's more convenient and we expect that Angular
    * users will load the API asynchronously, we allow them to pass in a `LatLngLiteral` and we
    * convert it to a `LatLng` object before passing it off to Google Maps.
+   *
+   * 大多数 Google Maps API 都支持 `LatLng` 对象和 `LatLngLiteral`。后者更方便写出来，因为不必构造 Google Maps API。`HeatmapLayer` 似乎是一个例外，它仅允许 `LatLng` 对象，否则会引发运行时错误。由于它更加方便，并且我们希望 Angular 用户将异步加载该 API，因此我们允许他们传递 LatLngLiteral 并将其转换为 `LatLng` 对象，然后把它传给 Google Maps。
+   *
    */
   private _normalizeData(data: HeatmapData) {
     const result: (google.maps.LatLng | google.maps.visualization.WeightedLocation)[] = [];
@@ -140,7 +169,12 @@ export class MapHeatmapLayer implements OnInit, OnChanges, OnDestroy {
     return result;
   }
 
-  /** Asserts that the heatmap object has been initialized. */
+  /**
+   * Asserts that the heatmap object has been initialized.
+   *
+   * 断言热力图对象已初始化。
+   *
+   */
   private _assertInitialized(): asserts this is {heatmap: google.maps.visualization.HeatmapLayer} {
     if (typeof ngDevMode === 'undefined' || ngDevMode) {
       if (!this._googleMap.googleMap) {
@@ -159,7 +193,12 @@ export class MapHeatmapLayer implements OnInit, OnChanges, OnDestroy {
   }
 }
 
-/** Asserts that an object is a `LatLngLiteral`. */
+/**
+ * Asserts that an object is a `LatLngLiteral`.
+ *
+ * 断言一个对象是 `LatLngLiteral`。
+ *
+ */
 function isLatLngLiteral(value: any): value is google.maps.LatLngLiteral {
   return value && typeof value.lat === 'number' && typeof value.lng === 'number';
 }

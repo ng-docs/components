@@ -143,7 +143,12 @@ export class MatSort
    */
   sortables = new Map<string, MatSortable>();
 
-  /** Used to notify any child components listening to state changes. */
+  /**
+   * Used to notify any child components listening to state changes.
+   *
+   * 用来通知那些监听状态变化的子组件。
+   *
+   */
   readonly _stateChanges = new Subject<void>();
 
   /**
@@ -304,7 +309,12 @@ export class MatSort
   }
 }
 
-/** Returns the sort direction cycle to use given the provided parameters of order and clear. */
+/**
+ * Returns the sort direction cycle to use given the provided parameters of order and clear.
+ *
+ * 指定所提供的 start 和 disableClear 参数，返回要使用的排序方向循环。
+ *
+ */
 function getSortDirectionCycle(start: SortDirection, disableClear: boolean): SortDirection[] {
   let sortOrder: SortDirection[] = ['asc', 'desc'];
   if (start == 'desc') {

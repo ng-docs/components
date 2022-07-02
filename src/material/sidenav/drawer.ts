@@ -59,6 +59,9 @@ import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
 /**
  * Throws an exception when two MatDrawer are matching the same position.
+ *
+ * 当两个 MatDrawer 匹配同一个位置时，抛出一个异常。
+ *
  * @docs-private
  */
 export function throwMatDuplicatedDrawerError(position: string) {
@@ -105,6 +108,9 @@ export const MAT_DRAWER_DEFAULT_AUTOSIZE = new InjectionToken<boolean>(
 
 /**
  * Used to provide a drawer container to a drawer while avoiding circular references.
+ *
+ * 用来为抽屉提供一个抽屉容器，同时避免使用循环引用。
+ *
  * @docs-private
  */
 export const MAT_DRAWER_CONTAINER = new InjectionToken('MAT_DRAWER_CONTAINER');
@@ -181,7 +187,12 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
   private _focusTrap: FocusTrap;
   private _elementFocusedBeforeDrawerWasOpened: HTMLElement | null = null;
 
-  /** Whether the drawer is initialized. Used for disabling the initial animation. */
+  /**
+   * Whether the drawer is initialized. Used for disabling the initial animation.
+   *
+   * 抽屉是否已初始化。用于禁用初始动画。
+   *
+   */
   private _enableAnimations = false;
 
   /** Whether the view of the component has been attached. */
@@ -256,6 +267,9 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
    *
    * @breaking-change 14.0.0 Remove boolean option from autoFocus. Use string or AutoFocusTarget
    * instead.
+   *
+   * 从 autoFocus 中删除布尔选项。请改用字符串或 AutoFocusTarget。
+   *
    */
   @Input()
   get autoFocus(): AutoFocusTarget | string | boolean {
@@ -297,16 +311,36 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
   }
   private _opened: boolean = false;
 
-  /** How the sidenav was opened (keypress, mouse click etc.) */
+  /**
+   * How the sidenav was opened (keypress, mouse click etc.)
+   *
+   * 侧边导航是如何打开的（按键，鼠标点击等）
+   *
+   */
   private _openedVia: FocusOrigin | null;
 
-  /** Emits whenever the drawer has started animating. */
+  /**
+   * Emits whenever the drawer has started animating.
+   *
+   * 当抽屉开始动画时，它会触发。
+   *
+   */
   readonly _animationStarted = new Subject<AnimationEvent>();
 
-  /** Emits whenever the drawer is done animating. */
+  /**
+   * Emits whenever the drawer is done animating.
+   *
+   * 抽屉做完动画后，就会触发。
+   *
+   */
   readonly _animationEnd = new Subject<AnimationEvent>();
 
-  /** Current state of the sidenav animation. */
+  /**
+   * Current state of the sidenav animation.
+   *
+   * 侧边导航动画的当前状态。
+   *
+   */
   _animationState: 'open-instant' | 'open' | 'void' = 'void';
 
   /**
@@ -319,7 +353,12 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
     // Note this has to be async in order to avoid some issues with two-bindings (see #8872).
     new EventEmitter<boolean>(/* isAsync */ true);
 
-  /** Event emitted when the drawer has been opened. */
+  /**
+   * Event emitted when the drawer has been opened.
+   *
+   * 抽屉打开时发出的事件。
+   *
+   */
   @Output('opened')
   readonly _openedStream = this.openedChange.pipe(
     filter(o => o),
@@ -338,7 +377,12 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
     mapTo(undefined),
   );
 
-  /** Event emitted when the drawer has been closed. */
+  /**
+   * Event emitted when the drawer has been closed.
+   *
+   * 抽屉关闭后发出的事件。
+   *
+   */
   @Output('closed')
   readonly _closedStream = this.openedChange.pipe(
     filter(o => !o),
@@ -357,7 +401,12 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
     mapTo(undefined),
   );
 
-  /** Emits when the component is destroyed. */
+  /**
+   * Emits when the component is destroyed.
+   *
+   * 当本组件被销毁时会触发。
+   *
+   */
   private readonly _destroyed = new Subject<void>();
 
   /**
@@ -375,6 +424,9 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
   /**
    * An observable that emits when the drawer mode changes. This is used by the drawer container to
    * to know when to when the mode changes so it can adapt the margins on the content.
+   *
+   * 当抽屉模式发生变化时会触发。抽屉容器会用它来了解何时模式发生变化，以便它能调整内容的边距。
+   *
    */
   readonly _modeChanged = new Subject<void>();
 
@@ -404,6 +456,9 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
      * Listen to `keydown` events outside the zone so that change detection is not run every
      * time a key is pressed. Instead we re-enter the zone only if the `ESC` key is pressed
      * and we don't have close disabled.
+     *
+     * 监听 `keydown` 事件，以便每次按键时都不再运行变更检测。相反，只有当按下 `ESC` 键并且没有禁止关闭时，我们才会重新进行变更检测。
+     *
      */
     this._ngZone.runOutsideAngular(() => {
       (fromEvent(this._elementRef.nativeElement, 'keydown') as Observable<KeyboardEvent>)
@@ -445,7 +500,13 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
   /**
    * Focuses the provided element. If the element is not focusable, it will add a tabIndex
    * attribute to forcefully focus it. The attribute is removed after focus is moved.
+   *
+   * 聚焦所提供的元素。如果元素不可聚焦，它将添加一个 tabIndex 属性来强制聚焦它。移动焦点后移除该属性。
+   *
    * @param element The element to focus.
+   *
+   * 要聚焦的元素。
+   *
    */
   private _forceFocus(element: HTMLElement, options?: FocusOptions) {
     if (!this._interactivityChecker.isFocusable(element)) {
@@ -467,7 +528,13 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
 
   /**
    * Focuses the first element that matches the given selector within the focus trap.
+   *
+   * 聚焦与焦点陷阱中的给定选择器匹配的第一个元素。
+   *
    * @param selector The CSS selector for the element to set focus to.
+   *
+   * 要设置焦点的元素的 CSS 选择器。
+   *
    */
   private _focusByCssSelector(selector: string, options?: FocusOptions) {
     let elementToFocus = this._elementRef.nativeElement.querySelector(
@@ -481,6 +548,9 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
   /**
    * Moves focus into the drawer. Note that this works even if
    * the focus trap is disabled in `side` mode.
+   *
+   * 把焦点移到抽屉里。即使 `side` 模式下禁用了焦点陷阱，这也能正常工作。
+   *
    */
   private _takeFocus() {
     if (!this._focusTrap) {
@@ -516,6 +586,9 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
   /**
    * Restores focus to the element that was originally focused when the drawer opened.
    * If no element was focused at that time, the focus will be restored to the drawer.
+   *
+   * 将焦点返还给抽屉打开时拥有焦点的元素。如果此时没有任何元素有焦点，焦点就会还给本抽屉。
+   *
    */
   private _restoreFocus(focusOrigin: Exclude<FocusOrigin, null>) {
     if (this.autoFocus === 'dialog') {
@@ -531,7 +604,12 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
     this._elementFocusedBeforeDrawerWasOpened = null;
   }
 
-  /** Whether focus is currently within the drawer. */
+  /**
+   * Whether focus is currently within the drawer.
+   *
+   * 焦点目前是否在抽屉内？
+   *
+   */
   private _isFocusWithinDrawer(): boolean {
     const activeEl = this._doc.activeElement;
     return !!activeEl && this._elementRef.nativeElement.contains(activeEl);
@@ -581,7 +659,7 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
    * @param openedVia Whether the drawer was opened by a key press, mouse click or programmatically.
    * Used for focus management after the sidenav is closed.
    *
-   * 通过按键、鼠标点击还是编程的方式打开抽屉。侧边导航关闭后，用于焦点管理。
+   * 是通过按键、鼠标点击还是编程的方式打开抽屉。侧边导航关闭后，用于焦点管理。
    *
    */
   open(openedVia?: FocusOrigin): Promise<MatDrawerToggleResult> {
@@ -598,7 +676,12 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
     return this.toggle(false);
   }
 
-  /** Closes the drawer with context that the backdrop was clicked. */
+  /**
+   * Closes the drawer with context that the backdrop was clicked.
+   *
+   * 在单击背景板时关闭抽屉。
+   *
+   */
   _closeViaBackdropClick(): Promise<MatDrawerToggleResult> {
     // If the drawer is closed upon a backdrop click, we always want to restore focus. We
     // don't need to check whether focus is currently in the drawer, as clicking on the
@@ -643,9 +726,21 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
 
   /**
    * Toggles the opened state of the drawer.
+   *
+   * 切换抽屉的打开状态。
+   *
    * @param isOpen Whether the drawer should open or close.
+   *
+   * 抽屉是否应该打开或关闭。
+   *
    * @param restoreFocus Whether focus should be restored on close.
+   *
+   * 是否应该在关闭时还原焦点。
+   *
    * @param focusOrigin Origin to use when restoring focus.
+   *
+   * 可以在打开抽屉时自动设定焦点来源。稍后当抽屉关闭时要返还焦点时，会使用焦点来源。
+   *
    */
   private _setOpen(
     isOpen: boolean,
@@ -674,7 +769,12 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
     return this._elementRef.nativeElement ? this._elementRef.nativeElement.offsetWidth || 0 : 0;
   }
 
-  /** Updates the enabled state of the focus trap. */
+  /**
+   * Updates the enabled state of the focus trap.
+   *
+   * 更新焦点陷阱的启用状态。
+   *
+   */
   private _updateFocusTrapState() {
     if (this._focusTrap) {
       // The focus trap is only enabled when the drawer is open in any mode other than side.
@@ -735,7 +835,12 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
   ],
 })
 export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy {
-  /** All drawers in the container. Includes drawers from inside nested containers. */
+  /**
+   * All drawers in the container. Includes drawers from inside nested containers.
+   *
+   * 容器内的所有抽屉。包括来自嵌套容器内部的抽屉。
+   *
+   */
   @ContentChildren(MatDrawer, {
     // We need to use `descendants: true`, because Ivy will no longer match
     // indirect descendants if it's left as false.
@@ -743,7 +848,12 @@ export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy 
   })
   _allDrawers: QueryList<MatDrawer>;
 
-  /** Drawers that belong to this container. */
+  /**
+   * Drawers that belong to this container.
+   *
+   * 那些属于这个容器的抽屉。
+   *
+   */
   _drawers = new QueryList<MatDrawer>();
 
   @ContentChild(MatDrawerContent) _content: MatDrawerContent;
@@ -820,7 +930,12 @@ export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy 
    */
   @Output() readonly backdropClick: EventEmitter<void> = new EventEmitter<void>();
 
-  /** The drawer at the start/end position, independent of direction. */
+  /**
+   * The drawer at the start/end position, independent of direction.
+   *
+   * 抽屉的起点/终点位置，与方向无关。
+   *
+   */
   private _start: MatDrawer | null;
   private _end: MatDrawer | null;
 
@@ -830,20 +945,36 @@ export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy 
    * In LTR, \_left == \_start and \_right == \_end.
    * In RTL, \_left == \_end and \_right == \_start.
    *
+   * 左/右抽屉柜。当方向发生变化时，它们也会发生变化。它们被用作上面的别名来正确设置左/右样式。
+   * 在 LTR 布局中，\_left == \_start 且 \_right == \_end。在 RTL 布局中，\_left == \_end 且 \_right == \_start。
+   *
    */
   private _left: MatDrawer | null;
   private _right: MatDrawer | null;
 
-  /** Emits when the component is destroyed. */
+  /**
+   * Emits when the component is destroyed.
+   *
+   * 当组件被销毁时触发。
+   *
+   */
   private readonly _destroyed = new Subject<void>();
 
-  /** Emits on every ngDoCheck. Used for debouncing reflows. */
+  /**
+   * Emits on every ngDoCheck. Used for debouncing reflows.
+   *
+   * 每次 ngDoCheck 时都会触发。用于去除重排（reflow）。
+   *
+   */
   private readonly _doCheckSubject = new Subject<void>();
 
   /**
    * Margins to be applied to the content. These are used to push / shrink the drawer content when a
    * drawer is open. We use margin rather than transform even for push mode because transform breaks
    * fixed position elements inside of the transformed element.
+   *
+   * 要应用于内容的边距。它们用于在抽屉打开时推/缩抽屉内容。我们甚至在 push 模式下都使用了 margin 而不是 transform，因为 transform 会修改转换元素内部的固定位置元素。
+   *
    */
   _contentMargins: {left: number | null; right: number | null} = {left: null, right: null};
 
@@ -1019,6 +1150,9 @@ export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy 
    * Subscribes to drawer events in order to set a class on the main container element when the
    * drawer is open and the backdrop is visible. This ensures any overflow on the container element
    * is properly hidden.
+   *
+   * 订阅抽屉事件，以便在抽屉打开且背景板可见时在主容器元素上设置一个类。这可以确保容器元素上的所有溢出都被正确的隐藏。
+   *
    */
   private _watchDrawerToggle(drawer: MatDrawer): void {
     drawer._animationStarted
@@ -1047,6 +1181,9 @@ export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy 
   /**
    * Subscribes to drawer onPositionChanged event in order to
    * re-validate drawers when the position changes.
+   *
+   * 订阅抽屉的 onPositionChanged 事件，以便在该位置发生变化时重新验证抽屉。
+   *
    */
   private _watchDrawerPosition(drawer: MatDrawer): void {
     if (!drawer) {
@@ -1061,7 +1198,12 @@ export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy 
     });
   }
 
-  /** Subscribes to changes in drawer mode so we can run change detection. */
+  /**
+   * Subscribes to changes in drawer mode so we can run change detection.
+   *
+   * 订阅了抽屉的模式变化，以便我们进行变更检测。
+   *
+   */
   private _watchDrawerMode(drawer: MatDrawer): void {
     if (drawer) {
       drawer._modeChanged
@@ -1073,7 +1215,12 @@ export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy 
     }
   }
 
-  /** Toggles the 'mat-drawer-opened' class on the main 'mat-drawer-container' element. */
+  /**
+   * Toggles the 'mat-drawer-opened' class on the main 'mat-drawer-container' element.
+   *
+   * 在 “mat-drawer-container” 主元素上切换 “mat-drawer-opened” 类。
+   *
+   */
   private _setContainerClass(isAdd: boolean): void {
     const classList = this._element.nativeElement.classList;
     const className = 'mat-drawer-container-has-open';
@@ -1085,7 +1232,12 @@ export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy 
     }
   }
 
-  /** Validate the state of the drawer children components. */
+  /**
+   * Validate the state of the drawer children components.
+   *
+   * 验证抽屉子组件的状态。
+   *
+   */
   private _validateDrawers() {
     this._start = this._end = null;
 
@@ -1116,7 +1268,12 @@ export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy 
     }
   }
 
-  /** Whether the container is being pushed to the side by one of the drawers. */
+  /**
+   * Whether the container is being pushed to the side by one of the drawers.
+   *
+   * 容器是否被其中一个抽屉推到了一边。
+   *
+   */
   private _isPushed() {
     return (
       (this._isDrawerOpen(this._start) && this._start.mode != 'over') ||

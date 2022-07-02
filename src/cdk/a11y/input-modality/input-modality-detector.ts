@@ -88,14 +88,22 @@ export const INPUT_MODALITY_DETECTOR_DEFAULT_OPTIONS: InputModalityDetectorOptio
  * The amount of time needed to pass after a touchstart event in order for a subsequent mousedown
  * event to be attributed as mouse and not touch.
  *
+ * 在 touchstart 事件之后需要经过的时间量，以便将随后的 mousedown 事件归因于鼠标而不是触摸。
+ *
  * This is the value used by AngularJS Material. Through trial and error (on iPhone 6S) they found
  * that a value of around 650ms seems appropriate.
+ *
+ * 这是 AngularJS Material 使用的值。通过反复试验（在 iPhone 6S 上），他们发现 650 毫秒左右的值似乎是合适的。
+ *
  */
 export const TOUCH_BUFFER_MS = 650;
 
 /**
  * Event listener options that enable capturing and also mark the listener as passive if the browser
  * supports it.
+ *
+ * 启用捕获的事件侦听器选项，如果浏览器支持，还可以将侦听器标记为被动型。
+ *
  */
 const modalityEventListenerOptions = normalizePassiveListenerOptions({
   passive: true,
@@ -154,24 +162,43 @@ export class InputModalityDetector implements OnDestroy {
   /**
    * The most recently detected input modality event target. Is null if no input modality has been
    * detected or if the associated event target is null for some unknown reason.
+   *
+   * 最近检测到的输入模式事件目标。如果未检测到输入模式，或者关联的事件目标由于某种未知原因为空，则为 null。
+   *
    */
   _mostRecentTarget: HTMLElement | null = null;
 
-  /** The underlying BehaviorSubject that emits whenever an input modality is detected. */
+  /**
+   * The underlying BehaviorSubject that emits whenever an input modality is detected.
+   *
+   * 每当检测到输入模式时发出的底层 BehaviorSubject。
+   *
+   */
   private readonly _modality = new BehaviorSubject<InputModality>(null);
 
-  /** Options for this InputModalityDetector. */
+  /**
+   * Options for this InputModalityDetector.
+   *
+   * 此 InputModalityDetector 的选项。
+   *
+   */
   private readonly _options: InputModalityDetectorOptions;
 
   /**
    * The timestamp of the last touch input modality. Used to determine whether mousedown events
    * should be attributed to mouse or touch.
+   *
+   * 上一次进入触摸输入模式的时间戳。用于确定 mousedown 事件是否应归因于鼠标或触摸。
+   *
    */
   private _lastTouchMs = 0;
 
   /**
    * Handles keydown events. Must be an arrow function in order to preserve the context when it gets
    * bound.
+   *
+   * 处理按键事件。必须是一个箭头函数，以便在它被绑定时保留上下文。
+   *
    */
   private _onKeydown = (event: KeyboardEvent) => {
     // If this is one of the keys we should ignore, then ignore it and don't update the input
@@ -187,6 +214,9 @@ export class InputModalityDetector implements OnDestroy {
   /**
    * Handles mousedown events. Must be an arrow function in order to preserve the context when it
    * gets bound.
+   *
+   * 处理 mousedown 事件。必须是一个箭头函数，以便在它被绑定时保留上下文。
+   *
    */
   private _onMousedown = (event: MouseEvent) => {
     // Touches trigger both touch and mouse events, so we need to distinguish between mouse events
@@ -205,6 +235,9 @@ export class InputModalityDetector implements OnDestroy {
   /**
    * Handles touchstart events. Must be an arrow function in order to preserve the context when it
    * gets bound.
+   *
+   * 处理触摸开始事件。必须是一个箭头函数，以便在它被绑定时保留上下文。
+   *
    */
   private _onTouchstart = (event: TouchEvent) => {
     // Same scenario as mentioned in _onMousedown, but on touch screen devices, fake touchstart

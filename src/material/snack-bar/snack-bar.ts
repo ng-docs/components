@@ -55,6 +55,9 @@ export abstract class _MatSnackBarBase implements OnDestroy {
    * Reference to the current snack bar in the view *at this level* (in the Angular injector tree).
    * If there is a parent snack-bar service, all operations should delegate to that parent
    * via `_openedSnackBarRef`.
+   *
+   * 在 Angular 注入器树的*本级*视图中引用当前的快餐栏。如果有一个父快餐栏服务，那么所有的操作都应该通过 `_openedSnackBarRef` 委托给那个父组件。
+   *
    */
   private _snackBarRefAtThisLevel: MatSnackBarRef<any> | null = null;
 
@@ -82,7 +85,12 @@ export abstract class _MatSnackBarBase implements OnDestroy {
    */
   protected abstract handsetCssClass: string;
 
-  /** Reference to the currently opened snackbar at *any* level. */
+  /**
+   * Reference to the currently opened snackbar at *any* level.
+   *
+   * 对目前*在任何*级别的已打开快餐栏的引用。
+   *
+   */
   get _openedSnackBarRef(): MatSnackBarRef<any> | null {
     const parent = this._parentSnackBar;
     return parent ? parent._openedSnackBarRef : this._snackBarRefAtThisLevel;
@@ -208,6 +216,9 @@ export abstract class _MatSnackBarBase implements OnDestroy {
 
   /**
    * Attaches the snack bar container component to the overlay.
+   *
+   * 将快餐栏的容器组件附加到浮层上。
+   *
    */
   private _attachSnackBarContainer(
     overlayRef: OverlayRef,
@@ -232,6 +243,9 @@ export abstract class _MatSnackBarBase implements OnDestroy {
 
   /**
    * Places a new component or a template as the content of the snack bar container.
+   *
+   * 把一个新组件或模板放进快餐栏的容器里面。
+   *
    */
   private _attach<T>(
     content: ComponentType<T> | TemplateRef<T>,
@@ -280,7 +294,12 @@ export abstract class _MatSnackBarBase implements OnDestroy {
     return this._openedSnackBarRef;
   }
 
-  /** Animates the old snack bar out and the new one in. */
+  /**
+   * Animates the old snack bar out and the new one in.
+   *
+   * 在旧的快餐栏和新的快餐栏之间播放动画。
+   *
+   */
   private _animateSnackBar(snackBarRef: MatSnackBarRef<any>, config: MatSnackBarConfig) {
     // When the snackbar is dismissed, clear the reference to it.
     snackBarRef.afterDismissed().subscribe(() => {
@@ -314,7 +333,13 @@ export abstract class _MatSnackBarBase implements OnDestroy {
 
   /**
    * Creates a new overlay and places it in the correct location.
+   *
+   * 创建一个新的浮层，并把它放在正确的位置。
+   *
    * @param config The user-specified snack bar config.
+   *
+   * 用户指定的快餐栏配置。
+   *
    */
   private _createOverlay(config: MatSnackBarConfig): OverlayRef {
     const overlayConfig = new OverlayConfig();
@@ -348,8 +373,17 @@ export abstract class _MatSnackBarBase implements OnDestroy {
 
   /**
    * Creates an injector to be used inside of a snack bar component.
+   *
+   * 创建一个在快餐栏组件里面使用的注入器。
+   *
    * @param config Config that was used to create the snack bar.
+   *
+   * 用于创建快餐栏的配置。
+   *
    * @param snackBarRef Reference to the snack bar.
+   *
+   * 到快餐栏的引用。
+   *
    */
   private _createInjector<T>(config: MatSnackBarConfig, snackBarRef: MatSnackBarRef<T>): Injector {
     const userInjector = config && config.viewContainerRef && config.viewContainerRef.injector;

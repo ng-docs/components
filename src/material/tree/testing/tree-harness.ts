@@ -41,8 +41,7 @@ export class MatTreeHarness extends ComponentHarness {
    *
    * @return a `HarnessPredicate` configured with the given options.
    *
-   * 使用给定选项配置过的 `HarnessPredicate`。
-   *
+   * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
   static with(options: TreeHarnessFilters = {}): HarnessPredicate<MatTreeHarness> {
     return new HarnessPredicate(MatTreeHarness, options);
@@ -63,6 +62,9 @@ export class MatTreeHarness extends ComponentHarness {
    * If a node is under an unexpanded node it will not be included.
    * Eg.
    * Tree (all nodes expanded):
+   *
+   * 获取可见树结构的对象表示形式。如果某个节点位于未展开的节点之下，则不会包含该节点。例如下面这棵树（所有节点都已展开）：
+   *
    * `<mat-tree>
    *   <mat-tree-node>Node 1<mat-tree-node>
    *   <mat-nested-tree-node>
@@ -80,6 +82,9 @@ export class MatTreeHarness extends ComponentHarness {
    * </mat-tree>`
    *
    * Tree structure:
+   *
+   * 树结构：
+   *
    * {
    *  children: \[
    *    {
@@ -113,9 +118,21 @@ export class MatTreeHarness extends ComponentHarness {
 
   /**
    * Recursively collect the structured text of the tree nodes.
+   *
+   * 递归收集树节点的结构化文本。
+   *
    * @param nodes A list of tree nodes
+   *
+   * 树节点列表
+   *
    * @param level The level of nodes that are being accounted for during this iteration
+   *
+   * 在此迭代期间要考虑的各个节点的级别
+   *
    * @param parentExpanded Whether the parent of the first node in param nodes is expanded
+   *
+   * 参数节点中第一个节点的父节点是否已展开
+   *
    */
   private _getTreeStructure(
     nodes: [number, string, boolean][],

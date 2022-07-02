@@ -131,10 +131,20 @@ export function MAT_MENU_DEFAULT_OPTIONS_FACTORY(): MatMenuDefaultOptions {
 
 let menuPanelUid = 0;
 
-/** Reason why the menu was closed. */
+/**
+ * Reason why the menu was closed.
+ *
+ * 菜单被关闭的原因。
+ *
+ */
 export type MenuCloseReason = void | 'click' | 'keydown' | 'tab';
 
-/** Base class with all of the `MatMenu` functionality. */
+/**
+ * Base class with all of the `MatMenu` functionality.
+ *
+ * 具有所有 `MatMenu` 功能的基类。
+ *
+ */
 @Directive()
 export class _MatMenuBase
   implements AfterContentInit, MatMenuPanel<MatMenuItem>, OnInit, OnDestroy
@@ -146,25 +156,60 @@ export class _MatMenuBase
   protected _elevationPrefix: string;
   protected _baseElevation: number;
 
-  /** All items inside the menu. Includes items nested inside another menu. */
+  /**
+   * All items inside the menu. Includes items nested inside another menu.
+   *
+   * 菜单里面的所有菜单项。包括其嵌套菜单中的菜单项。
+   *
+   */
   @ContentChildren(MatMenuItem, {descendants: true}) _allItems: QueryList<MatMenuItem>;
 
-  /** Only the direct descendant menu items. */
+  /**
+   * Only the direct descendant menu items.
+   *
+   * 仅包括直接后代的菜单项。
+   *
+   */
   _directDescendantItems = new QueryList<MatMenuItem>();
 
-  /** Subscription to tab events on the menu panel */
+  /**
+   * Subscription to tab events on the menu panel
+   *
+   * 对菜单面板上 tab 事件的订阅
+   *
+   */
   private _tabSubscription = Subscription.EMPTY;
 
-  /** Config object to be passed into the menu's ngClass */
+  /**
+   * Config object to be passed into the menu's ngClass
+   *
+   * 要传给菜单 ngClass 的配置对象
+   *
+   */
   _classList: {[key: string]: boolean} = {};
 
-  /** Current state of the panel animation. */
+  /**
+   * Current state of the panel animation.
+   *
+   * 面板动画的当前状态
+   *
+   */
   _panelAnimationState: 'void' | 'enter' = 'void';
 
-  /** Emits whenever an animation on the menu completes. */
+  /**
+   * Emits whenever an animation on the menu completes.
+   *
+   * 只要菜单上的动画完成，就会发出通知。
+   *
+   */
   readonly _animationDone = new Subject<AnimationEvent>();
 
-  /** Whether the menu is animating. */
+  /**
+   * Whether the menu is animating.
+   *
+   * 菜单是否正在动画中。
+   *
+   */
   _isAnimating: boolean;
 
   /**
@@ -278,6 +323,9 @@ export class _MatMenuBase
 
   /**
    * Menu content that will be rendered lazily.
+   *
+   * 菜单内容，会惰性渲染。
+   *
    * @docs-private
    */
   @ContentChild(MAT_MENU_CONTENT) lazyContent: MatMenuContent;
@@ -320,6 +368,9 @@ export class _MatMenuBase
    * 此方法会从宿主的 mat-menu 元素中取得一组类，并将它们应用在浮层容器中显示的菜单模板中。否则，将很难从组件外部设置其内部菜单的样式。
    *
    * @param classes list of class names
+   *
+   * 类名列表
+   *
    */
   @Input('class')
   set panelClass(classes: string) {
@@ -351,6 +402,9 @@ export class _MatMenuBase
    * 此方法会从宿主的 mat-menu 元素中取得一组类，并将它们应用在浮层容器中显示的菜单模板中。否则，将很难从组件外部设置其内部菜单的样式。
    *
    * @deprecated Use `panelClass` instead.
+   *
+   * 请改用 `panelClass`。
+   *
    * @breaking-change 8.0.0
    */
   @Input()
@@ -375,6 +429,8 @@ export class _MatMenuBase
    * 当菜单关闭时会发出本事件。
    *
    * @deprecated Switch to `closed` instead
+   *
+   * 切换到 `closed`
    * @breaking-change 8.0.0
    */
   @Output() readonly close: EventEmitter<MenuCloseReason> = this.closed;
@@ -454,7 +510,12 @@ export class _MatMenuBase
     this.closed.complete();
   }
 
-  /** Stream that emits whenever the hovered menu item changes. */
+  /**
+   * Stream that emits whenever the hovered menu item changes.
+   *
+   * 当菜单项的悬停状态发生变化时会发出通知的流。
+   *
+   */
   _hovered(): Observable<MatMenuItem> {
     // Coerce the `changes` property because Angular types it as `Observable<any>`
     const itemChanges = this._directDescendantItems.changes as Observable<QueryList<MatMenuItem>>;
@@ -474,13 +535,23 @@ export class _MatMenuBase
 
   /**
    * Removes an item from the menu.
+   *
+   * 从菜单中删除一个菜单项。
+   *
    * @docs-private
    * @deprecated No longer being used. To be removed.
+   *
+   * 不用了。将来会删除
    * @breaking-change 9.0.0
    */
   removeItem(_item: MatMenuItem) {}
 
-  /** Handle a keyboard event from the menu, delegating to the appropriate action. */
+  /**
+   * Handle a keyboard event from the menu, delegating to the appropriate action.
+   *
+   * 从菜单中处理一个键盘事件，委托给相应的动作。
+   *
+   */
   _handleKeydown(event: KeyboardEvent) {
     const keyCode = event.keyCode;
     const manager = this._keyManager;
@@ -597,8 +668,17 @@ export class _MatMenuBase
   /**
    * Adds classes to the menu panel based on its position. Can be used by
    * consumers to add specific styling based on the position.
+   *
+   * 根据菜单面板的位置，把一些类添加到菜单面板中。消费者可以根据位置添加具体的样式。
+   *
    * @param posX Position of the menu along the x axis.
+   *
+   * 菜单沿 x 轴的位置。
+   *
    * @param posY Position of the menu along the y axis.
+   *
+   * 菜单沿 y 轴的位置。
+   *
    * @docs-private
    */
   setPositionClasses(posX: MenuPositionX = this.xPosition, posY: MenuPositionY = this.yPosition) {
@@ -612,19 +692,34 @@ export class _MatMenuBase
     this._changeDetectorRef?.markForCheck();
   }
 
-  /** Starts the enter animation. */
+  /**
+   * Starts the enter animation.
+   *
+   * 启动入场动画。
+   *
+   */
   _startAnimation() {
     // @breaking-change 8.0.0 Combine with _resetAnimation.
     this._panelAnimationState = 'enter';
   }
 
-  /** Resets the panel animation to its initial state. */
+  /**
+   * Resets the panel animation to its initial state.
+   *
+   * 把面板动画重启为其初始状态。
+   *
+   */
   _resetAnimation() {
     // @breaking-change 8.0.0 Combine with _startAnimation.
     this._panelAnimationState = 'void';
   }
 
-  /** Callback that is invoked when the panel animation completes. */
+  /**
+   * Callback that is invoked when the panel animation completes.
+   *
+   * 面板动画完成后调用的回调函数
+   *
+   */
   _onAnimationDone(event: AnimationEvent) {
     this._animationDone.next(event);
     this._isAnimating = false;
@@ -649,6 +744,9 @@ export class _MatMenuBase
    * of direct descendants. We collect the descendants this way, because `_allItems` can include
    * items that are part of child menus, and using a custom way of registering items is unreliable
    * when it comes to maintaining the item order.
+   *
+   * 设置一个流，它会跟踪任何新添加的菜单项，并会更新其直接后代的列表。我们通过这种方式收集后代，因为 `_allItems` 可以包含那些作为子菜单一部分的菜单项。在维护菜单项顺序方面，使用自定义方式注册菜单项是不可靠的。
+   *
    */
   private _updateDirectDescendants() {
     this._allItems.changes

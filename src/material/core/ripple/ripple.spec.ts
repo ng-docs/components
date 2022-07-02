@@ -25,7 +25,12 @@ describe('MatRipple', () => {
   let originalBodyMargin: string | null;
   let platform: Platform;
 
-  /** Extracts the numeric value of a pixel size string like '123px'. */
+  /**
+   * Extracts the numeric value of a pixel size string like '123px'.
+   *
+   * 提取像 “123px” 这样的像素尺寸字符串的数值。
+   *
+   */
   const pxStringToFloat = (s: string | null) => (s ? parseFloat(s) : 0);
   const startingWindowWidth = window.innerWidth;
   const startingWindowHeight = window.innerHeight;

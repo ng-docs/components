@@ -14,12 +14,25 @@ import {RippleRef, RippleState, RippleConfig} from './ripple-ref';
 /**
  * Interface that describes the target for launching ripples.
  * It defines the ripple configuration and disabled state for interaction ripples.
+ *
+ * 描述启动涟漪的目标的接口。它定义了涟漪配置和交互涟漪的禁用状态。
+ *
  * @docs-private
  */
 export interface RippleTarget {
-  /** Configuration for ripples that are launched on pointer down. */
+  /**
+   * Configuration for ripples that are launched on pointer down.
+   *
+   * 配置指针设备按下时发出的涟漪。
+   *
+   */
   rippleConfig: RippleConfig;
-  /** Whether ripples on pointer down should be disabled. */
+  /**
+   * Whether ripples on pointer down should be disabled.
+   *
+   * 是否应禁用设备按下时的涟漪。
+   *
+   */
   rippleDisabled: boolean;
 }
 
@@ -45,16 +58,34 @@ export const defaultRippleAnimationConfig = {
 /**
  * Timeout for ignoring mouse events. Mouse events will be temporary ignored after touch
  * events to avoid synthetic mouse events.
+ *
+ * 忽略鼠标事件的超时。触摸事件后，鼠标事件将被暂时忽略，以免并入鼠标事件。
+ *
  */
 const ignoreMouseEventsTimeout = 800;
 
-/** Options that apply to all the event listeners that are bound by the ripple renderer. */
+/**
+ * Options that apply to all the event listeners that are bound by the ripple renderer.
+ *
+ * 适用于由涟漪渲染器绑定的所有事件侦听器的选项。
+ *
+ */
 const passiveEventOptions = normalizePassiveListenerOptions({passive: true});
 
-/** Events that signal that the pointer is down. */
+/**
+ * Events that signal that the pointer is down.
+ *
+ * 指示指针设备按下的事件。
+ *
+ */
 const pointerDownEvents = ['mousedown', 'touchstart'];
 
-/** Events that signal that the pointer is up. */
+/**
+ * Events that signal that the pointer is up.
+ *
+ * 指示指针设备松开的事件。
+ *
+ */
 const pointerUpEvents = ['mouseup', 'mouseleave', 'touchend', 'touchcancel'];
 
 /**
@@ -62,16 +93,34 @@ const pointerUpEvents = ['mouseup', 'mouseleave', 'touchend', 'touchcancel'];
  * The constructor takes a reference to the ripple directive's host element and a map of DOM
  * event handlers to be installed on the element that triggers ripple animations.
  * This will eventually become a custom renderer once Angular support exists.
+ *
+ * 执行 DOM 操作的辅助器服务。不得在该模块之外使用。构造函数引用了涟漪指令的宿主元素以及要在触发涟漪图动画的元素上安装的 DOM 事件处理程序的映射。一旦获得 Angular 的支持，它最终将成为自定义渲染器。
+ *
  * @docs-private
  */
 export class RippleRenderer implements EventListenerObject {
-  /** Element where the ripples are being added to. */
+  /**
+   * Element where the ripples are being added to.
+   *
+   * 要在其中添加涟漪的元素。
+   *
+   */
   private _containerElement: HTMLElement;
 
-  /** Element which triggers the ripple elements on mouse events. */
+  /**
+   * Element which triggers the ripple elements on mouse events.
+   *
+   * 要在鼠标事件中触发涟漪元素的元素。
+   *
+   */
   private _triggerElement: HTMLElement | null;
 
-  /** Whether the pointer is currently down or not. */
+  /**
+   * Whether the pointer is currently down or not.
+   *
+   * 指针设备当前是否按下。
+   *
+   */
   private _isPointerDown = false;
 
   /**
@@ -82,18 +131,36 @@ export class RippleRenderer implements EventListenerObject {
    */
   private _activeRipples = new Map<RippleRef, RippleEventListeners | null>();
 
-  /** Latest non-persistent ripple that was triggered. */
+  /**
+   * Latest non-persistent ripple that was triggered.
+   *
+   * 最近触发的非持续性涟漪。
+   *
+   */
   private _mostRecentTransientRipple: RippleRef | null;
 
-  /** Time in milliseconds when the last touchstart event happened. */
+  /**
+   * Time in milliseconds when the last touchstart event happened.
+   *
+   * 上一次 touchstart 事件发生的时间（以毫秒为单位）。
+   *
+   */
   private _lastTouchStartEvent: number;
 
-  /** Whether pointer-up event listeners have been registered. */
+  /**
+   * Whether pointer-up event listeners have been registered.
+   *
+   * 指针设备抬起事件的侦听器是否已注册。
+   *
+   */
   private _pointerUpEventsRegistered = false;
 
   /**
    * Cached dimensions of the ripple container. Set when the first
    * ripple is shown and cleared once no more ripples are visible.
+   *
+   * 涟漪容器的已缓存尺寸。在显示第一个涟漪时设置，并在不再可见涟漪时将其清除。
+   *
    */
   private _containerRect: ClientRect | null;
 
@@ -111,9 +178,21 @@ export class RippleRenderer implements EventListenerObject {
 
   /**
    * Fades in a ripple at the given coordinates.
+   *
+   * 在给定坐标处带着涟漪渐隐。
+   *
    * @param x Coordinate within the element, along the X axis at which to start the ripple.
+   *
+   * 沿 X 轴在元素内进行坐标，在该 X 轴处开始产生涟漪。
+   *
    * @param y Coordinate within the element, along the Y axis at which to start the ripple.
+   *
+   * 沿 Y 轴在元素内进行坐标，在该 Y 轴处开始产生涟漪。
+   *
    * @param config Extra ripple options.
+   *
+   * 额外的涟漪选项。
+   *
    */
   fadeInRipple(x: number, y: number, config: RippleConfig = {}): RippleRef {
     const containerRect = (this._containerRect =
@@ -211,7 +290,12 @@ export class RippleRenderer implements EventListenerObject {
     return rippleRef;
   }
 
-  /** Fades out a ripple reference. */
+  /**
+   * Fades out a ripple reference.
+   *
+   * 淡出涟漪的引用。
+   *
+   */
   fadeOutRipple(rippleRef: RippleRef) {
     // For ripples already fading out or hidden, this should be a noop.
     if (rippleRef.state === RippleState.FADING_OUT || rippleRef.state === RippleState.HIDDEN) {
@@ -234,12 +318,22 @@ export class RippleRenderer implements EventListenerObject {
     }
   }
 
-  /** Fades out all currently active ripples. */
+  /**
+   * Fades out all currently active ripples.
+   *
+   * 淡出所有当前活动的涟漪。
+   *
+   */
   fadeOutAll() {
     this._getActiveRipples().forEach(ripple => ripple.fadeOut());
   }
 
-  /** Fades out all currently active non-persistent ripples. */
+  /**
+   * Fades out all currently active non-persistent ripples.
+   *
+   * 淡出所有当前活动的非持久性涟漪。
+   *
+   */
   fadeOutAllNonPersistent() {
     this._getActiveRipples().forEach(ripple => {
       if (!ripple.config.persistent) {
@@ -248,7 +342,12 @@ export class RippleRenderer implements EventListenerObject {
     });
   }
 
-  /** Sets up the trigger event listeners */
+  /**
+   * Sets up the trigger event listeners
+   *
+   * 设置触发事件监听器
+   *
+   */
   setupTriggerEvents(elementOrElementRef: HTMLElement | ElementRef<HTMLElement>) {
     const element = coerceElement(elementOrElementRef);
 
@@ -265,6 +364,9 @@ export class RippleRenderer implements EventListenerObject {
 
   /**
    * Handles all registered events.
+   *
+   * 处理所有已注册的事件。
+   *
    * @docs-private
    */
   handleEvent(event: Event) {
@@ -352,7 +454,12 @@ export class RippleRenderer implements EventListenerObject {
     }
   }
 
-  /** Function being called whenever the trigger is being pressed using touch. */
+  /**
+   * Function being called whenever the trigger is being pressed using touch.
+   *
+   * 每当使用触摸设备按下触发器时，就会调用该函数。
+   *
+   */
   private _onTouchStart(event: TouchEvent) {
     if (!this._target.rippleDisabled && !isFakeTouchstartFromScreenReader(event)) {
       // Some browsers fire mouse events after a `touchstart` event. Those synthetic mouse
@@ -371,7 +478,12 @@ export class RippleRenderer implements EventListenerObject {
     }
   }
 
-  /** Function being called whenever the trigger is being released. */
+  /**
+   * Function being called whenever the trigger is being released.
+   *
+   * 释放触发器时将调用该函数。
+   *
+   */
   private _onPointerUp() {
     if (!this._isPointerDown) {
       return;
@@ -393,7 +505,12 @@ export class RippleRenderer implements EventListenerObject {
     });
   }
 
-  /** Registers event listeners for a given list of events. */
+  /**
+   * Registers event listeners for a given list of events.
+   *
+   * 注册事件侦听器以获取给定的事件列表。
+   *
+   */
   private _registerEvents(eventTypes: string[]) {
     this._ngZone.runOutsideAngular(() => {
       eventTypes.forEach(type => {
@@ -406,7 +523,12 @@ export class RippleRenderer implements EventListenerObject {
     return Array.from(this._activeRipples.keys());
   }
 
-  /** Removes previously registered event listeners from the trigger element. */
+  /**
+   * Removes previously registered event listeners from the trigger element.
+   *
+   * 从触发元素中删除先前注册的事件侦听器。
+   *
+   */
   _removeTriggerEvents() {
     if (this._triggerElement) {
       pointerDownEvents.forEach(type => {
@@ -424,6 +546,9 @@ export class RippleRenderer implements EventListenerObject {
 
 /**
  * Returns the distance from the point (x, y) to the furthest corner of a rectangle.
+ *
+ * 返回从点（x，y）到矩形最远角的距离。
+ *
  */
 function distanceToFurthestCorner(x: number, y: number, rect: ClientRect) {
   const distX = Math.max(Math.abs(x - rect.left), Math.abs(x - rect.right));

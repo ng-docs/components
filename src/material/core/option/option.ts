@@ -32,6 +32,9 @@ import {MatOptionParentComponent, MAT_OPTION_PARENT_COMPONENT} from './option-pa
 /**
  * Option IDs need to be unique across components, so this counter exists outside of
  * the component definition.
+ *
+ * 选项的 ID 在各个组件之间必须是唯一的，因此此计数器存在于组件定义之外。
+ *
  */
 let _uniqueIdCounter = 0;
 
@@ -43,9 +46,18 @@ let _uniqueIdCounter = 0;
  */
 export class MatOptionSelectionChange<T = any> {
   constructor(
-    /** Reference to the option that emitted the event. */
+    /**
+     * Reference to the option that emitted the event.
+     *
+     * 到发出此事件的选项的引用。
+     *
+     */
     public source: _MatOptionBase<T>,
-    /** Whether the change in the option's value was a result of a user action. */
+    /**
+     * Whether the change in the option's value was a result of a user action.
+     *
+     * 本次结果值的变化是否有用户操作导致的。
+     */
     public isUserInput = false,
   ) {}
 }
@@ -126,7 +138,12 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
   // tslint:disable-next-line:no-output-on-prefix
   @Output() readonly onSelectionChange = new EventEmitter<MatOptionSelectionChange<T>>();
 
-  /** Emits when the state of the option changes and any parents have to be notified. */
+  /**
+   * Emits when the state of the option changes and any parents have to be notified.
+   *
+   * 当选项的状态发生变化时发出，任何父级都会被通知到。
+   *
+   */
   readonly _stateChanges = new Subject<void>();
 
   constructor(
@@ -245,7 +262,12 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
     return this.viewValue;
   }
 
-  /** Ensures the option is selected when activated from the keyboard. */
+  /**
+   * Ensures the option is selected when activated from the keyboard.
+   *
+   * 确保从键盘激活后已选中该选项。
+   *
+   */
   _handleKeydown(event: KeyboardEvent): void {
     if ((event.keyCode === ENTER || event.keyCode === SPACE) && !hasModifierKey(event)) {
       this._selectViaInteraction();
@@ -272,17 +294,30 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
    * attribute from single-selection, unselected options. Including the `aria-selected="false"`
    * attributes adds a significant amount of noise to screen-reader users without providing useful
    * information.
+   *
+   * 获取该选项的 `aria-selected` 值。我们未选中的选项中显式省略了单选的 `aria-selected` 属性。如果包含 `aria-selected="false"` 属性会在未提供有用信息的情况下为屏幕阅读器用户带来大量干扰。
+   *
    */
   _getAriaSelected(): boolean | null {
     return this.selected || (this.multiple ? false : null);
   }
 
-  /** Returns the correct tabindex for the option depending on disabled state. */
+  /**
+   * Returns the correct tabindex for the option depending on disabled state.
+   *
+   * 根据禁用状态返回此选项的正确 tabindex。
+   *
+   */
   _getTabIndex(): string {
     return this.disabled ? '-1' : '0';
   }
 
-  /** Gets the host DOM element. */
+  /**
+   * Gets the host DOM element.
+   *
+   * 获取宿主 DOM 元素。
+   *
+   */
   _getHostElement(): HTMLElement {
     return this._element.nativeElement;
   }
@@ -307,7 +342,12 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
     this._stateChanges.complete();
   }
 
-  /** Emits the selection change event. */
+  /**
+   * Emits the selection change event.
+   *
+   * 发出选择更改事件。
+   *
+   */
   private _emitSelectionChangeEvent(isUserInput = false): void {
     this.onSelectionChange.emit(new MatOptionSelectionChange<T>(this, isUserInput));
   }
@@ -354,9 +394,21 @@ export class MatOption<T = any> extends _MatOptionBase<T> {
 
 /**
  * Counts the amount of option group labels that precede the specified option.
+ *
+ * 计算指定选项之前的选项组标签的数量。
+ *
  * @param optionIndex Index of the option at which to start counting.
+ *
+ * 开始计数的选项的索引。
+ *
  * @param options Flat list of all of the options.
+ *
+ * 所有选项的扁平列表。
+ *
  * @param optionGroups Flat list of all of the option groups.
+ *
+ * 所有选项组的扁平列表。
+ *
  * @docs-private
  */
 export function _countGroupLabelsBeforeOption(
@@ -383,10 +435,25 @@ export function _countGroupLabelsBeforeOption(
 
 /**
  * Determines the position to which to scroll a panel in order for an option to be into view.
+ *
+ * 确定将面板滚动到哪个位置才能看到某个选项。
+ *
  * @param optionOffset Offset of the option from the top of the panel.
+ *
+ * 面板顶部选项的偏移量。
+ *
  * @param optionHeight Height of the options.
+ *
+ * 选项的高度。
+ *
  * @param currentScrollPosition Current scroll position of the panel.
+ *
+ * 面板的当前滚动位置。
+ *
  * @param panelHeight Height of the panel.
+ *
+ * 面板的高度。
+ *
  * @docs-private
  */
 export function _getOptionScrollPosition(

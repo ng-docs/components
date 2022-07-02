@@ -17,7 +17,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 10_000; // 10 seconds
  * necessary capabilities. See source for details:
  * https://github.com/bazelbuild/rules_webtesting/blob/06023bb3/web/internal/metadata.bzl#L69-L82
  *
- * 由 `rules_webtesting` 生成的用于浏览器测试的元数据文件。元数据提供启动浏览器的配置和必要的功能。详情见源码： <https://github.com/bazelbuild/rules_webtesting/blob/06023bb3/web/internal/metadata.bzl#L69-L82>
+ * 由 `rules_webtesting` 生成的用于浏览器测试的元数据文件。元数据提供启动浏览器的配置和必要的功能。详情见源码： https://github.com/bazelbuild/rules_webtesting/blob/06023bb3/web/internal/metadata.bzl#L69-L82
  *
  */
 interface WebTestMetadata {

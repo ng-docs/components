@@ -69,7 +69,12 @@ import {
 } from './date-range-selection-strategy';
 import {MatDatepickerIntl} from './datepicker-intl';
 
-/** Used to generate a unique ID for each datepicker instance. */
+/**
+ * Used to generate a unique ID for each datepicker instance.
+ *
+ * 用于为每个日期选择器实例生成一个唯一的 ID。
+ *
+ */
 let datepickerUid = 0;
 
 /**
@@ -123,6 +128,9 @@ const _MatDatepickerContentBase = mixinColor(
  * MatCalendar directly as the content so we can control the initial focus. This also gives us a
  * place to put additional features of the overlay that are not part of the calendar itself in the
  * future. (e.g. confirmation buttons).
+ *
+ * 用作日期选择器对话框和弹出框的内容组件。我们用它取代直接使用 MatCalendar 作为内容，这样才能控制初始焦点。这也为我们提供了一个未来可以把弹出窗口的其他特性（例如确认按钮）放到日历自身之外的机会。
+ *
  * @docs-private
  */
 @Component({
@@ -147,10 +155,21 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
 {
   private _subscriptions = new Subscription();
   private _model: MatDateSelectionModel<S, D>;
-  /** Reference to the internal calendar component. */
+
+  /**
+   * Reference to the internal calendar component.
+   *
+   * 内部日历组件的引用。
+   *
+   */
   @ViewChild(MatCalendar) _calendar: MatCalendar<D>;
 
-  /** Reference to the datepicker that created the overlay. */
+  /**
+   * Reference to the datepicker that created the overlay.
+   *
+   * 创建该浮层的日期选择器的引用。
+   *
+   */
   datepicker: MatDatepickerBase<any, S, D>;
 
   /**
@@ -169,22 +188,52 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
    */
   comparisonEnd: D | null;
 
-  /** Whether the datepicker is above or below the input. */
+  /**
+   * Whether the datepicker is above or below the input.
+   *
+   * 日期选择器是在输入框的上方还是下方。
+   *
+   */
   _isAbove: boolean;
 
-  /** Current state of the animation. */
+  /**
+   * Current state of the animation.
+   *
+   * 动画的当前状态
+   *
+   */
   _animationState: 'enter-dropdown' | 'enter-dialog' | 'void';
 
-  /** Emits when an animation has finished. */
+  /**
+   * Emits when an animation has finished.
+   *
+   * 当动画结束时就会触发。
+   *
+   */
   readonly _animationDone = new Subject<void>();
 
-  /** Text for the close button. */
+  /**
+   * Text for the close button.
+   *
+   * 关闭按钮的文本。
+   *
+   */
   _closeButtonText: string;
 
-  /** Whether the close button currently has focus. */
+  /**
+   * Whether the close button currently has focus.
+   *
+   * 关闭按钮现在是否拥有焦点。
+   *
+   */
   _closeButtonFocused: boolean;
 
-  /** Portal with projected action buttons. */
+  /**
+   * Portal with projected action buttons.
+   *
+   * 容纳投影过来的动作按钮的传送点。
+   *
+   */
   _actionsPortal: TemplatePortal | null = null;
 
   /** Id of the label for the `role="dialog"` element. */
@@ -261,7 +310,12 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
     return this._model.selection as unknown as D | DateRange<D> | null;
   }
 
-  /** Applies the current pending selection to the global model. */
+  /**
+   * Applies the current pending selection to the global model.
+   *
+   * 将当前挂起的选择应用于全局模型。
+   *
+   */
   _applyPendingSelection() {
     if (this._model !== this._globalModel) {
       this._globalModel.updateSelection(this._model.selection, this);
@@ -301,13 +355,23 @@ export interface MatDatepickerControl<D> {
   stateChanges: Observable<void>;
 }
 
-/** A datepicker that can be attached to a {@link MatDatepickerControl}. */
+/**
+ * A datepicker that can be attached to a {@link MatDatepickerControl}.
+ *
+ * 一个可以附加到 {@link MatDatepickerControl} 上的日期选择器。
+ *
+ */
 export interface MatDatepickerPanel<
   C extends MatDatepickerControl<D>,
   S,
   D = ExtractDateTypeFromSelection<S>,
 > {
-  /** Stream that emits whenever the date picker is closed. */
+  /**
+   * Stream that emits whenever the date picker is closed.
+   *
+   * 只要日期选择器关闭就会发出通知的流。
+   *
+   */
   closedStream: EventEmitter<void>;
   /**
    * Color palette to use on the datepicker's calendar.
@@ -316,7 +380,12 @@ export interface MatDatepickerPanel<
    *
    */
   color: ThemePalette;
-  /** The input element the datepicker is associated with. */
+  /**
+   * The input element the datepicker is associated with.
+   *
+   * 日期选择器关联到的输入元素。
+   *
+   */
   datepickerInput: C;
   /**
    * Whether the datepicker pop-up should be disabled.
@@ -325,26 +394,56 @@ export interface MatDatepickerPanel<
    *
    */
   disabled: boolean;
-  /** The id for the datepicker's calendar. */
+  /**
+   * The id for the datepicker's calendar.
+   *
+   * 日期选择器日历的 id。
+   *
+   */
   id: string;
-  /** Whether the datepicker is open. */
+  /**
+   * Whether the datepicker is open.
+   *
+   * 该日期选择器是否已打开。
+   *
+   */
   opened: boolean;
-  /** Stream that emits whenever the date picker is opened. */
+  /**
+   * Stream that emits whenever the date picker is opened.
+   *
+   * 每当打开日期选择器时就会发出通知的流。
+   *
+   */
   openedStream: EventEmitter<void>;
   /**
    * Emits when the datepicker's state changes.
    *
-   * 当日期选择器的状态发生变化时触发。
+   * 当日期选择器的状态发生变化时就会触发。
    *
    */
   stateChanges: Subject<void>;
-  /** Opens the datepicker. */
+  /**
+   * Opens the datepicker.
+   *
+   * 打开 datepicker。
+   *
+   */
   open(): void;
-  /** Register an input with the datepicker. */
+  /**
+   * Register an input with the datepicker.
+   *
+   * 用日期选择器注册一个输入。
+   *
+   */
   registerInput(input: C): MatDateSelectionModel<S, D>;
 }
 
-/** Base class for a datepicker. */
+/**
+ * Base class for a datepicker.
+ *
+ * 日期选择器的基类。
+ *
+ */
 @Directive()
 export abstract class MatDatepickerBase<
   C extends MatDatepickerControl<D>,
@@ -593,19 +692,44 @@ export abstract class MatDatepickerBase<
     return this.datepickerInput && this.datepickerInput.dateFilter;
   }
 
-  /** A reference to the overlay into which we've rendered the calendar. */
+  /**
+   * A reference to the overlay into which we've rendered the calendar.
+   *
+   * 当我们渲染日历时，对其浮层的引用。
+   *
+   */
   private _overlayRef: OverlayRef | null;
 
-  /** Reference to the component instance rendered in the overlay. */
+  /**
+   * Reference to the component instance rendered in the overlay.
+   *
+   * 指向浮层中已渲染的组件实例的引用。
+   *
+   */
   private _componentRef: ComponentRef<MatDatepickerContent<S, D>> | null;
 
-  /** The element that was focused before the datepicker was opened. */
+  /**
+   * The element that was focused before the datepicker was opened.
+   *
+   * 在打开日期选择器之前拥有焦点的元素。
+   *
+   */
   private _focusedElementBeforeOpen: HTMLElement | null = null;
 
-  /** Unique class that will be added to the backdrop so that the test harnesses can look it up. */
+  /**
+   * Unique class that will be added to the backdrop so that the test harnesses can look it up.
+   *
+   * 这个独特的类会添加到背景板中，以便测试工具可以查找它。
+   *
+   */
   private _backdropHarnessClass = `${this.id}-backdrop`;
 
-  /** Currently-registered actions portal. */
+  /**
+   * Currently-registered actions portal.
+   *
+   * 当前已注册的动作栏传送点。
+   *
+   */
   private _actionsPortal: TemplatePortal | null;
 
   /**
@@ -675,17 +799,32 @@ export abstract class MatDatepickerBase<
     this._model.add(date);
   }
 
-  /** Emits the selected year in multiyear view */
+  /**
+   * Emits the selected year in multiyear view
+   *
+   * 在多年视图中选定年份时触发
+   *
+   */
   _selectYear(normalizedYear: D): void {
     this.yearSelected.emit(normalizedYear);
   }
 
-  /** Emits selected month in year view */
+  /**
+   * Emits selected month in year view
+   *
+   * 在年份视图中选出月份时触发
+   *
+   */
   _selectMonth(normalizedMonth: D): void {
     this.monthSelected.emit(normalizedMonth);
   }
 
-  /** Emits changed view */
+  /**
+   * Emits changed view
+   *
+   * 视图发生变化时触发
+   *
+   */
   _viewChanged(view: MatCalendarView): void {
     this.viewChanged.emit(view);
   }
@@ -816,20 +955,34 @@ export abstract class MatDatepickerBase<
     }
   }
 
-  /** Applies the current pending selection on the overlay to the model. */
+  /**
+   * Applies the current pending selection on the overlay to the model.
+   *
+   * 把弹出窗口中当前挂起的选择应用到该模型中。
+   *
+   */
   _applyPendingSelection() {
     this._componentRef?.instance?._applyPendingSelection();
   }
 
-  /** Forwards relevant values from the datepicker to the datepicker content inside the overlay. */
+  /**
+   * Forwards relevant values from the datepicker to the datepicker content inside the overlay.
+   *
+   * 将相关值从日期选择器转发到浮层中的日期选择器内容。
+   *
+   */
   protected _forwardContentValues(instance: MatDatepickerContent<S, D>) {
     instance.datepicker = this;
     instance.color = this.color;
-    instance._dialogLabelId = this.datepickerInput.getOverlayLabelId();
-    instance._assignActions(this._actionsPortal, false);
+    instance._actionsPortal = this._actionsPortal;
   }
 
-  /** Opens the overlay with the calendar. */
+  /**
+   * Opens the overlay with the calendar.
+   *
+   * 打开带有日历的浮层。
+   *
+   */
   private _openOverlay(): void {
     this._destroyOverlay();
 
@@ -887,7 +1040,12 @@ export abstract class MatDatepickerBase<
     }
   }
 
-  /** Destroys the current overlay. */
+  /**
+   * Destroys the current overlay.
+   *
+   * 销毁当前浮层。
+   *
+   */
   private _destroyOverlay() {
     if (this._overlayRef) {
       this._overlayRef.dispose();
@@ -895,12 +1053,22 @@ export abstract class MatDatepickerBase<
     }
   }
 
-  /** Gets a position strategy that will open the calendar as a dropdown. */
+  /**
+   * Gets a position strategy that will open the calendar as a dropdown.
+   *
+   * 获取将打开日历作为下拉列表的定位策略。
+   *
+   */
   private _getDialogStrategy() {
     return this._overlay.position().global().centerHorizontally().centerVertically();
   }
 
-  /** Gets a position strategy that will open the calendar as a dropdown. */
+  /**
+   * Gets a position strategy that will open the calendar as a dropdown.
+   *
+   * 获取将打开日历作为下拉列表的定位策略。
+   *
+   */
   private _getDropdownStrategy() {
     const strategy = this._overlay
       .position()
@@ -913,7 +1081,12 @@ export abstract class MatDatepickerBase<
     return this._setConnectedPositions(strategy);
   }
 
-  /** Sets the positions of the datepicker in dropdown mode based on the current configuration. */
+  /**
+   * Sets the positions of the datepicker in dropdown mode based on the current configuration.
+   *
+   * 根据当前配置，在下拉模式下设置日期选择器的位置。
+   *
+   */
   private _setConnectedPositions(strategy: FlexibleConnectedPositionStrategy) {
     const primaryX = this.xPosition === 'end' ? 'end' : 'start';
     const secondaryX = primaryX === 'start' ? 'end' : 'start';
@@ -948,7 +1121,12 @@ export abstract class MatDatepickerBase<
     ]);
   }
 
-  /** Gets an observable that will emit when the overlay is supposed to be closed. */
+  /**
+   * Gets an observable that will emit when the overlay is supposed to be closed.
+   *
+   * 获取一个可观察对象，它会在应该关闭浮层时会发出事件。
+   *
+   */
   private _getCloseStream(overlayRef: OverlayRef) {
     return merge(
       overlayRef.backdropClick(),

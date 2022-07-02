@@ -35,6 +35,9 @@ const _MatTabBase = mixinDisabled(class {});
 
 /**
  * Used to provide a tab group to a tab without causing a circular dependency.
+ *
+ * 用来为选项卡提供一个选项卡组，而不会产生循环依赖。
+ *
  * @docs-private
  */
 export const MAT_TAB_GROUP = new InjectionToken<any>('MAT_TAB_GROUP');
@@ -67,11 +70,19 @@ export class MatTab extends _MatTabBase implements OnInit, CanDisable, OnChanges
 
   /**
    * Template provided in the tab content that will be used if present, used to enable lazy-loading
+   *
+   * 选项卡内容中提供的模板，如果存在，将用于启用惰性加载
+   *
    */
   @ContentChild(MAT_TAB_CONTENT, {read: TemplateRef, static: true})
   _explicitContent: TemplateRef<any>;
 
-  /** Template inside the MatTab view that contains an `<ng-content>`. */
+  /**
+   * Template inside the MatTab view that contains an `<ng-content>`.
+   *
+   *  MatTab 视图中包含 `<ng-content>` 的模板内容。
+   *
+   */
   @ViewChild(TemplateRef, {static: true}) _implicitContent: TemplateRef<any>;
 
   /**
@@ -94,7 +105,7 @@ export class MatTab extends _MatTabBase implements OnInit, CanDisable, OnChanges
    * Reference to the element that the tab is labelled by.
    * Will be cleared if `aria-label` is set at the same time.
    *
-   * 到用来标注此选项卡的元素的引用。如果同时设置了 `aria-label`，则被清除。
+   * 到选项卡标签所标注的元素的引用。如果同时设置了 `aria-label`，该属性将被清除。
    *
    */
   @Input('aria-labelledby') ariaLabelledby: string;
@@ -119,7 +130,12 @@ export class MatTab extends _MatTabBase implements OnInit, CanDisable, OnChanges
     return this._contentPortal;
   }
 
-  /** Emits whenever the internal state of the tab changes. */
+  /**
+   * Emits whenever the internal state of the tab changes.
+   *
+   * 只要选项卡内部状态发生变化，就会发出通知。
+   *
+   */
   readonly _stateChanges = new Subject<void>();
 
   /**
@@ -176,6 +192,9 @@ export class MatTab extends _MatTabBase implements OnInit, CanDisable, OnChanges
    * This has been extracted to a util because of TS 4 and VE.
    * View Engine doesn't support property rename inheritance.
    * TS 4.0 doesn't allow properties to override accessors or vice-versa.
+   *
+   * 由于 TS 4 和 VE 的原因，它已被提取成了一个工具函数。View Engine 不支持继承时进行属性重命名。TS 4.0 不允许改写属性访问器，反之亦然。
+   *
    * @docs-private
    */
   protected _setTemplateLabelInput(value: MatTabLabel | undefined) {

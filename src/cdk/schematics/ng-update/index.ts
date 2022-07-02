@@ -14,7 +14,12 @@ import {TildeImportMigration} from './migrations/tilde-import-v13/tilde-import-m
 
 const cdkMigrations: NullableDevkitMigration[] = [TildeImportMigration];
 
-/** Entry point for the migration schematics with target of Angular CDK 6.0.0 */
+/**
+ * Entry point for the migration schematics with target of Angular CDK 6.0.0
+ *
+ * 目标为 Angular CDK 6.0.0 的迁移原理图的入口点
+ *
+ */
 export function updateToV6(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V6,
@@ -24,7 +29,12 @@ export function updateToV6(): Rule {
   );
 }
 
-/** Entry point for the migration schematics with target of Angular CDK 7.0.0 */
+/**
+ * Entry point for the migration schematics with target of Angular CDK 7.0.0
+ *
+ * 目标为 Angular CDK 7.0.0 的迁移原理图的入口点
+ *
+ */
 export function updateToV7(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V7,
@@ -34,7 +44,12 @@ export function updateToV7(): Rule {
   );
 }
 
-/** Entry point for the migration schematics with target of Angular CDK 8.0.0 */
+/**
+ * Entry point for the migration schematics with target of Angular CDK 8.0.0
+ *
+ * 目标为 Angular CDK 8.0.0 的迁移原理图的入口点
+ *
+ */
 export function updateToV8(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V8,
@@ -44,7 +59,12 @@ export function updateToV8(): Rule {
   );
 }
 
-/** Entry point for the migration schematics with target of Angular CDK 9.0.0 */
+/**
+ * Entry point for the migration schematics with target of Angular CDK 9.0.0
+ *
+ * 目标为 Angular CDK 9.0.0 的迁移原理图的入口点
+ *
+ */
 export function updateToV9(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V9,
@@ -54,7 +74,12 @@ export function updateToV9(): Rule {
   );
 }
 
-/** Entry point for the migration schematics with target of Angular CDK 10.0.0 */
+/**
+ * Entry point for the migration schematics with target of Angular CDK 10.0.0
+ *
+ * 目标为 Angular CDK 10.0.0 的迁移原理图的入口点
+ *
+ */
 export function updateToV10(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V10,
@@ -64,7 +89,12 @@ export function updateToV10(): Rule {
   );
 }
 
-/** Entry point for the migration schematics with target of Angular CDK 11.0.0 */
+/**
+ * Entry point for the migration schematics with target of Angular CDK 11.0.0
+ *
+ * 目标为 Angular CDK 11.0.0 的迁移原理图的入口点
+ *
+ */
 export function updateToV11(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V11,
@@ -74,7 +104,12 @@ export function updateToV11(): Rule {
   );
 }
 
-/** Entry point for the migration schematics with target of Angular CDK 12.0.0 */
+/**
+ * Entry point for the migration schematics with target of Angular CDK 12.0.0
+ *
+ * 目标为 Angular CDK 12.0.0 的迁移原理图的入口点
+ *
+ */
 export function updateToV12(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V12,
@@ -84,7 +119,12 @@ export function updateToV12(): Rule {
   );
 }
 
-/** Entry point for the migration schematics with target of Angular CDK 13.0.0 */
+/**
+ * Entry point for the migration schematics with target of Angular CDK 13.0.0
+ *
+ * 以 Angular CDK 13.0.0 为目标的迁移原理图的入口点
+ *
+ */
 export function updateToV13(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V13,
@@ -114,7 +154,12 @@ export function updateToV15(): Rule {
   );
 }
 
-/** Function that will be called when the migration completed. */
+/**
+ * Function that will be called when the migration completed.
+ *
+ * 迁移完成时将调用的函数。
+ *
+ */
 function onMigrationComplete(
   context: SchematicContext,
   targetVersion: TargetVersion,

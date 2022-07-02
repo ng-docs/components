@@ -56,6 +56,9 @@ let nextUniqueId = 0;
 
 /**
  * Base class with all of the `MatTabNav` functionality.
+ *
+ * 具有所有 `MatTabNav` 功能的基类。
+ *
  * @docs-private
  */
 @Directive()
@@ -63,7 +66,12 @@ export abstract class _MatTabNavBase
   extends MatPaginatedTabHeader
   implements AfterContentChecked, AfterContentInit, OnDestroy
 {
-  /** Query list of all tab links of the tab navigation. */
+  /**
+   * Query list of all tab links of the tab navigation.
+   *
+   * 此标签导航的所有标签链接的查询列表。
+   *
+   */
   abstract override _items: QueryList<MatPaginatedTabHeaderItem & {active: boolean; id: string}>;
 
   /**
@@ -231,7 +239,12 @@ export class MatTabNav extends _MatTabNavBase {
 // Boilerplate for applying mixins to MatTabLink.
 const _MatTabLinkMixinBase = mixinTabIndex(mixinDisableRipple(mixinDisabled(class {})));
 
-/** Base class with all of the `MatTabLink` functionality. */
+/**
+ * Base class with all of the `MatTabLink` functionality.
+ *
+ * 具有所有 `MatTabLink` 功能的基类。
+ *
+ */
 @Directive()
 export class _MatTabLinkBase
   extends _MatTabLinkMixinBase
@@ -244,7 +257,12 @@ export class _MatTabLinkBase
     RippleTarget,
     FocusableOption
 {
-  /** Whether the tab link is active or not. */
+  /**
+   * Whether the tab link is active or not.
+   *
+   * 此选项卡链接是否处于活动状态。
+   *
+   */
   protected _isActive: boolean = false;
 
   /**
@@ -270,12 +288,18 @@ export class _MatTabLinkBase
    * Ripple configuration for ripples that are launched on pointer down. The ripple config
    * is set to the global ripple options since we don't have any configurable options for
    * the tab link ripples.
+   *
+   * 用于在指针设备按下时发出涟漪的涟漪配置。由于我们没有用于标签链接涟漪的任何可配置选项，所以此涟漪配置被设置为全局涟漪选项。
+   *
    * @docs-private
    */
   rippleConfig: RippleConfig & RippleGlobalOptions;
 
   /**
    * Whether ripples are disabled on interaction.
+   *
+   * 交互中是否禁用了涟漪。
+   *
    * @docs-private
    */
   get rippleDisabled(): boolean {
@@ -395,7 +419,12 @@ export class _MatTabLinkBase
   },
 })
 export class MatTabLink extends _MatTabLinkBase implements OnDestroy {
-  /** Reference to the RippleRenderer for the tab-link. */
+  /**
+   * Reference to the RippleRenderer for the tab-link.
+   *
+   * 对此选项卡链接的 RippleRenderer 的引用。
+   *
+   */
   private _tabLinkRipple: RippleRenderer;
 
   constructor(

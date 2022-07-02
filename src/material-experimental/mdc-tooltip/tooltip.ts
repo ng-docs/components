@@ -50,7 +50,7 @@ export const TOOLTIP_PANEL_CLASS = 'mat-mdc-tooltip-panel';
  *
  * 将 Material Design 工具提示附加到主体元素的指令。对工具提示提供的位置的显示和隐藏进行动画处理（默认为元素下方）。
  *
- * <https://material.io/design/components/tooltips.html>
+ * https://material.io/design/components/tooltips.html
  *
  */
 @Directive({

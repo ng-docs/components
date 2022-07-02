@@ -26,7 +26,12 @@ import {
 import {matDialogAnimations, defaultParams} from './dialog-animations';
 import {MatDialogConfig} from './dialog-config';
 
-/** Event that captures the state of dialog container animations. */
+/**
+ * Event that captures the state of dialog container animations.
+ *
+ * 捕获对话框容器动画状态的事件。
+ *
+ */
 interface DialogAnimationEvent {
   state: 'opened' | 'opening' | 'closing' | 'closed';
   totalTime: number;
@@ -35,11 +40,19 @@ interface DialogAnimationEvent {
 /**
  * Base class for the `MatDialogContainer`. The base class does not implement
  * animations as these are left to implementers of the dialog container.
+ *
+ * `MatDialogContainer` 的基类。基类没有实现动画，因为这些动画留给了对话框容器的各个实现者。
+ *
  */
 // tslint:disable-next-line:validate-decorators
 @Component({template: ''})
 export abstract class _MatDialogContainerBase extends CdkDialogContainer<MatDialogConfig> {
-  /** Emits when an animation state changes. */
+  /**
+   * Emits when an animation state changes.
+   *
+   * 当动画状态发生变化时会触发。
+   *
+   */
   _animationStateChanged = new EventEmitter<DialogAnimationEvent>();
 
   constructor(
@@ -64,7 +77,12 @@ export abstract class _MatDialogContainerBase extends CdkDialogContainer<MatDial
     );
   }
 
-  /** Starts the dialog exit animation. */
+  /**
+   * Starts the dialog exit animation.
+   *
+   * 开始播放对话框的退出动画。
+   *
+   */
   abstract _startExitAnimation(): void;
 
   protected override _captureInitialFocus(): void {
@@ -88,7 +106,9 @@ export abstract class _MatDialogContainerBase extends CdkDialogContainer<MatDial
 
 /**
  * Internal component that wraps user-provided dialog content.
- * Animation is based on <https://material.io/guidelines/motion/choreography.html>.
+ * Animation is based on https://material.io/guidelines/motion/choreography.html.
+ *
+ * 包装用户提供的对话框内容的内部组件。动画基于 https://material.io/guidelines/motion/choreography.html。
  *
  * @docs-private
  */
@@ -116,10 +136,20 @@ export abstract class _MatDialogContainerBase extends CdkDialogContainer<MatDial
   },
 })
 export class MatDialogContainer extends _MatDialogContainerBase {
-  /** State of the dialog animation. */
+  /**
+   * State of the dialog animation.
+   *
+   * 此对话框动画的状态。
+   *
+   */
   _state: 'void' | 'enter' | 'exit' = 'enter';
 
-  /** Callback, invoked whenever an animation on the host completes. */
+  /**
+   * Callback, invoked whenever an animation on the host completes.
+   *
+   * 当宿主上的动画完成时，就会调用这个回调函数。
+   *
+   */
   _onAnimationDone({toState, totalTime}: AnimationEvent) {
     if (toState === 'enter') {
       this._openAnimationDone(totalTime);
@@ -128,7 +158,12 @@ export class MatDialogContainer extends _MatDialogContainerBase {
     }
   }
 
-  /** Callback, invoked when an animation on the host starts. */
+  /**
+   * Callback, invoked when an animation on the host starts.
+   *
+   * 当宿主上的动画开始时，会调用 Callback。
+   *
+   */
   _onAnimationStart({toState, totalTime}: AnimationEvent) {
     if (toState === 'enter') {
       this._animationStateChanged.next({state: 'opening', totalTime});
@@ -137,7 +172,12 @@ export class MatDialogContainer extends _MatDialogContainerBase {
     }
   }
 
-  /** Starts the dialog exit animation. */
+  /**
+   * Starts the dialog exit animation.
+   *
+   * 开始播放对话框的退出动画。
+   *
+   */
   _startExitAnimation(): void {
     this._state = 'exit';
 
