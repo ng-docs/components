@@ -36,7 +36,7 @@ header to indicate the expansion state. This icon can be hidden via the
 
 <!-- example({"example": "expansion-overview",
               "file": "expansion-overview-example.html", 
-              "region": "hide-toggle"}) -->         
+              "region": "hide-toggle"}) -->
 
 #### Action bar
 

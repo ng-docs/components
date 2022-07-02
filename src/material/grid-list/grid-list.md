@@ -29,17 +29,17 @@ list can be calculated in three ways:
 1. **Fixed height**: The height can be in `px`, `em`, or `rem`.  If no units are specified, `px`
    units are assumed (e.g. `100px`, `5em`, `250`).
 
-      **固定行高**：高度可以为 `px`、`em` 或 `rem`。如果没有指定单位，则默认为 `px`（比如 `100px`、`5em`、`250`）。
+   **固定行高**：高度可以为 `px`、`em` 或 `rem`。如果没有指定单位，则默认为 `px`（比如 `100px`、`5em`、`250`）。
 
 1. **Ratio**: This ratio is column-width:row-height, and must be passed in with a colon, not a
    decimal (e.g. `4:3`).
 
-      **宽高比**：该比例表示 "列宽:行高"，并须用冒号形式表示（比如 `4:3`），不能用数字。
+   **宽高比**：该比例表示 "列宽:行高"，并须用冒号形式表示（比如 `4:3`），不能用数字。
 
 1. **Fit**:  Setting `rowHeight` to `fit` This mode automatically divides the available height by
    the number of rows.  Please note the height of the grid-list or its container must be set.
 
-      **填充**：把 `rowHeight` 设置为 `fit`。该模式将会自动根据行数对有效高度进行分割。请注意，必须设置网格列表的高度或其容器的高度。
+   **填充**：把 `rowHeight` 设置为 `fit`。该模式将会自动根据行数对有效高度进行分割。请注意，必须设置网格列表的高度或其容器的高度。
 
 If `rowHeight` is not specified, it defaults to a `1:1` ratio of width:height.
 

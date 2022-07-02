@@ -246,17 +246,17 @@ Each validation property has a different error that can be checked:
 
 每个验证属性可以检查出不同的错误：
 
- * A value that violates the `min` property will have a `matDatepickerMin` error.
- 
-   违反 `min` 属性的值将给出 `matDatepickerMin` 错误。
- 
- * A value that violates the `max` property will have a `matDatepickerMax` error.
- 
-   违反 `max` 属性的值将给出 `matDatepickerMax` 错误。
- 
- * A value that violates the `matDatepickerFilter` property will have a `matDatepickerFilter` error.
+- A value that violates the `min` property will have a `matDatepickerMin` error.
 
-   违反 `matDatepickerFilter` 属性的值将给出 `matDatepickerFilter` 错误。
+  违反 `min` 属性的值将给出 `matDatepickerMin` 错误。
+
+- A value that violates the `max` property will have a `matDatepickerMax` error.
+
+  违反 `max` 属性的值将给出 `matDatepickerMax` 错误。
+
+- A value that violates the `matDatepickerFilter` property will have a `matDatepickerFilter` error.
+
+  违反 `matDatepickerFilter` 属性的值将给出 `matDatepickerFilter` 错误。
 
 ### Input and change events
 
@@ -414,21 +414,21 @@ Internationalization of the datepicker is configured via four aspects:
 
 日期选择器的国际化配置包括四个方面：
 
- 1. The date locale.
- 
-    日期语言环境。
- 
- 2. The date implementation that the datepicker accepts.
- 
-    日期选择器所能接受的日期对象实现。
- 
- 3. The display and parse formats used by the datepicker.
+1. The date locale.
 
-    日期选择器所用的显示和解析格式。
+   日期语言环境。
 
- 4. The message strings used in the datepicker's UI.
+1. The date implementation that the datepicker accepts.
 
-    在日期选择器 UI 中使用的各种消息字符串。
+   日期选择器所能接受的日期对象实现。
+
+1. The display and parse formats used by the datepicker.
+
+   日期选择器所用的显示和解析格式。
+
+1. The message strings used in the datepicker's UI.
+
+   在日期选择器 UI 中使用的各种消息字符串。
 
 #### Setting the locale code
 
@@ -452,10 +452,14 @@ export class MyApp {}
 
 It's also possible to set the locale at runtime using the `setLocale` method of the `DateAdapter`.
 
+也可以使用 `DateAdapter` 的 `setLocale` 方法在运行时设置语言环境。
+
 **Note:** if you're using the `MatDateFnsModule`, you have to provide the data object for your
 locale to `MAT_DATE_LOCALE` instead of the locale code, in addition to providing a configuration
 compatible with `date-fns` to `MAT_DATE_FORMATS`. Locale data for `date-fns` can be imported
 from `date-fns/locale`.
+
+**注意：**如果你使用的是 `MatDateFnsModule` ，除了向 MAT_DATE_FORMATS 提供与 `date-fns` `MAT_DATE_FORMATS` 兼容的配置外，还必须将你的语言环境的数据对象提供给 `MAT_DATE_LOCALE` 而不是语言环境代码。 `date-fns` 语言环境数据可以从 `date-fns/locale` 导入。
 
 <!-- example(datepicker-locale) -->
 
@@ -798,6 +802,8 @@ multiple controls, the most prominent being the calendar itself. This calendar i
 Always enable [_confirmation action buttons_](#confirmation-action-buttons). This allows assistive
 technology users to explicitly confirm their selection before committing a value.
 
+总是启用[*确认操作按钮*](#confirmation-action-buttons)。这允许使用辅助技术的用户在提交值之前明确确认他们的选择。
+
 The `MatDatepickerInput` and `MatDatepickerToggle` directives both apply the `aria-haspopup`
 attribute to the native input and button elements, respectively.
 
@@ -810,9 +816,10 @@ the datepicker text input a meaningful label via `<mat-label>`, `aria-label`, `a
 `MatDatepickerIntl` 包含一些要用作 `aria-label` 的字符串。日期选择器的输入框应该具有一个占位符或通过
 `aria-label`、`aria-labelledby` 或 `MatDatepickerIntl` 提供一个有意义的标签。
 
-
 Always communicate the date format (e.g. 'MM/DD/YYYY'). This can be accomplished using `<mat-hint>`
 or by providing an additional label adjacent to the form field.
+
+总是传达日期格式（例如“MM/DD/YYYY”）。这可以使用 `<mat-hint>` 或通过在表单字段附近提供附加标签来完成。
 
 `MatDatepickerInput` adds <kbd>>Alt</kbd> + <kbd>Down Arrow</kbd> as a keyboard short to open the
 datepicker pop-up. However, ChromeOS intercepts this key combination at the OS level such that the
@@ -829,103 +836,103 @@ The datepicker supports the following keyboard shortcuts:
 
 日期选择器支持下列键盘快捷键：
 
-| Keyboard Shortcut                      | Action                     |
-|----------------------------------------|----------------------------|
-| 快捷键             | 操作                                    |
-| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the calendar pop-up   |
+| Keyboard Shortcut | Action |
+| ----------------- | ------ |
+| 快捷键 | 操作 |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the calendar pop-up |
 | <kbd>Alt</kbd>+ <kbd>Down Arrow</kbd> | 打开日历弹出框 |
-| <kbd>Escape</kbd>                      | Close the calendar pop-up  |
+| <kbd>Escape</kbd> | Close the calendar pop-up |
 | `ESCAPE` | 关闭日历弹出框 |
 
 In month view:
 
 在月份视图中：
 
-| Shortcut                             | Action                                   |
-|--------------------------------------|-------------------------------------------|
-| 快捷键                                  | 操作                                    |
-| <kbd>Left Arrow</kbd>                | Go to previous day                       |
-| <kbd>Left Arrow</kbd>                | 转到上一天 |
-| <kbd>Right Arrow</kbd>               | Go to next day                           |
-| <kbd>Right Arrow</kbd>               | 转到下一天 |
-| <kbd>Up Arrow</kbd>                  | Go to same day in the previous week      |
-| <kbd>Up Arrow</kbd>                  | 转到上周的同一天 |
-| <kbd>Down Arrow</kbd>                | Go to same day in the next week          |
-| <kbd>Down Arrow</kbd>                | 转到下周的同一天 |
-| <kbd>Home</kbd>                      | Go to the first day of the month         |
-| <kbd>Home</kbd>                      | 转到本月初 |
-| <kbd>End</kbd>                       | Go to the last day of the month          |
-| <kbd>End</kbd>                       | 转到本月末 |
-| <kbd>Page Up</kbd>                   | Go to the same day in the previous month |
-| <kbd>Page Up</kbd>                   | 转到上月的同一天 |
-| <kbd>Alt</kbd> + <kbd>Page Up</kbd>  | Go to the same day in the previous year  |
-| <kbd>Alt</kbd>+ <kbd>Page Up</kbd>   | 转到去年的同一天 |
-| <kbd>Page Down</kbd>                 | Go to the same day in the next month |
-| <kbd>Page Down</kbd>                 | 转到下月的同一天 |
+| Shortcut | Action |
+| -------- | ------ |
+| 快捷键 | 操作 |
+| <kbd>Left Arrow</kbd> | Go to previous day |
+| <kbd>Left Arrow</kbd> | 转到上一天 |
+| <kbd>Right Arrow</kbd> | Go to next day |
+| <kbd>Right Arrow</kbd> | 转到下一天 |
+| <kbd>Up Arrow</kbd> | Go to same day in the previous week |
+| <kbd>Up Arrow</kbd> | 转到上周的同一天 |
+| <kbd>Down Arrow</kbd> | Go to same day in the next week |
+| <kbd>Down Arrow</kbd> | 转到下周的同一天 |
+| <kbd>Home</kbd> | Go to the first day of the month |
+| <kbd>Home</kbd> | 转到本月初 |
+| <kbd>End</kbd> | Go to the last day of the month |
+| <kbd>End</kbd> | 转到本月末 |
+| <kbd>Page Up</kbd> | Go to the same day in the previous month |
+| <kbd>Page Up</kbd> | 转到上月的同一天 |
+| <kbd>Alt</kbd> + <kbd>Page Up</kbd> | Go to the same day in the previous year |
+| <kbd>Alt</kbd>+ <kbd>Page Up</kbd> | 转到去年的同一天 |
+| <kbd>Page Down</kbd> | Go to the same day in the next month |
+| <kbd>Page Down</kbd> | 转到下月的同一天 |
 | <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | Go to the same day in the next year |
 | <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | 转到明年的同一天 |
-| <kbd>Enter</kbd>                     | Select current date                      |
-| <kbd>Enter</kbd>                     | 选择当前日期 |
+| <kbd>Enter</kbd> | Select current date |
+| <kbd>Enter</kbd> | 选择当前日期 |
 
 In year view:
 
 在年份视图中：
 
-| Shortcut                             | Action                                    |
-|--------------------------------------|-------------------------------------------|
-| 快捷键                                  | 操作                                    |
-| <kbd>Left Arrow</kbd>                | Go to previous month                      |
-| <kbd>Left Arrow</kbd>                | 转到上月 |
-| <kbd>Right Arrow</kbd>               | Go to next month                          |
-| <kbd>Right Arrow</kbd>               | 转到下月 |
-| <kbd>Up Arrow</kbd>                  | Go up a row (back 4 months)               |
-| <kbd>Up Arrow</kbd>                  | 转到上一行（回退四个月） |
-| <kbd>Down Arrow</kbd>                | Go down a row (forward 4 months)          |
-| <kbd>Down Arrow</kbd>                | 转到下一行（前进四个月） |
-| <kbd>Home</kbd>                      | Go to the first month of the year         |
-| <kbd>Home</kbd>                      | 转到今年的第一个月 |
-| <kbd>End</kbd>                       | Go to the last month of the year          |
-| <kbd>End</kbd>                       | 转到今年的最后一月 |
-| <kbd>Page Up</kbd>                   | Go to the same month in the previous year |
-| <kbd>Page Up</kbd>                   | 转到去年的同一月 |
-| <kbd>Alt</kbd> + <kbd>Page Up</kbd>  | Go to the same month 10 years back        |
-| <kbd>Alt</kbd>+ <kbd>Page Up</kbd>   | 转到十年前的同一月 |
-| <kbd>Page Down</kbd>                 | Go to the same month in the next year |
-| <kbd>Page Down</kbd>                 | 转到明年的同一月 |
+| Shortcut | Action |
+| -------- | ------ |
+| 快捷键 | 操作 |
+| <kbd>Left Arrow</kbd> | Go to previous month |
+| <kbd>Left Arrow</kbd> | 转到上月 |
+| <kbd>Right Arrow</kbd> | Go to next month |
+| <kbd>Right Arrow</kbd> | 转到下月 |
+| <kbd>Up Arrow</kbd> | Go up a row (back 4 months) |
+| <kbd>Up Arrow</kbd> | 转到上一行（回退四个月） |
+| <kbd>Down Arrow</kbd> | Go down a row (forward 4 months) |
+| <kbd>Down Arrow</kbd> | 转到下一行（前进四个月） |
+| <kbd>Home</kbd> | Go to the first month of the year |
+| <kbd>Home</kbd> | 转到今年的第一个月 |
+| <kbd>End</kbd> | Go to the last month of the year |
+| <kbd>End</kbd> | 转到今年的最后一月 |
+| <kbd>Page Up</kbd> | Go to the same month in the previous year |
+| <kbd>Page Up</kbd> | 转到去年的同一月 |
+| <kbd>Alt</kbd> + <kbd>Page Up</kbd> | Go to the same month 10 years back |
+| <kbd>Alt</kbd>+ <kbd>Page Up</kbd> | 转到十年前的同一月 |
+| <kbd>Page Down</kbd> | Go to the same month in the next year |
+| <kbd>Page Down</kbd> | 转到明年的同一月 |
 | <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | Go to the same month 10 years forward |
 | <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | 转到十年后的同一月 |
-| <kbd>Enter</kbd>                     | Select current month                      |
-| <kbd>Enter</kbd>                     | 选择当前月份 |
+| <kbd>Enter</kbd> | Select current month |
+| <kbd>Enter</kbd> | 选择当前月份 |
 
 In multi-year view:
 
 在多年视图中：
 
-| Shortcut                             | Action                                    |
-|--------------------------------------|-------------------------------------------|
-| 快捷键                                  | 操作                                    |
-| <kbd>Left Arrow</kbd>                | Go to previous year                       |
-| <kbd>Left Arrow</kbd>                | 转到去年 |
-| <kbd>Right Arrow</kbd>               | Go to next year                           |
-| <kbd>Right Arrow</kbd>               | 转到明年 |
-| <kbd>Up Arrow</kbd>                  | Go up a row (back 4 years)                |
-| <kbd>Up Arrow</kbd>                  | 转到上一行（后退四年） |
-| <kbd>Down Arrow</kbd>                | Go down a row (forward 4 years)           |
-| <kbd>Down Arrow</kbd>                | 转到下一行（前进四年） |
-| <kbd>Home</kbd>                      | Go to the first year in the current range |
-| <kbd>Home</kbd>                      | 转到当前范围内的第一年 |
-| <kbd>End</kbd>                       | Go to the last year in the current range  |
-| <kbd>End</kbd>                       | 转到当前范围内的最后一年 |
-| <kbd>Page Up</kbd>                   | Go back 24 years                          |
-| <kbd>Page Up</kbd>                   | 后退 24 年 |
-| <kbd>Alt</kbd> + <kbd>Page Up</kbd>  | Go back 240 years                         |
-| <kbd>Alt</kbd>+ <kbd>Page Up</kbd>   | 后退 240 年 |
-| <kbd>Page Down</kbd>                 | Go forward 24 years |
-| <kbd>Page Down</kbd>                 | 前进 24 年 |
+| Shortcut | Action |
+| -------- | ------ |
+| 快捷键 | 操作 |
+| <kbd>Left Arrow</kbd> | Go to previous year |
+| <kbd>Left Arrow</kbd> | 转到去年 |
+| <kbd>Right Arrow</kbd> | Go to next year |
+| <kbd>Right Arrow</kbd> | 转到明年 |
+| <kbd>Up Arrow</kbd> | Go up a row (back 4 years) |
+| <kbd>Up Arrow</kbd> | 转到上一行（后退四年） |
+| <kbd>Down Arrow</kbd> | Go down a row (forward 4 years) |
+| <kbd>Down Arrow</kbd> | 转到下一行（前进四年） |
+| <kbd>Home</kbd> | Go to the first year in the current range |
+| <kbd>Home</kbd> | 转到当前范围内的第一年 |
+| <kbd>End</kbd> | Go to the last year in the current range |
+| <kbd>End</kbd> | 转到当前范围内的最后一年 |
+| <kbd>Page Up</kbd> | Go back 24 years |
+| <kbd>Page Up</kbd> | 后退 24 年 |
+| <kbd>Alt</kbd> + <kbd>Page Up</kbd> | Go back 240 years |
+| <kbd>Alt</kbd>+ <kbd>Page Up</kbd> | 后退 240 年 |
+| <kbd>Page Down</kbd> | Go forward 24 years |
+| <kbd>Page Down</kbd> | 前进 24 年 |
 | <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | Go forward 240 years |
 | <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | 前进 240 年 |
-| <kbd>Enter</kbd>                     | Select current year                       |
-| <kbd>Enter</kbd>                     | 选择当前年份 |
+| <kbd>Enter</kbd> | Select current year |
+| <kbd>Enter</kbd> | 选择当前年份 |
 
 ### Troubleshooting
 

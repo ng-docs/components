@@ -635,4 +635,3 @@ approach for setting up ripples is using the non-native `display: flex` variant 
 More details about ripples on native table rows and their limitations can be found [in this issue](https://github.com/angular/components/issues/11883#issuecomment-634942981).
 
 有关原生表行上的涟漪及其限制的更多详细信息，请参见[本错误](https://github.com/angular/components/issues/11883#issuecomment-634942981)。
-

@@ -123,4 +123,3 @@ Always ensure that keyboard users can perform the same set of actions available 
 touch users.
 
 避免只显示带有鼠标指针事件（如单击和鼠标输入）的工具提示的交互。始终确保键盘用户可以执行鼠标和触摸用户可用的相同操作集。
-

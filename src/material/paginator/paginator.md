@@ -46,6 +46,8 @@ pageSizeOptions.
 If you want to customize some of the optional of the `mat-select` inside the `mat-paginator`, you
 can use the `selectConfig` input.
 
+如果你想自定义 `mat-paginator` 里面的 `mat-select` 的一些可选项，可以使用 `selectConfig` 输入属性。
+
 ### Internationalization
 
 ### 国际化
@@ -56,13 +58,15 @@ This will allow you to change the following:
 分页器的各种标签可以通过指定你自己的 `MatPaginatorIntl` 实例进行定制。
 这将允许你修改：
 
- 1. The label for the length of each page.
+1. The label for the length of each page.
 
    每页大小的标签。
- 2. The range text displayed to the user.
+
+1. The range text displayed to the user.
 
    要显示给用户的范围文本。
- 3. The tooltip messages on the navigation buttons.
+
+1. The tooltip messages on the navigation buttons.
 
    各个导航按钮上的提示信息。
 

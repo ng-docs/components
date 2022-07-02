@@ -53,7 +53,7 @@ easily accomplished with `display: flex`:
 <!-- example({"example":"toolbar-multirow",
               "file":"toolbar-multirow-example.html", 
               "region":"toolbar-position-content"}) -->
-              
+
 <!-- example({"example":"toolbar-multirow",
               "file":"toolbar-multirow-example.css", 
               "region":"toolbar-position-content-style"}) -->

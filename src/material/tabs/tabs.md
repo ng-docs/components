@@ -79,6 +79,8 @@ uses the `active` property to determine which tab is currently active. The corre
 `<router-outlet>` must be wrapped in an `<mat-tab-nav-panel>` component and should typically be
 placed relatively close to the `mat-tab-nav-bar` (see [Accessibility](#accessibility)).
 
+`mat-tab-nav-bar` 不会绑定到任何特定的路由器；它适用于普通 `<a>` 元素并使用 `active` 属性来确定当前哪个选项卡处于活动状态。相应的 `<router-outlet>` 必须包裹在 `<mat-tab-nav-panel>` 组件中，并且通常应放置在相对靠近 `mat-tab-nav-bar` 的位置（请参阅[无障碍性](#accessibility)）。
+
 ### Lazy Loading
 
 ### 惰性加载
@@ -132,23 +134,35 @@ duration can be configured globally using the `MAT_TABS_CONFIG` injection token.
                "region": "slow-animation-duration"}) -->
 
 ### Keeping the tab content inside the DOM while it's off-screen
+
+### 将标签内容保留在 DOM 中，即使它在屏幕外
+
 By default the `<mat-tab-group>` will remove the content of off-screen tabs from the DOM until they
 come into the view. This is optimal for most cases since it keeps the DOM size smaller, but it
 isn't great for others like when a tab has an `<audio>` or `<video>` element, because the content
 will be re-initialized whenever the user navigates to the tab. If you want to keep the content of
 off-screen tabs in the DOM, you can set the `preserveContent` input to `true`.
 
+默认情况下， `<mat-tab-group>` 将从 DOM 中删除屏幕外选项卡的内容，直到它们进入视图。这对于大多数情况来说是最佳的，因为它可以保持 DOM 的大小更小，但对于其他情况（例如某个选项卡具有 `<audio>` 或 `<video>` 元素）来说，这并不是很好，因为每当用户导航到时内容都会重新初始化选项卡。如果要在 DOM 中保留屏幕外选项卡的内容，可以将 `preserveContent` 输入属性设置为 `true` 。
+
 <!-- example(tab-group-preserve-content) -->
 
 ### Accessibility
+
+### 无障碍性
+
 `MatTabGroup` and `MatTabNavBar` both implement the
 [ARIA Tabs design pattern](https://www.w3.org/TR/wai-aria-practices-1.1/#tabpanel). Both components
 compose `tablist`, `tab`, and `tabpanel` elements with handling for keyboard inputs and focus
 management.
 
+`MatTabGroup` 和 `MatTabNavBar` 都实现了 [ARIA Tabs 设计模式](https://www.w3.org/TR/wai-aria-practices-1.1/#tabpanel)。这两个组件组合了 `tablist` 、 `tab` 和 `tabpanel` 元素，并负责处理键盘输入和焦点管理。
+
 When using `MatTabNavBar`, you should place the `<mat-tab-nav-panel>` component relatively close to
 if not immediately adjacent to the `<nav mat-tab-nav-bar>` component so that it's easy for screen
 reader users to identify the association.
+
+使用 `MatTabNavBar` 时，你应该将 `<mat-tab-nav-panel>` 组件放置在相对靠近（如果不是紧邻） `<nav mat-tab-nav-bar>` 组件的位置，以便屏幕阅读器用户可以轻松识别关联.
 
 #### Labels
 
@@ -171,16 +185,16 @@ When using `MatTabNavGroup`, always specify a label for the `<nav>` element.
 
 `MatTabGroup` 和 `MatTabNavBar` 都实现了以下键盘交互。
 
-| Shortcut           | Action                     |
-|--------------------|----------------------------|
-| 快捷键                | 操作                         |
-| `LEFT_ARROW`       | Move focus to previous tab |
-| `LEFT_ARROW`       | 把焦点移到前一个选项卡                |
-| `RIGHT_ARROW`      | Move focus to next tab     |
-| `RIGHT_ARROW`      | 把焦点移到后一个选项卡                |
-| `HOME`             | Move focus to first tab    |
-| `HOME`             | 把焦点移到第一个选项卡                |
-| `END`              | Move focus to last tab     |
-| `END`              | 把焦点移到最后一个选项卡               |
-| `SPACE` or `ENTER` | Switch to focused tab      |
-| `SPACE` 或 `ENTER`  | 切换到当前有焦点的选项卡               |
+| Shortcut | Action |
+| -------- | ------ |
+| 快捷键 | 操作 |
+| `LEFT_ARROW` | Move focus to previous tab |
+| `LEFT_ARROW` | 把焦点移到前一个选项卡 |
+| `RIGHT_ARROW` | Move focus to next tab |
+| `RIGHT_ARROW` | 把焦点移到后一个选项卡 |
+| `HOME` | Move focus to first tab |
+| `HOME` | 把焦点移到第一个选项卡 |
+| `END` | Move focus to last tab |
+| `END` | 把焦点移到最后一个选项卡 |
+| `SPACE` or `ENTER` | Switch to focused tab |
+| `SPACE` 或 `ENTER` | 切换到当前有焦点的选项卡 |

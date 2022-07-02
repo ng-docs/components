@@ -58,9 +58,14 @@ This behaviour is controlled by `labelPosition` property.
               "region": "label-position"}) -->
 
 #### Header position
+
+#### 标题位置
+
 If you're using a horizontal stepper, you can control where the stepper's content is positioned
 using the `headerPosition` input. By default it's on top of the content, but it can also be placed
 under it.
+
+如果你使用的是水平步进器，则可以使用 `headerPosition` 输入属性来控制步进器内容的位置。默认情况下，它位于内容的顶部，但也可以放在其下方。
 
 <!-- example(stepper-header-position) -->
 
@@ -150,6 +155,7 @@ are completed.
   </mat-step>
 </mat-stepper>
 ```
+
 ### Types of steps
 
 ### 步骤的类型
@@ -166,7 +172,6 @@ on `mat-step`.
 <!-- example({"example": "stepper-optional",
               "file": "stepper-optional-example.html",
               "region": "optional"}) -->
-
 
 #### Editable step
 
@@ -214,8 +219,13 @@ Note that you aren't limited to using the `mat-icon` component when providing cu
 注意，要想提供自定义图标，你不一定非要用 `mat-icon` 组件。
 
 ### Controlling the stepper animation
+
+### 控制步进器动画
+
 You can control the duration of the stepper's animation using the `animationDuration` input. If you
 want to disable the animation completely, you can do so by setting the properties to `0ms`.
+
+你可以使用 `animationDuration` 输入属性来控制步进器动画的持续时间。如果要完全禁用动画，可以通过将此属性设置为 `0ms` 来实现。
 
 <!-- example(stepper-animations) -->
 
@@ -304,17 +314,17 @@ viewport.
 
 ### 键盘交互
 
-| Keyboard shortcut      | Action                          |
-|------------------------|---------------------------------|
-| 键盘快捷键                  | 操作                              |
-| <kbd>Left Arrow</kbd>  | Focus the previous step header. |
-| <kbd>Left Arrow</kbd>  | 聚焦上一步标题。                        |
-| <kbd>Right Arrow</kbd> | Focus the next step header.     |
-| <kbd>Right Arrow</kbd> | 聚焦下一步标题。                        |
-| <kbd>Enter</kbd>       | Select the focused step.        |
-| <kbd>Enter</kbd>       | 选择聚焦的步骤。                        |
-| <kbd>Space</kbd>       | Select the focused step.        |
-| <kbd>Space</kbd>       | 选择聚焦的步骤。                        |
+| Keyboard shortcut | Action |
+| ----------------- | ------ |
+| 键盘快捷键 | 操作 |
+| <kbd>Left Arrow</kbd> | Focus the previous step header. |
+| <kbd>Left Arrow</kbd> | 聚焦上一步标题。 |
+| <kbd>Right Arrow</kbd> | Focus the next step header. |
+| <kbd>Right Arrow</kbd> | 聚焦下一步标题。 |
+| <kbd>Enter</kbd> | Select the focused step. |
+| <kbd>Enter</kbd> | 选择聚焦的步骤。 |
+| <kbd>Space</kbd> | Select the focused step. |
+| <kbd>Space</kbd> | 选择聚焦的步骤。 |
 
   <kbd>TAB</kbd>+<kbd>SHIFT</kbd>：焦点移到上一个可捕获焦点的元素上
 

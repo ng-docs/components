@@ -14,21 +14,21 @@ provides a number of preset sections that you can use inside of an `<mat-card>`:
 最基本的卡片只需要一个带有某些内容的 `<mat-card>` 元素。
 不过，Angular Material 也提供了几个预定义的分节，你可以把它们用在 `<mat-card>` 中：
 
-| Element                | Description                                            |
-| ---------------------- | ------------------------------------------------------ |
-| 元素               | 说明                                                              |
-| `<mat-card-title>`     | Card title                                             |
-| `<mat-card-title>`     | 卡片标题 |
-| `<mat-card-subtitle>`  | Card subtitle                                          |
-| `<mat-card-subtitle>`  | 卡片小标题 |
-| `<mat-card-content>`   | Primary card content. Intended for blocks of text      |
-| `<mat-card-content>`   | 主卡片内容。一般为文本块 |
+| Element | Description |
+| ------- | ----------- |
+| 元素 | 说明 |
+| `<mat-card-title>` | Card title |
+| `<mat-card-title>` | 卡片标题 |
+| `<mat-card-subtitle>` | Card subtitle |
+| `<mat-card-subtitle>` | 卡片小标题 |
+| `<mat-card-content>` | Primary card content. Intended for blocks of text |
+| `<mat-card-content>` | 主卡片内容。一般为文本块 |
 | `<img mat-card-image>` | Card image. Stretches the image to the container width |
 | `<img mat-card-image>` | 卡片图片。此图片会拉伸至容器宽度 |
-| `<mat-card-actions>`   | Container for buttons at the bottom of the card        |
-| `<mat-card-actions>`   | 卡片底部按钮的容器 |
-| `<mat-card-footer>`    | Section anchored to the bottom of the card             |
-| `<mat-card-footer>`    | 钉在卡片底部的小节 |
+| `<mat-card-actions>` | Container for buttons at the bottom of the card |
+| `<mat-card-actions>` | 卡片底部按钮的容器 |
+| `<mat-card-footer>` | Section anchored to the bottom of the card |
+| `<mat-card-footer>` | 钉在卡片底部的小节 |
 
 These elements primary serve as pre-styled content containers without any additional APIs. 
 However, the `align` property on `<mat-card-actions>` can be used to position the actions at the 
@@ -46,13 +46,13 @@ header to a card. This header can contain:
 
 除了前面提到的这些小节之外，`<mat-card-header>` 还可以让我们为卡片添加各种头部，包括：
 
-| Element                 | Description                                  |
-| ----------------------- | -------------------------------------------- |
-| 元素                | 说明                                                             |
-| `<mat-card-title>`      | A title within the header                    |
-| `<mat-card-title>`      | 头部的标题 |
-| `<mat-card-subtitle>`   | A subtitle within the header                 |
-| `<mat-card-subtitle>`   | 头部的小标题 |
+| Element | Description |
+| ------- | ----------- |
+| 元素 | 说明 |
+| `<mat-card-title>` | A title within the header |
+| `<mat-card-title>` | 头部的标题 |
+| `<mat-card-subtitle>` | A subtitle within the header |
+| `<mat-card-subtitle>` | 头部的小标题 |
 | `<img mat-card-avatar>` | An image used as an avatar within the header |
 | `<img mat-card-avatar>` | 头部用作头像的图片 |
 
@@ -66,14 +66,18 @@ This element can contain:
 `<mat-card-title-group>` 可用来把标题、小标题、图片组合进单个小节中。此元素可以包含：
 
 * `<mat-card-title>`
+
 * `<mat-card-subtitle>`
+
 * One of:
 
   下列之一：
 
-    * `<img mat-card-sm-image>`
-    * `<img mat-card-md-image>`
-    * `<img mat-card-lg-image>`
+  - `<img mat-card-sm-image>`
+
+  - `<img mat-card-md-image>`
+
+  - `<img mat-card-lg-image>`
 
 ### Accessibility
 
@@ -115,7 +119,7 @@ element.
 根据卡片的用途，可能需要为 `<mat-card>` 元素添加一个 `tabindex` 属性。
 
 * If cards are a primary mechanism through which user interacts with the application, `tabindex="0"`
-  may be appropriate. 
+  may be appropriate.
 
   如果卡片是用户与应用交互的主要方式，那么最好使用 `tabindex="0"`。
 

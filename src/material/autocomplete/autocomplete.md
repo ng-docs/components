@@ -150,21 +150,21 @@ autocomplete is attached to using the `matAutocompleteOrigin` directive together
 
 ### 键盘交互
 
-| Keyboard shortcut                      | Action                                                         |
-|----------------------------------------|----------------------------------------------------------------|
-| 快捷键                                    | 操作                                                             |
-| <kbd>Down Arrow</kbd>                  | Navigate to the next option.                                   |
-| <kbd>Down Arrow</kbd>                  | 导航到下一个选项。                                                      |
-| <kbd>Up Arrow</kbd>                    | Navigate to the previous option.                               |
-| <kbd>Up Arrow</kbd>                    | 导航到上一个选项。                                                      |
-| <kbd>Enter</kbd>                       | Select the active option.                                      |
-| <kbd>Enter</kbd>                       | 选择活动选项。                                                        |
-| <kbd>Escape</kbd>                      | Close the autocomplete panel.                                  |
-| <kbd>Escape</kbd>                      | 关闭自动完成面板。                                                      |
-| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | Close the autocomplete panel.                                  |
-| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | 关闭自动完成面板。                                                      |
+| Keyboard shortcut | Action |
+| ----------------- | ------ |
+| 快捷键 | 操作 |
+| <kbd>Down Arrow</kbd> | Navigate to the next option. |
+| <kbd>Down Arrow</kbd> | 导航到下一个选项。 |
+| <kbd>Up Arrow</kbd> | Navigate to the previous option. |
+| <kbd>Up Arrow</kbd> | 导航到上一个选项。 |
+| <kbd>Enter</kbd> | Select the active option. |
+| <kbd>Enter</kbd> | 选择活动选项。 |
+| <kbd>Escape</kbd> | Close the autocomplete panel. |
+| <kbd>Escape</kbd> | 关闭自动完成面板。 |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd> | Close the autocomplete panel. |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd> | 关闭自动完成面板。 |
 | <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the autocomplete panel if there are any matching options. |
-| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | 如果有任何匹配的选项，就打开自动完成面板。                                          |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | 如果有任何匹配的选项，就打开自动完成面板。 |
 
   <kbd>ESCAPE</kbd>: 关闭自动完成面板
 

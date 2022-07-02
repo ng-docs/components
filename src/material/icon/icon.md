@@ -169,7 +169,7 @@ In thinking about accessibility, it is useful to place icon use into one of thre
    **交互式的**：用户会点击它或用其它方式与此图标互动以执行某些操作。
 
 3. **Indicator**: the icon is not interactive, but it conveys some information, such as a status.
-This includes using the icon in place of text inside of a larger message.
+   This includes using the icon in place of text inside of a larger message.
 
    **指示符**：该图标不是交互式的，但传达某些信息，比如状态。这种情况也包括在大型消息的文本中使用图标。
 
@@ -196,7 +196,7 @@ some icon on the page, a more appropriate  element should "own" the interaction:
   `<mat-icon>` 元素应该是 `<button>` 或 `<a>` 元素之一。
 
 * The parent `<button>` or `<a>` should either have a meaningful label provided either through
-direct text content, `aria-label`, or `aria-labelledby`.
+  direct text content, `aria-label`, or `aria-labelledby`.
 
   父元素 `<button>` 或 `<a>` 应该通过文本内容、`aria-label` 或 `aria-labelledby` 提供一个有意义的标签。
 
@@ -211,12 +211,12 @@ screen-readers. The most straightforward way to do this is to
 如果某个图标的存在是为了给用户传达一些信息，那么无论它是作为指示符还是内联到文本块中，该信息都必须可以供屏幕阅读器使用。最直接的实现方式有：
 
 1. Add a `<span>` as an adjacent sibling to the `<mat-icon>` element with text that conveys the same
-information as the icon.
+   information as the icon.
 
    给 `<mat-icon>` 元素添加一个相邻的兄弟 `<span>`，用它传达与图标相同的信息。
 
 2. Add the `cdk-visually-hidden` class to the `<span>`. This will make the message invisible
-on-screen but still available to screen-reader users.
+   on-screen but still available to screen-reader users.
 
    给 `<span>` 添加一个 `cdk-visually-hidden` 类，这会导致在屏幕上看不见该信息，但屏幕阅读器用户仍然可以读取它。
 

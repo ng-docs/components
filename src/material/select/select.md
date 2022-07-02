@@ -214,21 +214,21 @@ globally cause input errors to show when the input is dirty and invalid.
 
 ### 键盘交互
 
-| Keyboard shortcut                      | Action                                                                |
-|----------------------------------------|-----------------------------------------------------------------------|
-| 键盘快捷键                                  | 操作                                                                    |
-| <kbd>Down Arrow</kbd>                  | Navigate to the next option.                                          |
-| <kbd>Down Arrow</kbd>                  | 导航到下一个选项。                                                             |
-| <kbd>Up Arrow</kbd>                    | Navigate to the previous option.                                      |
-| <kbd>Up Arrow</kbd>                    | 导航到上一个选项。                                                             |
-| <kbd>Enter</kbd>                       | If closed, open the select panel. If open, selects the active option. |
-| <kbd>Enter</kbd>                       | 如果关闭，请打开选择面板。如果打开，则选择活动选项。                                            |
-| <kbd>Escape</kbd>                      | Close the select panel.                                               |
-| <kbd>Escape</kbd>                      | 关闭选择面板。                                                               |
-| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | Close the select panel.                                               |
-| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | 关闭选择面板。                                                               |
-| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the select panel if there are any matching options.              |
-| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | 如果有任何匹配的选项，请打开选择面板。                                                   |
+| Keyboard shortcut | Action |
+| ----------------- | ------ |
+| 键盘快捷键 | 操作 |
+| <kbd>Down Arrow</kbd> | Navigate to the next option. |
+| <kbd>Down Arrow</kbd> | 导航到下一个选项。 |
+| <kbd>Up Arrow</kbd> | Navigate to the previous option. |
+| <kbd>Up Arrow</kbd> | 导航到上一个选项。 |
+| <kbd>Enter</kbd> | If closed, open the select panel. If open, selects the active option. |
+| <kbd>Enter</kbd> | 如果关闭，请打开选择面板。如果打开，则选择活动选项。 |
+| <kbd>Escape</kbd> | Close the select panel. |
+| <kbd>Escape</kbd> | 关闭选择面板。 |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd> | Close the select panel. |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd> | 关闭选择面板。 |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the select panel if there are any matching options. |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | 如果有任何匹配的选项，请打开选择面板。 |
 
 ### Accessibility
 
