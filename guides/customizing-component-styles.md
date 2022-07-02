@@ -55,11 +55,13 @@ affect the elements explicitly defined in your template. To affect descendants o
 in your template, you can use one of the following approaches:
 
 1. Define custom styles in a global stylesheet declared in the `styles` array of your `angular.json`
-configuration file.
+   configuration file.
+
 2. Disable view encapsulation for your component. This approach effectively turns your component
-styles into global CSS.
+   styles into global CSS.
+
 3. Apply the deprecated `::ng-deep` pseudo-class to a CSS rule. Any CSS rule with `::ng-deep`
-becomes a global style. [See the Angular documentation for more on `::ng-deep`][ng-deep].
+   becomes a global style. [See the Angular documentation for more on `::ng-deep`][ng-deep].
 
 All of these approaches involve creating global CSS that isn't affected by style encapsulation.
 Global CSS affects all elements in your application. Global CSS class names may collide with class

@@ -41,15 +41,20 @@ determine which features to include:
 The `ng add` command will additionally perform the following actions:
 
 * Add project dependencies to `package.json`
+
 * Add the Roboto font to your `index.html`
+
 * Add the Material Design icon font to your `index.html`
+
 * Add a few global CSS styles to:
+
   * Remove margins from `body`
+
   * Set `height: 100%` on `html` and `body`
+
   * Set Roboto as the default application font
 
 You're done! Angular Material is now configured to be used in your application.
-
 
 ### Display a component
 
@@ -81,7 +86,7 @@ Run your local dev server:
 ng serve
 ```
 
-Then point your browser to [http://localhost:4200](http://localhost:4200)
+Then point your browser to <http://localhost:4200>
 
 You should see the Material slider component on the page.
 

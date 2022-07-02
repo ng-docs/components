@@ -19,8 +19,9 @@ This guide discusses the advantages of using component test harnesses and shows 
 ## Benefits of component test harnesses
 
 There are two primary benefits to using the Angular Material component harnesses in your tests:
- 
+
 1. Harnesses make tests easier to read and understand with straightforward APIs.
+
 2. Harnesses make tests more robust and less likely to break when updating Angular Material.
 
 The following sections will illustrate these benefits in more detail.
@@ -62,8 +63,10 @@ harnesses for them. Note that `HarnessLoader` and `TestbedHarnessEnvironment` ar
 different paths. 
 
 - `@angular/cdk/testing` contains symbols that are shared regardless of the environment your tests
-  are in. 
+  are in.
+
 - `@angular/cdk/testing/testbed` contains symbols that are used only in Karma tests.
+
 - `@angular/cdk/testing/selenium-webdriver` (not shown above) contains symbols that are used only in
   Selenium WebDriver tests.
 
@@ -111,17 +114,18 @@ You can also use the static `with` method implemented on all Angular Material co
 This method creates a `HarnessPredicate`, an object that filters loaded harnesses based on the
 provided constraints. The particular constraint options vary depending on the harness class, but all
 harnesses support at least:
- 
+
 - `selector` - CSS selector that the component must match (in addition to its host selector, such
   as `[mat-button]`)
+
 - `ancestor` - CSS selector for a some ancestor element above the component in the DOM
- 
+
 In addition to these standard options, `MatButtonHarness` also supports
- 
-- `text` - String text or regular expressions that matches the text content of the button 
- 
+
+- `text` - String text or regular expressions that matches the text content of the button
+
 Using this method we could locate buttons as follows in our test:
- 
+
 ```ts
 it('should work', async () => {
   // Harness for mat-button whose id is 'more-info'.

@@ -15,10 +15,12 @@ of their container.
 in your application. To consume it, you must import `BidiModule` from `@angular/cdk/bidi`.
 
 `Directionality` provides two useful properties:
+
 * `value`: the current text direction, either `'ltr'` or `'rtl'`.
+
 * `change`: an `Observable` that emits whenever the text-direction changes. Note that this only
-captures changes from `dir` attributes _inside the Angular application context_. It will not
-emit for changes to `dir` on `<html>` and `<body>`, as they are assumed to be static.
+  captures changes from `dir` attributes _inside the Angular application context_. It will not
+  emit for changes to `dir` on `<html>` and `<body>`, as they are assumed to be static.
 
 ### Example
 

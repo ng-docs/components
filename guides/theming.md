@@ -11,7 +11,9 @@ see [Angular Material Typography][mat-typography]. For guidance on building comp
 customizable with this system, see [Theming your own components][theme-your-own].
 
 [material-design-theming]: https://material.io/design/material-theming/overview.html
+
 [mat-typography]: https://material.angular.io/guide/typography
+
 [theme-your-own]: https://material.angular.io/guide/theming-your-components
 
 ### Sass
@@ -53,6 +55,7 @@ $indigo-palette: (
 ```
 
 [sass-maps]: https://sass-lang.com/documentation/values/maps
+
 [spec-colors]: https://material.io/design/color/the-color-system.html
 
 ### Create your own palette
@@ -90,7 +93,9 @@ A **theme** is a collection of color and typography options. Each theme includes
 determine component colors:
 
 * A **primary** palette for the color that appears most frequently throughout your application
+
 * An **accent**, or _secondary_, palette used to selectively highlight key parts of your UI
+
 * A **warn**, or _error_, palette used for warnings and error states
 
 You can include the CSS styles for a theme in your application in one of two ways: by defining a
@@ -233,12 +238,12 @@ your project's `angular.json` file][adding-styles].
 Angular Material includes four pre-built theme CSS files, each with different palettes selected.
 You can use one of these pre-built themes if you don't want to define a custom theme with Sass.
 
-| Theme                  | Light or dark? | Palettes (primary, accent, warn) |
-|------------------------|----------------|----------------------------------|
-| `deeppurple-amber.css` | Light          | deep-purple, amber, red          |
-| `indigo-pink.css`      | Light          | indigo, pink, red                |
-| `pink-bluegrey.css`    | Dark           | pink, bluegrey, red              |
-| `purple-green.css`     | Dark           | purple, green, red               |
+| Theme | Light or dark? | Palettes (primary, accent, warn) |
+| ----- | -------------- | -------------------------------- |
+| `deeppurple-amber.css` | Light | deep-purple, amber, red |
+| `indigo-pink.css` | Light | indigo, pink, red |
+| `pink-bluegrey.css` | Dark | pink, bluegrey, red |
+| `purple-green.css` | Dark | purple, green, red |
 
 These files include the CSS for every component in the library. To include only the CSS for a subset
 of components, you must use the Sass API detailed in [Defining a theme](#defining-a-theme) above.
@@ -320,7 +325,9 @@ file. The approach for this loading depends on your application.
 By default, Angular Material does not apply any styles to your DOM outside
 of its own components. If you want to set your application's background color
 to match the components' theme, you can either:
+
 1. Put your application's main content inside `mat-sidenav-container`, assuming you're using `MatSidenav`, or
+
 2. Apply the `mat-app-background` CSS class to your main content root element (typically `body`).
 
 ### Scoping style customizations
@@ -462,6 +469,7 @@ shadow root that contains an Angular Material component. You can accomplish this
 the CSS in each shadow root, or by using [Constructable Stylesheets][constructable-css].
 
 [shadow-dom]: https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM
+
 [constructable-css]: https://developers.google.com/web/updates/2019/02/constructable-stylesheets
 
 ## Style customization outside the theming system
@@ -470,4 +478,3 @@ Angular Material supports customizing color and typography as outlined in this d
 strongly discourages, and does not directly support, overriding component CSS outside the theming
 APIs described above. Component DOM structure and CSS classes are considered private implementation
 details that may change at any time.
-

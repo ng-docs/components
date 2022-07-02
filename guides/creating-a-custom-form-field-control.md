@@ -221,7 +221,6 @@ export class MyTelInput implements MatFormFieldControl<MyTel>, ControlValueAcces
 
 For additional information about `ControlValueAccessor` see the [API docs](https://angular.io/api/forms/ControlValueAccessor).
 
-
 #### `focused`
 
 This property indicates whether the form field control should be considered to be in a
@@ -279,6 +278,7 @@ get shouldLabelFloat() {
   return this.focused || !this.empty;
 }
 ```
+
 ```css
 span {
   opacity: 0;

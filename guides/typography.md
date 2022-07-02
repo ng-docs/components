@@ -30,7 +30,9 @@ note that, by default, [the Angular CLI inlines assets from Google Fonts to redu
 requests][font-inlining].
 
 [roboto]: https://fonts.google.com/share?selection.family=Roboto:wght@300;400;500
+
 [fonts-api]: https://developers.google.com/fonts/docs/getting_started
+
 [font-inlining]: https://angular.io/guide/workspace-config#fonts-optimization-options
 
 ## Typography levels
@@ -41,21 +43,21 @@ font weight, font size, and letter spacing. Angular Material uses the [typograph
 from the 2014 version of the Material Design specification][2014-typography], outlined in the
 table below.
 
-| Name            | Description                                                                 |
-|-----------------|-----------------------------------------------------------------------------|
-| `display-4`     | 112px, one-off header, usually at the top of the page (e.g. a hero header). |
-| `display-3`     |  56px, one-off header, usually at the top of the page (e.g. a hero header). |
-| `display-2`     |  45px, one-off header, usually at the top of the page (e.g. a hero header). |
-| `display-1`     |  34px, one-off header, usually at the top of the page (e.g. a hero header). |
-| `headline`      | Section heading corresponding to the `<h1>` tag.                            |
-| `title`         | Section heading corresponding to the `<h2>` tag.                            |
-| `subheading-2`  | Section heading corresponding to the `<h3>` tag.                            |
-| `subheading-1`  | Section heading corresponding to the `<h4>` tag.                            |
-| `body-1`        | Base body text.                                                             |
-| `body-2`        | Bolder body text.                                                           |
-| `caption`       | Smaller body and hint text.                                                 |
-| `button`        | Buttons and anchors.                                                        |
-| `input`         | Form input fields.                                                          |
+| Name | Description |
+| ---- | ----------- |
+| `display-4` | 112px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `display-3` | 56px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `display-2` | 45px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `display-1` | 34px, one-off header, usually at the top of the page (e.g. a hero header). |
+| `headline` | Section heading corresponding to the `<h1>` tag. |
+| `title` | Section heading corresponding to the `<h2>` tag. |
+| `subheading-2` | Section heading corresponding to the `<h3>` tag. |
+| `subheading-1` | Section heading corresponding to the `<h4>` tag. |
+| `body-1` | Base body text. |
+| `body-2` | Bolder body text. |
+| `caption` | Smaller body and hint text. |
+| `button` | Buttons and anchors. |
+| `input` | Form input fields. |
 
 [2014-typography]: https://material.io/archive/guidelines/style/typography.html#typography-styles
 
@@ -187,21 +189,21 @@ your application. These CSS classes correspond to the typography levels in your 
 This mixin also emits styles for native header elements scoped within the `.mat-typography` CSS
 class. The table below lists the CSS classes emitted and the native elements styled.
 
-| CSS class                           | Level name     | Native elements |
-|-------------------------------------|----------------|-----------------|
-| `.mat-display-4`                    | `display-4`    | None            |
-| `.mat-display-3`                    | `display-3`    | None            |
-| `.mat-display-2`                    | `display-2`    | None            |
-| `.mat-display-1`                    | `display-1`    | None            |
-| `.mat-h1` or `.mat-headline`        | `headline`     | `<h1>`          |
-| `.mat-h2` or `.mat-title`           | `title`        | `<h2>`          |
-| `.mat-h3` or `.mat-subheading-2`    | `subheading-2` | `<h3>`          |
-| `.mat-h4` or `.mat-subheading-1`    | `subheading-1` | `<h4>`          |
-| `.mat-h5`                           | None           | `<h5>`          |
-| `.mat-h6`                           | None           | `<h6>`          |
-| `.mat-body` or `.mat-body-1`        | `body-1`       | Body text       |
-| `.mat-body-strong` or `.mat-body-2` | `body-2`       | None            |
-| `.mat-small` or `.mat-caption`      | `caption`      | None            |
+| CSS class | Level name | Native elements |
+| --------- | ---------- | --------------- |
+| `.mat-display-4` | `display-4` | None |
+| `.mat-display-3` | `display-3` | None |
+| `.mat-display-2` | `display-2` | None |
+| `.mat-display-1` | `display-1` | None |
+| `.mat-h1` or `.mat-headline` | `headline` | `<h1>` |
+| `.mat-h2` or `.mat-title` | `title` | `<h2>` |
+| `.mat-h3` or `.mat-subheading-2` | `subheading-2` | `<h3>` |
+| `.mat-h4` or `.mat-subheading-1` | `subheading-1` | `<h4>` |
+| `.mat-h5` | None | `<h5>` |
+| `.mat-h6` | None | `<h6>` |
+| `.mat-body` or `.mat-body-1` | `body-1` | Body text |
+| `.mat-body-strong` or `.mat-body-2` | `body-2` | None |
+| `.mat-small` or `.mat-caption` | `caption` | None |
 
 In addition to the typographic styles, these style rules also include a `margin-bottom` for
 headers and paragraphs. For `body-1` styles, text is styled within the provided CSS selector.
@@ -241,12 +243,12 @@ The following example demonstrates usage of the typography styles emitted by the
 You can read typography style values from a typography config via the following Sass functions. Each
 accepts a typography config and a level.
 
-| Function         | Example usage                            |
-|------------------|------------------------------------------|
-| `font-size`      | `mat.font-size($config, 'body-1');`      |
-| `font-family`    | `mat.font-family($config, 'body-1');`    |
-| `font-weight`    | `mat.font-weight($config, 'body-1');`    |
-| `line-height`    | `mat.line-height($config, 'body-1');`    |
+| Function | Example usage |
+| -------- | ------------- |
+| `font-size` | `mat.font-size($config, 'body-1');` |
+| `font-family` | `mat.font-family($config, 'body-1');` |
+| `font-weight` | `mat.font-weight($config, 'body-1');` |
+| `line-height` | `mat.line-height($config, 'body-1');` |
 | `letter-spacing` | `mat.letter-spacing($config, 'body-1');` |
 
 Additionally, you can use the `typography-level` Sass mixin to directly emit the CSS styles for a

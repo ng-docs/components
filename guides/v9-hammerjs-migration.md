@@ -43,7 +43,8 @@ are required. Read more [in the dedicated section](#the-migration-reported-ambig
 HammerJS can be set up in many ways. The migration handles the most common cases, covering
 approaches recommended by Angular Material in the past. The migration performs the following steps:
 
-*1\.* Remove `hammerjs` from your project `package.json`.
+*1.* Remove `hammerjs` from your project `package.json`.
+
 ```json
 {
   "dependencies": {
@@ -51,11 +52,15 @@ approaches recommended by Angular Material in the past. The migration performs t
   }
 }
 ```
-*2\.* Remove script imports to `hammerjs` in the `index.html` file.
+
+*2.* Remove script imports to `hammerjs` in the `index.html` file.
+
 ```html
 <script src="https://my-cdn.io/hammer.min.js"></script>
 ```
-*3\.* Remove [side-effect imports][2] to `hammerjs`.
+
+*3.* Remove [side-effect imports][2] to `hammerjs`.
+
 ```typescript
 import 'hammerjs';
 ```
@@ -94,6 +99,7 @@ in combination with a different custom gesture config. These patterns cannot be 
 automatically, but the migration will report such patterns and ask you to perform manual cleanup.
 
 <a name="test-migration"></a>
+
 ## How to migrate my tests?
 
 Components in your project might use Angular Material components which previously depended
@@ -116,6 +122,7 @@ import 'hammerjs';
 ```
 
 <a name="what-to-do-ambiguous-usage"></a>
+
 ## The migration reported ambiguous usage. What should I do?
 
 **Case 1**: It detected that a HammerJS event provided by the deprecated `GestureConfig` is
@@ -141,4 +148,5 @@ existing, custom gesture config to handle the events provided by the deprecated 
 `GestureConfig`.
 
 [1]: https://v9.angular.io/api/platform-browser/HammerGestureConfig
+
 [2]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Import_a_module_for_its_side_effects_only
