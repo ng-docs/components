@@ -106,17 +106,17 @@ resetting it will call `reset` on the underlying form control which clears the v
 
 ### 键盘交互
 
-| Keyboard shortcut      | Action                          |
-|------------------------|---------------------------------|
-| 键盘快捷键                  | 操作                              |
-| <kbd>Left Arrow</kbd>  | Focus the previous step header. |
-| <kbd>Left Arrow</kbd>  | 聚焦上一步标题。                        |
-| <kbd>Right Arrow</kbd> | Focus the next step header.     |
-| <kbd>Right Arrow</kbd> | 聚焦下一步标题。                        |
-| <kbd>Enter</kbd>       | Select the focused step.        |
-| <kbd>Enter</kbd>       | 选择有焦点的步骤。                       |
-| <kbd>Space</kbd>       | Select the focused step.        |
-| <kbd>Space</kbd>       | 选择有焦点的步骤。                       |
+| Keyboard shortcut | Action |
+| ----------------- | ------ |
+| 键盘快捷键 | 操作 |
+| <kbd>Left Arrow</kbd> | Focus the previous step header. |
+| <kbd>Left Arrow</kbd> | 聚焦上一步标题。 |
+| <kbd>Right Arrow</kbd> | Focus the next step header. |
+| <kbd>Right Arrow</kbd> | 聚焦下一步标题。 |
+| <kbd>Enter</kbd> | Select the focused step. |
+| <kbd>Enter</kbd> | 选择有焦点的步骤。 |
+| <kbd>Space</kbd> | Select the focused step. |
+| <kbd>Space</kbd> | 选择有焦点的步骤。 |
 
 ### Accessibility
 
@@ -134,4 +134,3 @@ reflects its selected state and the associated content element should have `aria
 You can refer to the [Angular Material stepper](https://github.com/angular/components/tree/main/src/material/stepper) as an example of an accessible implementation.
 
 你可以参考 [Angular Material 步进器](https://github.com/angular/components/tree/main/src/material/stepper)作为无障碍实现的示例。
-

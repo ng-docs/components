@@ -50,7 +50,7 @@ interface. There are three stages of a scroll strategy's life cycle:
 1. When an overlay is detached from the DOM or destroyed, it'll call the `disable` method on its
    scroll strategy, allowing it to clean up after itself.
 
-      当一个浮层从 DOM 中分离出来或者被销毁时，它会调用滚动策略的 `disable` 方法，让它在自己清理完之后做一些清理工作。
+   当一个浮层从 DOM 中分离出来或者被销毁时，它会调用滚动策略的 `disable` 方法，让它在自己清理完之后做一些清理工作。
 
 Afterwards you can pass in the new scroll strategy to your overlay state:
 

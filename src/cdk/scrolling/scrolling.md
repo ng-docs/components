@@ -208,13 +208,20 @@ views that are already rendered persist in the DOM after they scroll out of view
 <!-- example(cdk-virtual-scroll-append-only) -->
 
 ### Separate viewport and scrolling element
+
+### 单独的视口和滚动元素
+
 The virtual scroll viewport itself acts as the scrolling element by default. However, there may be
 some cases where you want to have the viewport scroll one of its parent elements. For example,
 if you want to have some non-virtualized content that the user can scroll through before or after
 the virtualized content.
 
+默认情况下，虚拟滚动视口本身就会充当滚动元素。但是，在某些情况下，你可能希望让此视口滚动其父元素之一。例如，如果你想要一些非虚拟化内容，用户可以在虚拟化内容之前或之后滚动浏览。
+
 To configure a `cdk-vritual-scroll-viewport` to use one of its parent elements as the scrolling
 element, apply `cdkVirtualScrollingElement` to the scrolling parent element.
+
+要将 `cdk-vritual-scroll-viewport` 配置为使用其父元素之一作为滚动元素，请把 `cdkVirtualScrollingElement` 应用于那个父元素。
 
 <!-- example(cdk-virtual-scroll-parent-scrolling) -->
 
@@ -222,5 +229,7 @@ Another common scenario is using the window itself as the scrolling element. Thi
 user experience on mobile devices, as it allows the browser chrome to scroll away. To use the
 window as the scrolling element, add the `scrollWindow` attribute to the 
 `cdk-virtual-scroll-viewport`.
+
+另一个常见的场景是使用 `window` 本身作为滚动元素。这通常是移动设备上更好的用户体验，因为它允许浏览器 Chrome 地址栏滚动出去。要将 `window` 用作滚动元素，请将 `scrollWindow` 属性添加到 `cdk-virtual-scroll-viewport` 。
 
 <!-- example(cdk-virtual-scroll-window-scrolling) -->

@@ -111,7 +111,7 @@ create `ComponentHarness` instances directly.
 | `documentRootLoader(fixture: ComponentFixture<unknown>): HarnessLoader` | Gets a `HarnessLoader` instance for the given fixture, rooted at the HTML document's root element. Can be used to create harnesses for elements that fall outside of the fixture |
 | `documentRootLoader(fixture: ComponentFixture<unknown>): HarnessLoader` | 获取 `HarnessLoader` 实例，该实例以 HTML 文档的根元素为根。可以用来为那些夹具外面的元素创建测试工具 |
 | `harnessForFixture<T extends ComponentHarness>(fixture: ComponentFixture<unknown>, harnessType: ComponentHarnessConstructor<T>): Promise<T>` | Used to create a `ComponentHarness` instance for the fixture's root element directly. This is necessary when bootstrapping the test with the component you plan to load a harness for, because Angular does not set the proper tag name when creating the fixture. |
-|  `harnessForFixture<T extends ComponentHarness>(fixture: ComponentFixture<unknown>, harnessType: ComponentHarnessConstructor<T>): Promise<T>`  | 用来直接为夹具的根元素创建一个 `ComponentHarness`。当使用你计划为其加载测试工具的组件启动测试时，这是必要的，因为在创建夹具时，Angular 还没有设置正确的标签名。 |
+| `harnessForFixture<T extends ComponentHarness>(fixture: ComponentFixture<unknown>, harnessType: ComponentHarnessConstructor<T>): Promise<T>` | 用来直接为夹具的根元素创建一个 `ComponentHarness`。当使用你计划为其加载测试工具的组件启动测试时，这是必要的，因为在创建夹具时，Angular 还没有设置正确的标签名。 |
 
 In most cases, you can create a `HarnessLoader` in the `beforeEach` block using
 `TestbedHarnessEnvironment.loader(fixture)` and then use that `HarnessLoader` to create any
@@ -214,10 +214,10 @@ are used to create `ComponentHarness` instances for elements under this root ele
 | `getChildLoader(selector: string): Promise<HarnessLoader>` | 在 `HarnessLoader` 的根元素下搜索匹配指定选择器的元素，并返回以第一个匹配元素为根的 `HarnessLoader` |
 | `getAllChildLoaders(selector: string): Promise<HarnessLoader[]>` | Acts like `getChildLoader`, but returns an array of `HarnessLoader` instances, one for each matching element, rather than just the first matching element |
 | `getAllChildLoaders(selector: string): Promise<HarnessLoader[]>` | 行为类似于 `getChildLoader`，但返回一个 HarnessLoader 实例数组，给每个匹配的元素一个实例，而不是只给第一个匹配的元素 |
-| `getHarness<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T> \| HarnessPredicate<T>): Promise<T>` | Searches for an instance of the given `ComponentHarness` class or `HarnessPredicate` below the root element of this `HarnessLoader` and returns an instance of the harness corresponding to the first matching element |
-| `getHarness<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T> \| HarnessPredicate<T>): Promise<T>` | 在 `HarnessLoader` 的根元素下面搜索指定的 `ComponentHarness` 或 `HarnessPredicate` 类的实例，并返回与第一个匹配元素对应的测试工具的实例 |
-| `getAllHarnesses<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T> \| HarnessPredicate<T>): Promise<T[]>` | Acts like `getHarness`, but returns an array of harness instances, one for each matching element, rather than just the first matching element  |
-| `getAllHarnesses<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T> \| HarnessPredicate<T>): Promise<T[]>` | 行为类似于 `getHarness`，但会返回一个测试工具实例的数组，给每个匹配的元素一个实例，而不只是只给第一个匹配的元素 |
+| `getHarness<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T> &verbar; HarnessPredicate<T>): Promise<T>` | Searches for an instance of the given `ComponentHarness` class or `HarnessPredicate` below the root element of this `HarnessLoader` and returns an instance of the harness corresponding to the first matching element |
+| `getHarness<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T> &verbar; HarnessPredicate<T>): Promise<T>` | 在 `HarnessLoader` 的根元素下面搜索指定的 `ComponentHarness` 或 `HarnessPredicate` 类的实例，并返回与第一个匹配元素对应的测试工具的实例 |
+| `getAllHarnesses<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T> &verbar; HarnessPredicate<T>): Promise<T[]>` | Acts like `getHarness`, but returns an array of harness instances, one for each matching element, rather than just the first matching element |
+| `getAllHarnesses<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T> &verbar; HarnessPredicate<T>): Promise<T[]>` | 行为类似于 `getHarness`，但会返回一个测试工具实例的数组，给每个匹配的元素一个实例，而不只是只给第一个匹配的元素 |
 
 Calls to `getHarness` and `getAllHarnesses` can either take `ComponentHarness` subclass or a
 `HarnessPredicate`. `HarnessPredicate` applies additional restrictions to the search (e.g. searching
@@ -379,8 +379,8 @@ functions ensures that tests always reference the current state of the DOM.
 | `host(): Promise<TestElement>` | 返回相应组件实例的宿主元素的 `Promise` |
 | `locatorFor(selector: string): () => Promise<TestElement>` | Creates a function that returns a `Promise` for the first element matching the given selector when called. If no matching element is found, the `Promise` rejects. |
 | `locatorFor(selector: string): () => Promise<TestElement>` | 创建一个函数，该函数在被调用时会返回与指定选择器匹配的第一个元素的 `Promise`。如果找不到匹配的元素，`Promise` 就会拒绝。 |
-| `locatorForOptional(selector: string): () => Promise<TestElement \| null>` | Creates a function that returns a `Promise` for the first element matching the given selector when called. If no matching element is found, the `Promise` is resolved with `null`. |
-| `locatorForOptional(selector: string): () => Promise<TestElement \| null>` | 创建一个函数，该函数在被调用时会返回与指定选择器匹配的第一个元素的 `Promise`。如果找不到匹配的元素，则会解析成携带 `null` 的 `Promise`。 |
+| `locatorForOptional(selector: string): () => Promise<TestElement &verbar; null>` | Creates a function that returns a `Promise` for the first element matching the given selector when called. If no matching element is found, the `Promise` is resolved with `null`. |
+| `locatorForOptional(selector: string): () => Promise<TestElement &verbar; null>` | 创建一个函数，该函数在被调用时会返回与指定选择器匹配的第一个元素的 `Promise`。如果找不到匹配的元素，则会解析成携带 `null` 的 `Promise`。 |
 | `locatorForAll(selector: string): () => Promise<TestElement[]>` | Creates a function that returns a `Promise` for a list of all elements matching the given selector when called. |
 | `locatorForAll(selector: string): () => Promise<TestElement[]>` | 创建一个函数，它返回一个 `Promise` 以便在调用时返回与指定选择器匹配的所有元素的列表。 |
 
@@ -425,12 +425,12 @@ The functions created with the locator methods described above all return `TestE
 | `getCssValue(property: string): Promise<string>` | 获取此元素指定 CSS 属性的计算值。 |
 | `hover(): Promise<void>` | Hovers over the element. |
 | `hover(): Promise<void>` | 悬停在此元素上方。 |
-| `sendKeys(modifiers?: ModifierKeys, ...keys: (string \| TestKey)[]): Promise<void>` | Sends the given list of key presses to the element (with optional modifier keys). |
-| `sendKeys(modifiers?: ModifierKeys, ...keys: (string \| TestKey)[]): Promise<void>` | 给此元素发送指定的按键列表（可以带修饰键）。 |
+| `sendKeys(modifiers?: ModifierKeys, ...keys: (string &verbar; TestKey)[]): Promise<void>` | Sends the given list of key presses to the element (with optional modifier keys). |
+| `sendKeys(modifiers?: ModifierKeys, ...keys: (string &verbar; TestKey)[]): Promise<void>` | 给此元素发送指定的按键列表（可以带修饰键）。 |
 | `text(): Promise<string>` | Gets the text content of the element |
 | `text(): Promise<string>` | 获取此元素的文本内容 |
-| `getAttribute(name: string): Promise<string \| null>` | Gets the value of the given HTML attribute for the element. |
-| `getAttribute(name: string): Promise<string \| null>` | 从此元素获取指定的 HTML 属性的值。 |
+| `getAttribute(name: string): Promise<string &verbar; null>` | Gets the value of the given HTML attribute for the element. |
+| `getAttribute(name: string): Promise<string &verbar; null>` | 从此元素获取指定的 HTML 属性的值。 |
 | `hasClass(name: string): Promise<boolean>` | Checks whether the element has the given class applied. |
 | `hasClass(name: string): Promise<boolean>` | 检查此元素是否已应用了指定的类。 |
 | `getDimensions(): Promise<ElementDimensions>` | Gets the dimensions of the element. |
@@ -502,10 +502,10 @@ earlier has an alternate signature that can be used for locating sub-harnesses r
 | 方法 | 说明 |
 | `locatorFor<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T>` | Creates a function that returns a `Promise` for the first harness matching the given harness type when called. If no matching harness is found, the `Promise` rejects. |
 | `locatorFor<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T>` | 创建一个函数，该函数在被调用时返回第一个匹配指定测试工具类型的测试工具的 `Promise`；如果找不到匹配的测试工具，`Promise` 就会拒绝。 |
-| `locatorForOptional<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T \| null>` | Creates a function that returns a `Promise` for the first harness matching the given harness type when called. If no matching harness is found, the `Promise` is resolved with `null`. |
-| `locatorForOptional<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T \| null>` | 创建一个函数，该函数在被调用时返回第一个匹配指定测试工具类型的测试工具的 `Promise`；如果找不到匹配的工具，就会解析成携带 `null` 的 `Promise`。 |
+| `locatorForOptional<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T &verbar; null>` | Creates a function that returns a `Promise` for the first harness matching the given harness type when called. If no matching harness is found, the `Promise` is resolved with `null`. |
+| `locatorForOptional<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T &verbar; null>` | 创建一个函数，该函数在被调用时返回第一个匹配指定测试工具类型的测试工具的 `Promise`；如果找不到匹配的工具，就会解析成携带 `null` 的 `Promise`。 |
 | `locatorForAll<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T[]>` | Creates a function that returns a `Promise` for a list of all harnesses matching the given harness type when called. |
-| `locatorForAll<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T[]>` | 创建一个函数，该函数在被调用时返回一个`Promise`，携带匹配到指定测试工具类型的所有测试工具列表。 |
+| `locatorForAll<T extends ComponentHarness>(harnessType: ComponentHarnessConstructor<T>): () => Promise<T[]>` | 创建一个函数，该函数在被调用时返回一个 `Promise`，携带匹配到指定测试工具类型的所有测试工具列表。 |
 
 For example, consider a menu build using the popup shown above:
 
@@ -588,10 +588,10 @@ for adding options.
 | Method | Description |
 | ------ | ----------- |
 | 方法 | 说明 |
-| `static stringMatches(s: string \| Promise<string>, pattern: string \| RegExp): Promise<boolean>` | Compares a string or `Promise` of a string against a `string` or `RegExp` and returns a boolean `Promise` indicating whether it matches. |
-| `static stringMatches(s: string \| Promise<string>, pattern: string \| RegExp): Promise<boolean>` | 按照 `string` 或 `RegExp` 类型的模式比较字符串或字符串的 `Promise`，并返回一个表明它是否匹配 `Promise` |
-| `addOption<O>(name: string, option: O \| undefined, predicate: (harness: T, option: O) => Promise<boolean>): HarnessPredicate<T>` | Creates a new `HarnessPredicate` that enforces all of the conditions of the current one, plus the new constraint specified by the `predicate` parameter. If the `option` parameter is `undefined` the `predicate` is considered to be always true. |
-| `addOption<O>(name: string, option: O \| undefined, predicate: (harness: T, option: O) => Promise<boolean>): HarnessPredicate<T>` | 创建一个新的 `HarnessPredicate` 来强制执行当前的所有条件，再加上 `predicate` 参数指定的新约束条件。如果 `option` 参数为 `undefined`，此 `predicate` 总是返回 true。 |
+| `static stringMatches(s: string &verbar; Promise<string>, pattern: string &verbar; RegExp): Promise<boolean>` | Compares a string or `Promise` of a string against a `string` or `RegExp` and returns a boolean `Promise` indicating whether it matches. |
+| `static stringMatches(s: string &verbar; Promise<string>, pattern: string &verbar; RegExp): Promise<boolean>` | 按照 `string` 或 `RegExp` 类型的模式比较字符串或字符串的 `Promise`，并返回一个表明它是否匹配 `Promise` |
+| `addOption<O>(name: string, option: O &verbar; undefined, predicate: (harness: T, option: O) => Promise<boolean>): HarnessPredicate<T>` | Creates a new `HarnessPredicate` that enforces all of the conditions of the current one, plus the new constraint specified by the `predicate` parameter. If the `option` parameter is `undefined` the `predicate` is considered to be always true. |
+| `addOption<O>(name: string, option: O &verbar; undefined, predicate: (harness: T, option: O) => Promise<boolean>): HarnessPredicate<T>` | 创建一个新的 `HarnessPredicate` 来强制执行当前的所有条件，再加上 `predicate` 参数指定的新约束条件。如果 `option` 参数为 `undefined`，此 `predicate` 总是返回 true。 |
 | `add(description: string, predicate: (harness: T) => Promise<boolean>): HarnessPredicate<T>` | Creates a new `HarnessPredicate` that enforces all of the conditions of the current one, plus the new constraint specified by the `predicate` parameter. |
 | `add(description: string, predicate: (harness: T) => Promise<boolean>): HarnessPredicate<T>` | 创建一个新的 `HarnessPredicate` 来强制执行当前的所有条件，再加上 `predicate` 参数指定的新约束条件。 |
 
@@ -690,8 +690,8 @@ several APIs that can be used to create `HarnessLoader` instances for cases like
 | 方法 | 说明 |
 | `harnessLoaderFor(selector: string): Promise<HarnessLoader>` | Gets a `Promise` for a `HarnessLoader` rooted at the first element matching the given selector, if no element is found the `Promise` rejects. |
 | `harnessLoaderFor(selector: string): Promise<HarnessLoader>` | 获取一个 `Promise`，它解析为以指定的选择器相匹配的第一个元素为根的 `HarnessLoader`；如果没有找到此组件，则 `Promise` 会拒绝。 |
-| `harnessLoaderForOptional(selector: string): Promise<HarnessLoader \| null>` | Gets a `Promise` for a `HarnessLoader` rooted at the first element matching the given selector, if no element is found the `Promise` resolves to `null`. |
-| `harnessLoaderForOptional(selector: string): Promise<HarnessLoader \| null>` | 获取一个 `Promise`，它解析为与指定选择器匹配的第一个元素，如果没有找到此元素，则 `Promise` 会解析为 `null`。 |
+| `harnessLoaderForOptional(selector: string): Promise<HarnessLoader &verbar; null>` | Gets a `Promise` for a `HarnessLoader` rooted at the first element matching the given selector, if no element is found the `Promise` resolves to `null`. |
+| `harnessLoaderForOptional(selector: string): Promise<HarnessLoader &verbar; null>` | 获取一个 `Promise`，它解析为与指定选择器匹配的第一个元素，如果没有找到此元素，则 `Promise` 会解析为 `null`。 |
 | `harnessLoaderForAll(selector: string): Promise<HarnessLoader[]>` | Gets a `Promise` for a list of `HarnessLoader`, one rooted at each element matching the given selector. |
 | `harnessLoaderForAll(selector: string): Promise<HarnessLoader[]>` | 获取一个 `Promise`，它是一个以和指定选择器匹配的每个元素为根的 `HarnessLoader` 列表 |
 
@@ -821,14 +821,14 @@ result of the operation.
 | `getCssValue(property: string): Promise<string>` | 获取此元素指定属性的计算 CSS 值。 |
 | `hover(): Promise<void>` | Hovers the mouse over the element. |
 | `hover(): Promise<void>` | 将鼠标悬停在此元素上方。 |
-| `sendKeys(...keys: (string \| TestKey)[]): Promise<void>` | Sends a sequence of key events to the element. |
-| `sendKeys(...keys: (string \| TestKey)[]): Promise<void>` | 向此元素发送一系列按键事件。 |
-| `sendKeys(modifiers: ModifierKeys, ...keys: (string \| TestKey)[]): Promise<void>` | Sends a sequence of key events to the element, while holding a set of modifier keys. |
-| `sendKeys(modifiers: ModifierKeys, ...keys: (string \| TestKey)[]): Promise<void>` | 把一系列按键事件发送给此元素，同时按住一组修饰键。 |
+| `sendKeys(...keys: (string &verbar; TestKey)[]): Promise<void>` | Sends a sequence of key events to the element. |
+| `sendKeys(...keys: (string &verbar; TestKey)[]): Promise<void>` | 向此元素发送一系列按键事件。 |
+| `sendKeys(modifiers: ModifierKeys, ...keys: (string &verbar; TestKey)[]): Promise<void>` | Sends a sequence of key events to the element, while holding a set of modifier keys. |
+| `sendKeys(modifiers: ModifierKeys, ...keys: (string &verbar; TestKey)[]): Promise<void>` | 把一系列按键事件发送给此元素，同时按住一组修饰键。 |
 | `text(): Promise<string>` | Gets the text content of the element. |
 | `text(): Promise<string>` | 获取此元素的文本内容。 |
-| `getAttribute(name: string): Promise<string \| null>` | Gets the value of the given HTML attribute for the element. |
-| `getAttribute(name: string): Promise<string \| null>` | 从此元素获取指定 HTML 属性的值。 |
+| `getAttribute(name: string): Promise<string &verbar; null>` | Gets the value of the given HTML attribute for the element. |
+| `getAttribute(name: string): Promise<string &verbar; null>` | 从此元素获取指定 HTML 属性的值。 |
 | `hasClass(name: string): Promise<boolean>` | Checks whether the element has the given class. |
 | `hasClass(name: string): Promise<boolean>` | 检查此元素是否具有指定的类。 |
 | `getDimensions(): Promise<ElementDimensions>` | Gets the dimensions of the element. |
@@ -864,7 +864,6 @@ Angular CDK 中的 [`UnitTestElement`](https://github.com/angular/components/blo
 #### Creating a `HarnessEnvironment` implementation for the environment
 
 #### 为此环境创建一个 `HarnessEnvironment`
-
 
 Test authors use `HarnessEnvironment` to create component harness instances for use in tests.
 
@@ -934,7 +933,7 @@ a handler for the auto change detection status.
 When your environment wants to start handling the auto change detection status it can call
 `handleAutoChangeDetectionStatus(handler)`. The handler function will receive a 
 `AutoChangeDetectionStatus` which has two properties:
- 
+
 当你的环境想要开始处理自动变更检测的状态时，可以调用 `handleAutoChangeDetectionStatus(handler)`。此处理器函数会要求一个 `AutoChangeDetectionStatus` 参数，其中有两个属性：
 
 * `isDisabled: boolean` - Indicates whether auto change detection is currently disabled. When true,
@@ -952,4 +951,3 @@ If your environment wants to stop handling auto change detection status it can c
 `stopHandlingAutoChangeDetectionStatus()`.
 
 如果你的环境要停止处理自动变更检测的状态，可以调用 `stopHandlingAutoChangeDetectionStatus()`。
-

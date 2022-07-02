@@ -23,7 +23,7 @@ given target version:
 
 到目前为止，我们有多个迁移入口点来处理指定目标版本的重大变更：
 
-| Target Version | Description            |
+| Target Version | Description |
 | -------------- | ----------- |
 | 目标版本 | 说明 |
 | V6 | Upgrade from any version to v6.0.0 |
@@ -40,7 +40,6 @@ example, consider an application which uses Angular Material v5.0.0. In case the
 `ng update`, the Angular CLI **only** installs V7 and runs the V6 and V7 migrations _in order_.
 
 注意，如果有多个可隐式升级的目标版本，那么这些迁移就会*按顺序*运行。比如，在用 Angular Material v5.0.0 的应用时，如果开发人员运行了 `ng update`，那么 Angular CLI **只会**安装 V7，并*按顺序*进行 V6 和 V7 版本的迁移。
-
 
 This shows that we technically need to keep all migrations in the code base because
 the CLI usually only installs the latest version and expects all migrations for past
@@ -95,7 +94,7 @@ used `tslint` had various issues:
 
   TSLint 以递归方式访问每个升级 lint 规则的所有源文件的节点（性能问题）
 
-- TSLint is not guaranteed to be installed in CLI projects. See: https://github.com/angular/angular-cli/issues/14555
+- TSLint is not guaranteed to be installed in CLI projects. See: <https://github.com/angular/angular-cli/issues/14555>
 
   不保证在 CLI 项目中安装 TSLint。请参阅： [https：//github.com/angular/angular-cli/issues/14555](https://github.com/angular/angular-cli/issues/14555)
 
@@ -182,7 +181,7 @@ approaches below:
 
 还有其他各种用于转换 TypeScript 源文件的概念，但是大多数概念都没有为替换和报告提供简单的 API。对可能的方式作如下详细分析：
 
-|Description | Evaluation |
+| Description | Evaluation |
 | ----------- | ---------- |
 | 说明 | 评价 |
 | Regular Expressions | Too brittle. No type checking possible. Regular Expression *can* be used in combination with some real AST walking |
@@ -254,6 +253,7 @@ within the proper `VersionTarget`.
 首先，查找包含类似重大变更的现有升级数据文件。在这种情况下，`property-names` 的现有升级数据文件已经存在。在适当的 `VersionTarget` 中插入新的重大变更数据。
 
 _src/material/schematics/ng-update/material/data/property-names.ts_
+
 ```ts
 export const propertyNames: VersionChanges<MaterialPropertyNameData> = {
   [TargetVersion.V7]: [
@@ -273,6 +273,7 @@ export const propertyNames: VersionChanges<MaterialPropertyNameData> = {
    ...
 };
 ```
+
 Once the data is inserted into the upgrade data file, the update schematic will properly migrate
 `MatRipple#color` to `MatRipple#newColor` if someone upgrades to Angular Material V7.0.0.
 
@@ -300,6 +301,7 @@ In that case, we just need to add the breaking change to the existing test case.
 在来自 `MatRipple` 的属性已经在 V7 中重命名的情况下，我们不需要创建一个新的测试用例文件，因为已经有了针对 `property-names` 升级数据的测试用例。这种情况下，我们只需要对现有的测试用例添加重大变更即可。
 
 _src/material/schematics/ng-update/test-cases/v7/property-names_input.ts_
+
 ```ts
 ...
 
@@ -323,6 +325,7 @@ class A implements OnInit {
 ```
 
 _src/material/schematics/ng-update/test-cases/v7/property-names_expected_output.ts_
+
 ```ts
 ...
 
