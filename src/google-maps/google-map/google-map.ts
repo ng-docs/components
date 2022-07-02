@@ -50,7 +50,8 @@ export const DEFAULT_WIDTH = '500px';
 /**
  * Angular component that renders a Google Map via the Google Maps JavaScript
  * API.
- * @see https://developers.google.com/maps/documentation/javascript/reference/
+ * @see <https://developers.google.com/maps/documentation/javascript/reference/>
+ *
  */
 @Component({
   selector: 'google-map',
@@ -82,7 +83,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * Type of map that should be rendered. E.g. hybrid map, terrain map etc.
-   * See: https://developers.google.com/maps/documentation/javascript/reference/map#MapTypeId
+   * See: <https://developers.google.com/maps/documentation/javascript/reference/map#MapTypeId>
+   *
    */
   @Input() mapTypeId: google.maps.MapTypeId | undefined;
 
@@ -110,27 +112,31 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/events#auth-errors
+   * <https://developers.google.com/maps/documentation/javascript/events#auth-errors>
+   *
    */
   @Output() readonly authFailure: EventEmitter<void> = new EventEmitter<void>();
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.bounds_changed
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.bounds_changed>
+   *
    */
   @Output() readonly boundsChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('bounds_changed');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.center_changed
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.center_changed>
+   *
    */
   @Output() readonly centerChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('center_changed');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.click
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.click>
+   *
    */
   @Output() readonly mapClick: Observable<google.maps.MapMouseEvent | google.maps.IconMouseEvent> =
     this._eventManager.getLazyEmitter<google.maps.MapMouseEvent | google.maps.IconMouseEvent>(
@@ -139,54 +145,62 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.dblclick
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.dblclick>
+   *
    */
   @Output() readonly mapDblclick: Observable<google.maps.MapMouseEvent> =
     this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dblclick');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.drag
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.drag>
+   *
    */
   @Output() readonly mapDrag: Observable<void> = this._eventManager.getLazyEmitter<void>('drag');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.dragend
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.dragend>
+   *
    */
   @Output() readonly mapDragend: Observable<void> =
     this._eventManager.getLazyEmitter<void>('dragend');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.dragstart
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.dragstart>
+   *
    */
   @Output() readonly mapDragstart: Observable<void> =
     this._eventManager.getLazyEmitter<void>('dragstart');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.heading_changed
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.heading_changed>
+   *
    */
   @Output() readonly headingChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('heading_changed');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.idle
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.idle>
+   *
    */
   @Output() readonly idle: Observable<void> = this._eventManager.getLazyEmitter<void>('idle');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.maptypeid_changed
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.maptypeid_changed>
+   *
    */
   @Output() readonly maptypeidChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('maptypeid_changed');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.mousemove
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.mousemove>
+   *
    */
   @Output()
   readonly mapMousemove: Observable<google.maps.MapMouseEvent> =
@@ -194,14 +208,16 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.mouseout
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.mouseout>
+   *
    */
   @Output() readonly mapMouseout: Observable<google.maps.MapMouseEvent> =
     this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseout');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.mouseover
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.mouseover>
+   *
    */
   @Output() readonly mapMouseover: Observable<google.maps.MapMouseEvent> =
     this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('mouseover');
@@ -215,28 +231,32 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.rightclick
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.rightclick>
+   *
    */
   @Output() readonly mapRightclick: Observable<google.maps.MapMouseEvent> =
     this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('rightclick');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.tilesloaded
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.tilesloaded>
+   *
    */
   @Output() readonly tilesloaded: Observable<void> =
     this._eventManager.getLazyEmitter<void>('tilesloaded');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.tilt_changed
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.tilt_changed>
+   *
    */
   @Output() readonly tiltChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('tilt_changed');
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.zoom_changed
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.zoom_changed>
+   *
    */
   @Output() readonly zoomChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('zoom_changed');
@@ -324,7 +344,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.fitBounds
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.fitBounds>
+   *
    */
   fitBounds(
     bounds: google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral,
@@ -336,7 +357,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.panBy
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.panBy>
+   *
    */
   panBy(x: number, y: number) {
     this._assertInitialized();
@@ -345,7 +367,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.panTo
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.panTo>
+   *
    */
   panTo(latLng: google.maps.LatLng | google.maps.LatLngLiteral) {
     this._assertInitialized();
@@ -354,7 +377,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.panToBounds
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.panToBounds>
+   *
    */
   panToBounds(
     latLngBounds: google.maps.LatLngBounds | google.maps.LatLngBoundsLiteral,
@@ -366,7 +390,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getBounds
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.getBounds>
+   *
    */
   getBounds(): google.maps.LatLngBounds | null {
     this._assertInitialized();
@@ -375,7 +400,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getCenter
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.getCenter>
+   *
    */
   getCenter(): google.maps.LatLng | undefined {
     this._assertInitialized();
@@ -384,7 +410,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getClickableIcons
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.getClickableIcons>
+   *
    */
   getClickableIcons(): boolean | undefined {
     this._assertInitialized();
@@ -393,7 +420,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getHeading
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.getHeading>
+   *
    */
   getHeading(): number | undefined {
     this._assertInitialized();
@@ -402,7 +430,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getMapTypeId
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.getMapTypeId>
+   *
    */
   getMapTypeId(): google.maps.MapTypeId | string | undefined {
     this._assertInitialized();
@@ -411,7 +440,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getProjection
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.getProjection>
+   *
    */
   getProjection(): google.maps.Projection | null {
     this._assertInitialized();
@@ -420,7 +450,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getStreetView
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.getStreetView>
+   *
    */
   getStreetView(): google.maps.StreetViewPanorama {
     this._assertInitialized();
@@ -429,7 +460,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getTilt
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.getTilt>
+   *
    */
   getTilt(): number | undefined {
     this._assertInitialized();
@@ -438,7 +470,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getZoom
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.getZoom>
+   *
    */
   getZoom(): number | undefined {
     this._assertInitialized();
@@ -447,7 +480,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.controls
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.controls>
+   *
    */
   get controls(): google.maps.MVCArray<Node>[] {
     this._assertInitialized();
@@ -456,7 +490,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.data
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.data>
+   *
    */
   get data(): google.maps.Data {
     this._assertInitialized();
@@ -465,7 +500,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.mapTypes
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.mapTypes>
+   *
    */
   get mapTypes(): google.maps.MapTypeRegistry {
     this._assertInitialized();
@@ -474,7 +510,8 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
 
   /**
    * See
-   * https://developers.google.com/maps/documentation/javascript/reference/map#Map.overlayMapTypes
+   * <https://developers.google.com/maps/documentation/javascript/reference/map#Map.overlayMapTypes>
+   *
    */
   get overlayMapTypes(): google.maps.MVCArray<google.maps.MapType> {
     this._assertInitialized();

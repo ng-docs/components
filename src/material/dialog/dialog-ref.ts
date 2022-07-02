@@ -239,7 +239,8 @@ export class MatDialogRef<T, R = any> {
 /**
  * Closes the dialog with the specified interaction type. This is currently not part of
  * `MatDialogRef` as that would conflict with custom dialog ref mocks provided in tests.
- * More details. See: https://github.com/angular/components/pull/9257#issuecomment-651342226.
+ * More details. See: <https://github.com/angular/components/pull/9257#issuecomment-651342226>.
+ *
  */
 // TODO: Move this back into `MatDialogRef` when we provide an official mock dialog ref.
 export function _closeDialogVia<R>(ref: MatDialogRef<R>, interactionType: FocusOrigin, result?: R) {

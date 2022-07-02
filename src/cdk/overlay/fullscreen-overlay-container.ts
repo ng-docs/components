@@ -14,9 +14,10 @@ import {Platform} from '@angular/cdk/platform';
 /**
  * Alternative to OverlayContainer that supports correct displaying of overlay elements in
  * Fullscreen mode
- * https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen
+ * <https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen>
  *
  * Should be provided in the root component.
+ *
  */
 @Injectable({providedIn: 'root'})
 export class FullscreenOverlayContainer extends OverlayContainer implements OnDestroy {

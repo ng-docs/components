@@ -23,8 +23,11 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a button with specific attributes.
    * @param options Options for narrowing the search:
-   *   - `selector` finds a button whose host element matches the given selector.
-   *   - `text` finds a button with specific text content.
+   *
+   * - `selector` finds a button whose host element matches the given selector.
+   *
+   * - `text` finds a button with specific text content.
+   *
    * @return a `HarnessPredicate` configured with the given options.
    */
   static with<T extends MatButtonHarness>(

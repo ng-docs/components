@@ -12,14 +12,21 @@
  * via `toString()` and subsequently split with the given separator.
  * `null` and `undefined` will result in an empty array.
  * This results in the following outcomes:
- * - `null` -&gt; `[]`
- * - `[null]` -&gt; `["null"]`
- * - `["a", "b ", " "]` -&gt; `["a", "b"]`
- * - `[1, [2, 3]]` -&gt; `["1", "2,3"]`
- * - `[{ a: 0 }]` -&gt; `["[object Object]"]`
- * - `{ a: 0 }` -&gt; `["[object", "Object]"]`
+ *
+ * - `null` -> `[]`
+ *
+ * - `[null]` -> `["null"]`
+ *
+ * - `["a", "b ", " "]` -> `["a", "b"]`
+ *
+ * - `[1, [2, 3]]` -> `["1", "2,3"]`
+ *
+ * - `[{ a: 0 }]` -> `["[object Object]"]`
+ *
+ * - `{ a: 0 }` -> `["[object", "Object]"]`
  *
  * Useful for defining CSS classes or table columns.
+ *
  * @param value the value to coerce into an array of strings
  * @param separator split-separator if value isn't an array
  */

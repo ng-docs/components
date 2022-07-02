@@ -75,7 +75,7 @@ export class ConnectionPositionPair {
  *  |                        |
  *  --------------------------
  *
- *  @docs-private
+ * @docs-private
  */
 export class ScrollingVisibility {
   isOriginClipped: boolean;

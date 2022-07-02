@@ -40,7 +40,8 @@ const listenerOptions = normalizePassiveListenerOptions({passive: true});
 /**
  * An injectable service that can be used to monitor the autofill state of an input.
  * Based on the following blog post:
- * https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
+ * <https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7>
+ *
  */
 @Injectable({providedIn: 'root'})
 export class AutofillMonitor implements OnDestroy {

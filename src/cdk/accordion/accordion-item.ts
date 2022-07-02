@@ -100,7 +100,10 @@ export class CdkAccordionItem implements OnDestroy {
   }
   private _disabled = false;
 
-  /** Unregister function for _expansionDispatcher. */
+  /**
+   * Unregister function for \_expansionDispatcher.
+   *
+   */
   private _removeUniqueSelectionListener: () => void = () => {};
 
   constructor(

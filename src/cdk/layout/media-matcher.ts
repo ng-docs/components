@@ -46,11 +46,14 @@ export class MediaMatcher {
 /**
  * Creates an empty stylesheet that is used to work around browser inconsistencies related to
  * `matchMedia`. At the time of writing, it handles the following cases:
+ *
  * 1. On WebKit browsers, a media query has to have at least one rule in order for `matchMedia`
- * to fire. We work around it by declaring a dummy stylesheet with a `@media` declaration.
+ *    to fire. We work around it by declaring a dummy stylesheet with a `@media` declaration.
+ *
  * 2. In some cases Blink browsers will stop firing the `matchMedia` listener if none of the rules
- * inside the `@media` match existing elements on the page. We work around it by having one rule
- * targeting the `body`. See https://github.com/angular/components/issues/23546.
+ *    inside the `@media` match existing elements on the page. We work around it by having one rule
+ *    targeting the `body`. See <https://github.com/angular/components/issues/23546>.
+ *
  */
 function createEmptyStyleRule(query: string) {
   if (mediaQueriesForWebkitCompatibility.has(query)) {

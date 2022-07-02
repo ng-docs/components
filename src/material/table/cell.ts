@@ -72,7 +72,8 @@ export class MatColumnDef extends CdkColumnDef {
   /**
    * Add "mat-column-" prefix in addition to "cdk-column-" prefix.
    * In the future, this will only add "mat-column-" and columnCssClassName
-   * will change from type string[] to string.
+   * will change from type string\[] to string.
+   *
    * @docs-private
    */
   protected override _updateColumnCssClassName() {

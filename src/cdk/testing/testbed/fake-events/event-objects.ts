@@ -66,7 +66,7 @@ export function createMouseEvent(
 /**
  * Creates a browser `PointerEvent` with the specified options. Pointer events
  * by default will appear as if they are the primary pointer of their type.
- * https://www.w3.org/TR/pointerevents2/#dom-pointerevent-isprimary.
+ * <https://www.w3.org/TR/pointerevents2/#dom-pointerevent-isprimary>.
  *
  * For example, if pointer events for a multi-touch interaction are created, the non-primary
  * pointer touches would need to be represented by non-primary pointer events.

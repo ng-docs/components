@@ -143,11 +143,17 @@ export class MatCardAvatar {}
  *
  * While this component can be used alone, it also provides a number
  * of preset styles for common card sections, including:
+ *
  * - mat-card-title
+ *
  * - mat-card-subtitle
+ *
  * - mat-card-content
+ *
  * - mat-card-actions
+ *
  * - mat-card-footer
+ *
  */
 @Component({
   selector: 'mat-card',

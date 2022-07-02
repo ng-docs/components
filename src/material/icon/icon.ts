@@ -109,7 +109,7 @@ const funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
  * - Specify the svgIcon input to load an SVG icon from a URL previously registered with the
  *   addSvgIcon, addSvgIconInNamespace, addSvgIconSet, or addSvgIconSetInNamespace methods of
  *   MatIconRegistry. If the svgIcon value contains a colon it is assumed to be in the format
- *   "[namespace]:[name]", if not the value will be the name of an icon in the default namespace.
+ *   "[namespace]&#x3A;[name]", if not the value will be the name of an icon in the default namespace.
  *   Examples:
  *     `<mat-icon svgIcon="left-arrow"></mat-icon>
  *     <mat-icon svgIcon="animals:cat"></mat-icon>`
@@ -119,7 +119,7 @@ const funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
  *   include the special class `mat-ligature-font`. It is recommended to use the attribute alternative
  *   to prevent the ligature text to be selectable and to appear in search engine results.
  *   By default, the Material icons font is used as described at
- *   http://google.github.io/material-design-icons/#icon-font-for-the-web. You can specify an
+ *   <http://google.github.io/material-design-icons/#icon-font-for-the-web>. You can specify an
  *   alternate font by setting the fontSet input to either the CSS class to apply to use the
  *   desired font, or to an alias previously registered with MatIconRegistry.registerFontClassAlias.
  *   Examples:
@@ -131,9 +131,10 @@ const funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
  * - Specify a font glyph to be included via CSS rules by setting the fontSet input to specify the
  *   font, and the fontIcon input to specify the icon. Typically the fontIcon will specify a
  *   CSS class which causes the glyph to be displayed via a :before selector, as in
- *   https://fortawesome.github.io/Font-Awesome/examples/
+ *   <https://fortawesome.github.io/Font-Awesome/examples/>
  *   Example:
  *     `<mat-icon fontSet="fa" fontIcon="alarm"></mat-icon>`
+ *
  */
 @Component({
   template: '<ng-content></ng-content>',

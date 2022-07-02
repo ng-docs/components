@@ -144,7 +144,9 @@ export abstract class CdkMenuBase
    * Close the open menu if the current active item opened the requested MenuStackItem.
    * @param menu The menu requested to be closed.
    * @param options Options to configure the behavior on close.
-   *   - `focusParentTrigger` Whether to focus the parent trigger after closing the menu.
+   *
+   * - `focusParentTrigger` Whether to focus the parent trigger after closing the menu.
+   *
    */
   protected closeOpenMenu(menu: MenuStackItem, options?: {focusParentTrigger?: boolean}) {
     const {focusParentTrigger} = {...options};

@@ -58,9 +58,10 @@ const defaults = MAT_FAB_DEFAULT_OPTIONS_FACTORY();
 /**
  * Material Design floating action button (FAB) component. These buttons represent the primary
  * or most common action for users to interact with.
- * See https://material.io/components/buttons-floating-action-button/
+ * See <https://material.io/components/buttons-floating-action-button/>
  *
  * The `MatFabButton` class has two appearances: normal and extended.
+ *
  */
 @Component({
   selector: `button[mat-fab]`,
@@ -103,7 +104,8 @@ export class MatFabButton extends MatButtonBase {
 /**
  * Material Design mini floating action button (FAB) component. These buttons represent the primary
  * or most common action for users to interact with.
- * See https://material.io/components/buttons-floating-action-button/
+ * See <https://material.io/components/buttons-floating-action-button/>
+ *
  */
 @Component({
   selector: `button[mat-mini-fab]`,
@@ -134,9 +136,10 @@ export class MatMiniFabButton extends MatButtonBase {
 /**
  * Material Design floating action button (FAB) component for anchor elements. Anchor elements
  * are used to provide links for the user to navigate across different routes or pages.
- * See https://material.io/components/buttons-floating-action-button/
+ * See <https://material.io/components/buttons-floating-action-button/>
  *
  * The `MatFabAnchor` class has two appearances: normal and extended.
+ *
  */
 @Component({
   selector: `a[mat-fab]`,
@@ -179,7 +182,8 @@ export class MatFabAnchor extends MatAnchor {
 /**
  * Material Design mini floating action button (FAB) component for anchor elements. Anchor elements
  * are used to provide links for the user to navigate across different routes or pages.
- * See https://material.io/components/buttons-floating-action-button/
+ * See <https://material.io/components/buttons-floating-action-button/>
+ *
  */
 @Component({
   selector: `a[mat-mini-fab]`,

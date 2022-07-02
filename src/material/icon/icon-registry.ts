@@ -112,17 +112,23 @@ type LoadedSvgIconConfig = SvgIconConfig & {svgText: TrustedHTML};
 
 /**
  * Service to register and display icons used by the `<mat-icon>` component.
+ *
  * - Registers icon URLs by namespace and name.
+ *
  * - Registers icon set URLs by namespace.
+ *
  * - Registers aliases for CSS classes, for use with icon fonts.
+ *
  * - Loads icons from URLs and extracts individual icons from icon sets.
+ *
  */
 @Injectable({providedIn: 'root'})
 export class MatIconRegistry implements OnDestroy {
   private _document: Document;
 
   /**
-   * URLs and cached SVG elements for individual icons. Keys are of the format "[namespace]:[icon]".
+   * URLs and cached SVG elements for individual icons. Keys are of the format "[namespace]&#x3A;[icon]".
+   *
    */
   private _svgIconConfigs = new Map<string, SvgIconConfig>();
 
@@ -147,7 +153,8 @@ export class MatIconRegistry implements OnDestroy {
   /**
    * The CSS classes to apply when an `<mat-icon>` component has no icon name, url, or font
    * specified. The default 'material-icons' value assumes that the material icon font has been
-   * loaded as described at http://google.github.io/material-design-icons/#icon-font-for-the-web
+   * loaded as described at <http://google.github.io/material-design-icons/#icon-font-for-the-web>
+   *
    */
   private _defaultFontSetClass = ['material-icons', 'mat-ligature-font'];
 

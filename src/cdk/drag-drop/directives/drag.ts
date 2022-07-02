@@ -147,15 +147,19 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
   /**
    * Configures the place into which the preview of the item will be inserted. Can be configured
    * globally through `CDK_DROP_LIST`. Possible values:
+   *
    * - `global` - Preview will be inserted at the bottom of the `<body>`. The advantage is that
-   * you don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain
-   * its inherited styles.
+   *   you don't have to worry about `overflow: hidden` or `z-index`, but the item won't retain
+   *   its inherited styles.
+   *
    * - `parent` - Preview will be inserted into the parent of the drag item. The advantage is that
-   * inherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be
-   * visible due to `z-index`. Furthermore, the preview is going to have an effect over selectors
-   * like `:nth-child` and some flexbox configurations.
+   *   inherited styles will be preserved, but it may be clipped by `overflow: hidden` or not be
+   *   visible due to `z-index`. Furthermore, the preview is going to have an effect over selectors
+   *   like `:nth-child` and some flexbox configurations.
+   *
    * - `ElementRef<HTMLElement> | HTMLElement` - Preview will be inserted into a specific element.
-   * Same advantages and disadvantages as `parent`.
+   *   Same advantages and disadvantages as `parent`.
+   *
    */
   @Input('cdkDragPreviewContainer') previewContainer: PreviewContainer;
 

@@ -31,8 +31,8 @@ export class MapDirectionsService {
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/directions
-   * #DirectionsService.route
+   * developers.google.com/maps/documentation/javascript/reference/directions#DirectionsService.route
+   *
    */
   route(request: google.maps.DirectionsRequest): Observable<MapDirectionsResponse> {
     return new Observable(observer => {

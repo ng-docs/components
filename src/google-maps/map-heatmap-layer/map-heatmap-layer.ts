@@ -23,7 +23,8 @@ export type HeatmapData =
 /**
  * Angular directive that renders a Google Maps heatmap via the Google Maps JavaScript API.
  *
- * See: https://developers.google.com/maps/documentation/javascript/reference/visualization
+ * See: <https://developers.google.com/maps/documentation/javascript/reference/visualization>
+ *
  */
 @Directive({
   selector: 'map-heatmap-layer',
@@ -32,7 +33,8 @@ export type HeatmapData =
 export class MapHeatmapLayer implements OnInit, OnChanges, OnDestroy {
   /**
    * Data shown on the heatmap.
-   * See: https://developers.google.com/maps/documentation/javascript/reference/visualization
+   * See: <https://developers.google.com/maps/documentation/javascript/reference/visualization>
+   *
    */
   @Input()
   set data(data: HeatmapData) {
@@ -53,7 +55,8 @@ export class MapHeatmapLayer implements OnInit, OnChanges, OnDestroy {
   /**
    * The underlying google.maps.visualization.HeatmapLayer object.
    *
-   * See: https://developers.google.com/maps/documentation/javascript/reference/visualization
+   * See: <https://developers.google.com/maps/documentation/javascript/reference/visualization>
+   *
    */
   heatmap?: google.maps.visualization.HeatmapLayer;
 

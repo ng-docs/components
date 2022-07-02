@@ -61,7 +61,8 @@ export class MatInkBar {
 /**
  * Mixin that can be used to apply the `MatInkBarItem` behavior to a class.
  * Base on MDC's `MDCSlidingTabIndicatorFoundation`:
- * https://github.com/material-components/material-components-web/blob/c0a11ef0d000a098fd0c372be8f12d6a99302855/packages/mdc-tab-indicator/sliding-foundation.ts
+ * <https://github.com/material-components/material-components-web/blob/c0a11ef0d000a098fd0c372be8f12d6a99302855/packages/mdc-tab-indicator/sliding-foundation.ts>
+ *
  * @docs-private
  */
 export function mixinInkBarItem<

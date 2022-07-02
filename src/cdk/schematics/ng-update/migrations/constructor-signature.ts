@@ -15,7 +15,8 @@ import {UpgradeData} from '../upgrade-data';
  * List of diagnostic codes that refer to pre-emit diagnostics which indicate invalid
  * new expression or super call signatures. See the list of diagnostics here:
  *
- * https://github.com/Microsoft/TypeScript/blob/master/src/compiler/diagnosticMessages.json
+ * <https://github.com/Microsoft/TypeScript/blob/master/src/compiler/diagnosticMessages.json>
+ *
  */
 const signatureErrorDiagnostics = [
   // Type not assignable error diagnostic.
@@ -50,7 +51,8 @@ export class ConstructorSignatureMigration extends Migration<UpgradeData> {
    *
    * By using the diagnostics, the migration can handle type assignability. Not using
    * diagnostics would mean that we need to use simple type equality checking which is
-   * too strict. See related issue: https://github.com/Microsoft/TypeScript/issues/9879
+   * too strict. See related issue: <https://github.com/Microsoft/TypeScript/issues/9879>
+   *
    */
   private _visitSourceFile(sourceFile: ts.SourceFile) {
     // List of classes of which the constructor signature has changed.

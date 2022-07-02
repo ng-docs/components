@@ -55,7 +55,9 @@ export class CdkMenuItemRadio extends CdkMenuItemSelectable implements OnDestroy
   /**
    * Toggles the checked state of the radio-button.
    * @param options Options the configure how the item is triggered
-   *   - keepOpen: specifies that the menu should be kept open after triggering the item.
+   *
+   * - keepOpen: specifies that the menu should be kept open after triggering the item.
+   *
    */
   override trigger(options?: {keepOpen: boolean}) {
     super.trigger(options);

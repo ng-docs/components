@@ -81,7 +81,8 @@ function getSpecificImportOfIdentifier(
 
 /**
  * Resolves the import of the specified identifier. Expects the identifier to
- * resolve to a namespaced import declaration. e.g. "import * as core from ...".
+ * resolve to a namespaced import declaration. e.g. "import \* as core from ...".
+ *
  */
 function getImportOfNamespacedIdentifier(
   node: ts.Identifier,

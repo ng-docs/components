@@ -11,7 +11,8 @@ import * as webdriver from 'selenium-webdriver';
 
 /**
  * Maps the `TestKey` constants to WebDriver's `webdriver.Key` constants.
- * See https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/webdriver/key.js#L29
+ * See <https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/webdriver/key.js#L29>
+ *
  */
 export const seleniumWebDriverKeyMap = {
   [TestKey.BACKSPACE]: webdriver.Key.BACK_SPACE,

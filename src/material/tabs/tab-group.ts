@@ -148,7 +148,8 @@ export abstract class _MatTabGroupBase
    * `tabindex` to be set on the inner element that wraps the tab content. Can be used for improved
    * accessibility when the tab does not have focusable elements or if it has scrollable content.
    * The `tabindex` will be removed automatically for inactive tabs.
-   * Read more at https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html
+   * Read more at <https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html>
+   *
    */
   @Input()
   get contentTabIndex(): number | null {
@@ -498,7 +499,8 @@ export abstract class _MatTabGroupBase
 /**
  * Material design tab-group component. Supports basic tab pairs (label + content) and includes
  * animated ink-bar, keyboard navigation, and screen reader.
- * See: https://material.io/design/components/tabs.html
+ * See: <https://material.io/design/components/tabs.html>
+ *
  */
 @Component({
   selector: 'mat-tab-group',

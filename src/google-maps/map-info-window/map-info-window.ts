@@ -61,8 +61,8 @@ export class MapInfoWindow implements OnInit, OnDestroy {
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/info-window
-   * #InfoWindow.content_changed
+   * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.content_changed
+   *
    */
   @Output() readonly contentChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('content_changed');
@@ -76,16 +76,16 @@ export class MapInfoWindow implements OnInit, OnDestroy {
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/info-window
-   * #InfoWindow.position_changed
+   * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.position_changed
+   *
    */
   @Output() readonly positionChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('position_changed');
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/info-window
-   * #InfoWindow.zindex_changed
+   * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.zindex_changed
+   *
    */
   @Output() readonly zindexChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('zindex_changed');
@@ -147,8 +147,8 @@ export class MapInfoWindow implements OnInit, OnDestroy {
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/info-window
-   * #InfoWindow.getPosition
+   * developers.google.com/maps/documentation/javascript/reference/info-window#InfoWindow.getPosition
+   *
    */
   getPosition(): google.maps.LatLng | null {
     this._assertInitialized();

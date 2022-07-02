@@ -57,8 +57,8 @@ export class MapKmlLayer implements OnInit, OnDestroy {
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/kml
-   * #KmlLayer.defaultviewport_changed
+   * developers.google.com/maps/documentation/javascript/reference/kml#KmlLayer.defaultviewport_changed
+   *
    */
   @Output() readonly defaultviewportChanged: Observable<void> =
     this._eventManager.getLazyEmitter<void>('defaultviewport_changed');

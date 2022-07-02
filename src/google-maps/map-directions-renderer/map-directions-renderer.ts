@@ -37,8 +37,8 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   private _eventManager = new MapEventManager(this._ngZone);
 
   /**
-   * See developers.google.com/maps/documentation/javascript/reference/directions
-   * #DirectionsRendererOptions.directions
+   * See developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRendererOptions.directions
+   *
    */
   @Input()
   set directions(directions: google.maps.DirectionsResult) {
@@ -47,8 +47,8 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   private _directions: google.maps.DirectionsResult;
 
   /**
-   * See developers.google.com/maps/documentation/javascript/reference/directions
-   * #DirectionsRendererOptions
+   * See developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRendererOptions
+   *
    */
   @Input()
   set options(options: google.maps.DirectionsRendererOptions) {
@@ -57,8 +57,8 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   private _options: google.maps.DirectionsRendererOptions;
 
   /**
-   * See developers.google.com/maps/documentation/javascript/reference/directions
-   * #DirectionsRenderer.directions_changed
+   * See developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRenderer.directions_changed
+   *
    */
   @Output()
   readonly directionsChanged: Observable<void> =
@@ -103,8 +103,8 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
-   * See developers.google.com/maps/documentation/javascript/reference/directions
-   * #DirectionsRenderer.getDirections
+   * See developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRenderer.getDirections
+   *
    */
   getDirections(): google.maps.DirectionsResult | null {
     this._assertInitialized();
@@ -112,8 +112,8 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
-   * See developers.google.com/maps/documentation/javascript/reference/directions
-   * #DirectionsRenderer.getPanel
+   * See developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRenderer.getPanel
+   *
    */
   getPanel(): Node | null {
     this._assertInitialized();
@@ -121,8 +121,8 @@ export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
-   * See developers.google.com/maps/documentation/javascript/reference/directions
-   * #DirectionsRenderer.getRouteIndex
+   * See developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRenderer.getRouteIndex
+   *
    */
   getRouteIndex(): number {
     this._assertInitialized();

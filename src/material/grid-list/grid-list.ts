@@ -66,9 +66,13 @@ export class MatGridList implements MatGridListBase, OnInit, AfterContentChecked
 
   /**
    * Row height value passed in by user. This can be one of three types:
+   *
    * - Number value (ex: "100px"):  sets a fixed row height to that value
+   *
    * - Ratio value (ex: "4:3"): sets the row height based on width:height ratio
+   *
    * - "Fit" mode (ex: "fit"): sets the row height to total height divided by number of rows
+   *
    */
   private _rowHeight: string;
 

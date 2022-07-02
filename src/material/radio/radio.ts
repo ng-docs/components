@@ -257,7 +257,10 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
     }
   }
 
-  /** Updates the `selected` radio button from the internal _value state. */
+  /**
+   * Updates the `selected` radio button from the internal \_value state.
+   *
+   */
   private _updateSelectedRadioFromValue(): void {
     // If the value already matches the selected radio, do nothing.
     const isAlreadySelected = this._selected !== null && this._selected.value === this._value;
@@ -498,7 +501,10 @@ export abstract class _MatRadioButtonBase
   /** Value assigned to this radio. */
   private _value: any = null;
 
-  /** Unregister function for _radioDispatcher */
+  /**
+   * Unregister function for \_radioDispatcher
+   *
+   */
   private _removeUniqueSelectionListener: () => void = () => {};
 
   /** Previous value of the input's tabindex. */

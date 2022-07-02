@@ -88,7 +88,8 @@ export abstract class _MatDialogContainerBase extends CdkDialogContainer<MatDial
 
 /**
  * Internal component that wraps user-provided dialog content.
- * Animation is based on https://material.io/guidelines/motion/choreography.html.
+ * Animation is based on <https://material.io/guidelines/motion/choreography.html>.
+ *
  * @docs-private
  */
 @Component({

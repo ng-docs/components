@@ -36,7 +36,7 @@ export const EXPANSION_PANEL_ANIMATION_TIMING = '225ms cubic-bezier(0.4,0.0,0.2,
  * `expanded`'s effective styles (though in a `void` animation state) to the collapsed state will
  * occur as expected.
  *
- * Angular Bug: https://github.com/angular/angular/issues/18847
+ * Angular Bug: <https://github.com/angular/angular/issues/18847>
  *
  * @docs-private
  */

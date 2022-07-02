@@ -33,7 +33,8 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 /**
  * Material design tab-group component. Supports basic tab pairs (label + content) and includes
  * animated ink-bar, keyboard navigation, and screen reader.
- * See: https://material.io/design/components/tabs.html
+ * See: <https://material.io/design/components/tabs.html>
+ *
  */
 @Component({
   selector: 'mat-tab-group',

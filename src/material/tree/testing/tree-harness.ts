@@ -39,8 +39,7 @@ export class MatTreeHarness extends ComponentHarness {
    * If a node is under an unexpanded node it will not be included.
    * Eg.
    * Tree (all nodes expanded):
-   * `
-   * <mat-tree>
+   * `<mat-tree>
    *   <mat-tree-node>Node 1<mat-tree-node>
    *   <mat-nested-tree-node>
    *     Node 2
@@ -58,13 +57,13 @@ export class MatTreeHarness extends ComponentHarness {
    *
    * Tree structure:
    * {
-   *  children: [
+   *  children: \[
    *    {
    *      text: 'Node 1',
-   *      children: [
+   *      children: \[
    *        {
    *          text: 'Node 2',
-   *          children: [
+   *          children: \[
    *            {
    *              text: 'Node 2.1',
    *              children: [{text: 'Node 2.1.1'}]
@@ -76,6 +75,7 @@ export class MatTreeHarness extends ComponentHarness {
    *    }
    *  ]
    * };
+   *
    */
   async getTreeStructure(): Promise<TextTree> {
     const nodes = await this.getNodes();

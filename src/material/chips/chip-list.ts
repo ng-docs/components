@@ -159,7 +159,8 @@ export class MatChipList
 
   /**
    * User defined tab index.
-   * When it is not null, use user defined tab index. Otherwise use _tabIndex
+   * When it is not null, use user defined tab index. Otherwise use \_tabIndex
+   *
    */
   _userTabIndex: number | null = null;
 

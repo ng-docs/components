@@ -35,7 +35,8 @@ export type FocusOrigin = 'touch' | 'mouse' | 'keyboard' | 'program' | null;
 
 /**
  * Corresponds to the options that can be passed to the native `focus` event.
- * via https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
+ * via <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus>
+ *
  */
 export interface FocusOptions {
   /** Whether the browser should scroll to the element when it is focused. */
@@ -333,10 +334,11 @@ export class FocusMonitor implements OnDestroy {
 
   /**
    * Returns whether the focus event should be attributed to touch. Recall that in IMMEDIATE mode, a
-   * touch origin isn't immediately reset at the next tick (see _setOrigin). This means that when we
+   * touch origin isn't immediately reset at the next tick (see \_setOrigin). This means that when we
    * handle a focus event following a touch interaction, we need to determine whether (1) the focus
    * event was directly caused by the touch interaction or (2) the focus event was caused by a
    * subsequent programmatic focus call triggered by the touch interaction.
+   *
    * @param focusEventTarget The target of the focus event under examination.
    */
   private _shouldBeAttributedToTouch(focusEventTarget: HTMLElement | null): boolean {

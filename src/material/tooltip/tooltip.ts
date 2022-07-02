@@ -231,13 +231,17 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
    * gestures. To work around the conflict, Angular Material disables native gestures on the
    * trigger, but that might not be desirable on particular elements (e.g. inputs and draggable
    * elements). The different values for this option configure the touch event handling as follows:
+   *
    * - `auto` - Enables touch gestures for all elements, but tries to avoid conflicts with native
    *   browser gestures on particular elements. In particular, it allows text selection on inputs
    *   and textareas, and preserves the native browser dragging on elements marked as `draggable`.
+   *
    * - `on` - Enables touch gestures for all elements and disables native
    *   browser gestures with no exceptions.
+   *
    * - `off` - Disables touch gestures. Note that this will prevent the tooltip from
    *   showing on touch devices.
+   *
    */
   @Input('matTooltipTouchGestures') touchGestures: TooltipTouchGestures = 'auto';
 
@@ -793,7 +797,8 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
  * Directive that attaches a material design tooltip to the host element. Animates the showing and
  * hiding of a tooltip provided position (defaults to below the element).
  *
- * https://material.io/design/components/tooltips.html
+ * <https://material.io/design/components/tooltips.html>
+ *
  */
 @Directive({
   selector: '[matTooltip]',
@@ -935,7 +940,8 @@ export abstract class _TooltipComponentBase implements OnDestroy {
   /**
    * Interactions on the HTML body should close the tooltip immediately as defined in the
    * material design spec.
-   * https://material.io/design/components/tooltips.html#behavior
+   * <https://material.io/design/components/tooltips.html#behavior>
+   *
    */
   _handleBodyInteraction(): void {
     if (this._closeOnInteraction) {

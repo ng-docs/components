@@ -57,7 +57,10 @@ export type _ViewRepeaterItemContextFactory<T, R, C extends _ViewRepeaterItemCon
  */
 export type _ViewRepeaterItemValueResolver<T, R> = (record: IterableChangeRecord<R>) => T;
 
-/** Indicates how a view was changed by a {@link _ViewRepeater}. */
+/**
+ * Indicates how a view was changed by a {@link \_ViewRepeater}.
+ *
+ */
 export const enum _ViewRepeaterOperation {
   /** The content of an existing view was replaced with another item. */
   REPLACED,
@@ -71,7 +74,7 @@ export const enum _ViewRepeaterOperation {
 
 /**
  * Meta data describing the state of a view after it was updated by a
- * {@link _ViewRepeater}.
+ * {@link \_ViewRepeater}.
  *
  * @template R The type for the item in each IterableDiffer change record.
  * @template C The type for the context passed to each embedded view.
@@ -113,7 +116,8 @@ export interface _ViewRepeater<T, R, C extends _ViewRepeaterItemContext<T>> {
 }
 
 /**
- * Injection token for {@link _ViewRepeater}. This token is for use by Angular Material only.
+ * Injection token for {@link \_ViewRepeater}. This token is for use by Angular Material only.
+ *
  * @docs-private
  */
 export const _VIEW_REPEATER_STRATEGY = new InjectionToken<

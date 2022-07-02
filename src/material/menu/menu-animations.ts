@@ -18,7 +18,8 @@ import {
 /**
  * Animations used by the mat-menu component.
  * Animation duration and timing values are based on:
- * https://material.io/guidelines/components/menus.html#menus-usage
+ * <https://material.io/guidelines/components/menus.html#menus-usage>
+ *
  * @docs-private
  */
 export const matMenuAnimations: {

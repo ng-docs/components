@@ -16,9 +16,13 @@ export class MatCheckboxHarness extends _MatCheckboxHarnessBase {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a checkbox with specific attributes.
    * @param options Options for narrowing the search:
-   *   - `selector` finds a checkbox whose host element matches the given selector.
-   *   - `label` finds a checkbox with specific label text.
-   *   - `name` finds a checkbox with specific name.
+   *
+   * - `selector` finds a checkbox whose host element matches the given selector.
+   *
+   * - `label` finds a checkbox with specific label text.
+   *
+   * - `name` finds a checkbox with specific name.
+   *
    * @return a `HarnessPredicate` configured with the given options.
    */
   static with<T extends MatCheckboxHarness>(

@@ -518,9 +518,13 @@ export class MatSlider
   /**
    * Identifier used to attribute a touch event to a particular slider.
    * Will be undefined if one of the following conditions is true:
+   *
    * - The user isn't dragging using a touch device.
+   *
    * - The browser doesn't support `Touch.identifier`.
+   *
    * - Dragging hasn't started yet.
+   *
    */
   private _touchId: number | undefined;
 

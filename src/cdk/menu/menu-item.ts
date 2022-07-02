@@ -129,7 +129,9 @@ export class CdkMenuItem implements FocusableOption, FocusableElement, Toggler, 
    * If the menu item is not disabled and the element does not have a menu trigger attached, emit
    * on the cdkMenuItemTriggered emitter and close all open menus.
    * @param options Options the configure how the item is triggered
-   *   - keepOpen: specifies that the menu should be kept open after triggering the item.
+   *
+   * - keepOpen: specifies that the menu should be kept open after triggering the item.
+   *
    */
   trigger(options?: {keepOpen: boolean}) {
     const {keepOpen} = {...options};

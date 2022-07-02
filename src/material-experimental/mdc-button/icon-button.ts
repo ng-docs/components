@@ -30,7 +30,8 @@ import {
 /**
  * Material Design icon button component. This type of button displays a single interactive icon for
  * users to perform an action.
- * See https://material.io/develop/web/components/buttons/icon-buttons/
+ * See <https://material.io/develop/web/components/buttons/icon-buttons/>
+ *
  */
 @Component({
   selector: `button[mat-icon-button]`,
@@ -58,7 +59,8 @@ export class MatIconButton extends MatButtonBase {
 /**
  * Material Design icon button component for anchor elements. This button displays a single
  * interaction icon that allows users to navigate across different routes or pages.
- * See https://material.io/develop/web/components/buttons/icon-buttons/
+ * See <https://material.io/develop/web/components/buttons/icon-buttons/>
+ *
  */
 @Component({
   selector: `a[mat-icon-button]`,

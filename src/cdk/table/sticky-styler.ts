@@ -40,7 +40,8 @@ export class StickyStyler {
    * @param _isBrowser Whether the table is currently being rendered on the server or the client.
    * @param _needsPositionStickyOnElement Whether we need to specify position: sticky on cells
    *     using inline styles. If false, it is assumed that position: sticky is included in
-   *     the component stylesheet for _stickCellCss.
+   *     the component stylesheet for \_stickCellCss.
+   *
    * @param _positionListener A listener that is notified of changes to sticky rows/columns
    *     and their dimensions.
    */

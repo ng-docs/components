@@ -20,7 +20,7 @@ import {inject, InjectionToken} from '@angular/core';
  * themselves use things like `querySelector` in test code.
  *
  * This token is defined in a separate file from Directionality as a workaround for
- * https://github.com/angular/angular/issues/22559
+ * <https://github.com/angular/angular/issues/22559>
  *
  * @docs-private
  */

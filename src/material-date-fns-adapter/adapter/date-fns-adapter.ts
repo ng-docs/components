@@ -211,8 +211,9 @@ export class DateFnsAdapter extends DateAdapter<Date, Locale> {
 
   /**
    * Returns the given value if given a valid Date or null. Deserializes valid ISO 8601 strings
-   * (https://www.ietf.org/rfc/rfc3339.txt) into valid Dates and empty string into null. Returns an
+   * (<https://www.ietf.org/rfc/rfc3339.txt>) into valid Dates and empty string into null. Returns an
    * invalid date for all other values.
+   *
    */
   override deserialize(value: any): Date | null {
     if (typeof value === 'string') {

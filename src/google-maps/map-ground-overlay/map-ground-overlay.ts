@@ -75,8 +75,8 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/image-overlay
-   * #GroundOverlay.dblclick
+   * developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay.dblclick
+   *
    */
   @Output() readonly mapDblclick: Observable<google.maps.MapMouseEvent> =
     this._eventManager.getLazyEmitter<google.maps.MapMouseEvent>('dblclick');
@@ -126,8 +126,8 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/image-overlay
-   * #GroundOverlay.getBounds
+   * developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay.getBounds
+   *
    */
   getBounds(): google.maps.LatLngBounds | null {
     this._assertInitialized();
@@ -136,8 +136,8 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/image-overlay
-   * #GroundOverlay.getOpacity
+   * developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay.getOpacity
+   *
    */
   getOpacity(): number {
     this._assertInitialized();
@@ -146,8 +146,8 @@ export class MapGroundOverlay implements OnInit, OnDestroy {
 
   /**
    * See
-   * developers.google.com/maps/documentation/javascript/reference/image-overlay
-   * #GroundOverlay.getUrl
+   * developers.google.com/maps/documentation/javascript/reference/image-overlay#GroundOverlay.getUrl
+   *
    */
   getUrl(): string {
     this._assertInitialized();

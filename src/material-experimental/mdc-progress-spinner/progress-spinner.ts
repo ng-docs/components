@@ -70,7 +70,10 @@ const BASE_STROKE_WIDTH = 10;
   encapsulation: ViewEncapsulation.None,
 })
 export class MatProgressSpinner extends _MatProgressSpinnerBase implements CanColor {
-  /** Whether the _mat-animation-noopable class should be applied, disabling animations.  */
+  /**
+   * Whether the \_mat-animation-noopable class should be applied, disabling animations.
+   *
+   */
   _noopAnimations: boolean;
 
   /** The element of the determinate spinner. */

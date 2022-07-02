@@ -180,7 +180,7 @@ abstract class RowViewRef<T> extends EmbeddedViewRef<RowContext<T>> {}
  * is false, there is only one template per data object). For each pair of data object and row
  * template, a `RenderRow` is added to the list of rows to render. If the data object and row
  * template pair has already been rendered, the previously used `RenderRow` is added; else a new
- * `RenderRow` is * created. Once the list is complete and all data objects have been itereated
+ * `RenderRow` is \* created. Once the list is complete and all data objects have been itereated
  * through, a diff is performed to determine the changes that need to be made to the rendered rows.
  *
  * @docs-private
@@ -384,9 +384,12 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
 
   /**
    * The table's source of data, which can be provided in three ways (in order of complexity):
-   *   - Simple data array (each object represents one table row)
-   *   - Stream that emits a data array each time the array changes
-   *   - `DataSource` object that implements the connect/disconnect interface.
+   *
+   * - Simple data array (each object represents one table row)
+   *
+   * - Stream that emits a data array each time the array changes
+   *
+   * - `DataSource` object that implements the connect/disconnect interface.
    *
    * If a data array is provided, the table must be notified when the array's objects are
    * added, removed, or moved. This can be done by calling the `renderRows()` function which will
@@ -401,6 +404,7 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
    * values. During the table's ngOnDestroy or when the data source is removed from the table, the
    * table will call the DataSource's `disconnect` function (may be useful for cleaning up any
    * subscriptions registered during the connect process).
+   *
    */
   @Input()
   get dataSource(): CdkTableDataSourceInput<T> {

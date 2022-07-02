@@ -94,7 +94,8 @@ interface PendingPlayerState {
 /**
  * Angular component that renders a YouTube player via the YouTube player
  * iframe API.
- * @see https://developers.google.com/youtube/iframe_api_reference
+ * @see <https://developers.google.com/youtube/iframe_api_reference>
+ *
  */
 @Component({
   selector: 'youtube-player',
@@ -168,7 +169,8 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
 
   /**
    * Extra parameters used to configure the player. See:
-   * https://developers.google.com/youtube/player_parameters.html?playerVersion=HTML5#Parameters
+   * <https://developers.google.com/youtube/player_parameters.html?playerVersion=HTML5#Parameters>
+   *
    */
   @Input()
   get playerVars(): YT.PlayerVars | undefined {
@@ -317,7 +319,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     this._destroyed.complete();
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#playVideo */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#playVideo>
+   *
+   */
   playVideo() {
     if (this._player) {
       this._player.playVideo();
@@ -326,7 +331,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#pauseVideo */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#pauseVideo>
+   *
+   */
   pauseVideo() {
     if (this._player) {
       this._player.pauseVideo();
@@ -335,7 +343,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#stopVideo */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#stopVideo>
+   *
+   */
   stopVideo() {
     if (this._player) {
       this._player.stopVideo();
@@ -345,7 +356,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#seekTo */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#seekTo>
+   *
+   */
   seekTo(seconds: number, allowSeekAhead: boolean) {
     if (this._player) {
       this._player.seekTo(seconds, allowSeekAhead);
@@ -354,7 +368,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#mute */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#mute>
+   *
+   */
   mute() {
     if (this._player) {
       this._player.mute();
@@ -363,7 +380,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#unMute */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#unMute>
+   *
+   */
   unMute() {
     if (this._player) {
       this._player.unMute();
@@ -372,7 +392,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#isMuted */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#isMuted>
+   *
+   */
   isMuted(): boolean {
     if (this._player) {
       return this._player.isMuted();
@@ -385,7 +408,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return false;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#setVolume */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#setVolume>
+   *
+   */
   setVolume(volume: number) {
     if (this._player) {
       this._player.setVolume(volume);
@@ -394,7 +420,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getVolume */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getVolume>
+   *
+   */
   getVolume(): number {
     if (this._player) {
       return this._player.getVolume();
@@ -407,7 +436,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return 0;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#setPlaybackRate */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#setPlaybackRate>
+   *
+   */
   setPlaybackRate(playbackRate: number) {
     if (this._player) {
       return this._player.setPlaybackRate(playbackRate);
@@ -416,7 +448,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getPlaybackRate */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getPlaybackRate>
+   *
+   */
   getPlaybackRate(): number {
     if (this._player) {
       return this._player.getPlaybackRate();
@@ -429,17 +464,26 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return 0;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getAvailablePlaybackRates */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getAvailablePlaybackRates>
+   *
+   */
   getAvailablePlaybackRates(): number[] {
     return this._player ? this._player.getAvailablePlaybackRates() : [];
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getVideoLoadedFraction */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getVideoLoadedFraction>
+   *
+   */
   getVideoLoadedFraction(): number {
     return this._player ? this._player.getVideoLoadedFraction() : 0;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getPlayerState */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getPlayerState>
+   *
+   */
   getPlayerState(): YT.PlayerState | undefined {
     if (!this._isBrowser || !window.YT) {
       return undefined;
@@ -456,7 +500,10 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return YT.PlayerState.UNSTARTED;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getCurrentTime */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getCurrentTime>
+   *
+   */
   getCurrentTime(): number {
     if (this._player) {
       return this._player.getCurrentTime();
@@ -469,27 +516,42 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
     return 0;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getPlaybackQuality */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getPlaybackQuality>
+   *
+   */
   getPlaybackQuality(): YT.SuggestedVideoQuality {
     return this._player ? this._player.getPlaybackQuality() : 'default';
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getAvailableQualityLevels */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getAvailableQualityLevels>
+   *
+   */
   getAvailableQualityLevels(): YT.SuggestedVideoQuality[] {
     return this._player ? this._player.getAvailableQualityLevels() : [];
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getDuration */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getDuration>
+   *
+   */
   getDuration(): number {
     return this._player ? this._player.getDuration() : 0;
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getVideoUrl */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getVideoUrl>
+   *
+   */
   getVideoUrl(): string {
     return this._player ? this._player.getVideoUrl() : '';
   }
 
-  /** See https://developers.google.com/youtube/iframe_api_reference#getVideoEmbedCode */
+  /**
+   * See <https://developers.google.com/youtube/iframe_api_reference#getVideoEmbedCode>
+   *
+   */
   getVideoEmbedCode(): string {
     return this._player ? this._player.getVideoEmbedCode() : '';
   }

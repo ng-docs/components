@@ -104,8 +104,9 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
 
   /**
    * Transformed version of the column name that can be used as part of a CSS classname. Excludes
-   * all non-alphanumeric characters and the special characters '-' and '_'. Any characters that
+   * all non-alphanumeric characters and the special characters '-' and '\_'. Any characters that
    * do not match are replaced by the '-' character.
+   *
    */
   cssClassFriendlyName: string;
 
@@ -122,8 +123,9 @@ export class CdkColumnDef extends _CdkColumnDefBase implements CanStick {
   /**
    * Overridable method that sets the css classes that will be added to every cell in this
    * column.
-   * In the future, columnCssClassName will change from type string[] to string and this
+   * In the future, columnCssClassName will change from type string\[] to string and this
    * will set a single string value.
+   *
    * @docs-private
    */
   protected _updateColumnCssClassName() {

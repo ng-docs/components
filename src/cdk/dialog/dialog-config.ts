@@ -106,10 +106,14 @@ export class DialogConfig<D = unknown, R = unknown, C extends BasePortalOutlet =
   /**
    * Whether the dialog should restore focus to the previously-focused element upon closing.
    * Has the following behavior based on the type that is passed in:
+   *
    * - `boolean` - when true, will return focus to the element that was focused before the dialog
    *    was opened, otherwise won't restore focus at all.
+   *
    * - `string` - focus will be restored to the first element that matches the CSS selector.
+   *
    * - `HTMLElement` - focus will be restored to the specific element.
+   *
    */
   restoreFocus?: boolean | string | HTMLElement = true;
 

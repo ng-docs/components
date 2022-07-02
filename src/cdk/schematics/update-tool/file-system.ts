@@ -21,8 +21,9 @@ import {UpdateRecorder} from './update-recorder';
  * One wonder why another type has been declared for such paths, when there already
  * is the `Path` type provided by the devkit. We do this for a couple of reasons:
  *
- *   1. The update-tool cannot have a dependency on the Angular devkit as that one
- *      is not synced into g3. We want to be able to run migrations in g3 if needed.
+ * 1. The update-tool cannot have a dependency on the Angular devkit as that one
+ *    is not synced into g3. We want to be able to run migrations in g3 if needed.
+ *
  */
 export type WorkspacePath = string & {
   // Brand signature matches the devkit paths so that existing path

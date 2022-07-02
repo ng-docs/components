@@ -189,13 +189,18 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * to the origin best fits on-screen.
    *
    * The selection of a position goes as follows:
-   *  - If any positions fit completely within the viewport as-is,
-   *      choose the first position that does so.
-   *  - If flexible dimensions are enabled and at least one satifies the given minimum width/height,
-   *      choose the position with the greatest available size modified by the positions' weight.
-   *  - If pushing is enabled, take the position that went off-screen the least and push it
-   *      on-screen.
-   *  - If none of the previous criteria were met, use the position that goes off-screen the least.
+   *
+   * - If any positions fit completely within the viewport as-is,
+   *     choose the first position that does so.
+   *
+   * - If flexible dimensions are enabled and at least one satifies the given minimum width/height,
+   *     choose the position with the greatest available size modified by the positions' weight.
+   *
+   * - If pushing is enabled, take the position that went off-screen the least and push it
+   *     on-screen.
+   *
+   * - If none of the previous criteria were met, use the position that goes off-screen the least.
+   *
    * @docs-private
    */
   apply(): void {
@@ -1073,7 +1078,10 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     }, length);
   }
 
-  /** Narrows the given viewport rect by the current _viewportMargin. */
+  /**
+   * Narrows the given viewport rect by the current \_viewportMargin.
+   *
+   */
   private _getNarrowedViewportRect(): Dimensions {
     // We recalculate the viewport rect here ourselves, rather than using the ViewportRuler,
     // because we want to use the `clientWidth` and `clientHeight` as the base. The difference

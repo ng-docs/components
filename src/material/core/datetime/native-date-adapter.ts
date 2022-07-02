@@ -12,8 +12,9 @@ import {DateAdapter, MAT_DATE_LOCALE} from './date-adapter';
 
 /**
  * Matches strings that have the form of a valid RFC 3339 string
- * (https://tools.ietf.org/html/rfc3339). Note that the string may not actually be a valid date
+ * (<https://tools.ietf.org/html/rfc3339>). Note that the string may not actually be a valid date
  * because the regex will match strings an with out of bounds month, date, etc.
+ *
  */
 const ISO_8601_REGEX =
   /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|(?:(?:\+|-)\d{2}:\d{2}))?)?$/;
@@ -183,8 +184,9 @@ export class NativeDateAdapter extends DateAdapter<Date> {
 
   /**
    * Returns the given value if given a valid Date or null. Deserializes valid ISO 8601 strings
-   * (https://www.ietf.org/rfc/rfc3339.txt) into valid Dates and empty string into null. Returns an
+   * (<https://www.ietf.org/rfc/rfc3339.txt>) into valid Dates and empty string into null. Returns an
    * invalid date for all other values.
+   *
    */
   override deserialize(value: any): Date | null {
     if (typeof value === 'string') {

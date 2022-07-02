@@ -47,7 +47,8 @@ export class MatFormFieldFloatingLabel {
 
 /**
  * Estimates the scroll width of an element.
- * via https://github.com/material-components/material-components-web/blob/c0a11ef0d000a098fd0c372be8f12d6a99302855/packages/mdc-dom/ponyfill.ts
+ * via <https://github.com/material-components/material-components-web/blob/c0a11ef0d000a098fd0c372be8f12d6a99302855/packages/mdc-dom/ponyfill.ts>
+ *
  */
 function estimateScrollWidth(element: HTMLElement): number {
   // Check the offsetParent. If the element inherits display: none from any

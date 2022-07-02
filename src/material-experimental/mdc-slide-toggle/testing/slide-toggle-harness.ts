@@ -21,8 +21,11 @@ export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a slide-toggle w/ specific attributes.
    * @param options Options for narrowing the search:
-   *   - `selector` finds a slide-toggle whose host element matches the given selector.
-   *   - `label` finds a slide-toggle with specific label text.
+   *
+   * - `selector` finds a slide-toggle whose host element matches the given selector.
+   *
+   * - `label` finds a slide-toggle with specific label text.
+   *
    * @return a `HarnessPredicate` configured with the given options.
    */
   static with<T extends MatSlideToggleHarness>(

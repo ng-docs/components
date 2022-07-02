@@ -715,8 +715,9 @@ export class MatDrawerContainer implements AfterContentInit, DoCheck, OnDestroy 
   /**
    * The drawer at the left/right. When direction changes, these will change as well.
    * They're used as aliases for the above to set the left/right style properly.
-   * In LTR, _left == _start and _right == _end.
-   * In RTL, _left == _end and _right == _start.
+   * In LTR, \_left == \_start and \_right == \_end.
+   * In RTL, \_left == \_end and \_right == \_start.
+   *
    */
   private _left: MatDrawer | null;
   private _right: MatDrawer | null;

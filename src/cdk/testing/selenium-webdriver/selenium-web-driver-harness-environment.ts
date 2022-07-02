@@ -24,8 +24,9 @@ declare global {
      * These hooks are exposed by Angular to register a callback for when the application is stable
      * (no more pending tasks).
      *
-     * For the implementation, see: https://github.com/
+     * For the implementation, see: <https://github.com/>
      *  angular/angular/blob/main/packages/platform-browser/src/browser/testability.ts#L30-L49
+     *
      */
     frameworkStabilizers: FrameworkStabilizer[];
   }

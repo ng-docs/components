@@ -23,7 +23,8 @@ const moment = _rollupMoment || _moment;
 export interface MatMomentDateAdapterOptions {
   /**
    * When enabled, the dates have to match the format exactly.
-   * See https://momentjs.com/guides/#/parsing/strict-mode/.
+   * See <https://momentjs.com/guides/#/parsing/strict-mode/>.
+   *
    */
   strict?: boolean;
 
@@ -214,8 +215,9 @@ export class MomentDateAdapter extends DateAdapter<Moment> {
 
   /**
    * Returns the given value if given a valid Moment or null. Deserializes valid ISO 8601 strings
-   * (https://www.ietf.org/rfc/rfc3339.txt) and valid Date objects into valid Moments and empty
+   * (<https://www.ietf.org/rfc/rfc3339.txt>) and valid Date objects into valid Moments and empty
    * string into null. Returns an invalid date for all other values.
+   *
    */
   override deserialize(value: any): Moment | null {
     let date;

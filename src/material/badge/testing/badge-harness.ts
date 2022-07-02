@@ -17,7 +17,9 @@ export class MatBadgeHarness extends ComponentHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a badge with specific attributes.
    * @param options Options for narrowing the search:
-   *   - `text` finds a badge host with a particular text.
+   *
+   * - `text` finds a badge host with a particular text.
+   *
    * @return a `HarnessPredicate` configured with the given options.
    */
   static with(options: BadgeHarnessFilters = {}): HarnessPredicate<MatBadgeHarness> {

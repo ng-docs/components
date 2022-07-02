@@ -44,6 +44,7 @@ export const INPUT_MODALITY_DETECTOR_OPTIONS = new InjectionToken<InputModalityD
  *
  * 1. Modifier keys are commonly used with mouse to perform actions such as 'right click' or 'open
  *    in new tab', and are thus less representative of actual keyboard interaction.
+ *
  * 2. VoiceOver triggers some keyboard events when linearly navigating with Control + Option (but
  *    confusingly not with Caps Lock). Thus, to have parity with other screen readers, we ignore
  *    these keys so as to not update the input modality.
@@ -51,6 +52,7 @@ export const INPUT_MODALITY_DETECTOR_OPTIONS = new InjectionToken<InputModalityD
  * Note that we do not by default ignore the right Meta key on Safari because it has the same key
  * code as the ContextMenu key on other browsers. When we switch to using event.key, we can
  * distinguish between the two.
+ *
  */
 export const INPUT_MODALITY_DETECTOR_DEFAULT_OPTIONS: InputModalityDetectorOptions = {
   ignoreKeys: [ALT, CONTROL, MAC_META, META, SHIFT],

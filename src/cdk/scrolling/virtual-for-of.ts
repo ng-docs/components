@@ -44,7 +44,10 @@ import {CdkVirtualScrollViewport} from './virtual-scroll-viewport';
 export type CdkVirtualForOfContext<T> = {
   /** The item value. */
   $implicit: T;
-  /** The DataSource, Observable, or NgIterable that was passed to *cdkVirtualFor. */
+  /**
+   * The DataSource, Observable, or NgIterable that was passed to \*cdkVirtualFor.
+   *
+   */
   cdkVirtualForOf: DataSource<T> | Observable<T[]> | NgIterable<T>;
   /** The index of the item in the DataSource. */
   index: number;

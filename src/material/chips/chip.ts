@@ -458,16 +458,19 @@ export class MatChip
 
 /**
  * Applies proper (click) support and adds styling for use with the Material Design "cancel" icon
- * available at https://material.io/icons/#ic_cancel.
+ * available at <https://material.io/icons/#ic_cancel>.
  *
  * Example:
  *
- *     `<mat-chip>
- *       <mat-icon matChipRemove>cancel</mat-icon>
- *     </mat-chip>`
+ * ```
+ * `<mat-chip>
+ *   <mat-icon matChipRemove>cancel</mat-icon>
+ * </mat-chip>`
+ * ```
  *
  * You *may* use a custom icon, but you may need to override the `mat-chip-remove` positioning
  * styles to properly center the icon within the chip.
+ *
  */
 @Directive({
   selector: '[matChipRemove]',

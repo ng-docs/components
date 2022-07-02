@@ -35,10 +35,15 @@ export class MatExpansionPanelHarness extends ContentContainerComponentHarness<M
    * Gets a `HarnessPredicate` that can be used to search for an expansion-panel
    * with specific attributes.
    * @param options Options for narrowing the search:
-   *   - `title` finds an expansion-panel with a specific title text.
-   *   - `description` finds an expansion-panel with a specific description text.
-   *   - `expanded` finds an expansion-panel that is currently expanded.
-   *   - `disabled` finds an expansion-panel that is disabled.
+   *
+   * - `title` finds an expansion-panel with a specific title text.
+   *
+   * - `description` finds an expansion-panel with a specific description text.
+   *
+   * - `expanded` finds an expansion-panel that is currently expanded.
+   *
+   * - `disabled` finds an expansion-panel that is disabled.
+   *
    * @return a `HarnessPredicate` configured with the given options.
    */
   static with(

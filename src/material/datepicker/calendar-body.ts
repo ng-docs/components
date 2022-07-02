@@ -226,6 +226,7 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
    * reader enabled:
    *
    * 1. Pressing PageUp/PageDown repeatedly with pausing between each key press.
+   *
    * 2. Pressing and holding the PageDown key with repeated keys enabled.
    *
    * Test 1 worked roughly 95-99% of the time with 0ms and got a little bit better as the duration
@@ -237,6 +238,7 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
    * potentially interfere with repeated keys. 0ms would be best because it almost entirely
    * eliminates the focus being lost in Voiceover (#24330) without causing unintended side effects.
    * Adding delay also complicates writing tests.
+   *
    */
   _focusActiveCell(movePreview = true) {
     this._ngZone.runOutsideAngular(() => {

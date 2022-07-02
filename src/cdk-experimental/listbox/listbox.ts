@@ -558,8 +558,11 @@ export class CdkListbox<T = unknown>
 
   /**
    * Triggers the given option in response to user interaction.
+   *
    * - In single selection mode: selects the option and deselects any other selected option.
+   *
    * - In multi selection mode: toggles the selected state of the option.
+   *
    * @param option The option to trigger
    */
   protected triggerOption(option: CdkOption<T> | null) {

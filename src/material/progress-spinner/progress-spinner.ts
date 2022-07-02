@@ -158,7 +158,10 @@ export class MatProgressSpinner
    */
   private static _diameters = new WeakMap<Node, Set<number>>();
 
-  /** Whether the _mat-animation-noopable class should be applied, disabling animations.  */
+  /**
+   * Whether the \_mat-animation-noopable class should be applied, disabling animations.
+   *
+   */
   _noopAnimations: boolean;
 
   /** A string that is used for setting the spinner animation-name CSS property */

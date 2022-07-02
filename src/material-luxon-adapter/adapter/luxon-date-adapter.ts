@@ -218,8 +218,9 @@ export class LuxonDateAdapter extends DateAdapter<LuxonDateTime> {
 
   /**
    * Returns the given value if given a valid Luxon or null. Deserializes valid ISO 8601 strings
-   * (https://www.ietf.org/rfc/rfc3339.txt) and valid Date objects into valid DateTime and empty
+   * (<https://www.ietf.org/rfc/rfc3339.txt>) and valid Date objects into valid DateTime and empty
    * string into null. Returns an invalid date for all other values.
+   *
    */
   override deserialize(value: any): LuxonDateTime | null {
     const options = this._getOptions();

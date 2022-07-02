@@ -38,14 +38,16 @@ export function mixinInitialized<T extends Constructor<{}>>(base: T): HasInitial
 
     /**
      * List of subscribers that subscribed before the directive was initialized. Should be notified
-     * during _markInitialized. Set to null after pending subscribers are notified, and should
+     * during \_markInitialized. Set to null after pending subscribers are notified, and should
      * not expect to be populated after.
+     *
      */
     _pendingSubscribers: Subscriber<void>[] | null = [];
 
     /**
      * Observable stream that emits when the directive initializes. If already initialized, the
-     * subscriber is stored to be notified once _markInitialized is called.
+     * subscriber is stored to be notified once \_markInitialized is called.
+     *
      */
     initialized = new Observable<void>(subscriber => {
       // If initialized, immediately notify the subscriber. Otherwise store the subscriber to notify

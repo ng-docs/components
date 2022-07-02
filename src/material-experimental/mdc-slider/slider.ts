@@ -357,7 +357,8 @@ export class MatSliderThumb implements AfterViewInit, ControlValueAccessor, OnIn
   /**
    * Used to determine the disabled state of the MatSlider (ControlValueAccessor).
    * For ranged sliders, the disabled state of the MatSlider depends on the combined state of the
-   * start and end inputs. See MatSlider._updateDisabled.
+   * start and end inputs. See MatSlider.\_updateDisabled.
+   *
    */
   _disabled: boolean = false;
 
@@ -688,7 +689,8 @@ export class MatSlider
    * Whether the browser supports pointer events.
    *
    * We exclude iOS to mirror the MDC Foundation. The MDC Foundation cannot use pointer events on
-   * iOS because of this open bug - https://bugs.webkit.org/show_bug.cgi?id=220196.
+   * iOS because of this open bug - <https://bugs.webkit.org/show_bug.cgi?id=220196>.
+   *
    */
   private _SUPPORTS_POINTER_EVENTS =
     typeof PointerEvent !== 'undefined' && !!PointerEvent && !this._platform.IOS;
@@ -991,11 +993,11 @@ class SliderAdapter implements MDCSliderAdapter {
    *
    * ** IMPORTANT NOTE **
    *
-   * We block all "real" change and input events and emit fake events from #emitChangeEvent and
-   * #emitInputEvent, instead. We do this because interacting with the MDC slider won't trigger all
+   * We block all "real" change and input events and emit fake events from #emitChangeEvent and #emitInputEvent, instead. We do this because interacting with the MDC slider won't trigger all
    * of the correct change and input events, but it will call #emitChangeEvent and #emitInputEvent
    * at the correct times. This allows users to listen for these events directly on the slider
    * input as they would with a native range input.
+   *
    */
   private _subscribeToSliderInputEvents(type: 'change' | 'input') {
     return this._delegate._globalChangeAndInputListener.listen(type, (event: Event) => {

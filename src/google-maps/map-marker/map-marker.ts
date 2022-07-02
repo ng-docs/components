@@ -97,7 +97,8 @@ export class MapMarker implements OnInit, OnChanges, OnDestroy, MapAnchorPoint {
 
   /**
    * Icon to be used for the marker.
-   * See: https://developers.google.com/maps/documentation/javascript/reference/marker#Icon
+   * See: <https://developers.google.com/maps/documentation/javascript/reference/marker#Icon>
+   *
    */
   @Input()
   set icon(icon: string | google.maps.Icon | google.maps.Symbol) {
