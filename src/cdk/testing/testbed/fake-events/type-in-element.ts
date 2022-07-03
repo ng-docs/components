@@ -30,7 +30,7 @@ const incrementalInputTypes = new Set([
 /**
  * Checks whether the given Element is a text input element.
  *
- * 检查给定的元素是否文本输入元素。
+ * 检查给定的元素是否文本输入框元素。
  *
  * @docs-private
  */

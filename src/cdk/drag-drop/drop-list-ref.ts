@@ -90,7 +90,7 @@ export class DropListRef<T = any> {
   /**
    * Element that the drop list is attached to.
    *
-   * 投放表附加到的元素
+   * 投放表附着到的元素
    *
    */
   element: HTMLElement | ElementRef<HTMLElement>;
@@ -212,7 +212,7 @@ export class DropListRef<T = any> {
   /**
    * Arbitrary data that can be attached to the drop list.
    *
-   * 任意数据都可以附加到投放列表中。
+   * 可以附加到投放列表上的任意数据。
    *
    */
   data: T;
@@ -233,7 +233,12 @@ export class DropListRef<T = any> {
    */
   private _parentPositions: ParentPositionTracker;
 
-  /** Strategy being used to sort items within the list. */
+  /**
+   * Strategy being used to sort items within the list.
+   *
+   * 用于对列表中的项目进行排序的策略。
+   *
+   */
   private _sortStrategy: DropListSortStrategy<DragRef>;
 
   /**
@@ -487,7 +492,13 @@ export class DropListRef<T = any> {
    * 自拖曳序列开始以来用户拖动过的距离。
    *
    * @param event Event that triggered the dropping sequence.
+   *
+   * 触发扔下（drop）序列的事件。
+   *
    * @breaking-change 15.0.0 `previousIndex` and `event` parameters to become required.
+   *
+   * `previousIndex` 和 `event` 参数成为必需的。
+   *
    */
   drop(
     item: DragRef,
@@ -822,7 +833,12 @@ export class DropListRef<T = any> {
     this._clientRect = this._parentPositions.positions.get(element)!.clientRect!;
   }
 
-  /** Resets the container to its initial state. */
+  /**
+   * Resets the container to its initial state.
+   *
+   * 将此容器重置为其初始状态。
+   *
+   */
   private _reset() {
     this._isDragging = false;
 
@@ -836,7 +852,12 @@ export class DropListRef<T = any> {
     this._parentPositions.clear();
   }
 
-  /** Starts the interval that'll auto-scroll the element. */
+  /**
+   * Starts the interval that'll auto-scroll the element.
+   *
+   * 元素要开始自动滚动时用的定时器。
+   *
+   */
   private _startScrollInterval = () => {
     this._stopScrolling();
 

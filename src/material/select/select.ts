@@ -272,6 +272,9 @@ const _MatSelectMixinBase = mixinDisableRipple(
           /**
            * Emits whenever the component state changes and should cause the parent
            * form-field to update. Implemented as part of `MatFormFieldControl`.
+           *
+           * 每当组件状态更改并会导致父表单字段更新时发出。作为 `MatFormFieldControl` 的一部分实现。
+           *
            * @docs-private
            */
           readonly stateChanges = new Subject<void>();
@@ -427,7 +430,7 @@ export abstract class _MatSelectBase<C>
   /**
    * Unique id for this input.
    *
-   * 此输入元素的唯一 ID。
+   * 此输入框元素的唯一 ID。
    *
    */
   private _uid = `mat-select-${nextUniqueId++}`;
@@ -443,6 +446,9 @@ export abstract class _MatSelectBase<C>
   /**
    * Keeps track of the previous form control assigned to the select.
    * Used to detect if it has changed.
+   *
+   * 跟踪分配给此选择框的前一个表单控件。用于检测是否已更改。
+   *
    */
   private _previousControl: AbstractControl | null | undefined;
 
@@ -456,6 +462,9 @@ export abstract class _MatSelectBase<C>
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input('aria-describedby') userAriaDescribedBy: string;
@@ -1207,7 +1216,7 @@ export abstract class _MatSelectBase<C>
   /**
    * Callback that is invoked when the overlay panel has been attached.
    *
-   * 附加到浮层面板时调用的回调函数。
+   * 附着到浮层面板时调用的回调函数。
    *
    */
   _onAttached(): void {
@@ -1321,7 +1330,12 @@ export abstract class _MatSelectBase<C>
     return correspondingOption;
   }
 
-  /** Assigns a specific value to the select. Returns whether the value has changed. */
+  /**
+   * Assigns a specific value to the select. Returns whether the value has changed.
+   *
+   * 将特定值赋值给此选择框。返回此值是否已更改。
+   *
+   */
   private _assignValue(newValue: any | any[]): boolean {
     // Always re-assign an array, because it might have been mutated.
     if (newValue !== this._value || (this._multiple && Array.isArray(newValue))) {

@@ -75,7 +75,7 @@ will be connected to all other lists automatically.
 
 ### Attaching data
 
-### 附加数据
+### 附着数据
 
 You can associate some arbitrary data with both `cdkDrag` and `cdkDropList` by setting `cdkDragData`
 or `cdkDropListData`, respectively. Events fired from both directives include this data, allowing

@@ -76,7 +76,7 @@ export class LiveAnnouncer implements OnDestroy {
    *
    * @param politeness The politeness of the announcer element.
    *
-   * 播音员元素的礼貌度。
+   * 播报员元素的礼貌度。
    *
    * @returns Promise that will be resolved when the message is added to the DOM.
    *
@@ -98,7 +98,7 @@ export class LiveAnnouncer implements OnDestroy {
    *   that this takes effect after the message has been added to the DOM, which can be up to
    *   100ms after `announce` has been called.
    *
-   * 清除播音员元素的时间（以毫秒为单位）。请注意，这是在将消息添加到 DOM 后生效的，这可能在调用 `announce` 之后的最多 100ms。
+   * 清除播报员元素的时间（以毫秒为单位）。请注意，这是在将消息添加到 DOM 后生效的，这可能在调用 `announce` 之后的最多 100ms。
    *
    * @returns Promise that will be resolved when the message is added to the DOM.
    *
@@ -118,13 +118,13 @@ export class LiveAnnouncer implements OnDestroy {
    *
    * @param politeness The politeness of the announcer element.
    *
-   * 播音员元素的礼貌度。
+   * 播报员元素的礼貌度。
    *
    * @param duration Time in milliseconds after which to clear out the announcer element. Note
    *   that this takes effect after the message has been added to the DOM, which can be up to
    *   100ms after `announce` has been called.
    *
-   * 清除播音员元素的时间（以毫秒为单位）。请注意，这是在将消息添加到 DOM 后生效的，这可能在 `announce` 被调用之后最多 100ms。
+   * 清除播报员元素的时间（以毫秒为单位）。请注意，这是在将消息添加到 DOM 后生效的，这可能在 `announce` 被调用之后最多 100ms。
    *
    * @returns Promise that will be resolved when the message is added to the DOM.
    *
@@ -190,7 +190,7 @@ export class LiveAnnouncer implements OnDestroy {
    * screen readers from reading the text out again while the user is going
    * through the page landmarks.
    *
-   * 从播音员元素中清除当前文本。可以用于防止屏幕阅读器在用户浏览页面地标时再次读出文本。
+   * 从播报员元素中清除当前文本。可以用于防止屏幕阅读器在用户浏览页面地标时再次读出文本。
    *
    */
   clear() {
@@ -276,7 +276,12 @@ export class CdkAriaLive implements OnDestroy {
   }
   private _politeness: AriaLivePoliteness = 'polite';
 
-  /** Time in milliseconds after which to clear out the announcer element. */
+  /**
+   * Time in milliseconds after which to clear out the announcer element.
+   *
+   * 清除播报员元素之前要等待的毫秒数。
+   *
+   */
   @Input('cdkAriaLiveDuration') duration: number;
 
   private _previousAnnouncedText?: string;

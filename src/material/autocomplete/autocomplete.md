@@ -110,13 +110,13 @@ injection token.
 
 ### Autocomplete on a custom input element
 
-### 在自定义输入元素上使用自动完成器
+### 在自定义输入框元素上使用自动完成器
 
 While `mat-autocomplete` supports attaching itself to a `mat-form-field`, you can also set it on
 any other `input` element using the `matAutocomplete` attribute. This allows you to customize what
 the input looks like without having to bring in the extra functionality from `mat-form-field`.
 
-`mat-autocomplete` 支持把自己附加到 `mat-form-field` 上，你也可以使用 `matAutocomplete` 来把它设置到任何 `input` 元素上。这样你就可以自定义输入框的样子，而无需从 `mat-form-field` 引入额外的功能。
+`mat-autocomplete` 支持把自己附着到 `mat-form-field` 上，你也可以使用 `matAutocomplete` 来把它设置到任何 `input` 元素上。这样你就可以自定义输入框的样子，而无需从 `mat-form-field` 引入额外的功能。
 
 <!-- example(autocomplete-plain-input) -->
 

@@ -8,6 +8,9 @@
 
 /**
  * Returns an error which reports that no keys have been specified.
+ *
+ * 返回一个错误，报告未指定任何键。
+ *
  * @docs-private
  */
 export function getNoKeysSpecifiedError() {

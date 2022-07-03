@@ -106,7 +106,12 @@ function addAnimationsModule(options: Schema) {
   };
 }
 
-/** Adds the animations module to an app that is bootstrap using the standalone component APIs. */
+/**
+ * Adds the animations module to an app that is bootstrap using the standalone component APIs.
+ *
+ * 将动画模块添加到使用独立组件 API 进行引导的应用程序中。
+ *
+ */
 function addAnimationsModuleToStandaloneApp(
   host: Tree,
   project: ProjectDefinition,
@@ -152,6 +157,9 @@ function addAnimationsModuleToStandaloneApp(
 /**
  * Adds the animations module to an app that is bootstrap
  * using the non-standalone component APIs.
+ *
+ * 将动画模块添加到使用非独立组件 API 进行引导的应用程序中。
+ *
  */
 function addAnimationsModuleToNonStandaloneApp(
   host: Tree,

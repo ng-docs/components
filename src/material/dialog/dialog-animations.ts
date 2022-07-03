@@ -19,6 +19,9 @@ import {
 
 /**
  * Default parameters for the animation for backwards compatibility.
+ *
+ * 用于向后兼容的动画的默认参数。
+ *
  * @docs-private
  */
 export const defaultParams = {

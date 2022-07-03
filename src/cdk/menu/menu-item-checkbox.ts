@@ -13,6 +13,9 @@ import {CdkMenuItem} from './menu-item';
 /**
  * A directive providing behavior for the "menuitemcheckbox" ARIA role, which behaves similarly to a
  * conventional checkbox.
+ *
+ * 为 “menuitemcheckbox” ARIA 角色提供行为的指令，其行为类似于传统的复选框。
+ *
  */
 @Directive({
   selector: '[cdkMenuItemCheckbox]',
@@ -29,9 +32,16 @@ import {CdkMenuItem} from './menu-item';
 export class CdkMenuItemCheckbox extends CdkMenuItemSelectable {
   /**
    * Toggle the checked state of the checkbox.
+   *
+   * 切换复选框的选中状态。
+   *
    * @param options Options the configure how the item is triggered
    *
+   * 配置菜单项如何触发的选项
+   *
    * - keepOpen: specifies that the menu should be kept open after triggering the item.
+   *
+   *   keepOpen：指定触发项后菜单应保持打开状态。
    *
    */
   override trigger(options?: {keepOpen: boolean}) {

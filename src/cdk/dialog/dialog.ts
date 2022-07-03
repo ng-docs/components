@@ -36,7 +36,12 @@ import {startWith} from 'rxjs/operators';
 import {DEFAULT_DIALOG_CONFIG, DIALOG_DATA, DIALOG_SCROLL_STRATEGY} from './dialog-injectors';
 import {CdkDialogContainer} from './dialog-container';
 
-/** Unique id for the created dialog. */
+/**
+ * Unique id for the created dialog.
+ *
+ * 创建的对话框的唯一 ID。
+ *
+ */
 let uniqueId = 0;
 
 @Injectable()
@@ -232,8 +237,19 @@ export class Dialog implements OnDestroy {
 
   /**
    * Creates an overlay config from a dialog config.
+   *
+   * 从对话框配置创建浮层配置。
+   *
    * @param config The dialog configuration.
-   * @returns The overlay configuration.
+   *
+   * 对话框配置。
+   *
+   * @returns
+   *
+   * The overlay configuration.
+   *
+   * 浮层配置。
+   *
    */
   private _getOverlayConfig<D, R>(config: DialogConfig<D, R>): OverlayConfig {
     const state = new OverlayConfig({
@@ -262,9 +278,23 @@ export class Dialog implements OnDestroy {
 
   /**
    * Attaches a dialog container to a dialog's already-created overlay.
+   *
+   * 将对话框容器附着到对话框的已创建浮层。
+   *
    * @param overlay Reference to the dialog's underlying overlay.
+   *
+   * 引用对话框的底层浮层。
+   *
    * @param config The dialog configuration.
-   * @returns A promise resolving to a ComponentRef for the attached container.
+   *
+   * 对话框配置。
+   *
+   * @returns
+   *
+   * A promise resolving to a ComponentRef for the attached container.
+   *
+   * 一个 Promise，会解析为指向已附着容器的 ComponentRef。
+   *
    */
   private _attachContainer<R, D, C>(
     overlay: OverlayRef,
@@ -303,11 +333,26 @@ export class Dialog implements OnDestroy {
 
   /**
    * Attaches the user-provided component to the already-created dialog container.
+   *
+   * 将用户提供的组件附着到已创建的对话框容器。
+   *
    * @param componentOrTemplateRef The type of component being loaded into the dialog,
    *     or a TemplateRef to instantiate as the content.
+   *
+   * 加载到对话框中的组件类型，或作为内容实例化的 TemplateRef。
+   *
    * @param dialogRef Reference to the dialog being opened.
+   *
+   * 对正在打开的对话框的引用。
+   *
    * @param dialogContainer Component that is going to wrap the dialog content.
+   *
+   * 将包裹此对话框内容的组件。
+   *
    * @param config Configuration used to open the dialog.
+   *
+   * 用于打开对话框的配置。
+   *
    */
   private _attachDialogContent<R, D, C>(
     componentOrTemplateRef: ComponentType<C> | TemplateRef<C>,
@@ -348,10 +393,27 @@ export class Dialog implements OnDestroy {
   /**
    * Creates a custom injector to be used inside the dialog. This allows a component loaded inside
    * of a dialog to close itself and, optionally, to return a value.
+   *
+   * 创建要在对话框中使用的自定义注入器。这允许加载到对话框中的组件关闭对话框本身，并且可以选择返回一个值。
+   *
    * @param config Config object that is used to construct the dialog.
+   *
+   * 用于构造对话框的配置对象。
+   *
    * @param dialogRef Reference to the dialog being opened.
+   *
+   * 对正在打开的对话框的引用。
+   *
    * @param dialogContainer Component that is going to wrap the dialog content.
-   * @returns The custom injector that can be used inside the dialog.
+   *
+   * 将包裹此对话框内容的组件。
+   *
+   * @returns
+   *
+   * The custom injector that can be used inside the dialog.
+   *
+   * 可以在对话框中使用的自定义注入器。
+   *
    */
   private _createInjector<R, D, C>(
     config: DialogConfig<D, DialogRef<R, C>>,
@@ -388,8 +450,17 @@ export class Dialog implements OnDestroy {
 
   /**
    * Removes a dialog from the array of open dialogs.
+   *
+   * 从打开的对话框数组中删除一个对话框。
+   *
    * @param dialogRef Dialog to be removed.
+   *
+   * 要删除的对话框。
+   *
    * @param emitEvent Whether to emit an event if this is the last dialog.
+   *
+   * 如果这是最后一个对话框，是否发出事件。
+   *
    */
   private _removeOpenDialog<R, C>(dialogRef: DialogRef<R, C>, emitEvent: boolean) {
     const index = this.openDialogs.indexOf(dialogRef);
@@ -417,7 +488,12 @@ export class Dialog implements OnDestroy {
     }
   }
 
-  /** Hides all of the content that isn't an overlay from assistive technology. */
+  /**
+   * Hides all of the content that isn't an overlay from assistive technology.
+   *
+   * 隐藏所有非辅助技术浮层的内容。
+   *
+   */
   private _hideNonDialogContentFromAssistiveTechnology() {
     const overlayContainer = this._overlayContainer.getContainerElement();
 
@@ -450,6 +526,9 @@ export class Dialog implements OnDestroy {
 /**
  * Executes a callback against all elements in an array while iterating in reverse.
  * Useful if the array is being modified as it is being iterated.
+ *
+ * 在反向迭代时对数组中的所有元素执行回调。如果数组在迭代时被修改，则很有用。
+ *
  */
 function reverseForEach<T>(items: T[] | readonly T[], callback: (current: T) => void) {
   let i = items.length;

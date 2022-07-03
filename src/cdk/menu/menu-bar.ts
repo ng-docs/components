@@ -27,6 +27,8 @@ import {CdkMenuBase} from './menu-base';
  * role, aria attributes, and accessible keyboard and mouse handling logic. The component that
  * this directive is applied to should contain components marked with CdkMenuItem.
  *
+ * 指令应用于通过设置适当的角色、aria 属性和无障碍化键盘和鼠标处理逻辑将其配置为 MenuBar 的元素。应用此指令的组件应包含标有 CdkMenuItem 的组件。
+ *
  */
 @Directive({
   selector: '[cdkMenuBar]',
@@ -43,10 +45,20 @@ import {CdkMenuBase} from './menu-base';
   ],
 })
 export class CdkMenuBar extends CdkMenuBase implements AfterContentInit {
-  /** The direction items in the menu flow. */
+  /**
+   * The direction items in the menu flow.
+   *
+   * 菜单流中的菜单项方向。
+   *
+   */
   override readonly orientation = 'horizontal';
 
-  /** Whether the menu is displayed inline (i.e. always present vs a conditional popup that the user triggers with a trigger element). */
+  /**
+   * Whether the menu is displayed inline (i.e. always present vs a conditional popup that the user triggers with a trigger element).
+   *
+   * 菜单是否内联显示（即始终存在的弹出菜单，与之相对的是通过触发器元素由用户触发的条件化弹出菜单）。
+   *
+   */
   override readonly isInline = true;
 
   override ngAfterContentInit() {
@@ -56,7 +68,13 @@ export class CdkMenuBar extends CdkMenuBase implements AfterContentInit {
 
   /**
    * Handle keyboard events for the Menu.
+   *
+   * 处理本菜单的键盘事件。
+   *
    * @param event The keyboard event to be handled.
+   *
+   * 要处理的键盘事件。
+   *
    */
   _handleKeyEvent(event: KeyboardEvent) {
     const keyManager = this.keyManager;
@@ -106,7 +124,13 @@ export class CdkMenuBar extends CdkMenuBase implements AfterContentInit {
   /**
    * Set focus to either the current, previous or next item based on the FocusNext event, then
    * open the previous or next item.
+   *
+   * 根据 FocusNext 事件将焦点设置到当前、上一个或下一个菜单项，然后打开上一个或下一个菜单项。
+   *
    * @param focusNext The element to focus.
+   *
+   * 要聚焦的元素。
+   *
    */
   private _toggleOpenMenu(focusNext: FocusNext | undefined) {
     const keyManager = this.keyManager;
@@ -132,7 +156,12 @@ export class CdkMenuBar extends CdkMenuBase implements AfterContentInit {
     }
   }
 
-  /** Subscribe to the MenuStack emptied events. */
+  /**
+   * Subscribe to the MenuStack emptied events.
+   *
+   * 订阅 MenuStack 清空事件。
+   *
+   */
   private _subscribeToMenuStackEmptied() {
     this.menuStack?.emptied
       .pipe(takeUntil(this.destroyed))

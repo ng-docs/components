@@ -178,11 +178,17 @@ export interface HarnessLoader {
    * `HarnessLoader`'s root element, and returns a `ComponentHarness` for that instance. If multiple
    * matching components are found, a harness for the first one is returned. If no matching
    * component is found, null is returned.
+   *
+   * 在 `HarnessLoader` 的根元素下搜索与给定测试工具类型对应的组件实例，并返回该实例的 `ComponentHarness` 。如果找到多个匹配的组件，则返回第一个的测试工具。如果没有找到匹配的组件，则返回 null。
+   *
    * @param query A query for a harness to create
    *
    * 要创建的测试工具的查询
    *
    * @return An instance of the given harness type (or null if not found).
+   *
+   * 给定测试工具类型的实例（如果未找到，则为 null）。
+   *
    */
   getHarnessOrNull<T extends ComponentHarness>(query: HarnessQuery<T>): Promise<T | null>;
 
@@ -206,11 +212,17 @@ export interface HarnessLoader {
   /**
    * Searches for an instance of the component corresponding to the given harness type under the
    * `HarnessLoader`'s root element, and returns a boolean indicating if any were found.
+   *
+   * 在 `HarnessLoader` 的根元素下搜索与给定测试工具类型相对应的组件实例，并返回一个布尔值，指示是否找到任何东西。
+   *
    * @param query A query for a harness to create
    *
    * 要创建的测试工具的查询
    *
    * @return A boolean indicating if an instance was found.
+   *
+   * 指示是否找到实例的布尔值。
+   *
    */
   hasHarness<T extends ComponentHarness>(query: HarnessQuery<T>): Promise<boolean>;
 }

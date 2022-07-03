@@ -49,6 +49,9 @@ const _MatChipListBase = mixinErrorState(
     /**
      * Emits whenever the component state changes and should cause the parent
      * form-field to update. Implemented as part of `MatFormFieldControl`.
+     *
+     * 每当组件状态发生变化并会导致父表单字段更新时发出。作为 `MatFormFieldControl` 的一部分实现。
+     *
      * @docs-private
      */
     readonly stateChanges = new Subject<void>();
@@ -286,6 +289,9 @@ export class MatChipList
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input('aria-describedby') userAriaDescribedBy: string;

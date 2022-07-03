@@ -112,7 +112,12 @@ export class MatMenuItem
   );
 
   /**
-   * @deprecated `document`, `changeDetectorRef` and `focusMonitor` to become required.
+   * @deprecated
+   *
+   * `document`, `changeDetectorRef` and `focusMonitor` to become required.
+   *
+   * `document` ， `changeDetectorRef` 和 `focusMonitor` 成了必要参数。
+   *
    * @breaking-change 12.0.0
    */
   constructor(

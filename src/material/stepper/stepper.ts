@@ -94,7 +94,7 @@ export class MatStep extends CdkStep implements ErrorStateMatcher, AfterContentI
   /**
    * Currently-attached portal containing the lazy content.
    *
-   * 当前附着到的门户网站，其中包含惰性渲染的内容。
+   * 当前附着到的传送点，其中包含惰性渲染的内容。
    *
    */
   _portal: TemplatePortal;
@@ -242,11 +242,19 @@ export class MatStepper extends CdkStepper implements AfterContentInit {
   /**
    * Position of the stepper's header.
    * Only applies in the `horizontal` orientation.
+   *
+   * 步进器标头的位置。仅适用于 `horizontal` 方向。
+   *
    */
   @Input()
   headerPosition: 'top' | 'bottom' = 'top';
 
-  /** Consumer-specified template-refs to be used to override the header icons. */
+  /**
+   * Consumer-specified template-refs to be used to override the header icons.
+   *
+   * 消费者指定的模板引用，用于覆盖标题图标。
+   *
+   */
   _iconOverrides: Record<string, TemplateRef<MatStepperIconContext>> = {};
 
   /**
@@ -257,7 +265,12 @@ export class MatStepper extends CdkStepper implements AfterContentInit {
    */
   readonly _animationDone = new Subject<AnimationEvent>();
 
-  /** Duration for the animation. Will be normalized to milliseconds if no units are set. */
+  /**
+   * Duration for the animation. Will be normalized to milliseconds if no units are set.
+   *
+   * 动画的持续时间。如果没有设置单位，将标准化为毫秒。
+   *
+   */
   @Input()
   get animationDuration(): string {
     return this._animationDuration;

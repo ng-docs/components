@@ -88,7 +88,7 @@ export const SCROLL_THROTTLE_MS = 20;
 /**
  * CSS class that will be attached to the overlay panel.
  *
- * 那些要附加到浮层面板上的 CSS 类。
+ * 那些要附着到浮层面板上的 CSS 类。
  *
  * @deprecated
  * @breaking-change 13.0.0 remove this variable
@@ -157,22 +157,52 @@ export const MAT_TOOLTIP_SCROLL_STRATEGY_FACTORY_PROVIDER = {
  *
  */
 export interface MatTooltipDefaultOptions {
-  /** Default delay when the tooltip is shown. */
+  /**
+   * Default delay when the tooltip is shown.
+   *
+   * 显示工具提示时的默认延迟。
+   *
+   */
   showDelay: number;
 
-  /** Default delay when the tooltip is hidden. */
+  /**
+   * Default delay when the tooltip is hidden.
+   *
+   * 隐藏工具提示时的默认延迟。
+   *
+   */
   hideDelay: number;
 
-  /** Default delay when hiding the tooltip on a touch device. */
+  /**
+   * Default delay when hiding the tooltip on a touch device.
+   *
+   * 在触摸设备上隐藏工具提示时的默认延迟。
+   *
+   */
   touchendHideDelay: number;
 
-  /** Default touch gesture handling for tooltips. */
+  /**
+   * Default touch gesture handling for tooltips.
+   *
+   * 工具提示的默认触摸手势处理。
+   *
+   */
   touchGestures?: TooltipTouchGestures;
 
-  /** Default position for tooltips. */
+  /**
+   * Default position for tooltips.
+   *
+   * 工具提示的默认位置。
+   *
+   */
   position?: TooltipPosition;
 
-  /** Disables the ability for the user to interact with the tooltip element. */
+  /**
+   * Disables the ability for the user to interact with the tooltip element.
+   *
+   * 禁用用户与工具提示元素交互的能力。
+   *
+   */
   disableTooltipInteractivity?: boolean;
 }
 
@@ -631,7 +661,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   /**
    * Detaches the currently-attached tooltip.
    *
-   * 拆除当前附加的工具提示。
+   * 拆除当前附着的工具提示。
    *
    */
   private _detach() {
@@ -991,9 +1021,10 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
  * Directive that attaches a material design tooltip to the host element. Animates the showing and
  * hiding of a tooltip provided position (defaults to below the element).
  *
- * 将 Material Design 工具提示附加到主体元素的指令。对工具提示提供的位置的显示和隐藏进行动画处理（默认为元素下方）。
+ * 将 Material Design 工具提示附着到主体元素的指令。对工具提示提供的位置的显示和隐藏进行动画处理（默认为元素下方）。
  *
- * https://material.io/design/components/tooltips.html
+ * <https://material.io/design/components/tooltips.html>
+ *
  */
 @Directive({
   selector: '[matTooltip]',
@@ -1078,16 +1109,36 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    */
   _visibility: TooltipVisibility = 'initial';
 
-  /** Element that caused the tooltip to open. */
+  /**
+   * Element that caused the tooltip to open.
+   *
+   * 导致工具提示打开的元素。
+   *
+   */
   _triggerElement: HTMLElement;
 
-  /** Amount of milliseconds to delay the closing sequence. */
+  /**
+   * Amount of milliseconds to delay the closing sequence.
+   *
+   * 延迟关闭序列的毫秒数。
+   *
+   */
   _mouseLeaveHideDelay: number;
 
-  /** Whether animations are currently disabled. */
+  /**
+   * Whether animations are currently disabled.
+   *
+   * 当前是否禁用动画。
+   *
+   */
   private _animationsDisabled: boolean;
 
-  /** Reference to the internal tooltip element. */
+  /**
+   * Reference to the internal tooltip element.
+   *
+   * 对内部工具提示元素的引用。
+   *
+   */
   abstract _tooltip: ElementRef<HTMLElement>;
 
   /**
@@ -1098,7 +1149,12 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    */
   private _closeOnInteraction = false;
 
-  /** Whether the tooltip is currently visible. */
+  /**
+   * Whether the tooltip is currently visible.
+   *
+   * 工具提示当前是否可见。
+   *
+   */
   private _isVisible = false;
 
   /**
@@ -1109,10 +1165,20 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    */
   private readonly _onHide: Subject<void> = new Subject();
 
-  /** Name of the show animation and the class that toggles it. */
+  /**
+   * Name of the show animation and the class that toggles it.
+   *
+   * 显示动画的名称和切换它的类。
+   *
+   */
   protected abstract readonly _showAnimation: string;
 
-  /** Name of the hide animation and the class that toggles it. */
+  /**
+   * Name of the hide animation and the class that toggles it.
+   *
+   * 隐藏动画的名称和切换它的类。
+   *
+   */
   protected abstract readonly _hideAnimation: string;
 
   constructor(
@@ -1192,9 +1258,10 @@ export abstract class _TooltipComponentBase implements OnDestroy {
   /**
    * Interactions on the HTML body should close the tooltip immediately as defined in the
    * material design spec.
-   * https://material.io/design/components/tooltips.html#behavior
+   * <https://material.io/design/components/tooltips.html#behavior>
    *
-   * HTML 正文中的交互应该立即关闭工具提示，就像在 Material Design 规范中定义的那样。https://material.io/design/components/tooltips.html#behavior
+   * HTML 正文中的交互应该立即关闭工具提示，就像在 Material Design 规范中定义的那样。<https://material.io/design/components/tooltips.html#behavior>
+   *
    */
   _handleBodyInteraction(): void {
     if (this._closeOnInteraction) {
@@ -1230,14 +1297,24 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    */
   protected _onShow(): void {}
 
-  /** Event listener dispatched when an animation on the tooltip finishes. */
+  /**
+   * Event listener dispatched when an animation on the tooltip finishes.
+   *
+   * 当工具提示上的动画完成时调度的事件侦听器。
+   *
+   */
   _handleAnimationEnd({animationName}: AnimationEvent) {
     if (animationName === this._showAnimation || animationName === this._hideAnimation) {
       this._finalizeAnimation(animationName === this._showAnimation);
     }
   }
 
-  /** Handles the cleanup after an animation has finished. */
+  /**
+   * Handles the cleanup after an animation has finished.
+   *
+   * 在动画完成后处理清理。
+   *
+   */
   private _finalizeAnimation(toVisible: boolean) {
     if (toVisible) {
       this._closeOnInteraction = true;
@@ -1246,7 +1323,12 @@ export abstract class _TooltipComponentBase implements OnDestroy {
     }
   }
 
-  /** Toggles the visibility of the tooltip element. */
+  /**
+   * Toggles the visibility of the tooltip element.
+   *
+   * 切换工具提示元素的可见性。
+   *
+   */
   private _toggleVisibility(isVisible: boolean) {
     // We set the classes directly here ourselves so that toggling the tooltip state
     // isn't bound by change detection. This allows us to hide it even if the

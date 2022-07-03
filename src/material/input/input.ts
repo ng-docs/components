@@ -51,6 +51,9 @@ const _MatInputBase = mixinErrorState(
     /**
      * Emits whenever the component state changes and should cause the parent
      * form field to update. Implemented as part of `MatFormFieldControl`.
+     *
+     * 每当组件状态发生变化并应导致父表单字段更新时发出。作为 `MatFormFieldControl` 的一部分实现。
+     *
      * @docs-private
      */
     readonly stateChanges = new Subject<void>();
@@ -243,6 +246,9 @@ export class MatInput
 
   /**
    * Name of the input.
+   *
+   * 此输入框的名称。
+   *
    * @docs-private
    */
   @Input() name: string;

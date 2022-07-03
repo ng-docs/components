@@ -41,7 +41,12 @@ export interface RegisteredMessage {
  *
  * 用于追加所有消息的正文容器的 ID。
  *
- * @deprecated No longer being used. To be removed.
+ * @deprecated
+ *
+ * No longer being used. To be removed.
+ *
+ * 不再使用。即将被删除。
+ *
  * @breaking-change 14.0.0
  */
 export const MESSAGES_CONTAINER_ID = 'cdk-describedby-message-container';
@@ -51,7 +56,12 @@ export const MESSAGES_CONTAINER_ID = 'cdk-describedby-message-container';
  *
  * 用于所创建的每个消息元素的 ID 前缀。
  *
- * @deprecated To be turned into a private variable.
+ * @deprecated
+ *
+ * To be turned into a private variable.
+ *
+ * 变成私有变量。
+ *
  * @breaking-change 14.0.0
  */
 export const CDK_DESCRIBEDBY_ID_PREFIX = 'cdk-describedby-message';
@@ -61,7 +71,12 @@ export const CDK_DESCRIBEDBY_ID_PREFIX = 'cdk-describedby-message';
  *
  * 用来指定消息元素描述的每个宿主元素的属性。
  *
- * @deprecated To be turned into a private variable.
+ * @deprecated
+ *
+ * To be turned into a private variable.
+ *
+ * 变成私有变量。
+ *
  * @breaking-change 14.0.0
  */
 export const CDK_DESCRIBEDBY_HOST_ATTRIBUTE = 'cdk-describedby-host';
@@ -86,13 +101,28 @@ let nextId = 0;
 export class AriaDescriber implements OnDestroy {
   private _document: Document;
 
-  /** Map of all registered message elements that have been placed into the document. */
+  /**
+   * Map of all registered message elements that have been placed into the document.
+   *
+   * 已放入文档中的所有已注册消息元素的映射表。
+   *
+   */
   private _messageRegistry = new Map<string | Element, RegisteredMessage>();
 
-  /** Container for all registered messages. */
+  /**
+   * Container for all registered messages.
+   *
+   * 所有注册消息的容器。
+   *
+   */
   private _messagesContainer: HTMLElement | null = null;
 
-  /** Unique ID for the service. */
+  /**
+   * Unique ID for the service.
+   *
+   * 服务的唯一 ID。
+   *
+   */
   private readonly _id = `${nextId++}`;
 
   constructor(

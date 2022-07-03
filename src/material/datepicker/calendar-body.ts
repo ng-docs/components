@@ -101,10 +101,18 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
 
   /**
    * Used to focus the active cell after change detection has run.
+   *
+   * 用于在变更检测运行后聚焦到活动单元格。
+   *
    */
   private _focusActiveCellAfterViewChecked = false;
 
-  /** The label for the table. (e.g. "Jan 2017"). */
+  /**
+   * The label for the table. (e.g. "Jan 2017").
+   *
+   * 表格的标签。（例如“2017 年 1 月”）。
+   *
+   */
   @Input() label: string;
 
   /**
@@ -351,22 +359,34 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
    * Adding a 0ms setTimeout seems to fix Voiceover losing focus when pressing PageUp/PageDown
    * (issue #24330).
    *
+   * 添加 0ms 的 setTimeout 似乎可以修复 Voiceover 在按下 PageUp/PageDown 时失去焦点的问题（问题 #24330）。
+   *
    * Determined a 0ms by gradually increasing duration from 0 and testing two use cases with screen
    * reader enabled:
    *
+   * 通过从 0 逐渐增加持续时间并在启用屏幕阅读器的情况下测试两个用例来确定 0ms：
+   *
    * 1. Pressing PageUp/PageDown repeatedly with pausing between each key press.
    *
+   *    重复按 PageUp/PageDown 并在每次按键之间暂停。
+   *
    * 2. Pressing and holding the PageDown key with repeated keys enabled.
+   *
+   *    在启用重复键的情况下按住 PageDown 键。
    *
    * Test 1 worked roughly 95-99% of the time with 0ms and got a little bit better as the duration
    * increased. Test 2 got slightly better until the duration was long enough to interfere with
    * repeated keys. If the repeated key speed was faster than the timeout duration, then pressing
    * and holding pagedown caused the entire page to scroll.
    *
+   * 测试 1 大约 95-99% 的时间在 0 毫秒内工作，并且随着持续时间的增加而变得更好一些。测试 2 稍微好一点，直到持续时间长到足以干扰重复键。如果重复按键速度快于超时持续时间，则按住 pagedown 会导致整个页面滚动。
+   *
    * Since repeated key speed can verify across machines, determined that any duration could
    * potentially interfere with repeated keys. 0ms would be best because it almost entirely
    * eliminates the focus being lost in Voiceover (#24330) without causing unintended side effects.
    * Adding delay also complicates writing tests.
+   *
+   * 由于重复按键速度可以跨机器验证，因此确定任何持续时间都可能会干扰重复按键。 0ms 是最好的，因为它几乎完全消除了 Voiceover (#24330) 中丢失的焦点，而不会导致意外的副作用。添加延迟也会使编写测试变得复杂。
    *
    */
   _focusActiveCell(movePreview = true) {
@@ -389,7 +409,12 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
     });
   }
 
-  /** Focuses the active cell after change detection has run and the microtask queue is empty. */
+  /**
+   * Focuses the active cell after change detection has run and the microtask queue is empty.
+   *
+   * 在变更检测已运行且微任务队列为空后聚焦活动单元格。
+   *
+   */
   _scheduleFocusActiveCellAfterViewChecked() {
     this._focusActiveCellAfterViewChecked = true;
   }

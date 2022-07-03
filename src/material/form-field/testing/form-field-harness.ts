@@ -28,7 +28,7 @@ import {FormFieldHarnessFilters} from './form-field-harness-filters';
 /**
  * Possible harnesses of controls which can be bound to a form-field.
  *
- * 可以绑定到表单域的可能的控件测试工具。
+ * 可以绑定到表单字段的可能的控件测试工具。
  *
  */
 export type FormFieldControlHarness =

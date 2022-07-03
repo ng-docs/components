@@ -307,7 +307,12 @@ export class MatChip
    */
   @ContentChild(MAT_CHIP_REMOVE) removeIcon: MatChipRemove;
 
-  /** ARIA role that should be applied to the chip. */
+  /**
+   * ARIA role that should be applied to the chip.
+   *
+   * 应该应用于本纸片的 ARIA 角色。
+   *
+   */
   @Input() role: string = 'option';
 
   /**
@@ -653,9 +658,9 @@ export class MatChip
 
 /**
  * Applies proper (click) support and adds styling for use with the Material Design "cancel" icon
- * available at https://material.io/icons/#ic_cancel.
+ * available at <https://material.io/icons/#ic_cancel>.
  *
- * 应用正确的（click）支持，并为 https://material.io/icons/#ic_cancel 提供的 Material Design “cancel” 图标添加样式。
+ * 应用正确的（click）支持，并为 <https://material.io/icons/#ic_cancel> 提供的 Material Design “cancel” 图标添加样式。
  *
  * Example:
  *

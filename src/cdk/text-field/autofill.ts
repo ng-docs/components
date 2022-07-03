@@ -65,7 +65,7 @@ const listenerOptions = normalizePassiveListenerOptions({passive: true});
 /**
  * An injectable service that can be used to monitor the autofill state of an input.
  * Based on the following blog post:
- * https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
+ * <https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7>
  *
  * 一种可注入的服务，可以用来监控输入框的自动填充状态。根据以下博客文章： [https：//medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7](https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7)
  *
@@ -79,7 +79,7 @@ export class AutofillMonitor implements OnDestroy {
   /**
    * Monitor for changes in the autofill state of the given input element.
    *
-   * 监控指定输入元素的自动填充状态变化。
+   * 监控指定输入框元素的自动填充状态变化。
    *
    * @param element The element to monitor.
    *
@@ -95,7 +95,7 @@ export class AutofillMonitor implements OnDestroy {
   /**
    * Monitor for changes in the autofill state of the given input element.
    *
-   * 监控指定输入元素的自动填充状态变化。
+   * 监控指定输入框元素的自动填充状态变化。
    *
    * @param element The element to monitor.
    *
@@ -159,7 +159,7 @@ export class AutofillMonitor implements OnDestroy {
   /**
    * Stop monitoring the autofill state of the given input element.
    *
-   * 停止监控指定输入元素的自动填充状态。
+   * 停止监控指定输入框元素的自动填充状态。
    *
    * @param element The element to stop monitoring.
    *
@@ -171,7 +171,7 @@ export class AutofillMonitor implements OnDestroy {
   /**
    * Stop monitoring the autofill state of the given input element.
    *
-   * 停止监控指定输入元素的自动填充状态。
+   * 停止监控指定输入框元素的自动填充状态。
    *
    * @param element The element to stop monitoring.
    *

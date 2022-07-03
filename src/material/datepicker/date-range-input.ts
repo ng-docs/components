@@ -458,7 +458,7 @@ export class MatDateRangeInput<D>
   /**
    * Gets the element to which the calendar overlay should be attached.
    *
-   * 获取要附加日历浮层的元素。
+   * 获取要附着日历浮层的元素。
    *
    */
   getConnectedOverlayOrigin(): ElementRef {

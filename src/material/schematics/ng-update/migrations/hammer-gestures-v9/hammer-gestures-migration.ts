@@ -564,7 +564,7 @@ export class HammerGesturesMigration extends DevkitMigration<null> {
    * Checks if the given Hammer gesture config token reference is part of an
    * Angular provider definition that sets up a custom gesture config.
    *
-   * 检查给定的 Hammer 手势配置令牌引用是否是设置自定义手势配置的 Angular 提供程序定义的一部分。
+   * 检查给定的 Hammer 手势配置令牌引用是否是设置自定义手势配置的 Angular 提供者定义的一部分。
    *
    */
   private _checkForCustomGestureConfigSetup(tokenRef: IdentifierReference): boolean {

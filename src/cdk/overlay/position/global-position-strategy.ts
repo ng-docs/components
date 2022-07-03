@@ -130,7 +130,13 @@ export class GlobalPositionStrategy implements PositionStrategy {
   /**
    * Sets the overlay to the start of the viewport, depending on the overlay direction.
    * This will be to the left in LTR layouts and to the right in RTL.
+   *
+   * 将此浮层设置为视口的始端，具体取决于浮层的方向。这在 LTR 布局中位于左侧，在 RTL 中位于右侧。
+   *
    * @param offset Offset from the edge of the screen.
+   *
+   * 从屏幕边缘起算的偏移。
+   *
    */
   start(value: string = ''): this {
     this._xOffset = value;
@@ -141,7 +147,13 @@ export class GlobalPositionStrategy implements PositionStrategy {
   /**
    * Sets the overlay to the end of the viewport, depending on the overlay direction.
    * This will be to the right in LTR layouts and to the left in RTL.
+   *
+   * 将此浮层设置到视口的末端，具体取决于浮层的方向。这在 LTR 布局中位于右侧，在 RTL 中位于左侧。
+   *
    * @param offset Offset from the edge of the screen.
+   *
+   * 从屏幕边缘偏移。
+   *
    */
   end(value: string = ''): this {
     this._xOffset = value;

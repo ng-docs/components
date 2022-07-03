@@ -94,6 +94,9 @@ export abstract class _MatDialogContainerBase extends CdkDialogContainer<MatDial
   /**
    * Callback for when the open dialog animation has finished. Intended to
    * be called by sub-classes that use different animation implementations.
+   *
+   * 打开对话框的动画完成时的回调。旨在由使用不同动画实现的子类调用。
+   *
    */
   protected _openAnimationDone(totalTime: number) {
     if (this._config.delayFocusTrap) {
@@ -106,9 +109,9 @@ export abstract class _MatDialogContainerBase extends CdkDialogContainer<MatDial
 
 /**
  * Internal component that wraps user-provided dialog content.
- * Animation is based on https://material.io/guidelines/motion/choreography.html.
+ * Animation is based on <https://material.io/guidelines/motion/choreography.html>.
  *
- * 包装用户提供的对话框内容的内部组件。动画基于 https://material.io/guidelines/motion/choreography.html。
+ * 包装用户提供的对话框内容的内部组件。动画基于 <https://material.io/guidelines/motion/choreography.html。>
  *
  * @docs-private
  */

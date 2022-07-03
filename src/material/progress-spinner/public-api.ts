@@ -18,8 +18,13 @@ export {
 } from './progress-spinner';
 
 /**
- * @deprecated Import `MatProgressSpinner` instead. Note that the
+ * @deprecated
+ *
+ * Import `MatProgressSpinner` instead. Note that the
  *    `mat-spinner` selector isn't deprecated.
+ *
+ * 改为导入 `MatProgressSpinner` 。请注意，`mat-spinner` 选择器已弃用。
+ *
  * @breaking-change 8.0.0
  */
 // tslint:disable-next-line:variable-name

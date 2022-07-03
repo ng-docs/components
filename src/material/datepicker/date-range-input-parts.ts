@@ -86,6 +86,9 @@ abstract class MatDateRangeInputPartBase<D>
 {
   /**
    * Form control bound to this input part.
+   *
+   * 绑定到此输入部分的表单控件。
+   *
    * @docs-private
    */
   ngControl: NgControl;

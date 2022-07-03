@@ -12,7 +12,7 @@ import {StepState} from '@angular/cdk/stepper';
 /**
  * Template context available to an attached `matStepperIcon`.
  *
- * 可用于附加的 `matStepperIcon` 的模板上下文。
+ * 可用于附着的 `matStepperIcon` 的模板上下文。
  *
  */
 export interface MatStepperIconContext {

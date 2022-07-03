@@ -11,6 +11,9 @@ import {CdkAccordionItem} from '@angular/cdk/accordion';
 
 /**
  * Base interface for a `MatExpansionPanel`.
+ *
+ * `MatExpansionPanel` 的基本接口。
+ *
  * @docs-private
  */
 export interface MatExpansionPanelBase extends CdkAccordionItem {
@@ -26,5 +29,8 @@ export interface MatExpansionPanelBase extends CdkAccordionItem {
 /**
  * Token used to provide a `MatExpansionPanel` to `MatExpansionPanelContent`.
  * Used to avoid circular imports between `MatExpansionPanel` and `MatExpansionPanelContent`.
+ *
+ * 用于向 `MatExpansionPanelContent` 提供 `MatExpansionPanel` 的令牌。用于避免 `MatExpansionPanel` 和 `MatExpansionPanelContent` 之间的循环导入。
+ *
  */
 export const MAT_EXPANSION_PANEL = new InjectionToken<MatExpansionPanelBase>('MAT_EXPANSION_PANEL');

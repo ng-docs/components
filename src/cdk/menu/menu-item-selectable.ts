@@ -10,7 +10,12 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Directive, Input} from '@angular/core';
 import {CdkMenuItem} from './menu-item';
 
-/** Base class providing checked state for selectable MenuItems. */
+/**
+ * Base class providing checked state for selectable MenuItems.
+ *
+ * 为可选择的 MenuItems 提供检查状态的基类。
+ *
+ */
 @Directive({
   host: {
     '[attr.aria-checked]': '!!checked',
@@ -18,7 +23,12 @@ import {CdkMenuItem} from './menu-item';
   },
 })
 export abstract class CdkMenuItemSelectable extends CdkMenuItem {
-  /** Whether the element is checked */
+  /**
+   * Whether the element is checked
+   *
+   * 是否已选中此元素
+   *
+   */
   @Input('cdkMenuItemChecked')
   get checked(): boolean {
     return this._checked;
@@ -28,6 +38,11 @@ export abstract class CdkMenuItemSelectable extends CdkMenuItem {
   }
   private _checked = false;
 
-  /** Whether the item should close the menu if triggered by the spacebar. */
+  /**
+   * Whether the item should close the menu if triggered by the spacebar.
+   *
+   * 如果由空格键触发，此菜单项是否应关闭菜单。
+   *
+   */
   protected override closeOnSpacebarTrigger = false;
 }

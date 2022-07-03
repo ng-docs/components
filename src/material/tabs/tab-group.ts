@@ -135,12 +135,17 @@ export abstract class _MatTabGroupBase
   /**
    * The tab index that should be selected after the content has been checked.
    *
-   * 勾选内容后应该选定的选项卡索引。
+   * 勾选内容后应该选定的 `tabindex` 。
    *
    */
   private _indexToSelect: number | null = 0;
 
-  /** Index of the tab that was focused last. */
+  /**
+   * Index of the tab that was focused last.
+   *
+   * 最后聚焦的选项卡的索引。
+   *
+   */
   private _lastFocusedTabIndex: number | null = null;
 
   /**
@@ -224,9 +229,9 @@ export abstract class _MatTabGroupBase
    * `tabindex` to be set on the inner element that wraps the tab content. Can be used for improved
    * accessibility when the tab does not have focusable elements or if it has scrollable content.
    * The `tabindex` will be removed automatically for inactive tabs.
-   * Read more at https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html
+   * Read more at <https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html>
    *
-   * 在包装制表符内容的内部元素上设置的 `tabindex` 当标签没有聚焦元素或者它具有可滚动的内容时，可用于改进的无障碍性。对于无效的标签页，`tabindex` 将会被自动移除。到 https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html 了解更多信息。
+   * 在包装制表符内容的内部元素上设置的 `tabindex` 当标签没有聚焦元素或者它具有可滚动的内容时，可用于改进的无障碍性。对于无效的标签页，`tabindex` 将会被自动移除。到 <https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html> 了解更多信息。
    *
    */
   @Input()
@@ -258,6 +263,9 @@ export abstract class _MatTabGroupBase
    * By default tabs remove their content from the DOM while it's off-screen.
    * Setting this to `true` will keep it in the DOM which will prevent elements
    * like iframes and videos from reloading next time it comes back into the view.
+   *
+   * 默认情况下，选项卡在屏幕外时会从 DOM 中删除其内容。将此设置为 `true` 会将其保留在 DOM 中，这将防止 iframe 和视频等元素在下次返回视图时重新加载。
+   *
    */
   @Input()
   get preserveContent(): boolean {
@@ -490,6 +498,8 @@ export abstract class _MatTabGroupBase
   /**
    * Recalculates the tab group's pagination dimensions.
    *
+   * 重新计算选项卡组的分页尺寸。
+   *
    * WARNING: Calling this method can be very costly in terms of performance. It should be called
    * as infrequently as possible from outside of the Tabs component as it causes a reflow of the
    * page.
@@ -670,9 +680,9 @@ export abstract class _MatTabGroupBase
 /**
  * Material design tab-group component. Supports basic tab pairs (label + content) and includes
  * animated ink-bar, keyboard navigation, and screen reader.
- * See: https://material.io/design/components/tabs.html
+ * See: <https://material.io/design/components/tabs.html>
  *
- * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：https://material.io/design/components/tabs.html
+ * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：<https://material.io/design/components/tabs.html>
  *
  */
 @Component({

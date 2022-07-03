@@ -105,7 +105,7 @@ export const MAT_EXPANSION_PANEL_DEFAULT_OPTIONS =
  * This component can be used as a single element to show expandable content, or as one of
  * multiple children of an element with the MatAccordion directive attached.
  *
- * 该组件既可以作为单个元素来显示可展开的内容，也可以作为附加了 MatAccordion 指令的元素的多个子元素之一。
+ * 该组件既可以作为单个元素来显示可展开的内容，也可以作为附着了 MatAccordion 指令的元素的多个子元素之一。
  *
  */
 @Component({

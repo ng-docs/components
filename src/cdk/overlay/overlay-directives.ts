@@ -587,7 +587,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
   /**
    * Attaches the overlay and subscribes to backdrop clicks if backdrop exists
    *
-   * 如果存在背景板，请把浮层附加上去并订阅背景板点击事件
+   * 如果存在背景板，请把浮层附着上去并订阅背景板点击事件
    *
    */
   private _attachOverlay() {

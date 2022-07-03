@@ -261,7 +261,7 @@ By itself, `MatFormField` does not apply any additional accessibility treatment 
 However, several of the form field's optional features interact with the control contained within
 the form field.
 
-就其本身而言， `MatFormField` 不会对控件应用任何额外的无障碍性处理。但是，表单域的一些可选特性会与表单域中包含的控件交互。
+就其本身而言， `MatFormField` 不会对控件应用任何额外的无障碍性处理。但是，表单字段的一些可选特性会与表单字段中包含的控件交互。
 
 When you provide a label via `<mat-label>`, `MatFormField` automatically associates this label with
 the field's control via a native `<label>` element, using the `for` attribute to reference the

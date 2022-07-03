@@ -113,16 +113,27 @@ export class MatTab extends _MatTabBase implements OnInit, CanDisable, OnChanges
   /**
    * Classes to be passed to the tab label inside the mat-tab-header container.
    * Supports string and string array values, same as `ngClass`.
+   *
+   * 要传递给 mat-tab-header 容器内的选项卡标签的类。支持字符串和字符串数组值，与 `ngClass` 相同。
+   *
    */
   @Input() labelClass: string | string[];
 
   /**
    * Classes to be passed to the tab mat-tab-body container.
    * Supports string and string array values, same as `ngClass`.
+   *
+   * 要传递给选项卡 mat-tab-body 容器的类。支持字符串和字符串数组值，与 `ngClass` 相同。
+   *
    */
   @Input() bodyClass: string | string[];
 
-  /** Portal that will be the hosted content of the tab */
+  /**
+   * Portal that will be the hosted content of the tab
+   *
+   * 将成为选项卡托管内容的传送点
+   *
+   */
   private _contentPortal: TemplatePortal | null = null;
 
   /** @docs-private */

@@ -152,7 +152,12 @@ export const MAT_PAGINATOR_DEFAULT_OPTIONS = new InjectionToken<MatPaginatorDefa
 /** @docs-private */
 const _MatPaginatorMixinBase = mixinDisabled(mixinInitialized(class {}));
 
-/** Object that can used to configure the underlying `MatSelect` inside a `MatPaginator`. */
+/**
+ * Object that can used to configure the underlying `MatSelect` inside a `MatPaginator`.
+ *
+ * 可用于在 MatPaginator 中配置底层 `MatSelect` 的 `MatPaginator` 。
+ *
+ */
 export interface MatPaginatorSelectConfig {
   /**
    * Whether to center the active option over the trigger.
@@ -162,7 +167,12 @@ export interface MatPaginatorSelectConfig {
    */
   disableOptionCentering?: boolean;
 
-  /** Classes to be passed to the select panel. */
+  /**
+   * Classes to be passed to the select panel.
+   *
+   * 要传递给选择器面板的类。
+   *
+   */
   panelClass?: string | string[] | Set<string> | {[key: string]: any};
 }
 
@@ -290,7 +300,12 @@ export abstract class _MatPaginatorBase<
   }
   private _showFirstLastButtons = false;
 
-  /** Used to configure the underlying `MatSelect` inside the paginator. */
+  /**
+   * Used to configure the underlying `MatSelect` inside the paginator.
+   *
+   * 用于配置分页器内部的底层 `MatSelect` 。
+   *
+   */
   @Input() selectConfig: MatPaginatorSelectConfig = {};
 
   /**

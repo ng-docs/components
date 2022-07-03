@@ -10,7 +10,7 @@ import {MatFormFieldHarness} from './form-field-harness';
 /**
  * Shared tests to run on both the original and MDC-based form-field's.
  *
- * 在原始和基于 MDC 的表单域上运行的共享测试。
+ * 在原始和基于 MDC 的表单字段上运行的共享测试。
  *
  */
 export function runHarnessTests(

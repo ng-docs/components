@@ -19,7 +19,7 @@ import {BasePortalOutlet, ComponentPortal, DomPortal, TemplatePortal} from './po
  * A PortalOutlet for attaching portals to an arbitrary DOM element outside of the Angular
  * application context.
  *
- * PortalOutlet，用于把传送点附加到 Angular 应用上下文之外的任意一个 DOM 元素上。
+ * PortalOutlet，用于把传送点附着到 Angular 应用上下文之外的任意一个 DOM 元素上。
  *
  */
 export class DomPortalOutlet extends BasePortalOutlet {
@@ -32,12 +32,24 @@ export class DomPortalOutlet extends BasePortalOutlet {
    *
    * @param _componentFactoryResolver Used to resolve the component factory.
    *   Only required when attaching component portals.
+   *
+   * 用于解析组件工厂。仅在附着组件传送点时才需要。
+   *
    * @param _appRef Reference to the application. Only used in component portals when there
    *   is no `ViewContainerRef` available.
+   *
+   * 应用程序的引用。仅在没有可用的 `ViewContainerRef` 时在组件传送点中使用。
+   *
    * @param _defaultInjector Injector to use as a fallback when the portal being attached doesn't
    *   have one. Only used for component portals.
+   *
+   * 当所附着的传送点没有注入器时，要用到的后备注入器。仅用于组件传送点。
+   *
    * @param _document Reference to the document. Used when attaching a DOM portal. Will eventually
    *   become a required parameter.
+   *
+   * 对 document 的引用。在附着 DOM 传送点时使用。最终将成为必要参数。
+   *
    */
   constructor(
     /**
@@ -68,7 +80,7 @@ export class DomPortalOutlet extends BasePortalOutlet {
    *
    * @param portal Portal to be attached
    *
-   * 要附加到的传送点
+   * 要附着到的传送点
    *
    * @returns Reference to the created component.
    *
@@ -126,11 +138,11 @@ export class DomPortalOutlet extends BasePortalOutlet {
   /**
    * Attaches a template portal to the DOM as an embedded view.
    *
-   * 把一个模板传送点作为嵌入式视图附加到 DOM 上。
+   * 把一个模板传送点作为嵌入式视图附着到 DOM 上。
    *
    * @param portal Portal to be attached.
    *
-   * 要附加到的传送点。
+   * 要附着到的传送点。
    *
    * @returns Reference to the created embedded view.
    *
@@ -170,11 +182,11 @@ export class DomPortalOutlet extends BasePortalOutlet {
   /**
    * Attaches a DOM portal by transferring its content into the outlet.
    *
-   * 通过把其内容传入指定的地标来附加到 DOM 传送点。
+   * 通过把其内容传入指定的地标来附着到 DOM 传送点。
    *
    * @param portal Portal to be attached.
    *
-   * 要附加到的传送点。
+   * 要附着到的传送点。
    *
    * @deprecated To be turned into a method.
    *

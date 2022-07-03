@@ -195,16 +195,26 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
    */
   private _enableAnimations = false;
 
-  /** Whether the view of the component has been attached. */
+  /**
+   * Whether the view of the component has been attached.
+   *
+   * 组件的视图是否已附着上。
+   *
+   */
   private _isAttached: boolean;
 
-  /** Anchor node used to restore the drawer to its initial position. */
+  /**
+   * Anchor node used to restore the drawer to its initial position.
+   *
+   * 用于将抽屉恢复到其初始位置的锚节点。
+   *
+   */
   private _anchor: Comment | null;
 
   /**
    * The side that the drawer is attached to.
    *
-   * 抽屉附加到的一侧。
+   * 抽屉附着到的一侧。
    *
    */
   @Input()
@@ -418,7 +428,12 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
   // tslint:disable-next-line:no-output-on-prefix
   @Output('positionChanged') readonly onPositionChanged = new EventEmitter<void>();
 
-  /** Reference to the inner element that contains all the content. */
+  /**
+   * Reference to the inner element that contains all the content.
+   *
+   * 一个引用，指向包含所有内容的内部元素。
+   *
+   */
   @ViewChild('content') _content: ElementRef<HTMLElement>;
 
   /**
@@ -787,6 +802,9 @@ export class MatDrawer implements AfterViewInit, AfterContentChecked, OnDestroy 
    * when it's in the `end` position so that it comes after the content and the visual order
    * matches the tab order. We also need to be able to move it back to `start` if the sidenav
    * started off as `end` and was changed to `start`.
+   *
+   * 更新抽屉在 DOM 中的位置。当元素处于 `end` 位置时，我们需要在自己周围移动元素，以便它位于内容之后，并且视觉顺序与 tab 顺序匹配。如果侧边导航从 `end` 开始并且已改为 `start`，则我们也要能把它改回 `start`。
+   *
    */
   private _updatePositionInParent(newPosition: 'start' | 'end') {
     const element = this._elementRef.nativeElement;

@@ -739,7 +739,12 @@ export abstract class _MatRadioButtonBase
    */
   private _removeUniqueSelectionListener: () => void = () => {};
 
-  /** Previous value of the input's tabindex. */
+  /**
+   * Previous value of the input's tabindex.
+   *
+   * 此输入框的 tabindex 的先前值。
+   *
+   */
   private _previousTabIndex: number | undefined;
 
   /**
@@ -910,7 +915,12 @@ export abstract class _MatRadioButtonBase
     }
   }
 
-  /** Gets the tabindex for the underlying input element. */
+  /**
+   * Gets the tabindex for the underlying input element.
+   *
+   * 获取底层输入框元素的 tabindex。
+   *
+   */
   private _updateTabIndex() {
     const group = this.radioGroup;
     let value: number;

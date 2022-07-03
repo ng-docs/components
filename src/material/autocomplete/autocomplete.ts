@@ -115,7 +115,12 @@ export interface MatAutocompleteDefaultOptions {
    */
   autoActiveFirstOption?: boolean;
 
-  /** Whether the active option should be selected as the user is navigating. */
+  /**
+   * Whether the active option should be selected as the user is navigating.
+   *
+   * 在用户导航时是否应选择活动选项。
+   *
+   */
   autoSelectActiveOption?: boolean;
 
   /**
@@ -273,7 +278,12 @@ export abstract class _MatAutocompleteBase
   }
   private _autoActiveFirstOption: boolean;
 
-  /** Whether the active option should be selected as the user is navigating. */
+  /**
+   * Whether the active option should be selected as the user is navigating.
+   *
+   * 在用户导航时是否应选择活动选项。
+   *
+   */
   @Input()
   get autoSelectActiveOption(): boolean {
     return this._autoSelectActiveOption;

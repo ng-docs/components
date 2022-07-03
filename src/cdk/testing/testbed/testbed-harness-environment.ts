@@ -162,7 +162,12 @@ export class TestbedHarnessEnvironment extends HarnessEnvironment<Element> {
    */
   private _options: TestbedHarnessEnvironmentOptions;
 
-  /** Environment stabilization callback passed to the created test elements. */
+  /**
+   * Environment stabilization callback passed to the created test elements.
+   *
+   * 环境稳定时回调并传入已创建的测试元素。
+   *
+   */
   private _stabilizeCallback: () => Promise<void>;
 
   protected constructor(

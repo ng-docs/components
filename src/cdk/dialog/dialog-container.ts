@@ -44,6 +44,9 @@ export function throwDialogContentAlreadyAttachedError() {
 
 /**
  * Internal component that wraps user-provided dialog content.
+ *
+ * 包裹用户提供的对话框内容的内部组件。
+ *
  * @docs-private
  */
 @Component({
@@ -71,23 +74,46 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
 {
   protected _document: Document;
 
-  /** The portal outlet inside of this container into which the dialog content will be loaded. */
+  /**
+   * The portal outlet inside of this container into which the dialog content will be loaded.
+   *
+   * 此容器内的传送点出口，对话内容将加载到其中。
+   *
+   */
   @ViewChild(CdkPortalOutlet, {static: true}) _portalOutlet: CdkPortalOutlet;
 
-  /** The class that traps and manages focus within the dialog. */
+  /**
+   * The class that traps and manages focus within the dialog.
+   *
+   * 在对话框中捕获和管理焦点的类。
+   *
+   */
   private _focusTrap: FocusTrap;
 
-  /** Element that was focused before the dialog was opened. Save this to restore upon close. */
+  /**
+   * Element that was focused before the dialog was opened. Save this to restore upon close.
+   *
+   * 在打开对话框之前聚焦的元素。保存以在关闭时恢复。
+   *
+   */
   private _elementFocusedBeforeDialogWasOpened: HTMLElement | null = null;
 
   /**
    * Type of interaction that led to the dialog being closed. This is used to determine
    * whether the focus style will be applied when returning focus to its original location
    * after the dialog is closed.
+   *
+   * 导致对话框关闭的交互类型。这用于确定在对话框关闭后将焦点返回到其原始位置时是否应用焦点样式。
+   *
    */
   _closeInteractionType: FocusOrigin | null = null;
 
-  /** ID of the element that should be considered as the dialog's label. */
+  /**
+   * ID of the element that should be considered as the dialog's label.
+   *
+   * 应被视为对话框标签的元素的 ID。
+   *
+   */
   _ariaLabelledBy: string | null;
 
   constructor(
@@ -114,6 +140,9 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
   /**
    * Can be used by child classes to customize the initial focus
    * capturing behavior (e.g. if it's tied to an animation).
+   *
+   * 子类可以使用它来自定义初始焦点捕获行为（例如，如果它与动画相关联）。
+   *
    */
   protected _captureInitialFocus() {
     this._trapFocus();
@@ -125,7 +154,13 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
 
   /**
    * Attach a ComponentPortal as content to this dialog container.
+   *
+   * 将 ComponentPortal 作为内容附着到此对话框容器。
+   *
    * @param portal Portal to be attached as the dialog content.
+   *
+   * 要作为对话框内容进行附着的传送点。
+   *
    */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
     if (this._portalOutlet.hasAttached() && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -139,7 +174,13 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
 
   /**
    * Attach a TemplatePortal as content to this dialog container.
+   *
+   * 将某个 TemplatePortal 作为内容附着到此对话框容器。
+   *
    * @param portal Portal to be attached as the dialog content.
+   *
+   * 要作为对话框内容进行附着的传送点。
+   *
    */
   attachTemplatePortal<T>(portal: TemplatePortal<T>): EmbeddedViewRef<T> {
     if (this._portalOutlet.hasAttached() && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -153,11 +194,19 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
 
   /**
    * Attaches a DOM portal to the dialog container.
+   *
+   * 将 DOM 传送点附着到对话框容器。
+   *
    * @param portal Portal to be attached.
    *
-   * 要附加到的传送点。
+   * 要附着到的传送点。
    *
-   * @deprecated To be turned into a method.
+   * @deprecated
+   *
+   * To be turned into a method.
+   *
+   * 变成了方法。
+   *
    * @breaking-change 10.0.0
    */
   override attachDomPortal = (portal: DomPortal) => {
@@ -171,7 +220,12 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
   };
 
   // TODO(crisbeto): this shouldn't be exposed, but there are internal references to it.
-  /** Captures focus if it isn't already inside the dialog. */
+  /**
+   * Captures focus if it isn't already inside the dialog.
+   *
+   * 如果焦点不在此对话框中，则捕获焦点。
+   *
+   */
   _recaptureFocus() {
     if (!this._containsFocus()) {
       this._trapFocus();
@@ -181,7 +235,13 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
   /**
    * Focuses the provided element. If the element is not focusable, it will add a tabIndex
    * attribute to forcefully focus it. The attribute is removed after focus is moved.
+   *
+   * 聚焦提供的元素。如果元素不可聚焦，它会添加一个 tabIndex 属性来强制聚焦它。移动焦点后删除该属性。
+   *
    * @param element The element to focus.
+   *
+   * 要聚焦的元素。
+   *
    */
   private _forceFocus(element: HTMLElement, options?: FocusOptions) {
     if (!this._interactivityChecker.isFocusable(element)) {
@@ -203,7 +263,13 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
 
   /**
    * Focuses the first element that matches the given selector within the focus trap.
+   *
+   * 聚焦于和焦点陷阱中给定选择器匹配的第一个元素。
+   *
    * @param selector The CSS selector for the element to set focus to.
+   *
+   * 要设置焦点的元素的 CSS 选择器。
+   *
    */
   private _focusByCssSelector(selector: string, options?: FocusOptions) {
     let elementToFocus = this._elementRef.nativeElement.querySelector(
@@ -217,6 +283,9 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
   /**
    * Moves the focus inside the focus trap. When autoFocus is not set to 'dialog', if focus
    * cannot be moved then focus will go to the dialog container.
+   *
+   * 在焦点陷阱内移动焦点。当 autoFocus 未设置为“对话框”时，如果焦点无法移动，则焦点将转到此对话框容器。
+   *
    */
   protected _trapFocus() {
     const element = this._elementRef.nativeElement;
@@ -256,7 +325,12 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
     }
   }
 
-  /** Restores focus to the element that was focused before the dialog opened. */
+  /**
+   * Restores focus to the element that was focused before the dialog opened.
+   *
+   * 将焦点恢复到对话框打开之前聚焦的元素。
+   *
+   */
   private _restoreFocus() {
     const focusConfig = this._config.restoreFocus;
     let focusTargetElement: HTMLElement | null = null;
@@ -302,7 +376,12 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
     }
   }
 
-  /** Focuses the dialog container. */
+  /**
+   * Focuses the dialog container.
+   *
+   * 聚焦对话框容器。
+   *
+   */
   private _focusDialogContainer() {
     // Note that there is no focus method when rendering on the server.
     if (this._elementRef.nativeElement.focus) {
@@ -310,14 +389,24 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
     }
   }
 
-  /** Returns whether focus is inside the dialog. */
+  /**
+   * Returns whether focus is inside the dialog.
+   *
+   * 返回焦点是否在对话框内。
+   *
+   */
   private _containsFocus() {
     const element = this._elementRef.nativeElement;
     const activeElement = _getFocusedElementPierceShadowDom();
     return element === activeElement || element.contains(activeElement);
   }
 
-  /** Sets up the focus trap. */
+  /**
+   * Sets up the focus trap.
+   *
+   * 设置焦点陷阱。
+   *
+   */
   private _initializeFocusTrap() {
     this._focusTrap = this._focusTrapFactory.create(this._elementRef.nativeElement);
 
@@ -328,7 +417,12 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
     }
   }
 
-  /** Sets up the listener that handles clicks on the dialog backdrop. */
+  /**
+   * Sets up the listener that handles clicks on the dialog backdrop.
+   *
+   * 设置处理对话背景点击的侦听器。
+   *
+   */
   private _handleBackdropClicks() {
     // Clicking on the backdrop will move focus out of dialog.
     // Recapture it if closing via the backdrop is disabled.

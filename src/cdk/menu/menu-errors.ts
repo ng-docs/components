@@ -8,6 +8,9 @@
 
 /**
  * Throws an exception when an instance of the PointerFocusTracker is not provided.
+ *
+ * 当未提供 PointerFocusTracker 的实例时引发异常。
+ *
  * @docs-private
  */
 export function throwMissingPointerFocusTracker() {
@@ -16,6 +19,9 @@ export function throwMissingPointerFocusTracker() {
 
 /**
  * Throws an exception when a reference to the parent menu is not provided.
+ *
+ * 未提供对父菜单的引用时引发异常。
+ *
  * @docs-private
  */
 export function throwMissingMenuReference() {

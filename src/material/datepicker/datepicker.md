@@ -819,7 +819,7 @@ the datepicker text input a meaningful label via `<mat-label>`, `aria-label`, `a
 Always communicate the date format (e.g. 'MM/DD/YYYY'). This can be accomplished using `<mat-hint>`
 or by providing an additional label adjacent to the form field.
 
-总是传达日期格式（例如“MM/DD/YYYY”）。这可以使用 `<mat-hint>` 或通过在表单字段附近提供附加标签来完成。
+总是传达日期格式（例如“MM/DD/YYYY”）。这可以使用 `<mat-hint>` 或通过在表单字段附近提供额外标签来完成。
 
 `MatDatepickerInput` adds <kbd>>Alt</kbd> + <kbd>Down Arrow</kbd> as a keyboard short to open the
 datepicker pop-up. However, ChromeOS intercepts this key combination at the OS level such that the

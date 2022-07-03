@@ -15,6 +15,9 @@ import {CdkVirtualScrollable, VIRTUAL_SCROLLABLE} from './virtual-scrollable';
 
 /**
  * Provides as virtual scrollable for the global / window scrollbar.
+ *
+ * 为全局/窗口滚动条提供虚拟可滚动。
+ *
  */
 @Directive({
   selector: 'cdk-virtual-scroll-viewport[scrollWindow]',

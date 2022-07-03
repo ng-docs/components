@@ -236,7 +236,12 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
    */
   _actionsPortal: TemplatePortal | null = null;
 
-  /** Id of the label for the `role="dialog"` element. */
+  /**
+   * Id of the label for the `role="dialog"` element.
+   *
+   * 指向 `role="dialog"` 元素的标签的 ID。
+   *
+   */
   _dialogLabelId: string | null;
 
   constructor(
@@ -324,10 +329,19 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
 
   /**
    * Assigns a new portal containing the datepicker actions.
+   *
+   * 分配一个包含日期选择器操作的新传送点。
+   *
    * @param portal Portal with the actions to be assigned.
+   *
+   * 带有要分配的动作的传送点。
+   *
    * @param forceRerender Whether a re-render of the portal should be triggered. This isn't
    * necessary if the portal is assigned during initialization, but it may be required if it's
    * added at a later point.
+   *
+   * 是否应触发传送点的重新渲染。如果在初始化期间分配了传送点，则这不是必需的，但如果是稍后添加的则可能需要。
+   *
    */
   _assignActions(portal: TemplatePortal<any> | null, forceRerender: boolean) {
     // If we have actions, clone the model so that we have the ability to cancel the selection,
@@ -342,7 +356,12 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
   }
 }
 
-/** Form control that can be associated with a datepicker. */
+/**
+ * Form control that can be associated with a datepicker.
+ *
+ * 可以和日期选择器关联的表单控件。
+ *
+ */
 export interface MatDatepickerControl<D> {
   getStartValue(): D | null;
   getThemePalette(): ThemePalette;
@@ -358,7 +377,7 @@ export interface MatDatepickerControl<D> {
 /**
  * A datepicker that can be attached to a {@link MatDatepickerControl}.
  *
- * 一个可以附加到 {@link MatDatepickerControl} 上的日期选择器。
+ * 一个可以附着到 {@link MatDatepickerControl} 上的日期选择器。
  *
  */
 export interface MatDatepickerPanel<
@@ -383,7 +402,7 @@ export interface MatDatepickerPanel<
   /**
    * The input element the datepicker is associated with.
    *
-   * 日期选择器关联到的输入元素。
+   * 日期选择器关联到的输入框元素。
    *
    */
   datepickerInput: C;

@@ -445,7 +445,12 @@ export class _MatMenuBase
   );
 
   /**
-   * @deprecated `_changeDetectorRef` to become a required parameter.
+   * @deprecated
+   *
+   * `_changeDetectorRef` to become a required parameter.
+   *
+   * `_changeDetectorRef` 成为必要参数。
+   *
    * @breaking-change 15.0.0
    */
   constructor(
@@ -779,7 +784,12 @@ export class MatMenu extends _MatMenuBase {
   protected override _baseElevation = 4;
 
   /**
-   * @deprecated `changeDetectorRef` parameter will become a required parameter.
+   * @deprecated
+   *
+   * `changeDetectorRef` parameter will become a required parameter.
+   *
+   * `changeDetectorRef` 参数将成为必要参数。
+   *
    * @breaking-change 15.0.0
    */
   constructor(

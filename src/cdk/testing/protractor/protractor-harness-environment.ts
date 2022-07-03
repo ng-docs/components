@@ -43,8 +43,13 @@ const defaultEnvironmentOptions: ProtractorHarnessEnvironmentOptions = {
  *
  * Protractor 的 `HarnessEnvironment` 实现。
  *
- * @deprecated As of v13.0.0, this environment no longer works, as it is not
+ * @deprecated
+ *
+ * As of v13.0.0, this environment no longer works, as it is not
  * compatible with the new [Angular Package Format](https://angular.io/guide/angular-package-format).
+ *
+ * 从 v13.0.0 开始，此环境不再有效，因为它与新的 [Angular Package Format](https://angular.io/guide/angular-package-format) 不兼容。
+ *
  * @breaking-change 13.0.0
  */
 export class ProtractorHarnessEnvironment extends HarnessEnvironment<ElementFinder> {

@@ -172,16 +172,29 @@ export abstract class _MatAutocompleteTriggerBase
    */
   private _canOpenOnNextFocus = true;
 
-  /** Value inside the input before we auto-selected an option. */
+  /**
+   * Value inside the input before we auto-selected an option.
+   *
+   * 在我们自动选择一个选项之前输入框中的值。
+   *
+   */
   private _valueBeforeAutoSelection: string | undefined;
 
   /**
    * Current option that we have auto-selected as the user is navigating,
    * but which hasn't been propagated to the model value yet.
+   *
+   * 我们在用户导航时自动选择的当前选项，但尚未传播到模型值。
+   *
    */
   private _pendingAutoselectedOption: _MatOptionBase | null;
 
-  /** Stream of keyboard events that can close the panel. */
+  /**
+   * Stream of keyboard events that can close the panel.
+   *
+   * 可以关闭面板的键盘事件流。
+   *
+   */
   private readonly _closeKeyEventStream = new Subject<void>();
 
   /**
@@ -208,7 +221,7 @@ export abstract class _MatAutocompleteTriggerBase
   /**
    * The autocomplete panel to be attached to this trigger.
    *
-   * 要附加到此触发器的自动完成面板。
+   * 要附着到此触发器的自动完成面板。
    *
    */
   @Input('matAutocomplete') autocomplete: _MatAutocompleteBase;
@@ -414,7 +427,12 @@ export abstract class _MatAutocompleteTriggerBase
     );
   }
 
-  /** Stream of changes to the selection state of the autocomplete options. */
+  /**
+   * Stream of changes to the selection state of the autocomplete options.
+   *
+   * 对自动完成选项的选择状态的更改流。
+   *
+   */
   readonly optionSelections: Observable<MatOptionSelectionChange> = defer(() => {
     const options = this.autocomplete ? this.autocomplete.options : null;
 
@@ -962,7 +980,12 @@ export abstract class _MatAutocompleteTriggerBase
     }
   }
 
-  /** Handles keyboard events coming from the overlay panel. */
+  /**
+   * Handles keyboard events coming from the overlay panel.
+   *
+   * 处理来自浮层面板的键盘事件。
+   *
+   */
   private _handleOverlayEvents(overlayRef: OverlayRef) {
     // Use the `keydownEvents` in order to take advantage of
     // the overlay event targeting provided by the CDK overlay.

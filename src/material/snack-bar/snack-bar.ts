@@ -72,7 +72,7 @@ export abstract class _MatSnackBarBase implements OnDestroy {
   /**
    * The container component that attaches the provided template or component.
    *
-   * 附加在所提供的模板或组件上的容器组件。
+   * 附着在所提供的模板或组件上的容器组件。
    *
    */
   protected abstract snackBarContainerComponent: Type<_MatSnackBarContainerBase>;
@@ -217,7 +217,7 @@ export abstract class _MatSnackBarBase implements OnDestroy {
   /**
    * Attaches the snack bar container component to the overlay.
    *
-   * 将快餐栏的容器组件附加到浮层上。
+   * 将快餐栏的容器组件附着到浮层上。
    *
    */
   private _attachSnackBarContainer(

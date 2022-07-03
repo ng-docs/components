@@ -11,6 +11,9 @@ import {UniqueSelectionDispatcher} from '@angular/cdk/collections';
 
 /**
  * A grouping container for `CdkMenuItemRadio` instances, similar to a `role="radiogroup"` element.
+ *
+ * `CdkMenuItemRadio` 实例的分组容器，类似于 `role="radiogroup"` 元素。
+ *
  */
 @Directive({
   selector: '[cdkMenuGroup]',

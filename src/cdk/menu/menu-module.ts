@@ -18,7 +18,12 @@ import {CdkMenuTrigger} from './menu-trigger';
 import {CdkContextMenuTrigger} from './context-menu-trigger';
 import {CdkTargetMenuAim} from './menu-aim';
 
-/** The list of components and directives that should be declared and exported from this module. */
+/**
+ * The list of components and directives that should be declared and exported from this module.
+ *
+ * 要从此模块声明和导出的组件和指令的列表。
+ *
+ */
 const EXPORTED_DECLARATIONS = [
   CdkMenuBar,
   CdkMenu,
@@ -31,7 +36,12 @@ const EXPORTED_DECLARATIONS = [
   CdkTargetMenuAim,
 ];
 
-/** Module that declares components and directives for the CDK menu. */
+/**
+ * Module that declares components and directives for the CDK menu.
+ *
+ * 为 CDK 菜单声明组件和指令的模块。
+ *
+ */
 @NgModule({
   imports: [OverlayModule],
   exports: EXPORTED_DECLARATIONS,

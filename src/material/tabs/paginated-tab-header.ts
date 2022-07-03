@@ -356,7 +356,12 @@ export abstract class MatPaginatedTabHeader
     });
   }
 
-  /** Sends any changes that could affect the layout of the items. */
+  /**
+   * Sends any changes that could affect the layout of the items.
+   *
+   * 发送可能影响项目布局的任何更改。
+   *
+   */
   private _itemsResized(): Observable<void> {
     if (typeof ResizeObserver !== 'function') {
       return EMPTY;

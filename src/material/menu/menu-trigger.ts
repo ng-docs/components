@@ -75,7 +75,12 @@ export const MAT_MENU_SCROLL_STRATEGY_FACTORY_PROVIDER = {
  *
  * 菜单面板的默认顶部衬距。
  *
- * @deprecated No longer being used. Will be removed.
+ * @deprecated
+ *
+ * No longer being used. Will be removed.
+ *
+ * 不再使用。将被删除。
+ *
  * @breaking-change 15.0.0
  */
 export const MENU_PANEL_TOP_PADDING = 8;
@@ -121,6 +126,9 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
   /**
    * Cached value of the padding of the parent menu panel.
    * Used to offset sub-menus to compensate for the padding.
+   *
+   * 父菜单面板的衬距的缓存值。用于偏移子菜单以补偿此衬距。
+   *
    */
   private _parentInnerPadding: number | undefined;
 
@@ -261,7 +269,12 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
   );
 
   /**
-   * @deprecated `focusMonitor` will become a required parameter.
+   * @deprecated
+   *
+   * `focusMonitor` will become a required parameter.
+   *
+   * `focusMonitor` 将成为必要参数。
+   *
    * @breaking-change 8.0.0
    */
   constructor(
@@ -276,7 +289,12 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
   );
 
   /**
-   * @deprecated `ngZone` will become a required parameter.
+   * @deprecated
+   *
+   * `ngZone` will become a required parameter.
+   *
+   * `ngZone` 将成为必要参数。
+   *
    * @breaking-change 15.0.0
    */
   constructor(
@@ -556,7 +574,7 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
    * This method creates the overlay from the provided menu's template and saves its
    * OverlayRef so that it can be attached to the DOM when openMenu is called.
    *
-   * 这个方法从提供的菜单模板中创建了 overlay，并保存了 OverlayRef，以便在调用 openMenu 时把它附加到 DOM 上。
+   * 这个方法从提供的菜单模板中创建了 overlay，并保存了 OverlayRef，以便在调用 openMenu 时把它附着到 DOM 上。
    *
    */
   private _createOverlay(menu: MatMenuPanel): OverlayRef {
@@ -812,7 +830,7 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
   /**
    *  Gets the portal that should be attached to the overlay.
    *
-   * 获取应该附加到浮层的传送点。
+   * 获取应该附着到浮层的传送点。
    *
    */
   private _getPortal(menu: MatMenuPanel): TemplatePortal {

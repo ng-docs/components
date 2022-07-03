@@ -120,13 +120,18 @@ export abstract class _MatSlideToggleBase<T>
    */
   _noopAnimations: boolean;
 
-  /** Whether the slide toggle is currently focused. */
+  /**
+   * Whether the slide toggle is currently focused.
+   *
+   * 此滑块开关当前是否拥有焦点。
+   *
+   */
   _focused: boolean;
 
   /**
    * Name value will be applied to the input element if present.
    *
-   * 如果存在，name 值就会被应用到输入元素中。
+   * 如果存在，name 值就会被应用到输入框元素中。
    *
    */
   @Input() name: string | null = null;
@@ -166,7 +171,7 @@ export abstract class _MatSlideToggleBase<T>
   /**
    * Used to set the aria-describedby attribute on the underlying input element.
    *
-   * 用于在底层输入元素上设置 aria-describedby 属性。
+   * 用于在底层输入框元素上设置 aria-describedby 属性。
    *
    */
   @Input('aria-describedby') ariaDescribedby: string;
@@ -266,22 +271,42 @@ export abstract class _MatSlideToggleBase<T>
     this._focusMonitor.stopMonitoring(this._elementRef);
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
+   */
   writeValue(value: any): void {
     this.checked = !!value;
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
+   */
   registerOnChange(fn: any): void {
     this._onChange = fn;
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
+   */
   registerOnTouched(fn: any): void {
     this._onTouched = fn;
   }
 
-  /** Implemented as a part of ControlValueAccessor. */
+  /**
+   * Implemented as a part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
+   */
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
     this._changeDetectorRef.markForCheck();
@@ -300,6 +325,9 @@ export abstract class _MatSlideToggleBase<T>
 
   /**
    * Emits a change event on the `change` output. Also notifies the FormControl about the change.
+   *
+   * 在 `change` 这个输出属性上发出更改事件。并通知 FormControl 有关更改。
+   *
    */
   protected _emitChangeEvent() {
     this._onChange(this.checked);
@@ -337,7 +365,12 @@ export abstract class _MatSlideToggleBase<T>
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatSlideToggle extends _MatSlideToggleBase<MatSlideToggleChange> {
-  /** Reference to the underlying input element. */
+  /**
+   * Reference to the underlying input element.
+   *
+   * 对底层输入框元素的引用。
+   *
+   */
   @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -364,7 +397,12 @@ export class MatSlideToggle extends _MatSlideToggleBase<MatSlideToggleChange> {
     return new MatSlideToggleChange(this, isChecked);
   }
 
-  /** Method being called whenever the underlying input emits a change event. */
+  /**
+   * Method being called whenever the underlying input emits a change event.
+   *
+   * 每当底层输入框发出更改事件时调用的方法。
+   *
+   */
   _onChangeEvent(event: Event) {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and

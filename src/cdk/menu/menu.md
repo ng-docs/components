@@ -81,7 +81,7 @@ menu directives to build your custom menu. A typical menu consists of the follow
 
 - `cdkMenuItem` - added to each item in the menu
 
-  `cdkMenuItem` - 添加到菜单中的每个项目
+  `cdkMenuItem` - 添加到菜单中的每个菜单项
 
 <!-- example({
   "example": "cdk-menu-standalone-menu",
@@ -204,7 +204,7 @@ container element with the `cdkContextMenuTriggerFor`, which behaves like `cdkMe
 that it responds to the browser's native `contextmenu` event. Custom context menus appear next to
 the cursor, similarly to native context menus.
 
-上下文菜单是一种弹出菜单类型，它没有传统的触发元素，而是在用户在某个容器元素中右键单击时触发。你可以使用 `cdkContextMenuTriggerFor` 标记容器元素，其行为类似于 `cdkMenuTriggerFor` ，只是它响应浏览器的本机 `contextmenu` 事件。自定义上下文菜单出现在光标旁边，类似于原生上下文菜单。
+上下文菜单是一种弹出菜单类型，它没有传统的触发元素，而是在用户在某个容器元素中右键单击时触发。你可以使用 `cdkContextMenuTriggerFor` 标记容器元素，其行为类似于 `cdkMenuTriggerFor` ，只是它响应浏览器的原生 `contextmenu` 事件。自定义上下文菜单出现在光标旁边，类似于原生上下文菜单。
 
 <!-- example({
   "example": "cdk-menu-context",
@@ -256,13 +256,13 @@ A `cdkMenuItemCheckbox` is a special type of menu item that behaves as a checkbo
 type of menu item to toggle items on and off. An element with the `cdkMenuItemCheckbox` directive
 does not need the additional `cdkMenuItem` directive.
 
-`cdkMenuItemCheckbox` 是一种特殊类型的菜单项，其行为类似于复选框。你可以使用这种类型的菜单项来打开和关闭项目。带有 `cdkMenuItemCheckbox` 指令的元素不需要额外的 `cdkMenuItem` 指令。
+`cdkMenuItemCheckbox` 是一种特殊类型的菜单项，其行为类似于复选框。你可以使用这种类型的菜单项来打开和关闭菜单项。带有 `cdkMenuItemCheckbox` 指令的元素不需要额外的 `cdkMenuItem` 指令。
 
 Checkbox items do not track their own state. You must bind the checked state using the
 `cdkMenuItemChecked` input and listen to `cdkMenuItemTriggered` to know when it is toggled. If you
 don't bind the state it will reset when the menu is closed and re-opened.
 
-复选项目不跟踪它们自己的状态。你必须使用 `cdkMenuItemChecked` 输入属性来绑定选中状态，并监听 `cdkMenuItemTriggered` 以了解它何时切换。如果你不绑定状态，它将在菜单关闭并重新打开时重置。
+复选菜单项不跟踪它们自己的状态。你必须使用 `cdkMenuItemChecked` 输入属性来绑定选中状态，并监听 `cdkMenuItemTriggered` 以了解它何时切换。如果你不绑定状态，它将在菜单关闭并重新打开时重置。
 
 <!-- example({"example":"cdk-menu-standalone-stateful-menu",
               "file":"cdk-menu-standalone-stateful-menu-example.html",
@@ -276,13 +276,13 @@ A `cdkMenuItemRadio` is a special type of menu item that behaves as a radio butt
 type of menu item for menus with exclusively selectable items. An element with the `cdkMenuItemRadio`
 directive does not need the additional `cdkMenuItem` directive.
 
-`cdkMenuItemRadio` 是一种特殊类型的菜单项，其行为类似于单选按钮。你可以将这种类型的菜单项用于具有唯一可选项目的菜单。带有 `cdkMenuItemRadio` 指令的元素不需要额外的 `cdkMenuItem` 指令。
+`cdkMenuItemRadio` 是一种特殊类型的菜单项，其行为类似于单选按钮。你可以将这种类型的菜单项用于具有唯一可选菜单项的菜单。带有 `cdkMenuItemRadio` 指令的元素不需要额外的 `cdkMenuItem` 指令。
 
 As with checkbox items, radio items do not track their own state, but you can track it by binding
 `cdkMenuItemChecked` and listening for `cdkMenuItemTriggered`. If you do not bind the state the
 selection will reset when the menu is closed and reopened.
 
-与复选项目一样，单选项目不会跟踪它们自己的状态，但你可以通过绑定 `cdkMenuItemChecked` 并监听 `cdkMenuItemTriggered` 来跟踪它。如果你不绑定状态，则在关闭并重新打开菜单时选择将重置。
+与复选菜单项一样，单选菜单项不会跟踪它们自己的状态，但你可以通过绑定 `cdkMenuItemChecked` 并监听 `cdkMenuItemTriggered` 来跟踪它。如果你不绑定状态，则在关闭并重新打开菜单时选择将重置。
 
 <!-- example({"example":"cdk-menu-standalone-stateful-menu",
               "file":"cdk-menu-standalone-stateful-menu-example.html",
@@ -296,7 +296,7 @@ By default `cdkMenu` acts as a group for `cdkMenuItemRadio` elements. Elements w
 `cdkMenuItemRadio` added as children of a `cdkMenu` will be logically grouped and only a single item
 can have the checked state.
 
-默认情况下， `cdkMenu` 会充当 `cdkMenuItemRadio` 元素的组。添加为 `cdkMenu` 子项的带有 `cdkMenuItemRadio` 的元素将在逻辑上视为一组，并且只有一个项目可以具有选中状态。
+默认情况下， `cdkMenu` 会充当 `cdkMenuItemRadio` 元素的组。添加为 `cdkMenu` 子项的带有 `cdkMenuItemRadio` 的元素将在逻辑上视为一组，并且只有一个菜单项可以具有选中状态。
 
 If you would like to have unrelated groups of radio buttons within a single menu you should use the
 `cdkMenuGroup` directive.
@@ -332,7 +332,7 @@ user is moving towards the submenu, so we shouldn't close out. Users however may
 short in a sibling item after moving towards the submenu. The service is intelligent enough to
 detect this intention and will trigger the next menu.
 
-如上图所示，我们首先在菜单中跟踪用户的鼠标移动。接下来，当用户将鼠标移入同级菜单项（例如共享按钮）时，同级菜单项会询问 Menu Aim 服务是否可以执行其关闭操作。为了确定当前子菜单是否可以关闭，Menu Aim 服务会计算子菜单中选定目标坐标与前一个鼠标点之间的斜率，以及目标与当前鼠标点之间的斜率。如果当前鼠标点的斜率大于前一个的斜率，则意味着用户正在向子菜单移动，所以我们不应该关闭。然而，用户有时可能会在移动到子菜单后停止在同级项目中。该服务足够智能，可以检测到这种意图并触发下一个菜单。
+如上图所示，我们首先在菜单中跟踪用户的鼠标移动。接下来，当用户将鼠标移入同级菜单项（例如共享按钮）时，同级菜单项会询问 Menu Aim 服务是否可以执行其关闭操作。为了确定当前子菜单是否可以关闭，Menu Aim 服务会计算子菜单中选定目标坐标与前一个鼠标点之间的斜率，以及目标与当前鼠标点之间的斜率。如果当前鼠标点的斜率大于前一个的斜率，则意味着用户正在向子菜单移动，所以我们不应该关闭。然而，用户有时可能会在移动到子菜单后停止在同级菜单项中。该服务足够智能，可以检测到这种意图并触发下一个菜单。
 
 ### Accessibility
 

@@ -245,7 +245,12 @@ export abstract class _MatTabBodyBase implements OnInit, OnDestroy {
    */
   @Input() animationDuration: string = '500ms';
 
-  /** Whether the tab's content should be kept in the DOM while it's off-screen. */
+  /**
+   * Whether the tab's content should be kept in the DOM while it's off-screen.
+   *
+   * 选项卡的内容是否应在离开屏幕时保留在 DOM 中。
+   *
+   */
   @Input() preserveContent: boolean = false;
 
   /**

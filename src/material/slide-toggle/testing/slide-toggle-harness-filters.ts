@@ -29,8 +29,18 @@ export interface SlideToggleHarnessFilters extends BaseHarnessFilters {
    *
    */
   name?: string;
-  /** Only find instances with the given checked value. */
+  /**
+   * Only find instances with the given checked value.
+   *
+   * 仅查找具有给定勾选值的实例。
+   *
+   */
   checked?: boolean;
-  /** Only find instances where the disabled state matches the given value. */
+  /**
+   * Only find instances where the disabled state matches the given value.
+   *
+   * 仅查找禁用状态与给定值匹配的实例。
+   *
+   */
   disabled?: boolean;
 }

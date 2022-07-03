@@ -28,7 +28,12 @@ import {
   getSortInvalidDirectionError,
 } from './sort-errors';
 
-/** Position of the arrow that displays when sorted. */
+/**
+ * Position of the arrow that displays when sorted.
+ *
+ * 排序时显示的箭头的位置。
+ *
+ */
 export type SortHeaderArrowPosition = 'before' | 'after';
 
 /**
@@ -101,7 +106,12 @@ export interface MatSortDefaultOptions {
    *
    */
   disableClear?: boolean;
-  /** Position of the arrow that displays when sorted. */
+  /**
+   * Position of the arrow that displays when sorted.
+   *
+   * 排序时显示的箭头的位置。
+   *
+   */
   arrowPosition?: SortHeaderArrowPosition;
 }
 

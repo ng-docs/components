@@ -55,7 +55,7 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
    * Reference to the parent of the `_host` at the time it was detached. Used to restore
    * the `_host` to its original position in the DOM when it gets re-attached.
    *
-   * 在拆除浮层时，引用其 `_host` 的父元素。当重新附加时，用于把 `_host` 恢复其在 DOM 中的原始位置。
+   * 在拆除浮层时，引用其 `_host` 的父元素。当重新附着时，用于把 `_host` 恢复其在 DOM 中的原始位置。
    *
    */
   private _previousHostParent: HTMLElement;
@@ -136,15 +136,15 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
    * Attaches content, given via a Portal, to the overlay.
    * If the overlay is configured to have a backdrop, it will be created.
    *
-   * 把通过传送点给出的内容附加到浮层上。如果浮层配置为具有背景板，也会创建它。
+   * 把通过传送点给出的内容附着到浮层上。如果浮层配置为具有背景板，也会创建它。
    *
    * @param portal Portal instance to which to attach the overlay.
    *
-   * 要附加的传送点实例。
+   * 要附着的传送点实例。
    *
    * @returns The portal attachment result.
    *
-   * 传送点附加的结果。
+   * 传送点附着的结果。
    *
    */
   attach(portal: Portal<any>): any {
@@ -286,7 +286,7 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
   /**
    * Whether the overlay has attached content.
    *
-   * 浮层是否附加着内容。
+   * 浮层是否附着着内容。
    *
    */
   hasAttached(): boolean {
@@ -306,7 +306,7 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
   /**
    * Gets an observable that emits when the overlay has been attached.
    *
-   * 获取一个在附加浮层时会发出通知的可观察对象。
+   * 获取一个在附着浮层时会发出通知的可观察对象。
    *
    */
   attachments(): Observable<void> {
@@ -514,7 +514,7 @@ export class OverlayRef implements PortalOutlet, OverlayReference {
   /**
    * Attaches a backdrop for this overlay.
    *
-   * 为这个浮层附加一个背景板。
+   * 为这个浮层附着一个背景板。
    *
    */
   private _attachBackdrop() {

@@ -98,7 +98,12 @@ export class MatTabNavBarHarness extends ComponentHarness {
     await tabs[0].click();
   }
 
-  /** Gets the panel associated with the nav bar. */
+  /**
+   * Gets the panel associated with the nav bar.
+   *
+   * 获取与导航栏关联的面板。
+   *
+   */
   async getPanel(): Promise<MatTabNavPanelHarness> {
     const link = await this.getActiveLink();
     const host = await link.host();

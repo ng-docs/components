@@ -1282,7 +1282,12 @@ export class MatSlider
   }
 }
 
-/** Checks if number is safe for calculation */
+/**
+ * Checks if number is safe for calculation
+ *
+ * 检查数字是否可以安全计算
+ *
+ */
 function isSafeNumber(value: number) {
   return !isNaN(value) && isFinite(value);
 }

@@ -122,6 +122,9 @@ export class ParentPositionTracker {
    * instead of going through the `ViewportRuler`, because the first value the ruler looks at is
    * the top/left offset of the `document.documentElement` which works for most cases, but breaks
    * if the element is offset by something like the `BlockScrollStrategy`.
+   *
+   * 获取视口的滚动位置。请注意，我们直接使用 scrollX 和 scrollY ，而不是通过 `ViewportRuler`（视口标尺），因为标尺查看的第一个值是 `document.documentElement` 的顶部/左侧偏移量，这适用于大多数情况，但如果元素偏移量是类似于 `BlockScrollStrategy` 的对象则会破坏它。
+   *
    */
   getViewportScrollPosition() {
     return {top: window.scrollY, left: window.scrollX};

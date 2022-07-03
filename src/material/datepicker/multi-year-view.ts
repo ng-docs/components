@@ -299,10 +299,15 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
    * corresponds to the given cell, set `activeDate` to that date and fire `activeDateChange` with
    * that date.
    *
+   * 将包含在事件中的日历正文单元格的索引作为参数。对于与给定单元格对应的日期，将 `activeDate` 设置为该日期并使用该日期触发 `activeDateChange` 事件。
+   *
    * This fucntion is used to match each component's model of the active date with the calendar
    * body cell that was focused. It updates its value of `activeDate` synchronously and updates the
    * parent's value asynchonously via the `activeDateChange` event. The child component receives an
    * updated value asynchronously via the `activeCell` Input.
+   *
+   * 此函数用于将每个组件的活动日期模型与聚焦的日历正文单元格匹配。它同步更新其 `activeDate` 的值，并通过 `activeDateChange` 事件异步更新父级的值。子组件通过 `activeCell` 输入异步接收更新值。
+   *
    */
   _updateActiveDate(event: MatCalendarUserEvent<number>) {
     const year = event.value;
@@ -414,7 +419,12 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
     this._matCalendarBody._focusActiveCell();
   }
 
-  /** Focuses the active cell after change detection has run and the microtask queue is empty. */
+  /**
+   * Focuses the active cell after change detection has run and the microtask queue is empty.
+   *
+   * 在变更检测已运行且微任务队列为空后聚焦活动单元格。
+   *
+   */
   _focusActiveCellAfterViewChecked() {
     this._matCalendarBody._scheduleFocusActiveCellAfterViewChecked();
   }
@@ -422,6 +432,9 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
   /**
    * Takes a year and returns a new date on the same day and month as the currently active date
    *  The returned date will have the same year as the argument date.
+   *
+   * 接受一个年份，并返回那一年与当前活动日期相同的日期和月份的新日期 返回的日期将与参数年份相同。
+   *
    */
   private _getDateFromYear(year: number) {
     const activeMonth = this._dateAdapter.getMonth(this.activeDate);

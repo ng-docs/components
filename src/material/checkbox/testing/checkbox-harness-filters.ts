@@ -29,6 +29,11 @@ export interface CheckboxHarnessFilters extends BaseHarnessFilters {
    *
    */
   name?: string;
-  /** Only find instances with the given checked value. */
+  /**
+   * Only find instances with the given checked value.
+   *
+   * 仅查找具有给定勾选值的实例。
+   *
+   */
   checked?: boolean;
 }

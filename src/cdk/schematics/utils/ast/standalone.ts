@@ -13,9 +13,21 @@ import {insertImport} from '@schematics/angular/utility/ast-utils';
 
 /**
  * Checks whether the providers from a module are being imported in a `bootstrapApplication` call.
+ *
+ * 检查是否在 `bootstrapApplication` 调用中导入了模块中的提供者。
+ *
  * @param tree File tree of the project.
+ *
+ * 此项目的文件树。
+ *
  * @param filePath Path of the file in which to check.
+ *
+ * 要检查的文件的路径。
+ *
  * @param className Class name of the module to search for.
+ *
+ * 要搜索的模块的类名。
+ *
  */
 export function importsProvidersFrom(tree: Tree, filePath: string, className: string): boolean {
   const sourceFile = ts.createSourceFile(
@@ -36,10 +48,25 @@ export function importsProvidersFrom(tree: Tree, filePath: string, className: st
 
 /**
  * Adds an `importProvidersFrom` call to the `bootstrapApplication` call.
+ *
+ * 将 `importProvidersFrom` 调用添加到 `bootstrapApplication` 调用。
+ *
  * @param tree File tree of the project.
+ *
+ * 此项目的文件树。
+ *
  * @param filePath Path to the file that should be updated.
+ *
+ * 要更新的文件的路径。
+ *
  * @param moduleName Name of the module that should be imported.
+ *
+ * 要导入的模块的名称。
+ *
  * @param modulePath Path from which to import the module.
+ *
+ * 要导入模块的路径。
+ *
  */
 export function addModuleImportToStandaloneBootstrap(
   tree: Tree,
@@ -132,7 +159,12 @@ export function addModuleImportToStandaloneBootstrap(
   tree.commitUpdate(recorder);
 }
 
-/** Finds the call to `bootstrapApplication` within a file. */
+/**
+ * Finds the call to `bootstrapApplication` within a file.
+ *
+ * 在文件中查找对 `bootstrapApplication` 的调用。
+ *
+ */
 export function findBootstrapApplicationCall(sourceFile: ts.SourceFile): ts.CallExpression | null {
   const localName = findImportLocalName(
     sourceFile,
@@ -143,7 +175,12 @@ export function findBootstrapApplicationCall(sourceFile: ts.SourceFile): ts.Call
   return localName ? findCall(sourceFile, localName) : null;
 }
 
-/** Find a call to `importProvidersFrom` within a `bootstrapApplication` call. */
+/**
+ * Find a call to `importProvidersFrom` within a `bootstrapApplication` call.
+ *
+ * 在 `bootstrapApplication` 调用中找到对 `importProvidersFrom` 的调用。
+ *
+ */
 function findImportProvidersFromCall(bootstrapCall: ts.CallExpression): ts.CallExpression | null {
   const providersLiteral = findProvidersLiteral(bootstrapCall);
   const importProvidersName = findImportLocalName(
@@ -168,7 +205,12 @@ function findImportProvidersFromCall(bootstrapCall: ts.CallExpression): ts.CallE
   return null;
 }
 
-/** Finds the `providers` array literal within a `bootstrapApplication` call. */
+/**
+ * Finds the `providers` array literal within a `bootstrapApplication` call.
+ *
+ * 在 `bootstrapApplication` 调用中查找 `providers` 数组文字。
+ *
+ */
 function findProvidersLiteral(bootstrapCall: ts.CallExpression): ts.ArrayLiteralExpression | null {
   // The imports have to be in the second argument of
   // the function which has to be an object literal.
@@ -193,9 +235,21 @@ function findProvidersLiteral(bootstrapCall: ts.CallExpression): ts.ArrayLiteral
 
 /**
  * Finds the local name of an imported symbol. Could be the symbol name itself or its alias.
+ *
+ * 查找导入符号的本地名称。可以是符号名称本身或其别名。
+ *
  * @param sourceFile File within which to search for the import.
+ *
+ * 要在其中搜索此导入的文件。
+ *
  * @param name Actual name of the import, not its local alias.
+ *
+ * 此导入的实际名称，而不是其本地别名。
+ *
  * @param moduleName Name of the module from which the symbol is imported.
+ *
+ * 从中导入符号的模块的名称。
+ *
  */
 function findImportLocalName(
   sourceFile: ts.SourceFile,
@@ -235,8 +289,17 @@ function findImportLocalName(
 
 /**
  * Finds a call to a function with a specific name.
+ *
+ * 查找对具有特定名称的函数的调用。
+ *
  * @param rootNode Node from which to start searching.
+ *
+ * 开始搜索的节点。
+ *
  * @param name Name of the function to search for.
+ *
+ * 要搜索的函数的名称。
+ *
  */
 function findCall(rootNode: ts.Node, name: string): ts.CallExpression | null {
   let result: ts.CallExpression | null = null;
@@ -258,7 +321,12 @@ function findCall(rootNode: ts.Node, name: string): ts.CallExpression | null {
   return result;
 }
 
-/** Creates an `importProvidersFrom({{moduleName}})` call. */
+/**
+ * Creates an `importProvidersFrom({{moduleName}})` call.
+ *
+ * 创建一个 `importProvidersFrom({{moduleName}})` 调用。
+ *
+ */
 function createImportProvidersFromCall(moduleName: string): ts.CallExpression {
   return ts.factory.createCallChain(
     ts.factory.createIdentifier('importProvidersFrom'),
@@ -268,7 +336,12 @@ function createImportProvidersFromCall(moduleName: string): ts.CallExpression {
   );
 }
 
-/** Creates a `providers: [importProvidersFrom({{moduleName}})]` property assignment. */
+/**
+ * Creates a `providers: [importProvidersFrom({{moduleName}})]` property assignment.
+ *
+ * 创建一个 `providers: [importProvidersFrom({{moduleName}})]` 属性的赋值语句。
+ *
+ */
 function createProvidersAssignment(moduleName: string): ts.PropertyAssignment {
   return ts.factory.createPropertyAssignment(
     'providers',

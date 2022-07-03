@@ -15,6 +15,9 @@ export const VIRTUAL_SCROLLABLE = new InjectionToken<CdkVirtualScrollable>('VIRT
 
 /**
  * Extending the {@link CdkScrollable} to be used as scrolling container for virtual scrolling.
+ *
+ * 扩展 {@link CdkScrollable} 以用作虚拟滚动的滚动容器。
+ *
  */
 @Directive()
 export abstract class CdkVirtualScrollable extends CdkScrollable {
@@ -30,7 +33,12 @@ export abstract class CdkVirtualScrollable extends CdkScrollable {
   /**
    * Measure the viewport size for the provided orientation.
    *
+   * 测量给定方向的视口大小。
+   *
    * @param orientation The orientation to measure the size from.
+   *
+   * 测量尺寸的方向。
+   *
    */
   measureViewportSize(orientation: 'horizontal' | 'vertical') {
     const viewportEl = this.elementRef.nativeElement;
@@ -39,6 +47,8 @@ export abstract class CdkVirtualScrollable extends CdkScrollable {
 
   /**
    * Measure the bounding ClientRect size including the scroll offset.
+   *
+   * 测量边界 ClientRect 的大小，包括滚动偏移量。
    *
    * @param from The edge to measure from.
    *

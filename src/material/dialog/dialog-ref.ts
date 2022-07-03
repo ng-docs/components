@@ -50,7 +50,12 @@ export class MatDialogRef<T, R = any> {
    */
   disableClose: boolean | undefined;
 
-  /** Unique ID for the dialog. */
+  /**
+   * Unique ID for the dialog.
+   *
+   * 对话框的唯一 ID。
+   *
+   */
   id: string;
 
   /**
@@ -97,7 +102,12 @@ export class MatDialogRef<T, R = any> {
   // already has a second `options` parameter that we can use. The problem is that internal tests
   // have assertions like `expect(MatDialogRef.close).toHaveBeenCalledWith(foo)` which will break,
   // because it'll be called with two arguments by things like `MatDialogClose`.
-  /** Interaction that caused the dialog to close. */
+  /**
+   * Interaction that caused the dialog to close.
+   *
+   * 会导致对话框关闭的交互。
+   *
+   */
   private _closeInteractionType: FocusOrigin | undefined;
 
   constructor(
@@ -336,9 +346,10 @@ export class MatDialogRef<T, R = any> {
 /**
  * Closes the dialog with the specified interaction type. This is currently not part of
  * `MatDialogRef` as that would conflict with custom dialog ref mocks provided in tests.
- * More details. See: https://github.com/angular/components/pull/9257#issuecomment-651342226.
+ * More details. See: <https://github.com/angular/components/pull/9257#issuecomment-651342226>.
  *
- * 用指定的交互类型关闭对话框。目前它不是 `MatDialogRef` 一部分，因为它会与测试中提供的自定义对话框引用模拟相冲突。更多细节请参阅： https://github.com/angular/components/pull/9257#issuecomment-651342226。
+ * 用指定的交互类型关闭对话框。目前它不是 `MatDialogRef` 一部分，因为它会与测试中提供的自定义对话框引用模拟相冲突。更多细节请参阅： <https://github.com/angular/components/pull/9257#issuecomment-651342226。>
+ *
  */
 // TODO: Move this back into `MatDialogRef` when we provide an official mock dialog ref.
 export function _closeDialogVia<R>(ref: MatDialogRef<R>, interactionType: FocusOrigin, result?: R) {

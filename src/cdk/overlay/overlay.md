@@ -29,7 +29,7 @@ managing that specific overlay.
 The `OverlayRef` *is* a `PortalOutlet`- once created, content can be added by attaching a `Portal`.
 See the documentation on portals for further information.
 
-`OverlayRef` *是*一个 `PortalOutlet`。一旦创建它，就可以为它附加一个 `Portal` 来添加内容。更多信息，请参见关于 portals（传送点）的文档。
+`OverlayRef` *是*一个 `PortalOutlet`。一旦创建它，就可以为它附着一个 `Portal` 来添加内容。更多信息，请参见关于 portals（传送点）的文档。
 
 ```ts
 const overlayRef = overlay.create();
@@ -144,7 +144,7 @@ The `OverlayContainer` provides a handle to the container element in which all i
 elements are rendered. By default, the overlay container is appended directly to the document body
 so that an overlay is never clipped by an `overflow: hidden` parent.
 
-`OverlayContainer` 提供了一个容器元素的引用，浮层中的每个元素都渲染在其中。默认情况下，浮层容器会直接附加到文档的 body 中，这样就不会被带有 `overflow: hidden` 的父元素裁剪掉了。
+`OverlayContainer` 提供了一个容器元素的引用，浮层中的每个元素都渲染在其中。默认情况下，浮层容器会直接附着到文档的 body 中，这样就不会被带有 `overflow: hidden` 的父元素裁剪掉了。
 
 #### Full-screen overlays
 

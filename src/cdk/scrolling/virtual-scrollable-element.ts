@@ -13,6 +13,9 @@ import {CdkVirtualScrollable, VIRTUAL_SCROLLABLE} from './virtual-scrollable';
 
 /**
  * Provides a virtual scrollable for the element it is attached to.
+ *
+ * 为附着到的元素提供一个虚拟可滚动。
+ *
  */
 @Directive({
   selector: '[cdkVirtualScrollingElement]',

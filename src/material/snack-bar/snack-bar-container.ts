@@ -36,6 +36,9 @@ import {MatSnackBarConfig} from './snack-bar-config';
 
 /**
  * Base class for snack bar containers.
+ *
+ * 快餐栏容器的基类。
+ *
  * @docs-private
  */
 @Directive()
@@ -156,7 +159,7 @@ export abstract class _MatSnackBarContainerBase extends BasePortalOutlet impleme
   /**
    * Attach a component portal as content to this snack bar container.
    *
-   * 把一个组件传送点作为内容附加到这个快餐栏容器中。
+   * 把一个组件传送点作为内容附着到这个快餐栏容器中。
    *
    */
   attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
@@ -169,7 +172,7 @@ export abstract class _MatSnackBarContainerBase extends BasePortalOutlet impleme
   /**
    * Attach a template portal as content to this snack bar container.
    *
-   * 把模板传送点作为内容附加到这个快餐栏容器中。
+   * 把模板传送点作为内容附着到这个快餐栏容器中。
    *
    */
   attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
@@ -182,7 +185,7 @@ export abstract class _MatSnackBarContainerBase extends BasePortalOutlet impleme
   /**
    * Attaches a DOM portal to the snack bar container.
    *
-   * 把 DOM 传送点附加到这个快餐栏容器中。
+   * 把 DOM 传送点附着到这个快餐栏容器中。
    *
    * @deprecated To be turned into a method.
    *
@@ -294,6 +297,9 @@ export abstract class _MatSnackBarContainerBase extends BasePortalOutlet impleme
   /**
    * Called after the portal contents have been attached. Can be
    * used to modify the DOM once it's guaranteed to be in place.
+   *
+   * 在附着传送点内容后调用。一旦确保到位，可用于修改 DOM。
+   *
    */
   protected _afterPortalAttached() {
     const element: HTMLElement = this._elementRef.nativeElement;
@@ -312,7 +318,7 @@ export abstract class _MatSnackBarContainerBase extends BasePortalOutlet impleme
   /**
    * Asserts that no content is already attached to the container.
    *
-   * 断言没有任何内容附加到了容器上。
+   * 断言没有任何内容附着到了容器上。
    *
    */
   private _assertNotAttached() {
@@ -362,6 +368,9 @@ export abstract class _MatSnackBarContainerBase extends BasePortalOutlet impleme
 
 /**
  * Internal component that wraps user-provided snack bar content.
+ *
+ * 包装用户提供的快餐栏内容的内部组件。
+ *
  * @docs-private
  */
 @Component({

@@ -90,11 +90,26 @@ export type FloatLabelType = 'always' | 'never' | 'auto';
  *
  */
 export interface MatFormFieldDefaultOptions {
-  /** Default form field appearance style. */
+  /**
+   * Default form field appearance style.
+   *
+   * 默认表单字段外观样式。
+   *
+   */
   appearance?: MatFormFieldAppearance;
-  /** Default color of the form field. */
+  /**
+   * Default color of the form field.
+   *
+   * 表单字段的默认颜色。
+   *
+   */
   color?: ThemePalette;
-  /** Whether the required marker should be hidden by default. */
+  /**
+   * Whether the required marker should be hidden by default.
+   *
+   * 默认情况下是否应隐藏所需的标记。
+   *
+   */
   hideRequiredMarker?: boolean;
   /**
    * Whether the label for form fields should by default float `always`,
@@ -392,7 +407,7 @@ export class MatFormField
    * Gets an ElementRef for the element that a overlay attached to the form field should be
    * positioned relative to.
    *
-   * 获取一个 ElementRef 元素，它为附加到表单字段上的浮层提供相对于该元素定位。
+   * 获取一个 ElementRef 元素，它为附着到表单字段上的浮层提供相对于该元素定位。
    *
    */
   getConnectedOverlayOrigin(): ElementRef {
@@ -772,7 +787,7 @@ export class MatFormField
   /**
    * Checks whether the form field is attached to the DOM.
    *
-   * 检查表单字段是否已附加到 DOM。
+   * 检查表单字段是否已附着到 DOM。
    *
    */
   private _isAttachedToDOM(): boolean {

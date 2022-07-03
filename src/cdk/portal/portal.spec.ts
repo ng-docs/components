@@ -743,7 +743,7 @@ class PizzaMsg {
  * Saves the parent node that the directive was attached to on init.
  * Useful to see where the element was in the DOM when it was first attached.
  *
- * 保存指令在初始化时附加到的父节点。用于查看元素在第一次附加时在 DOM 中的位置。
+ * 保存指令在初始化时附着到的父节点。用于查看元素在第一次附着时在 DOM 中的位置。
  *
  */
 @Directive({
@@ -785,7 +785,7 @@ class ArbitraryViewContainerRefComponent {
 /**
  * Test-bed component that contains a portal outlet and a couple of template portals.
  *
- * 包含一个门户出口和几个模板门户的测试平台组件。
+ * 包含一个传送点出口和几个模板传送点的测试平台组件。
  *
  */
 @Component({
@@ -852,7 +852,7 @@ class PortalTestApp {
 /**
  * Test-bed component that contains a portal outlet and a couple of template portals.
  *
- * 包含一个门户出口和几个模板门户的测试平台组件。
+ * 包含一个传送点出口和几个模板传送点的测试平台组件。
  *
  */
 @Component({

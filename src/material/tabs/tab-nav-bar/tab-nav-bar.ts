@@ -123,6 +123,9 @@ export abstract class _MatTabNavBase
    * Associated tab panel controlled by the nav bar. If not provided, then the nav bar
    * follows the ARIA link / navigation landmark pattern. If provided, it follows the
    * ARIA tabs design pattern.
+   *
+   * 由导航栏控制的关联选项卡面板。如果未提供，则导航栏遵循 ARIA 链接/导航地标模式。如果提供，它遵循 ARIA 选项卡设计模式。
+   *
    */
   @Input() tabPanel?: MatTabNavPanel;
 
@@ -311,7 +314,12 @@ export class _MatTabLinkBase
     );
   }
 
-  /** Unique id for the tab. */
+  /**
+   * Unique id for the tab.
+   *
+   * 选项卡的唯一 ID。
+   *
+   */
   @Input() id = `mat-tab-link-${nextUniqueId++}`;
 
   constructor(
@@ -450,6 +458,9 @@ export class MatTabLink extends _MatTabLinkBase implements OnDestroy {
 
 /**
  * Tab panel component associated with MatTabNav.
+ *
+ * 与 MatTabNav 关联的选项卡面板组件。
+ *
  */
 @Component({
   selector: 'mat-tab-nav-panel',
@@ -465,9 +476,19 @@ export class MatTabLink extends _MatTabLinkBase implements OnDestroy {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatTabNavPanel {
-  /** Unique id for the tab panel. */
+  /**
+   * Unique id for the tab panel.
+   *
+   * 选项卡面板的唯一 ID。
+   *
+   */
   @Input() id = `mat-tab-nav-panel-${nextUniqueId++}`;
 
-  /** Id of the active tab in the nav bar. */
+  /**
+   * Id of the active tab in the nav bar.
+   *
+   * 导航栏中活动选项卡的 ID。
+   *
+   */
   _activeTabId?: string;
 }

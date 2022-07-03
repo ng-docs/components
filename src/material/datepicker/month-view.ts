@@ -386,10 +386,15 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
    * corresponds to the given cell, set `activeDate` to that date and fire `activeDateChange` with
    * that date.
    *
+   * 将包含在事件中的日历正文单元格的索引作为参数。对于与给定单元格对应的日期，将 `activeDate` 设置为该日期并使用该日期触发 `activeDateChange` 。
+   *
    * This fucntion is used to match each component's model of the active date with the calendar
    * body cell that was focused. It updates its value of `activeDate` synchronously and updates the
    * parent's value asynchonously via the `activeDateChange` event. The child component receives an
    * updated value asynchronously via the `activeCell` Input.
+   *
+   * 此函数用于将每个组件的活动日期模型与聚焦的日历正文单元格匹配。它同步更新其 `activeDate` 的值，并通过 `activeDateChange` 事件异步更新父级的值。子组件通过 `activeCell` 输入异步接收更新值。
+   *
    */
   _updateActiveDate(event: MatCalendarUserEvent<number>) {
     const month = event.value;
@@ -401,7 +406,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     }
   }
 
-  /** Handles keydown events on the calendar body when calendar is in month view. */
+  /**
+   * Handles keydown events on the calendar body when calendar is in month view.
+   *
+   * 当日历在月视图中时，处理日历主体上的 keydown 事件。
+   *
+   */
   _handleCalendarBodyKeydown(event: KeyboardEvent): void {
     // TODO(mmalerba): We currently allow keyboard navigation to disabled dates, but just prevent
     // disabled ones from being selected. This may not be ideal, we should look into whether
@@ -541,7 +551,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     this._matCalendarBody._focusActiveCell(movePreview);
   }
 
-  /** Focuses the active cell after change detection has run and the microtask queue is empty. */
+  /**
+   * Focuses the active cell after change detection has run and the microtask queue is empty.
+   *
+   * 在变更检测运行且微任务队列为空后聚焦活动单元。
+   *
+   */
   _focusActiveCellAfterViewChecked() {
     this._matCalendarBody._scheduleFocusActiveCellAfterViewChecked();
   }
@@ -576,6 +591,9 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   /**
    * Takes a day of the month and returns a new date in the same month and year as the currently
    *  active date. The returned date will have the same day of the month as the argument date.
+   *
+   * 获取一个月中的一天，并返回与当前活动日期同年同月的新日期。返回的日期将与参数日期在一个月中的同一天。
+   *
    */
   private _getDateFromDayOfMonth(dayOfMonth: number): D {
     return this._dateAdapter.createDate(
@@ -585,7 +603,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
     );
   }
 
-  /** Initializes the weekdays. */
+  /**
+   * Initializes the weekdays.
+   *
+   * 初始化工作日。
+   *
+   */
   private _initWeekdays() {
     const firstDayOfWeek = this._dateAdapter.getFirstDayOfWeek();
     const narrowWeekdays = this._dateAdapter.getDayOfWeekNames('narrow');

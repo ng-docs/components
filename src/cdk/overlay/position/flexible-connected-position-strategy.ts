@@ -163,7 +163,12 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    */
   private _viewportRect: Dimensions;
 
-  /** Cached container dimensions */
+  /**
+   * Cached container dimensions
+   *
+   * 缓存的容器尺寸
+   *
+   */
   private _containerRect: Dimensions;
 
   /**
@@ -1424,7 +1429,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   /**
    * Narrows the given viewport rect by the current \_viewportMargin.
    *
-   * 通过当前的 _viewportMargin 缩小指定的视口方框。
+   * 通过当前的 \_viewportMargin 缩小指定的视口方框。
    *
    */
   private _getNarrowedViewportRect(): Dimensions {

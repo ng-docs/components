@@ -114,10 +114,20 @@ export class MatDatepickerIntl {
    */
   switchToMultiYearViewLabel = 'Choose month and year';
 
-  /** A label for the first date of a range of dates (used by screen readers). */
+  /**
+   * A label for the first date of a range of dates (used by screen readers).
+   *
+   * 日期范围中第一个日期的标签（由屏幕阅读器使用）。
+   *
+   */
   startDateLabel = 'Start date';
 
-  /** A label for the last date of a range of dates (used by screen readers). */
+  /**
+   * A label for the last date of a range of dates (used by screen readers).
+   *
+   * 日期范围中最后一个日期的标签（由屏幕阅读器使用）。
+   *
+   */
   endDateLabel = 'End date';
 
   /**
@@ -130,7 +140,12 @@ export class MatDatepickerIntl {
     return `${start} \u2013 ${end}`;
   }
 
-  /** Formats a label for a range of years (used by screen readers). */
+  /**
+   * Formats a label for a range of years (used by screen readers).
+   *
+   * 格式化一系列年份的标签（由屏幕阅读器使用）。
+   *
+   */
   formatYearRangeLabel(start: string, end: string): string {
     return `${start} to ${end}`;
   }

@@ -27,7 +27,7 @@ const DEFAULT_CONFIG = {
 /**
  * Service that allows for drag-and-drop functionality to be attached to DOM elements.
  *
- * 允许把拖放功能附加到 DOM 元素上的服务。
+ * 允许把拖放功能附着到 DOM 元素上的服务。
  *
  */
 @Injectable({providedIn: 'root'})

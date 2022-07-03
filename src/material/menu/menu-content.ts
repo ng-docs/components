@@ -40,7 +40,7 @@ export abstract class _MatMenuContentBase implements OnDestroy {
   /**
    * Emits when the menu content has been attached.
    *
-   * 菜单内容已附加时会触发。
+   * 菜单内容已附着时会触发。
    *
    */
   readonly _attached = new Subject<void>();
@@ -56,7 +56,12 @@ export abstract class _MatMenuContentBase implements OnDestroy {
   );
 
   /**
-   * @deprecated `changeDetectorRef` is now a required parameter.
+   * @deprecated
+   *
+   * `changeDetectorRef` is now a required parameter.
+   *
+   * `changeDetectorRef` 现在是必要参数。
+   *
    * @breaking-change 9.0.0
    */
   constructor(
@@ -82,7 +87,7 @@ export abstract class _MatMenuContentBase implements OnDestroy {
   /**
    * Attaches the content with a particular context.
    *
-   * 使用特定的上下文来附加内容。
+   * 使用特定的上下文来附着内容。
    *
    * @docs-private
    */

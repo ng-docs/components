@@ -82,7 +82,7 @@ Additional features can be built on top of the tree by adding behavior inside no
 (e.g., padding and toggle). Interactions that affect the
 rendered data (such as expand/collapse) should be propagated through the table's data source.
 
-`<mat-tree>` 本身只关心树形结构的渲染工作。通过在节点模板内添加行为（比如衬距 `padding` 和切换 `toggle`），可以在标准树的基础上构建附加功能。
+`<mat-tree>` 本身只关心树形结构的渲染工作。通过在节点模板内添加行为（比如衬距 `padding` 和切换 `toggle`），可以在标准树的基础上构建额外功能。
 那些能影响渲染数据的交互（比如展开/折叠）应该能通过表格的数据源进行传播。
 
 ### TreeControl

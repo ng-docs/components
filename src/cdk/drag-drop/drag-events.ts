@@ -23,7 +23,12 @@ export interface CdkDragStart<T = any> {
    *
    */
   source: CdkDrag<T>;
-  /** Native event that started the drag sequence. */
+  /**
+   * Native event that started the drag sequence.
+   *
+   * 开始本拖动序列的原生事件。
+   *
+   */
   event: MouseEvent | TouchEvent;
 }
 
@@ -41,7 +46,12 @@ export interface CdkDragRelease<T = any> {
    *
    */
   source: CdkDrag<T>;
-  /** Native event that caused the release event. */
+  /**
+   * Native event that caused the release event.
+   *
+   * 导致发出本事件的原生事件。
+   *
+   */
   event: MouseEvent | TouchEvent;
 }
 
@@ -73,7 +83,12 @@ export interface CdkDragEnd<T = any> {
    *
    */
   dropPoint: {x: number; y: number};
-  /** Native event that caused the dragging to stop. */
+  /**
+   * Native event that caused the dragging to stop.
+   *
+   * 导致本次拖动停止的原生事件。
+   *
+   */
   event: MouseEvent | TouchEvent;
 }
 
@@ -194,7 +209,12 @@ export interface CdkDragDrop<T, O = T, I = any> {
    *
    */
   dropPoint: {x: number; y: number};
-  /** Native event that caused the drop event. */
+  /**
+   * Native event that caused the drop event.
+   *
+   * 导致放下（drop）事件的原生事件。
+   *
+   */
   event: MouseEvent | TouchEvent;
 }
 

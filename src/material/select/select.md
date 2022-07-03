@@ -75,7 +75,7 @@ In some cases that `<mat-form-field>` may use the placeholder as the label (see 
 [form field label documentation](https://material.angular.io/components/form-field/overview#floating-label)).
 
 占位符是指当 `<mat-form-field>` 浮起，但 `<mat-select>` 为空时显示的文本。
-它可以给用户提供一些关于如何进行选择的附加信息。
+它可以给用户提供一些关于如何进行选择的额外信息。
 占位符可以通过 `<mat-select>` 元素上的 `placeholder` 属性来指定。
 有些情况下，`<mat-form-field>` 可以把占位符用作标签（参见[表单字段文档](/components/form-field/overview#floating-label)）。
 

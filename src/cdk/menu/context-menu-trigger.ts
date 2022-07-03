@@ -20,7 +20,12 @@ import {skip, takeUntil} from 'rxjs/operators';
 import {MENU_STACK, MenuStack} from './menu-stack';
 import {CdkMenuTriggerBase, MENU_TRIGGER} from './menu-trigger-base';
 
-/** The preferred menu positions for the context menu. */
+/**
+ * The preferred menu positions for the context menu.
+ *
+ * 上下文菜单的首选菜单位置。
+ *
+ */
 const CONTEXT_MENU_POSITIONS = STANDARD_DROPDOWN_BELOW_POSITIONS.map(position => {
   // In cases where the first menu item in the context menu is a trigger the submenu opens on a
   // hover event. We offset the context menu 2px by default to prevent this from occurring.
@@ -29,15 +34,31 @@ const CONTEXT_MENU_POSITIONS = STANDARD_DROPDOWN_BELOW_POSITIONS.map(position =>
   return {...position, offsetX, offsetY};
 });
 
-/** Tracks the last open context menu trigger across the entire application. */
+/**
+ * Tracks the last open context menu trigger across the entire application.
+ *
+ * 跟踪整个应用程序中最后打开的上下文菜单触发器。
+ *
+ */
 @Injectable({providedIn: 'root'})
 export class ContextMenuTracker {
-  /** The last open context menu trigger. */
+  /**
+   * The last open context menu trigger.
+   *
+   * 最后一个打开的上下文菜单触发器。
+   *
+   */
   private static _openContextMenuTrigger?: CdkContextMenuTrigger;
 
   /**
    * Close the previous open context menu and set the given one as being open.
+   *
+   * 关闭上一个打开的上下文菜单并将给定的菜单设置为打开。
+   *
    * @param trigger The trigger for the currently open Context Menu.
+   *
+   * 当前打开的上下文菜单的触发器。
+   *
    */
   update(trigger: CdkContextMenuTrigger) {
     if (ContextMenuTracker._openContextMenuTrigger !== trigger) {
@@ -47,12 +68,20 @@ export class ContextMenuTracker {
   }
 }
 
-/** The coordinates where the context menu should open. */
+/**
+ * The coordinates where the context menu should open.
+ *
+ * 上下文菜单应打开的坐标。
+ *
+ */
 export type ContextMenuCoordinates = {x: number; y: number};
 
 /**
  * A directive that opens a menu when a user right-clicks within its host element.
  * It is aware of nested context menus and will trigger only the lowest level non-disabled context menu.
+ *
+ * 当用户在其宿主元素中右键单击时打开菜单的指令。它知道嵌套的上下文菜单，并且只会触发最低级别的非禁用上下文菜单。
+ *
  */
 @Directive({
   selector: '[cdkContextMenuTriggerFor]',
@@ -69,16 +98,36 @@ export type ContextMenuCoordinates = {x: number; y: number};
   ],
 })
 export class CdkContextMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
-  /** The CDK overlay service. */
+  /**
+   * The CDK overlay service.
+   *
+   * CDK 浮层服务。
+   *
+   */
   private readonly _overlay = inject(Overlay);
 
-  /** The directionality of the page. */
+  /**
+   * The directionality of the page.
+   *
+   * 页面的方向性。
+   *
+   */
   private readonly _directionality = inject(Directionality, InjectFlags.Optional);
 
-  /** The app's context menu tracking registry */
+  /**
+   * The app's context menu tracking registry
+   *
+   * 应用程序的上下文菜单跟踪注册表
+   *
+   */
   private readonly _contextMenuTracker = inject(ContextMenuTracker);
 
-  /** Whether the context menu is disabled. */
+  /**
+   * Whether the context menu is disabled.
+   *
+   * 上下文菜单是否被禁用。
+   *
+   */
   @Input('cdkContextMenuDisabled')
   get disabled(): boolean {
     return this._disabled;
@@ -95,20 +144,37 @@ export class CdkContextMenuTrigger extends CdkMenuTriggerBase implements OnDestr
 
   /**
    * Open the attached menu at the specified location.
+   *
+   * 在指定位置打开已附着的菜单。
+   *
    * @param coordinates where to open the context menu
+   *
+   * 在哪里打开上下文菜单
+   *
    */
   open(coordinates: ContextMenuCoordinates) {
     this._open(coordinates, false);
   }
 
-  /** Close the currently opened context menu. */
+  /**
+   * Close the currently opened context menu.
+   *
+   * 关闭当前打开的上下文菜单。
+   *
+   */
   close() {
     this.menuStack.closeAll();
   }
 
   /**
    * Open the context menu and closes any previously open menus.
+   *
+   * 打开上下文菜单并关闭任何以前打开的菜单。
+   *
    * @param event the mouse event which opens the context menu.
+   *
+   * 导致打开此上下文菜单的鼠标事件。
+   *
    */
   _openOnContextMenu(event: MouseEvent) {
     if (!this.disabled) {
@@ -136,7 +202,13 @@ export class CdkContextMenuTrigger extends CdkMenuTriggerBase implements OnDestr
 
   /**
    * Get the configuration object used to create the overlay.
+   *
+   * 获取用于创建浮层的配置对象。
+   *
    * @param coordinates the location to place the opened menu
+   *
+   * 放置已打开菜单的位置
+   *
    */
   private _getOverlayConfig(coordinates: ContextMenuCoordinates) {
     return new OverlayConfig({
@@ -148,7 +220,13 @@ export class CdkContextMenuTrigger extends CdkMenuTriggerBase implements OnDestr
 
   /**
    * Get the position strategy for the overlay which specifies where to place the menu.
+   *
+   * 获取指定菜单放置位置的浮层的位置策略。
+   *
    * @param coordinates the location to place the opened menu
+   *
+   * 放置所打开的菜单的位置
+   *
    */
   private _getOverlayPositionStrategy(
     coordinates: ContextMenuCoordinates,
@@ -161,7 +239,12 @@ export class CdkContextMenuTrigger extends CdkMenuTriggerBase implements OnDestr
       .withPositions(this.menuPosition ?? CONTEXT_MENU_POSITIONS);
   }
 
-  /** Subscribe to the menu stack close events and close this menu when requested. */
+  /**
+   * Subscribe to the menu stack close events and close this menu when requested.
+   *
+   * 订阅菜单栈关闭事件并在请求时关闭此菜单。
+   *
+   */
   private _setMenuStackCloseListener() {
     this.menuStack.closed.pipe(takeUntil(this.destroyed)).subscribe(({item}) => {
       if (item === this.childMenu && this.isOpen()) {
@@ -174,7 +257,13 @@ export class CdkContextMenuTrigger extends CdkMenuTriggerBase implements OnDestr
   /**
    * Subscribe to the overlays outside pointer events stream and handle closing out the stack if a
    * click occurs outside the menus.
+   *
+   * 订阅浮层外部的指针事件流，并在菜单外发生单击时处理关闭堆栈。
+   *
    * @param ignoreFirstAuxClick Whether to ignore the first auxclick event outside the menu.
+   *
+   * 是否忽略菜单外的第一个 auxclick 事件。
+   *
    */
   private _subscribeToOutsideClicks(ignoreFirstAuxClick: boolean) {
     if (this.overlayRef) {
@@ -195,8 +284,17 @@ export class CdkContextMenuTrigger extends CdkMenuTriggerBase implements OnDestr
 
   /**
    * Open the attached menu at the specified location.
+   *
+   * 在指定位置打开附着的菜单。
+   *
    * @param coordinates where to open the context menu
+   *
+   * 在哪里打开上下文菜单
+   *
    * @param ignoreFirstOutsideAuxClick Whether to ignore the first auxclick outside the menu after opening.
+   *
+   * 打开后是否忽略菜单外的第一次辅助（aux）点击。
+   *
    */
   private _open(coordinates: ContextMenuCoordinates, ignoreFirstOutsideAuxClick: boolean) {
     if (this.disabled) {

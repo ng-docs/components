@@ -70,7 +70,12 @@ const _MatProgressSpinnerBase = mixinColor(
  *
  */
 export interface MatProgressSpinnerDefaultOptions {
-  /** Default color of the spinner. */
+  /**
+   * Default color of the spinner.
+   *
+   * 进度圈的默认颜色。
+   *
+   */
   color?: ThemePalette;
   /**
    * Diameter of the spinner.
@@ -196,7 +201,7 @@ export class MatProgressSpinner
    * elements in the Shadow DOM the style tags are attached to the shadow root, rather
    * than the document head.
    *
-   * 跟踪现有实例的直径，以便对生成的样式进行重复数据删除（默认 d = 100）。我们需要跟踪这个直径已附加到哪些元素，因为对于 Shadow DOM 中的元素，样式标签会附加到 Shadow DOM 根上，而不是 document 头中。
+   * 跟踪现有实例的直径，以便对生成的样式进行重复数据删除（默认 d = 100）。我们需要跟踪这个直径已附着到哪些元素，因为对于 Shadow DOM 中的元素，样式标签会附着到 Shadow DOM 根上，而不是 document 头中。
    *
    */
   private static _diameters = new WeakMap<Node, Set<number>>();
@@ -408,7 +413,12 @@ export class MatProgressSpinner
     return (this.strokeWidth / this.diameter) * 100;
   }
 
-  /** Gets the `transform-origin` for the inner circle element. */
+  /**
+   * Gets the `transform-origin` for the inner circle element.
+   *
+   * 获取内部 circle 元素的 `transform-origin` 。
+   *
+   */
   _getCircleTransformOrigin(svg: HTMLElement): string {
     // Safari has an issue where the `transform-origin` doesn't work as expected when the page
     // has a different zoom level from the default. The problem appears to be that a zoom

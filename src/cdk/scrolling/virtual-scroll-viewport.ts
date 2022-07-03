@@ -234,7 +234,7 @@ export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements On
   /**
    * the currently attached CdkVirtualScrollRepeater.
    *
-   * 当前已附加的 CdkVirtualScrollRepeater。
+   * 当前已附着的 CdkVirtualScrollRepeater。
    *
    */
   private _forOf: CdkVirtualScrollRepeater<any> | null;
@@ -354,7 +354,7 @@ export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements On
   /**
    * Attaches a `CdkVirtualScrollRepeater` to this viewport.
    *
-   * 把 `CdkVirtualScrollRepeater` 附加到这个视口。
+   * 把 `CdkVirtualScrollRepeater` 附着到这个视口。
    *
    */
   attach(forOf: CdkVirtualScrollRepeater<any>) {
@@ -587,6 +587,9 @@ export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements On
 
   /**
    * Measures the offset of the viewport from the scrolling container
+   *
+   * 测量视口相对于滚动容器的偏移量
+   *
    * @param from The edge to measure from.
    *
    * 要测量的边缘。

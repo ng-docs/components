@@ -64,7 +64,7 @@ let cloneUniqueId = 0;
 /**
  * Transfers the data of one input element to another.
  *
- * 把一个输入元素的数据传给另一个输入元素。
+ * 把一个输入框元素的数据传给另一个输入框元素。
  *
  */
 function transferInputData(

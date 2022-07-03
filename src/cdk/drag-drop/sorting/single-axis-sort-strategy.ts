@@ -21,37 +21,76 @@ import {
 
 /**
  * Entry in the position cache for draggable items.
+ *
+ * 可拖动项目的位置缓存中的条目。
+ *
  * @docs-private
  */
 interface CachedItemPosition<T> {
-  /** Instance of the drag item. */
+  /**
+   * Instance of the drag item.
+   *
+   * 拖动项的实例。
+   *
+   */
   drag: T;
-  /** Dimensions of the item. */
+  /**
+   * Dimensions of the item.
+   *
+   * 此项目的尺寸。
+   *
+   */
   clientRect: ClientRect;
-  /** Amount by which the item has been moved since dragging started. */
+  /**
+   * Amount by which the item has been moved since dragging started.
+   *
+   * 自拖动开始后此项目已移动的量。
+   *
+   */
   offset: number;
-  /** Inline transform that the drag item had when dragging started. */
+  /**
+   * Inline transform that the drag item had when dragging started.
+   *
+   * 拖动开始时拖动项的内联变换。
+   *
+   */
   initialTransform: string;
 }
 
 /**
  * Strategy that only supports sorting along a single axis.
  * Items are reordered using CSS transforms which allows for sorting to be animated.
+ *
+ * 仅支持沿单轴排序的策略。这些项目会使用 CSS transform 重新排序，允许进行动画排序。
+ *
  * @docs-private
  */
 export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
   implements DropListSortStrategy<T>
 {
-  /** Function used to determine if an item can be sorted into a specific index. */
+  /**
+   * Function used to determine if an item can be sorted into a specific index.
+   *
+   * 用于确定项目是否可以排序到特定索引的函数。
+   *
+   */
   private _sortPredicate: SortPredicate<T>;
 
-  /** Cache of the dimensions of all the items inside the container. */
+  /**
+   * Cache of the dimensions of all the items inside the container.
+   *
+   * 缓存容器内所有项目的尺寸。
+   *
+   */
   private _itemPositions: CachedItemPosition<T>[] = [];
 
   /**
    * Draggable items that are currently active inside the container. Includes the items
    * that were there at the start of the sequence, as well as any items that have been dragged
    * in, but haven't been dropped yet.
+   *
+   * 容器内当前处于活动状态的可拖动项目。包括在拖曳序列开始时已存在的项目，以及任何已被拖入但尚未被删除的项目。
+   *
    */
   private _activeDraggables: T[];
 
@@ -63,7 +102,12 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
    */
   orientation: 'vertical' | 'horizontal' = 'vertical';
 
-  /** Layout direction of the drop list. */
+  /**
+   * Layout direction of the drop list.
+   *
+   * 下拉列表的布局方向。
+   *
+   */
   direction: Direction;
 
   constructor(
@@ -75,6 +119,9 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
    * Keeps track of the item that was last swapped with the dragged item, as well as what direction
    * the pointer was moving in when the swap occured and whether the user's pointer continued to
    * overlap with the swapped item after the swapping occurred.
+   *
+   * 跟踪上次与所拖动的项目发生交换的项目，以及发生交换时指针的移动方向以及用户的指针在交换发生后是否继续与交换的项目重叠。
+   *
    */
   private _previousSwap = {
     drag: null as T | null,
@@ -84,7 +131,13 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
 
   /**
    * To be called when the drag sequence starts.
+   *
+   * 在拖动序列开始时调用。
+   *
    * @param items Items that are currently in the list.
+   *
+   * 当前在列表中的项目。
+   *
    */
   start(items: readonly T[]) {
     this.withItems(items);
@@ -92,7 +145,13 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
 
   /**
    * To be called when an item is being sorted.
+   *
+   * 在对项目进行排序时调用。
+   *
    * @param item Item to be sorted.
+   *
+   * 要排序的项目。
+   *
    * @param pointerX Position of the item along the X axis.
    *
    * 该条目沿 X 轴的位置。
@@ -102,6 +161,9 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
    * 该条目沿 Y 轴的位置。
    *
    * @param pointerDelta Direction in which the pointer is moving along each axis.
+   *
+   * 指针沿每个轴移动的方向。
+   *
    */
   sort(item: T, pointerX: number, pointerY: number, pointerDelta: {x: number; y: number}) {
     const siblings = this._itemPositions;
@@ -177,6 +239,9 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
 
   /**
    * Called when an item is being moved into the container.
+   *
+   * 当一个项目被移动到容器中时调用。
+   *
    * @param item Item that was moved into the container.
    *
    * 被移入容器中的条目。
@@ -251,18 +316,33 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
     this._cacheItemPositions();
   }
 
-  /** Sets the items that are currently part of the list. */
+  /**
+   * Sets the items that are currently part of the list.
+   *
+   * 设置当前属于列表的项目。
+   *
+   */
   withItems(items: readonly T[]): void {
     this._activeDraggables = items.slice();
     this._cacheItemPositions();
   }
 
-  /** Assigns a sort predicate to the strategy. */
+  /**
+   * Assigns a sort predicate to the strategy.
+   *
+   * 为本策略指派的排序谓词。
+   *
+   */
   withSortPredicate(predicate: SortPredicate<T>): void {
     this._sortPredicate = predicate;
   }
 
-  /** Resets the strategy to its initial state before dragging was started. */
+  /**
+   * Resets the strategy to its initial state before dragging was started.
+   *
+   * 在开始拖动之前将本策略重置为其初始状态。
+   *
+   */
   reset() {
     // TODO(crisbeto): may have to wait for the animations to finish.
     this._activeDraggables.forEach(item => {
@@ -284,12 +364,20 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
   /**
    * Gets a snapshot of items currently in the list.
    * Can include items that we dragged in from another list.
+   *
+   * 获取列表中当前项目的快照。可以包括我们从另一个列表中拖入的项目。
+   *
    */
   getActiveItemsSnapshot(): readonly T[] {
     return this._activeDraggables;
   }
 
-  /** Gets the index of a specific item. */
+  /**
+   * Gets the index of a specific item.
+   *
+   * 获取特定项目的索引。
+   *
+   */
   getItemIndex(item: T): number {
     // Items are sorted always by top/left in the cache, however they flow differently in RTL.
     // The rest of the logic still stands no matter what orientation we're in, however
@@ -302,7 +390,12 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
     return items.findIndex(currentItem => currentItem.drag === item);
   }
 
-  /** Used to notify the strategy that the scroll position has changed. */
+  /**
+   * Used to notify the strategy that the scroll position has changed.
+   *
+   * 用于通知本策略滚动位置发生了变化。
+   *
+   */
   updateOnScroll(topDifference: number, leftDifference: number) {
     // Since we know the amount that the user has scrolled we can shift all of the
     // client rectangles ourselves. This is cheaper than re-measuring everything and
@@ -323,7 +416,12 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
     });
   }
 
-  /** Refreshes the position cache of the items and sibling containers. */
+  /**
+   * Refreshes the position cache of the items and sibling containers.
+   *
+   * 刷新这些项目和同级容器的位置缓存。
+   *
+   */
   private _cacheItemPositions() {
     const isHorizontal = this.orientation === 'horizontal';
 
@@ -346,9 +444,21 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
 
   /**
    * Gets the offset in pixels by which the item that is being dragged should be moved.
+   *
+   * 获取被拖动的项目应移动的偏移量（以像素为单位）。
+   *
    * @param currentPosition Current position of the item.
+   *
+   * 项目的当前位置。
+   *
    * @param newPosition Position of the item where the current item should be moved.
+   *
+   * 当前项目应移动到的项目的位置。
+   *
    * @param delta Direction in which the user is moving.
+   *
+   * 用户移动的方向。
+   *
    */
   private _getItemOffsetPx(currentPosition: ClientRect, newPosition: ClientRect, delta: 1 | -1) {
     const isHorizontal = this.orientation === 'horizontal';
@@ -368,9 +478,21 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
 
   /**
    * Gets the offset in pixels by which the items that aren't being dragged should be moved.
+   *
+   * 获取未被拖动的项目应该被移动的偏移量（以像素为单位）。
+   *
    * @param currentIndex Index of the item currently being dragged.
+   *
+   * 当前被拖动的项目的索引。
+   *
    * @param siblings All of the items in the list.
+   *
+   * 列表中的所有项目。
+   *
    * @param delta Direction in which the user is moving.
+   *
+   * 用户移动的方向。
+   *
    */
   private _getSiblingOffsetPx(
     currentIndex: number,
@@ -402,8 +524,17 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
 
   /**
    * Checks if pointer is entering in the first position
+   *
+   * 检查指针是否正在进入第一个位置
+   *
    * @param pointerX Position of the user's pointer along the X axis.
+   *
+   * 用户指针沿 X 轴的位置。
+   *
    * @param pointerY Position of the user's pointer along the Y axis.
+   *
+   * 用户指针沿 Y 轴的位置。
+   *
    */
   private _shouldEnterAsFirstChild(pointerX: number, pointerY: number) {
     if (!this._activeDraggables.length) {
@@ -427,13 +558,25 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
 
   /**
    * Gets the index of an item in the drop container, based on the position of the user's pointer.
+   *
+   * 根据用户指针的位置获取放置容器中项目的索引。
+   *
    * @param item Item that is being sorted.
    *
    * 正在排序的条目。
    *
    * @param pointerX Position of the user's pointer along the X axis.
+   *
+   * 用户指针沿 X 轴的位置。
+   *
    * @param pointerY Position of the user's pointer along the Y axis.
+   *
+   * 用户指针沿 Y 轴的位置。
+   *
    * @param delta Direction in which the user is moving their pointer.
+   *
+   * 用户移动指针的方向。
+   *
    */
   private _getItemIndexFromPointerPosition(
     item: T,

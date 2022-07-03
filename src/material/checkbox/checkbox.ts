@@ -161,13 +161,28 @@ export abstract class _MatCheckboxBase<E>
    */
   abstract focus(origin?: FocusOrigin): void;
 
-  /** Creates the change event that will be emitted by the checkbox. */
+  /**
+   * Creates the change event that will be emitted by the checkbox.
+   *
+   * 创建将由复选框发出的更改事件。
+   *
+   */
   protected abstract _createChangeEvent(isChecked: boolean): E;
 
-  /** Gets the element on which to add the animation CSS classes. */
+  /**
+   * Gets the element on which to add the animation CSS classes.
+   *
+   * 获取要在其上添加动画 CSS 类的元素。
+   *
+   */
   protected abstract _getAnimationTargetElement(): HTMLElement | null;
 
-  /** CSS classes to add when transitioning between the different checkbox states. */
+  /**
+   * CSS classes to add when transitioning between the different checkbox states.
+   *
+   * 在不同复选框状态之间转换时添加的 CSS 类。
+   *
+   */
   protected abstract _animationClasses: {
     uncheckedToChecked: string;
     uncheckedToIndeterminate: string;
@@ -181,7 +196,7 @@ export abstract class _MatCheckboxBase<E>
    * Attached to the aria-label attribute of the host element. In most cases, aria-labelledby will
    * take precedence so this may be omitted.
    *
-   * 附加在宿主元素的 aria-label 属性上。在大多数情况下，aria-labelledby 优先，所以这个可以省略。
+   * 附着在宿主元素的 aria-label 属性上。在大多数情况下，aria-labelledby 优先，所以这个可以省略。
    *
    */
   @Input('aria-label') ariaLabel: string = '';
@@ -272,7 +287,7 @@ export abstract class _MatCheckboxBase<E>
   /**
    * The value attribute of the native input element
    *
-   * 原生输入元素的 value 属性
+   * 原生输入框元素的 value 属性
    *
    */
   @Input() value: string;
@@ -285,7 +300,12 @@ export abstract class _MatCheckboxBase<E>
    */
   @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
 
-  /** The native `<label>` element */
+  /**
+   * The native `<label>` element
+   *
+   * 原生 `<label>` 元素
+   *
+   */
   @ViewChild('label') _labelElement: ElementRef<HTMLInputElement>;
 
   /**
@@ -617,7 +637,9 @@ export abstract class _MatCheckboxBase<E>
  * disabled. Note that all additional accessibility attributes are taken care of by the component,
  * so there is no need to provide them yourself. However, if you want to omit a label and still
  * have the checkbox be accessible, you may supply an [aria-label] input.
- * See: https://material.io/design/components/selection-controls.html
+ * See: <https://material.io/design/components/selection-controls.html>
+ *
+ * 一个 Material Design 复选框组件。支持 HTML5 复选框的所有功能，并公开了类似的 API。 MatCheckbox 可以被选中、未选中、不确定或禁用。请注意，所有额外的无障碍化属性都由本组件处理，因此无需你自己提供它们。但是，如果你想省略一个标签并且仍然可以访问该复选框，你可以提供一个 [aria-label] 输入属性。请参阅： [https](https://material.io/design/components/selection-controls.html) ://material.io/design/components/selection-controls.html
  *
  */
 @Component({
@@ -699,6 +721,9 @@ export class MatCheckbox
    * Toggles checked state if element is not disabled.
    * Do not toggle on (change) event since IE doesn't fire change event when
    *   indeterminate checkbox is clicked.
+   *
+   * 复选框输入框元素的事件处理程序。如果元素未禁用，则切换选中状态。不要打开（更改）事件，因为当单击未定态复选框时 IE 不会触发更改事件。
+   *
    * @param event
    */
   _onInputClick(event: Event) {

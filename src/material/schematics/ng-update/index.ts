@@ -156,7 +156,12 @@ export function updateToV13(): Rule {
   );
 }
 
-/** Entry point for the migration schematics with target of Angular Material v14 */
+/**
+ * Entry point for the migration schematics with target of Angular Material v14
+ *
+ * 以 Angular Material v14 为目标的迁移示意图的入口点
+ *
+ */
 export function updateToV14(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V14,
@@ -166,7 +171,12 @@ export function updateToV14(): Rule {
   );
 }
 
-/** Entry point for the migration schematics with target of Angular Material v15 */
+/**
+ * Entry point for the migration schematics with target of Angular Material v15
+ *
+ * 以 Angular Material v15 为目标的迁移示意图的入口点
+ *
+ */
 export function updateToV15(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V15,

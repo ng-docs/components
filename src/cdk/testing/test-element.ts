@@ -203,6 +203,9 @@ export interface TestElement {
    * 以按键序列的形式，把指定的字符串发送给输入设备。同时触发输入事件，并尝试将该字符串添加到 Element 的值中。注意，这种方式不能复现快捷键（如 Tab、Ctrl + A 等）在浏览器中的原生行为。
    *
    * @throws An error if no keys have been specified.
+   *
+   * 如果未指定任何键，则会出错。
+   *
    */
   sendKeys(...keys: (string | TestKey)[]): Promise<void>;
 
@@ -213,6 +216,9 @@ export interface TestElement {
    * 通过一系列按键将给定的字符串发送到输入框。还会触发输入事件，并尝试将字符串添加到 Element 的值。
    *
    * @throws An error if no keys have been specified.
+   *
+   * 如果未指定任何键，则会出错。
+   *
    */
   sendKeys(modifiers: ModifierKeys, ...keys: (string | TestKey)[]): Promise<void>;
 

@@ -100,7 +100,12 @@ export abstract class _MatAutocompleteHarnessBase<
     return (await this.host()).sendKeys(value);
   }
 
-  /** Clears the input value. */
+  /**
+   * Clears the input value.
+   *
+   * 清除输入值。
+   *
+   */
   async clear(): Promise<void> {
     return (await this.host()).clear();
   }

@@ -236,9 +236,10 @@ export class MatIconRegistry implements OnDestroy {
   /**
    * The CSS classes to apply when an `<mat-icon>` component has no icon name, url, or font
    * specified. The default 'material-icons' value assumes that the material icon font has been
-   * loaded as described at http://google.github.io/material-design-icons/#icon-font-for-the-web
+   * loaded as described at <http://google.github.io/material-design-icons/#icon-font-for-the-web>
    *
-   * 当 `<mat-icon>` 组件没有指定图标名、url 或字体时，要应用的 CSS 类。默认的 “material-icons” 值假定已加载了 Material 字体图标，详见 http://google.github.io/material-design-icons/#icon-font-for-the-web
+   * 当 `<mat-icon>` 组件没有指定图标名、url 或字体时，要应用的 CSS 类。默认的 “material-icons” 值假定已加载了 Material 字体图标，详见 <http://google.github.io/material-design-icons/#icon-font-for-the-web>
+   *
    */
   private _defaultFontSetClass = ['material-icons', 'mat-ligature-font'];
 
@@ -447,11 +448,15 @@ export class MatIconRegistry implements OnDestroy {
    * If the registered font is a ligature font, then don't forget to also include the special
    * class `mat-ligature-font` to allow the usage via attribute. So register like this:
    *
+   * 如果注册的字体是合字字体，那么不要忘记还要包括特殊类 `mat-ligature-font` 以允许通过属性使用它。所以要像这样注册：
+   *
    * ```ts
    * iconRegistry.registerFontClassAlias('f1', 'font1 mat-ligature-font');
    * ```
    *
    * And use like this:
+   *
+   * 并像这样使用：
    *
    * ```html
    * <mat-icon fontSet="f1" fontIcon="home"></mat-icon>
@@ -713,7 +718,7 @@ export class MatIconRegistry implements OnDestroy {
    * Loads the content of the icon set URL specified in the
    * SvgIconConfig and attaches it to the config.
    *
-   * 加载 SvgIconConfig 中指定的图标集 URL 的内容，并把它附加到配置对象中。
+   * 加载 SvgIconConfig 中指定的图标集 URL 的内容，并把它附着到配置对象中。
    *
    */
   private _loadSvgIconSetFromConfig(config: SvgIconConfig): Observable<TrustedHTML | null> {

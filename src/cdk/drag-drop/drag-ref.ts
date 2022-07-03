@@ -453,7 +453,12 @@ export class DragRef<T = any> {
    */
   private _nativeInteractionsEnabled = true;
 
-  /** Client rect of the root element when the dragging sequence has started. */
+  /**
+   * Client rect of the root element when the dragging sequence has started.
+   *
+   * 此拖动序列开始时根元素的客户区矩形。
+   *
+   */
   private _initialClientRect?: ClientRect;
 
   /**
@@ -672,7 +677,7 @@ export class DragRef<T = any> {
   /**
    * Arbitrary data that can be attached to the drag item.
    *
-   * 可以附加在拖动条目上的任意数据。
+   * 可以附加到拖动条目上的任意数据。
    *
    */
   data: T;
@@ -2107,7 +2112,12 @@ export class DragRef<T = any> {
     return coerceElement(previewContainer);
   }
 
-  /** Lazily resolves and returns the dimensions of the preview. */
+  /**
+   * Lazily resolves and returns the dimensions of the preview.
+   *
+   * 惰性解析并返回预览的尺寸。
+   *
+   */
   private _getPreviewRect(): ClientRect {
     // Cache the preview element rect if we haven't cached it already or if
     // we cached it too early before the element dimensions were computed.
@@ -2120,7 +2130,12 @@ export class DragRef<T = any> {
     return this._previewRect;
   }
 
-  /** Handles a native `dragstart` event. */
+  /**
+   * Handles a native `dragstart` event.
+   *
+   * 处理原生的 `dragstart` 事件。
+   *
+   */
   private _nativeDragStart = (event: DragEvent) => {
     if (this._handles.length) {
       const targetHandle = this._getTargetHandle(event);
@@ -2135,7 +2150,12 @@ export class DragRef<T = any> {
     }
   };
 
-  /** Gets a handle that is the target of an event. */
+  /**
+   * Gets a handle that is the target of an event.
+   *
+   * 获取作为事件目标的句柄。
+   *
+   */
   private _getTargetHandle(event: Event): HTMLElement | undefined {
     return this._handles.find(handle => {
       return event.target && (event.target === handle || handle.contains(event.target as Node));

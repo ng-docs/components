@@ -28,7 +28,12 @@ import {CdkMenuBase} from './menu-base';
  * CdkMenuItem or CdkMenuGroup. Sets the appropriate role and aria-attributes for a menu and
  * contains accessible keyboard and mouse handling logic.
  *
+ * 将此元素配置为菜单的指令，该菜单应包含标记为 CdkMenuItem 或 CdkMenuGroup 的子元素。为菜单设置适当的角色和 aria 属性，并包含可访问的键盘和鼠标处理逻辑。
+ *
  * It also acts as a RadioGroup for elements marked with role `menuitemradio`.
+ *
+ * 它还充当标有角色 `menuitemradio` 的元素的 RadioGroup。
+ *
  */
 @Directive({
   selector: '[cdkMenu]',
@@ -56,10 +61,20 @@ export class CdkMenu extends CdkMenuBase implements AfterContentInit, OnDestroy 
    */
   @Output() readonly closed: EventEmitter<void> = new EventEmitter();
 
-  /** The direction items in the menu flow. */
+  /**
+   * The direction items in the menu flow.
+   *
+   * 菜单流中菜单项的方向。
+   *
+   */
   override readonly orientation = 'vertical';
 
-  /** Whether the menu is displayed inline (i.e. always present vs a conditional popup that the user triggers with a trigger element). */
+  /**
+   * Whether the menu is displayed inline (i.e. always present vs a conditional popup that the user triggers with a trigger element).
+   *
+   * 菜单是否内联显示（即始终存在的弹出菜单，与之相对的是通过触发器元素由用户触发的条件化弹出菜单）。
+   *
+   */
   override readonly isInline = !this._parentTrigger;
 
   constructor() {
@@ -80,7 +95,13 @@ export class CdkMenu extends CdkMenuBase implements AfterContentInit, OnDestroy 
 
   /**
    * Handle keyboard events for the Menu.
+   *
+   * 处理菜单的键盘事件。
+   *
    * @param event The keyboard event to be handled.
+   *
+   * 要处理的键盘事件。
+   *
    */
   _handleKeyEvent(event: KeyboardEvent) {
     const keyManager = this.keyManager;
@@ -117,7 +138,13 @@ export class CdkMenu extends CdkMenuBase implements AfterContentInit, OnDestroy 
 
   /**
    * Set focus the either the current, previous or next item based on the FocusNext event.
+   *
+   * 根据 FocusNext 事件设置当前、上一个或下一个菜单项的焦点。
+   *
    * @param focusNext The element to focus.
+   *
+   * 要聚焦的元素。
+   *
    */
   private _toggleMenuFocus(focusNext: FocusNext | undefined) {
     const keyManager = this.keyManager;
@@ -141,7 +168,12 @@ export class CdkMenu extends CdkMenuBase implements AfterContentInit, OnDestroy 
     }
   }
 
-  /** Subscribe to the MenuStack emptied events. */
+  /**
+   * Subscribe to the MenuStack emptied events.
+   *
+   * 订阅 MenuStack 清空事件。
+   *
+   */
   private _subscribeToMenuStackEmptied() {
     this.menuStack.emptied
       .pipe(takeUntil(this.destroyed))

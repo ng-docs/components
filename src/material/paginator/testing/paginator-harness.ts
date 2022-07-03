@@ -41,7 +41,12 @@ export abstract class _MatPaginatorHarnessBase extends ComponentHarness {
     return (await this._nextButton()).click();
   }
 
-  /** Returns whether or not the next page button is disabled. */
+  /**
+   * Returns whether or not the next page button is disabled.
+   *
+   * 返回“下一页”按钮是否被禁用。
+   *
+   */
   async isNextPageDisabled(): Promise<boolean> {
     const disabledValue = await (await this._nextButton()).getAttribute('disabled');
     return disabledValue == 'true';

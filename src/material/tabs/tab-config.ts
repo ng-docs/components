@@ -60,6 +60,9 @@ export interface MatTabsConfig {
    * By default tabs remove their content from the DOM while it's off-screen.
    * Setting this to `true` will keep it in the DOM which will prevent elements
    * like iframes and videos from reloading next time it comes back into the view.
+   *
+   * 默认情况下，选项卡在屏幕外时会从 DOM 中删除其内容。将此设置为 `true` 会将其保留在 DOM 中，这将防止 iframe 和视频等元素在下次返回视图时重新加载。
+   *
    */
   preserveContent?: boolean;
 }

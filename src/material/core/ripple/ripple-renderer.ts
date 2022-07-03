@@ -36,7 +36,12 @@ export interface RippleTarget {
   rippleDisabled: boolean;
 }
 
-/** Interfaces the defines ripple element transition event listeners. */
+/**
+ * Interfaces the defines ripple element transition event listeners.
+ *
+ * 接口定义涟漪元素转换事件侦听器。
+ *
+ */
 interface RippleEventListeners {
   onTransitionEnd: EventListener;
   onTransitionCancel: EventListener;
@@ -128,6 +133,9 @@ export class RippleRenderer implements EventListenerObject {
    * The ripple reference is mapped to its element event listeners.
    * The reason why `| null` is used is that event listeners are added only
    * when the condition is truthy (see the `_startFadeOutTransition` method).
+   *
+   * 当前活动涟漪的引用映射表。涟漪引用映射到其元素事件侦听器。之所以使用 `| null` 是因为仅当条件为真时才添加事件侦听器，因此可能为空（请参阅 `_startFadeOutTransition` 方法）。
+   *
    */
   private _activeRipples = new Map<RippleRef, RippleEventListeners | null>();
 
@@ -387,7 +395,12 @@ export class RippleRenderer implements EventListenerObject {
     }
   }
 
-  /** Method that will be called if the fade-in or fade-in transition completed. */
+  /**
+   * Method that will be called if the fade-in or fade-in transition completed.
+   *
+   * 淡入或淡入转换完成时将调用的方法。
+   *
+   */
   private _finishRippleTransition(rippleRef: RippleRef) {
     if (rippleRef.state === RippleState.FADING_IN) {
       this._startFadeOutTransition(rippleRef);
@@ -399,6 +412,9 @@ export class RippleRenderer implements EventListenerObject {
   /**
    * Starts the fade-out transition of the given ripple if it's not persistent and the pointer
    * is not held down anymore.
+   *
+   * 如果它不是持久的并且指针没有持续按住，则开始给定涟漪的淡出过渡。
+   *
    */
   private _startFadeOutTransition(rippleRef: RippleRef) {
     const isMostRecentTransientRipple = rippleRef === this._mostRecentTransientRipple;
@@ -415,7 +431,12 @@ export class RippleRenderer implements EventListenerObject {
     }
   }
 
-  /** Destroys the given ripple by removing it from the DOM and updating its state. */
+  /**
+   * Destroys the given ripple by removing it from the DOM and updating its state.
+   *
+   * 通过将给定的涟漪从 DOM 中移除并更新其状态来销毁它。
+   *
+   */
   private _destroyRipple(rippleRef: RippleRef) {
     const eventListeners = this._activeRipples.get(rippleRef) ?? null;
     this._activeRipples.delete(rippleRef);
@@ -439,7 +460,12 @@ export class RippleRenderer implements EventListenerObject {
     rippleRef.element.remove();
   }
 
-  /** Function being called whenever the trigger is being pressed using mouse. */
+  /**
+   * Function being called whenever the trigger is being pressed using mouse.
+   *
+   * 每当使用鼠标按下触发器时都会调用此函数。
+   *
+   */
   private _onMousedown(event: MouseEvent) {
     // Screen readers will fire fake mouse events for space/enter. Skip launching a
     // ripple in this case for consistency with the non-screen-reader experience.

@@ -13,23 +13,44 @@ import {DialogConfig} from './dialog-config';
 import {FocusOrigin} from '@angular/cdk/a11y';
 import {BasePortalOutlet} from '@angular/cdk/portal';
 
-/** Additional options that can be passed in when closing a dialog. */
+/**
+ * Additional options that can be passed in when closing a dialog.
+ *
+ * 关闭对话框时可以传入的其他选项。
+ *
+ */
 export interface DialogCloseOptions {
-  /** Focus original to use when restoring focus. */
+  /**
+   * Focus original to use when restoring focus.
+   *
+   * 恢复焦点时要使用的原焦点。
+   *
+   */
   focusOrigin?: FocusOrigin;
 }
 
 /**
  * Reference to a dialog opened via the Dialog service.
+ *
+ * 对通过此 Dialog 服务打开的对话框的引用。
+ *
  */
 export class DialogRef<R = unknown, C = unknown> {
   /**
    * Instance of component opened into the dialog. Will be
    * null when the dialog is opened using a `TemplateRef`.
+   *
+   * 在对话框中打开的组件实例。使用 `TemplateRef` 打开对话框时将为空。
+   *
    */
   readonly componentInstance: C | null;
 
-  /** Instance of the container that is rendering out the dialog content. */
+  /**
+   * Instance of the container that is rendering out the dialog content.
+   *
+   * 渲染对话框内容的容器实例。
+   *
+   */
   readonly containerInstance: BasePortalOutlet & {_closeInteractionType?: FocusOrigin};
 
   /**
@@ -40,19 +61,44 @@ export class DialogRef<R = unknown, C = unknown> {
    */
   disableClose: boolean | undefined;
 
-  /** Emits when the dialog has been closed. */
+  /**
+   * Emits when the dialog has been closed.
+   *
+   * 当对话框关闭时发出。
+   *
+   */
   readonly closed: Observable<R | undefined> = new Subject<R | undefined>();
 
-  /** Emits when the backdrop of the dialog is clicked. */
+  /**
+   * Emits when the backdrop of the dialog is clicked.
+   *
+   * 单击对话框的背景时发出。
+   *
+   */
   readonly backdropClick: Observable<MouseEvent>;
 
-  /** Emits when on keyboard events within the dialog. */
+  /**
+   * Emits when on keyboard events within the dialog.
+   *
+   * 在对话框中的键盘事件上发出。
+   *
+   */
   readonly keydownEvents: Observable<KeyboardEvent>;
 
-  /** Emits on pointer events that happen outside of the dialog. */
+  /**
+   * Emits on pointer events that happen outside of the dialog.
+   *
+   * 在对话框之外发生的指针事件上发出。
+   *
+   */
   readonly outsidePointerEvents: Observable<MouseEvent>;
 
-  /** Unique ID for the dialog. */
+  /**
+   * Unique ID for the dialog.
+   *
+   * 对话框的唯一 ID。
+   *
+   */
   readonly id: string;
 
   constructor(
@@ -89,6 +135,9 @@ export class DialogRef<R = unknown, C = unknown> {
    * 返回到窗口对话框的可选结果。
    *
    * @param options Additional options to customize the closing behavior.
+   *
+   * 自定义关闭行为的附加选项。
+   *
    */
   close(result?: R, options?: DialogCloseOptions): void {
     if (this.containerInstance) {
@@ -103,7 +152,12 @@ export class DialogRef<R = unknown, C = unknown> {
     }
   }
 
-  /** Updates the position of the dialog based on the current position strategy. */
+  /**
+   * Updates the position of the dialog based on the current position strategy.
+   *
+   * 根据当前位置策略更新对话框的位置。
+   *
+   */
   updatePosition(): this {
     this.overlayRef.updatePosition();
     return this;

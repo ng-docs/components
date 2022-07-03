@@ -144,7 +144,12 @@ export abstract class MatListItemHarnessBase extends ContentContainerComponentHa
     return !!(await this._icon());
   }
 
-  /** Whether this list option is disabled. */
+  /**
+   * Whether this list option is disabled.
+   *
+   * 是否禁用此列表选项。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     return (await this.host()).hasClass('mat-list-item-disabled');
   }

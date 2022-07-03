@@ -46,9 +46,9 @@ export class MiscImportsMigration extends Migration<null> {
 
   /**
    * Checks for named imports that refer to the deleted animation constants.
-   * https://github.com/angular/components/commit/9f3bf274c4f15f0b0fbd8ab7dbf1a453076e66d9
+   * <https://github.com/angular/components/commit/9f3bf274c4f15f0b0fbd8ab7dbf1a453076e66d9>
    *
-   * 检查引用已删除动画常量的命名导入。 https://github.com/angular/components/commit/9f3bf274c4f15f0b0fbd8ab7dbf1a453076e66d9
+   * 检查引用已删除动画常量的命名导入。 <https://github.com/angular/components/commit/9f3bf274c4f15f0b0fbd8ab7dbf1a453076e66d9>
    *
    */
   private _checkAnimationConstants(namedImports: ts.NamedImports) {
