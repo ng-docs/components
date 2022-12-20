@@ -11,7 +11,7 @@ const presenceOf = ExpectedConditions.presenceOf;
 const not = ExpectedConditions.not;
 
 describe('menu', () => {
-  const menuSelector = '.mat-menu-panel';
+  const menuSelector = '.mat-mdc-menu-panel';
   const page = {
     menu: () => element(by.css(menuSelector)),
     start: () => element(by.id('start')),
@@ -84,7 +84,7 @@ describe('menu', () => {
 
   it('should mirror classes on host to menu template in overlay', async () => {
     await page.trigger().click();
-    expect(await page.menu().getAttribute('class')).toContain('mat-menu-panel');
+    expect(await page.menu().getAttribute('class')).toContain('mat-mdc-menu-panel');
     expect(await page.menu().getAttribute('class')).toContain('custom');
   });
 

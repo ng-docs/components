@@ -8,15 +8,16 @@
 
 import {
   Directive,
+  ElementRef,
   Input,
   OnChanges,
   OnInit,
   Optional,
   SimpleChanges,
-  ElementRef,
 } from '@angular/core';
+
 import {MatDialog} from './dialog';
-import {MatDialogRef, _closeDialogVia} from './dialog-ref';
+import {_closeDialogVia, MatDialogRef} from './dialog-ref';
 
 /**
  * Counter used to generate unique IDs for dialog elements.
@@ -43,7 +44,7 @@ let dialogElementUid = 0;
 })
 export class MatDialogClose implements OnInit, OnChanges {
   /**
-   * Screenreader label for the button.
+   * Screen-reader label for the button.
    *
    * 该按钮的屏幕阅读器标签。
    *
@@ -69,11 +70,6 @@ export class MatDialogClose implements OnInit, OnChanges {
   @Input('matDialogClose') _matDialogClose: any;
 
   constructor(
-    /**
-     * Reference to the containing dialog.
-     * @deprecated `dialogRef` property to become private.
-     * @breaking-change 13.0.0
-     */
     // The dialog title directive is always used in combination with a `MatDialogRef`.
     // tslint:disable-next-line: lightweight-tokens
     @Optional() public dialogRef: MatDialogRef<any>,
@@ -123,18 +119,12 @@ export class MatDialogClose implements OnInit, OnChanges {
   selector: '[mat-dialog-title], [matDialogTitle]',
   exportAs: 'matDialogTitle',
   host: {
-    'class': 'mat-dialog-title',
+    'class': 'mat-mdc-dialog-title mdc-dialog__title',
     '[id]': 'id',
   },
 })
 export class MatDialogTitle implements OnInit {
-  /**
-   * Unique id for the dialog title. If none is supplied, it will be auto-generated.
-   *
-   * 对话框标题的唯一 ID。如果没有提供，它将自动生成。
-   *
-   */
-  @Input() id: string = `mat-dialog-title-${dialogElementUid++}`;
+  @Input() id: string = `mat-mdc-dialog-title-${dialogElementUid++}`;
 
   constructor(
     // The dialog title directive is always used in combination with a `MatDialogRef`.
@@ -169,7 +159,7 @@ export class MatDialogTitle implements OnInit {
  */
 @Directive({
   selector: `[mat-dialog-content], mat-dialog-content, [matDialogContent]`,
-  host: {'class': 'mat-dialog-content'},
+  host: {'class': 'mat-mdc-dialog-content mdc-dialog__content'},
 })
 export class MatDialogContent {}
 
@@ -183,9 +173,9 @@ export class MatDialogContent {}
 @Directive({
   selector: `[mat-dialog-actions], mat-dialog-actions, [matDialogActions]`,
   host: {
-    'class': 'mat-dialog-actions',
-    '[class.mat-dialog-actions-align-center]': 'align === "center"',
-    '[class.mat-dialog-actions-align-end]': 'align === "end"',
+    'class': 'mat-mdc-dialog-actions mdc-dialog__actions',
+    '[class.mat-mdc-dialog-actions-align-center]': 'align === "center"',
+    '[class.mat-mdc-dialog-actions-align-end]': 'align === "end"',
   },
 })
 export class MatDialogActions {
@@ -198,10 +188,6 @@ export class MatDialogActions {
   @Input() align?: 'start' | 'center' | 'end' = 'start';
 }
 
-// TODO(crisbeto): this utility shouldn't be necessary anymore, because the dialog ref is provided
-// both to component and template dialogs through DI. We need to keep it around, because there are
-// some internal wrappers around `MatDialog` that happened to work by accident, because we had this
-// fallback logic in place.
 /**
  * Finds the closest MatDialogRef to an element by looking at the DOM.
  *
@@ -219,7 +205,7 @@ export class MatDialogActions {
 function getClosestDialog(element: ElementRef<HTMLElement>, openDialogs: MatDialogRef<any>[]) {
   let parent: HTMLElement | null = element.nativeElement.parentElement;
 
-  while (parent && !parent.classList.contains('mat-dialog-container')) {
+  while (parent && !parent.classList.contains('mat-mdc-dialog-container')) {
     parent = parent.parentElement;
   }
 

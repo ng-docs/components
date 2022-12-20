@@ -3,7 +3,7 @@ import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {Component} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatTooltipHarness} from '@angular/material/tooltip/testing/tooltip-harness';
+import {MatTooltipHarness} from '@angular/material/tooltip/testing';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 /**

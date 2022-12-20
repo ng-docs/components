@@ -1,125 +1,113 @@
-`<mat-chip-list>` displays a list of values as individual, keyboard accessible, chips.
+Chips allow users to view information, make selections, filter content, and enter data.
 
-`<mat-chip-list>` 把一组值显示为独立的、可通过键盘访问的纸片。
+### Static Chips
 
-<!-- example({"example": "chips-overview",
-              "file": "chips-overview-example.html"}) -->
+Chips are always used inside a container. To create chips, start with a `<mat-chip-set>` element. Then, nest `<mat-chip>` elements inside the `<mat-chip-set>`.
 
-### Unstyled chips
+<!-- example(chips-overview) -->
 
-### 无样式的纸片
+By default, `<mat-chip>` renders a chip with Material Design styles applied. For a chip with no styles applied, use `<mat-basic-chip>`.
 
-By default, `<mat-chip>` has Material Design styles applied. For a chip with no styles applied,
-use `<mat-basic-chip>`. You can then customize the chip appearance by adding your own CSS.
+*Hint: `<mat-basic-chip>` receives the `mat-mdc-basic-chip` CSS class in addition to the `mat-mdc-chip` class.*
 
-默认情况下，`<mat-chip>` 具有 Material Design 样式。要想不用样式，请使用 `<mat-basic-chip>`。
-然后你可以通过添加自己的 CSS 来定制该纸片的外观。
+#### Disabled appearance
 
-_Hint: `<mat-basic-chip>` receives the `mat-basic-chip` CSS class in addition to the `mat-chip` class._
+Although `<mat-chip>` is not interactive, you can set the `disabled` Input to give it disabled appearance.
 
-*提示：`<mat-basic-chip>` 除了 `mat-chip` 类之外，还会添加 `mat-basic-chip` 类。*
+```html
+<mat-chip disabled>Orange</mat-chip>
+```
 
-### Selection
+### Selection Chips
 
-### 选择
+Use `<mat-chip-listbox>` and `<mat-chip-option>` for selecting one or many items from a list. Start with creating a `<mat-chip-listbox>` element. If the user may select more than one option, add the `multiple` attribute. Nest a `<mat-chip-option>` element inside the `<mat-chip-listbox>` for each available option.
 
-Chips can be selected via the `selected` property. Selection can be disabled by setting
-`selectable` to `false` on the `<mat-chip-list>`.
+#### Disabled `<mat-chip-option>`
 
-纸片可以通过 `selected` 属性进行选择。可以通过把 `<mat-chip-list>` 的 `selectable` 设置为 `false` 来禁止选择。
+Use the `disabled` Input to disable a `<mat-chip-option>`. This gives the `<mat-chip-option>` a disabled appearance and prevents the user from interacting with it.
 
-Whenever the selection state changes, a `ChipSelectionChange` event will be emitted via
-`(selectionChange)`.
+```html
+<mat-chip-option disabled>Orange</mat-chip-option>
+```
 
-每当选择状态发生变化时，它就会通过 `(selectionChange)` 发出一个 `ChipSelectionChange` 事件。
+#### Keyboard Interactions
 
-### Disabled chips
+Users can move through the chips using the arrow keys and select/deselect them with space. Chips also gain focus when clicked, ensuring keyboard navigation starts at the currently focused chip.
 
-### 禁用纸片
+### Chips connected to an input field
 
-Individual chips may be disabled by applying the `disabled` attribute to the chip. When disabled,
-chips are neither selectable nor focusable.
+Use `<mat-chip-grid>` and `<mat-chip-row>` for assisting users with text entry.
 
-每个独立纸片都可以通过使用 `disabled` 属性来禁用。当被禁用时，它既不能被选择，也不能获得焦点。
-目前，禁用的纸片没有任何特殊样式。
-
-### Chip input
-
-### 纸片输入框
-
-The `MatChipInput` directive can be used together with a chip-list to streamline the interaction
-between the two components. This directive adds chip-specific behaviors to the input element
-within `<mat-form-field>` for adding and removing chips. The `<input>` with `MatChipInput` can
-be placed inside or outside the chip-list element.
-
-`MatChipInput` 指令可以和纸片列表一起使用，以简化两个组件之间的交互。
-该指令把一些纸片专属的行为添加到 `<mat-form-field>` 中的输入框元素上，以添加和删除纸片。
-这个带有 `MatChipInput` 的 `<input>` 可放在纸片列表元素的内部或外部。
-
-An example of chip input placed inside the chip-list element.
-
-下面的例子把纸片输入框放在纸片列表内部。
+Chips are always used inside a container. To create chips connected to an input field, start by creating a `<mat-chip-grid>` as the container. Add an `<input/>` element, and register it to the `<mat-chip-grid>` by passing the `matChipInputFor` Input. Always use an `<input/>` elemnt with `<mat-chip-grid>`. Nest a `<mat-chip-row>` element inside the `<mat-chip-grid>` for each piece of data entered by the user. An example of of using chips for text input.
 
 <!-- example(chips-input) -->
 
-An example of chip input placed outside the chip-list element.
+#### Disabled `<mat-chip-row>`
 
-下面的例子把纸片输入框放在纸片列表外部。
+Use the `disabled` Input to disable a `<mat-chip-row>`. This  gives the `<mat-chip-row>` a disabled appearance and prevents the user from interacting with it.
 
 ```html
-<mat-form-field>
-  <mat-chip-list #chipList>
-    <mat-chip>Chip 1</mat-chip>
-    <mat-chip>Chip 2</mat-chip>
-  </mat-chip-list>
-  <input [matChipInputFor]="chipList">
-</mat-form-field>
+<mat-chip-row disabled>Orange</mat-chip-row>
 ```
 
-An example of chip input with an autocomplete placed inside the chip-list element.
+#### Keyboard Interactions
 
-下面的例子把带有自动完成功能的纸片输入框放在纸片列表元素内部。
+Users can move through the chips using the arrow keys and select/deselect them with the space. Chips also gain focus when clicked, ensuring keyboard navigation starts at the appropriate chip.
+
+Users can press delete to remove a chip. Pressing delete triggers the `removed` Output on the chip, so be sure to implement `removed` if you require that functionality.
+
+#### Autocomplete
+
+An example of chip input with autocomplete.
 
 <!-- example(chips-autocomplete) -->
 
-### Keyboard interaction
+### Icons
+You can add icons to chips to identify entities (like individuals) and provide additional functionality.
 
-### 键盘交互
+#### Adding up to two icons with content projection
 
-Users can move through the chips using the arrow keys and select/deselect them with the space. Chips
-also gain focus when clicked, ensuring keyboard navigation starts at the appropriate chip.
+You can add two additional icons to an individual chip. A chip has two slots to display icons using content projection. All variants of chips support adding icons including `<mat-chip>`, `<mat-chip-option>`, and `<mat-chip-row>`.
 
-用户可以使用方向键在纸片之间移动，也可以用空格键选择它们或取消选择。
-在点击时，纸片还会获得焦点，以确保会从合适的纸片开始导航。
+A chip has a front slot for adding an avatar image. To add an avatar, nest an element with `matChipAvatar` attribute inside of `<mat-chip>`.
+
+<!-- example(chips-avatar) -->
+
+You can add an additional icon to the back slot by nesting an element with either the `matChipTrailingIcon` or `matChipRemove` attribute.
+
+#### Remove Button
+
+Sometimes the end user would like the ability to remove a chip. You can provide that functionality using `matChipRemove`. `matChipRemove` renders to the back slot of a chip and triggers the `removed` Output when clicked.
+
+To create a remove button, nest a `<button>` element with `matChipRemove` attribute inside the `<mat-chip-option>`. Be sure to implement the `removed` Output.
+
+```html
+ <mat-chip-option>
+  Orange
+  <button matChipRemove aria-label="Remove orange">
+    <mat-icon>cancel</mat-icon>
+  </button>
+</mat-chip-option>
+```
+
+See the [accessibility](#accessibility) section for how to create accessible icons.
 
 ### Orientation
 
-### 方向
+By default, chips are displayed horizontally. To stack chips vertically, apply the `mat-mdc-chip-set-stacked` class to `<mat-chip-set>`, `<mat-chip-listbox>` or `<mat-chip-grid>`. 
 
-If you want the chips in the list to be stacked vertically, instead of horizontally, you can apply
-the `mat-chip-list-stacked` class, as well as the `aria-orientation="vertical"` attribute:
-
-如果你希望列表中的纸片垂直排列而不是水平排列，你可以添加 `mat-chip-list-stacked` 类，以及 `aria-orientation="vertical"` 属性：
-
-<!-- example({"example": "chips-stacked",
-              "file": "chips-stacked-example.html"}) -->
+<!-- example(chips-stacked) -->
 
 ### Specifying global configuration defaults
+Use the `MAT_CHIPS_DEFAULT_OPTIONS` token to specify default options for the chips module.
 
-### 指定默认的全局配置
-
-Default options for the chips module can be specified using the `MAT_CHIPS_DEFAULT_OPTIONS`
-injection token.
-
-纸片模块的默认选项用依赖注入令牌 `MAT_CHIPS_DEFAULT_OPTIONS` 表示。
-
-```ts
+```html
 @NgModule({
   providers: [
     {
       provide: MAT_CHIPS_DEFAULT_OPTIONS,
       useValue: {
-        separatorKeyCodes: [ENTER, COMMA]
+        separatorKeyCodes: [COMMA, SPACE]
       }
     }
   ]
@@ -128,22 +116,74 @@ injection token.
 
 ### Theming
 
-### 主题
+By default, chips use the primary color. Specify the `color` property to change the color to `accent` or `warn`.
 
-The selected color of an `<mat-chip>` can be changed by using the `color` property. By default, chips
-use a neutral background color based on the current theme (light or dark). This can be changed to
-`'primary'`, `'accent'`, or `'warn'`.
+### Interaction Patterns
 
-`<mat-chip>` 中选中纸片的颜色可以用 `color` 属性来改变。
-默认情况下，纸片使用当前主题（无论亮色还是暗色）下的 `neutral`（中性）背景色。
-此颜色可以修改为 `'primary'`、`'accent'` 或 `'warn'`。
+The chips components support 3 user interaction patterns, each with its own container and chip elements:
+
+#### Listbox
+
+`<mat-chip-listbox>` and `<mat-chip-option>` : These elements implement a listbox accessibility pattern. Use them to present set of user selectable options.
+
+```html
+<mat-chip-listbox aria-label="select a shirt size">
+  <mat-chip-option> Small </mat-chip-option>
+  <mat-chip-option> Medium </mat-chip-option>
+  <mat-chip-option> Large </mat-chip-option>
+</mat-chip-listbox>
+```
+
+#### Text Entry
+
+`<mat-chip-grid>` and `<mat-chip-row>` : These elements implement a grid accessibility pattern. Use them as part of a free form input that allows users to enter text to add chips.
+
+```html
+<mat-form-field>
+  <mat-chip-grid #myChipGrid [(ngModel)]="mySelection"
+  aria-label="enter sandwich fillings">
+    <mat-chip-row *ngFor="let filling of fillings"
+                 (removed)="remove(filling)">
+      {{filling.name}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+    <input [matChipInputFor]="myChipGrid"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+           (matChipInputTokenEnd)="add($event)" />
+  </mat-chip-grid>
+</mat-form-field>
+```
+
+#### Static Content
+
+`<mat-chip-set>` and `<mat-chip>` as an unordered list : Present a list of items that are not interactive. This interaction pattern mimics using `ul` and `li` elements. Apply role="list" to the `<mat-list>`. Apply role="listitem" to each `<mat-list-item>`.
+
+```html
+<mat-chip-set role="list">
+  <mat-chip role="listitem"> Sugar </mat-chip>
+  <mat-chip role="listitem"> Spice </mat-chip>
+  <mat-chip role="listitem"> Everything Nice </mat-chip>
+</mat-chip-set>
+```
+
+`<mat-chip-set>` and `<mat-chip>` : These elements do not implement any specific accessibility pattern. Add the appropriate accessibility depending on the context. Note that Angular Material does not intend `<mat-chip>`, `<mat-basic-chip>`, and `<mat-chip-set>` to be interactive.
+
+```html
+<mat-chip-set>
+  <mat-chip> John </mat-chip>
+  <mat-chip> Paul </mat-chip>
+  <mat-chip> James </mat-chip>
+</mat-chip-set>
+```
 
 ### Accessibility
 
-### 无障碍性
+The [Interaction Patterns](#interaction-patterns) section describes the three variants of chips available. Choose the chip variant that best matches your use case.
 
-A chip-list behaves as a `role="listbox"`, with each chip being a `role="option"`. The chip input
-should have a placeholder or be given a meaningful label via `aria-label` or `aria-labelledby`.
+For both MatChipGrid and MatChipListbox, always apply an accessible label to the control via `aria-label` or `aria-labelledby`.
 
-纸片列表的行为是 `role="listbox"`，其中的每张纸片则是 `role="option"`。
-纸片输入框要具有一个占位符或借助 `aria-label` 或 `aria-labelledby` 来指定一个有意义的标签。
+Always apply MatChipRemove to a `<button>` element, never a `<mat-icon>` element.
+
+When using MatChipListbox, never nest other interactive controls inside of the `<mat-chip-option>` element. Nesting controls degrades the experience for assistive technology users.

@@ -6,13 +6,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testing';
 import {MatListHarnessBase} from './list-harness-base';
 import {ActionListHarnessFilters, ActionListItemHarnessFilters} from './list-harness-filters';
 import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-base';
 
 /**
- * Harness for interacting with a standard mat-action-list in tests.
+ * Harness for interacting with a MDC-based action-list in tests.
  *
  * 在测试中用来与标准 mat-action-list 进行交互的测试工具。
  *
@@ -28,11 +28,11 @@ export class MatActionListHarness extends MatListHarnessBase<
    * `MatActionList` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = 'mat-action-list.mat-list';
+  static hostSelector = '.mat-mdc-action-list';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatActionListHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for an action list with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatActionListHarness`。
    *
@@ -44,8 +44,11 @@ export class MatActionListHarness extends MatListHarnessBase<
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ActionListHarnessFilters = {}): HarnessPredicate<MatActionListHarness> {
-    return new HarnessPredicate(MatActionListHarness, options);
+  static with<T extends MatActionListHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ActionListHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 
   override _itemHarness = MatActionListItemHarness;
@@ -64,11 +67,11 @@ export class MatActionListItemHarness extends MatListItemHarnessBase {
    * `MatListItem` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = `${MatActionListHarness.hostSelector} .mat-list-item`;
+  static hostSelector = `${MatActionListHarness.hostSelector} .mat-mdc-list-item`;
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatActionListItemHarness` that
-   * meets certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a list item with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatActionListItemHarness`。
    *
@@ -80,10 +83,11 @@ export class MatActionListItemHarness extends MatListItemHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(
+  static with<T extends MatActionListItemHarness>(
+    this: ComponentHarnessConstructor<T>,
     options: ActionListItemHarnessFilters = {},
-  ): HarnessPredicate<MatActionListItemHarness> {
-    return getListItemPredicate(MatActionListItemHarness, options);
+  ): HarnessPredicate<T> {
+    return getListItemPredicate(this, options);
   }
 
   /**

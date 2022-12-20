@@ -230,7 +230,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
    * 在背景板元素上设置的自定义类。
    *
    */
-  @Input('cdkConnectedOverlayBackdropClass') backdropClass: string;
+  @Input('cdkConnectedOverlayBackdropClass') backdropClass: string | string[];
 
   /**
    * The custom class to add to the overlay pane element.

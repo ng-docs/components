@@ -117,7 +117,7 @@ export class SingleAxisSortStrategy<T extends DropListSortStrategyItem>
 
   /**
    * Keeps track of the item that was last swapped with the dragged item, as well as what direction
-   * the pointer was moving in when the swap occured and whether the user's pointer continued to
+   * the pointer was moving in when the swap occurred and whether the user's pointer continued to
    * overlap with the swapped item after the swapping occurred.
    *
    * 跟踪上次与所拖动的项目发生交换的项目，以及发生交换时指针的移动方向以及用户的指针在交换发生后是否继续与交换的项目重叠。

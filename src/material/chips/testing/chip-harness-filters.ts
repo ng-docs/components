@@ -5,14 +5,9 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/**
- * A set of criteria that can be used to filter a list of chip instances.
- *
- * 一组可以用来过滤纸片实例列表的标准。
- *
- */
 export interface ChipHarnessFilters extends BaseHarnessFilters {
   /**
    * Only find instances whose text matches the given value.
@@ -21,58 +16,10 @@ export interface ChipHarnessFilters extends BaseHarnessFilters {
    *
    */
   text?: string | RegExp;
-  /**
-   * Only find chip instances whose selected state matches the given value.
-   *
-   * 只查找选定状态与指定值匹配的纸片实例。
-   *
-   * @deprecated Use `MatChipOptionHarness` together with `ChipOptionHarnessFilters`.
-   *
-   * 将 `MatChipOptionHarness` 和 `ChipOptionHarnessFilters` 一起使用。
-   *
-   * @breaking-change 12.0.0
-   */
-  selected?: boolean;
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
 }
 
-/**
- * A set of criteria that can be used to filter a list of selectable chip instances.
- *
- * 一组可以用来过滤可选纸片实例列表的标准。
- *
- */
-export interface ChipOptionHarnessFilters extends ChipHarnessFilters {
-  /**
-   * Only find chip instances whose selected state matches the given value.
-   *
-   * 只查找选定状态与指定值匹配的纸片实例。
-   *
-   */
-  selected?: boolean;
-}
-
-/**
- * A set of criteria that can be used to filter chip list instances.
- *
- * 一组可以用来过滤纸片列表实例的标准。
- *
- */
-export interface ChipListHarnessFilters extends BaseHarnessFilters {}
-
-/**
- * A set of criteria that can be used to filter selectable chip list instances.
- *
- * 一组可用于过滤可选纸片列表实例的准则。
- *
- */
-export interface ChipListboxHarnessFilters extends BaseHarnessFilters {}
-
-/**
- * A set of criteria that can be used to filter a list of `MatChipListInputHarness` instances.
- *
- * 一组标准，可以用来过滤 `MatChipListInputHarness` 实例列表。
- *
- */
 export interface ChipInputHarnessFilters extends BaseHarnessFilters {
   /**
    * Filters based on the value of the input.
@@ -88,20 +35,29 @@ export interface ChipInputHarnessFilters extends BaseHarnessFilters {
    *
    */
   placeholder?: string | RegExp;
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
 }
 
-/**
- * A set of criteria that can be used to filter a list of `MatChipRemoveHarness` instances.
- *
- * 一组可以用来过滤 `MatChipRemoveHarness` 实例列表的条件。
- *
- */
+export interface ChipListboxHarnessFilters extends BaseHarnessFilters {
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
+}
+
+export interface ChipOptionHarnessFilters extends ChipHarnessFilters {
+  /** Only find chip instances whose selected state matches the given value. */
+  selected?: boolean;
+}
+
+export interface ChipGridHarnessFilters extends BaseHarnessFilters {
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
+}
+
+export interface ChipRowHarnessFilters extends ChipHarnessFilters {}
+
+export interface ChipSetHarnessFilters extends BaseHarnessFilters {}
+
 export interface ChipRemoveHarnessFilters extends BaseHarnessFilters {}
 
-/**
- * A set of criteria that can be used to filter a list of `MatChipAvatarHarness` instances.
- *
- * 一组可用于过滤 `MatChipAvatarHarness` 实例列表的条件。
- *
- */
 export interface ChipAvatarHarnessFilters extends BaseHarnessFilters {}

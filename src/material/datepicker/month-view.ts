@@ -185,6 +185,12 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
    */
   @Input() comparisonEnd: D | null;
 
+  /** ARIA Accessible name of the `<input matStartDate/>` */
+  @Input() startDateAccessibleName: string | null;
+
+  /** ARIA Accessible name of the `<input matEndDate/>` */
+  @Input() endDateAccessibleName: string | null;
+
   /**
    * Emits when a new date is selected.
    *
@@ -388,9 +394,9 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
    *
    * 将包含在事件中的日历正文单元格的索引作为参数。对于与给定单元格对应的日期，将 `activeDate` 设置为该日期并使用该日期触发 `activeDateChange` 。
    *
-   * This fucntion is used to match each component's model of the active date with the calendar
+   * This function is used to match each component's model of the active date with the calendar
    * body cell that was focused. It updates its value of `activeDate` synchronously and updates the
-   * parent's value asynchonously via the `activeDateChange` event. The child component receives an
+   * parent's value asynchronously via the `activeDateChange` event. The child component receives an
    * updated value asynchronously via the `activeCell` Input.
    *
    * 此函数用于将每个组件的活动日期模型与聚焦的日历正文单元格匹配。它同步更新其 `activeDate` 的值，并通过 `activeDateChange` 事件异步更新父级的值。子组件通过 `activeCell` 输入异步接收更新值。

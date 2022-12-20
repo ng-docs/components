@@ -14,4 +14,7 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
  * 可以用来过滤 `MatButtonToggleGroupHarness` 实例列表的标准。
  *
  */
-export interface ButtonToggleGroupHarnessFilters extends BaseHarnessFilters {}
+export interface ButtonToggleGroupHarnessFilters extends BaseHarnessFilters {
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
+}

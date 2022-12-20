@@ -10,11 +10,11 @@ import {
   Directive,
   ElementRef,
   Optional,
+  inject,
   InjectionToken,
   Inject,
   OnInit,
   Injector,
-  InjectFlags,
   DoCheck,
 } from '@angular/core';
 import {
@@ -36,9 +36,11 @@ import {
   MatDateFormats,
   ErrorStateMatcher,
 } from '@angular/material/core';
-import {BACKSPACE} from '@angular/cdk/keycodes';
+import {Directionality} from '@angular/cdk/bidi';
+import {BACKSPACE, LEFT_ARROW, RIGHT_ARROW} from '@angular/cdk/keycodes';
 import {MatDatepickerInputBase, DateFilterFn} from './datepicker-input-base';
 import {DateRange, DateSelectionModelChange} from './date-selection-model';
+import {_computeAriaAccessibleName} from './aria-accessible-name';
 
 /**
  * Parent component that should be wrapped around `MatStartDate` and `MatEndDate`.
@@ -100,9 +102,11 @@ abstract class MatDateRangeInputPartBase<D>
   protected abstract override _assignValueToModel(value: D | null): void;
   protected abstract override _getValueFromModel(modelValue: DateRange<D>): D | null;
 
+  protected readonly _dir = inject(Directionality, {optional: true});
+
   constructor(
     @Inject(MAT_DATE_RANGE_INPUT_PARENT) public _rangeInput: MatDateRangeInputParent<D>,
-    elementRef: ElementRef<HTMLInputElement>,
+    public override _elementRef: ElementRef<HTMLInputElement>,
     public _defaultErrorStateMatcher: ErrorStateMatcher,
     private _injector: Injector,
     @Optional() public _parentForm: NgForm,
@@ -110,7 +114,7 @@ abstract class MatDateRangeInputPartBase<D>
     @Optional() dateAdapter: DateAdapter<D>,
     @Optional() @Inject(MAT_DATE_FORMATS) dateFormats: MatDateFormats,
   ) {
-    super(elementRef, dateAdapter, dateFormats);
+    super(_elementRef, dateAdapter, dateFormats);
   }
 
   ngOnInit() {
@@ -121,7 +125,7 @@ abstract class MatDateRangeInputPartBase<D>
     // validator. We work around it here by injecting the `NgControl` in `ngOnInit`, after
     // everything has been resolved.
     // tslint:disable-next-line:no-bitwise
-    const ngControl = this._injector.get(NgControl, null, InjectFlags.Self | InjectFlags.Optional);
+    const ngControl = this._injector.get(NgControl, null, {optional: true, self: true});
 
     if (ngControl) {
       this.ngControl = ngControl;
@@ -165,6 +169,13 @@ abstract class MatDateRangeInputPartBase<D>
    */
   focus(): void {
     this._elementRef.nativeElement.focus();
+  }
+
+  /** Gets the value that should be used when mirroring the input's size. */
+  getMirrorValue(): string {
+    const element = this._elementRef.nativeElement;
+    const value = element.value;
+    return value.length > 0 ? value : element.placeholder;
   }
 
   /**
@@ -235,6 +246,11 @@ abstract class MatDateRangeInputPartBase<D>
     ) as MatDateRangeInputPartBase<D> | undefined;
     opposite?._validatorOnChange();
   }
+
+  /** return the ARIA accessible name of the input element */
+  _getAccessibleName(): string {
+    return _computeAriaAccessibleName(this._elementRef.nativeElement);
+  }
 }
 
 const _MatDateRangeInputBase = mixinErrorState(MatDateRangeInputPartBase);
@@ -253,7 +269,6 @@ const _MatDateRangeInputBase = mixinErrorState(MatDateRangeInputPartBase);
     '(input)': '_onInput($event.target.value)',
     '(change)': '_onChange()',
     '(keydown)': '_onKeydown($event)',
-    '[attr.id]': '_rangeInput.id',
     '[attr.aria-haspopup]': '_rangeInput.rangePicker ? "dialog" : null',
     '[attr.aria-owns]': '(_rangeInput.rangePicker?.opened && _rangeInput.rangePicker.id) || null',
     '[attr.min]': '_getMinDate() ? _dateAdapter.toIso8601(_getMinDate()) : null',
@@ -342,16 +357,24 @@ export class MatStartDate<D> extends _MatDateRangeInputBase<D> implements CanUpd
     this._rangeInput._handleChildValueChange();
   }
 
-  /**
-   * Gets the value that should be used when mirroring the input's size.
-   *
-   * 获取镜像输入框大小时应该使用的值。
-   *
-   */
-  getMirrorValue(): string {
+  override _onKeydown(event: KeyboardEvent) {
+    const endInput = this._rangeInput._endInput;
     const element = this._elementRef.nativeElement;
-    const value = element.value;
-    return value.length > 0 ? value : element.placeholder;
+    const isLtr = this._dir?.value !== 'rtl';
+
+    // If the user hits RIGHT (LTR) when at the end of the input (and no
+    // selection), move the cursor to the start of the end input.
+    if (
+      ((event.keyCode === RIGHT_ARROW && isLtr) || (event.keyCode === LEFT_ARROW && !isLtr)) &&
+      element.selectionStart === element.value.length &&
+      element.selectionEnd === element.value.length
+    ) {
+      event.preventDefault();
+      endInput._elementRef.nativeElement.setSelectionRange(0, 0);
+      endInput.focus();
+    } else {
+      super._onKeydown(event);
+    }
   }
 }
 /**
@@ -448,11 +471,27 @@ export class MatEndDate<D> extends _MatDateRangeInputBase<D> implements CanUpdat
   }
 
   override _onKeydown(event: KeyboardEvent) {
-    // If the user is pressing backspace on an empty end input, move focus back to the start.
-    if (event.keyCode === BACKSPACE && !this._elementRef.nativeElement.value) {
-      this._rangeInput._startInput.focus();
-    }
+    const startInput = this._rangeInput._startInput;
+    const element = this._elementRef.nativeElement;
+    const isLtr = this._dir?.value !== 'rtl';
 
-    super._onKeydown(event);
+    // If the user is pressing backspace on an empty end input, move focus back to the start.
+    if (event.keyCode === BACKSPACE && !element.value) {
+      startInput.focus();
+    }
+    // If the user hits LEFT (LTR) when at the start of the input (and no
+    // selection), move the cursor to the end of the start input.
+    else if (
+      ((event.keyCode === LEFT_ARROW && isLtr) || (event.keyCode === RIGHT_ARROW && !isLtr)) &&
+      element.selectionStart === 0 &&
+      element.selectionEnd === 0
+    ) {
+      event.preventDefault();
+      const endPosition = startInput._elementRef.nativeElement.value.length;
+      startInput._elementRef.nativeElement.setSelectionRange(endPosition, endPosition);
+      startInput.focus();
+    } else {
+      super._onKeydown(event);
+    }
   }
 }

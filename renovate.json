@@ -3,11 +3,13 @@
   "automerge": false,
   "baseBranches": ["main"],
   "enabledManagers": ["npm", "bazel", "github-actions"],
-  "stopUpdatingLabel": "merge ready",
-  "labels": ["target: patch", "merge safe"],
+  "stopUpdatingLabel": "action: merge",
+  "labels": ["target: patch"],
   "lockFileMaintenance": {
     "enabled": false
   },
+  "dependencyDashboard": true,
+  "rangeStrategy": "pin",
   "pinDigests": true,
   "prHourlyLimit": 2,
   "rebaseWhen": "behind-base-branch",
@@ -22,7 +24,7 @@
       "enabled": false
     },
     {
-      "matchPackageNames": ["@angular/dev-infra-private", "angular/dev-infra"],
+      "matchPackageNames": ["@angular/ng-dev", "@angular/build-tooling", "angular/dev-infra"],
       "groupName": "angular shared dev-infra code",
       "enabled": true
     },

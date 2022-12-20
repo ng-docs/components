@@ -9,7 +9,6 @@ ts_library(
         exclude = ["**/*.spec.ts"],
     ),
     deps = [
-        "//src/cdk/coercion",
         "//src/cdk/testing",
         "//src/material/core/testing",
         "//src/material/form-field/testing/control",
@@ -52,5 +51,7 @@ ng_test_library(
 
 ng_web_test_suite(
     name = "unit_tests",
-    deps = [":unit_tests_lib"],
+    deps = [
+        ":unit_tests_lib",
+    ],
 )

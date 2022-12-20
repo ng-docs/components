@@ -70,6 +70,9 @@ export const MAT_MENU_SCROLL_STRATEGY_FACTORY_PROVIDER = {
   useFactory: MAT_MENU_SCROLL_STRATEGY_FACTORY,
 };
 
+/** Options for binding a passive event listener. */
+const passiveEventListenerOptions = normalizePassiveListenerOptions({passive: true});
+
 /**
  * Default top padding of the menu panel.
  *
@@ -85,20 +88,10 @@ export const MAT_MENU_SCROLL_STRATEGY_FACTORY_PROVIDER = {
  */
 export const MENU_PANEL_TOP_PADDING = 8;
 
-/**
- * Options for binding a passive event listener.
- *
- * 绑定被动事件监听器的选项。
- *
- */
-const passiveEventListenerOptions = normalizePassiveListenerOptions({passive: true});
-
-// TODO(andrewseguin): Remove the kebab versions in favor of camelCased attribute selectors
-
 @Directive({
   host: {
     '[attr.aria-haspopup]': 'menu ? "menu" : null',
-    '[attr.aria-expanded]': 'menuOpen || null',
+    '[attr.aria-expanded]': 'menuOpen',
     '[attr.aria-controls]': 'menuOpen ? menu.panelId : null',
     '(click)': '_handleClick($event)',
     '(mousedown)': '_handleMousedown($event)',
@@ -193,6 +186,8 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
         }
       });
     }
+
+    this._menuItemInstance?._setTriggersSubmenu(this.triggersSubmenu());
   }
   private _menu: MatMenuPanel | null;
 
@@ -329,10 +324,6 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
       this._handleTouchStart,
       passiveEventListenerOptions,
     );
-
-    if (_menuItemInstance) {
-      _menuItemInstance._triggersSubmenu = this.triggersSubmenu();
-    }
   }
 
   ngAfterContentInit() {
@@ -383,7 +374,7 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
    *
    */
   triggersSubmenu(): boolean {
-    return !!(this._menuItemInstance && this._parentMaterialMenu);
+    return !!(this._menuItemInstance && this._parentMaterialMenu && this.menu);
   }
 
   /**
@@ -854,7 +845,7 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
 @Directive({
   selector: `[mat-menu-trigger-for], [matMenuTriggerFor]`,
   host: {
-    'class': 'mat-menu-trigger',
+    'class': 'mat-mdc-menu-trigger',
   },
   exportAs: 'matMenuTrigger',
 })

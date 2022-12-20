@@ -6,14 +6,16 @@
 
 import { BaseHarnessFilters } from '@angular/cdk/testing';
 import { ComponentHarness } from '@angular/cdk/testing';
+import { ComponentHarnessConstructor } from '@angular/cdk/testing';
 import { HarnessPredicate } from '@angular/cdk/testing';
 
 // @public
 export class MatProgressBarHarness extends ComponentHarness {
     getMode(): Promise<string | null>;
     getValue(): Promise<number | null>;
+    // (undocumented)
     static hostSelector: string;
-    static with(options?: ProgressBarHarnessFilters): HarnessPredicate<MatProgressBarHarness>;
+    static with<T extends MatProgressBarHarness>(this: ComponentHarnessConstructor<T>, options?: ProgressBarHarnessFilters): HarnessPredicate<T>;
 }
 
 // @public

@@ -1,188 +1,68 @@
 @use 'sass:map';
-@use 'sass:meta';
+
+@use '@material/slider/slider-theme' as mdc-slider-theme;
+@use '@material/theme/theme-color' as mdc-theme-color;
+@use '@material/typography/typography' as mdc-typography;
+@use '@material/theme/variables' as mdc-theme-variables;
+@use '../core/mdc-helpers/mdc-helpers';
 @use '../core/theming/theming';
 @use '../core/typography/typography';
-@use '../core/typography/typography-utils';
 
-@mixin _inner-content-theme($palette) {
-  .mat-slider-track-fill,
-  .mat-slider-thumb,
-  .mat-slider-thumb-label {
-    background-color: theming.get-color-from-palette($palette);
-  }
-
-  .mat-slider-thumb-label-text {
-    color: theming.get-color-from-palette($palette, default-contrast);
-  }
-
-  .mat-slider-focus-ring {
-    $opacity: 0.2;
-    $color: theming.get-color-from-palette($palette, default, $opacity);
-    background-color: $color;
-
-    // `mat-color` uses `rgba` for the opacity which won't work with
-    // CSS variables so we need to use `opacity` as a fallback.
-    @if (meta.type-of($color) != color) {
-      opacity: $opacity;
-    }
-  }
-}
 
 @mixin color($config-or-theme) {
   $config: theming.get-color-config($config-or-theme);
-  $primary: map.get($config, primary);
-  $accent: map.get($config, accent);
-  $warn: map.get($config, warn);
-  $background: map.get($config, background);
-  $foreground: map.get($config, foreground);
 
-  $mat-slider-off-color: theming.get-color-from-palette($foreground, slider-off);
-  $mat-slider-off-focused-color: theming.get-color-from-palette($foreground, slider-off-active);
-  $mat-slider-disabled-color: theming.get-color-from-palette($foreground, slider-off);
-  $mat-slider-labeled-min-value-thumb-color:
-    theming.get-color-from-palette($foreground, slider-min);
-  $mat-slider-labeled-min-value-thumb-label-color:
-    theming.get-color-from-palette($foreground, slider-off);
-  $mat-slider-tick-opacity: 0.7;
-  $mat-slider-tick-color:
-    theming.get-color-from-palette($foreground, base, $mat-slider-tick-opacity);
-  $mat-slider-tick-size: 2px;
+  @include mdc-helpers.using-mdc-theme($config) {
+    .mat-mdc-slider {
+      $is-dark: map.get($config, is-dark);
+      $on-surface: mdc-theme-color.prop-value(on-surface);
 
-  .mat-slider-track-background {
-    background-color: $mat-slider-off-color;
-  }
+      @include mdc-slider-theme.theme((
+        label-container-color: if($is-dark, white, black),
+        label-label-text-color: if($is-dark, black, white),
+        disabled-handle-color: $on-surface,
+        disabled-active-track-color: $on-surface,
+        disabled-inactive-track-color: $on-surface,
+        with-tick-marks-disabled-container-color: $on-surface,
+      ));
 
-  .mat-slider {
-    &.mat-primary {
-      @include _inner-content-theme($primary);
-    }
+      // Note that technically we can control this using an `rgba` color in `label-container-color`.
+      // We don't do it, because the shapes MDC uses to construct the indicator overlap which causes
+      // their color opacities to stack with an `rgba` color.
+      --mat-mdc-slider-value-indicator-opacity: #{if($is-dark, 0.9, 0.6)};
 
-    &.mat-accent {
-      @include _inner-content-theme($accent);
-    }
-
-    &.mat-warn {
-      @include _inner-content-theme($warn);
-    }
-  }
-
-  .mat-slider:hover,
-  .mat-slider.cdk-focused {
-    .mat-slider-track-background {
-      background-color: $mat-slider-off-focused-color;
-    }
-  }
-
-  .mat-slider.mat-slider-disabled {
-    .mat-slider-track-background,
-    .mat-slider-track-fill,
-    .mat-slider-thumb {
-      background-color: $mat-slider-disabled-color;
-    }
-
-    &:hover {
-      .mat-slider-track-background {
-        background-color: $mat-slider-disabled-color;
-      }
-    }
-  }
-
-  .mat-slider.mat-slider-min-value {
-    .mat-slider-focus-ring {
-      $opacity: 0.12;
-      $color: theming.get-color-from-palette($foreground, base, $opacity);
-      background-color: $color;
-
-      // `mat-color` uses `rgba` for the opacity which won't work with
-      // CSS variables so we need to use `opacity` as a fallback.
-      @if (meta.type-of($color) != color) {
-        opacity: $opacity;
-      }
-    }
-
-    &.mat-slider-thumb-label-showing {
-      .mat-slider-thumb,
-      .mat-slider-thumb-label {
-        background-color: $mat-slider-labeled-min-value-thumb-color;
+      &.mat-primary {
+        @include _slider-color(primary, on-primary);
       }
 
-      &.cdk-focused {
-        .mat-slider-thumb,
-        .mat-slider-thumb-label {
-          background-color: $mat-slider-labeled-min-value-thumb-label-color;
-        }
-      }
-    }
-
-    &:not(.mat-slider-thumb-label-showing) {
-      .mat-slider-thumb {
-        border-color: $mat-slider-off-color;
-        background-color: transparent;
+      &.mat-accent {
+        @include _slider-color(secondary, on-secondary);
       }
 
-      &:hover,
-      &.cdk-focused {
-        .mat-slider-thumb {
-          border-color: $mat-slider-off-focused-color;
-        }
-
-        &.mat-slider-disabled .mat-slider-thumb {
-          border-color: $mat-slider-disabled-color;
-        }
+      &.mat-warn {
+        @include _slider-color(error, on-error);
       }
-    }
-  }
-
-  .mat-slider-has-ticks .mat-slider-wrapper::after {
-    border-color: $mat-slider-tick-color;
-
-    // `mat-color` uses `rgba` for the opacity which won't work with
-    // CSS variables so we need to use `opacity` as a fallback.
-    @if (meta.type-of($mat-slider-tick-color) != color) {
-      opacity: $mat-slider-tick-opacity;
-    }
-  }
-
-  .mat-slider-horizontal .mat-slider-ticks {
-    background-image: repeating-linear-gradient(to right, $mat-slider-tick-color,
-        $mat-slider-tick-color $mat-slider-tick-size, transparent 0, transparent);
-    // Firefox doesn't draw the gradient correctly with 'to right'
-    // (see https://bugzilla.mozilla.org/show_bug.cgi?id=1314319).
-    background-image: -moz-repeating-linear-gradient(0.0001deg, $mat-slider-tick-color,
-        $mat-slider-tick-color $mat-slider-tick-size, transparent 0, transparent);
-
-    // `mat-color` uses `rgba` for the opacity which won't work with
-    // CSS variables so we need to use `opacity` as a fallback.
-    @if (meta.type-of($mat-slider-tick-color) != color) {
-      opacity: $mat-slider-tick-opacity;
-    }
-  }
-
-  .mat-slider-vertical .mat-slider-ticks {
-    background-image: repeating-linear-gradient(to bottom, $mat-slider-tick-color,
-        $mat-slider-tick-color $mat-slider-tick-size, transparent 0, transparent);
-
-    // `mat-color` uses `rgba` for the opacity which won't work with
-    // CSS variables so we need to use `opacity` as a fallback.
-    @if (meta.type-of($mat-slider-tick-color) != color) {
-      opacity: $mat-slider-tick-opacity;
     }
   }
 }
 
 @mixin typography($config-or-theme) {
-  $config: typography.private-typography-to-2014-config(
+  $config: typography.private-typography-to-2018-config(
       theming.get-typography-config($config-or-theme));
-  .mat-slider-thumb-label-text {
-    font: {
-      family: typography-utils.font-family($config);
-      size: typography-utils.font-size($config, caption);
-      weight: typography-utils.font-weight($config, body-2);
+  @include mdc-helpers.using-mdc-typography($config) {
+    .mat-mdc-slider {
+      @include mdc-slider-theme.theme((
+        label-label-text-font: mdc-typography.get-font(subtitle2),
+        label-label-text-font-size: mdc-typography.get-size(subtitle2),
+        label-label-text-line-height: mdc-typography.get-line-height(subtitle2),
+        label-label-text-tracking: mdc-typography.get-tracking(subtitle2),
+        label-label-text-weight: mdc-typography.get-weight(subtitle2),
+      ));
     }
   }
 }
 
-@mixin _density($config-or-theme) {}
+@mixin density($config-or-theme) {}
 
 @mixin theme($theme-or-color-config) {
   $theme: theming.private-legacy-get-theme($theme-or-color-config);
@@ -195,10 +75,30 @@
       @include color($color);
     }
     @if $density != null {
-      @include _density($density);
+      @include density($density);
     }
     @if $typography != null {
       @include typography($typography);
     }
   }
+}
+
+@mixin _slider-color($color, $on-color) {
+  $ripple-color: map.get(mdc-theme-variables.$property-values, $color);
+  $resolved-color: mdc-theme-color.prop-value($color);
+  $resolved-on-color: mdc-theme-color.prop-value($on-color);
+
+  @include mdc-slider-theme.theme((
+    handle-color: $resolved-color,
+    focus-handle-color: $resolved-color,
+    hover-handle-color: $resolved-color,
+    active-track-color: $resolved-color,
+    inactive-track-color: $resolved-color,
+    with-tick-marks-active-container-color: $resolved-on-color,
+    with-tick-marks-inactive-container-color: $resolved-color,
+  ));
+
+  --mat-mdc-slider-ripple-color: #{$ripple-color};
+  --mat-mdc-slider-hover-ripple-color: #{rgba($ripple-color, 0.05)};
+  --mat-mdc-slider-focus-ripple-color: #{rgba($ripple-color, 0.2)};
 }

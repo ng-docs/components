@@ -9,6 +9,7 @@
 import {
   AsyncFactoryFn,
   ComponentHarness,
+  ComponentHarnessConstructor,
   HarnessPredicate,
   TestElement,
 } from '@angular/cdk/testing';
@@ -146,7 +147,7 @@ export abstract class _MatPaginatorHarnessBase extends ComponentHarness {
   }
 
   /**
-   * Gets the text of the range labe of the paginator.
+   * Gets the text of the range label of the paginator.
    *
    * 获取分页器范围标签的文本。
    *
@@ -157,7 +158,7 @@ export abstract class _MatPaginatorHarnessBase extends ComponentHarness {
 }
 
 /**
- * Harness for interacting with a standard mat-paginator in tests.
+ * Harness for interacting with an MDC-based mat-paginator in tests.
  *
  * 在测试中可与标准 mat-paginator 进行交互的测试工具。
  *
@@ -169,22 +170,21 @@ export class MatPaginatorHarness extends _MatPaginatorHarnessBase {
    * 用于查找分页器实例的选择器。
    *
    */
-  static hostSelector = '.mat-paginator';
-  protected _nextButton = this.locatorFor('.mat-paginator-navigation-next');
-  protected _previousButton = this.locatorFor('.mat-paginator-navigation-previous');
-  protected _firstPageButton = this.locatorForOptional('.mat-paginator-navigation-first');
-  protected _lastPageButton = this.locatorForOptional('.mat-paginator-navigation-last');
+  static hostSelector = '.mat-mdc-paginator';
+  protected _nextButton = this.locatorFor('.mat-mdc-paginator-navigation-next');
+  protected _previousButton = this.locatorFor('.mat-mdc-paginator-navigation-previous');
+  protected _firstPageButton = this.locatorForOptional('.mat-mdc-paginator-navigation-first');
+  protected _lastPageButton = this.locatorForOptional('.mat-mdc-paginator-navigation-last');
   protected _select = this.locatorForOptional(
     MatSelectHarness.with({
-      ancestor: '.mat-paginator-page-size',
+      ancestor: '.mat-mdc-paginator-page-size',
     }),
   );
-  protected _pageSizeFallback = this.locatorFor('.mat-paginator-page-size-value');
-  protected _rangeLabel = this.locatorFor('.mat-paginator-range-label');
+  protected _pageSizeFallback = this.locatorFor('.mat-mdc-paginator-page-size-value');
+  protected _rangeLabel = this.locatorFor('.mat-mdc-paginator-range-label');
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatPaginatorHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a paginator with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatPaginatorHarness`。
    *
@@ -197,7 +197,10 @@ export class MatPaginatorHarness extends _MatPaginatorHarnessBase {
    * 使用给定选项配置过的 `HarnessPredicate`。
    *
    */
-  static with(options: PaginatorHarnessFilters = {}): HarnessPredicate<MatPaginatorHarness> {
-    return new HarnessPredicate(MatPaginatorHarness, options);
+  static with<T extends MatPaginatorHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: PaginatorHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 }

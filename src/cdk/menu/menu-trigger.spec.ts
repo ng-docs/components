@@ -2,7 +2,7 @@ import {Component, ViewChildren, QueryList, ElementRef, ViewChild, Type} from '@
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {dispatchKeyboardEvent} from '../../cdk/testing/private';
-import {TAB, SPACE} from '@angular/cdk/keycodes';
+import {TAB, ENTER} from '@angular/cdk/keycodes';
 import {CdkMenuModule} from './menu-module';
 import {CdkMenuItem} from './menu-item';
 import {CdkMenu} from './menu';
@@ -32,6 +32,10 @@ describe('MenuTrigger', () => {
 
     it('should have the menuitem role', () => {
       expect(menuItemElement.getAttribute('role')).toBe('menuitem');
+    });
+
+    it('should set a type on the trigger', () => {
+      expect(menuItemElement.getAttribute('type')).toBe('button');
     });
 
     it('should set the aria disabled attribute', () => {
@@ -421,13 +425,15 @@ describe('MenuTrigger', () => {
     });
 
     it('should toggle the menu on keyboard events', () => {
-      dispatchKeyboardEvent(nativeTrigger, 'keydown', SPACE);
+      const firstEvent = dispatchKeyboardEvent(nativeTrigger, 'keydown', ENTER);
       detectChanges();
+      expect(firstEvent.defaultPrevented).toBe(true);
       expect(nativeMenus.length).toBe(2);
 
-      dispatchKeyboardEvent(nativeTrigger, 'keydown', SPACE);
+      const secondEvent = dispatchKeyboardEvent(nativeTrigger, 'keydown', ENTER);
       detectChanges();
       expect(nativeMenus.length).toBe(1);
+      expect(secondEvent.defaultPrevented).toBe(true);
     });
 
     it('should close the open menu on background click', () => {
@@ -449,6 +455,21 @@ describe('MenuTrigger', () => {
 
       expect(nativeMenus.length).toBe(1);
     });
+  });
+
+  it('should be able to pass data to the menu via the template context', () => {
+    TestBed.configureTestingModule({
+      imports: [CdkMenuModule],
+      declarations: [TriggerWithData],
+    }).compileComponents();
+
+    const fixture = TestBed.createComponent(TriggerWithData);
+    fixture.componentInstance.menuData = {message: 'Hello!'};
+    fixture.detectChanges();
+    fixture.nativeElement.querySelector('button').click();
+    fixture.detectChanges();
+
+    expect(document.querySelector('.test-menu')?.textContent).toBe('Hello!');
   });
 });
 
@@ -567,4 +588,19 @@ class StandaloneTriggerWithInlineMenu {
   @ViewChild('submenu_item', {read: ElementRef}) submenuItem?: ElementRef<HTMLElement>;
   @ViewChild('inline_item', {read: ElementRef}) nativeInlineItem: ElementRef<HTMLElement>;
   @ViewChildren(CdkMenu, {read: ElementRef}) nativeMenus: QueryList<ElementRef>;
+}
+
+@Component({
+  template: `
+    <button
+      [cdkMenuTriggerFor]="menu"
+      [cdkMenuTriggerData]="menuData">Click me!</button>
+
+    <ng-template #menu let-message="message">
+      <div cdkMenu class="test-menu">{{message}}</div>
+    </ng-template>
+  `,
+})
+class TriggerWithData {
+  menuData: unknown;
 }

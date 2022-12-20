@@ -6,13 +6,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testing';
 import {MatListHarnessBase} from './list-harness-base';
 import {ListHarnessFilters, ListItemHarnessFilters} from './list-harness-filters';
 import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-base';
 
 /**
- * Harness for interacting with a standard mat-list in tests.
+ * Harness for interacting with a MDC-based list in tests.
  *
  * 在测试中用来与标准 mat-list 进行交互的测试工具。
  *
@@ -28,11 +28,10 @@ export class MatListHarness extends MatListHarnessBase<
    * `MatList` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-list:not(mat-action-list)';
+  static hostSelector = '.mat-mdc-list';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatListHarness` that meets certain
-   * criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a list with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatListHarness`。
    *
@@ -44,8 +43,11 @@ export class MatListHarness extends MatListHarnessBase<
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ListHarnessFilters = {}): HarnessPredicate<MatListHarness> {
-    return new HarnessPredicate(MatListHarness, options);
+  static with<T extends MatListHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ListHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 
   override _itemHarness = MatListItemHarness;
@@ -64,11 +66,10 @@ export class MatListItemHarness extends MatListItemHarnessBase {
    * `MatListItem` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = `${MatListHarness.hostSelector} .mat-list-item`;
+  static hostSelector = `${MatListHarness.hostSelector} .mat-mdc-list-item`;
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatListItemHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a list item with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatListItemHarness`。
    *
@@ -80,7 +81,10 @@ export class MatListItemHarness extends MatListItemHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ListItemHarnessFilters = {}): HarnessPredicate<MatListItemHarness> {
-    return getListItemPredicate(MatListItemHarness, options);
+  static with<T extends MatListItemHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ListItemHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return getListItemPredicate(this, options);
   }
 }

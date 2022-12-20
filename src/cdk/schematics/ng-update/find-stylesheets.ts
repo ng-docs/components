@@ -15,7 +15,7 @@ import {Tree} from '@angular-devkit/schematics';
  * 与样式表路径匹配的正则表达式
  *
  */
-const STYLESHEET_REGEX = /.*\.(css|scss)/;
+const STYLESHEET_REGEX = /.*\.(css|scss)$/;
 
 /**
  * Finds stylesheets in the given directory from within the specified tree.

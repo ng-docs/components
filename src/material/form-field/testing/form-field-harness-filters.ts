@@ -29,4 +29,6 @@ export interface FormFieldHarnessFilters extends BaseHarnessFilters {
    *
    */
   hasErrors?: boolean;
+  /** Filters based on whether the form field value is valid. */
+  isValid?: boolean;
 }

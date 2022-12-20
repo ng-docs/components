@@ -1,8 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
+import {MatInputModule} from '@angular/material/input';
 import {MatInputHarness} from '@angular/material/input/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
-import {MatInputModule} from '@angular/material/input';
 import {InputHarnessExample} from './input-harness-example';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -11,8 +11,8 @@ describe('InputHarnessExample', () => {
   let fixture: ComponentFixture<InputHarnessExample>;
   let loader: HarnessLoader;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       imports: [MatInputModule, NoopAnimationsModule, ReactiveFormsModule],
       declarations: [InputHarnessExample],
     }).compileComponents();

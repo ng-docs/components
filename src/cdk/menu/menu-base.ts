@@ -13,7 +13,6 @@ import {
   Directive,
   ElementRef,
   inject,
-  InjectFlags,
   Input,
   NgZone,
   OnDestroy,
@@ -91,7 +90,7 @@ export abstract class CdkMenuBase
    * 此菜单使用的 MenuAim 服务。
    *
    */
-  protected readonly menuAim = inject(MENU_AIM, InjectFlags.Optional | InjectFlags.Self);
+  protected readonly menuAim = inject(MENU_AIM, {optional: true, self: true});
 
   /**
    * The directionality (text direction) of the current page.
@@ -99,7 +98,7 @@ export abstract class CdkMenuBase
    * 当前页面的方向性（文本方向）。
    *
    */
-  protected readonly dir = inject(Directionality, InjectFlags.Optional);
+  protected readonly dir = inject(Directionality, {optional: true});
 
   /**
    * The id of the menu's host element.
@@ -187,6 +186,7 @@ export abstract class CdkMenuBase
   }
 
   ngOnDestroy() {
+    this.keyManager?.destroy();
     this.destroyed.next();
     this.destroyed.complete();
     this.pointerTracker?.destroy();

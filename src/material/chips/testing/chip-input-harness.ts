@@ -6,21 +6,26 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate, ComponentHarness, TestKey} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+  TestKey,
+} from '@angular/cdk/testing';
 import {ChipInputHarnessFilters} from './chip-harness-filters';
 
 /**
- * Harness for interacting with a standard Material chip inputs in tests.
+ * Harness for interacting with a grid's chip input in tests.
  *
  * 在测试中用来与标准 Material 纸片组件交互的测试工具。
  *
  */
 export class MatChipInputHarness extends ComponentHarness {
-  static hostSelector = '.mat-chip-input';
+  static hostSelector = '.mat-mdc-chip-input';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatChipInputHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a chip input with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件 `MatChipInputHarness`
    *
@@ -32,13 +37,19 @@ export class MatChipInputHarness extends ComponentHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ChipInputHarnessFilters = {}): HarnessPredicate<MatChipInputHarness> {
-    return new HarnessPredicate(MatChipInputHarness, options)
+  static with<T extends MatChipInputHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ChipInputHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options)
       .addOption('value', options.value, async (harness, value) => {
         return (await harness.getValue()) === value;
       })
       .addOption('placeholder', options.placeholder, async (harness, placeholder) => {
         return (await harness.getPlaceholder()) === placeholder;
+      })
+      .addOption('disabled', options.disabled, async (harness, disabled) => {
+        return (await harness.isDisabled()) === disabled;
       });
   }
 
@@ -49,7 +60,7 @@ export class MatChipInputHarness extends ComponentHarness {
    *
    */
   async isDisabled(): Promise<boolean> {
-    return (await this.host()).getProperty('disabled')!;
+    return (await this.host()).getProperty<boolean>('disabled');
   }
 
   /**
@@ -59,7 +70,7 @@ export class MatChipInputHarness extends ComponentHarness {
    *
    */
   async isRequired(): Promise<boolean> {
-    return (await this.host()).getProperty('required')!;
+    return (await this.host()).getProperty<boolean>('required');
   }
 
   /**
@@ -70,7 +81,7 @@ export class MatChipInputHarness extends ComponentHarness {
    */
   async getValue(): Promise<string> {
     // The "value" property of the native input is never undefined.
-    return (await (await this.host()).getProperty('value'))!;
+    return await (await this.host()).getProperty<string>('value');
   }
 
   /**
@@ -80,7 +91,7 @@ export class MatChipInputHarness extends ComponentHarness {
    *
    */
   async getPlaceholder(): Promise<string> {
-    return await (await this.host()).getProperty('placeholder');
+    return await (await this.host()).getProperty<string>('placeholder');
   }
 
   /**

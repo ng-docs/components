@@ -58,6 +58,24 @@ approach this to the consuming app.
 值得注意的是，如果把文字本身写成全大写形式（而不是通过 css），可能会导致某些屏幕阅读器出现问题 —— 它将会一个字符一个字符的把文本读出来。
 所以我们决定让应用开发者自己来决定用哪种形式。
 
+### Extended fab buttons
+
+### 一些扩展 Fab 按钮
+
+Traditional fab buttons are circular and only have space for a single icon. However, you can add the
+`extended` attribute to allow the fab to expand into a rounded rectangle shape with space for a text
+label in addition to the icon. Only full sized fabs support the `extended` attribute, mini fabs do
+not.
+
+传统的 FAB 按钮是原型的，并且只有一个单个图标的空间，你可以添加 `extended` 属性，让此 Fab 能扩展成圆角矩形，以便在图标之外，扩展出容纳文本标签的空间。只有完全打消的 Fab 才支持 `extended` 属性，微型（mini） Fab 不支持。
+
+```html
+<button mat-fab extended>
+  <mat-icon>home</mat-icon>
+  Home
+</button>
+```
+
 ### Accessibility
 
 ### 无障碍性

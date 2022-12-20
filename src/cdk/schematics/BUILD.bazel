@@ -18,7 +18,6 @@ ts_library(
         exclude = [
             "**/files/**/*.ts",
             "**/*.spec.ts",
-            "ng-update/test-cases/**/*.ts",
             "testing/**/*.ts",
         ],
     ),
@@ -35,7 +34,6 @@ ts_library(
         # TODO(devversion): Only include jasmine for test sources (See: tsconfig types).
         "@npm//@types/jasmine",
         "@npm//@types/glob",
-        "@npm//@types/parse5",
         "@npm//@types/node",
         "@npm//glob",
         "@npm//parse5",
@@ -60,7 +58,6 @@ jasmine_node_test(
     srcs = [":unit_test_sources"],
     data = [
         ":schematics_assets",
-        ":schematics_test_cases",
     ],
 )
 
@@ -85,18 +82,10 @@ ts_library(
         "//src/cdk/schematics/update-tool",
         "//src/cdk/testing/private",
         "@npm//@angular-devkit/schematics",
+        "@npm//@bazel/runfiles",
         "@npm//@schematics/angular",
         "@npm//@types/jasmine",
         "@npm//@types/node",
         "@npm//typescript",
     ],
-)
-
-filegroup(
-    name = "schematics_test_cases",
-    testonly = True,
-    srcs = glob([
-        "ng-update/test-cases/**/*_input.ts",
-        "ng-update/test-cases/**/*_expected_output.ts",
-    ]) + ["ng-update/test-cases/misc/global-stylesheets-test.scss"],
 )

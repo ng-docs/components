@@ -7,7 +7,6 @@
  */
 
 import {Component} from '@angular/core';
-import {ButtonExamplesModule} from '@angular/components-examples/material/button';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 
@@ -16,7 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
   templateUrl: 'button-demo.html',
   styleUrls: ['button-demo.css'],
   standalone: true,
-  imports: [ButtonExamplesModule, MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule],
 })
 export class ButtonDemo {
   isDisabled: boolean = false;

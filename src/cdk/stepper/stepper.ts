@@ -537,7 +537,7 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     return this._orientation;
   }
   set orientation(value: StepperOrientation) {
-    // This is a protected method so that `MatSteppter` can hook into it.
+    // This is a protected method so that `MatStepper` can hook into it.
     this._orientation = value;
 
     if (this._keyManager) {
@@ -569,7 +569,7 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
     // rendered in the DOM which will lead to incorrect keyboard navigation. We need to sort
     // them manually to ensure that they're correct. Alternatively, we can change the Material
     // template to inline the headers in the `ngFor`, but that'll result in a lot of
-    // code duplciation. See #23539.
+    // code duplication. See #23539.
     this._stepHeader.changes
       .pipe(startWith(this._stepHeader), takeUntil(this._destroyed))
       .subscribe((headers: QueryList<CdkStepHeader>) => {
@@ -618,6 +618,7 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this._keyManager?.destroy();
     this.steps.destroy();
     this._sortedHeaders.destroy();
     this._destroyed.next();
@@ -793,7 +794,7 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
       this.selectedIndex = manager.activeItemIndex;
       event.preventDefault();
     } else {
-      manager.onKeydown(event);
+      manager.setFocusOrigin('keyboard').onKeydown(event);
     }
   }
 

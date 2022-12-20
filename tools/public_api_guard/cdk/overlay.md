@@ -46,23 +46,10 @@ export class BlockScrollStrategy implements ScrollStrategy {
 }
 
 // @public
-const CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY: InjectionToken<() => ScrollStrategy>;
-
-// @public
-const CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER: {
-    provide: InjectionToken<() => ScrollStrategy>;
-    deps: (typeof Overlay)[];
-    useFactory: typeof CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY;
-};
-
-// @public
-function CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER_FACTORY(overlay: Overlay): () => RepositionScrollStrategy;
-
-// @public
 export class CdkConnectedOverlay implements OnDestroy, OnChanges {
     constructor(_overlay: Overlay, templateRef: TemplateRef<any>, viewContainerRef: ViewContainerRef, scrollStrategyFactory: any, _dir: Directionality);
     readonly attach: EventEmitter<void>;
-    backdropClass: string;
+    backdropClass: string | string[];
     readonly backdropClick: EventEmitter<MouseEvent>;
     readonly detach: EventEmitter<void>;
     get dir(): Direction;
@@ -102,7 +89,7 @@ export class CdkConnectedOverlay implements OnDestroy, OnChanges {
     viewportMargin: number;
     width: number | string;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkConnectedOverlay, "[cdk-connected-overlay], [connected-overlay], [cdkConnectedOverlay]", ["cdkConnectedOverlay"], { "origin": "cdkConnectedOverlayOrigin"; "positions": "cdkConnectedOverlayPositions"; "positionStrategy": "cdkConnectedOverlayPositionStrategy"; "offsetX": "cdkConnectedOverlayOffsetX"; "offsetY": "cdkConnectedOverlayOffsetY"; "width": "cdkConnectedOverlayWidth"; "height": "cdkConnectedOverlayHeight"; "minWidth": "cdkConnectedOverlayMinWidth"; "minHeight": "cdkConnectedOverlayMinHeight"; "backdropClass": "cdkConnectedOverlayBackdropClass"; "panelClass": "cdkConnectedOverlayPanelClass"; "viewportMargin": "cdkConnectedOverlayViewportMargin"; "scrollStrategy": "cdkConnectedOverlayScrollStrategy"; "open": "cdkConnectedOverlayOpen"; "disableClose": "cdkConnectedOverlayDisableClose"; "transformOriginSelector": "cdkConnectedOverlayTransformOriginOn"; "hasBackdrop": "cdkConnectedOverlayHasBackdrop"; "lockPosition": "cdkConnectedOverlayLockPosition"; "flexibleDimensions": "cdkConnectedOverlayFlexibleDimensions"; "growAfterOpen": "cdkConnectedOverlayGrowAfterOpen"; "push": "cdkConnectedOverlayPush"; }, { "backdropClick": "backdropClick"; "positionChange": "positionChange"; "attach": "attach"; "detach": "detach"; "overlayKeydown": "overlayKeydown"; "overlayOutsideClick": "overlayOutsideClick"; }, never, never, false>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkConnectedOverlay, "[cdk-connected-overlay], [connected-overlay], [cdkConnectedOverlay]", ["cdkConnectedOverlay"], { "origin": "cdkConnectedOverlayOrigin"; "positions": "cdkConnectedOverlayPositions"; "positionStrategy": "cdkConnectedOverlayPositionStrategy"; "offsetX": "cdkConnectedOverlayOffsetX"; "offsetY": "cdkConnectedOverlayOffsetY"; "width": "cdkConnectedOverlayWidth"; "height": "cdkConnectedOverlayHeight"; "minWidth": "cdkConnectedOverlayMinWidth"; "minHeight": "cdkConnectedOverlayMinHeight"; "backdropClass": "cdkConnectedOverlayBackdropClass"; "panelClass": "cdkConnectedOverlayPanelClass"; "viewportMargin": "cdkConnectedOverlayViewportMargin"; "scrollStrategy": "cdkConnectedOverlayScrollStrategy"; "open": "cdkConnectedOverlayOpen"; "disableClose": "cdkConnectedOverlayDisableClose"; "transformOriginSelector": "cdkConnectedOverlayTransformOriginOn"; "hasBackdrop": "cdkConnectedOverlayHasBackdrop"; "lockPosition": "cdkConnectedOverlayLockPosition"; "flexibleDimensions": "cdkConnectedOverlayFlexibleDimensions"; "growAfterOpen": "cdkConnectedOverlayGrowAfterOpen"; "push": "cdkConnectedOverlayPush"; }, { "backdropClick": "backdropClick"; "positionChange": "positionChange"; "attach": "attach"; "detach": "detach"; "overlayKeydown": "overlayKeydown"; "overlayOutsideClick": "overlayOutsideClick"; }, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<CdkConnectedOverlay, [null, null, null, null, { optional: true; }]>;
 }
@@ -113,7 +100,7 @@ export class CdkOverlayOrigin {
     elementRef: ElementRef);
     elementRef: ElementRef;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkOverlayOrigin, "[cdk-overlay-origin], [overlay-origin], [cdkOverlayOrigin]", ["cdkOverlayOrigin"], {}, {}, never, never, false>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<CdkOverlayOrigin, "[cdk-overlay-origin], [overlay-origin], [cdkOverlayOrigin]", ["cdkOverlayOrigin"], {}, {}, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<CdkOverlayOrigin, never>;
 }
@@ -184,6 +171,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
     // (undocumented)
     detach(): void;
     dispose(): void;
+    _origin: FlexibleConnectedPositionStrategyOrigin;
     positionChanges: Observable<ConnectedOverlayPositionChange>;
     get positions(): ConnectionPositionPair[];
     _preferredPositions: ConnectionPositionPair[];

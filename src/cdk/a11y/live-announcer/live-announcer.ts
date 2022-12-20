@@ -26,6 +26,8 @@ import {
   LIVE_ANNOUNCER_DEFAULT_OPTIONS,
 } from './live-announcer-tokens';
 
+let uniqueIds = 0;
+
 @Injectable({providedIn: 'root'})
 export class LiveAnnouncer implements OnDestroy {
   private _liveElement: HTMLElement;
@@ -50,11 +52,11 @@ export class LiveAnnouncer implements OnDestroy {
   }
 
   /**
-   * Announces a message to screenreaders.
+   * Announces a message to screen readers.
    *
    * 向屏幕阅读器发布一条消息。
    *
-   * @param message Message to be announced to the screenreader.
+   * @param message Message to be announced to the screen reader.
    *
    * 要通知到屏幕阅读器的消息。
    *
@@ -66,11 +68,11 @@ export class LiveAnnouncer implements OnDestroy {
   announce(message: string): Promise<void>;
 
   /**
-   * Announces a message to screenreaders.
+   * Announces a message to screen readers.
    *
    * 向屏幕阅读器发布一条消息。
    *
-   * @param message Message to be announced to the screenreader.
+   * @param message Message to be announced to the screen reader.
    *
    * 要通知屏幕阅读器的消息。
    *
@@ -86,11 +88,11 @@ export class LiveAnnouncer implements OnDestroy {
   announce(message: string, politeness?: AriaLivePoliteness): Promise<void>;
 
   /**
-   * Announces a message to screenreaders.
+   * Announces a message to screen readers.
    *
    * 向屏幕阅读器发布一条消息。
    *
-   * @param message Message to be announced to the screenreader.
+   * @param message Message to be announced to the screen reader.
    *
    * 要通知屏幕阅读器的消息。
    *
@@ -108,11 +110,11 @@ export class LiveAnnouncer implements OnDestroy {
   announce(message: string, duration?: number): Promise<void>;
 
   /**
-   * Announces a message to screenreaders.
+   * Announces a message to screen readers.
    *
    * 向屏幕阅读器发布一条消息。
    *
-   * @param message Message to be announced to the screenreader.
+   * @param message Message to be announced to the screen reader.
    *
    * 要通知屏幕阅读器的消息。
    *
@@ -158,6 +160,10 @@ export class LiveAnnouncer implements OnDestroy {
 
     // TODO: ensure changing the politeness works on all environments we support.
     this._liveElement.setAttribute('aria-live', politeness);
+
+    if (this._liveElement.id) {
+      this._exposeAnnouncerToModals(this._liveElement.id);
+    }
 
     // This 100ms timeout is necessary for some browser + screen-reader combinations:
     // - Both JAWS and NVDA over IE11 will not announce anything without a non-zero timeout.
@@ -222,10 +228,36 @@ export class LiveAnnouncer implements OnDestroy {
 
     liveEl.setAttribute('aria-atomic', 'true');
     liveEl.setAttribute('aria-live', 'polite');
+    liveEl.id = `cdk-live-announcer-${uniqueIds++}`;
 
     this._document.body.appendChild(liveEl);
 
     return liveEl;
+  }
+
+  /**
+   * Some browsers won't expose the accessibility node of the live announcer element if there is an
+   * `aria-modal` and the live announcer is outside of it. This method works around the issue by
+   * pointing the `aria-owns` of all modals to the live announcer element.
+   */
+  private _exposeAnnouncerToModals(id: string) {
+    // Note that the selector here is limited to CDK overlays at the moment in order to reduce the
+    // section of the DOM we need to look through. This should cover all the cases we support, but
+    // the selector can be expanded if it turns out to be too narrow.
+    const modals = this._document.querySelectorAll(
+      'body > .cdk-overlay-container [aria-modal="true"]',
+    );
+
+    for (let i = 0; i < modals.length; i++) {
+      const modal = modals[i];
+      const ariaOwns = modal.getAttribute('aria-owns');
+
+      if (!ariaOwns) {
+        modal.setAttribute('aria-owns', id);
+      } else if (ariaOwns.indexOf(id) === -1) {
+        modal.setAttribute('aria-owns', ariaOwns + ' ' + id);
+      }
+    }
   }
 }
 

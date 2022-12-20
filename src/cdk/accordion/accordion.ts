@@ -92,7 +92,7 @@ export class CdkAccordion implements OnDestroy, OnChanges {
   }
 
   /**
-   * Closes all enabled accordion items in an accordion where multi is enabled.
+   * Closes all enabled accordion items.
    *
    * 允许多选时，可以同时关闭手风琴中的所有可用条目。
    *

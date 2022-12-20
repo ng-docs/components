@@ -174,8 +174,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
 
   ngOnDestroy() {
     super.dispose();
-    this._attachedPortal = null;
-    this._attachedRef = null;
+    this._attachedRef = this._attachedPortal = null;
   }
 
   /**
@@ -206,6 +205,7 @@ export class CdkPortalOutlet extends BasePortalOutlet implements OnInit, OnDestr
       componentFactory,
       viewContainerRef.length,
       portal.injector || viewContainerRef.injector,
+      portal.projectableNodes || undefined,
     );
 
     // If we're using a view container that's different from the injected one (e.g. when the portal

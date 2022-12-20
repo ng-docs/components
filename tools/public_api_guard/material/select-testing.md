@@ -24,7 +24,7 @@ export class MatSelectHarness extends _MatSelectHarnessBase<typeof MatOptionHarn
     protected _optionGroupClass: typeof MatOptgroupHarness;
     // (undocumented)
     protected _prefix: string;
-    static with(options?: SelectHarnessFilters): HarnessPredicate<MatSelectHarness>;
+    static with<T extends MatSelectHarness>(this: ComponentHarnessConstructor<T>, options?: SelectHarnessFilters): HarnessPredicate<T>;
 }
 
 // @public (undocumented)

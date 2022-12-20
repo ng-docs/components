@@ -9,8 +9,8 @@ describe('SliderHarnessExample', () => {
   let fixture: ComponentFixture<SliderHarnessExample>;
   let loader: HarnessLoader;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       imports: [MatSliderModule],
       declarations: [SliderHarnessExample],
     }).compileComponents();
@@ -24,27 +24,30 @@ describe('SliderHarnessExample', () => {
     expect(sliders.length).toBe(1);
   });
 
-  it('should get value of slider', async () => {
+  it('should get value of slider thumb', async () => {
     const slider = await loader.getHarness(MatSliderHarness);
-    expect(await slider.getValue()).toBe(50);
+    const thumb = await slider.getEndThumb();
+    expect(await thumb.getValue()).toBe(50);
   });
 
-  it('should get percentage of slider', async () => {
+  it('should get percentage of slider thumb', async () => {
     const slider = await loader.getHarness(MatSliderHarness);
-    expect(await slider.getPercentage()).toBe(0.5);
+    const thumb = await slider.getEndThumb();
+    expect(await thumb.getPercentage()).toBe(0.5);
   });
 
-  it('should get max value of slider', async () => {
+  it('should get max value of slider thumb', async () => {
     const slider = await loader.getHarness(MatSliderHarness);
     expect(await slider.getMaxValue()).toBe(100);
   });
 
-  it('should be able to set value of slider', async () => {
+  it('should be able to set value of slider thumb', async () => {
     const slider = await loader.getHarness(MatSliderHarness);
-    expect(await slider.getValue()).toBe(50);
+    const thumb = await slider.getEndThumb();
+    expect(await thumb.getValue()).toBe(50);
 
-    await slider.setValue(33);
+    await thumb.setValue(33);
 
-    expect(await slider.getValue()).toBe(33);
+    expect(await thumb.getValue()).toBe(33);
   });
 });

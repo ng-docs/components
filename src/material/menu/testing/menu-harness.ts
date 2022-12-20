@@ -32,7 +32,7 @@ export abstract class _MatMenuHarnessBase<
   private _documentRootLocator = this.documentRootLocatorFactory();
   protected abstract _itemClass: ItemType;
 
-  // TODO: potentially extend MatButtonHarness
+  // TODO: potentially extend MatLegacyButtonHarness
 
   /**
    * Whether the menu is disabled.
@@ -301,7 +301,7 @@ export abstract class _MatMenuItemHarnessBase<
 }
 
 /**
- * Harness for interacting with a standard mat-menu in tests.
+ * Harness for interacting with an MDC-based mat-menu in tests.
  *
  * 在测试中可与标准 mat-menu 进行交互的测试工具。
  *
@@ -317,12 +317,11 @@ export class MatMenuHarness extends _MatMenuHarnessBase<
    * `MatMenu` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-menu-trigger';
+  static hostSelector = '.mat-mdc-menu-trigger';
   protected _itemClass = MatMenuItemHarness;
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatMenuHarness` that meets certain
-   * criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a menu with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatMenuHarness`。
    *
@@ -335,8 +334,11 @@ export class MatMenuHarness extends _MatMenuHarnessBase<
    * 使用给定选项配置过的 `HarnessPredicate`
    *
    */
-  static with(options: MenuHarnessFilters = {}): HarnessPredicate<MatMenuHarness> {
-    return new HarnessPredicate(MatMenuHarness, options).addOption(
+  static with<T extends MatMenuHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: MenuHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption(
       'triggerText',
       options.triggerText,
       (harness, text) => HarnessPredicate.stringMatches(harness.getTriggerText(), text),
@@ -345,7 +347,7 @@ export class MatMenuHarness extends _MatMenuHarnessBase<
 }
 
 /**
- * Harness for interacting with a standard mat-menu-item in tests.
+ * Harness for interacting with an MDC-based mat-menu-item in tests.
  *
  * 在测试中可与标准 mat-menu-item 进行交互的测试工具。
  *
@@ -360,12 +362,11 @@ export class MatMenuItemHarness extends _MatMenuItemHarnessBase<
    * `MatMenuItem` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-menu-item';
+  static hostSelector = '.mat-mdc-menu-item';
   protected _menuClass = MatMenuHarness;
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatMenuItemHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a menu item with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatMenuItemHarness`。
    *
@@ -378,8 +379,11 @@ export class MatMenuItemHarness extends _MatMenuItemHarnessBase<
    * 使用给定选项配置过的 `HarnessPredicate`
    *
    */
-  static with(options: MenuItemHarnessFilters = {}): HarnessPredicate<MatMenuItemHarness> {
-    return new HarnessPredicate(MatMenuItemHarness, options)
+  static with<T extends MatMenuItemHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: MenuItemHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options)
       .addOption('text', options.text, (harness, text) =>
         HarnessPredicate.stringMatches(harness.getText(), text),
       )

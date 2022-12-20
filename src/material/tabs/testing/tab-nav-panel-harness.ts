@@ -6,7 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ContentContainerComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  ComponentHarnessConstructor,
+  ContentContainerComponentHarness,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {TabNavPanelHarnessFilters} from './tab-harness-filters';
 
 /**
@@ -22,11 +26,11 @@ export class MatTabNavPanelHarness extends ContentContainerComponentHarness {
    * `MatTabNavPanel` 实例的宿主元素的选择器。
    *
    */
-  static hostSelector = '.mat-tab-nav-panel';
+  static hostSelector = '.mat-mdc-tab-nav-panel';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatTabNavPanel` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a tab nav panel with specific
+   * attributes.
    *
    * 获取可用于搜索满足特定条件的 `HarnessPredicate` 的 `MatTabNavPanel` 。
    *
@@ -39,8 +43,11 @@ export class MatTabNavPanelHarness extends ContentContainerComponentHarness {
    * 使用给定选项配置过的 `HarnessPredicate`。
    *
    */
-  static with(options: TabNavPanelHarnessFilters = {}): HarnessPredicate<MatTabNavPanelHarness> {
-    return new HarnessPredicate(MatTabNavPanelHarness, options);
+  static with<T extends MatTabNavPanelHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: TabNavPanelHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 
   /**

@@ -5,7 +5,7 @@ import {
   getBranchesForMajorVersions,
   getVersionForVersionBranch,
   isVersionBranch,
-} from '@angular/dev-infra-private/ng-dev';
+} from '@angular/ng-dev';
 import {firebaseConfig, sites} from './utils.mjs';
 
 import {buildAndDeployWithSnapshots} from './snapshot-deploy.mjs';
@@ -30,6 +30,7 @@ async function main() {
 
   if (branchName === active.next.branchName) {
     const major = active.next.version.major;
+
     const targets = [{projectId, description, site: sites.next}];
 
     // If the next release train is for a new major that is not published as part of the

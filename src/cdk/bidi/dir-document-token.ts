@@ -20,7 +20,7 @@ import {inject, InjectionToken} from '@angular/core';
  *
  * 我们不能在测试中使用真正的 document，因为改变真实的 `dir` 会导致 Safari 中基于几何的测试失败。
  *
- * We also can't re-provide the DOCUMENT token from platform-brower because the unit tests
+ * We also can't re-provide the DOCUMENT token from platform-browser because the unit tests
  * themselves use things like `querySelector` in test code.
  *
  * 我们也无法从 platform-browser 中重新提供 DOCUMENT 令牌，因为单元测试本身会在测试代码中使用 `querySelector` 等。

@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directive, inject, Injectable, InjectFlags, Input, OnDestroy} from '@angular/core';
+import {Directive, inject, Injectable, Input, OnDestroy} from '@angular/core';
 import {Directionality} from '@angular/cdk/bidi';
 import {
   FlexibleConnectedPositionStrategy,
@@ -15,6 +15,7 @@ import {
   STANDARD_DROPDOWN_BELOW_POSITIONS,
 } from '@angular/cdk/overlay';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {_getEventTarget} from '@angular/cdk/platform';
 import {merge, partition} from 'rxjs';
 import {skip, takeUntil} from 'rxjs/operators';
 import {MENU_STACK, MenuStack} from './menu-stack';
@@ -86,11 +87,16 @@ export type ContextMenuCoordinates = {x: number; y: number};
 @Directive({
   selector: '[cdkContextMenuTriggerFor]',
   exportAs: 'cdkContextMenuTriggerFor',
+  standalone: true,
   host: {
     '[attr.data-cdk-menu-stack-id]': 'null',
     '(contextmenu)': '_openOnContextMenu($event)',
   },
-  inputs: ['menuTemplateRef: cdkContextMenuTriggerFor', 'menuPosition: cdkContextMenuPosition'],
+  inputs: [
+    'menuTemplateRef: cdkContextMenuTriggerFor',
+    'menuPosition: cdkContextMenuPosition',
+    'menuData: cdkContextMenuTriggerData',
+  ],
   outputs: ['opened: cdkContextMenuOpened', 'closed: cdkContextMenuClosed'],
   providers: [
     {provide: MENU_TRIGGER, useExisting: CdkContextMenuTrigger},
@@ -112,7 +118,7 @@ export class CdkContextMenuTrigger extends CdkMenuTriggerBase implements OnDestr
    * 页面的方向性。
    *
    */
-  private readonly _directionality = inject(Directionality, InjectFlags.Optional);
+  private readonly _directionality = inject(Directionality, {optional: true});
 
   /**
    * The app's context menu tracking registry
@@ -275,7 +281,7 @@ export class CdkContextMenuTrigger extends CdkMenuTriggerBase implements OnDestr
         outsideClicks = merge(nonAuxClicks, auxClicks.pipe(skip(1)));
       }
       outsideClicks.pipe(takeUntil(this.stopOutsideClicksListener)).subscribe(event => {
-        if (!this.isElementInsideMenuStack(event.target as Element)) {
+        if (!this.isElementInsideMenuStack(_getEventTarget(event)!)) {
           this.menuStack.closeAll();
         }
       });

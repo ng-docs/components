@@ -51,7 +51,7 @@ let nextUniqueId = 0;
  * 浮层*是*一个 PortalOutlet，任何类型的传送点都可以加载到其中。
  *
  */
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class Overlay {
   private _appRef: ApplicationRef;
 

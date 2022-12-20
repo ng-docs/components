@@ -72,38 +72,34 @@ const _MatInputBase = mixinErrorState(
   },
 );
 
-/**
- * Directive that allows a native input to work inside a `MatFormField`.
- *
- * 允许原生输入工作于 `MatFormField` 中的指令。
- *
- */
 @Directive({
   selector: `input[matInput], textarea[matInput], select[matNativeControl],
       input[matNativeControl], textarea[matNativeControl]`,
   exportAs: 'matInput',
   host: {
-    /**
-     * @breaking-change 8.0.0 remove .mat-form-field-autofill-control in favor of AutofillMonitor.
-     */
-    'class': 'mat-input-element mat-form-field-autofill-control',
+    'class': 'mat-mdc-input-element',
+    // The BaseMatInput parent class adds `mat-input-element`, `mat-form-field-control` and
+    // `mat-form-field-autofill-control` to the CSS class list, but this should not be added for
+    // this MDC equivalent input.
     '[class.mat-input-server]': '_isServer',
+    '[class.mat-mdc-form-field-textarea-control]': '_isInFormField && _isTextarea',
+    '[class.mat-mdc-form-field-input-control]': '_isInFormField',
+    '[class.mdc-text-field__input]': '_isInFormField',
+    '[class.mat-mdc-native-select-inline]': '_isInlineSelect()',
     // Native input properties that are overwritten by Angular inputs need to be synced with
     // the native input element. Otherwise property bindings for those don't work.
-    '[attr.id]': 'id',
-    // At the time of writing, we have a lot of customer tests that look up the input based on its
-    // placeholder. Since we sometimes omit the placeholder attribute from the DOM to prevent screen
-    // readers from reading it twice, we have to keep it somewhere in the DOM for the lookup.
-    '[attr.data-placeholder]': 'placeholder',
+    '[id]': 'id',
     '[disabled]': 'disabled',
     '[required]': 'required',
     '[attr.name]': 'name || null',
     '[attr.readonly]': 'readonly && !_isNativeSelect || null',
-    '[class.mat-native-select-inline]': '_isInlineSelect()',
     // Only mark the input as invalid for assistive technology if it has a value since the
     // state usually overlaps with `aria-required` when the input is empty and can be redundant.
     '[attr.aria-invalid]': '(empty && required) ? null : errorState',
     '[attr.aria-required]': 'required',
+    // Native input properties that are overwritten by Angular inputs need to be synced with
+    // the native input element. Otherwise property bindings for those don't work.
+    '[attr.id]': 'id',
     '(focus)': '_focusChanged(true)',
     '(blur)': '_focusChanged(false)',
     '(input)': '_onInput()',
@@ -202,9 +198,6 @@ export class MatInput
    */
   @Input()
   get disabled(): boolean {
-    if (this.ngControl && this.ngControl.disabled !== null) {
-      return this.ngControl.disabled;
-    }
     return this._disabled;
   }
   set disabled(value: BooleanInput) {
@@ -363,7 +356,7 @@ export class MatInput
     ngZone: NgZone,
     // TODO: Remove this once the legacy appearance has been removed. We only need
     // to inject the form field for determining whether the placeholder has been promoted.
-    @Optional() @Inject(MAT_FORM_FIELD) private _formField?: MatFormField,
+    @Optional() @Inject(MAT_FORM_FIELD) protected _formField?: MatFormField,
   ) {
     super(_defaultErrorStateMatcher, _parentForm, _parentFormGroup, ngControl);
 
@@ -431,6 +424,15 @@ export class MatInput
       // error triggers that we can't subscribe to (e.g. parent form submissions). This means
       // that whatever logic is in here has to be super lean or we risk destroying the performance.
       this.updateErrorState();
+
+      // Since the input isn't a `ControlValueAccessor`, we don't have a good way of knowing when
+      // the disabled state has changed. We can't use the `ngControl.statusChanges`, because it
+      // won't fire if the input is disabled with `emitEvents = false`, despite the input becoming
+      // disabled.
+      if (this.ngControl.disabled !== null && this.ngControl.disabled !== this.disabled) {
+        this.disabled = this.ngControl.disabled;
+        this.stateChanges.next();
+      }
     }
 
     // We need to dirty-check the native element's value, because there are some cases where
@@ -477,34 +479,9 @@ export class MatInput
   }
 
   /**
-   * Does some manual dirty checking on the native input `placeholder` attribute.
-   *
-   * 对 `placeholder` 属性进行一些手工脏检查。
-   *
-   */
-  private _dirtyCheckPlaceholder() {
-    // If we're hiding the native placeholder, it should also be cleared from the DOM, otherwise
-    // screen readers will read it out twice: once from the label and once from the attribute.
-    // TODO: can be removed once we get rid of the `legacy` style for the form field, because it's
-    // the only one that supports promoting the placeholder to a label.
-    const formField = this._formField;
-    const placeholder =
-      formField && formField.appearance === 'legacy' && !formField._hasLabel?.()
-        ? null
-        : this.placeholder;
-    if (placeholder !== this._previousPlaceholder) {
-      const element = this._elementRef.nativeElement;
-      this._previousPlaceholder = placeholder;
-      placeholder
-        ? element.setAttribute('placeholder', placeholder)
-        : element.removeAttribute('placeholder');
-    }
-  }
-
-  /**
    * Does some manual dirty checking on the native input `value` property.
    *
-   * 对 `value` 属性进行一些手动脏检查。
+   * 对 `value` 属性进行一些手工脏检查。
    *
    */
   protected _dirtyCheckNativeValue() {
@@ -514,6 +491,23 @@ export class MatInput
       this._previousNativeValue = newValue;
       this.stateChanges.next();
     }
+  }
+
+  /** Does some manual dirty checking on the native input `placeholder` attribute. */
+  private _dirtyCheckPlaceholder() {
+    const placeholder = this._getPlaceholder();
+    if (placeholder !== this._previousPlaceholder) {
+      const element = this._elementRef.nativeElement;
+      this._previousPlaceholder = placeholder;
+      placeholder
+        ? element.setAttribute('placeholder', placeholder)
+        : element.removeAttribute('placeholder');
+    }
+  }
+
+  /** Gets the current placeholder of the form field. */
+  protected _getPlaceholder(): string | null {
+    return this.placeholder || null;
   }
 
   /**

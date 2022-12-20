@@ -97,6 +97,9 @@ export class MatBottomSheetConfig<D = any> {
    */
   ariaLabel?: string | null = null;
 
+  /** Whether this is a modal bottom sheet. Used to set the `aria-modal` attribute. */
+  ariaModal?: boolean = true;
+
   /**
    * Whether the bottom sheet should close when the user goes backwards/forwards in history.
    * Note that this usually doesn't include clicking on links (unless the user is using

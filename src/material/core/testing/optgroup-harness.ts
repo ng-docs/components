@@ -6,13 +6,17 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {OptgroupHarnessFilters} from './optgroup-harness-filters';
 import {MatOptionHarness} from './option-harness';
 import {OptionHarnessFilters} from './option-harness-filters';
 
 /**
- * Harness for interacting with a `mat-optgroup` in tests.
+ * Harness for interacting with an MDC-based `mat-optgroup` in tests.
  *
  * 在测试中用来与 `mat-optgroup` 交互的测试工具。
  *
@@ -24,12 +28,12 @@ export class MatOptgroupHarness extends ComponentHarness {
    * 选择器，用于定位选项组实例。
    *
    */
-  static hostSelector = '.mat-optgroup';
-  private _label = this.locatorFor('.mat-optgroup-label');
+  static hostSelector = '.mat-mdc-optgroup';
+  private _label = this.locatorFor('.mat-mdc-optgroup-label');
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatOptgroupHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a option group with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatOptgroupHarness`。
    *
@@ -41,8 +45,11 @@ export class MatOptgroupHarness extends ComponentHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: OptgroupHarnessFilters = {}) {
-    return new HarnessPredicate(MatOptgroupHarness, options).addOption(
+  static with<T extends MatOptgroupHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: OptgroupHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption(
       'labelText',
       options.labelText,
       async (harness, title) => HarnessPredicate.stringMatches(await harness.getLabelText(), title),
@@ -66,7 +73,7 @@ export class MatOptgroupHarness extends ComponentHarness {
    *
    */
   async isDisabled(): Promise<boolean> {
-    return (await this.host()).hasClass('mat-optgroup-disabled');
+    return (await (await this.host()).getAttribute('aria-disabled')) === 'true';
   }
 
   /**

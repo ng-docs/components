@@ -6,33 +6,26 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate, parallel} from '@angular/cdk/testing';
-import {MatChipOptionHarness} from './chip-option-harness';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+  parallel,
+} from '@angular/cdk/testing';
 import {ChipListboxHarnessFilters, ChipOptionHarnessFilters} from './chip-harness-filters';
-import {_MatChipListHarnessBase} from './chip-list-harness';
+import {MatChipOptionHarness} from './chip-option-harness';
 
-/**
- * Harness for interacting with a standard selectable chip list in tests.
- *
- * 在测试中用来与标准可选纸片列表进行交互的测试工具。
- *
- */
-export class MatChipListboxHarness extends _MatChipListHarnessBase {
-  /**
-   * The selector for the host element of a `MatChipList` instance.
-   *
-   * `MatChipList` 实例的宿主元素选择器。
-   *
-   */
-  static hostSelector = '.mat-chip-list';
+/** Harness for interacting with a mat-chip-listbox in tests. */
+export class MatChipListboxHarness extends ComponentHarness {
+  static hostSelector = '.mat-mdc-chip-listbox';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatChipListHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a chip listbox with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件的 `MatChipListHarness`
    *
-   * @param options Options for filtering which chip list instances are considered a match.
+   * @param options Options for narrowing the search.
    *
    * 一个选项，用来过滤哪些些纸片列表实例是匹配的。
    *
@@ -40,8 +33,38 @@ export class MatChipListboxHarness extends _MatChipListHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ChipListboxHarnessFilters = {}): HarnessPredicate<MatChipListboxHarness> {
-    return new HarnessPredicate(MatChipListboxHarness, options);
+  static with<T extends MatChipListboxHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ChipListboxHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption(
+      'disabled',
+      options.disabled,
+      async (harness, disabled) => {
+        return (await harness.isDisabled()) === disabled;
+      },
+    );
+  }
+
+  /** Gets whether the chip listbox is disabled. */
+  async isDisabled(): Promise<boolean> {
+    return (await (await this.host()).getAttribute('aria-disabled')) === 'true';
+  }
+
+  /** Gets whether the chip listbox is required. */
+  async isRequired(): Promise<boolean> {
+    return (await (await this.host()).getAttribute('aria-required')) === 'true';
+  }
+
+  /** Gets whether the chip listbox is in multi selection mode. */
+  async isMultiple(): Promise<boolean> {
+    return (await (await this.host()).getAttribute('aria-multiselectable')) === 'true';
+  }
+
+  /** Gets whether the orientation of the chip list. */
+  async getOrientation(): Promise<'horizontal' | 'vertical'> {
+    const orientation = await (await this.host()).getAttribute('aria-orientation');
+    return orientation === 'vertical' ? 'vertical' : 'horizontal';
   }
 
   /**

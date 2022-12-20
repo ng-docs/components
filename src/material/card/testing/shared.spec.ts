@@ -3,7 +3,7 @@ import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {Component} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
-import {MatCardHarness, MatCardSection} from '@angular/material/card/testing/card-harness';
+import {MatCardHarness, MatCardSection} from '@angular/material/card/testing';
 
 /**
  * Shared tests to run on both the original and MDC-based cards.

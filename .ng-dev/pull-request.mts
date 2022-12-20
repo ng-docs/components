@@ -1,4 +1,4 @@
-import {PullRequestConfig} from '@angular/dev-infra-private/ng-dev';
+import {PullRequestConfig} from '@angular/ng-dev';
 
 /**
  * Configuration for the pull request commands in `ng-dev`. This includes the
@@ -11,9 +11,6 @@ export const pullRequest: PullRequestConfig = {
   // use the Github API merge strategy. That way we ensure that PRs show up as `Merged`.
   githubApiMerge: {
     default: 'squash',
-    labels: [{pattern: 'preserve commits', method: 'rebase'}],
+    labels: [{pattern: 'merge: preserve commits', method: 'rebase'}],
   },
-  mergeReadyLabel: 'merge ready',
-  commitMessageFixupLabel: 'commit message fixup',
-  caretakerNoteLabel: 'caretaker note',
 };

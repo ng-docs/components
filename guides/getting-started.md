@@ -106,32 +106,32 @@ You're done! Angular Material is now configured to be used in your application.
 
 ### 显示一个组件
 
-Let's display a slider component in your app and verify that everything works.
+Let's display a slide toggle component in your app and verify that everything works.
 
 让我们在应用中显示一个滑块组件，来验证一切正常。
 
-You need to import the `MatSliderModule` that you want to display by adding the following lines to
+You need to import the `MatSlideToggleModule` that you want to display by adding the following lines to
 your `app.module.ts` file.
 
 你需要通过把以下代码添加到 app.module.ts 文件中来导入 `MatSliderModule`。
 
 ```ts
-import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule ({
   imports: [
-    MatSliderModule,
+    MatSlideToggleModule,
   ]
 })
 class AppModule {}
 ```
 
-Add the `<mat-slider>` tag to the `app.component.html` like so:
+Add the `<mat-slide-toggle>` tag to the `app.component.html` like so:
 
 把 `<mat-slider>` 标签添加到 `app.component.html`，就像这样：
 
 ```html
-<mat-slider min="1" max="100" step="1" value="50"></mat-slider>
+<mat-slide-toggle>Toggle me!</mat-slide-toggle>
 ```
 
 Run your local dev server:
@@ -146,7 +146,7 @@ Then point your browser to <http://localhost:4200>
 
 让浏览器访问 <http://localhost:4200>
 
-You should see the Material slider component on the page.
+You should see the Material slide toggle component on the page.
 
 你会在页面上看到这个 Material 滑块组件。
 

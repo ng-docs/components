@@ -1,5 +1,5 @@
 `matInput` is a directive that allows native `<input>` and `<textarea>` elements to work with
-[`<mat-form-field>`](https://material.angular.io/components/form-field/overview). 
+[`<mat-form-field>`](https://material.angular.io/components/form-field/overview).
 
 `matInput` 是一个指令，它能让原生的 `<input>` 和 `<textarea>` 元素与 [`<mat-form-field>`](/components/form-field/overview) 协同工作。
 
@@ -9,7 +9,7 @@
 
 ### `<input>` 和 `<textarea>` 的属性
 
-All of the attributes that can be used with normal `<input>` and `<textarea>` elements can be used
+All of the attributes that can be used with `<input>` and `<textarea>` elements can be used
 on elements inside `<mat-form-field>` as well. This includes Angular directives such as `ngModel`
 and `formControl`.
 
@@ -17,7 +17,7 @@ and `formControl`.
 这些属性也包括像 `ngModel` 和 `formControl` 这样的 Angular 指令。
 
 The only limitation is that the `type` attribute can only be one of the values supported by
-`matInput`.
+`matNativeControl`.
 
 唯一的限制是 `type` 属性只能是 `matInput` 所支持的值之一。
 
@@ -26,7 +26,7 @@ The only limitation is that the `type` attribute can only be one of the values s
 ### 支持的 `<input>` 类型（type）
 
 The following [input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input) can
-be used with `matInput`:
+be used with `matNativeControl`:
 
 下列[输入框类型](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)可以和 `matInput` 一起使用：
 
@@ -86,8 +86,8 @@ be used with `matInput`:
 
 ### 表单字段的特性
 
-There are a number of `<mat-form-field>` features that can be used with any `<input matInput>` or
-`<textarea matInput>`. These include error messages, hint text, prefix & suffix, and theming. For
+There are a number of `<mat-form-field>` features that can be used with any `<input matNativeControl>` or
+`<textarea matNativeControl>`. These include error messages, hint text, prefix & suffix, and theming. For
 additional information about these features, see the
 [form field documentation](https://material.angular.io/components/form-field/overview).
 
@@ -115,12 +115,12 @@ element. In some cases that `<mat-form-field>` may use the placeholder as the la
 
 The `<mat-form-field>` allows you to
 [associate error messages](https://material.angular.io/components/form-field/overview#error-messages)
-with your `matInput`. By default, these error messages are shown when the control is invalid and
+with your `matNativeControl`. By default, these error messages are shown when the control is invalid and
 either the user has interacted with (touched) the element or the parent form has been submitted. If
 you wish to override this behavior (e.g. to show the error as soon as the invalid control is dirty
 or when a parent form group is invalid), you can use the `errorStateMatcher` property of the
-`matInput`. The property takes an instance of an `ErrorStateMatcher` object. An `ErrorStateMatcher`
-must implement a single method `isErrorState` which takes the `FormControl` for this `matInput` as
+`matNativeControl`. The property takes an instance of an `ErrorStateMatcher` object. An `ErrorStateMatcher`
+must implement a single method `isErrorState` which takes the `FormControl` for this `matNativeControl` as
 well as the parent form and returns a boolean indicating whether errors should be shown. (`true`
 indicating that they should be shown, and `false` indicating that they should not.)
 
@@ -151,7 +151,7 @@ globally cause input errors to show when the input is dirty and invalid.
 ### 自动控制 `<textarea>` 元素的大小
 
 `<textarea>` elements can be made to automatically resize by using the
-[`cdkTextareaAutosize` directive](https://material.angular.io/components/input/overview#auto-resizing-textarea-elements)
+[`cdkTextareaAutosize` directive](https://material.angular.io/cdk/text-field/overview#automatically-resizing-a-textarea)
 available in the CDK.
 
 通过使用 CDK 中的 [`cdkTextareaAutosize` 指令](https://material.angular.cn/components/input/overview#auto-resizing-textarea-elements)，可以把 `<textarea>` 元素做成自动调整大小的。
@@ -170,7 +170,7 @@ CDK 提供了[一些工具](/cdk/text-field/overview#monitoring-the-autofill-sta
 
 ### 无障碍性
 
-The `matInput` directive works with native `<input>` to provide an accessible experience.
+The `matNativeControl` directive works with native `<input>` to provide an accessible experience.
 
 `matInput` 指令和原生的 `<input>` 一起使用，以提供具有无障碍性的用户体验。
 

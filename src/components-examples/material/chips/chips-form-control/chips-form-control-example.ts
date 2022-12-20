@@ -11,17 +11,25 @@ import {MatChipInputEvent} from '@angular/material/chips';
   styleUrls: ['chips-form-control-example.css'],
 })
 export class ChipsFormControlExample {
-  keywords = new Set(['angular', 'how-to', 'tutorial']);
+  keywords = ['angular', 'how-to', 'tutorial', 'accessibility'];
   formControl = new FormControl(['angular']);
 
-  addKeywordFromInput(event: MatChipInputEvent) {
-    if (event.value) {
-      this.keywords.add(event.value);
-      event.chipInput!.clear();
+  removeKeyword(keyword: string) {
+    const index = this.keywords.indexOf(keyword);
+    if (index >= 0) {
+      this.keywords.splice(index, 1);
     }
   }
 
-  removeKeyword(keyword: string) {
-    this.keywords.delete(keyword);
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our keyword
+    if (value) {
+      this.keywords.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
   }
 }

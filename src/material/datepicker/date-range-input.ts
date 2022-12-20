@@ -22,7 +22,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import {MatFormFieldControl, MatFormField, MAT_FORM_FIELD} from '@angular/material/form-field';
+import {MatFormFieldControl, MAT_FORM_FIELD} from '@angular/material/form-field';
 import {ThemePalette, DateAdapter} from '@angular/material/core';
 import {NgControl, ControlContainer} from '@angular/forms';
 import {Subject, merge, Subscription} from 'rxjs';
@@ -36,7 +36,7 @@ import {
 } from './date-range-input-parts';
 import {MatDatepickerControl, MatDatepickerPanel} from './datepicker-base';
 import {createMissingDateImplError} from './datepicker-errors';
-import {DateFilterFn, dateInputsHaveChanged} from './datepicker-input-base';
+import {DateFilterFn, dateInputsHaveChanged, _MatFormFieldPartial} from './datepicker-input-base';
 import {MatDateRangePickerInput} from './date-range-picker';
 import {DateRange, MatDateSelectionModel} from './date-selection-model';
 
@@ -51,7 +51,7 @@ let nextUniqueId = 0;
     'class': 'mat-date-range-input',
     '[class.mat-date-range-input-hide-placeholders]': '_shouldHidePlaceholders()',
     '[class.mat-date-range-input-required]': 'required',
-    '[attr.id]': 'null',
+    '[attr.id]': 'id',
     'role': 'group',
     '[attr.aria-labelledby]': '_getAriaLabelledby()',
     '[attr.aria-describedby]': '_ariaDescribedBy',
@@ -89,7 +89,7 @@ export class MatDateRangeInput<D>
   }
 
   /**
-   * Unique ID for the input.
+   * Unique ID for the group.
    *
    * 输入框的唯一 ID。
    *
@@ -356,7 +356,7 @@ export class MatDateRangeInput<D>
     private _elementRef: ElementRef<HTMLElement>,
     @Optional() @Self() control: ControlContainer,
     @Optional() private _dateAdapter: DateAdapter<D>,
-    @Optional() @Inject(MAT_FORM_FIELD) private _formField?: MatFormField,
+    @Optional() @Inject(MAT_FORM_FIELD) private _formField?: _MatFormFieldPartial,
   ) {
     if (!_dateAdapter && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw createMissingDateImplError('DateAdapter');
@@ -481,8 +481,9 @@ export class MatDateRangeInput<D>
    * 获取用于镜像状态输入框的值。
    *
    */
-  _getInputMirrorValue() {
-    return this._startInput ? this._startInput.getMirrorValue() : '';
+  _getInputMirrorValue(part: 'start' | 'end') {
+    const input = part === 'start' ? this._startInput : this._endInput;
+    return input ? input.getMirrorValue() : '';
   }
 
   /**
@@ -541,6 +542,14 @@ export class MatDateRangeInput<D>
   _getAriaLabelledby() {
     const formField = this._formField;
     return formField && formField._hasFloatingLabel() ? formField._labelId : null;
+  }
+
+  _getStartDateAccessibleName(): string {
+    return this._startInput._getAccessibleName();
+  }
+
+  _getEndDateAccessibleName(): string {
+    return this._endInput._getAccessibleName();
   }
 
   /**

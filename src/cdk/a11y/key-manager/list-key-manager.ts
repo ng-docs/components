@@ -21,6 +21,8 @@ import {
   hasModifierKey,
   HOME,
   END,
+  PAGE_UP,
+  PAGE_DOWN,
 } from '@angular/cdk/keycodes';
 import {debounceTime, filter, map, tap} from 'rxjs/operators';
 
@@ -69,10 +71,12 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
   private _wrap = false;
   private readonly _letterKeyStream = new Subject<string>();
   private _typeaheadSubscription = Subscription.EMPTY;
+  private _itemChangesSubscription?: Subscription;
   private _vertical = true;
   private _horizontal: 'ltr' | 'rtl' | null;
   private _allowedModifierKeys: ListKeyManagerModifierKey[] = [];
   private _homeAndEnd = false;
+  private _pageUpAndDown = {enabled: false, delta: 10};
 
   /**
    * Predicate function that can be used to check whether an item should be skipped
@@ -91,7 +95,7 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
     // not have access to a QueryList of the items they want to manage (e.g. when the
     // items aren't being collected via `ViewChildren` or `ContentChildren`).
     if (_items instanceof QueryList) {
-      _items.changes.subscribe((newItems: QueryList<T>) => {
+      this._itemChangesSubscription = _items.changes.subscribe((newItems: QueryList<T>) => {
         if (this._activeItem) {
           const itemArray = newItems.toArray();
           const newIndex = itemArray.indexOf(this._activeItem);
@@ -251,6 +255,12 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
     return this;
   }
 
+  /** Cancels the current typeahead sequence. */
+  cancelTypeahead(): this {
+    this._pressedLetters = [];
+    return this;
+  }
+
   /**
    * Configures the key manager to activate the first and last items
    * respectively when the Home or End key is pressed.
@@ -264,6 +274,17 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
    */
   withHomeAndEnd(enabled: boolean = true): this {
     this._homeAndEnd = enabled;
+    return this;
+  }
+
+  /**
+   * Configures the key manager to activate every 10th, configured or first/last element in up/down direction
+   * respectively when the Page-Up or Page-Down key is pressed.
+   * @param enabled Whether pressing the Page-Up or Page-Down key activates the first/last item.
+   * @param delta Whether pressing the Home or End key activates the first/last item.
+   */
+  withPageUpDown(enabled: boolean = true, delta: number = 10): this {
+    this._pageUpAndDown = {enabled, delta};
     return this;
   }
 
@@ -366,6 +387,25 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
       case END:
         if (this._homeAndEnd && isModifierAllowed) {
           this.setLastItemActive();
+          break;
+        } else {
+          return;
+        }
+
+      case PAGE_UP:
+        if (this._pageUpAndDown.enabled && isModifierAllowed) {
+          const targetIndex = this._activeItemIndex - this._pageUpAndDown.delta;
+          this._setActiveItemByIndex(targetIndex > 0 ? targetIndex : 0, 1);
+          break;
+        } else {
+          return;
+        }
+
+      case PAGE_DOWN:
+        if (this._pageUpAndDown.enabled && isModifierAllowed) {
+          const targetIndex = this._activeItemIndex + this._pageUpAndDown.delta;
+          const itemsLength = this._getItemsArray().length;
+          this._setActiveItemByIndex(targetIndex < itemsLength ? targetIndex : itemsLength - 1, -1);
           break;
         } else {
           return;
@@ -495,6 +535,16 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
     // Explicitly check for `null` and `undefined` because other falsy values are valid.
     this._activeItem = activeItem == null ? null : activeItem;
     this._activeItemIndex = index;
+  }
+
+  /** Cleans up the key manager. */
+  destroy() {
+    this._typeaheadSubscription.unsubscribe();
+    this._itemChangesSubscription?.unsubscribe();
+    this._letterKeyStream.complete();
+    this.tabOut.complete();
+    this.change.complete();
+    this._pressedLetters = [];
   }
 
   /**

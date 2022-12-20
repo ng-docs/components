@@ -8,10 +8,10 @@
 
 import {NgModule} from '@angular/core';
 import {MatMenuModule} from '@angular/material/menu';
-import {MenuE2E} from './menu-e2e';
+import {MenuE2e} from './menu-e2e';
 
 @NgModule({
   imports: [MatMenuModule],
-  declarations: [MenuE2E],
+  declarations: [MenuE2e],
 })
 export class MenuE2eModule {}

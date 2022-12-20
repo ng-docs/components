@@ -15,6 +15,7 @@ import { OptionHarnessFilters } from '@angular/material/core/testing';
 
 // @public
 export interface AutocompleteHarnessFilters extends BaseHarnessFilters {
+    disabled?: boolean;
     value?: string | RegExp;
 }
 
@@ -27,7 +28,7 @@ export class MatAutocompleteHarness extends _MatAutocompleteHarnessBase<typeof M
     protected _optionGroupClass: typeof MatOptgroupHarness;
     // (undocumented)
     protected _prefix: string;
-    static with(options?: AutocompleteHarnessFilters): HarnessPredicate<MatAutocompleteHarness>;
+    static with<T extends MatAutocompleteHarness>(this: ComponentHarnessConstructor<T>, options?: AutocompleteHarnessFilters): HarnessPredicate<T>;
 }
 
 // @public (undocumented)

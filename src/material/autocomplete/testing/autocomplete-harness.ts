@@ -200,7 +200,7 @@ export abstract class _MatAutocompleteHarnessBase<
 }
 
 /**
- * Harness for interacting with a standard mat-autocomplete in tests.
+ * Harness for interacting with an MDC-based mat-autocomplete in tests.
  *
  * 在测试中与标准 mat-autocomplete 进行交互的测试工具。
  *
@@ -213,7 +213,7 @@ export class MatAutocompleteHarness extends _MatAutocompleteHarnessBase<
   MatOptgroupHarness,
   OptgroupHarnessFilters
 > {
-  protected _prefix = 'mat';
+  protected _prefix = 'mat-mdc';
   protected _optionClass = MatOptionHarness;
   protected _optionGroupClass = MatOptgroupHarness;
 
@@ -223,11 +223,11 @@ export class MatAutocompleteHarness extends _MatAutocompleteHarnessBase<
    * `MatAutocomplete` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-autocomplete-trigger';
+  static hostSelector = '.mat-mdc-autocomplete-trigger';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatAutocompleteHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for an autocomplete with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatAutocompleteHarness`。
    *
@@ -240,11 +240,16 @@ export class MatAutocompleteHarness extends _MatAutocompleteHarnessBase<
    * 使用给定选项配置过的 `HarnessPredicate`。
    *
    */
-  static with(options: AutocompleteHarnessFilters = {}): HarnessPredicate<MatAutocompleteHarness> {
-    return new HarnessPredicate(MatAutocompleteHarness, options).addOption(
-      'value',
-      options.value,
-      (harness, value) => HarnessPredicate.stringMatches(harness.getValue(), value),
-    );
+  static with<T extends MatAutocompleteHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: AutocompleteHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options)
+      .addOption('value', options.value, (harness, value) =>
+        HarnessPredicate.stringMatches(harness.getValue(), value),
+      )
+      .addOption('disabled', options.disabled, async (harness, disabled) => {
+        return (await harness.isDisabled()) === disabled;
+      });
   }
 }

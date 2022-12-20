@@ -9,52 +9,71 @@
 ### 基本卡片分节
 
 The most basic card needs only an `<mat-card>` element with some content. However, Angular Material
-provides a number of preset sections that you can use inside of an `<mat-card>`:
+provides a number of preset sections that you can use inside a `<mat-card>`:
 
 最基本的卡片只需要一个带有某些内容的 `<mat-card>` 元素。
 不过，Angular Material 也提供了几个预定义的分节，你可以把它们用在 `<mat-card>` 中：
 
-| Element | Description |
-| ------- | ----------- |
-| 元素 | 说明 |
-| `<mat-card-title>` | Card title |
-| `<mat-card-title>` | 卡片标题 |
-| `<mat-card-subtitle>` | Card subtitle |
-| `<mat-card-subtitle>` | 卡片小标题 |
-| `<mat-card-content>` | Primary card content. Intended for blocks of text |
-| `<mat-card-content>` | 主卡片内容。一般为文本块 |
-| `<img mat-card-image>` | Card image. Stretches the image to the container width |
-| `<img mat-card-image>` | 卡片图片。此图片会拉伸至容器宽度 |
-| `<mat-card-actions>` | Container for buttons at the bottom of the card |
-| `<mat-card-actions>` | 卡片底部按钮的容器 |
-| `<mat-card-footer>` | Section anchored to the bottom of the card |
-| `<mat-card-footer>` | 钉在卡片底部的小节 |
+| Element                  | Description                                                  |
+|--------------------------|--------------------------------------------------------------|
+| 元素 | 说明                                                           |
+| `<mat-card-header>`      | Section anchored to the top of the card (adds padding)       |
+| `<mat-card-header>`      | 锚定到卡片顶部的部分（添加了内衬距）                                           |
+| `<mat-card-content>`     | Primary card content (adds padding)                          |
+| `<mat-card-content>`     | 卡片的主要内容（添加了内衬距）                                              |
+| `<img mat-card-image>`   | Card image. Stretches the image to the container width       |
+| `<img mat-card-image>`   | 卡片图片。此图片会拉伸至容器宽度                                             |
+| `<mat-card-actions>`     | Container for buttons at the bottom of the card (adds padding) |
+| `<mat-card-actions>`     | 卡片底部的按钮容器（添加了内衬距）                                            |
+| `<mat-card-footer>`      | Section anchored to the bottom of the card                   |
+| `<mat-card-footer>`      | 锚定到卡片底部的部分                                                   |
 
 These elements primary serve as pre-styled content containers without any additional APIs. 
 However, the `align` property on `<mat-card-actions>` can be used to position the actions at the 
-`'start'` or `'end'` of the container.  
+`'start'` or `'end'` of the container.
 
 这些元素主要扮演一个具有预定义样式的内容容器，而没有额外的 API。
 不过，`<mat-card-actions>` 上的 `align` 属性可用于把这些按钮定位在容器的起点（`'start'`）或末尾（`'end'`）。
+
+### Card padding
+
+The `<mat-card>` element itself does not add any padding around its content. This allows developers
+to customize the padding to their liking by applying padding to the elements they put in the card.
+
+In many cases developers may just want the standard padding specified in the Material Design spec.
+In this case, the `<mat-card-header>`, `<mat-card-content>`, and `<mat-card-footer>` sections can be
+used.
+
+* `<mat-card-content>` adds standard padding along its sides, as well as along the top if it is the
+  first element in the `<mat-card>`, and along the bottom if it is the last element in the
+  `<mat-card>`.
+* `<mat-card-header>` adds standard padding along its sides and top.
+* `<mat-card-actions>` adds padding appropriate for the action buttons at the bottom of a card. 
 
 ### Card headers
 
 ### 卡片头
 
-In addition to the aforementioned sections, `<mat-card-header>` gives the ability to add a rich
-header to a card. This header can contain:
+A `<mat-card-header>` can contain any content, but there are several predefined elements
+that can be used to create a rich header to a card. These include:
 
-除了前面提到的这些小节之外，`<mat-card-header>` 还可以让我们为卡片添加各种头部，包括：
+`<mat-card-header>` 可以包含任意内容，但是也有一些预定义元素可以用来创建富有表现力的卡片头。包括：
 
-| Element | Description |
-| ------- | ----------- |
-| 元素 | 说明 |
-| `<mat-card-title>` | A title within the header |
-| `<mat-card-title>` | 头部的标题 |
-| `<mat-card-subtitle>` | A subtitle within the header |
-| `<mat-card-subtitle>` | 头部的小标题 |
-| `<img mat-card-avatar>` | An image used as an avatar within the header |
-| `<img mat-card-avatar>` | 头部用作头像的图片 |
+| Element                  | Description                                  |
+|--------------------------|----------------------------------------------|
+| 元素 | 说明                                           |
+| `<mat-card-title>`       | A title within the header                    |
+| `<mat-card-title>`       | 卡片头的标题                                       |
+| `<mat-card-subtitle>`    | A subtitle within the header                 |
+| `<mat-card-subtitle>`    | 卡片头的副标题                                      |
+| `<img mat-card-avatar>`  | An image used as an avatar within the header |
+| `<img mat-card-avatar>`  | 卡片头中用作头像的图片                                  |
+
+In addition to using `<mat-card-title>` and `<mat-card-subtitle>` directly within the
+`<mat-card-header>`, they can be further nested inside a `<mat-card-title-group>` in order arrange
+them with a (non-avatar) image.
+
+除了在 `<mat-card-header>` 中直接用 `<mat-card-title>` 和 `<mat-card-subtitle>` 之外，它们还可以嵌套在 `<mat-card-title-group>` 内，以便把它们和一个非头像图片进行混排。
 
 ### Title groups
 

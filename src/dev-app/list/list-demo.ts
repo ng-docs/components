@@ -7,29 +7,23 @@
  */
 
 import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatIconModule} from '@angular/material/icon';
 import {MatListModule, MatListOptionCheckboxPosition} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'list-demo',
   templateUrl: 'list-demo.html',
   styleUrls: ['list-demo.css'],
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatListModule,
-  ],
+  imports: [CommonModule, FormsModule, MatButtonModule, MatIconModule, MatListModule],
 })
 export class ListDemo {
   items: string[] = ['Pepper', 'Salt', 'Paprika'];
+
+  checkboxPosition: MatListOptionCheckboxPosition = 'before';
 
   contacts: {name: string; headline: string}[] = [
     {name: 'Nancy', headline: 'Software engineer'},
@@ -37,14 +31,12 @@ export class ListDemo {
     {name: 'Bobby', headline: 'UX designer'},
   ];
 
-  checkboxPosition: MatListOptionCheckboxPosition = 'before';
-
   messages: {from: string; subject: string; message: string; image: string}[] = [
     {
-      from: 'Nancy',
+      from: 'John',
       subject: 'Brunch?',
       message: 'Did you want to go on Sunday? I was thinking that might work.',
-      image: 'https://angular.io/generated/images/bios/cindygreenekaplan.jpg',
+      image: 'https://angular.io/generated/images/bios/devversion.jpg',
     },
     {
       from: 'Mary',
@@ -60,9 +52,15 @@ export class ListDemo {
     },
   ];
 
-  links: {name: string}[] = [{name: 'Inbox'}, {name: 'Outbox'}, {name: 'Spam'}, {name: 'Trash'}];
+  links: {name: string; href: string}[] = [
+    {name: 'Inbox', href: '/list#inbox'},
+    {name: 'Outbox', href: '/list#outbox'},
+    {name: 'Spam', href: '/list#spam'},
+    {name: 'Trash', href: '/list#trash'},
+  ];
 
   thirdLine = false;
+  showBoxes = false;
   infoClicked = false;
   selectionListDisabled = false;
   selectionListRippleDisabled = false;
@@ -84,5 +82,9 @@ export class ListDemo {
 
   alertItem(msg: string) {
     alert(msg);
+  }
+
+  isActivated(href: string) {
+    return window.location.href === new URL(href, window.location.href).toString();
   }
 }

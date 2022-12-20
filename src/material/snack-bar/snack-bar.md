@@ -20,7 +20,7 @@ let snackBarRef = snackBar.open('Message archived');
 let snackBarRef = snackBar.open('Message archived', 'Undo');
 
 // Load the given component into the snackbar.
-let snackBarRef = snackbar.openFromComponent(MessageArchivedComponent);
+let snackBarRef = snackBar.openFromComponent(MessageArchivedComponent);
 ```
 
 In either case, a `MatSnackBarRef` is returned. This can be used to dismiss the snackbar or to
@@ -64,7 +64,7 @@ A snackbar can also be given a duration via the optional configuration object:
 快餐栏还可以通过一个可选的配置对象来指定持续时间：
 
 ```ts
-snackbar.open('Message archived', 'Undo', {
+snackBar.open('Message archived', 'Undo', {
   duration: 3000
 });
 ```
@@ -79,7 +79,7 @@ by passing it through the `data` property.
 你可以传入 `data` 属性，来与 `openFromComponent` 打开的自定义快餐栏共享数据。
 
 ```ts
-snackbar.openFromComponent(MessageArchivedComponent, {
+snackBar.openFromComponent(MessageArchivedComponent, {
   data: 'some data'
 });
 ```
@@ -100,6 +100,22 @@ export class MessageArchivedComponent {
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: string) { }
 }
 ```
+
+### Annotating custom snackbar content
+When opening a custom snackbar via the `snackBar.openFromComponent` method, you can use the
+following directives to annotate the content and ensure that it is styled consistently compared to
+snackbars  opened via `snackBar.open`.
+
+* `matSnackBarLabel` - Marks the text of the snackbar shown to users
+* `matSnackBarActions` - Marks the container element containing any action buttons
+* `matSnackBarAction` - Marks an individual action button
+
+If no annotations are used, all the content will be treated as text content.
+
+<!-- example({
+  "example": "snack-bar-annotated-component-example",
+  "file": "snack-bar-annotated-component-example-snack.html"
+}) -->
 
 ### Setting the global configuration defaults
 

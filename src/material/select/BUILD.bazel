@@ -16,9 +16,11 @@ ng_module(
     name = "select",
     srcs = glob(
         ["**/*.ts"],
-        exclude = ["**/*.spec.ts"],
+        exclude = [
+            "**/*.spec.ts",
+        ],
     ),
-    assets = [":select.css"] + glob(["**/*.html"]),
+    assets = [":select_scss"] + glob(["**/*.html"]),
     deps = [
         "//src:dev_mode_types",
         "//src/cdk/a11y",
@@ -41,20 +43,24 @@ ng_module(
 sass_library(
     name = "select_scss_lib",
     srcs = glob(["**/_*.scss"]),
-    deps = ["//src/material/core:core_scss_lib"],
+    deps = [
+        "//:mdc_sass_lib",
+        "//src/material/core:core_scss_lib",
+    ],
 )
 
 sass_binary(
     name = "select_scss",
     src = "select.scss",
     deps = [
+        "//:mdc_sass_lib",
         "//src/cdk:sass_lib",
-        "//src/material/core:core_scss_lib",
+        "//src/material:sass_lib",
     ],
 )
 
 ng_test_library(
-    name = "unit_test_sources",
+    name = "select_tests_lib",
     srcs = glob(
         ["**/*.spec.ts"],
         exclude = ["**/*.e2e.spec.ts"],
@@ -77,7 +83,9 @@ ng_test_library(
 
 ng_web_test_suite(
     name = "unit_tests",
-    deps = [":unit_test_sources"],
+    deps = [
+        ":select_tests_lib",
+    ],
 )
 
 ng_e2e_test_library(

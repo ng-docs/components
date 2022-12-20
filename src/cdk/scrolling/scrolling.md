@@ -218,7 +218,7 @@ the virtualized content.
 
 默认情况下，虚拟滚动视口本身就会充当滚动元素。但是，在某些情况下，你可能希望让此视口滚动其父元素之一。例如，如果你想要一些非虚拟化内容，用户可以在虚拟化内容之前或之后滚动浏览。
 
-To configure a `cdk-vritual-scroll-viewport` to use one of its parent elements as the scrolling
+To configure a `cdk-virtual-scroll-viewport` to use one of its parent elements as the scrolling
 element, apply `cdkVirtualScrollingElement` to the scrolling parent element.
 
 要将 `cdk-vritual-scroll-viewport` 配置为使用其父元素之一作为滚动元素，请把 `cdkVirtualScrollingElement` 应用于那个父元素。

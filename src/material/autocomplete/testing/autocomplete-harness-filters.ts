@@ -22,4 +22,7 @@ export interface AutocompleteHarnessFilters extends BaseHarnessFilters {
    *
    */
   value?: string | RegExp;
+
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
 }

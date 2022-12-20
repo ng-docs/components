@@ -10,7 +10,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Directive,
+  inject,
   Inject,
+  InjectionToken,
   Injector,
   TemplateRef,
   ViewChild,
@@ -51,8 +53,13 @@ describe('Dialog', () => {
         DialogWithInjectedData,
         DialogWithoutFocusableElements,
         DirectiveWithViewContainer,
+        TemplateInjectorParentComponent,
+        TemplateInjectorInnerDirective,
       ],
-      providers: [{provide: Location, useClass: SpyLocation}],
+      providers: [
+        {provide: Location, useClass: SpyLocation},
+        {provide: TEMPLATE_INJECTOR_TEST_TOKEN, useValue: 'hello from test module'},
+      ],
     });
 
     TestBed.compileComponents();
@@ -123,6 +130,15 @@ describe('Dialog', () => {
     expect(dialogInjector.get<DirectiveWithViewContainer>(DirectiveWithViewContainer)).toBeTruthy(
       'Expected the dialog component to be created with the injector from the viewContainerRef.',
     );
+  });
+
+  it('should use custom injector', () => {
+    const token = new InjectionToken<string>('message');
+    const injector = Injector.create({providers: [{provide: token, useValue: 'hello'}]});
+    const dialogRef = dialog.open(PizzaMsg, {injector});
+    viewContainerFixture.detectChanges();
+
+    expect(dialogRef.componentInstance?.dialogInjector.get(token)).toBe('hello');
   });
 
   it('should open a dialog with a component and no ViewContainerRef', () => {
@@ -700,6 +716,22 @@ describe('Dialog', () => {
 
       expect(overlayContainerElement.querySelector('cdk-dialog-container')).toBeTruthy();
     }));
+
+    it(
+      'should fall back to node injector in template dialog if token does not exist in ' +
+        'template injector',
+      fakeAsync(() => {
+        const templateInjectFixture = TestBed.createComponent(TemplateInjectorParentComponent);
+        templateInjectFixture.detectChanges();
+
+        dialog.open(templateInjectFixture.componentInstance.templateRef);
+        templateInjectFixture.detectChanges();
+
+        expect(templateInjectFixture.componentInstance.innerComponentValue).toBe(
+          'hello from parent component',
+        );
+      }),
+    );
   });
 
   describe('hasBackdrop option', () => {
@@ -1223,3 +1255,28 @@ class DialogWithoutFocusableElements {}
   encapsulation: ViewEncapsulation.ShadowDom,
 })
 class ShadowDomComponent {}
+
+const TEMPLATE_INJECTOR_TEST_TOKEN = new InjectionToken<string>('TEMPLATE_INJECTOR_TEST_TOKEN');
+
+@Component({
+  template: `<ng-template><template-injector-inner></template-injector-inner></ng-template>`,
+  providers: [
+    {
+      provide: TEMPLATE_INJECTOR_TEST_TOKEN,
+      useValue: 'hello from parent component',
+    },
+  ],
+})
+class TemplateInjectorParentComponent {
+  @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+  innerComponentValue = '';
+}
+
+@Directive({
+  selector: 'template-injector-inner',
+})
+class TemplateInjectorInnerDirective {
+  constructor(parent: TemplateInjectorParentComponent) {
+    parent.innerComponentValue = inject(TEMPLATE_INJECTOR_TEST_TOKEN);
+  }
+}

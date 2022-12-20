@@ -1,4 +1,5 @@
 import {ComponentHarness, HarnessLoader, HarnessPredicate, parallel} from '@angular/cdk/testing';
+import {MatErrorHarness} from './error-harness';
 import {createFakeEvent, dispatchFakeEvent} from '../../../cdk/testing/private';
 import {TestbedHarnessEnvironment} from '@angular/cdk/testing/testbed';
 import {Component, Type} from '@angular/core';
@@ -22,6 +23,7 @@ export function runHarnessTests(
     datepickerInputHarness,
     dateRangeInputHarness,
     isMdcImplementation,
+    errorHarness,
   }: {
     formFieldHarness: typeof MatFormFieldHarness;
     inputHarness: Type<any>;
@@ -29,6 +31,7 @@ export function runHarnessTests(
     datepickerInputHarness: Type<any>;
     dateRangeInputHarness: Type<any>;
     isMdcImplementation: boolean;
+    errorHarness: typeof MatErrorHarness;
   },
 ) {
   let fixture: ComponentFixture<FormFieldHarnessTest>;
@@ -194,7 +197,64 @@ export function runHarnessTests(
 
     fixture.componentInstance.requiredControl.setValue('');
     dispatchFakeEvent(fixture.nativeElement.querySelector('#with-errors input'), 'blur');
-    expect(await formFields[1].getTextErrors()).toEqual(['Error 1', 'Error 2']);
+    expect(await formFields[1].getTextErrors()).toEqual(
+      isMdcImplementation ? ['Error 1', 'Error 2'] : ['Error 1'],
+    );
+  });
+
+  it('should be able to get form-field by validity', async () => {
+    let invalid = await loader.getAllHarnesses(formFieldHarness.with({isValid: false}));
+    expect(invalid.length).toBe(0);
+
+    fixture.componentInstance.requiredControl.setValue('');
+    dispatchFakeEvent(fixture.nativeElement.querySelector('#with-errors input'), 'blur');
+
+    invalid = await loader.getAllHarnesses(formFieldHarness.with({isValid: false}));
+    expect(invalid.length).toBe(1);
+  });
+
+  it('should be able to get error harnesses from the form-field harness', async () => {
+    const formFields = await loader.getAllHarnesses(formFieldHarness);
+    expect(await formFields[1].getErrors()).toEqual([]);
+
+    fixture.componentInstance.requiredControl.setValue('');
+    dispatchFakeEvent(fixture.nativeElement.querySelector('#with-errors input'), 'blur');
+
+    const formFieldErrorHarnesses = await formFields[1].getErrors();
+    if (isMdcImplementation) {
+      expect(formFieldErrorHarnesses.length).toBe(2);
+      expect(await formFieldErrorHarnesses[0].getText()).toBe('Error 1');
+      expect(await formFieldErrorHarnesses[1].getText()).toBe('Error 2');
+    } else {
+      expect(formFieldErrorHarnesses.length).toBe(1);
+      expect(await formFieldErrorHarnesses[0].getText()).toBe('Error 1');
+    }
+
+    const error1Harnesses = await formFields[1].getErrors({text: 'Error 1'});
+    expect(error1Harnesses.length).toBe(1);
+    expect(await error1Harnesses[0].getText()).toBe('Error 1');
+  });
+
+  it('should be able to directly load error harnesses', async () => {
+    const formFields = await loader.getAllHarnesses(formFieldHarness);
+    expect(await formFields[1].getErrors()).toEqual([]);
+
+    fixture.componentInstance.requiredControl.setValue('');
+    dispatchFakeEvent(fixture.nativeElement.querySelector('#with-errors input'), 'blur');
+
+    const errorHarnesses = await loader.getAllHarnesses(errorHarness);
+    if (isMdcImplementation) {
+      expect(errorHarnesses.length).toBe(2);
+      expect(await errorHarnesses[0].getText()).toBe('Error 1');
+      expect(await errorHarnesses[1].getText()).toBe('Error 2');
+    } else {
+      expect(errorHarnesses.length).toBe(1);
+      expect(await errorHarnesses[0].getText()).toBe('Error 1');
+    }
+
+    const error1Harnesses = await loader.getAllHarnesses(errorHarness.with({text: 'Error 1'}));
+    expect(error1Harnesses.length).toBe(1);
+    expect(await error1Harnesses[0].getText()).toBe('Error 1');
   });
 
   it('should be able to get hint messages of form-field', async () => {
@@ -276,7 +336,7 @@ export function runHarnessTests(
       <input matInput [formControl]="requiredControl">
 
       <mat-error>Error 1</mat-error>
-      <mat-error>Error 2</mat-error>
+      <div matError>Error 2</div>
       <mat-hint align="start">Hint 1</mat-hint>
       <mat-hint align="end">Hint 2</mat-hint>
     </mat-form-field>

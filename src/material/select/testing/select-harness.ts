@@ -7,19 +7,19 @@
  */
 
 import {
+  BaseHarnessFilters,
+  ComponentHarness,
+  ComponentHarnessConstructor,
   HarnessPredicate,
   parallel,
-  ComponentHarness,
-  BaseHarnessFilters,
-  ComponentHarnessConstructor,
 } from '@angular/cdk/testing';
-import {MatFormFieldControlHarness} from '@angular/material/form-field/testing/control';
 import {
   MatOptionHarness,
   MatOptgroupHarness,
   OptionHarnessFilters,
   OptgroupHarnessFilters,
 } from '@angular/material/core/testing';
+import {MatFormFieldControlHarness} from '@angular/material/form-field/testing/control';
 import {SelectHarnessFilters} from './select-harness-filters';
 
 export abstract class _MatSelectHarnessBase<
@@ -238,7 +238,7 @@ export abstract class _MatSelectHarnessBase<
 }
 
 /**
- * Harness for interacting with a standard mat-select in tests.
+ * Harness for interacting with an MDC-based mat-select in tests.
  *
  * 在测试中与标准 mat-select 互动的测试工具。
  *
@@ -251,14 +251,13 @@ export class MatSelectHarness extends _MatSelectHarnessBase<
   MatOptgroupHarness,
   OptgroupHarnessFilters
 > {
-  static hostSelector = '.mat-select';
-  protected _prefix = 'mat';
+  static hostSelector = '.mat-mdc-select';
+  protected _prefix = 'mat-mdc';
   protected _optionClass = MatOptionHarness;
   protected _optionGroupClass = MatOptgroupHarness;
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatSelectHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a select with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatSelectHarness`。
    *
@@ -271,7 +270,10 @@ export class MatSelectHarness extends _MatSelectHarnessBase<
    * 使用给定选项配置过的 `HarnessPredicate`
    *
    */
-  static with(options: SelectHarnessFilters = {}): HarnessPredicate<MatSelectHarness> {
-    return new HarnessPredicate(MatSelectHarness, options);
+  static with<T extends MatSelectHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: SelectHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 }

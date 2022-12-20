@@ -6,7 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate, ContentContainerComponentHarness} from '@angular/cdk/testing';
+import {
+  ComponentHarnessConstructor,
+  ContentContainerComponentHarness,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {CardHarnessFilters} from './card-harness-filters';
 
 /**
@@ -16,14 +20,14 @@ import {CardHarnessFilters} from './card-harness-filters';
  *
  */
 export const enum MatCardSection {
-  HEADER = '.mat-card-header',
-  CONTENT = '.mat-card-content',
-  ACTIONS = '.mat-card-actions',
-  FOOTER = '.mat-card-footer',
+  HEADER = '.mat-mdc-card-header',
+  CONTENT = '.mat-mdc-card-content',
+  ACTIONS = '.mat-mdc-card-actions',
+  FOOTER = '.mat-mdc-card-footer',
 }
 
 /**
- * Harness for interacting with a standard mat-card in tests.
+ * Harness for interacting with an MDC-based mat-card in tests.
  *
  * 在测试中与标准 mat-card 进行交互的测试工具。
  *
@@ -35,11 +39,10 @@ export class MatCardHarness extends ContentContainerComponentHarness<MatCardSect
    * `MatCard` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-card';
+  static hostSelector = '.mat-mdc-card';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatCardHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a card with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，它可以用来搜索满足一定条件的 `MatCardHarness`
    *
@@ -51,8 +54,11 @@ export class MatCardHarness extends ContentContainerComponentHarness<MatCardSect
    *
    * 一个用指定选项配置过的 `HarnessPredicate`。
    */
-  static with(options: CardHarnessFilters = {}): HarnessPredicate<MatCardHarness> {
-    return new HarnessPredicate(MatCardHarness, options)
+  static with<T extends MatCardHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: CardHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options)
       .addOption('text', options.text, (harness, text) =>
         HarnessPredicate.stringMatches(harness.getText(), text),
       )
@@ -64,8 +70,8 @@ export class MatCardHarness extends ContentContainerComponentHarness<MatCardSect
       );
   }
 
-  private _title = this.locatorForOptional('.mat-card-title');
-  private _subtitle = this.locatorForOptional('.mat-card-subtitle');
+  private _title = this.locatorForOptional('.mat-mdc-card-title');
+  private _subtitle = this.locatorForOptional('.mat-mdc-card-subtitle');
 
   /**
    * Gets all of the card's content as text.

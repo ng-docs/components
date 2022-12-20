@@ -79,7 +79,7 @@ export class MatDatepickerToggle<D> implements AfterContentInit, OnChanges, OnDe
   @Input() tabIndex: number | null;
 
   /**
-   * Screenreader label for the button.
+   * Screen-reader label for the button.
    *
    * 该按钮的屏幕阅读器标签。
    *

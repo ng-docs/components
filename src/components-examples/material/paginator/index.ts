@@ -10,6 +10,9 @@ import {
   PaginatorIntlExample,
   PaginatorIntlExampleModule,
 } from './paginator-intl/paginator-intl-example';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 export {
   PaginatorConfigurableExample,
@@ -30,6 +33,10 @@ const EXAMPLES = [
     CommonModule,
     MatInputModule,
     MatPaginatorModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSlideToggleModule,
     PaginatorIntlExampleModule,
     FormsModule,
   ],

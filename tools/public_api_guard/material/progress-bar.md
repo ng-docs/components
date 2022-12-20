@@ -12,8 +12,7 @@ import { _Constructor } from '@angular/material/core';
 import { ElementRef } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import * as i0 from '@angular/core';
-import * as i2 from '@angular/common';
-import * as i3 from '@angular/material/core';
+import * as i2 from '@angular/material/core';
 import { InjectionToken } from '@angular/core';
 import { NgZone } from '@angular/core';
 import { NumberInput } from '@angular/cdk/coercion';
@@ -29,38 +28,30 @@ export const MAT_PROGRESS_BAR_LOCATION: InjectionToken<MatProgressBarLocation>;
 // @public
 export function MAT_PROGRESS_BAR_LOCATION_FACTORY(): MatProgressBarLocation;
 
-// @public
-export class MatProgressBar extends _MatProgressBarBase implements CanColor, AfterViewInit, OnDestroy {
-    constructor(elementRef: ElementRef, _ngZone: NgZone, _animationMode?: string | undefined,
-    location?: MatProgressBarLocation, defaults?: MatProgressBarDefaultOptions,
-    _changeDetectorRef?: ChangeDetectorRef | undefined);
+// @public (undocumented)
+export class MatProgressBar extends _MatProgressBarBase implements AfterViewInit, OnDestroy, CanColor {
+    constructor(elementRef: ElementRef<HTMLElement>, _ngZone: NgZone, _changeDetectorRef: ChangeDetectorRef, _animationMode?: string | undefined, defaults?: MatProgressBarDefaultOptions);
     readonly animationEnd: EventEmitter<ProgressAnimationEnd>;
     // (undocumented)
     _animationMode?: string | undefined;
-    _bufferTransform(): {
-        transform: string;
-    } | null;
     get bufferValue(): number;
-    set bufferValue(v: number);
+    set bufferValue(v: NumberInput);
+    _getBufferBarFlexBasis(): string;
+    _getPrimaryBarTransform(): string;
+    _isIndeterminate(): boolean;
     _isNoopAnimation: boolean;
-    mode: ProgressBarMode;
+    get mode(): ProgressBarMode;
+    set mode(value: ProgressBarMode);
     // (undocumented)
     ngAfterViewInit(): void;
     // (undocumented)
     ngOnDestroy(): void;
-    _primaryTransform(): {
-        transform: string;
-    };
-    // (undocumented)
-    _primaryValueBar: ElementRef;
-    progressbarId: string;
-    _rectangleFillValue: string;
     get value(): number;
     set value(v: NumberInput);
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatProgressBar, "mat-progress-bar", ["matProgressBar"], { "color": "color"; "value": "value"; "bufferValue": "bufferValue"; "mode": "mode"; }, { "animationEnd": "animationEnd"; }, never, never, false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatProgressBar, "mat-progress-bar", ["matProgressBar"], { "color": "color"; "value": "value"; "bufferValue": "bufferValue"; "mode": "mode"; }, { "animationEnd": "animationEnd"; }, never, never, false, never>;
     // (undocumented)
-    static ɵfac: i0.ɵɵFactoryDeclaration<MatProgressBar, [null, null, { optional: true; }, { optional: true; }, { optional: true; }, null]>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<MatProgressBar, [null, null, null, { optional: true; }, { optional: true; }]>;
 }
 
 // @public
@@ -82,7 +73,7 @@ export class MatProgressBarModule {
     // (undocumented)
     static ɵinj: i0.ɵɵInjectorDeclaration<MatProgressBarModule>;
     // (undocumented)
-    static ɵmod: i0.ɵɵNgModuleDeclaration<MatProgressBarModule, [typeof i1.MatProgressBar], [typeof i2.CommonModule, typeof i3.MatCommonModule], [typeof i1.MatProgressBar, typeof i3.MatCommonModule]>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<MatProgressBarModule, [typeof i1.MatProgressBar], never, [typeof i1.MatProgressBar, typeof i2.MatCommonModule]>;
 }
 
 // @public

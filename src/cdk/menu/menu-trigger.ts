@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Directive, ElementRef, inject, InjectFlags, NgZone, OnDestroy} from '@angular/core';
+import {Directive, ElementRef, inject, NgZone, OnDestroy} from '@angular/core';
 import {Directionality} from '@angular/cdk/bidi';
 import {
   ConnectedPosition,
@@ -25,6 +25,7 @@ import {
   SPACE,
   UP_ARROW,
 } from '@angular/cdk/keycodes';
+import {_getEventTarget} from '@angular/cdk/platform';
 import {fromEvent} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 import {CDK_MENU, Menu} from './menu-interface';
@@ -45,6 +46,7 @@ import {CdkMenuTriggerBase, MENU_TRIGGER} from './menu-trigger-base';
 @Directive({
   selector: '[cdkMenuTriggerFor]',
   exportAs: 'cdkMenuTriggerFor',
+  standalone: true,
   host: {
     'class': 'cdk-menu-trigger',
     'aria-haspopup': 'menu',
@@ -54,7 +56,11 @@ import {CdkMenuTriggerBase, MENU_TRIGGER} from './menu-trigger-base';
     '(keydown)': '_toggleOnKeydown($event)',
     '(click)': 'toggle()',
   },
-  inputs: ['menuTemplateRef: cdkMenuTriggerFor', 'menuPosition: cdkMenuPosition'],
+  inputs: [
+    'menuTemplateRef: cdkMenuTriggerFor',
+    'menuPosition: cdkMenuPosition',
+    'menuData: cdkMenuTriggerData',
+  ],
   outputs: ['opened: cdkMenuOpened', 'closed: cdkMenuClosed'],
   providers: [
     {provide: MENU_TRIGGER, useExisting: CdkMenuTrigger},
@@ -92,7 +98,7 @@ export class CdkMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
    * 此触发器所属的父菜单。
    *
    */
-  private readonly _parentMenu = inject(CDK_MENU, InjectFlags.Optional);
+  private readonly _parentMenu = inject(CDK_MENU, {optional: true});
 
   /**
    * The menu aim service used by this menu.
@@ -100,7 +106,7 @@ export class CdkMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
    * 此菜单使用的 MenuAim 服务。
    *
    */
-  private readonly _menuAim = inject(MENU_AIM, InjectFlags.Optional);
+  private readonly _menuAim = inject(MENU_AIM, {optional: true});
 
   /**
    * The directionality of the page.
@@ -108,7 +114,7 @@ export class CdkMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
    * 此页面的方向性。
    *
    */
-  private readonly _directionality = inject(Directionality, InjectFlags.Optional);
+  private readonly _directionality = inject(Directionality, {optional: true});
 
   constructor() {
     super();
@@ -117,6 +123,7 @@ export class CdkMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
     this._subscribeToMenuStackClosed();
     this._subscribeToMouseEnter();
     this._subscribeToMenuStackHasFocus();
+    this._setType();
   }
 
   /**
@@ -182,8 +189,7 @@ export class CdkMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
    */
   _toggleOnKeydown(event: KeyboardEvent) {
     const isParentVertical = this._parentMenu?.orientation === 'vertical';
-    const keyCode = event.keyCode;
-    switch (keyCode) {
+    switch (event.keyCode) {
       case SPACE:
       case ENTER:
         if (!hasModifierKey(event)) {
@@ -219,7 +225,7 @@ export class CdkMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
           if (!isParentVertical) {
             event.preventDefault();
             this.open();
-            keyCode === DOWN_ARROW
+            event.keyCode === DOWN_ARROW
               ? this.childMenu?.focusFirstItem('keyboard')
               : this.childMenu?.focusLastItem('keyboard');
           }
@@ -252,13 +258,6 @@ export class CdkMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
    *
    */
   private _subscribeToMouseEnter() {
-    // Closes any sibling menu items and opens the menu associated with this trigger.
-    const toggleMenus = () =>
-      this._ngZone.run(() => {
-        this._closeSiblingTriggers();
-        this.open();
-      });
-
     this._ngZone.runOutsideAngular(() => {
       fromEvent(this._elementRef.nativeElement, 'mouseenter')
         .pipe(
@@ -266,6 +265,13 @@ export class CdkMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
           takeUntil(this.destroyed),
         )
         .subscribe(() => {
+          // Closes any sibling menu items and opens the menu associated with this trigger.
+          const toggleMenus = () =>
+            this._ngZone.run(() => {
+              this._closeSiblingTriggers();
+              this.open();
+            });
+
           if (this._menuAim) {
             this._menuAim.toggle(toggleMenus);
           } else {
@@ -370,19 +376,17 @@ export class CdkMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
     if (this.overlayRef) {
       this.overlayRef
         .outsidePointerEvents()
-        .pipe(
-          filter(
-            e =>
-              e.target != this._elementRef.nativeElement &&
-              !this._elementRef.nativeElement.contains(e.target as Element),
-          ),
-          takeUntil(this.stopOutsideClicksListener),
-        )
+        .pipe(takeUntil(this.stopOutsideClicksListener))
         .subscribe(event => {
-          if (!this.isElementInsideMenuStack(event.target as Element)) {
-            this.menuStack.closeAll();
-          } else {
-            this._closeSiblingTriggers();
+          const target = _getEventTarget(event) as Element;
+          const element = this._elementRef.nativeElement;
+
+          if (target !== element && !element.contains(target)) {
+            if (!this.isElementInsideMenuStack(target)) {
+              this.menuStack.closeAll();
+            } else {
+              this._closeSiblingTriggers();
+            }
           }
         });
     }
@@ -431,6 +435,16 @@ export class CdkMenuTrigger extends CdkMenuTriggerBase implements OnDestroy {
     // role, otherwise this is a standalone trigger, and we should ensure it has role="button".
     if (!this._parentMenu) {
       this._elementRef.nativeElement.setAttribute('role', 'button');
+    }
+  }
+
+  /** Sets thte `type` attribute of the trigger. */
+  private _setType() {
+    const element = this._elementRef.nativeElement;
+
+    if (element.nodeName === 'BUTTON' && !element.getAttribute('type')) {
+      // Prevents form submissions.
+      element.setAttribute('type', 'button');
     }
   }
 }

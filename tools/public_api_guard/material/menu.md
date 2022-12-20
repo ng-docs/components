@@ -51,34 +51,27 @@ export const MAT_MENU_CONTENT: InjectionToken<MatMenuContent>;
 export const MAT_MENU_DEFAULT_OPTIONS: InjectionToken<MatMenuDefaultOptions>;
 
 // @public
-function MAT_MENU_DEFAULT_OPTIONS_FACTORY(): MatMenuDefaultOptions;
-
-// @public
 export const MAT_MENU_PANEL: InjectionToken<MatMenuPanel<any>>;
 
 // @public
 export const MAT_MENU_SCROLL_STRATEGY: InjectionToken<() => ScrollStrategy>;
 
 // @public
-function MAT_MENU_SCROLL_STRATEGY_FACTORY(overlay: Overlay): () => ScrollStrategy;
-
-// @public
-const MAT_MENU_SCROLL_STRATEGY_FACTORY_PROVIDER: {
+export const MAT_MENU_SCROLL_STRATEGY_FACTORY_PROVIDER: {
     provide: InjectionToken<() => ScrollStrategy>;
     deps: (typeof Overlay)[];
     useFactory: typeof MAT_MENU_SCROLL_STRATEGY_FACTORY;
 };
 
-// @public
+// @public (undocumented)
 export class MatMenu extends _MatMenuBase {
-    // @deprecated
     constructor(elementRef: ElementRef<HTMLElement>, ngZone: NgZone, defaultOptions: MatMenuDefaultOptions);
     // (undocumented)
     protected _baseElevation: number;
     // (undocumented)
     protected _elevationPrefix: string;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatMenu, "mat-menu", ["matMenu"], {}, {}, never, ["*"], false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatMenu, "mat-menu", ["matMenu"], {}, {}, never, ["*"], false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatMenu, never>;
 }
@@ -156,7 +149,7 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
     get yPosition(): MenuPositionY;
     set yPosition(value: MenuPositionY);
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatMenuBase, never, never, { "backdropClass": "backdropClass"; "ariaLabel": "aria-label"; "ariaLabelledby": "aria-labelledby"; "ariaDescribedby": "aria-describedby"; "xPosition": "xPosition"; "yPosition": "yPosition"; "overlapTrigger": "overlapTrigger"; "hasBackdrop": "hasBackdrop"; "panelClass": "class"; "classList": "classList"; }, { "closed": "closed"; "close": "close"; }, ["lazyContent", "_allItems", "items"], never, false>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatMenuBase, never, never, { "backdropClass": "backdropClass"; "ariaLabel": "aria-label"; "ariaLabelledby": "aria-labelledby"; "ariaDescribedby": "aria-describedby"; "xPosition": "xPosition"; "yPosition": "yPosition"; "overlapTrigger": "overlapTrigger"; "hasBackdrop": "hasBackdrop"; "panelClass": "class"; "classList": "classList"; }, { "closed": "closed"; "close": "close"; }, ["lazyContent", "_allItems", "items"], never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatMenuBase, never>;
 }
@@ -164,7 +157,7 @@ export class _MatMenuBase implements AfterContentInit, MatMenuPanel<MatMenuItem>
 // @public
 export class MatMenuContent extends _MatMenuContentBase {
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatMenuContent, "ng-template[matMenuContent]", never, {}, {}, never, never, false>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatMenuContent, "ng-template[matMenuContent]", never, {}, {}, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatMenuContent, never>;
 }
@@ -180,7 +173,7 @@ export abstract class _MatMenuContentBase implements OnDestroy {
     // (undocumented)
     ngOnDestroy(): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatMenuContentBase, never, never, {}, {}, never, never, false>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatMenuContentBase, never, never, {}, {}, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatMenuContentBase, never>;
 }
@@ -220,9 +213,11 @@ export class MatMenuItem extends _MatMenuItemBase implements FocusableOption, Ca
     role: 'menuitem' | 'menuitemradio' | 'menuitemcheckbox';
     // (undocumented)
     _setHighlighted(isHighlighted: boolean): void;
+    // (undocumented)
+    _setTriggersSubmenu(triggersSubmenu: boolean): void;
     _triggersSubmenu: boolean;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatMenuItem, "[mat-menu-item]", ["matMenuItem"], { "disabled": "disabled"; "disableRipple": "disableRipple"; "role": "role"; }, {}, never, ["*"], false>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatMenuItem, "[mat-menu-item]", ["matMenuItem"], { "disabled": "disabled"; "disableRipple": "disableRipple"; "role": "role"; }, {}, never, ["mat-icon, [matMenuItemIcon]", "*"], false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatMenuItem, [null, null, null, { optional: true; }, null]>;
 }
@@ -234,7 +229,7 @@ export class MatMenuModule {
     // (undocumented)
     static ɵinj: i0.ɵɵInjectorDeclaration<MatMenuModule>;
     // (undocumented)
-    static ɵmod: i0.ɵɵNgModuleDeclaration<MatMenuModule, [typeof i1.MatMenu, typeof i2.MatMenuItem, typeof i3.MatMenuTrigger, typeof i4.MatMenuContent], [typeof i5.CommonModule, typeof i6.MatCommonModule, typeof i6.MatRippleModule, typeof i7.OverlayModule], [typeof i8.CdkScrollableModule, typeof i6.MatCommonModule, typeof i1.MatMenu, typeof i2.MatMenuItem, typeof i3.MatMenuTrigger, typeof i4.MatMenuContent]>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<MatMenuModule, [typeof i1.MatMenu, typeof i2.MatMenuItem, typeof i3.MatMenuContent, typeof i4.MatMenuTrigger], [typeof i5.CommonModule, typeof i6.MatRippleModule, typeof i6.MatCommonModule, typeof i7.OverlayModule], [typeof i8.CdkScrollableModule, typeof i1.MatMenu, typeof i6.MatCommonModule, typeof i2.MatMenuItem, typeof i3.MatMenuContent, typeof i4.MatMenuTrigger]>;
 }
 
 // @public
@@ -280,7 +275,7 @@ export interface MatMenuPanel<T = any> {
 // @public
 export class MatMenuTrigger extends _MatMenuTriggerBase {
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatMenuTrigger, "[mat-menu-trigger-for], [matMenuTriggerFor]", ["matMenuTrigger"], {}, {}, never, never, false>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatMenuTrigger, "[mat-menu-trigger-for], [matMenuTriggerFor]", ["matMenuTrigger"], {}, {}, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatMenuTrigger, never>;
 }
@@ -323,16 +318,13 @@ export abstract class _MatMenuTriggerBase implements AfterContentInit, OnDestroy
     triggersSubmenu(): boolean;
     updatePosition(): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatMenuTriggerBase, never, never, { "_deprecatedMatMenuTriggerFor": "mat-menu-trigger-for"; "menu": "matMenuTriggerFor"; "menuData": "matMenuTriggerData"; "restoreFocus": "matMenuTriggerRestoreFocus"; }, { "menuOpened": "menuOpened"; "onMenuOpen": "onMenuOpen"; "menuClosed": "menuClosed"; "onMenuClose": "onMenuClose"; }, never, never, false>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatMenuTriggerBase, never, never, { "_deprecatedMatMenuTriggerFor": "mat-menu-trigger-for"; "menu": "matMenuTriggerFor"; "menuData": "matMenuTriggerData"; "restoreFocus": "matMenuTriggerRestoreFocus"; }, { "menuOpened": "menuOpened"; "onMenuOpen": "onMenuOpen"; "menuClosed": "menuClosed"; "onMenuClose": "onMenuClose"; }, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatMenuTriggerBase, [null, null, null, null, { optional: true; }, { optional: true; self: true; }, { optional: true; }, null, null]>;
 }
 
 // @public @deprecated
-const MENU_PANEL_TOP_PADDING = 8;
-
-// @public
-type MenuCloseReason = void | 'click' | 'keydown' | 'tab';
+export const MENU_PANEL_TOP_PADDING = 8;
 
 // @public
 export type MenuPositionX = 'before' | 'after';

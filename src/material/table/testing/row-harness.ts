@@ -12,8 +12,13 @@ import {
   HarnessPredicate,
   parallel,
 } from '@angular/cdk/testing';
-import {RowHarnessFilters, CellHarnessFilters} from './table-harness-filters';
-import {MatCellHarness, MatHeaderCellHarness, MatFooterCellHarness} from './cell-harness';
+import {
+  _MatCellHarnessBase,
+  MatCellHarness,
+  MatFooterCellHarness,
+  MatHeaderCellHarness,
+} from './cell-harness';
+import {CellHarnessFilters, RowHarnessFilters} from './table-harness-filters';
 
 /**
  * Text extracted from a table row organized by columns.
@@ -29,7 +34,7 @@ export abstract class _MatRowHarnessBase<
   CellType extends ComponentHarnessConstructor<Cell> & {
     with: (options?: CellHarnessFilters) => HarnessPredicate<Cell>;
   },
-  Cell extends ComponentHarness & {getText(): Promise<string>; getColumnName(): Promise<string>},
+  Cell extends _MatCellHarnessBase,
 > extends ComponentHarness {
   protected abstract _cellHarness: CellType;
 
@@ -74,7 +79,7 @@ export abstract class _MatRowHarnessBase<
 }
 
 /**
- * Harness for interacting with a standard Angular Material table row.
+ * Harness for interacting with an MDC-based Angular Material table row.
  *
  * 与标准 Angular Material 表行进行交互的测试工具。
  *
@@ -86,7 +91,7 @@ export class MatRowHarness extends _MatRowHarnessBase<typeof MatCellHarness, Mat
    * `MatRowHarness` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-row';
+  static hostSelector = '.mat-mdc-row';
   protected _cellHarness = MatCellHarness;
 
   /**
@@ -102,13 +107,16 @@ export class MatRowHarness extends _MatRowHarnessBase<typeof MatCellHarness, Mat
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: RowHarnessFilters = {}): HarnessPredicate<MatRowHarness> {
-    return new HarnessPredicate(MatRowHarness, options);
+  static with<T extends MatRowHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: RowHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 }
 
 /**
- * Harness for interacting with a standard Angular Material table header row.
+ * Harness for interacting with an MDC-based Angular Material table header row.
  *
  * 与标准 Angular Material 表标题行进行交互的测试工具。
  *
@@ -123,12 +131,12 @@ export class MatHeaderRowHarness extends _MatRowHarnessBase<
    * `MatHeaderRowHarness` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-header-row';
+  static hostSelector = '.mat-mdc-header-row';
   protected _cellHarness = MatHeaderCellHarness;
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for
-   * a table header row with specific attributes.
+   * Gets a `HarnessPredicate` that can be used to search for a table header row with specific
+   * attributes.
    *
    * 获取 `HarnessPredicate`，该 HarnessPredicate 可用于搜索具有特定属性的表标题行。
    *
@@ -140,13 +148,16 @@ export class MatHeaderRowHarness extends _MatRowHarnessBase<
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: RowHarnessFilters = {}): HarnessPredicate<MatHeaderRowHarness> {
-    return new HarnessPredicate(MatHeaderRowHarness, options);
+  static with<T extends MatHeaderRowHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: RowHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 }
 
 /**
- * Harness for interacting with a standard Angular Material table footer row.
+ * Harness for interacting with an MDC-based Angular Material table footer row.
  *
  * 与标准 Angular Material 表的页脚行进行交互的测试工具。
  *
@@ -161,12 +172,12 @@ export class MatFooterRowHarness extends _MatRowHarnessBase<
    * `MatFooterRowHarness` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-footer-row';
+  static hostSelector = '.mat-mdc-footer-row';
   protected _cellHarness = MatFooterCellHarness;
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for
-   * a table footer row cell with specific attributes.
+   * Gets a `HarnessPredicate` that can be used to search for a table footer row cell with specific
+   * attributes.
    *
    * 获取 `HarnessPredicate`，该 HarnessPredicate 可用于搜索具有特定属性的表格页脚行单元格。
    *
@@ -178,7 +189,10 @@ export class MatFooterRowHarness extends _MatRowHarnessBase<
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: RowHarnessFilters = {}): HarnessPredicate<MatFooterRowHarness> {
-    return new HarnessPredicate(MatFooterRowHarness, options);
+  static with<T extends MatFooterRowHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: RowHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 }

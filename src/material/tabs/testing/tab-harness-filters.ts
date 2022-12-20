@@ -8,7 +8,7 @@
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
 /**
- * A set of criteria that can be used to filter a list of `MatTabHarness` instances.
+ * A set of criteria that can be used to filter a list of `MatRadioButtonHarness` instances.
  *
  * 一组可用于过滤 `MatTabHarness` 实例列表的条件。
  *
@@ -24,7 +24,7 @@ export interface TabHarnessFilters extends BaseHarnessFilters {
 }
 
 /**
- * A set of criteria that can be used to filter a list of `MatTabGroupHarness` instances.
+ * A set of criteria that can be used to filter a list of `MatRadioButtonHarness` instances.
  *
  * 一组可用于过滤 `MatTabGroupHarness` 实例列表的条件。
  *

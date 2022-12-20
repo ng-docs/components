@@ -213,7 +213,7 @@ export abstract class _MatRadioGroupHarnessBase<
 }
 
 /**
- * Harness for interacting with a standard mat-radio-group in tests.
+ * Harness for interacting with an MDC-based mat-radio-group in tests.
  *
  * 在测试中用来与标准 mat-radio-group 进行交互的测试工具。
  *
@@ -229,12 +229,12 @@ export class MatRadioGroupHarness extends _MatRadioGroupHarnessBase<
    * `MatRadioGroup` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-radio-group';
+  static hostSelector = '.mat-mdc-radio-group';
   protected _buttonClass = MatRadioButtonHarness;
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatRadioGroupHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a radio group with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatRadioGroupHarness`。
    *
@@ -246,11 +246,14 @@ export class MatRadioGroupHarness extends _MatRadioGroupHarnessBase<
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: RadioGroupHarnessFilters = {}): HarnessPredicate<MatRadioGroupHarness> {
-    return new HarnessPredicate(MatRadioGroupHarness, options).addOption(
+  static with<T extends MatRadioGroupHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: RadioGroupHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption(
       'name',
       options.name,
-      this._checkRadioGroupName,
+      MatRadioGroupHarness._checkRadioGroupName,
     );
   }
 }
@@ -383,7 +386,7 @@ export abstract class _MatRadioButtonHarnessBase extends ComponentHarness {
 }
 
 /**
- * Harness for interacting with a standard mat-radio-button in tests.
+ * Harness for interacting with an MDC-based mat-radio-button in tests.
  *
  * 在测试中可与标准 mat-radio-button 进行交互的测试工具。
  *
@@ -395,11 +398,11 @@ export class MatRadioButtonHarness extends _MatRadioButtonHarnessBase {
    * `MatRadioButton` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-radio-button';
+  static hostSelector = '.mat-mdc-radio-button';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatRadioButtonHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a radio button with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatRadioButtonHarness`。
    *
@@ -412,8 +415,11 @@ export class MatRadioButtonHarness extends _MatRadioButtonHarnessBase {
    * 使用给定选项配置过的 `HarnessPredicate`
    *
    */
-  static with(options: RadioButtonHarnessFilters = {}): HarnessPredicate<MatRadioButtonHarness> {
-    return new HarnessPredicate(MatRadioButtonHarness, options)
+  static with<T extends MatRadioButtonHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: RadioButtonHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options)
       .addOption('label', options.label, (harness, label) =>
         HarnessPredicate.stringMatches(harness.getLabelText(), label),
       )
@@ -425,6 +431,6 @@ export class MatRadioButtonHarness extends _MatRadioButtonHarnessBase {
       );
   }
 
-  protected _textLabel = this.locatorFor('.mat-radio-label-content');
-  protected _clickLabel = this.locatorFor('.mat-radio-label');
+  protected _textLabel = this.locatorFor('label');
+  protected _clickLabel = this._textLabel;
 }

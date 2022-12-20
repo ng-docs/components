@@ -30,6 +30,7 @@ let nextId = 0;
 @Directive({
   selector: '[cdkMenuItemRadio]',
   exportAs: 'cdkMenuItemRadio',
+  standalone: true,
   host: {
     'role': 'menuitemradio',
     '[class.cdk-menu-item-radio]': 'true',
@@ -49,7 +50,7 @@ export class CdkMenuItemRadio extends CdkMenuItemSelectable implements OnDestroy
   private readonly _selectionDispatcher = inject(UniqueSelectionDispatcher);
 
   /**
-   * An ID to identify this radio item to the `UniqueSelectionDisptcher`.
+   * An ID to identify this radio item to the `UniqueSelectionDispatcher`.
    *
    * 用于在 `UniqueSelectionDisptcher` 中作为此单选项标识的 ID。
    *

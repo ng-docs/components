@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate, parallel} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+  parallel,
+} from '@angular/cdk/testing';
 import {
   TabNavBarHarnessFilters,
   TabNavPanelHarnessFilters,
@@ -16,7 +21,7 @@ import {MatTabLinkHarness} from './tab-link-harness';
 import {MatTabNavPanelHarness} from './tab-nav-panel-harness';
 
 /**
- * Harness for interacting with a standard mat-tab-nav-bar in tests.
+ * Harness for interacting with an MDC-based mat-tab-nav-bar in tests.
  *
  * 在测试中用来与标准 mat-tab-nav-bar 进行交互的测试工具。
  *
@@ -28,11 +33,11 @@ export class MatTabNavBarHarness extends ComponentHarness {
    * `MatTabNavBar` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-tab-nav-bar';
+  static hostSelector = '.mat-mdc-tab-nav-bar';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatTabNavBar` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a tab nav bar with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatTabNavBar`。
    *
@@ -44,8 +49,11 @@ export class MatTabNavBarHarness extends ComponentHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: TabNavBarHarnessFilters = {}): HarnessPredicate<MatTabNavBarHarness> {
-    return new HarnessPredicate(MatTabNavBarHarness, options);
+  static with<T extends MatTabNavBarHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: TabNavBarHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 
   /**

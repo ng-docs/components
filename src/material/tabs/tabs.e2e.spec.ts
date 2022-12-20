@@ -8,7 +8,7 @@ describe('tabs', () => {
 
     beforeEach(async () => {
       await browser.get('/tabs');
-      tabLabels = element.all(by.css('.mat-tab-label'));
+      tabLabels = element.all(by.css('.mat-mdc-tab'));
       tabBodies = element.all(by.css('mat-tab-body'));
     });
 
@@ -78,7 +78,7 @@ async function getFocusStates(elements: ElementArrayFinder) {
  *
  */
 function getLabelActiveStates(elements: ElementArrayFinder) {
-  return getClassStates(elements, 'mat-tab-label-active');
+  return getClassStates(elements, 'mdc-tab--active');
 }
 
 /**
@@ -88,7 +88,7 @@ function getLabelActiveStates(elements: ElementArrayFinder) {
  *
  */
 function getBodyActiveStates(elements: ElementArrayFinder) {
-  return getClassStates(elements, 'mat-tab-body-active');
+  return getClassStates(elements, 'mat-mdc-tab-body-active');
 }
 
 /**

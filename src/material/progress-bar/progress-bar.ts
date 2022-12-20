@@ -5,33 +5,28 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {coerceNumberProperty, NumberInput} from '@angular/cdk/coercion';
-import {DOCUMENT} from '@angular/common';
+
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
-  EventEmitter,
-  Inject,
-  inject,
-  InjectionToken,
-  Input,
-  NgZone,
-  OnDestroy,
-  Optional,
-  Output,
-  ViewChild,
   ViewEncapsulation,
+  ElementRef,
+  NgZone,
+  Optional,
+  Inject,
+  Input,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+  OnDestroy,
   ChangeDetectorRef,
+  InjectionToken,
+  inject,
 } from '@angular/core';
+import {DOCUMENT} from '@angular/common';
 import {CanColor, mixinColor, ThemePalette} from '@angular/material/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
-import {fromEvent, Observable, Subscription} from 'rxjs';
-import {filter} from 'rxjs/operators';
-
-// TODO(josephperrott): Benchpress tests.
-// TODO(josephperrott): Add ARIA attributes for progress bar "for".
+import {coerceNumberProperty, NumberInput} from '@angular/cdk/coercion';
 
 /**
  * Last animation end data.
@@ -43,13 +38,18 @@ export interface ProgressAnimationEnd {
   value: number;
 }
 
-// Boilerplate for applying mixins to MatProgressBar.
-/** @docs-private */
-const _MatProgressBarBase = mixinColor(
-  class {
-    constructor(public _elementRef: ElementRef) {}
-  },
-  'primary',
+/** Default `mat-progress-bar` options that can be overridden. */
+export interface MatProgressBarDefaultOptions {
+  /** Default color of the progress bar. */
+  color?: ThemePalette;
+
+  /** Default mode of the progress bar. */
+  mode?: ProgressBarMode;
+}
+
+/** Injection token to be used to override the default options for `mat-progress-bar`. */
+export const MAT_PROGRESS_BAR_DEFAULT_OPTIONS = new InjectionToken<MatProgressBarDefaultOptions>(
+  'MAT_PROGRESS_BAR_DEFAULT_OPTIONS',
 );
 
 /**
@@ -88,56 +88,17 @@ export function MAT_PROGRESS_BAR_LOCATION_FACTORY(): MatProgressBarLocation {
   };
 }
 
-export type ProgressBarMode = 'determinate' | 'indeterminate' | 'buffer' | 'query';
-
-/**
- * Default `mat-progress-bar` options that can be overridden.
- *
- * 可覆盖的默认 `mat-progress-bar` 选项。
- *
- */
-export interface MatProgressBarDefaultOptions {
-  /**
-   * Default color of the progress bar.
-   *
-   * 进度条的默认颜色。
-   *
-   */
-  color?: ThemePalette;
-
-  /**
-   * Default mode of the progress bar.
-   *
-   * 进度条的默认模式。
-   *
-   */
-  mode?: ProgressBarMode;
-}
-
-/**
- * Injection token to be used to override the default options for `mat-progress-bar`.
- *
- * 用于覆盖 `mat-progress-bar` 的默认选项的注入令牌。
- *
- */
-export const MAT_PROGRESS_BAR_DEFAULT_OPTIONS = new InjectionToken<MatProgressBarDefaultOptions>(
-  'MAT_PROGRESS_BAR_DEFAULT_OPTIONS',
+// Boilerplate for applying mixins to MatProgressBar.
+/** @docs-private */
+const _MatProgressBarBase = mixinColor(
+  class {
+    constructor(public _elementRef: ElementRef<HTMLElement>) {}
+  },
+  'primary',
 );
 
-/**
- * Counter used to generate unique IDs for progress bars.
- *
- * 这个计数器用于为进度条生成唯一的 ID。
- *
- */
-let progressbarId = 0;
+export type ProgressBarMode = 'determinate' | 'indeterminate' | 'buffer' | 'query';
 
-/**
- * `<mat-progress-bar>` component.
- *
- * `<mat-progress-bar>` 组件
- *
- */
 @Component({
   selector: 'mat-progress-bar',
   exportAs: 'matProgressBar',
@@ -148,10 +109,12 @@ let progressbarId = 0;
     // set tab index to -1 so screen readers will read the aria-label
     // Note: there is a known issue with JAWS that does not read progressbar aria labels on FireFox
     'tabindex': '-1',
-    '[attr.aria-valuenow]': '(mode === "indeterminate" || mode === "query") ? null : value',
+    '[attr.aria-valuenow]': '_isIndeterminate() ? null : value',
     '[attr.mode]': 'mode',
-    'class': 'mat-progress-bar',
+    'class': 'mat-mdc-progress-bar mdc-linear-progress',
     '[class._mat-animation-noopable]': '_isNoopAnimation',
+    '[class.mdc-linear-progress--animation-ready]': '!_isNoopAnimation',
+    '[class.mdc-linear-progress--indeterminate]': '_isIndeterminate()',
   },
   inputs: ['color'],
   templateUrl: 'progress-bar.html',
@@ -161,36 +124,18 @@ let progressbarId = 0;
 })
 export class MatProgressBar
   extends _MatProgressBarBase
-  implements CanColor, AfterViewInit, OnDestroy
+  implements AfterViewInit, OnDestroy, CanColor
 {
   constructor(
-    elementRef: ElementRef,
+    elementRef: ElementRef<HTMLElement>,
     private _ngZone: NgZone,
+    private _changeDetectorRef: ChangeDetectorRef,
     @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string,
-    /**
-     * @deprecated `location` parameter to be made required.
-     * @breaking-change 8.0.0
-     */
-    @Optional() @Inject(MAT_PROGRESS_BAR_LOCATION) location?: MatProgressBarLocation,
     @Optional()
     @Inject(MAT_PROGRESS_BAR_DEFAULT_OPTIONS)
     defaults?: MatProgressBarDefaultOptions,
-    /**
-     * @deprecated `_changeDetectorRef` parameter to be made required.
-     * @breaking-change 11.0.0
-     */
-    private _changeDetectorRef?: ChangeDetectorRef,
   ) {
     super(elementRef);
-
-    // We need to prefix the SVG reference with the current path, otherwise they won't work
-    // in Safari if the page has a `<base>` tag. Note that we need quotes inside the `url()`,
-    // because named route URLs can contain parentheses (see #12338). Also we don't use `Location`
-    // since we can't tell the difference between whether the consumer is using the hash location
-    // strategy or not, because `Location` normalizes both `/#/foo/bar` and `/foo/bar` to
-    // the same thing.
-    const path = location ? location.getPathname().split('#')[0] : '';
-    this._rectangleFillValue = `url('${path}#${this.progressbarId}')`;
     this._isNoopAnimation = _animationMode === 'NoopAnimations';
 
     if (defaults) {
@@ -221,12 +166,10 @@ export class MatProgressBar
     return this._value;
   }
   set value(v: NumberInput) {
-    this._value = clamp(coerceNumberProperty(v) || 0);
-
-    // @breaking-change 11.0.0 Remove null check for _changeDetectorRef.
-    this._changeDetectorRef?.markForCheck();
+    this._value = clamp(coerceNumberProperty(v));
+    this._changeDetectorRef.markForCheck();
   }
-  private _value: number = 0;
+  private _value = 0;
 
   /**
    * Buffer value of the progress bar. Defaults to zero.
@@ -236,17 +179,13 @@ export class MatProgressBar
    */
   @Input()
   get bufferValue(): number {
-    return this._bufferValue;
+    return this._bufferValue || 0;
   }
-  set bufferValue(v: number) {
-    this._bufferValue = clamp(v || 0);
-
-    // @breaking-change 11.0.0 Remove null check for _changeDetectorRef.
-    this._changeDetectorRef?.markForCheck();
+  set bufferValue(v: NumberInput) {
+    this._bufferValue = clamp(coerceNumberProperty(v));
+    this._changeDetectorRef.markForCheck();
   }
-  private _bufferValue: number = 0;
-
-  @ViewChild('primaryValueBar') _primaryValueBar: ElementRef;
+  private _bufferValue = 0;
 
   /**
    * Event emitted when animation of the primary progress bar completes. This event will not
@@ -257,14 +196,6 @@ export class MatProgressBar
    *
    */
   @Output() readonly animationEnd = new EventEmitter<ProgressAnimationEnd>();
-
-  /**
-   * Reference to animation end subscription to be unsubscribed on destroy.
-   *
-   * 供销毁时取消动画完成订阅的引用。
-   *
-   */
-  private _animationEndSubscription: Subscription = Subscription.EMPTY;
 
   /**
    * Mode of the progress bar.
@@ -278,77 +209,59 @@ export class MatProgressBar
    * 此输入属性必须是以下值之一：determinate、indeterminate、buffer 和 query，默认为 'determinate'。会镜像到 mode 属性。
    *
    */
-  @Input() mode: ProgressBarMode = 'determinate';
-
-  /**
-   * ID of the progress bar.
-   *
-   * 进度条的 ID。
-   *
-   */
-  progressbarId = `mat-progress-bar-${progressbarId++}`;
-
-  /**
-   * Attribute to be used for the `fill` attribute on the internal `rect` element.
-   *
-   * 要供内部 `rect` 元素的 `fill` 属性使用的属性。
-   *
-   */
-  _rectangleFillValue: string;
-
-  /**
-   * Gets the current transform value for the progress bar's primary indicator.
-   *
-   * 获取进度条主要指示器的当前变换值。
-   *
-   */
-  _primaryTransform() {
-    // We use a 3d transform to work around some rendering issues in iOS Safari. See #19328.
-    const scale = this.value / 100;
-    return {transform: `scale3d(${scale}, 1, 1)`};
+  @Input()
+  get mode(): ProgressBarMode {
+    return this._mode;
   }
-
-  /**
-   * Gets the current transform value for the progress bar's buffer indicator. Only used if the
-   * progress mode is set to buffer, otherwise returns an undefined, causing no transformation.
-   *
-   * 获取进度条缓冲区指示器的当前变换值。仅当 progress 模式设置为 buffer 时才使用，否则返回 undefined，不进行转换。
-   *
-   */
-  _bufferTransform() {
-    if (this.mode === 'buffer') {
-      // We use a 3d transform to work around some rendering issues in iOS Safari. See #19328.
-      const scale = this.bufferValue / 100;
-      return {transform: `scale3d(${scale}, 1, 1)`};
-    }
-    return null;
+  set mode(value: ProgressBarMode) {
+    // Note that we don't technically need a getter and a setter here,
+    // but we use it to match the behavior of the existing mat-progress-bar.
+    this._mode = value;
+    this._changeDetectorRef.markForCheck();
   }
+  private _mode: ProgressBarMode = 'determinate';
 
   ngAfterViewInit() {
     // Run outside angular so change detection didn't get triggered on every transition end
     // instead only on the animation that we care about (primary value bar's transitionend)
     this._ngZone.runOutsideAngular(() => {
-      const element = this._primaryValueBar.nativeElement;
-
-      this._animationEndSubscription = (
-        fromEvent(element, 'transitionend') as Observable<TransitionEvent>
-      )
-        .pipe(filter((e: TransitionEvent) => e.target === element))
-        .subscribe(() => {
-          if (this.animationEnd.observers.length === 0) {
-            return;
-          }
-
-          if (this.mode === 'determinate' || this.mode === 'buffer') {
-            this._ngZone.run(() => this.animationEnd.next({value: this.value}));
-          }
-        });
+      this._elementRef.nativeElement.addEventListener('transitionend', this._transitionendHandler);
     });
   }
 
   ngOnDestroy() {
-    this._animationEndSubscription.unsubscribe();
+    this._elementRef.nativeElement.removeEventListener('transitionend', this._transitionendHandler);
   }
+
+  /** Gets the transform style that should be applied to the primary bar. */
+  _getPrimaryBarTransform(): string {
+    return `scaleX(${this._isIndeterminate() ? 1 : this.value / 100})`;
+  }
+
+  /** Gets the `flex-basis` value that should be applied to the buffer bar. */
+  _getBufferBarFlexBasis(): string {
+    return `${this.mode === 'buffer' ? this.bufferValue : 100}%`;
+  }
+
+  /** Returns whether the progress bar is indeterminate. */
+  _isIndeterminate(): boolean {
+    return this.mode === 'indeterminate' || this.mode === 'query';
+  }
+
+  /** Event handler for `transitionend` events. */
+  private _transitionendHandler = (event: TransitionEvent) => {
+    if (
+      this.animationEnd.observers.length === 0 ||
+      !event.target ||
+      !(event.target as HTMLElement).classList.contains('mdc-linear-progress__primary-bar')
+    ) {
+      return;
+    }
+
+    if (this.mode === 'determinate' || this.mode === 'buffer') {
+      this._ngZone.run(() => this.animationEnd.next({value: this.value}));
+    }
+  };
 }
 
 /**

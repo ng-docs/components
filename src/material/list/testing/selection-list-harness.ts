@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate, parallel} from '@angular/cdk/testing';
+import {ComponentHarnessConstructor, HarnessPredicate, parallel} from '@angular/cdk/testing';
 import {MatListOptionCheckboxPosition} from '@angular/material/list';
 import {MatListHarnessBase} from './list-harness-base';
 import {
@@ -17,7 +17,7 @@ import {
 import {getListItemPredicate, MatListItemHarnessBase} from './list-item-harness-base';
 
 /**
- * Harness for interacting with a standard mat-selection-list in tests.
+ * Harness for interacting with a MDC_based selection-list in tests.
  *
  * 在测试中用来与标准 mat-selection-list 进行交互的测试工具。
  *
@@ -33,11 +33,11 @@ export class MatSelectionListHarness extends MatListHarnessBase<
    * `MatSelectionList` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-selection-list';
+  static hostSelector = '.mat-mdc-selection-list';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatSelectionListHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a selection list with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatSelectionListHarness`。
    *
@@ -49,10 +49,11 @@ export class MatSelectionListHarness extends MatListHarnessBase<
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(
+  static with<T extends MatSelectionListHarness>(
+    this: ComponentHarnessConstructor<T>,
     options: SelectionListHarnessFilters = {},
-  ): HarnessPredicate<MatSelectionListHarness> {
-    return new HarnessPredicate(MatSelectionListHarness, options);
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 
   override _itemHarness = MatListOptionHarness;
@@ -107,15 +108,15 @@ export class MatSelectionListHarness extends MatListHarnessBase<
     if (!filters.length) {
       return this.getItems();
     }
-    const matches = await parallel(() => {
-      return filters.map(filter => this.locatorForAll(MatListOptionHarness.with(filter))());
-    });
+    const matches = await parallel(() =>
+      filters.map(filter => this.locatorForAll(MatListOptionHarness.with(filter))()),
+    );
     return matches.reduce((result, current) => [...result, ...current], []);
   }
 }
 
 /**
- * Harness for interacting with a list option.
+ * Harness for interacting with a MDC-based list option.
  *
  * 与列表选项进行交互的测试工具。
  *
@@ -127,11 +128,11 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    * `MatListOption` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-list-option';
+  static hostSelector = '.mat-mdc-list-option';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatListOptionHarness` that
-   * meets certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a list option with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatListOptionHarness`。
    *
@@ -143,15 +144,18 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ListOptionHarnessFilters = {}): HarnessPredicate<MatListOptionHarness> {
-    return getListItemPredicate(MatListOptionHarness, options).addOption(
+  static with<T extends MatListOptionHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ListOptionHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return getListItemPredicate(this, options).addOption(
       'is selected',
       options.selected,
       async (harness, selected) => (await harness.isSelected()) === selected,
     );
   }
 
-  private _itemContent = this.locatorFor('.mat-list-item-content');
+  private _beforeCheckbox = this.locatorForOptional('.mdc-list-item__start .mdc-checkbox');
 
   /**
    * Gets the position of the checkbox relative to the list option content.
@@ -160,9 +164,7 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
    *
    */
   async getCheckboxPosition(): Promise<MatListOptionCheckboxPosition> {
-    return (await (await this._itemContent()).hasClass('mat-list-item-content-reverse'))
-      ? 'after'
-      : 'before';
+    return (await this._beforeCheckbox()) !== null ? 'before' : 'after';
   }
 
   /**
@@ -216,8 +218,8 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
   }
 
   /**
-   * Puts the list option in a checked state by toggling it if it is currently unchecked, or doing
-   * nothing if it is already checked.
+   * Puts the list option in a checked state by toggling it if it is currently
+   * unchecked, or doing nothing if it is already checked.
    *
    * 如果当前未选中，则通过切换列表选项将其置于选中状态；如果已经选中，则不执行任何操作。
    *
@@ -229,8 +231,8 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
   }
 
   /**
-   * Puts the list option in an unchecked state by toggling it if it is currently checked, or doing
-   * nothing if it is already unchecked.
+   * Puts the list option in an unchecked state by toggling it if it is currently
+   * checked, or doing nothing if it is already unchecked.
    *
    * 如果当前已选中，则通过切换列表选项将其置于未选中状态；如果未选中，则不执行任何操作。
    *

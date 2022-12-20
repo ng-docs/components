@@ -96,7 +96,7 @@ export async function createTestCaseSetup(
   runner.logger.subscribe(entry => (logOutput += `${entry.message}\n`));
   const {appTree, writeFile} = await createFileSystemTestApp(runner);
 
-  _patchTypeScriptDefaultLib(appTree);
+  patchDevkitTreeToExposeTypeScript(appTree);
 
   // Write each test-case input to the file-system. This is necessary because otherwise
   // TypeScript compiler API won't be able to pick up the test cases.
@@ -254,7 +254,7 @@ export function defineJasmineTestCases(
  * patch 指定的虚拟文件系统树，以便能够读取 TypeScript 的默认库类型。这些在单元测试中必须是可读的，否则迁移规则中的类型检查将不能像在实际应用程序中那样起作用。
  *
  */
-export function _patchTypeScriptDefaultLib(tree: Tree) {
+export function patchDevkitTreeToExposeTypeScript<T extends Tree>(tree: T): T {
   const _originalRead = tree.read;
   tree.read = function (filePath: Path) {
     // In case a file within the TypeScript package is requested, we read the file from
@@ -267,4 +267,5 @@ export function _patchTypeScriptDefaultLib(tree: Tree) {
       return _originalRead.call(this, filePath);
     }
   };
+  return tree;
 }

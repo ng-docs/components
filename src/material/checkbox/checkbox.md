@@ -9,15 +9,15 @@ enhanced with Material Design styling and animations.
 
 ### 检查框标签
 
-The checkbox label is provided as the content to the `<mat-checkbox>` element. The label can be 
+The checkbox label is provided as the content to the `<mat-checkbox>` element. The label can be
 positioned before or after the checkbox by setting the `labelPosition` property to `'before'` or
 `'after'`.
 
 检查框的标签是以 `<mat-checkbox>` 元素内容的形式提供的。该标签可以通过把 `labelPosition` 属性设置为 `'before'` 或 `'after'` 来让自己定位于检查框的前面或后面。
 
-If you don't want the label to appear next to the checkbox, you can use 
-[`aria-label`](https://www.w3.org/TR/wai-aria/states_and_properties#aria-label) or 
-[`aria-labelledby`](https://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby) to 
+If you don't want the label to appear next to the checkbox, you can use
+[`aria-label`](https://www.w3.org/TR/wai-aria/states_and_properties#aria-label) or
+[`aria-labelledby`](https://www.w3.org/TR/wai-aria/states_and_properties#aria-labelledby) to
 specify an appropriate label.
 
 如果你不想紧挨着检查框显示该标签，可以使用 [`aria-label`](https://www.w3.org/TR/wai-aria/states_and_properties#aria-label) 或 
@@ -27,7 +27,7 @@ specify an appropriate label.
 
 ### 和 `@angular/forms` 一起使用
 
-`<mat-checkbox>` is compatible with `@angular/forms` and supports both `FormsModule` 
+`<mat-checkbox>` is compatible with `@angular/forms` and supports both `FormsModule`
 and `ReactiveFormsModule`.
 
 `<mat-checkbox>` 与 `@angular/forms` 兼容，并且同时支持 `FormsModule` 和 `ReactiveFormsModule`。
@@ -37,7 +37,7 @@ and `ReactiveFormsModule`.
 ### 未决状态
 
 `<mat-checkbox>` supports an `indeterminate` state, similar to the native `<input type="checkbox">`.
-While the `indeterminate` property of the checkbox is true, it will render as indeterminate 
+While the `indeterminate` property of the checkbox is true, it will render as indeterminate
 regardless of the `checked` value. Any interaction with the checkbox by a user (i.e., clicking) will
 remove the indeterminate state.
 
@@ -95,7 +95,7 @@ This matches the behavior of native `<input type="checkbox">`.
 ### 主题
 
 The color of a `<mat-checkbox>` can be changed by using the `color` property. By default, checkboxes
-use the theme's accent color. This can be changed to `'primary'` or `'warn'`.  
+use the theme's accent color. This can be changed to `'primary'` or `'warn'`.
 
 `<mat-checkbox>` 的颜色可以通过 `color` 属性进行修改。默认情况下，检查框使用主题的 `accent` 颜色。它还可以修改为 `'primary'` 或 `'warn'`。
 

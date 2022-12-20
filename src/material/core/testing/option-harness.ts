@@ -6,11 +6,15 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {OptionHarnessFilters} from './option-harness-filters';
 
 /**
- * Harness for interacting with a `mat-option` in tests.
+ * Harness for interacting with an MDC-based `mat-option` in tests.
  *
  * 在测试中与 `mat-option` 进行交互的测试工具。
  *
@@ -22,7 +26,7 @@ export class MatOptionHarness extends ComponentHarness {
    * 选择器，用于定位选项实例。
    *
    */
-  static hostSelector = '.mat-option';
+  static hostSelector = '.mat-mdc-option';
 
   /**
    * Element containing the option's text.
@@ -30,11 +34,10 @@ export class MatOptionHarness extends ComponentHarness {
    * 包含选项文本的元素。
    *
    */
-  private _text = this.locatorFor('.mat-option-text');
+  private _text = this.locatorFor('.mdc-list-item__primary-text');
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatOptionsHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for an option with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatOptionsHarness`。
    *
@@ -46,8 +49,11 @@ export class MatOptionHarness extends ComponentHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: OptionHarnessFilters = {}) {
-    return new HarnessPredicate(MatOptionHarness, options)
+  static with<T extends MatOptionHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: OptionHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options)
       .addOption('text', options.text, async (harness, title) =>
         HarnessPredicate.stringMatches(await harness.getText(), title),
       )
@@ -85,7 +91,7 @@ export class MatOptionHarness extends ComponentHarness {
    *
    */
   async isDisabled(): Promise<boolean> {
-    return (await this.host()).hasClass('mat-option-disabled');
+    return (await this.host()).hasClass('mdc-list-item--disabled');
   }
 
   /**
@@ -95,7 +101,7 @@ export class MatOptionHarness extends ComponentHarness {
    *
    */
   async isSelected(): Promise<boolean> {
-    return (await this.host()).hasClass('mat-selected');
+    return (await this.host()).hasClass('mdc-list-item--selected');
   }
 
   /**
@@ -105,7 +111,7 @@ export class MatOptionHarness extends ComponentHarness {
    *
    */
   async isActive(): Promise<boolean> {
-    return (await this.host()).hasClass('mat-active');
+    return (await this.host()).hasClass('mat-mdc-option-active');
   }
 
   /**
@@ -115,6 +121,6 @@ export class MatOptionHarness extends ComponentHarness {
    *
    */
   async isMultiple(): Promise<boolean> {
-    return (await this.host()).hasClass('mat-option-multiple');
+    return (await this.host()).hasClass('mat-mdc-option-multiple');
   }
 }

@@ -12,7 +12,7 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {By} from '@angular/platform-browser';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {MatTableModule} from '../table/index';
+import {MatTableModule} from '@angular/material/table';
 import {
   MAT_SORT_DEFAULT_OPTIONS,
   MatSort,

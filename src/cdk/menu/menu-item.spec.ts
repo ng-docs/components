@@ -1,6 +1,8 @@
 import {Component, Type, ElementRef} from '@angular/core';
 import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {dispatchKeyboardEvent} from '@angular/cdk/testing/private';
 import {By} from '@angular/platform-browser';
+import {ENTER} from '@angular/cdk/keycodes';
 import {CdkMenuModule} from './menu-module';
 import {CdkMenuItem} from './menu-item';
 import {CDK_MENU} from './menu-interface';
@@ -38,8 +40,12 @@ describe('MenuItem', () => {
       expect(nativeButton.getAttribute('role')).toBe('menuitem');
     });
 
+    it('should a type on the button', () => {
+      expect(nativeButton.getAttribute('type')).toBe('button');
+    });
+
     it('should coerce the disabled property', () => {
-      (menuItem as any).disabled = '';
+      menuItem.disabled = '';
       expect(menuItem.disabled).toBeTrue();
     });
 
@@ -59,6 +65,12 @@ describe('MenuItem', () => {
 
     it('should not have a menu', () => {
       expect(menuItem.hasMenu).toBeFalse();
+    });
+
+    it('should prevent the default selection key action', () => {
+      const event = dispatchKeyboardEvent(nativeButton, 'keydown', ENTER);
+      fixture.detectChanges();
+      expect(event.defaultPrevented).toBe(true);
     });
   });
 

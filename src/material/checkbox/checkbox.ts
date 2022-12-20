@@ -6,26 +6,23 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {FocusableOption, FocusMonitor, FocusOrigin} from '@angular/cdk/a11y';
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {
+  AfterViewInit,
   Attribute,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Directive,
   ElementRef,
   EventEmitter,
   forwardRef,
   Inject,
   Input,
   NgZone,
-  OnDestroy,
   Optional,
   Output,
   ViewChild,
   ViewEncapsulation,
-  Directive,
-  AfterViewInit,
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {
@@ -40,31 +37,13 @@ import {
   mixinTabIndex,
 } from '@angular/material/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
+import {FocusableOption, FocusOrigin} from '@angular/cdk/a11y';
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {
   MAT_CHECKBOX_DEFAULT_OPTIONS,
-  MatCheckboxDefaultOptions,
   MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY,
+  MatCheckboxDefaultOptions,
 } from './checkbox-config';
-
-// Increasing integer for generating unique ids for checkbox components.
-let nextUniqueId = 0;
-
-// Default checkbox configuration.
-const defaults = MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY();
-
-/**
- * Provider Expression that allows mat-checkbox to register as a ControlValueAccessor.
- * This allows it to support [(ngModel)].
- *
- * 一个提供者表达式，可以把 mat-checkbox 注册为 ControlValueAccessor。这可以让它支持 `[(ngModel)]`。
- *
- * @docs-private
- */
-export const MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => MatCheckbox),
-  multi: true,
-};
 
 /**
  * Represents the different states that require custom transitions between them.
@@ -104,15 +83,21 @@ export const enum TransitionCheckState {
   Indeterminate,
 }
 
+export const MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => MatCheckbox),
+  multi: true,
+};
+
 /**
- * Change event object emitted by MatCheckbox.
+ * Change event object emitted by checkbox.
  *
  * MatCheckbox 发出的“更改”事件对象。
  *
  */
 export class MatCheckboxChange {
   /**
-   * The source MatCheckbox of the event.
+   * The source checkbox of the event.
    *
    * 该事件的来源 MatCheckbox。
    *
@@ -126,6 +111,12 @@ export class MatCheckboxChange {
    */
   checked: boolean;
 }
+
+// Increasing integer for generating unique ids for checkbox components.
+let nextUniqueId = 0;
+
+// Default checkbox configuration.
+const defaults = MAT_CHECKBOX_DEFAULT_OPTIONS_FACTORY();
 
 // Boilerplate for applying mixins to MatCheckbox.
 /** @docs-private */
@@ -478,7 +469,7 @@ export abstract class _MatCheckboxBase<E>
     if (oldState === newState || !element) {
       return;
     }
-    if (this._currentAnimationClass.length > 0) {
+    if (this._currentAnimationClass) {
       element.classList.remove(this._currentAnimationClass);
     }
 
@@ -589,7 +580,9 @@ export abstract class _MatCheckboxBase<E>
         if (newState === TransitionCheckState.Checked) {
           return this._animationClasses.uncheckedToChecked;
         } else if (newState == TransitionCheckState.Indeterminate) {
-          return this._animationClasses.uncheckedToIndeterminate;
+          return this._checked
+            ? this._animationClasses.checkedToIndeterminate
+            : this._animationClasses.uncheckedToIndeterminate;
         }
         break;
       case TransitionCheckState.Unchecked:
@@ -631,56 +624,44 @@ export abstract class _MatCheckboxBase<E>
   }
 }
 
-/**
- * A material design checkbox component. Supports all of the functionality of an HTML5 checkbox,
- * and exposes a similar API. A MatCheckbox can be either checked, unchecked, indeterminate, or
- * disabled. Note that all additional accessibility attributes are taken care of by the component,
- * so there is no need to provide them yourself. However, if you want to omit a label and still
- * have the checkbox be accessible, you may supply an [aria-label] input.
- * See: <https://material.io/design/components/selection-controls.html>
- *
- * 一个 Material Design 复选框组件。支持 HTML5 复选框的所有功能，并公开了类似的 API。 MatCheckbox 可以被选中、未选中、不确定或禁用。请注意，所有额外的无障碍化属性都由本组件处理，因此无需你自己提供它们。但是，如果你想省略一个标签并且仍然可以访问该复选框，你可以提供一个 [aria-label] 输入属性。请参阅： [https](https://material.io/design/components/selection-controls.html) ://material.io/design/components/selection-controls.html
- *
- */
 @Component({
   selector: 'mat-checkbox',
   templateUrl: 'checkbox.html',
   styleUrls: ['checkbox.css'],
-  exportAs: 'matCheckbox',
   host: {
-    'class': 'mat-checkbox',
-    '[id]': 'id',
+    'class': 'mat-mdc-checkbox',
     '[attr.tabindex]': 'null',
     '[attr.aria-label]': 'null',
     '[attr.aria-labelledby]': 'null',
-    '[class.mat-checkbox-indeterminate]': 'indeterminate',
-    '[class.mat-checkbox-checked]': 'checked',
-    '[class.mat-checkbox-disabled]': 'disabled',
-    '[class.mat-checkbox-label-before]': 'labelPosition == "before"',
     '[class._mat-animation-noopable]': `_animationMode === 'NoopAnimations'`,
+    '[class.mdc-checkbox--disabled]': 'disabled',
+    '[id]': 'id',
+    // Add classes that users can use to more easily target disabled or checked checkboxes.
+    '[class.mat-mdc-checkbox-disabled]': 'disabled',
+    '[class.mat-mdc-checkbox-checked]': 'checked',
   },
   providers: [MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR],
   inputs: ['disableRipple', 'color', 'tabIndex'],
+  exportAs: 'matCheckbox',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatCheckbox
   extends _MatCheckboxBase<MatCheckboxChange>
-  implements AfterViewInit, OnDestroy
+  implements ControlValueAccessor, CanColor, CanDisable
 {
   protected _animationClasses = {
-    uncheckedToChecked: 'mat-checkbox-anim-unchecked-checked',
-    uncheckedToIndeterminate: 'mat-checkbox-anim-unchecked-indeterminate',
-    checkedToUnchecked: 'mat-checkbox-anim-checked-unchecked',
-    checkedToIndeterminate: 'mat-checkbox-anim-checked-indeterminate',
-    indeterminateToChecked: 'mat-checkbox-anim-indeterminate-checked',
-    indeterminateToUnchecked: 'mat-checkbox-anim-indeterminate-unchecked',
+    uncheckedToChecked: 'mdc-checkbox--anim-unchecked-checked',
+    uncheckedToIndeterminate: 'mdc-checkbox--anim-unchecked-indeterminate',
+    checkedToUnchecked: 'mdc-checkbox--anim-checked-unchecked',
+    checkedToIndeterminate: 'mdc-checkbox--anim-checked-indeterminate',
+    indeterminateToChecked: 'mdc-checkbox--anim-indeterminate-checked',
+    indeterminateToUnchecked: 'mdc-checkbox--anim-indeterminate-unchecked',
   };
 
   constructor(
     elementRef: ElementRef<HTMLElement>,
     changeDetectorRef: ChangeDetectorRef,
-    private _focusMonitor: FocusMonitor,
     ngZone: NgZone,
     @Attribute('tabindex') tabIndex: string,
     @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
@@ -688,7 +669,20 @@ export class MatCheckbox
     @Inject(MAT_CHECKBOX_DEFAULT_OPTIONS)
     options?: MatCheckboxDefaultOptions,
   ) {
-    super('mat-checkbox-', elementRef, changeDetectorRef, ngZone, tabIndex, animationMode, options);
+    super(
+      'mat-mdc-checkbox-',
+      elementRef,
+      changeDetectorRef,
+      ngZone,
+      tabIndex,
+      animationMode,
+      options,
+    );
+  }
+
+  /** Focuses the checkbox. */
+  focus() {
+    this._inputElement.nativeElement.focus();
   }
 
   protected _createChangeEvent(isChecked: boolean) {
@@ -699,56 +693,23 @@ export class MatCheckbox
   }
 
   protected _getAnimationTargetElement() {
-    return this._elementRef.nativeElement;
+    return this._inputElement?.nativeElement;
   }
 
-  override ngAfterViewInit() {
-    super.ngAfterViewInit();
-
-    this._focusMonitor.monitor(this._elementRef, true).subscribe(focusOrigin => {
-      if (!focusOrigin) {
-        this._onBlur();
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this._focusMonitor.stopMonitoring(this._elementRef);
-  }
-
-  /**
-   * Event handler for checkbox input element.
-   * Toggles checked state if element is not disabled.
-   * Do not toggle on (change) event since IE doesn't fire change event when
-   *   indeterminate checkbox is clicked.
-   *
-   * 复选框输入框元素的事件处理程序。如果元素未禁用，则切换选中状态。不要打开（更改）事件，因为当单击未定态复选框时 IE 不会触发更改事件。
-   *
-   * @param event
-   */
-  _onInputClick(event: Event) {
-    // We have to stop propagation for click events on the visual hidden input element.
-    // By default, when a user clicks on a label element, a generated click event will be
-    // dispatched on the associated input element. Since we are using a label element as our
-    // root container, the click event on the `checkbox` will be executed twice.
-    // The real click event will bubble up, and the generated click event also tries to bubble up.
-    // This will lead to multiple click events.
-    // Preventing bubbling for the second event will solve that issue.
-    event.stopPropagation();
+  _onInputClick() {
     super._handleInputClick();
   }
 
   /**
-   * Focuses the checkbox.
-   *
-   * 聚焦复选框。
-   *
+   *  Prevent click events that come from the `<label/>` element from bubbling. This prevents the
+   *  click handler on the host from triggering twice when clicking on the `<label/>` element. After
+   *  the click event on the `<label/>` propagates, the browsers dispatches click on the associated
+   *  `<input/>`. By preventing clicks on the label by bubbling, we ensure only one click event
+   *  bubbles when the label is clicked.
    */
-  focus(origin?: FocusOrigin, options?: FocusOptions): void {
-    if (origin) {
-      this._focusMonitor.focusVia(this._inputElement, origin, options);
-    } else {
-      this._inputElement.nativeElement.focus(options);
+  _preventBubblingFromLabel(event: MouseEvent) {
+    if (!!event.target && this._labelElement.nativeElement.contains(event.target as HTMLElement)) {
+      event.stopPropagation();
     }
   }
 }

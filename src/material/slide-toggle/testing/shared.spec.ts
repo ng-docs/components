@@ -4,7 +4,7 @@ import {Component} from '@angular/core';
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatSlideToggleHarness} from '@angular/material/slide-toggle/testing/slide-toggle-harness';
+import {MatSlideToggleHarness} from '@angular/material/slide-toggle/testing';
 
 /**
  * Shared tests to run on both the original and MDC-based slide-toggles.

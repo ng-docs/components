@@ -1,4 +1,4 @@
-import {Type, Component, ViewChild, ElementRef, Directive} from '@angular/core';
+import {Type, Component, ViewChild, ElementRef, Directive, Provider} from '@angular/core';
 import {ComponentFixture, TestBed, inject, fakeAsync, tick, flush} from '@angular/core/testing';
 import {
   FormsModule,
@@ -10,6 +10,7 @@ import {
   NgModel,
 } from '@angular/forms';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {Directionality} from '@angular/cdk/bidi';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {ErrorStateMatcher, MatNativeDateModule} from '@angular/material/core';
 import {MatDatepickerModule} from './datepicker-module';
@@ -17,7 +18,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {dispatchFakeEvent, dispatchKeyboardEvent} from '../../cdk/testing/private';
 import {FocusMonitor} from '@angular/cdk/a11y';
-import {BACKSPACE} from '@angular/cdk/keycodes';
+import {BACKSPACE, LEFT_ARROW, RIGHT_ARROW} from '@angular/cdk/keycodes';
 import {MatDateRangeInput} from './date-range-input';
 import {MatDateRangePicker} from './date-range-picker';
 import {MatStartDate, MatEndDate} from './date-range-input-parts';
@@ -27,6 +28,7 @@ describe('MatDateRangeInput', () => {
   function createComponent<T>(
     component: Type<T>,
     declarations: Type<any>[] = [],
+    providers: Provider[] = [],
   ): ComponentFixture<T> {
     TestBed.configureTestingModule({
       imports: [
@@ -38,6 +40,7 @@ describe('MatDateRangeInput', () => {
         ReactiveFormsModule,
         MatNativeDateModule,
       ],
+      providers,
       declarations: [component, ...declarations],
     });
 
@@ -50,7 +53,7 @@ describe('MatDateRangeInput', () => {
     const mirror = fixture.nativeElement.querySelector('.mat-date-range-input-mirror');
     const startInput = fixture.componentInstance.start.nativeElement;
 
-    expect(mirror.textContent).toBe('Start date');
+    expect(mirror.textContent).toBe('Start Date');
 
     startInput.value = 'hello';
     dispatchFakeEvent(startInput, 'input');
@@ -66,7 +69,7 @@ describe('MatDateRangeInput', () => {
     dispatchFakeEvent(startInput, 'input');
     fixture.detectChanges();
 
-    expect(mirror.textContent).toBe('Start date');
+    expect(mirror.textContent).toBe('Start Date');
   });
 
   it('should hide the mirror value from assistive technology', () => {
@@ -157,14 +160,14 @@ describe('MatDateRangeInput', () => {
     expect(rangeInput.classList).toContain(hideClass);
   });
 
-  it('should point the label aria-owns to the id of the start input', () => {
+  it('should point the label aria-owns to the <mat-date-range-input/>', () => {
     const fixture = createComponent(StandardRangePicker);
     fixture.detectChanges();
     const label = fixture.nativeElement.querySelector('label');
-    const start = fixture.componentInstance.start.nativeElement;
+    const rangeInput = fixture.componentInstance.rangeInput;
 
-    expect(start.id).toBeTruthy();
-    expect(label.getAttribute('aria-owns')).toBe(start.id);
+    expect(rangeInput.id).toBeTruthy();
+    expect(label.getAttribute('aria-owns')).toBe(rangeInput.id);
   });
 
   it('should point the range input aria-labelledby to the form field label', () => {
@@ -180,7 +183,7 @@ describe('MatDateRangeInput', () => {
   it('should point the range input aria-labelledby to the form field hint element', () => {
     const fixture = createComponent(StandardRangePicker);
     fixture.detectChanges();
-    const labelId = fixture.nativeElement.querySelector('.mat-hint').id;
+    const labelId = fixture.nativeElement.querySelector('.mat-mdc-form-field-hint').id;
     const rangeInput = fixture.nativeElement.querySelector('.mat-date-range-input');
 
     expect(labelId).toBeTruthy();
@@ -200,7 +203,7 @@ describe('MatDateRangeInput', () => {
     const fixture = createComponent(StandardRangePicker);
     fixture.detectChanges();
 
-    const label: HTMLElement = fixture.nativeElement.querySelector('.mat-form-field-label');
+    const label: HTMLElement = fixture.nativeElement.querySelector('label');
     expect(label).toBeTruthy();
     expect(label.getAttribute('id')).toBeTruthy();
 
@@ -414,7 +417,7 @@ describe('MatDateRangeInput', () => {
     const fixture = createComponent(StandardRangePicker);
     fixture.detectChanges();
     const startInput = fixture.componentInstance.start.nativeElement;
-    const formFieldContainer = fixture.nativeElement.querySelector('.mat-form-field-flex');
+    const formFieldContainer = fixture.nativeElement.querySelector('.mat-mdc-text-field-wrapper');
 
     spyOn(startInput, 'focus').and.callThrough();
 
@@ -429,7 +432,7 @@ describe('MatDateRangeInput', () => {
     fixture.detectChanges();
     tick();
     const endInput = fixture.componentInstance.end.nativeElement;
-    const formFieldContainer = fixture.nativeElement.querySelector('.mat-form-field-flex');
+    const formFieldContainer = fixture.nativeElement.querySelector('.mat-mdc-text-field-wrapper');
 
     spyOn(endInput, 'focus').and.callThrough();
 
@@ -539,6 +542,65 @@ describe('MatDateRangeInput', () => {
     ).map(cell => cell.textContent!.trim());
 
     expect(rangeTexts).toEqual(['2', '3', '4', '5']);
+  }));
+
+  it("should have aria-desciredby on start and end date cells that point to the <input/>'s accessible name", fakeAsync(() => {
+    const fixture = createComponent(StandardRangePicker);
+    const {start, end} = fixture.componentInstance.range.controls;
+    let overlayContainerElement: HTMLElement;
+    start.setValue(new Date(2020, 1, 2));
+    end.setValue(new Date(2020, 1, 5));
+    inject([OverlayContainer], (overlayContainer: OverlayContainer) => {
+      overlayContainerElement = overlayContainer.getContainerElement();
+    })();
+    fixture.detectChanges();
+    tick();
+
+    fixture.componentInstance.rangePicker.open();
+    fixture.detectChanges();
+    tick();
+
+    const rangeStart = overlayContainerElement!.querySelector('.mat-calendar-body-range-start');
+    const rangeEnd = overlayContainerElement!.querySelector('.mat-calendar-body-range-end');
+
+    // query for targets of `aria-describedby`. Query from document instead of fixture.nativeElement as calendar UI is rendered in an overlay.
+    const rangeStartDescriptions = Array.from(
+      document.querySelectorAll(
+        rangeStart!
+          .getAttribute('aria-describedby')!
+          .split(/\s+/g)
+          .map(x => `#${x}`)
+          .join(' '),
+      ),
+    );
+    const rangeEndDescriptions = Array.from(
+      document.querySelectorAll(
+        rangeEnd!
+          .getAttribute('aria-describedby')!
+          .split(/\s+/g)
+          .map(x => `#${x}`)
+          .join(' '),
+      ),
+    );
+
+    expect(rangeStartDescriptions)
+      .withContext('target of aria-descriedby should exist')
+      .not.toBeNull();
+    expect(rangeEndDescriptions)
+      .withContext('target of aria-descriedby should exist')
+      .not.toBeNull();
+    expect(
+      rangeStartDescriptions
+        .map(x => x.textContent)
+        .join(' ')
+        .trim(),
+    ).toEqual('Start date');
+    expect(
+      rangeEndDescriptions
+        .map(x => x.textContent)
+        .join(' ')
+        .trim(),
+    ).toEqual('End date');
   }));
 
   it('should pass the comparison range through to the calendar', fakeAsync(() => {
@@ -721,10 +783,102 @@ describe('MatDateRangeInput', () => {
     expect(start.nativeElement.focus).not.toHaveBeenCalled();
   });
 
+  it('moves focus between fields with arrow keys when cursor is at edge (LTR)', () => {
+    const fixture = createComponent(StandardRangePicker);
+    fixture.detectChanges();
+    const {start, end} = fixture.componentInstance;
+
+    start.nativeElement.value = '09/10/2020';
+    end.nativeElement.value = '10/10/2020';
+
+    start.nativeElement.focus();
+    start.nativeElement.setSelectionRange(9, 9);
+    dispatchKeyboardEvent(start.nativeElement, 'keydown', RIGHT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(start.nativeElement);
+
+    start.nativeElement.setSelectionRange(10, 10);
+    dispatchKeyboardEvent(start.nativeElement, 'keydown', LEFT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(start.nativeElement);
+
+    start.nativeElement.setSelectionRange(10, 10);
+    dispatchKeyboardEvent(start.nativeElement, 'keydown', RIGHT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(end.nativeElement);
+
+    end.nativeElement.setSelectionRange(1, 1);
+    dispatchKeyboardEvent(end.nativeElement, 'keydown', LEFT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(end.nativeElement);
+
+    end.nativeElement.setSelectionRange(0, 0);
+    dispatchKeyboardEvent(end.nativeElement, 'keydown', RIGHT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(end.nativeElement);
+
+    end.nativeElement.setSelectionRange(0, 0);
+    dispatchKeyboardEvent(end.nativeElement, 'keydown', LEFT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(start.nativeElement);
+  });
+
+  it('moves focus between fields with arrow keys when cursor is at edge (RTL)', () => {
+    class RTL extends Directionality {
+      override readonly value = 'rtl';
+    }
+    const fixture = createComponent(
+      StandardRangePicker,
+      [],
+      [
+        {
+          provide: Directionality,
+          useFactory: () => new RTL(null),
+        },
+      ],
+    );
+    fixture.detectChanges();
+    const {start, end} = fixture.componentInstance;
+
+    start.nativeElement.value = '09/10/2020';
+    end.nativeElement.value = '10/10/2020';
+
+    start.nativeElement.focus();
+    start.nativeElement.setSelectionRange(9, 9);
+    dispatchKeyboardEvent(start.nativeElement, 'keydown', LEFT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(start.nativeElement);
+
+    start.nativeElement.setSelectionRange(10, 10);
+    dispatchKeyboardEvent(start.nativeElement, 'keydown', RIGHT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(start.nativeElement);
+
+    start.nativeElement.setSelectionRange(10, 10);
+    dispatchKeyboardEvent(start.nativeElement, 'keydown', LEFT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(end.nativeElement);
+
+    end.nativeElement.setSelectionRange(1, 1);
+    dispatchKeyboardEvent(end.nativeElement, 'keydown', RIGHT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(end.nativeElement);
+
+    end.nativeElement.setSelectionRange(0, 0);
+    dispatchKeyboardEvent(end.nativeElement, 'keydown', LEFT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(end.nativeElement);
+
+    end.nativeElement.setSelectionRange(0, 0);
+    dispatchKeyboardEvent(end.nativeElement, 'keydown', RIGHT_ARROW);
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(start.nativeElement);
+  });
+
   it('should be able to get the input placeholder', () => {
     const fixture = createComponent(StandardRangePicker);
     fixture.detectChanges();
-    expect(fixture.componentInstance.rangeInput.placeholder).toBe('Start date – End date');
+    expect(fixture.componentInstance.rangeInput.placeholder).toBe('Start Date – End Date');
   });
 
   it('should emit to the stateChanges stream when typing a value into an input', () => {
@@ -973,9 +1127,13 @@ describe('MatDateRangeInput', () => {
         [dateFilter]="dateFilter"
         [comparisonStart]="comparisonStart"
         [comparisonEnd]="comparisonEnd">
-        <input #start formControlName="start" matStartDate placeholder="Start date"/>
-        <input #end formControlName="end" matEndDate placeholder="End date"/>
+        <input #start formControlName="start" matStartDate aria-label="Start date"
+          placeholder="Start Date"/>
+        <input #end formControlName="end" matEndDate aria-labelledby="end-date-label-1 end-date-label-2"
+          placeholder="End Date"/>
       </mat-date-range-input>
+      <label id='end-date-label-1' class="cdk-visually-hidden">End</label>
+      <label id='end-date-label-2' class="cdk-visually-hidden">date</label>
 
       <mat-date-range-picker
         [startAt]="startAt"

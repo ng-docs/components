@@ -27,7 +27,7 @@ export interface StickyUpdate {
 
 /**
  * If provided, CdkTable will call the methods below when it updates the size/
- * postion/etc of its sticky rows and columns.
+ * position/etc of its sticky rows and columns.
  *
  * 如果提供的话，CdkTable 在更新其粘性行和列的大小/位置等时会调用下面的方法。
  *

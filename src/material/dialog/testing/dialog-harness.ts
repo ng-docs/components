@@ -6,9 +6,14 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ContentContainerComponentHarness, HarnessPredicate, TestKey} from '@angular/cdk/testing';
-import {DialogRole} from '@angular/material/dialog';
+import {
+  ComponentHarnessConstructor,
+  ContentContainerComponentHarness,
+  HarnessPredicate,
+  TestKey,
+} from '@angular/cdk/testing';
 import {DialogHarnessFilters} from './dialog-harness-filters';
+import {DialogRole} from '@angular/material/dialog';
 
 /**
  * Selectors for different sections of the mat-dialog that can contain user content.
@@ -17,9 +22,9 @@ import {DialogHarnessFilters} from './dialog-harness-filters';
  *
  */
 export const enum MatDialogSection {
-  TITLE = '.mat-dialog-title',
-  CONTENT = '.mat-dialog-content',
-  ACTIONS = '.mat-dialog-actions',
+  TITLE = '.mat-mdc-dialog-title',
+  CONTENT = '.mat-mdc-dialog-content',
+  ACTIONS = '.mat-mdc-dialog-actions',
 }
 
 /**
@@ -151,19 +156,16 @@ export class _MatDialogHarnessBase
  *
  */
 export class MatDialogHarness extends _MatDialogHarnessBase {
-  // Developers can provide a custom component or template for the
-  // dialog. The canonical dialog parent is the "MatDialogContainer".
   /**
    * The selector for the host element of a `MatDialog` instance.
    *
    * `MatDialog` 实例的宿主元素的选择器。
    *
    */
-  static hostSelector = '.mat-dialog-container';
+  static hostSelector = '.mat-mdc-dialog-container';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatDialogHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a dialog with specific attributes.
    *
    * 获取可用于搜索满足特定条件的 `HarnessPredicate` 的 `MatDialogHarness` 。
    *
@@ -176,7 +178,10 @@ export class MatDialogHarness extends _MatDialogHarnessBase {
    * 使用给定选项配置的 `HarnessPredicate` 。
    *
    */
-  static with(options: DialogHarnessFilters = {}): HarnessPredicate<MatDialogHarness> {
-    return new HarnessPredicate(MatDialogHarness, options);
+  static with<T extends MatDialogHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: DialogHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 }

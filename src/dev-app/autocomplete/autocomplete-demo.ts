@@ -7,12 +7,11 @@
  */
 
 import {Component, ViewChild} from '@angular/core';
+import {FormControl, NgModel, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {FormControl, FormsModule, NgModel, ReactiveFormsModule} from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -38,7 +37,6 @@ export interface StateGroup {
     MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
-    MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
   ],

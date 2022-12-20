@@ -67,6 +67,7 @@ const DRAG_HOST_CLASS = 'cdk-drag';
 @Directive({
   selector: '[cdkDrag]',
   exportAs: 'cdkDrag',
+  standalone: true,
   host: {
     'class': DRAG_HOST_CLASS,
     '[class.cdk-drag-disabled]': 'disabled',
@@ -184,7 +185,7 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
   /**
    * Function that can be used to customize the logic of how the position of the drag item
    * is limited while it's being dragged. Gets called with a point containing the current position
-   * of the user's pointer on the page, a reference to the item being dragged and its dimenstions.
+   * of the user's pointer on the page, a reference to the item being dragged and its dimensions.
    * Should return a point describing where the item should be rendered.
    *
    * 本函数用于自定义在拖动条目时如何限制其位置的逻辑。使用用户指针在页面上的当前位置进行调用（正在被拖曳的条目的引用及其规格）。要返回描述该条目应该出现在哪里的点。
@@ -193,6 +194,7 @@ export class CdkDrag<T = any> implements AfterViewInit, OnChanges, OnDestroy {
     userPointerPosition: Point,
     dragRef: DragRef,
     dimensions: ClientRect,
+    pickupPositionInElement: Point,
   ) => Point;
 
   /**

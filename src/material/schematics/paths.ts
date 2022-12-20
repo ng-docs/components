@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {join} from 'path';
+import {runfiles} from '@bazel/runfiles';
 
 /**
  * Path to the schematic collection for non-migration schematics.
@@ -14,7 +14,9 @@ import {join} from 'path';
  * 非迁移型原理图集合的路径。
  *
  */
-export const COLLECTION_PATH = join(__dirname, 'collection.json');
+export const COLLECTION_PATH = runfiles.resolveWorkspaceRelative(
+  'src/material/schematics/collection.json',
+);
 
 /**
  * Path to the schematic collection that includes the migrations.
@@ -22,4 +24,6 @@ export const COLLECTION_PATH = join(__dirname, 'collection.json');
  * 包含迁移型原理图集合的路径。
  *
  */
-export const MIGRATION_PATH = join(__dirname, 'migration.json');
+export const MIGRATION_PATH = runfiles.resolveWorkspaceRelative(
+  'src/material/schematics/migration.json',
+);

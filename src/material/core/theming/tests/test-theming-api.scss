@@ -1,8 +1,12 @@
 @use 'sass:map';
 @use '../../density/private/all-density';
+@use '../../../legacy-core/density/private/all-density' as legacy-all-density;
 @use '../../color/all-color';
+@use '../../../legacy-core/color/all-color' as legacy-all-color;
 @use '../../typography/all-typography';
+@use '../../../legacy-core/typography/all-typography' as legacy-all-typography;
 @use '../all-theme';
+@use '../../../legacy-core/theming/all-theme' as legacy-all-theme;
 @use '../../typography/typography';
 @use '../palette';
 @use '../theming';
@@ -59,10 +63,10 @@ $new-api-dark-theme-default-warn: theming.define-dark-theme((
   color: (primary: $primary, accent: $accent)
 ));
 
-$light-theme-only-density: theming.define-light-theme((density: -3));
-$dark-theme-only-density: theming.define-dark-theme((density: -3));
+$light-theme-only-density: theming.define-light-theme((density: -2));
+$dark-theme-only-density: theming.define-dark-theme((density: -2));
 
-$typography-config: typography.define-typography-config();
+$typography-config: all-typography.define-typography-config();
 $light-theme-only-typography: theming.define-light-theme((typography: $typography-config));
 $dark-theme-only-typography: theming.define-dark-theme((typography: $typography-config));
 
@@ -104,9 +108,9 @@ $dark-theme-only-typography: theming.define-dark-theme((typography: $typography-
 // Test which ensures that constructed themes pass through the specified
 // density and typography configurations.
 @mixin test-density-typography-config-pass-through() {
-  @include assert(map.get($light-theme-only-density, density), -3,
+  @include assert(map.get($light-theme-only-density, density), -2,
     'Expected density config to be included in theme.');
-  @include assert(map.get($dark-theme-only-density, density), -3,
+  @include assert(map.get($dark-theme-only-density, density), -2,
     'Expected density config to be included in theme.');
   @include assert(map.get($light-theme-only-typography, typography), $typography-config,
     'Expected typography config to be included in theme.');
@@ -144,7 +148,7 @@ $dark-theme-only-typography: theming.define-dark-theme((typography: $typography-
   $density-config: map.get($light-theme-only-density, density);
   $no-density-light-theme: theming.define-light-theme((density: null));
   $no-density-dark-theme: theming.define-dark-theme((density: null));
-  @include assert(theming.get-density-config($light-theme-only-density), -3,
+  @include assert(theming.get-density-config($light-theme-only-density), -2,
     'Expected that a density config can be read from a theme object.');
   @include assert(theming.get-density-config($light-theme-only-typography), 0,
     'Expected that by default, the density system will be configured.');
@@ -184,6 +188,19 @@ $dark-theme-only-typography: theming.define-dark-theme((typography: $typography-
   @include all-theme.all-component-themes($dark-theme-only-density);
   @include all-theme.all-component-themes($light-theme-only-typography);
   @include all-theme.all-component-themes($dark-theme-only-typography);
+
+  @include legacy-all-theme.all-legacy-component-themes($legacy-light-theme);
+  @include legacy-all-theme.all-legacy-component-themes($legacy-light-theme-default-warn);
+  @include legacy-all-theme.all-legacy-component-themes($legacy-dark-theme);
+  @include legacy-all-theme.all-legacy-component-themes($legacy-dark-theme-default-warn);
+  @include legacy-all-theme.all-legacy-component-themes($new-api-light-theme);
+  @include legacy-all-theme.all-legacy-component-themes($new-api-light-theme-default-warn);
+  @include legacy-all-theme.all-legacy-component-themes($new-api-dark-theme);
+  @include legacy-all-theme.all-legacy-component-themes($new-api-dark-theme-default-warn);
+  @include legacy-all-theme.all-legacy-component-themes($light-theme-only-density);
+  @include legacy-all-theme.all-legacy-component-themes($dark-theme-only-density);
+  @include legacy-all-theme.all-legacy-component-themes($light-theme-only-typography);
+  @include legacy-all-theme.all-legacy-component-themes($dark-theme-only-typography);
 }
 
 // Custom theme mixin used by the custom theme backwards compatibility test.
@@ -249,19 +266,28 @@ $dark-theme-only-typography: theming.define-dark-theme((typography: $typography-
 
   @each $theme in $test-themes {
     @include all-typography.all-component-typographies($theme);
+    @include legacy-all-typography.all-legacy-component-typographies($theme);
     @include all-color.all-component-colors($theme);
+    @include legacy-all-color.all-legacy-component-colors($theme);
     @include all-density.all-component-densities($theme);
+    @include legacy-all-density.all-legacy-component-densities($theme);
   }
 
   @include all-typography.all-component-typographies(
     map.get($light-theme-only-typography, typography));
   @include all-typography.all-component-typographies($light-theme-only-typography);
+  @include legacy-all-typography.all-legacy-component-typographies(
+          map.get($light-theme-only-typography, typography));
+  @include legacy-all-typography.all-legacy-component-typographies($light-theme-only-typography);
 
   @include all-density.all-component-densities(map.get($light-theme-only-density, density));
   @include all-density.all-component-densities($light-theme-only-density);
+  @include legacy-all-density.all-legacy-component-densities(
+          map.get($light-theme-only-density, density));
+  @include legacy-all-density.all-legacy-component-densities($light-theme-only-density);
 
-  @include all-color.all-component-colors(map.get($new-api-dark-theme, color));
-  @include all-color.all-component-colors($new-api-dark-theme);
+  @include legacy-all-color.all-legacy-component-colors(map.get($new-api-dark-theme, color));
+  @include legacy-all-color.all-legacy-component-colors($new-api-dark-theme);
 }
 
 @mixin test-individual-system-mixins-unwrap() {
@@ -272,6 +298,8 @@ $dark-theme-only-typography: theming.define-dark-theme((typography: $typography-
 
   @include all-theme.all-component-themes($new-api-dark-theme);
   @include all-theme.all-component-themes(map.get($new-api-dark-theme, color));
+  @include legacy-all-theme.all-legacy-component-themes($new-api-dark-theme);
+  @include legacy-all-theme.all-legacy-component-themes(map.get($new-api-dark-theme, color));
 }
 
 // Include all tests. Sass will throw if one of the tests fails.

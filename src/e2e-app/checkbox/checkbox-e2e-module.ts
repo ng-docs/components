@@ -8,10 +8,10 @@
 
 import {NgModule} from '@angular/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {SimpleCheckboxes} from './checkbox-e2e';
+import {CheckboxE2e} from './checkbox-e2e';
 
 @NgModule({
   imports: [MatCheckboxModule],
-  declarations: [SimpleCheckboxes],
+  declarations: [CheckboxE2e],
 })
 export class CheckboxE2eModule {}

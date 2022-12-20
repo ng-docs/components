@@ -127,7 +127,7 @@ your own component, it is recommended that the stepper is treated as a tabbed vi
 purposes by giving it a `role="tablist"`. The header of step that can be clicked to select the step
 should be given `role="tab"`, and the content that can be expanded upon selection should be given
 `role="tabpanel"`. Furthermore, the step header should have an `aria-selected` attribute that
-reflects its selected state and the associated content element should have `aria-expanded`.
+reflects its selected state.
 
 除了内置的键盘支持外，步进器不进行任何处理。在实现你自己的组件时，建议将步进器视为无障碍性的选项卡式视图，方法是为其指定 `role="tablist"`。可以点击具有 `role="tab"` 属性的步骤头部来选择此步骤，选择后能展开的内容应该具有 `role="tabpanel"` 属性。此外，步骤标题应该有一个 `aria-selected` 属性来反映它的选择状态，并且相关的内容元素应该有 `aria-expanded` 属性。
 

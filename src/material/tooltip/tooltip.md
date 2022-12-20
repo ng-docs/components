@@ -43,6 +43,12 @@ CSS class that can be used for style (e.g. to add an arrow). The possible classe
 
 <!-- example(tooltip-position) -->
 
+To display the tooltip relative to the mouse or touch that triggered it, use the
+`matTooltipPositionAtOrigin` input.
+With this setting turned on, the tooltip will display relative to the origin of the trigger rather
+than the host element. In cases where the tooltip is not triggered by a touch event or mouse click,
+it will display the same as if this setting was turned off.
+
 ### Showing and hiding
 
 ### 显示与隐藏
@@ -109,9 +115,9 @@ shown.
 ### 无障碍性
 
 `MatTooltip` adds an `aria-describedby` description that provides a reference
-to a visually hidden element containing the tooltip's message. This provides screenreaders the
-information needed to read out the tooltip's contents when the end-user focuses on tooltip's
-trigger. The element referenced by `aria-describedby` is not the tooltip itself,
+to a visually hidden element containing the tooltip's message. This provides screen-readers
+the information needed to read out the tooltip's contents when the end-user focuses on
+tooltip's trigger. The element referenced by `aria-describedby` is not the tooltip itself,
 but instead an invisible copy of the tooltip content that is always present in the DOM.
 
 `MatTooltip` 会添加一个 `aria-describedby` 描述，它指向一个包含提示信息的不可见元素。

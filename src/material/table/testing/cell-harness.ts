@@ -7,50 +7,14 @@
  */
 
 import {
-  HarnessPredicate,
   ComponentHarnessConstructor,
   ContentContainerComponentHarness,
+  HarnessPredicate,
 } from '@angular/cdk/testing';
 import {CellHarnessFilters} from './table-harness-filters';
 
-/**
- * Harness for interacting with a standard Angular Material table cell.
- *
- * 与标准 Angular Material 表的单元格进行交互的测试工具。
- *
- */
-export class MatCellHarness extends ContentContainerComponentHarness {
-  /**
-   * The selector for the host element of a `MatCellHarness` instance.
-   *
-   * `MatCellHarness` 实例的宿主元素选择器。
-   *
-   */
-  static hostSelector = '.mat-cell';
-
-  /**
-   * Gets a `HarnessPredicate` that can be used to search for a table cell with specific attributes.
-   *
-   * 获取一个可用来使用指定属性搜索表格中单元格的 `HarnessPredicate`。
-   *
-   * @param options Options for narrowing the search
-   *
-   * 缩小搜索范围的选项
-   *
-   * @return a `HarnessPredicate` configured with the given options.
-   *
-   * 用指定选项配置过的 `HarnessPredicate` 服务。
-   */
-  static with(options: CellHarnessFilters = {}): HarnessPredicate<MatCellHarness> {
-    return MatCellHarness._getCellPredicate(MatCellHarness, options);
-  }
-
-  /**
-   * Gets the cell's text.
-   *
-   * 获取此单元格的文本。
-   *
-   */
+export abstract class _MatCellHarnessBase extends ContentContainerComponentHarness {
+  /** Gets the cell's text. */
   async getText(): Promise<string> {
     return (await this.host()).text();
   }
@@ -95,23 +59,38 @@ export class MatCellHarness extends ContentContainerComponentHarness {
 }
 
 /**
- * Harness for interacting with a standard Angular Material table header cell.
+ * Harness for interacting with an MDC-based Angular Material table cell. */
+export class MatCellHarness extends _MatCellHarnessBase {
+  /** The selector for the host element of a `MatCellHarness` instance. */
+  static hostSelector = '.mat-mdc-cell';
+
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a table cell with specific attributes.
+   * @param options Options for narrowing the search
+   * @return a `HarnessPredicate` configured with the given options.
+   */
+  static with(options: CellHarnessFilters = {}): HarnessPredicate<MatCellHarness> {
+    return _MatCellHarnessBase._getCellPredicate(this, options);
+  }
+}
+
+/** Harness for interacting with an MDC-based Angular Material table header cell.
  *
  * 与标准 Angular Material 表的标题单元进行交互的测试工具。
  *
  */
-export class MatHeaderCellHarness extends MatCellHarness {
+export class MatHeaderCellHarness extends _MatCellHarnessBase {
   /**
    * The selector for the host element of a `MatHeaderCellHarness` instance.
    *
    * `MatHeaderCellHarness` 实例的宿主元素选择器。
    *
    */
-  static override hostSelector = '.mat-header-cell';
+  static hostSelector = '.mat-mdc-header-cell';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for
-   * a table header cell with specific attributes.
+   * Gets a `HarnessPredicate` that can be used to search for a table header cell with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，用于搜索具有特定属性的表头单元格。
    *
@@ -123,29 +102,29 @@ export class MatHeaderCellHarness extends MatCellHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static override with(options: CellHarnessFilters = {}): HarnessPredicate<MatHeaderCellHarness> {
-    return MatHeaderCellHarness._getCellPredicate(MatHeaderCellHarness, options);
+  static with(options: CellHarnessFilters = {}): HarnessPredicate<MatHeaderCellHarness> {
+    return _MatCellHarnessBase._getCellPredicate(this, options);
   }
 }
 
 /**
- * Harness for interacting with a standard Angular Material table footer cell.
+ * Harness for interacting with an MDC-based Angular Material table footer cell.
  *
  * 与标准 Angular Material 表格的页脚单元进行交互的测试工具。
  *
  */
-export class MatFooterCellHarness extends MatCellHarness {
+export class MatFooterCellHarness extends _MatCellHarnessBase {
   /**
    * The selector for the host element of a `MatFooterCellHarness` instance.
    *
    * `MatFooterCellHarness` 实例的宿主元素选择器。
    *
    */
-  static override hostSelector = '.mat-footer-cell';
+  static hostSelector = '.mat-mdc-footer-cell';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for
-   * a table footer cell with specific attributes.
+   * Gets a `HarnessPredicate` that can be used to search for a table footer cell with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，用于搜索具有特定属性的表格页脚单元格。
    *
@@ -157,7 +136,7 @@ export class MatFooterCellHarness extends MatCellHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static override with(options: CellHarnessFilters = {}): HarnessPredicate<MatFooterCellHarness> {
-    return MatFooterCellHarness._getCellPredicate(MatFooterCellHarness, options);
+  static with(options: CellHarnessFilters = {}): HarnessPredicate<MatFooterCellHarness> {
+    return _MatCellHarnessBase._getCellPredicate(this, options);
   }
 }

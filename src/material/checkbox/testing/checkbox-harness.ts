@@ -6,14 +6,15 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {
   AsyncFactoryFn,
   ComponentHarness,
+  ComponentHarnessConstructor,
   HarnessPredicate,
   TestElement,
 } from '@angular/cdk/testing';
 import {CheckboxHarnessFilters} from './checkbox-harness-filters';
+import {coerceBooleanProperty} from '@angular/cdk/coercion';
 
 export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
   protected abstract _input: AsyncFactoryFn<TestElement>;
@@ -208,27 +209,23 @@ export abstract class _MatCheckboxHarnessBase extends ComponentHarness {
 }
 
 /**
- * Harness for interacting with a standard mat-checkbox in tests.
+ * Harness for interacting with a MDC-based mat-checkbox in tests.
  *
  * 与测试中的标准 mat-checkbox 交互的测试工具。
  *
  */
 export class MatCheckboxHarness extends _MatCheckboxHarnessBase {
-  /**
-   * The selector for the host element of a `MatCheckbox` instance.
-   *
-   * `MatCheckbox` 实例的宿主元素选择器。
-   *
-   */
-  static hostSelector = '.mat-checkbox';
+  static hostSelector = '.mat-mdc-checkbox';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatCheckboxHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a checkbox with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatCheckboxHarness`。
    *
-   * @param options Options for filtering which checkbox instances are considered a match.
+   * @param options Options for narrowing the search:
+   *   - `selector` finds a checkbox whose host element matches the given selector.
+   *   - `label` finds a checkbox with specific label text.
+   *   - `name` finds a checkbox with specific name.
    *
    * 用于过滤哪些复选框实例应该视为匹配项的选项。
    *
@@ -237,9 +234,12 @@ export class MatCheckboxHarness extends _MatCheckboxHarnessBase {
    * 使用给定选项配置过的 `HarnessPredicate`。
    *
    */
-  static with(options: CheckboxHarnessFilters = {}): HarnessPredicate<MatCheckboxHarness> {
+  static with<T extends MatCheckboxHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: CheckboxHarnessFilters = {},
+  ): HarnessPredicate<T> {
     return (
-      new HarnessPredicate(MatCheckboxHarness, options)
+      new HarnessPredicate(this, options)
         .addOption('label', options.label, (harness, label) =>
           HarnessPredicate.stringMatches(harness.getLabelText(), label),
         )
@@ -256,14 +256,18 @@ export class MatCheckboxHarness extends _MatCheckboxHarnessBase {
           options.checked,
           async (harness, checked) => (await harness.isChecked()) == checked,
         )
+        .addOption('disabled', options.disabled, async (harness, disabled) => {
+          return (await harness.isDisabled()) === disabled;
+        })
     );
   }
 
   protected _input = this.locatorFor('input');
-  protected _label = this.locatorFor('.mat-checkbox-label');
-  private _inputContainer = this.locatorFor('.mat-checkbox-inner-container');
+  protected _label = this.locatorFor('label');
+  private _inputContainer = this.locatorFor('.mdc-checkbox');
 
   async toggle(): Promise<void> {
-    return (await this._inputContainer()).click();
+    const elToClick = (await this.isDisabled()) ? this._inputContainer() : this._input();
+    return (await elToClick).click();
   }
 }

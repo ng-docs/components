@@ -5,13 +5,19 @@
 ```ts
 
 import { BaseHarnessFilters } from '@angular/cdk/testing';
+import { ComponentHarnessConstructor } from '@angular/cdk/testing';
 import { ContentContainerComponentHarness } from '@angular/cdk/testing';
 import { HarnessPredicate } from '@angular/cdk/testing';
 
 // @public
 export interface ButtonHarnessFilters extends BaseHarnessFilters {
+    disabled?: boolean;
     text?: string | RegExp;
+    variant?: ButtonVariant;
 }
+
+// @public
+export type ButtonVariant = 'basic' | 'raised' | 'flat' | 'icon' | 'stroked' | 'fab' | 'mini-fab';
 
 // @public
 export class MatButtonHarness extends ContentContainerComponentHarness {
@@ -21,10 +27,12 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
     click(): Promise<void>;
     focus(): Promise<void>;
     getText(): Promise<string>;
+    getVariant(): Promise<ButtonVariant>;
+    // (undocumented)
     static hostSelector: string;
     isDisabled(): Promise<boolean>;
     isFocused(): Promise<boolean>;
-    static with(options?: ButtonHarnessFilters): HarnessPredicate<MatButtonHarness>;
+    static with<T extends MatButtonHarness>(this: ComponentHarnessConstructor<T>, options?: ButtonHarnessFilters): HarnessPredicate<T>;
 }
 
 // (No @packageDocumentation comment for this package)

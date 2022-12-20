@@ -5,8 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {AriaDescriber, FocusMonitor} from '@angular/cdk/a11y';
-import {Directionality} from '@angular/cdk/bidi';
+import {take, takeUntil} from 'rxjs/operators';
 import {
   BooleanInput,
   coerceBooleanProperty,
@@ -14,23 +13,8 @@ import {
   NumberInput,
 } from '@angular/cdk/coercion';
 import {ESCAPE, hasModifierKey} from '@angular/cdk/keycodes';
-import {BreakpointObserver, Breakpoints, BreakpointState} from '@angular/cdk/layout';
 import {
-  FlexibleConnectedPositionStrategy,
-  HorizontalConnectionPos,
-  OriginConnectionPosition,
-  Overlay,
-  OverlayConnectionPosition,
-  OverlayRef,
-  ScrollStrategy,
-  VerticalConnectionPos,
-  ConnectionPositionPair,
-  ConnectedPosition,
-} from '@angular/cdk/overlay';
-import {Platform, normalizePassiveListenerOptions} from '@angular/cdk/platform';
-import {ComponentPortal, ComponentType} from '@angular/cdk/portal';
-import {ScrollDispatcher} from '@angular/cdk/scrolling';
-import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -42,15 +26,31 @@ import {
   NgZone,
   OnDestroy,
   Optional,
+  ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
-  AfterViewInit,
-  ViewChild,
 } from '@angular/core';
 import {DOCUMENT} from '@angular/common';
+import {normalizePassiveListenerOptions, Platform} from '@angular/cdk/platform';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
+import {AriaDescriber, FocusMonitor} from '@angular/cdk/a11y';
+import {Directionality} from '@angular/cdk/bidi';
+import {
+  ComponentType,
+  ConnectedPosition,
+  ConnectionPositionPair,
+  FlexibleConnectedPositionStrategy,
+  HorizontalConnectionPos,
+  OriginConnectionPosition,
+  Overlay,
+  OverlayConnectionPosition,
+  OverlayRef,
+  ScrollDispatcher,
+  ScrollStrategy,
+  VerticalConnectionPos,
+} from '@angular/cdk/overlay';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {Observable, Subject} from 'rxjs';
-import {take, takeUntil} from 'rxjs/operators';
 
 /**
  * Possible positions for a tooltip.
@@ -86,38 +86,6 @@ export type TooltipVisibility = 'initial' | 'visible' | 'hidden';
 export const SCROLL_THROTTLE_MS = 20;
 
 /**
- * CSS class that will be attached to the overlay panel.
- *
- * 那些要附着到浮层面板上的 CSS 类。
- *
- * @deprecated
- * @breaking-change 13.0.0 remove this variable
- *
- * 删除此变量
- *
- */
-export const TOOLTIP_PANEL_CLASS = 'mat-tooltip-panel';
-
-const PANEL_CLASS = 'tooltip-panel';
-
-/**
- * Options used to bind passive event listeners.
- *
- * 用于绑定被动事件监听器的选项。
- *
- */
-const passiveListenerOptions = normalizePassiveListenerOptions({passive: true});
-
-/**
- * Time between the user putting the pointer on a tooltip
- * trigger and the long press event being fired.
- *
- * 用户把指针放在工具提示触发器上的时间与触发长按事件之间的时间。
- *
- */
-const LONGPRESS_DELAY = 500;
-
-/**
  * Creates an error to be thrown if the user supplied an invalid tooltip position.
  *
  * 如果用户提供了无效的工具提示位置，则创建一个要抛出的错误。
@@ -150,12 +118,25 @@ export const MAT_TOOLTIP_SCROLL_STRATEGY_FACTORY_PROVIDER = {
   useFactory: MAT_TOOLTIP_SCROLL_STRATEGY_FACTORY,
 };
 
-/**
- * Default `matTooltip` options that can be overridden.
- *
- * 默认 `matTooltip`，可改写。
- *
- */
+/** @docs-private */
+export function MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(): MatTooltipDefaultOptions {
+  return {
+    showDelay: 0,
+    hideDelay: 0,
+    touchendHideDelay: 1500,
+  };
+}
+
+/** Injection token to be used to override the default options for `matTooltip`. */
+export const MAT_TOOLTIP_DEFAULT_OPTIONS = new InjectionToken<MatTooltipDefaultOptions>(
+  'mat-tooltip-default-options',
+  {
+    providedIn: 'root',
+    factory: MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY,
+  },
+);
+
+/** Default `matTooltip` options that can be overridden. */
 export interface MatTooltipDefaultOptions {
   /**
    * Default delay when the tooltip is shown.
@@ -198,36 +179,39 @@ export interface MatTooltipDefaultOptions {
   position?: TooltipPosition;
 
   /**
-   * Disables the ability for the user to interact with the tooltip element.
-   *
-   * 禁用用户与工具提示元素交互的能力。
-   *
+   * Default value for whether tooltips should be positioned near the click or touch origin
+   * instead of outside the element bounding box.
    */
+  positionAtOrigin?: boolean;
+
+  /** Disables the ability for the user to interact with the tooltip element. */
   disableTooltipInteractivity?: boolean;
 }
 
 /**
- * Injection token to be used to override the default options for `matTooltip`.
- *
- * 这个注入令牌用来改写 `matTooltip` 的默认选项。
- *
+ * CSS class that will be attached to the overlay panel.
+ * @deprecated
+ * @breaking-change 13.0.0 remove this variable
  */
-export const MAT_TOOLTIP_DEFAULT_OPTIONS = new InjectionToken<MatTooltipDefaultOptions>(
-  'mat-tooltip-default-options',
-  {
-    providedIn: 'root',
-    factory: MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY,
-  },
-);
+export const TOOLTIP_PANEL_CLASS = 'mat-mdc-tooltip-panel';
 
-/** @docs-private */
-export function MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(): MatTooltipDefaultOptions {
-  return {
-    showDelay: 0,
-    hideDelay: 0,
-    touchendHideDelay: 1500,
-  };
-}
+const PANEL_CLASS = 'tooltip-panel';
+
+/** Options used to bind passive event listeners. */
+const passiveListenerOptions = normalizePassiveListenerOptions({passive: true});
+
+/**
+ * Time between the user putting the pointer on a tooltip
+ * trigger and the long press event being fired.
+ */
+const LONGPRESS_DELAY = 500;
+
+// These constants were taken from MDC's `numbers` object. We can't import them from MDC,
+// because they have some top-level references to `window` which break during SSR.
+const MIN_VIEWPORT_TOOLTIP_THRESHOLD = 8;
+const UNBOUNDED_ANCHOR_GAP = 8;
+const MIN_HEIGHT = 24;
+const MAX_WIDTH = 200;
 
 @Directive()
 export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
@@ -238,6 +222,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
 
   private _portal: ComponentPortal<T>;
   private _position: TooltipPosition = 'below';
+  private _positionAtOrigin: boolean = false;
   private _disabled: boolean = false;
   private _tooltipClass: string | string[] | Set<string> | {[key: string]: any};
   private _scrollStrategy: () => ScrollStrategy;
@@ -258,6 +243,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   get position(): TooltipPosition {
     return this._position;
   }
+
   set position(value: TooltipPosition) {
     if (value !== this._position) {
       this._position = value;
@@ -270,6 +256,16 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     }
   }
 
+  @Input('matTooltipPositionAtOrigin')
+  get positionAtOrigin(): boolean {
+    return this._positionAtOrigin;
+  }
+  set positionAtOrigin(value: BooleanInput) {
+    this._positionAtOrigin = coerceBooleanProperty(value);
+    this._detach();
+    this._overlayRef = null;
+  }
+
   /**
    * Disables the display of the tooltip.
    *
@@ -280,6 +276,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   get disabled(): boolean {
     return this._disabled;
   }
+
   set disabled(value: BooleanInput) {
     this._disabled = coerceBooleanProperty(value);
 
@@ -301,9 +298,11 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   get showDelay(): number {
     return this._showDelay;
   }
+
   set showDelay(value: NumberInput) {
     this._showDelay = coerceNumberProperty(value);
   }
+
   private _showDelay = this._defaultOptions.showDelay;
 
   /**
@@ -316,6 +315,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   get hideDelay(): number {
     return this._hideDelay;
   }
+
   set hideDelay(value: NumberInput) {
     this._hideDelay = coerceNumberProperty(value);
 
@@ -323,6 +323,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
       this._tooltipInstance._mouseLeaveHideDelay = this._hideDelay;
     }
   }
+
   private _hideDelay = this._defaultOptions.hideDelay;
 
   /**
@@ -363,6 +364,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   get message() {
     return this._message;
   }
+
   set message(value: string) {
     this._ariaDescriber.removeDescription(this._elementRef.nativeElement, this._message, 'tooltip');
 
@@ -387,6 +389,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
       });
     }
   }
+
   private _message = '';
 
   /**
@@ -399,6 +402,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   get tooltipClass() {
     return this._tooltipClass;
   }
+
   set tooltipClass(value: string | string[] | Set<string> | {[key: string]: any}) {
     this._tooltipClass = value;
     if (this._tooltipInstance) {
@@ -459,6 +463,10 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     if (_defaultOptions) {
       if (_defaultOptions.position) {
         this.position = _defaultOptions.position;
+      }
+
+      if (_defaultOptions.positionAtOrigin) {
+        this.positionAtOrigin = _defaultOptions.positionAtOrigin;
       }
 
       if (_defaultOptions.touchGestures) {
@@ -526,18 +534,13 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
    * 要延迟多少毫秒后显示工具提示，默认为 tooltip-delay-show，如果没有输入则默认为 0ms
    *
    */
-  show(delay: number = this.showDelay): void {
-    if (
-      this.disabled ||
-      !this.message ||
-      (this._isTooltipVisible() &&
-        !this._tooltipInstance!._showTimeoutId &&
-        !this._tooltipInstance!._hideTimeoutId)
-    ) {
+  show(delay: number = this.showDelay, origin?: {x: number; y: number}): void {
+    if (this.disabled || !this.message || this._isTooltipVisible()) {
+      this._tooltipInstance?._cancelPendingAnimations();
       return;
     }
 
-    const overlayRef = this._createOverlay();
+    const overlayRef = this._createOverlay(origin);
     this._detach();
     this._portal =
       this._portal || new ComponentPortal(this._tooltipComponent, this._viewContainerRef);
@@ -560,8 +563,15 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
    *
    */
   hide(delay: number = this.hideDelay): void {
-    if (this._tooltipInstance) {
-      this._tooltipInstance.hide(delay);
+    const instance = this._tooltipInstance;
+
+    if (instance) {
+      if (instance.isVisible()) {
+        instance.hide(delay);
+      } else {
+        instance._cancelPendingAnimations();
+        this._detach();
+      }
     }
   }
 
@@ -571,8 +581,8 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
    * 显示/隐藏工具提示
    *
    */
-  toggle(): void {
-    this._isTooltipVisible() ? this.hide() : this.show();
+  toggle(origin?: {x: number; y: number}): void {
+    this._isTooltipVisible() ? this.hide() : this.show(undefined, origin);
   }
 
   /**
@@ -591,9 +601,16 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
    * 创建浮层配置和定位策略
    *
    */
-  private _createOverlay(): OverlayRef {
+  private _createOverlay(origin?: {x: number; y: number}): OverlayRef {
     if (this._overlayRef) {
-      return this._overlayRef;
+      const existingStrategy = this._overlayRef.getConfig()
+        .positionStrategy as FlexibleConnectedPositionStrategy;
+
+      if ((!this.positionAtOrigin || !origin) && existingStrategy._origin instanceof ElementRef) {
+        return this._overlayRef;
+      }
+
+      this._detach();
     }
 
     const scrollableAncestors = this._scrollDispatcher.getAncestorScrollContainers(
@@ -603,7 +620,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     // Create connected position strategy that listens for scroll events to reposition.
     const strategy = this._overlay
       .position()
-      .flexibleConnectedTo(this._elementRef)
+      .flexibleConnectedTo(this.positionAtOrigin ? origin || this._elementRef : this._elementRef)
       .withTransformOriginOn(`.${this._cssClassPrefix}-tooltip`)
       .withFlexibleDimensions(false)
       .withViewportMargin(this._viewportMargin)
@@ -894,9 +911,13 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     if (this._platformSupportsMouseEvents()) {
       this._passiveListeners.push([
         'mouseenter',
-        () => {
+        event => {
           this._setupPointerExitEventsIfNeeded();
-          this.show();
+          let point = undefined;
+          if ((event as MouseEvent).x !== undefined && (event as MouseEvent).y !== undefined) {
+            point = event as MouseEvent;
+          }
+          this.show(undefined, point);
         },
       ]);
     } else if (this.touchGestures !== 'off') {
@@ -904,12 +925,14 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
 
       this._passiveListeners.push([
         'touchstart',
-        () => {
+        event => {
+          const touch = (event as TouchEvent).targetTouches?.[0];
+          const origin = touch ? {x: touch.clientX, y: touch.clientY} : undefined;
           // Note that it's important that we don't `preventDefault` here,
           // because it can prevent click events from firing on the element.
           this._setupPointerExitEventsIfNeeded();
           clearTimeout(this._touchstartTimeout);
-          this._touchstartTimeout = setTimeout(() => this.show(), LONGPRESS_DELAY);
+          this._touchstartTimeout = setTimeout(() => this.show(undefined, origin), LONGPRESS_DELAY);
         },
       ]);
     }
@@ -1030,11 +1053,12 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   selector: '[matTooltip]',
   exportAs: 'matTooltip',
   host: {
-    'class': 'mat-tooltip-trigger',
+    'class': 'mat-mdc-tooltip-trigger',
   },
 })
 export class MatTooltip extends _MatTooltipBase<TooltipComponent> {
-  protected readonly _tooltipComponent = TooltipComponent;
+  protected override readonly _tooltipComponent = TooltipComponent;
+  protected override readonly _cssClassPrefix = 'mat-mdc';
 
   constructor(
     overlay: Overlay,
@@ -1064,6 +1088,24 @@ export class MatTooltip extends _MatTooltipBase<TooltipComponent> {
       defaultOptions,
       _document,
     );
+    this._viewportMargin = MIN_VIEWPORT_TOOLTIP_THRESHOLD;
+  }
+
+  protected override _addOffset(position: ConnectedPosition): ConnectedPosition {
+    const offset = UNBOUNDED_ANCHOR_GAP;
+    const isLtr = !this._dir || this._dir.value == 'ltr';
+
+    if (position.originY === 'top') {
+      position.offsetY = -offset;
+    } else if (position.originY === 'bottom') {
+      position.offsetY = offset;
+    } else if (position.originX === 'start') {
+      position.offsetX = isLtr ? -offset : offset;
+    } else if (position.originX === 'end') {
+      position.offsetX = isLtr ? offset : -offset;
+    }
+
+    return position;
   }
 }
 
@@ -1091,23 +1133,10 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    * 用来显示工具提示的当前定时器的超时 ID
    *
    */
-  _showTimeoutId: number | undefined;
+  private _showTimeoutId: number | undefined;
 
-  /**
-   * The timeout ID of any current timer set to hide the tooltip
-   *
-   * 用来隐藏工具提示的当前定时器的超时 ID
-   *
-   */
-  _hideTimeoutId: number | undefined;
-
-  /**
-   * Property watched by the animation framework to show or hide the tooltip
-   *
-   * 动画框架要监视的属性，以便显示或隐藏工具提示
-   *
-   */
-  _visibility: TooltipVisibility = 'initial';
+  /** The timeout ID of any current timer set to hide the tooltip */
+  private _hideTimeoutId: number | undefined;
 
   /**
    * Element that caused the tooltip to open.
@@ -1249,8 +1278,7 @@ export abstract class _TooltipComponentBase implements OnDestroy {
   }
 
   ngOnDestroy() {
-    clearTimeout(this._showTimeoutId);
-    clearTimeout(this._hideTimeoutId);
+    this._cancelPendingAnimations();
     this._onHide.complete();
     this._triggerElement = null!;
   }
@@ -1283,7 +1311,11 @@ export abstract class _TooltipComponentBase implements OnDestroy {
 
   _handleMouseLeave({relatedTarget}: MouseEvent) {
     if (!relatedTarget || !this._triggerElement.contains(relatedTarget as Node)) {
-      this.hide(this._mouseLeaveHideDelay);
+      if (this.isVisible()) {
+        this.hide(this._mouseLeaveHideDelay);
+      } else {
+        this._finalizeAnimation(false);
+      }
     }
   }
 
@@ -1309,12 +1341,14 @@ export abstract class _TooltipComponentBase implements OnDestroy {
     }
   }
 
-  /**
-   * Handles the cleanup after an animation has finished.
-   *
-   * 在动画完成后处理清理。
-   *
-   */
+  /** Cancels any pending animation sequences. */
+  _cancelPendingAnimations() {
+    clearTimeout(this._showTimeoutId);
+    clearTimeout(this._hideTimeoutId);
+    this._showTimeoutId = this._hideTimeoutId = undefined;
+  }
+
+  /** Handles the cleanup after an animation has finished. */
   private _finalizeAnimation(toVisible: boolean) {
     if (toVisible) {
       this._closeOnInteraction = true;
@@ -1387,28 +1421,35 @@ export abstract class _TooltipComponentBase implements OnDestroy {
   },
 })
 export class TooltipComponent extends _TooltipComponentBase {
-  /**
-   * Stream that emits whether the user has a handset-sized display.
-   *
-   * 发出用户是否具有手机大小的显示器的流。
-   *
-   */
-  _isHandset: Observable<BreakpointState> = this._breakpointObserver.observe(Breakpoints.Handset);
-  _showAnimation = 'mat-tooltip-show';
-  _hideAnimation = 'mat-tooltip-hide';
+  /* Whether the tooltip text overflows to multiple lines */
+  _isMultiline = false;
 
+  /** Reference to the internal tooltip element. */
   @ViewChild('tooltip', {
     // Use a static query here since we interact directly with
     // the DOM which can happen before `ngAfterViewInit`.
     static: true,
   })
   _tooltip: ElementRef<HTMLElement>;
+  _showAnimation = 'mat-mdc-tooltip-show';
+  _hideAnimation = 'mat-mdc-tooltip-hide';
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
-    private _breakpointObserver: BreakpointObserver,
+    private _elementRef: ElementRef<HTMLElement>,
     @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
   ) {
     super(changeDetectorRef, animationMode);
+  }
+
+  protected override _onShow(): void {
+    this._isMultiline = this._isTooltipMultiline();
+    this._markForCheck();
+  }
+
+  /** Whether the tooltip text has overflown to the next line */
+  private _isTooltipMultiline() {
+    const rect = this._elementRef.nativeElement.getBoundingClientRect();
+    return rect.height > MIN_HEIGHT && rect.width >= MAX_WIDTH;
   }
 }

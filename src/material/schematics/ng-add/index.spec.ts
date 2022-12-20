@@ -119,10 +119,7 @@ describe('ng-add schematic', () => {
     const workspace = await getWorkspace(tree);
     const project = getProjectFromWorkspace(workspace, baseOptions.project);
 
-    expectProjectStyleFile(
-      project,
-      './node_modules/@angular/material/prebuilt-themes/indigo-pink.css',
-    );
+    expectProjectStyleFile(project, '@angular/material/prebuilt-themes/indigo-pink.css');
   });
 
   it('should support adding a custom theme', async () => {
@@ -413,8 +410,7 @@ describe('ng-add schematic', () => {
      * 运行 ng-add 时将添加的默认预构建主题文件的路径。
      *
      */
-    const defaultPrebuiltThemePath =
-      './node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+    const defaultPrebuiltThemePath = '@angular/material/prebuilt-themes/indigo-pink.css';
 
     /**
      * Writes a specific style file to the workspace in the given tree
@@ -455,7 +451,7 @@ describe('ng-add schematic', () => {
     }
 
     it('should replace existing prebuilt theme files', async () => {
-      const existingThemePath = './node_modules/@angular/material/prebuilt-themes/purple-green.css';
+      const existingThemePath = '@angular/material/prebuilt-themes/purple-green.css';
       writeStyleFileToWorkspace(appTree, existingThemePath);
 
       const tree = await runner

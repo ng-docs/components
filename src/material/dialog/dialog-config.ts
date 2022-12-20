@@ -9,7 +9,7 @@
 import {ViewContainerRef, ComponentFactoryResolver, Injector} from '@angular/core';
 import {Direction} from '@angular/cdk/bidi';
 import {ScrollStrategy} from '@angular/cdk/overlay';
-import {defaultParams} from './dialog-animations';
+import {_defaultParams} from './dialog-animations';
 
 /**
  * Options for where to set focus to automatically on dialog open
@@ -238,6 +238,9 @@ export class MatDialogConfig<D = any> {
    */
   ariaLabel?: string | null = null;
 
+  /** Whether this is a modal dialog. Used to set the `aria-modal` attribute. */
+  ariaModal?: boolean = true;
+
   /**
    * Where the dialog should focus on open.
    *
@@ -295,20 +298,32 @@ export class MatDialogConfig<D = any> {
   componentFactoryResolver?: ComponentFactoryResolver;
 
   /**
-   * Duration of the enter animation. Has to be a valid CSS value (e.g. 100ms).
+   * Duration of the enter animation in ms.
+   * Should be a number, string type is deprecated.
    *
-   * 进入动画的持续时间。必须是有效的 CSS 值（例如 100 毫秒）。
+   * 进场动画的持续时间，以毫秒为单位。
+   * 应该是一个数字，字符串类型的值已经弃用。
+   *
+   * @breaking-change 17.0.0 Remove string signature.
+   *
+   *17.0.0 会移除字符串型签名。
    *
    */
-  enterAnimationDuration?: string = defaultParams.params.enterAnimationDuration;
+  enterAnimationDuration?: string | number;
 
   /**
-   * Duration of the exit animation. Has to be a valid CSS value (e.g. 50ms).
+   * Duration of the exit animation in ms.
+   * Should be a number, string type is deprecated.
    *
-   * 退出动画的持续时间。必须是有效的 CSS 值（例如 50 毫秒）。
+   * 进场动画的持续时间，以毫秒为单位。
+   * 应该是一个数字，字符串类型的值已经弃用。
+   *
+   * @breaking-change 17.0.0 Remove string signature.
+   *
+   * 17.0.0 会移除字符串型签名。
    *
    */
-  exitAnimationDuration?: string = defaultParams.params.exitAnimationDuration;
+  exitAnimationDuration?: string | number;
 
   // TODO(jelbourn): add configuration for lifecycle hooks, ARIA labelling.
 }

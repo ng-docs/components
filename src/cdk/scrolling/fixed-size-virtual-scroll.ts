@@ -310,6 +310,7 @@ export function _fixedSizeVirtualScrollStrategyFactory(fixedSizeDir: CdkFixedSiz
  */
 @Directive({
   selector: 'cdk-virtual-scroll-viewport[itemSize]',
+  standalone: true,
   providers: [
     {
       provide: VIRTUAL_SCROLL_STRATEGY,

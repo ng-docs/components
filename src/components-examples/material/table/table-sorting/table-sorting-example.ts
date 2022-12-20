@@ -9,7 +9,6 @@ export interface PeriodicElement {
   weight: number;
   symbol: string;
 }
-
 const ELEMENT_DATA: PeriodicElement[] = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
@@ -22,7 +21,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
-
 /**
  * @title Table with sorting
  */

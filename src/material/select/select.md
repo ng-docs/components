@@ -23,7 +23,7 @@ Angular Material 还支持在 `<mat-form-field>` 中使用原生的 `<select>` �
 这种原生控件在性能、无障碍性、可用性等方面具有一系列优点。参见 [form-field 的文档](https://material.angular.cn/components/form-field)以了解详情。
 
 To use a native select inside `<mat-form-field>`, import `MatInputModule` and add the
-`matNativeControl` attribute to the `<select>` element. 
+`matNativeControl` attribute to the `<select>` element.
 
 要在 `<mat-form-field>` 中使用原生 select，请为 `<select>` 元素添加 `matNativeControl` 属性。
 

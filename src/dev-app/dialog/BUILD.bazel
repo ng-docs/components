@@ -24,4 +24,5 @@ ng_module(
 sass_binary(
     name = "dialog_demo_scss",
     src = "dialog-demo.scss",
+    deps = ["//src/material-experimental:sass_lib"],
 )

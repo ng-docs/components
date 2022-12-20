@@ -5,6 +5,7 @@ import * as path from 'path';
 
 import {compareNodes} from '../../../../../tools/postcss/compare-nodes';
 import {createLocalAngularPackageImporter} from '../../../../../tools/sass/local-sass-importer';
+import {pathToFileURL} from 'url';
 
 // Note: For Windows compatibility, we need to resolve the directory paths through runfiles
 // which are guaranteed to reside in the source tree.
@@ -12,6 +13,15 @@ const testDir = path.join(runfiles.resolvePackageRelative('../_all-theme.scss'),
 const packagesDir = path.join(runfiles.resolveWorkspaceRelative('src/cdk/_index.scss'), '../..');
 
 const localPackageSassImporter = createLocalAngularPackageImporter(packagesDir);
+
+const mdcSassImporter = {
+  findFileUrl: (url: string) => {
+    if (url.toString().startsWith('@material')) {
+      return pathToFileURL(path.join(runfiles.resolveWorkspaceRelative('./node_modules'), url));
+    }
+    return null;
+  },
+};
 
 describe('theming api', () => {
   /**
@@ -40,8 +50,8 @@ describe('theming api', () => {
     transpile(`
       $theme: mat-light-theme((
         color: (
-          primary: $mat-red,
-          accent: $mat-red,
+          primary: mat-define-palette($mat-red),
+          accent: mat-define-palette($mat-red),
         )
       ));
 
@@ -56,20 +66,18 @@ describe('theming api', () => {
   });
 
   it('should not warn if color styles and density are not duplicated', () => {
-    spyOn(process.stderr, 'write').and.callThrough();
-
     const parsed = parse(
       transpile(`
       $theme: mat-light-theme((
         color: (
-          primary: $mat-red,
-          accent: $mat-red,
+          primary: mat-define-palette($mat-red),
+          accent: mat-define-palette($mat-red),
         )
       ));
       $theme2: mat-light-theme((
         color: (
-          primary: $mat-red,
-          accent: $mat-blue,
+          primary: mat-define-palette($mat-red),
+          accent: mat-define-palette($mat-blue),
         )
       ));
 
@@ -83,7 +91,27 @@ describe('theming api', () => {
 
     expect(hasDensityStyles(parsed, null)).toBe('all');
     expect(hasDensityStyles(parsed, '.dark-theme')).toBe('none');
-    expect(process.stderr.write).toHaveBeenCalledTimes(0);
+    expectNoWarning(/The same color styles are generated multiple times/);
+  });
+
+  it('should be possible to modify color configuration directly', () => {
+    const result = transpile(`
+      $theme: mat-light-theme((
+        color: (
+          primary: mat-define-palette($mat-red),
+          accent: mat-define-palette($mat-blue),
+        )
+      ));
+
+      // Updates the "icon" foreground color to "canary".
+      $color: map-get($theme, color);
+      $theme: map-merge($color,
+        (foreground: map-merge(map-get($color, foreground), (icon: "canary"))));
+
+      @include angular-material-theme($theme);
+    `);
+
+    expect(result).toContain(': "canary"');
   });
 
   it('should warn if default density styles are duplicated', () => {
@@ -167,105 +195,6 @@ describe('theming api', () => {
     expect(process.stderr.write).toHaveBeenCalledTimes(0);
   });
 
-  describe('legacy API', () => {
-    it('should warn if color styles are duplicated', () => {
-      spyOn(process.stderr, 'write');
-
-      transpile(`
-        $theme: mat-light-theme($mat-red, $mat-blue);
-        @include angular-material-theme($theme);
-        .dark-theme {
-          @include angular-material-theme($theme);
-        }
-      `);
-
-      expectWarning(/The same color styles are generated multiple times/);
-    });
-
-    it('should only generate default density once', () => {
-      const parsed = parse(
-        transpile(`
-        $light-theme: mat-light-theme($mat-red, $mat-blue);
-        $dark-theme: mat-dark-theme($mat-red, $mat-blue);
-        $third-theme: mat-dark-theme($mat-grey, $mat-blue);
-
-        @include angular-material-theme($light-theme);
-
-        .dark-theme {
-          @include angular-material-theme($dark-theme);
-        }
-
-        .third-theme {
-          @include angular-material-theme($third-theme);
-        }
-      `),
-      );
-
-      expect(hasDensityStyles(parsed, null)).toBe('all');
-      expect(hasDensityStyles(parsed, '.dark-theme')).toBe('none');
-      expect(hasDensityStyles(parsed, '.third-theme')).toBe('none');
-    });
-
-    it('should always generate default density at root', () => {
-      const parsed = parse(
-        transpile(`
-        $light-theme: mat-light-theme($mat-red, $mat-blue);
-
-        .my-app-theme {
-          @include angular-material-theme($light-theme);
-        }
-      `),
-      );
-
-      expect(hasDensityStyles(parsed, null)).toBe('all');
-      expect(hasDensityStyles(parsed, '.my-app-theme')).toBe('none');
-    });
-
-    it('not warn if default density would be generated multiple times', () => {
-      spyOn(process.stderr, 'write');
-      transpile(`
-        $light-theme: mat-light-theme($mat-red, $mat-blue);
-        $dark-theme: mat-dark-theme($mat-red, $mat-blue);
-
-        @include angular-material-theme($light-theme);
-        .dark-theme {
-          @include angular-material-theme($dark-theme);
-        }
-      `);
-
-      expect(process.stderr.write).toHaveBeenCalledTimes(0);
-    });
-
-    it('should be possible to modify color configuration directly', () => {
-      const result = transpile(`
-        $theme: mat-light-theme($mat-red, $mat-blue);
-
-        // Updates the "icon" foreground color to "canary".
-        $theme: map-merge($theme,
-          (foreground: map-merge(map-get($theme, foreground), (icon: "canary"))));
-
-        @include angular-material-theme($theme);
-      `);
-
-      expect(result).toContain(': "canary"');
-    });
-
-    it('should be possible to specify palettes by keyword', () => {
-      transpile(`
-        $light-theme: mat-light-theme(
-          $primary: $mat-red,
-          $accent: $mat-blue,
-          $warn: $mat-red,
-        );
-        $dark-theme: mat-dark-theme(
-          $primary: $mat-red,
-          $accent: $mat-blue,
-          $warn: $mat-red,
-        );
-      `);
-    });
-  });
-
   /**
    * Checks whether the given parsed stylesheet contains density styles scoped to
    * a given selector. If the selector is `null`, then density is expected to be
@@ -311,6 +240,7 @@ describe('theming api', () => {
     if (missingDensitySelectors.size === knownDensitySelectors.size) {
       return 'none';
     }
+    console.error('MISSING!!! ', [...missingDensitySelectors].join(','));
     return 'partial';
   }
 
@@ -332,13 +262,27 @@ describe('theming api', () => {
       `,
       {
         loadPaths: [testDir],
-        importers: [localPackageSassImporter],
+        importers: [localPackageSassImporter, mdcSassImporter],
       },
     ).css.toString();
   }
 
+  /** Expects the given warning to be reported in Sass. */
+  function expectWarning(message: RegExp) {
+    expect(getMatchingWarning(message))
+      .withContext('Expected warning to be printed.')
+      .toBeDefined();
+  }
+
+  /** Expects the given warning not to be reported in Sass. */
+  function expectNoWarning(message: RegExp) {
+    expect(getMatchingWarning(message))
+      .withContext('Expected no warning to be printed.')
+      .toBeUndefined();
+  }
+
   /**
-   * Expects the given warning to be reported in Sass. Dart sass directly writes
+   * Gets first instance of the given warning reported in Sass. Dart sass directly writes
    * to the `process.stderr` stream, so we spy on the `stderr.write` method. We
    * cannot expect a specific amount of writes as Sass calls `stderr.write` multiple
    * times for a warning (e.g. spacing and stack trace)
@@ -346,14 +290,11 @@ describe('theming api', () => {
    * 期望在 Sass 中报告给定的警告。 Dart sass 会直接写入 `process.stderr` 流，所以我们窥探 `stderr.write` 方法。我们不能期望它有特定数量的写入，因为 Sass 会对某个警告多次调用 `stderr.write`（例如间距和堆栈跟踪）
    *
    */
-  function expectWarning(message: RegExp) {
+  function getMatchingWarning(message: RegExp) {
     const writeSpy = process.stderr.write as jasmine.Spy;
-    const match = writeSpy.calls
-      .all()
-      .find(
-        (s: jasmine.CallInfo<typeof process.stderr.write>) =>
-          typeof s.args[0] === 'string' && message.test(s.args[0]),
-      );
-    expect(match).withContext('Expected warning to be printed.').toBeDefined();
+    return (writeSpy.calls?.all() ?? []).find(
+      (s: jasmine.CallInfo<typeof process.stderr.write>) =>
+        typeof s.args[0] === 'string' && message.test(s.args[0]),
+    );
   }
 });

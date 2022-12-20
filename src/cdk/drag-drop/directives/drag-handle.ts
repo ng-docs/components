@@ -39,6 +39,7 @@ export const CDK_DRAG_HANDLE = new InjectionToken<CdkDragHandle>('CdkDragHandle'
  */
 @Directive({
   selector: '[cdkDragHandle]',
+  standalone: true,
   host: {
     'class': 'cdk-drag-handle',
   },

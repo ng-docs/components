@@ -1,8 +1,8 @@
-import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {runHarnessTests} from '@angular/material/select/testing/shared.spec';
 import {MatSelectHarness} from './select-harness';
-import {runHarnessTests} from './shared.spec';
 
-describe('Non-MDC-based MatSelectHarness', () => {
+describe('MDC-based MatSelectHarness', () => {
   runHarnessTests(MatFormFieldModule, MatSelectModule, MatSelectHarness);
 });

@@ -15,7 +15,7 @@ import {
 } from 'luxon';
 
 /**
- * Configurable options for {@see LuxonDateAdapter}.
+ * Configurable options for the `LuxonDateAdapter`.
  *
  * {@see LuxonDateAdapter} 的可配置选项。
  *
@@ -24,20 +24,12 @@ export interface MatLuxonDateAdapterOptions {
   /**
    * Turns the use of utc dates on or off.
    * Changing this will change how Angular Material components like DatePicker output dates.
-   * {@default false}
-   *
-   * 打开或关闭 UTC 日期的使用。更改此设置将更改 Angular Material 组件（如 DatePicker）输出日期的方式。 {@default false}
-   *
    */
   useUtc: boolean;
 
   /**
    * Sets the first day of week.
    * Changing this will change how Angular Material components like DatePicker shows start of week.
-   * {@default 0}
-   *
-   * 设置一周的第一天。更改此设置将更改 DatePicker 等 Angular Material 组件显示一周开始的方式。 {@default 0}
-   *
    */
   firstDayOfWeek: number;
 }
@@ -223,7 +215,8 @@ export class LuxonDateAdapter extends DateAdapter<LuxonDateTime> {
     }
     return date
       .setLocale(this.locale)
-      .toFormat(displayFormat, {timeZone: this._useUTC ? 'utc' : undefined});
+      .setZone(this._useUTC ? 'utc' : undefined)
+      .toFormat(displayFormat);
   }
 
   addCalendarYears(date: LuxonDateTime, years: number): LuxonDateTime {

@@ -171,7 +171,7 @@ export class MatSort
 
   /**
    * The direction to set when an MatSortable is initially sorted.
-   * May be overriden by the MatSortable's sort start.
+   * May be overridden by the MatSortable's sort start.
    *
    * 最初对 MatSortable 进行排序时要设置的方向。可以通过 MatSortable 的输入属性 start 来改写它。
    *
@@ -203,7 +203,7 @@ export class MatSort
 
   /**
    * Whether to disable the user from clearing the sort by finishing the sort direction cycle.
-   * May be overriden by the MatSortable's disable clear input.
+   * May be overridden by the MatSortable's disable clear input.
    *
    * 是否通过完成排序方向的循环来禁止用户清除排序。可以通过 MatSortable 的输入属性 disableClear 来改写它。
    *

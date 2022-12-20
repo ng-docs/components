@@ -51,5 +51,8 @@ export interface MatChipTextControl {
    * 让文本控件获得焦点。
    *
    */
-  focus(options?: FocusOptions): void;
+  focus(): void;
+
+  /** Sets the list of ids the input is described by. */
+  setDescribedByIds(ids: string[]): void;
 }

@@ -665,6 +665,9 @@ information about `MAT_DATE_FORMATS`.
 export class MyApp {}
 ```
 
+If you need to work with native `Date` objects, but need custom behavior (for example custom date
+parsing), you can consider subclassing `NativeDateAdapter`.
+
 #### Customizing the parse and display formats
 
 #### 自定义解析和显示格式

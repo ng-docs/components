@@ -201,7 +201,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * 浮层将定位到的原点元素。
    *
    */
-  private _origin: FlexibleConnectedPositionStrategyOrigin;
+  _origin: FlexibleConnectedPositionStrategyOrigin;
 
   /**
    * The overlay pane element.
@@ -370,7 +370,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    *
    *   如果任何位置能完全按原样放置在视口中，请选择第一个适合的位置。
    *
-   * - If flexible dimensions are enabled and at least one satifies the given minimum width/height,
+   * - If flexible dimensions are enabled and at least one satisfies the given minimum width/height,
    *     choose the position with the greatest available size modified by the positions' weight.
    *
    *   如果启用了灵活规格，并且其中至少有一个满足给定的最小宽度/高度，请选择最大的可用规格（根据位置的权重修订）的位置。
@@ -912,7 +912,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 
   /**
    * Gets the point at which the overlay can be "pushed" on-screen. If the overlay is larger than
-   * the viewport, the top-left corner will be pushed on-screen (with overflow occuring on the
+   * the viewport, the top-left corner will be pushed on-screen (with overflow occurring on the
    * right and bottom).
    *
    * 获取可以推到屏幕上的浮层的位置。如果浮层大于视口，则屏幕左上角将被推送到屏幕上（在右侧和底部发生溢出）。
@@ -1017,7 +1017,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 
     // Notify that the position has been changed along with its change properties.
     // We only emit if we've got any subscriptions, because the scroll visibility
-    // calculcations can be somewhat expensive.
+    // calculations can be somewhat expensive.
     if (this._positionChanges.observers.length) {
       const scrollableViewProperties = this._getScrollVisibility();
       const changeEvent = new ConnectedOverlayPositionChange(position, scrollableViewProperties);
@@ -1143,7 +1143,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 
   /**
    * Sets the position and size of the overlay's sizing wrapper. The wrapper is positioned on the
-   * origin's connection point and stetches to the bounds of the viewport.
+   * origin's connection point and stretches to the bounds of the viewport.
    *
    * 设置浮层大小调整器的位置和大小。包装器位于原点的连接点上，并拉伸到视口的边界。
    *
@@ -1481,7 +1481,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   private _getOffset(position: ConnectedPosition, axis: 'x' | 'y') {
     if (axis === 'x') {
       // We don't do something like `position['offset' + axis]` in
-      // order to avoid breking minifiers that rename properties.
+      // order to avoid breaking minifiers that rename properties.
       return position.offsetX == null ? this._offsetX : position.offsetX;
     }
 

@@ -6,38 +6,39 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ActiveDescendantKeyManager} from '@angular/cdk/a11y';
-import {BooleanInput, coerceBooleanProperty, coerceStringArray} from '@angular/cdk/coercion';
-import {Platform} from '@angular/cdk/platform';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChildren,
+  Directive,
   ElementRef,
   EventEmitter,
   Inject,
   InjectionToken,
   Input,
+  OnDestroy,
   Output,
   QueryList,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
-  OnDestroy,
-  Directive,
 } from '@angular/core';
 import {
-  CanDisableRipple,
   MAT_OPTGROUP,
   MAT_OPTION_PARENT_COMPONENT,
-  _MatOptgroupBase,
-  _MatOptionBase,
-  mixinDisableRipple,
-  MatOption,
   MatOptgroup,
+  MatOption,
+  mixinDisableRipple,
+  CanDisableRipple,
+  _MatOptionBase,
+  _MatOptgroupBase,
 } from '@angular/material/core';
+import {ActiveDescendantKeyManager} from '@angular/cdk/a11y';
+import {BooleanInput, coerceBooleanProperty, coerceStringArray} from '@angular/cdk/coercion';
+import {Platform} from '@angular/cdk/platform';
+import {panelAnimation} from './animations';
 import {Subscription} from 'rxjs';
 
 /**
@@ -406,6 +407,7 @@ export abstract class _MatAutocompleteBase
   }
 
   ngOnDestroy() {
+    this._keyManager?.destroy();
     this._activeOptionChanges.unsubscribe();
   }
 
@@ -491,9 +493,10 @@ export abstract class _MatAutocompleteBase
   exportAs: 'matAutocomplete',
   inputs: ['disableRipple'],
   host: {
-    'class': 'mat-autocomplete',
+    'class': 'mat-mdc-autocomplete',
   },
   providers: [{provide: MAT_OPTION_PARENT_COMPONENT, useExisting: MatAutocomplete}],
+  animations: [panelAnimation],
 })
 export class MatAutocomplete extends _MatAutocompleteBase {
   /**
@@ -510,6 +513,6 @@ export class MatAutocomplete extends _MatAutocompleteBase {
    *
    */
   @ContentChildren(MatOption, {descendants: true}) options: QueryList<MatOption>;
-  protected _visibleClass = 'mat-autocomplete-visible';
-  protected _hiddenClass = 'mat-autocomplete-hidden';
+  protected _visibleClass = 'mat-mdc-autocomplete-visible';
+  protected _hiddenClass = 'mat-mdc-autocomplete-hidden';
 }

@@ -54,9 +54,10 @@ export class UpdateProject<Context> {
    *
    * 应该运行的迁移。
    *
-   * @param target Version the project should be updated to.
+   * @param target Version the project should be updated to. Can be `null` if the set of
+   *   specified migrations runs regardless of a target version.
    *
-   * 项目应更新到的版本。
+   *   项目应更新到的版本。如果指定的迁移不用管目标版本，则可以为 `null`。
    *
    * @param data Upgrade data that is passed to all migration rules.
    *
@@ -67,13 +68,20 @@ export class UpdateProject<Context> {
    *
    * 如果未在 Angular 组件中引用，则应迁移的其他样式表。这对于项目中的全局样式表很有帮助。
    *
+   * @param limitToDirectory If specified, changes will be limited to the given directory.
+   *
+   * 如果指定了，则更改将被限定于指定的目录下。
+   *
    */
   migrate<Data>(
     migrationTypes: MigrationCtor<Data, Context>[],
-    target: TargetVersion,
+    target: TargetVersion | null,
     data: Data,
     additionalStylesheetPaths?: string[],
+    limitToDirectory?: string,
   ): {hasFailures: boolean} {
+    limitToDirectory &&= this._fileSystem.resolve(limitToDirectory);
+
     // Create instances of the specified migrations.
     const migrations = this._createMigrations(migrationTypes, target, data);
     // Creates the component resource collector. The collector can visit arbitrary
@@ -82,9 +90,14 @@ export class UpdateProject<Context> {
     const resourceCollector = new ComponentResourceCollector(this._typeChecker, this._fileSystem);
     // Collect all of the TypeScript source files we want to migrate. We don't
     // migrate type definition files, or source files from external libraries.
-    const sourceFiles = this._program
-      .getSourceFiles()
-      .filter(f => !f.isDeclarationFile && !this._program.isSourceFileFromExternalLibrary(f));
+    const sourceFiles = this._program.getSourceFiles().filter(f => {
+      return (
+        !f.isDeclarationFile &&
+        (limitToDirectory == null ||
+          this._fileSystem.resolve(f.fileName).startsWith(limitToDirectory)) &&
+        !this._program.isSourceFileFromExternalLibrary(f)
+      );
+    });
 
     // Helper function that visits a given TypeScript node and collects all referenced
     // component resources (i.e. stylesheets or templates). Additionally, the helper
@@ -138,11 +151,13 @@ export class UpdateProject<Context> {
     if (additionalStylesheetPaths) {
       additionalStylesheetPaths.forEach(filePath => {
         const resolvedPath = this._fileSystem.resolve(filePath);
-        const stylesheet = resourceCollector.resolveExternalStylesheet(resolvedPath, null);
-        // Do not visit stylesheets which have been referenced from a component.
-        if (!this._analyzedFiles.has(resolvedPath) && stylesheet) {
-          migrations.forEach(r => r.visitStylesheet(stylesheet));
-          this._analyzedFiles.add(resolvedPath);
+        if (limitToDirectory == null || resolvedPath.startsWith(limitToDirectory)) {
+          const stylesheet = resourceCollector.resolveExternalStylesheet(resolvedPath, null);
+          // Do not visit stylesheets which have been referenced from a component.
+          if (!this._analyzedFiles.has(resolvedPath) && stylesheet) {
+            migrations.forEach(r => r.visitStylesheet(stylesheet));
+            this._analyzedFiles.add(resolvedPath);
+          }
         }
       });
     }
@@ -178,7 +193,7 @@ export class UpdateProject<Context> {
    */
   private _createMigrations<Data>(
     types: MigrationCtor<Data, Context>[],
-    target: TargetVersion,
+    target: TargetVersion | null,
     data: Data,
   ): Migration<Data, Context>[] {
     const result: Migration<Data, Context>[] = [];
@@ -205,6 +220,11 @@ export class UpdateProject<Context> {
    * to read files and directories through the given file system.
    *
    * 从指定的 tsconfig 创建一个程序，并 patch 宿主以通过给定的文件系统读取文件和目录。
+   *
+   *
+   * @throws {TsconfigParseError} If the tsconfig could not be parsed.
+   *
+   * 如果 tsconfig 无法解析。
    *
    */
   static createProgramFromTsconfig(tsconfigPath: WorkspacePath, fs: FileSystem): ts.Program {

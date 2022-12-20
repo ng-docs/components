@@ -5,22 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Directionality} from '@angular/cdk/bidi';
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {DOWN_ARROW, ENTER, ESCAPE, TAB, UP_ARROW, hasModifierKey} from '@angular/cdk/keycodes';
-import {
-  FlexibleConnectedPositionStrategy,
-  Overlay,
-  OverlayConfig,
-  OverlayRef,
-  PositionStrategy,
-  ScrollStrategy,
-  ConnectedPosition,
-} from '@angular/cdk/overlay';
-import {_getEventTarget} from '@angular/cdk/platform';
-import {TemplatePortal} from '@angular/cdk/portal';
-import {ViewportRuler} from '@angular/cdk/scrolling';
-import {DOCUMENT} from '@angular/common';
+
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -32,51 +17,44 @@ import {
   InjectionToken,
   Input,
   NgZone,
+  OnChanges,
   OnDestroy,
   Optional,
-  ViewContainerRef,
-  OnChanges,
   SimpleChanges,
+  ViewContainerRef,
 } from '@angular/core';
+import {DOCUMENT} from '@angular/common';
+import {Directionality} from '@angular/cdk/bidi';
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {DOWN_ARROW, ENTER, ESCAPE, TAB, UP_ARROW, hasModifierKey} from '@angular/cdk/keycodes';
+import {_getEventTarget} from '@angular/cdk/platform';
+import {TemplatePortal} from '@angular/cdk/portal';
+import {ViewportRuler} from '@angular/cdk/scrolling';
+import {
+  FlexibleConnectedPositionStrategy,
+  Overlay,
+  OverlayConfig,
+  OverlayRef,
+  PositionStrategy,
+  ScrollStrategy,
+  ConnectedPosition,
+} from '@angular/cdk/overlay';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {
+  MatOptionSelectionChange,
   _countGroupLabelsBeforeOption,
   _getOptionScrollPosition,
   _MatOptionBase,
-  MatOptionSelectionChange,
 } from '@angular/material/core';
 import {MAT_FORM_FIELD, MatFormField} from '@angular/material/form-field';
 import {defer, fromEvent, merge, Observable, of as observableOf, Subject, Subscription} from 'rxjs';
 import {delay, filter, map, switchMap, take, tap, startWith} from 'rxjs/operators';
-
-import {
-  _MatAutocompleteBase,
-  MAT_AUTOCOMPLETE_DEFAULT_OPTIONS,
-  MatAutocompleteDefaultOptions,
-} from './autocomplete';
 import {_MatAutocompleteOriginBase} from './autocomplete-origin';
-
-/**
- * Injection token that determines the scroll handling while the autocomplete panel is open.
- *
- * 当自动完成面板打开时，注入令牌决定了滚动处理策略。
- *
- */
-export const MAT_AUTOCOMPLETE_SCROLL_STRATEGY = new InjectionToken<() => ScrollStrategy>(
-  'mat-autocomplete-scroll-strategy',
-);
-
-/** @docs-private */
-export function MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY(overlay: Overlay): () => ScrollStrategy {
-  return () => overlay.scrollStrategies.reposition();
-}
-
-/** @docs-private */
-export const MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY_PROVIDER = {
-  provide: MAT_AUTOCOMPLETE_SCROLL_STRATEGY,
-  deps: [Overlay],
-  useFactory: MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY,
-};
+import {
+  MatAutocompleteDefaultOptions,
+  MAT_AUTOCOMPLETE_DEFAULT_OPTIONS,
+  _MatAutocompleteBase,
+} from './autocomplete';
 
 /**
  * Provider that allows the autocomplete to register as a ControlValueAccessor.
@@ -105,6 +83,28 @@ export function getMatAutocompleteMissingPanelError(): Error {
       "you're attempting to open it after the ngAfterContentInit hook.",
   );
 }
+
+/**
+ * Injection token that determines the scroll handling while the autocomplete panel is open.
+ *
+ * 当自动完成面板打开时，注入令牌决定了滚动处理策略。
+ *
+ */
+export const MAT_AUTOCOMPLETE_SCROLL_STRATEGY = new InjectionToken<() => ScrollStrategy>(
+  'mat-autocomplete-scroll-strategy',
+);
+
+/** @docs-private */
+export function MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY(overlay: Overlay): () => ScrollStrategy {
+  return () => overlay.scrollStrategies.reposition();
+}
+
+/** @docs-private */
+export const MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY_PROVIDER = {
+  provide: MAT_AUTOCOMPLETE_SCROLL_STRATEGY,
+  deps: [Overlay],
+  useFactory: MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY,
+};
 
 /**
  * Base class with all of the `MatAutocompleteTrigger` functionality.
@@ -1012,13 +1012,18 @@ export abstract class _MatAutocompleteTriggerBase
         event.preventDefault();
       }
     });
+
+    // Subscribe to the pointer events stream so that it doesn't get picked up by other overlays.
+    // TODO(crisbeto): we should switch `_getOutsideClickStream` eventually to use this stream,
+    // but the behvior isn't exactly the same and it ends up breaking some internal tests.
+    overlayRef.outsidePointerEvents().subscribe();
   }
 }
 
 @Directive({
   selector: `input[matAutocomplete], textarea[matAutocomplete]`,
   host: {
-    'class': 'mat-autocomplete-trigger',
+    'class': 'mat-mdc-autocomplete-trigger',
     '[attr.autocomplete]': 'autocompleteAttribute',
     '[attr.role]': 'autocompleteDisabled ? null : "combobox"',
     '[attr.aria-autocomplete]': 'autocompleteDisabled ? null : "list"',
@@ -1038,5 +1043,5 @@ export abstract class _MatAutocompleteTriggerBase
   providers: [MAT_AUTOCOMPLETE_VALUE_ACCESSOR],
 })
 export class MatAutocompleteTrigger extends _MatAutocompleteTriggerBase {
-  protected _aboveClass = 'mat-autocomplete-panel-above';
+  protected _aboveClass = 'mat-mdc-autocomplete-panel-above';
 }

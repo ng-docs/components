@@ -1,12 +1,12 @@
 # Each individual package uses a placeholder for the version of Angular to ensure they're
 # all in-sync. This map is passed to each ng_package rule to stamp out the appropriate
 # version for the placeholders.
-ANGULAR_PACKAGE_VERSION = "^14.0.0 || ^15.0.0"
-MDC_PACKAGE_VERSION = "15.0.0-canary.5b40eb988.0"
+ANGULAR_PACKAGE_VERSION = "^15.0.0 || ^16.0.0"
+MDC_PACKAGE_VERSION = "15.0.0-canary.7971d6ad5.0"
 TSLIB_PACKAGE_VERSION = "^2.3.0"
 RXJS_PACKAGE_VERSION = "^6.5.3 || ^7.4.0"
 
-# Each placeholder is used to stamp versions during the build process, replacing the key with it's
+# Each placeholder is used to stamp versions during the build process, replacing the key with its
 # value pair. These replacements occur during building of `npm_package` and `ng_package` stamping in
 # the peer dependencies and versions, primarily in `package.json`s.
 NPM_PACKAGE_SUBSTITUTIONS = {
@@ -29,8 +29,7 @@ NO_STAMP_NPM_PACKAGE_SUBSTITUTIONS = dict(NPM_PACKAGE_SUBSTITUTIONS, **{
 })
 
 # List of MDC packages (used for package externals and for Sass target deps)
-# *Note*: Keep in sync with `/src/material-experimental/package.json` and `/package.json`.
-# TODO: Potentially auto-insert these into the `material-experimental` `package.json`.
+# *Note*: Keep in sync with `/package.json`.
 MDC_PACKAGES = [
     "@material/animation",
     "@material/auto-init",

@@ -4,7 +4,7 @@ import {Component, QueryList, ViewChildren} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {MatListItem, MatListModule} from './index';
 
-describe('MatList', () => {
+describe('MDC-based MatList', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [MatListModule],
@@ -19,24 +19,24 @@ describe('MatList', () => {
         ListWithMultipleItems,
         ListWithManyLines,
         NavListWithOneAnchorItem,
+        NavListWithActivatedItem,
         ActionListWithoutType,
         ActionListWithType,
         ListWithDisabledItems,
+        StandaloneListItem,
       ],
     });
 
     TestBed.compileComponents();
   }));
 
-  it('should not apply any additional class to a list without lines', () => {
+  it('should apply an additional class to lists without lines', () => {
     const fixture = TestBed.createComponent(ListWithOneItem);
     const listItem = fixture.debugElement.query(By.css('mat-list-item'))!;
     fixture.detectChanges();
-    expect(listItem.nativeElement.classList.length).toBe(2);
-    expect(listItem.nativeElement.classList).toContain('mat-list-item');
-
-    // This spec also ensures the focus indicator is present.
-    expect(listItem.nativeElement.classList).toContain('mat-focus-indicator');
+    expect(listItem.nativeElement.classList).toContain('mat-mdc-list-item');
+    expect(listItem.nativeElement.classList).toContain('mdc-list-item');
+    expect(listItem.nativeElement.classList).toContain('mdc-list-item--with-one-line');
   });
 
   it('should apply a particular class to lists with two lines', () => {
@@ -44,8 +44,7 @@ describe('MatList', () => {
     fixture.detectChanges();
 
     const listItems = fixture.debugElement.children[0].queryAll(By.css('mat-list-item'));
-    expect(listItems[0].nativeElement.className).toContain('mat-2-line');
-    expect(listItems[1].nativeElement.className).toContain('mat-2-line');
+    expect(listItems[0].nativeElement.className).toContain('mdc-list-item--with-two-lines');
   });
 
   it('should apply a particular class to lists with three lines', () => {
@@ -53,17 +52,7 @@ describe('MatList', () => {
     fixture.detectChanges();
 
     const listItems = fixture.debugElement.children[0].queryAll(By.css('mat-list-item'));
-    expect(listItems[0].nativeElement.className).toContain('mat-3-line');
-    expect(listItems[1].nativeElement.className).toContain('mat-3-line');
-  });
-
-  it('should apply a particular class to lists with more than 3 lines', () => {
-    const fixture = TestBed.createComponent(ListWithManyLines);
-    fixture.detectChanges();
-
-    const listItems = fixture.debugElement.children[0].queryAll(By.css('mat-list-item'));
-    expect(listItems[0].nativeElement.className).toContain('mat-multi-line');
-    expect(listItems[1].nativeElement.className).toContain('mat-multi-line');
+    expect(listItems[0].nativeElement.className).toContain('mdc-list-item--with-three-lines');
   });
 
   it('should apply a class to list items with avatars', () => {
@@ -71,8 +60,22 @@ describe('MatList', () => {
     fixture.detectChanges();
 
     const listItems = fixture.debugElement.children[0].queryAll(By.css('mat-list-item'));
-    expect(listItems[0].nativeElement.className).toContain('mat-list-item-with-avatar');
-    expect(listItems[1].nativeElement.className).not.toContain('mat-list-item-with-avatar');
+    expect(listItems[0].nativeElement.className).toContain('mdc-list-item--with-leading-avatar');
+    expect(listItems[1].nativeElement.className).not.toContain(
+      'mdc-list-item--with-leading-avatar',
+    );
+  });
+
+  it('should have a strong focus indicator configured for all list-items', () => {
+    const fixture = TestBed.createComponent(ListWithManyLines);
+    fixture.detectChanges();
+    const listItems = fixture.debugElement.children[0]
+      .queryAll(By.css('mat-list-item'))
+      .map(debugEl => debugEl.nativeElement as HTMLElement);
+
+    expect(listItems.every(i => i.querySelector('.mat-mdc-focus-indicator') !== null))
+      .withContext('Expected all list items to have a strong focus indicator element.')
+      .toBe(true);
   });
 
   it('should not clear custom classes provided by user', () => {
@@ -89,17 +92,16 @@ describe('MatList', () => {
     fixture.detectChanges();
 
     const listItem = fixture.debugElement.children[0].query(By.css('mat-list-item'))!;
-    expect(listItem.nativeElement.classList.length).toBe(3);
-    expect(listItem.nativeElement.classList).toContain('mat-2-line');
-    expect(listItem.nativeElement.classList).toContain('mat-list-item');
-    expect(listItem.nativeElement.classList).toContain('mat-focus-indicator');
+    expect(listItem.nativeElement.classList).toContain('mdc-list-item--with-two-lines');
+    expect(listItem.nativeElement.classList).toContain('mat-mdc-list-item');
+    expect(listItem.nativeElement.classList).toContain('mdc-list-item');
 
     fixture.debugElement.componentInstance.showThirdLine = true;
     fixture.detectChanges();
-    expect(listItem.nativeElement.className).toContain('mat-3-line');
+    expect(listItem.nativeElement.className).toContain('mdc-list-item--with-three-lines');
   });
 
-  it('should add aria roles properly', () => {
+  it('should not apply aria roles to mat-list', () => {
     const fixture = TestBed.createComponent(ListWithMultipleItems);
     fixture.detectChanges();
 
@@ -113,14 +115,53 @@ describe('MatList', () => {
       .toBeNull();
   });
 
-  it('should not show ripples for non-nav lists', () => {
+  it('should apply role="navigation" to mat-nav-list', () => {
+    const fixture = TestBed.createComponent(NavListWithOneAnchorItem);
+    fixture.detectChanges();
+
+    const list = fixture.debugElement.children[0];
+    expect(list.nativeElement.getAttribute('role'))
+      .withContext('Expect mat-nav-list to have navigation role')
+      .toBe('navigation');
+  });
+
+  it('should apply role="group" to mat-action-list', () => {
+    const fixture = TestBed.createComponent(ActionListWithoutType);
+    fixture.detectChanges();
+
+    const list = fixture.debugElement.children[0];
+    expect(list.nativeElement.getAttribute('role'))
+      .withContext('Expect mat-action-list to have group role')
+      .toBe('group');
+  });
+
+  it('should apply aria-current="page" to activated list items', () => {
+    const fixture = TestBed.createComponent(NavListWithActivatedItem);
+    fixture.detectChanges();
+
+    const items = fixture.componentInstance.listItems;
+    expect(items.length)
+      .withContext('expected list to have at least two items')
+      .toBeGreaterThanOrEqual(2);
+    const inactiveItem = items.get(0)!._elementRef.nativeElement;
+    const activeItem = items.get(1)!._elementRef.nativeElement;
+
+    expect(inactiveItem.hasAttribute('aria-current')).toBe(false);
+    expect(activeItem.getAttribute('aria-current')).toBe('page');
+  });
+
+  it('should not show ripples for non-nav lists', fakeAsync(() => {
     const fixture = TestBed.createComponent(ListWithOneAnchorItem);
     fixture.detectChanges();
 
     const items: QueryList<MatListItem> = fixture.debugElement.componentInstance.listItems;
     expect(items.length).toBeGreaterThan(0);
-    items.forEach(item => expect(item._isRippleDisabled()).toBe(true));
-  });
+
+    items.forEach(item => {
+      dispatchMouseEvent(item._hostElement, 'mousedown');
+      expect(fixture.nativeElement.querySelector('.mat-ripple-element')).toBe(null);
+    });
+  }));
 
   it('should allow disabling ripples for specific nav-list items', () => {
     const fixture = TestBed.createComponent(NavListWithOneAnchorItem);
@@ -130,12 +171,12 @@ describe('MatList', () => {
     expect(items.length).toBeGreaterThan(0);
 
     // Ripples should be enabled by default, and can be disabled with a binding.
-    items.forEach(item => expect(item._isRippleDisabled()).toBe(false));
+    items.forEach(item => expect(item.rippleDisabled).toBe(false));
 
     fixture.componentInstance.disableItemRipple = true;
     fixture.detectChanges();
 
-    items.forEach(item => expect(item._isRippleDisabled()).toBe(true));
+    items.forEach(item => expect(item.rippleDisabled).toBe(true));
   });
 
   it('should create an action list', () => {
@@ -151,7 +192,7 @@ describe('MatList', () => {
     fixture.detectChanges();
 
     const host = fixture.nativeElement.querySelector('mat-action-list');
-    expect(host.classList).toContain('mat-action-list');
+    expect(host.classList).toContain('mat-mdc-action-list');
   });
 
   it('should enable ripples for action lists by default', () => {
@@ -159,7 +200,7 @@ describe('MatList', () => {
     fixture.detectChanges();
 
     const items = fixture.componentInstance.listItems;
-    expect(items.toArray().every(item => !item._isRippleDisabled())).toBe(true);
+    expect(items.toArray().every(item => !item.rippleDisabled)).toBe(true);
   });
 
   it('should allow disabling ripples for specific action list items', () => {
@@ -169,19 +210,19 @@ describe('MatList', () => {
     const items = fixture.componentInstance.listItems.toArray();
     expect(items.length).toBeGreaterThan(0);
 
-    expect(items.every(item => !item._isRippleDisabled())).toBe(true);
+    expect(items.every(item => !item.rippleDisabled)).toBe(true);
 
     fixture.componentInstance.disableItemRipple = true;
     fixture.detectChanges();
 
-    expect(items.every(item => item._isRippleDisabled())).toBe(true);
+    expect(items.every(item => item.rippleDisabled)).toBe(true);
   });
 
   it('should set default type attribute to button for action list', () => {
     const fixture = TestBed.createComponent(ActionListWithoutType);
     fixture.detectChanges();
 
-    const listItemEl = fixture.debugElement.query(By.css('.mat-list-item'))!;
+    const listItemEl = fixture.debugElement.query(By.css('.mat-mdc-list-item'))!;
     expect(listItemEl.nativeElement.getAttribute('type')).toBe('button');
   });
 
@@ -189,7 +230,7 @@ describe('MatList', () => {
     const fixture = TestBed.createComponent(ActionListWithType);
     fixture.detectChanges();
 
-    const listItemEl = fixture.debugElement.query(By.css('.mat-list-item'))!;
+    const listItemEl = fixture.debugElement.query(By.css('.mat-mdc-list-item'))!;
     expect(listItemEl.nativeElement.getAttribute('type')).toBe('submit');
   });
 
@@ -201,12 +242,12 @@ describe('MatList', () => {
     expect(items.length).toBeGreaterThan(0);
 
     // Ripples should be enabled by default, and can be disabled with a binding.
-    items.forEach(item => expect(item._isRippleDisabled()).toBe(false));
+    items.forEach(item => expect(item.rippleDisabled).toBe(false));
 
     fixture.componentInstance.disableListRipple = true;
     fixture.detectChanges();
 
-    items.forEach(item => expect(item._isRippleDisabled()).toBe(true));
+    items.forEach(item => expect(item.rippleDisabled).toBe(true));
   });
 
   it('should allow disabling ripples for the entire action list', () => {
@@ -216,19 +257,19 @@ describe('MatList', () => {
     const items = fixture.componentInstance.listItems.toArray();
     expect(items.length).toBeGreaterThan(0);
 
-    expect(items.every(item => !item._isRippleDisabled())).toBe(true);
+    expect(items.every(item => !item.rippleDisabled)).toBe(true);
 
     fixture.componentInstance.disableListRipple = true;
     fixture.detectChanges();
 
-    expect(items.every(item => item._isRippleDisabled())).toBe(true);
+    expect(items.every(item => item.rippleDisabled)).toBe(true);
   });
 
   it('should disable item ripples when list ripples are disabled via the input in nav list', fakeAsync(() => {
     const fixture = TestBed.createComponent(NavListWithOneAnchorItem);
     fixture.detectChanges();
 
-    const rippleTarget = fixture.nativeElement.querySelector('.mat-list-item-content');
+    const rippleTarget = fixture.nativeElement.querySelector('.mat-mdc-list-item');
 
     dispatchMouseEvent(rippleTarget, 'mousedown');
     dispatchMouseEvent(rippleTarget, 'mouseup');
@@ -262,7 +303,7 @@ describe('MatList', () => {
     const fixture = TestBed.createComponent(ActionListWithoutType);
     fixture.detectChanges();
 
-    const rippleTarget = fixture.nativeElement.querySelector('.mat-list-item-content');
+    const rippleTarget = fixture.nativeElement.querySelector('.mat-mdc-list-item');
 
     dispatchMouseEvent(rippleTarget, 'mousedown');
     dispatchMouseEvent(rippleTarget, 'mouseup');
@@ -301,7 +342,7 @@ describe('MatList', () => {
 
     expect(
       listItems.map(item => {
-        return item.classList.contains('mat-list-item-disabled');
+        return item.classList.contains('mdc-list-item--disabled');
       }),
     ).toEqual([false, false, false]);
 
@@ -310,7 +351,7 @@ describe('MatList', () => {
 
     expect(
       listItems.map(item => {
-        return item.classList.contains('mat-list-item-disabled');
+        return item.classList.contains('mdc-list-item--disabled');
       }),
     ).toEqual([true, false, false]);
   });
@@ -322,12 +363,19 @@ describe('MatList', () => {
     );
     fixture.detectChanges();
 
-    expect(listItems.every(item => item.classList.contains('mat-list-item-disabled'))).toBe(false);
+    expect(listItems.every(item => item.classList.contains('mdc-list-item--disabled'))).toBe(false);
 
     fixture.componentInstance.listDisabled = true;
     fixture.detectChanges();
 
-    expect(listItems.every(item => item.classList.contains('mat-list-item-disabled'))).toBe(true);
+    expect(listItems.every(item => item.classList.contains('mdc-list-item--disabled'))).toBe(true);
+  });
+
+  it('should allow a list item outside of a list', () => {
+    expect(() => {
+      const fixture = TestBed.createComponent(StandaloneListItem);
+      fixture.detectChanges();
+    }).not.toThrow();
   });
 });
 
@@ -366,6 +414,24 @@ class NavListWithOneAnchorItem extends BaseTestList {
   @ViewChildren(MatListItem) listItems: QueryList<MatListItem>;
   disableItemRipple: boolean = false;
   disableListRipple: boolean = false;
+}
+
+@Component({
+  template: `
+  <mat-nav-list [disableRipple]="disableListRipple">
+    <a *ngFor="let item of items; let index = index" mat-list-item [disableRipple]="disableItemRipple"
+      [activated]="index === activatedIndex">
+      {{item.name}}
+    </a>
+  </mat-nav-list>`,
+})
+class NavListWithActivatedItem extends BaseTestList {
+  @ViewChildren(MatListItem) listItems: QueryList<MatListItem>;
+  disableItemRipple: boolean = false;
+  disableListRipple: boolean = false;
+
+  /** Index of the activated list item in `this.items`. Set to -1 if no item is selected. */
+  activatedIndex = 1;
 }
 
 @Component({
@@ -409,8 +475,8 @@ class ListWithOneItem extends BaseTestList {}
   <mat-list>
     <mat-list-item *ngFor="let item of items">
       <img src="">
-      <h3 mat-line>{{item.name}}</h3>
-      <p mat-line>{{item.description}}</p>
+      <h3 matListItemTitle>{{item.name}}</h3>
+      <p matListItemLine>{{item.description}}</p>
     </mat-list-item>
   </mat-list>`,
 })
@@ -420,9 +486,9 @@ class ListWithTwoLineItem extends BaseTestList {}
   template: `
   <mat-list>
     <mat-list-item *ngFor="let item of items">
-      <h3 mat-line>{{item.name}}</h3>
-      <p mat-line>{{item.description}}</p>
-      <p mat-line>Some other text</p>
+      <h3 matListItemTitle>{{item.name}}</h3>
+      <p matListItemLine>{{item.description}}</p>
+      <p matListItemLine>Some other text</p>
     </mat-list-item>
   </mat-list>`,
 })
@@ -432,10 +498,10 @@ class ListWithThreeLineItem extends BaseTestList {}
   template: `
   <mat-list>
     <mat-list-item *ngFor="let item of items">
-      <h3 mat-line>Line 1</h3>
-      <p mat-line>Line 2</p>
-      <p mat-line>Line 3</p>
-      <p mat-line>Line 4</p>
+      <h3 matListItemTitle>Line 1</h3>
+      <p matListItemLine>Line 2</p>
+      <p matListItemLine>Line 3</p>
+      <p matListItemLine>Line 4</p>
     </mat-list-item>
   </mat-list>`,
 })
@@ -445,7 +511,7 @@ class ListWithManyLines extends BaseTestList {}
   template: `
   <mat-list>
     <mat-list-item>
-      <img src="" mat-list-avatar>
+      <img src="" matListItemAvatar>
       Paprika
     </mat-list-item>
     <mat-list-item>
@@ -459,8 +525,8 @@ class ListWithAvatar extends BaseTestList {}
   template: `
   <mat-list>
     <mat-list-item class="test-class" *ngFor="let item of items">
-      <h3 mat-line>{{item.name}}</h3>
-      <p mat-line>{{item.description}}</p>
+      <h3 matListItemTitle>{{item.name}}</h3>
+      <p matListItemLine>{{item.description}}</p>
     </mat-list-item>
   </mat-list>`,
 })
@@ -470,9 +536,9 @@ class ListWithItemWithCssClass extends BaseTestList {}
   template: `
   <mat-list>
     <mat-list-item *ngFor="let item of items">
-      <h3 mat-line>{{item.name}}</h3>
-      <p mat-line>{{item.description}}</p>
-      <p mat-line *ngIf="showThirdLine">Some other text</p>
+      <h3 matListItemTitle>{{item.name}}</h3>
+      <p matListItemLine>{{item.description}}</p>
+      <p matListItemLine *ngIf="showThirdLine">Some other text</p>
     </mat-list-item>
   </mat-list>`,
 })
@@ -500,3 +566,8 @@ class ListWithDisabledItems {
   firstItemDisabled = false;
   listDisabled = false;
 }
+
+@Component({
+  template: `<mat-list-item></mat-list-item>`,
+})
+class StandaloneListItem {}

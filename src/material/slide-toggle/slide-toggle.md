@@ -51,10 +51,10 @@ slide-toggles use the theme's accent color. This can be changed to `'primary'` o
 
 ### 无障碍性
 
-`MatSlideToggle` uses an internal `<input type="checkbox">` with `role="switch"` to provide an
-accessible experience. This internal checkbox receives focus and is automatically labelled by the
-text content of the `<mat-slide-toggle>` element. Avoid adding other interactive controls into the
-content of `<mat-slide-toggle>`, as this degrades the experience for users of assistive technology.
+`MatSlideToggle` uses an internal `<button role="switch">` to provide an accessible experience. This
+internal button receives focus and is automatically labelled by the text content of the
+`<mat-slide-toggle>` element. Avoid adding other interactive controls into the content of
+`<mat-slide-toggle>`, as this degrades the experience for users of assistive technology.
 
 `MatSlideToggle` 使用带有 `role="switch"` 的内部 `<input type="checkbox">` 来提供无障碍体验。此内部复选框可接收焦点并由 `<mat-slide-toggle>` 元素的文本内容自动标记。尽量不要在 `<mat-slide-toggle>` 的内容中添加其他交互式控件，因为这会降低辅助技术用户的体验。
 

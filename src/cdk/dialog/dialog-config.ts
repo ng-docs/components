@@ -205,7 +205,7 @@ export class DialogConfig<D = unknown, R = unknown, C extends BasePortalOutlet =
   ariaLabel?: string | null = null;
 
   /**
-   * Whether this a modal dialog. Used to set the `aria-modal` attribute.
+   * Whether this is a modal dialog. Used to set the `aria-modal` attribute.
    *
    * 这是否是模态对话框。用于设置 `aria-modal` 属性。
    *

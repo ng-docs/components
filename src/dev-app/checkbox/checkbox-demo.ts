@@ -9,13 +9,11 @@
 import {Component, Directive} from '@angular/core';
 import {MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTIONS} from '@angular/material/checkbox';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
-import {MatPseudoCheckboxModule, ThemePalette} from '@angular/material/core';
-import {CommonModule} from '@angular/common';
-import {CheckboxExamplesModule} from '@angular/components-examples/material/checkbox';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatPseudoCheckboxModule, ThemePalette} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import {CommonModule} from '@angular/common';
 
 export interface Task {
   name: string;
@@ -53,7 +51,7 @@ export class AnimationsNoop {}
     }
   `,
   ],
-  templateUrl: './nested-checklist.html',
+  templateUrl: 'nested-checklist.html',
   standalone: true,
   imports: [CommonModule, MatCheckboxModule, FormsModule],
 })
@@ -102,16 +100,14 @@ export class MatCheckboxDemoNestedChecklist {
 }
 
 @Component({
-  selector: 'mat-checkbox-demo',
+  selector: 'checkbox-demo',
   templateUrl: 'checkbox-demo.html',
   styleUrls: ['checkbox-demo.css'],
   standalone: true,
   imports: [
-    CheckboxExamplesModule,
     CommonModule,
     FormsModule,
     MatCheckboxModule,
-    MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatPseudoCheckboxModule,
@@ -126,7 +122,7 @@ export class CheckboxDemo {
   isIndeterminate: boolean = false;
   isChecked: boolean = false;
   isDisabled: boolean = false;
-  labelPosition: 'after' | 'before' = 'after';
+  labelPosition: 'before' | 'after' = 'after';
   useAlternativeColor: boolean = false;
 
   demoRequired = false;

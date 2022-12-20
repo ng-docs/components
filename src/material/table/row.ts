@@ -62,6 +62,7 @@ export class MatFooterRowDef extends CdkFooterRowDef {}
 })
 export class MatRowDef<T> extends CdkRowDef<T> {}
 
+/** Footer template container that contains the cell outlet. Adds the right class and role. */
 /**
  * Header template container that contains the cell outlet. Adds the right class and role.
  *
@@ -72,7 +73,7 @@ export class MatRowDef<T> extends CdkRowDef<T> {}
   selector: 'mat-header-row, tr[mat-header-row]',
   template: CDK_ROW_TEMPLATE,
   host: {
-    'class': 'mat-header-row',
+    'class': 'mat-mdc-header-row mdc-data-table__header-row',
     'role': 'row',
   },
   // See note on CdkTable for explanation on why this uses the default change detection strategy.
@@ -94,7 +95,7 @@ export class MatHeaderRow extends CdkHeaderRow {}
   selector: 'mat-footer-row, tr[mat-footer-row]',
   template: CDK_ROW_TEMPLATE,
   host: {
-    'class': 'mat-footer-row',
+    'class': 'mat-mdc-footer-row mdc-data-table__row',
     'role': 'row',
   },
   // See note on CdkTable for explanation on why this uses the default change detection strategy.
@@ -116,7 +117,7 @@ export class MatFooterRow extends CdkFooterRow {}
   selector: 'mat-row, tr[mat-row]',
   template: CDK_ROW_TEMPLATE,
   host: {
-    'class': 'mat-row',
+    'class': 'mat-mdc-row mdc-data-table__row',
     'role': 'row',
   },
   // See note on CdkTable for explanation on why this uses the default change detection strategy.
@@ -139,5 +140,5 @@ export class MatRow extends CdkRow {}
   providers: [{provide: CdkNoDataRow, useExisting: MatNoDataRow}],
 })
 export class MatNoDataRow extends CdkNoDataRow {
-  override _contentClassName = 'mat-no-data-row';
+  override _contentClassName = 'mat-mdc-no-data-row';
 }

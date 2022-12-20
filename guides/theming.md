@@ -6,7 +6,7 @@
 
 ## 什么是主题？
 
-Angular Material's theming system lets you customize color and typography styles for components
+Angular Material's theming system lets you customize color, typography, and density styles for components
 in your application. The theming system is based on Google's
 [Material Design][material-design-theming] specification.
 
@@ -121,7 +121,7 @@ $my-palette: mat.$indigo-palette;
 
 ## 主题
 
-A **theme** is a collection of color and typography options. Each theme includes three palettes that
+A **theme** is a collection of color, typography, and density options. Each theme includes three palettes that
 determine component colors:
 
 **主题**是颜色和排版选项的集合。每个主题包括三个确定组件颜色的调色板：
@@ -147,8 +147,8 @@ custom theme with Sass, or by importing a pre-built theme CSS file.
 
 ### 使用 Sass 自定义主题
 
-A **theme file** is a Sass file that calls Angular Material Sass mixins to output color and
-typography CSS styles.
+A **theme file** is a Sass file that calls Angular Material Sass mixins to output color,
+typography, and density CSS styles.
 
 **主题文件**是一个 Sass 文件，它会调用一些 Angular Material 的 Sass mixins 来输出颜色和排版 CSS 样式。
 
@@ -173,8 +173,9 @@ Angular Material 定义了一个名为 `core` 的 mixin，其中包含供多个�
 
 #### 定义主题
 
-Angular Material represents a theme as a Sass map that contains your color and typography
-choices. For more about typography customization, see [Angular Material Typography][mat-typography].
+Angular Material represents a theme as a Sass map that contains your color, typography, and density
+choices. See [Angular Material Typography][mat-typography] for an in-depth guide to customizing typography. See
+[Customizing density](#customizing-density) below for details on adjusting component density.
 
 Angular Material 用 Sass 映射表来表达主题，其中包含你的颜色和排版选择。有关自定义排版的更多信息，请参阅 [Angular Material 排版][mat-typography]。
 
@@ -217,7 +218,9 @@ $my-theme: mat.define-light-theme((
    primary: $my-primary,
    accent: $my-accent,
    warn: $my-warn,
- )
+ ),
+ typography: mat.define-typography-config(),
+ density: 0,
 ));
 ```
 
@@ -230,13 +233,14 @@ components, such as ripples. This mixin must be included once per theme.
 
 Sass mixin `core-theme` 会为多个组件使用的通用功能（例如涟漪）生成先决样式。每个主题必须包含一次这个 mixin。
 
-Each Angular Material component has a "color" mixin that emits the component's color styles and
-a "typography" mixin that emits the component's typography styles.
+Each Angular Material component has a mixin for each color , typography, and density. For example, `MatButton` declares
+`button-color`, `button-typography`, and `button-density`. Each mixin emits only the styles corresponding to that
+area of customization.
 
 每个 Angular Material 组件都有一个生成组件颜色样式的 `color` mixin 和一个生成组件排版样式的 `typography` mixin。
 
-Additionally, each component has a "theme" mixin that emits styles for both color and typography.
-This theme mixin will only emit color or typography styles if you provided a corresponding
+Additionally, each component has a "theme" mixin that emits all styles that depend on the theme config.
+This theme mixin only emits color, typography, or density styles if you provided a corresponding
 configuration to `define-light-theme` or `define-dark-theme`.
 
 此外，每个组件都有一个 `theme` mixin，它会同时生成颜色和排版的样式。如果你为 `define-light-theme` 或 `define-dark-theme` 提供了相应的配置，则这个 `theme` mixin 只会生成颜色或排版样式。
@@ -258,7 +262,8 @@ $my-theme: mat.define-light-theme((
  color: (
    primary: $my-primary,
    accent: $my-accent,
- )
+ ),
+ density: 0,
 ));
 
 // Emit theme-dependent styles for common features used across multiple components.
@@ -274,8 +279,8 @@ $my-theme: mat.define-light-theme((
 
 As an alternative to listing every component that your application uses, Angular Material offers
 Sass mixins that includes styles for all components in the library: `all-component-colors`,
-`all-component-typographies`, and `all-component-themes`. These mixins behave the same as individual
-component mixins, except they emit styles for `core-theme` and _all_ 35+ components in Angular
+`all-component-typographies`, `all-component-densitites`, and `all-component-themes`. These mixins behave the same as
+individual component mixins, except they emit styles for `core-theme` and _all_ 35+ components in Angular
 Material. Unless your application uses every single component, this will produce unnecessary CSS.
 
 除了列出应用程序使用的每个组件之外，Angular Material 还提供了一些 Sass mixins，来为本库中的所有组件包含（`include`）样式： `all-component-colors` 、 `all-component-typographies` 和 `all-component-themes` 。这些 mixin 的行为与供单个组件使用的 mixin 是一样的，除了一点：它们会为 `core-theme` 和 Angular Material 中的*所有* 35+ 个组件生成样式。除非你的应用程序要用到每个组件，否则这将生成一些不必要的 CSS。
@@ -292,7 +297,9 @@ $my-theme: mat.define-light-theme((
  color: (
    primary: $my-primary,
    accent: $my-accent,
- )
+ ),
+ typography: mat.define-typography-config(),
+ density: 0,
 ));
 
 @include mat.all-component-themes($my-theme);
@@ -374,33 +381,33 @@ CSS rule declaration. See the [documentation for Sass mixins][sass-mixins] for f
 
 @include mat.core();
 
-// Define a light theme
-$light-primary: mat.define-palette(mat.$indigo-palette);
-$light-accent: mat.define-palette(mat.$pink-palette);
-$light-theme: mat.define-light-theme((
- color: (
-   primary: $light-primary,
-   accent: $light-accent,
- )
-));
-
 // Define a dark theme
-$dark-primary: mat.define-palette(mat.$pink-palette);
-$dark-accent: mat.define-palette(mat.$blue-grey-palette);
 $dark-theme: mat.define-dark-theme((
  color: (
-   primary: $dark-primary,
-   accent: $dark-accent,
- )
+   primary: mat.define-palette(mat.$pink-palette),
+   accent: mat.define-palette(mat.$blue-grey-palette),
+ ),
+  // Only include `typography` and `density` in the default dark theme.
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// Define a light theme
+$light-theme: mat.define-light-theme((
+ color: (
+   primary: mat.define-palette(mat.$indigo-palette),
+   accent: mat.define-palette(mat.$pink-palette),
+ ),
 ));
 
 // Apply the dark theme by default
 @include mat.core-theme($dark-theme);
 @include mat.button-theme($dark-theme);
 
-// Apply the light theme only when the `.my-light-theme` CSS class is applied
-// to an ancestor element of the components (such as `body`).
-.my-light-theme {
+// Apply the light theme only when the user prefers light themes.
+@media (prefers-color-scheme: light) {
+ // Use the `-color` mixins to only apply color styles without reapplying the same
+ // typography and density styles.
  @include mat.core-color($light-theme);
  @include mat.button-color($light-theme);
 }
@@ -424,7 +431,7 @@ file. The approach for this loading depends on your application.
 ### 应用背景颜色
 
 By default, Angular Material does not apply any styles to your DOM outside
-of its own components. If you want to set your application's background color
+its own components. If you want to set your application's background color
 to match the components' theme, you can either:
 
 默认情况下，Angular Material 不会将任何样式应用到你的 DOM 组件外部。如果想设置应用程序的背景颜色以匹配组件的主题，你可以：
@@ -478,7 +485,7 @@ hue's number identifier with `-contrast`.
 $my-palette: mat.define-palette(mat.$indigo-palette);
 
 .my-custom-style {
- background: mat.get-color-from-palette($my-palette, '500');
+ background: mat.get-color-from-palette($my-palette, 500);
  color: mat.get-color-from-palette($my-palette, '500-contrast');
 }
 ```
@@ -499,6 +506,38 @@ $my-palette: mat.define-palette(mat.$indigo-palette);
 }
 ```
 
+## Customizing density
+
+Angular Material's density customization is based on the
+[Material Design density guidelines](https://m2.material.io/design/layout/applying-density.html). This system
+defines a scale where zero represents the default density. You can decrement the number for _more density_ and increment
+the number for _less density_.
+
+The density system is based on a *density scale*. The scale starts with the
+default density of `0`. Each whole number step down (`-1`, `-2`, etc.) reduces
+the affected sizes by `4px`, down to the minimum size necessary for a component to render coherently.
+
+Components that appear in task-based or pop-up contexts, such as `MatDatepicker`, don't change their size via the
+density system. The [Material Design density guidance](https://m2.material.io/design/layout/applying-density.html)
+explicitly discourages increasing density for such interactions because they don't compete for space in the
+application's layout.
+
+You can apply custom density setting to the entire library or to individual components using their density Sass mixins.
+
+```scss
+// You can set a density setting in your theme to apply to all components.
+$dark-theme: mat.define-dark-theme((
+  color: ...,
+  typography: ...,
+  density: -2,
+));
+
+// Or you can selectively apply the Sass mixin to affect only specific parts of your application.
+.the-dense-zone {
+  @include mat.button-density(-1);
+}
+```
+
 ## Strong focus indicators
 
 ## 强烈焦点指示器
@@ -515,7 +554,7 @@ enable these strong focus indicators via two Sass mixins:
 
 Angular Material 支持在有焦点的元素上渲染高度可见的轮廓。应用程序可以通过两个 Sass mixin 启用这些强烈焦点指示器： `strong-focus-indicators` 和 `strong-focus-indicators-theme` 。
 
-The `strong-focus-indicators` mixin emits structal indicator styles for all components. This mixin
+The `strong-focus-indicators` mixin emits structural indicator styles for all components. This mixin
 should be included exactly once in an application, similar to the `core` mixin described above.
 
 `strong-focus-indicators` mixin 会为所有组件生成结构化指示器样式。这个 mixin 应该在应用程序中只包含一次，类似于上面描述的 `core` mixin。
@@ -613,11 +652,18 @@ Angular Material 假定，默认情况下，所有主题样式都作为全局 CS
 
 [constructable-css]: https://developers.google.com/web/updates/2019/02/constructable-stylesheets
 
+## User preference media queries
+
+Angular Material does not apply styles based on user preference media queries, such as `prefers-color-scheme`
+or `prefers-contrast`. Instead, Angular Material's Sass mixins give you the flexibility to
+apply theme styles to based on the conditions that make the most sense for your users. This may mean using media
+queries directly or reading a saved user preference.
+
 ## Style customization outside the theming system
 
 ## 主题体系之外的风格定制
 
-Angular Material supports customizing color and typography as outlined in this document. Angular
+Angular Material supports customizing color, typography, and density as outlined in this document. Angular
 strongly discourages, and does not directly support, overriding component CSS outside the theming
 APIs described above. Component DOM structure and CSS classes are considered private implementation
 details that may change at any time.

@@ -3,7 +3,7 @@
 # 渲染数据行
 
 The table's primary responsibility is to render rows of cells. The types of rows that may be rendered are header,
-footer, and data rows. This document focuses on how the table tries to efficienctly render the data rows.
+footer, and data rows. This document focuses on how the table tries to efficiently render the data rows.
 
 表格的主要职责是渲染多行上的多个单元格。可以渲染的行类型有表头、表尾和数据行。本文档重点介绍表格要如何高效地渲染数据行。
 

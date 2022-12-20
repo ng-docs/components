@@ -6,7 +6,11 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {HarnessPredicate, ComponentHarness} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {ChipAvatarHarnessFilters} from './chip-harness-filters';
 
 /**
@@ -16,11 +20,11 @@ import {ChipAvatarHarnessFilters} from './chip-harness-filters';
  *
  */
 export class MatChipAvatarHarness extends ComponentHarness {
-  static hostSelector = '.mat-chip-avatar';
+  static hostSelector = '.mat-mdc-chip-avatar';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatChipAvatarHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a chip avatar with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足特定条件的 `MatChipAvatarHarness` 。
    *
@@ -33,7 +37,10 @@ export class MatChipAvatarHarness extends ComponentHarness {
    * 使用给定选项配置过的 `HarnessPredicate` 。
    *
    */
-  static with(options: ChipAvatarHarnessFilters = {}): HarnessPredicate<MatChipAvatarHarness> {
-    return new HarnessPredicate(MatChipAvatarHarness, options);
+  static with<T extends MatChipAvatarHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ChipAvatarHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 }

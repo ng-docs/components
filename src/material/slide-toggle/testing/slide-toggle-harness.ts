@@ -9,6 +9,7 @@
 import {
   AsyncFactoryFn,
   ComponentHarness,
+  ComponentHarnessConstructor,
   HarnessPredicate,
   TestElement,
 } from '@angular/cdk/testing';
@@ -166,30 +167,23 @@ export abstract class _MatSlideToggleHarnessBase extends ComponentHarness {
 }
 
 /**
- * Harness for interacting with a standard mat-slide-toggle in tests.
+ * Harness for interacting with a MDC-based mat-slide-toggle in tests.
  *
  * 在测试中可与标准的 mat-slide-toggle 进行交互的测试工具。
  *
  */
 export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
-  private _inputContainer = this.locatorFor('.mat-slide-toggle-bar');
-  protected _nativeElement = this.locatorFor('input');
+  protected _nativeElement = this.locatorFor('button');
+  static hostSelector = '.mat-mdc-slide-toggle';
 
   /**
-   * The selector for the host element of a `MatSlideToggle` instance.
-   *
-   * `MatSlideToggle` 实例的宿主元素选择器。
-   *
-   */
-  static hostSelector = '.mat-slide-toggle';
-
-  /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatSlideToggleHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a slide-toggle w/ specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatSlideToggleHarness`。
    *
-   * @param options Options for filtering which slide toggle instances are considered a match.
+   * @param options Options for narrowing the search:
+   *   - `selector` finds a slide-toggle whose host element matches the given selector.
+   *   - `label` finds a slide-toggle with specific label text.
    *
    * 用于筛选哪些滑块开关实例应该视为匹配项的选项。
    *
@@ -198,9 +192,12 @@ export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
    * 使用给定选项配置过的 `HarnessPredicate`
    *
    */
-  static with(options: SlideToggleHarnessFilters = {}): HarnessPredicate<MatSlideToggleHarness> {
+  static with<T extends MatSlideToggleHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: SlideToggleHarnessFilters = {},
+  ): HarnessPredicate<T> {
     return (
-      new HarnessPredicate(MatSlideToggleHarness, options)
+      new HarnessPredicate(this, options)
         .addOption('label', options.label, (harness, label) =>
           HarnessPredicate.stringMatches(harness.getLabelText(), label),
         )
@@ -225,24 +222,17 @@ export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
     );
   }
 
-  /**
-   * Toggle the checked state of the slide-toggle.
-   *
-   * 此滑块开关的选中状态。
-   *
-   */
   async toggle(): Promise<void> {
-    return (await this._inputContainer()).click();
+    return (await this._nativeElement()).click();
   }
 
-  /**
-   * Whether the slide-toggle is checked.
-   *
-   * 是否选中滑块开关。
-   *
-   */
+  override async isRequired(): Promise<boolean> {
+    const ariaRequired = await (await this._nativeElement()).getAttribute('aria-required');
+    return ariaRequired === 'true';
+  }
+
   async isChecked(): Promise<boolean> {
-    const checked = (await this._nativeElement()).getProperty<boolean>('checked');
+    const checked = (await this._nativeElement()).getAttribute('aria-checked');
     return coerceBooleanProperty(await checked);
   }
 }

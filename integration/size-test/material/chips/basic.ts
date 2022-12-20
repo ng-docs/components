@@ -7,9 +7,9 @@ import {MatChipsModule} from '@angular/material/chips';
  */
 @Component({
   template: `
-    <mat-chip-list>
-      <mat-chip>First</mat-chip>
-    </mat-chip-list>
+    <mat-chip-listbox>
+      <mat-chip-option>First</mat-chip-option>
+    </mat-chip-listbox>
   `,
 })
 export class TestComponent {}

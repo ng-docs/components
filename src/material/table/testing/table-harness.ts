@@ -13,13 +13,13 @@ import {
   HarnessPredicate,
   parallel,
 } from '@angular/cdk/testing';
-import {TableHarnessFilters, RowHarnessFilters} from './table-harness-filters';
 import {
-  MatRowHarness,
-  MatHeaderRowHarness,
   MatFooterRowHarness,
+  MatHeaderRowHarness,
+  MatRowHarness,
   MatRowHarnessColumnsText,
 } from './row-harness';
+import {RowHarnessFilters, TableHarnessFilters} from './table-harness-filters';
 
 /**
  * Text extracted from a table organized by columns.
@@ -140,7 +140,7 @@ export abstract class _MatTableHarnessBase<
 }
 
 /**
- * Harness for interacting with a standard mat-table in tests.
+ * Harness for interacting with an MDC-based mat-table in tests.
  *
  * 在测试中与标准 mat-table 进行交互的测试工具。
  *
@@ -159,7 +159,7 @@ export class MatTableHarness extends _MatTableHarnessBase<
    * `MatTableHarness` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-table';
+  static hostSelector = '.mat-mdc-table';
   protected _headerRowHarness = MatHeaderRowHarness;
   protected _rowHarness = MatRowHarness;
   protected _footerRowHarness = MatFooterRowHarness;
@@ -178,8 +178,11 @@ export class MatTableHarness extends _MatTableHarnessBase<
    * 使用给定选项配置过的 `HarnessPredicate`
    *
    */
-  static with(options: TableHarnessFilters = {}): HarnessPredicate<MatTableHarness> {
-    return new HarnessPredicate(MatTableHarness, options);
+  static with<T extends MatTableHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: TableHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 }
 

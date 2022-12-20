@@ -22,8 +22,8 @@ import {UpdateRecorder} from './update-recorder';
  *
  * 例如：假设我们在 `/home/&lt;..>/my-project` 下有一个项目。然后，像 `/package.json` 这样的路径实际上引用的是 `my-project` 中的 `package.json` 文件。请注意，在实际文件系统中，这将不匹配。
  *
- * One wonder why another type has been declared for such paths, when there already
- * is the `Path` type provided by the devkit. We do this for a couple of reasons:
+ * One might wonder why another type has been declared for such paths, when there
+ * already is the `Path` type provided by the devkit. We do this for a couple of reasons:
  *
  * 奇怪的是，既然已经有 devkit 提供了 `Path` 类型，为什么要为这种路径声明另一种类型呢？我们这样做有两个原因：
  *

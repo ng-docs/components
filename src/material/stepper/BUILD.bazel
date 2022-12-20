@@ -28,7 +28,6 @@ ng_module(
         "//src/cdk/bidi",
         "//src/cdk/portal",
         "//src/cdk/stepper",
-        "//src/material/button",
         "//src/material/core",
         "//src/material/icon",
         "@npm//@angular/animations",

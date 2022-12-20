@@ -9,7 +9,15 @@
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
 /**
- * A set of criteria that can be used to filter a list of `MatButtonHarness` instances.
+ * Possible button appearances.
+ *
+ * 一些可能的按钮外观。
+ *
+ */
+export type ButtonVariant = 'basic' | 'raised' | 'flat' | 'icon' | 'stroked' | 'fab' | 'mini-fab';
+
+/**
+ * A set of criteria that can be used to filter a list of button harness instances.
  *
  * 一组可以用来过滤 `MatButtonHarness` 实例列表的条件。
  *
@@ -22,4 +30,10 @@ export interface ButtonHarnessFilters extends BaseHarnessFilters {
    *
    */
   text?: string | RegExp;
+
+  /** Only find instances with a variant. */
+  variant?: ButtonVariant;
+
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
 }

@@ -7,27 +7,25 @@
  */
 
 import {coerceNumberProperty} from '@angular/cdk/coercion';
-import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {ProgressBarHarnessFilters} from './progress-bar-harness-filters';
 
 /**
- * Harness for interacting with a standard mat-progress-bar in tests.
+ * Harness for interacting with an MDC-based `mat-progress-bar` in tests.
  *
  * 在测试中用来与标准 mat-progress-bar 进行交互的测试工具。
  *
  */
 export class MatProgressBarHarness extends ComponentHarness {
-  /**
-   * The selector for the host element of a `MatProgressBar` instance.
-   *
-   * `MatProgressBar` 实例的宿主元素选择器。
-   *
-   */
-  static hostSelector = '.mat-progress-bar';
+  static hostSelector = '.mat-mdc-progress-bar';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatProgressBarHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a progress bar with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatProgressBarHarness`。
    *
@@ -39,12 +37,15 @@ export class MatProgressBarHarness extends ComponentHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ProgressBarHarnessFilters = {}): HarnessPredicate<MatProgressBarHarness> {
-    return new HarnessPredicate(MatProgressBarHarness, options);
+  static with<T extends MatProgressBarHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ProgressBarHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 
   /**
-   * Gets the progress bar's value.
+   * Gets a promise for the progress bar's value.
    *
    * 获取此进度条的值。
    *
@@ -56,7 +57,7 @@ export class MatProgressBarHarness extends ComponentHarness {
   }
 
   /**
-   * Gets the progress bar's mode.
+   * Gets a promise for the progress bar's mode.
    *
    * 获取此进度条的模式。
    *

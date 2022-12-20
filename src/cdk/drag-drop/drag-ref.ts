@@ -685,7 +685,7 @@ export class DragRef<T = any> {
   /**
    * Function that can be used to customize the logic of how the position of the drag item
    * is limited while it's being dragged. Gets called with a point containing the current position
-   * of the user's pointer on the page, a reference to the item being dragged and its dimenstions.
+   * of the user's pointer on the page, a reference to the item being dragged and its dimensions.
    * Should return a point describing where the item should be rendered.
    *
    * 本函数用于自定义在拖动条目时如何限制其位置的逻辑。使用用户指针在页面上的当前位置进行调用（正在被拖曳的条目的引用及其规格）。要返回描述该条目应该出现在哪里的点。
@@ -695,6 +695,7 @@ export class DragRef<T = any> {
     userPointerPosition: Point,
     dragRef: DragRef,
     dimensions: ClientRect,
+    pickupPositionInElement: Point,
   ) => Point;
 
   constructor(
@@ -1113,7 +1114,7 @@ export class DragRef<T = any> {
       const isOverThreshold = distanceX + distanceY >= this._config.dragStartThreshold;
 
       // Only start dragging after the user has moved more than the minimum distance in either
-      // direction. Note that this is preferrable over doing something like `skip(minimumDistance)`
+      // direction. Note that this is preferable over doing something like `skip(minimumDistance)`
       // in the `pointerMove` subscription, because we're not guaranteed to have one move event
       // per pixel of movement (e.g. if the user moves their pointer quickly).
       if (isOverThreshold) {
@@ -1451,6 +1452,7 @@ export class DragRef<T = any> {
         isPointerOverContainer,
         distance,
         pointerPosition,
+        event,
       );
       this._dropContainer = this._initialContainer;
     });
@@ -1756,7 +1758,7 @@ export class DragRef<T = any> {
   private _getConstrainedPointerPosition(point: Point): Point {
     const dropContainerLock = this._dropContainer ? this._dropContainer.lockAxis : null;
     let {x, y} = this.constrainPosition
-      ? this.constrainPosition(point, this, this._initialClientRect!)
+      ? this.constrainPosition(point, this, this._initialClientRect!, this._pickupPositionInElement)
       : point;
 
     if (this.lockAxis === 'x' || dropContainerLock === 'x') {

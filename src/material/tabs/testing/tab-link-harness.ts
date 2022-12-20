@@ -6,11 +6,15 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {TabLinkHarnessFilters} from './tab-harness-filters';
 
 /**
- * Harness for interacting with a standard Angular Material tab link in tests.
+ * Harness for interacting with an MDC-based Angular Material tab link in tests.
  *
  * 在测试中可与标准 Angular Material 选项卡链接进行交互的测试工具。
  *
@@ -22,11 +26,10 @@ export class MatTabLinkHarness extends ComponentHarness {
    * `MatTabLink` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-tab-link';
+  static hostSelector = '.mat-mdc-tab-link';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatTabLinkHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a tab link with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatTabLinkHarness`。
    *
@@ -38,11 +41,12 @@ export class MatTabLinkHarness extends ComponentHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: TabLinkHarnessFilters = {}): HarnessPredicate<MatTabLinkHarness> {
-    return new HarnessPredicate(MatTabLinkHarness, options).addOption(
-      'label',
-      options.label,
-      (harness, label) => HarnessPredicate.stringMatches(harness.getLabel(), label),
+  static with<T extends MatTabLinkHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: TabLinkHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption('label', options.label, (harness, label) =>
+      HarnessPredicate.stringMatches(harness.getLabel(), label),
     );
   }
 
@@ -64,7 +68,7 @@ export class MatTabLinkHarness extends ComponentHarness {
    */
   async isActive(): Promise<boolean> {
     const host = await this.host();
-    return host.hasClass('mat-tab-label-active');
+    return host.hasClass('mdc-tab--active');
   }
 
   /**
@@ -75,7 +79,7 @@ export class MatTabLinkHarness extends ComponentHarness {
    */
   async isDisabled(): Promise<boolean> {
     const host = await this.host();
-    return host.hasClass('mat-tab-disabled');
+    return host.hasClass('mat-mdc-tab-disabled');
   }
 
   /**

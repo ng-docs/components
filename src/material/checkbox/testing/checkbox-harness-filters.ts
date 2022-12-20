@@ -36,4 +36,6 @@ export interface CheckboxHarnessFilters extends BaseHarnessFilters {
    *
    */
   checked?: boolean;
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
 }

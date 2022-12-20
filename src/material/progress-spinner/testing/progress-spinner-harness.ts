@@ -7,12 +7,16 @@
  */
 
 import {coerceNumberProperty} from '@angular/cdk/coercion';
-import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {ProgressSpinnerMode} from '@angular/material/progress-spinner';
 import {ProgressSpinnerHarnessFilters} from './progress-spinner-harness-filters';
 
 /**
- * Harness for interacting with a standard mat-progress-spinner in tests.
+ * Harness for interacting with a MDC based mat-progress-spinner in tests.
  *
  * 在测试中用来与标准 mat-progress-spinner 进行交互的测试工具。
  *
@@ -24,11 +28,11 @@ export class MatProgressSpinnerHarness extends ComponentHarness {
    * `MatProgressSpinner` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-progress-spinner';
+  static hostSelector = '.mat-mdc-progress-spinner';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatProgressSpinnerHarness` that
-   * meets certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a progress spinnner with specific
+   * attributes.
    *
    * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatProgressSpinnerHarness`。
    *
@@ -40,10 +44,11 @@ export class MatProgressSpinnerHarness extends ComponentHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(
+  static with<T extends MatProgressSpinnerHarness>(
+    this: ComponentHarnessConstructor<T>,
     options: ProgressSpinnerHarnessFilters = {},
-  ): HarnessPredicate<MatProgressSpinnerHarness> {
-    return new HarnessPredicate(MatProgressSpinnerHarness, options);
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options);
   }
 
   /**

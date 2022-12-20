@@ -101,7 +101,7 @@ export class ScrollDispatcher implements OnDestroy {
   }
 
   /**
-   * Deregisters a Scrollable reference and unsubscribes from its scroll event observable.
+   * De-registers a Scrollable reference and unsubscribes from its scroll event observable.
    *
    * 注销一个可滚动对象的引用，并从它的 scroll 事件的可观察对象中取消订阅。
    *

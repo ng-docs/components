@@ -302,3 +302,33 @@
     </mat-date-range-picker>
   </mat-form-field>
 </div>
+
+<h2>With custom icon</h2>
+<p>
+  <mat-form-field appearance="fill">
+    <mat-label>Custom icon</mat-label>
+    <input matInput [matDatepicker]="ci1">
+    <mat-datepicker-toggle matSuffix [for]="ci1">
+      <mat-icon matDatepickerToggleIcon>add</mat-icon>
+    </mat-datepicker-toggle>
+    <mat-datepicker #ci1></mat-datepicker>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline">
+    <mat-label>Custom icon</mat-label>
+    <input matInput [matDatepicker]="ci2">
+    <mat-datepicker-toggle matSuffix [for]="ci2">
+      <mat-icon matDatepickerToggleIcon>add</mat-icon>
+    </mat-datepicker-toggle>
+    <mat-datepicker #ci2></mat-datepicker>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Custom icon</mat-label>
+    <input matInput [matDatepicker]="ci3">
+    <mat-datepicker #ci3></mat-datepicker>
+  </mat-form-field>
+  <mat-datepicker-toggle matSuffix [for]="ci3">
+    <mat-icon matDatepickerToggleIcon>add</mat-icon>
+  </mat-datepicker-toggle>
+</p>

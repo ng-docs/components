@@ -12,10 +12,10 @@
  * 一个挂起的复制到剪贴板操作。
  *
  * The implementation of copying text to the clipboard modifies the DOM and
- * forces a relayout. This relayout can take too long if the string is large,
+ * forces a re-layout. This re-layout can take too long if the string is large,
  * causing the execCommand('copy') to happen too long after the user clicked.
  * This results in the browser refusing to copy. This object lets the
- * relayout happen in a separate tick from copying by providing a copy function
+ * re-layout happen in a separate tick from copying by providing a copy function
  * that can be called later.
  *
  * 把文本复制到剪贴板的实现会修改 DOM 并强制重新布局。如果字符串很大，这次重新布局可能需要很长时间，这会导致 execCommand('copy') 在用户点击后很久才会发生。这会导致浏览器拒绝复制。该对象可以通过提供一个稍后调用的复制函数，来允许在一个独立的周期中内进行重新布局。
@@ -41,6 +41,8 @@ export class PendingCopy {
     styles.left = '-999em';
     textarea.setAttribute('aria-hidden', 'true');
     textarea.value = text;
+    // Making the textarea `readonly` prevents the screen from jumping on iOS Safari (see #25169).
+    textarea.readOnly = true;
     this._document.body.appendChild(textarea);
   }
 

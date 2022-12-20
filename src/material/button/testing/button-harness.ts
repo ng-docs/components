@@ -6,34 +6,34 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ContentContainerComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {
+  ComponentHarnessConstructor,
+  ContentContainerComponentHarness,
+  HarnessPredicate,
+} from '@angular/cdk/testing';
 import {coerceBooleanProperty} from '@angular/cdk/coercion';
-import {ButtonHarnessFilters} from './button-harness-filters';
+import {ButtonHarnessFilters, ButtonVariant} from './button-harness-filters';
 
 /**
- * Harness for interacting with a standard mat-button in tests.
+ * Harness for interacting with a MDC-based mat-button in tests.
  *
  * 在测试中与标准 mat-button 进行交互的测试工具。
  *
  */
 export class MatButtonHarness extends ContentContainerComponentHarness {
   // TODO(jelbourn) use a single class, like `.mat-button-base`
-  /**
-   * The selector for the host element of a `MatButton` instance.
-   *
-   * `MatButton` 实例的宿主元素选择器。
-   *
-   */
-  static hostSelector = `[mat-button], [mat-raised-button], [mat-flat-button], [mat-icon-button],
-                         [mat-stroked-button], [mat-fab], [mat-mini-fab]`;
+  static hostSelector = `[mat-button], [mat-raised-button], [mat-flat-button],
+                         [mat-icon-button], [mat-stroked-button], [mat-fab], [mat-mini-fab]`;
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatButtonHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a button with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，它可以用来搜索符合条件 `MatButtonHarness`
    *
-   * @param options Options for filtering which button instances are considered a match.
+   * @param options Options for narrowing the search:
+   *   - `selector` finds a button whose host element matches the given selector.
+   *   - `text` finds a button with specific text content.
+   *   - `variant` finds buttons matching a specific variant.
    *
    * 筛选与哪些按钮实例匹配的选项。
    *
@@ -41,12 +41,20 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: ButtonHarnessFilters = {}): HarnessPredicate<MatButtonHarness> {
-    return new HarnessPredicate(MatButtonHarness, options).addOption(
-      'text',
-      options.text,
-      (harness, text) => HarnessPredicate.stringMatches(harness.getText(), text),
-    );
+  static with<T extends MatButtonHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: ButtonHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options)
+      .addOption('text', options.text, (harness, text) =>
+        HarnessPredicate.stringMatches(harness.getText(), text),
+      )
+      .addOption('variant', options.variant, (harness, variant) =>
+        HarnessPredicate.stringMatches(harness.getVariant(), variant),
+      )
+      .addOption('disabled', options.disabled, async (harness, disabled) => {
+        return (await harness.isDisabled()) === disabled;
+      });
   }
 
   /**
@@ -83,9 +91,9 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
   }
 
   /**
-   * Whether the button is disabled.
+   * Gets a boolean promise indicating if the button is disabled.
    *
-   * 该按钮是否已禁用。
+   * 获取一个 Boolean 型的 Promise，以指出该按钮是否已禁用。
    *
    */
   async isDisabled(): Promise<boolean> {
@@ -94,7 +102,7 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
   }
 
   /**
-   * Gets the button's label text.
+   * Gets a promise for the button's label text.
    *
    * 获取该按钮的标签文本。
    *
@@ -104,7 +112,7 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
   }
 
   /**
-   * Focuses the button.
+   * Focuses the button and returns a void promise that indicates when the action is complete.
    *
    * 让此按钮获得焦点。
    *
@@ -114,7 +122,7 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
   }
 
   /**
-   * Blurs the button.
+   * Blurs the button and returns a void promise that indicates when the action is complete.
    *
    * 让此按钮失焦。
    *
@@ -131,5 +139,26 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
    */
   async isFocused(): Promise<boolean> {
     return (await this.host()).isFocused();
+  }
+
+  /** Gets the variant of the button. */
+  async getVariant(): Promise<ButtonVariant> {
+    const host = await this.host();
+
+    if ((await host.getAttribute('mat-raised-button')) != null) {
+      return 'raised';
+    } else if ((await host.getAttribute('mat-flat-button')) != null) {
+      return 'flat';
+    } else if ((await host.getAttribute('mat-icon-button')) != null) {
+      return 'icon';
+    } else if ((await host.getAttribute('mat-stroked-button')) != null) {
+      return 'stroked';
+    } else if ((await host.getAttribute('mat-fab')) != null) {
+      return 'fab';
+    } else if ((await host.getAttribute('mat-mini-fab')) != null) {
+      return 'mini-fab';
+    }
+
+    return 'basic';
   }
 }

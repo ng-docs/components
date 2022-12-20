@@ -6,12 +6,17 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate, parallel} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  ComponentHarnessConstructor,
+  HarnessPredicate,
+  parallel,
+} from '@angular/cdk/testing';
 import {TabGroupHarnessFilters, TabHarnessFilters} from './tab-harness-filters';
 import {MatTabHarness} from './tab-harness';
 
 /**
- * Harness for interacting with a standard mat-tab-group in tests.
+ * Harness for interacting with an MDC-based mat-tab-group in tests.
  *
  * 在测试中用来与标准 mat-tab-group 进行交互的测试工具。
  *
@@ -23,11 +28,10 @@ export class MatTabGroupHarness extends ComponentHarness {
    * `MatTabGroup` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-tab-group';
+  static hostSelector = '.mat-mdc-tab-group';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatTabGroupHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a tab group with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatTabGroupHarness`。
    *
@@ -39,8 +43,11 @@ export class MatTabGroupHarness extends ComponentHarness {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: TabGroupHarnessFilters = {}): HarnessPredicate<MatTabGroupHarness> {
-    return new HarnessPredicate(MatTabGroupHarness, options).addOption(
+  static with<T extends MatTabGroupHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: TabGroupHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption(
       'selectedTabLabel',
       options.selectedTabLabel,
       async (harness, label) => {

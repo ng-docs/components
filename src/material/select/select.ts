@@ -27,6 +27,7 @@ import {
 } from '@angular/cdk/keycodes';
 import {
   CdkConnectedOverlay,
+  CdkOverlayOrigin,
   ConnectedPosition,
   Overlay,
   ScrollStrategy,
@@ -34,6 +35,7 @@ import {
 import {ViewportRuler} from '@angular/cdk/scrolling';
 import {
   AfterContentInit,
+  AfterViewInit,
   Attribute,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -68,25 +70,25 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  _countGroupLabelsBeforeOption,
-  _getOptionScrollPosition,
   CanDisable,
   CanDisableRipple,
   CanUpdateErrorState,
   ErrorStateMatcher,
   HasTabIndex,
-  MAT_OPTGROUP,
-  MAT_OPTION_PARENT_COMPONENT,
   MatOptgroup,
   MatOption,
   MatOptionSelectionChange,
+  MAT_OPTGROUP,
+  MAT_OPTION_PARENT_COMPONENT,
   mixinDisabled,
   mixinDisableRipple,
   mixinErrorState,
   mixinTabIndex,
+  _countGroupLabelsBeforeOption,
+  _getOptionScrollPosition,
   _MatOptionBase,
 } from '@angular/material/core';
-import {MAT_FORM_FIELD, MatFormField, MatFormFieldControl} from '@angular/material/form-field';
+import {MatFormField, MatFormFieldControl, MAT_FORM_FIELD} from '@angular/material/form-field';
 import {defer, merge, Observable, Subject} from 'rxjs';
 import {
   distinctUntilChanged,
@@ -106,80 +108,7 @@ import {
 
 let nextUniqueId = 0;
 
-/**
- * The following style constants are necessary to save here in order
- * to properly calculate the alignment of the selected option over
- * the trigger element.
- *
- * 这里保存下列样式常量是为了正确计算选定的选项在触发器元素上的对齐方式。
- *
- */
-
-/**
- * The max height of the select's overlay panel.
- *
- * 所选内容的浮层面板的最大高度。
- *
- */
-export const SELECT_PANEL_MAX_HEIGHT = 256;
-
-/**
- * The panel's padding on the x-axis.
- *
- * 此面板在 x 轴上的衬距。
- *
- */
-export const SELECT_PANEL_PADDING_X = 16;
-
-/**
- * The panel's x axis padding if it is indented (e.g. there is an option group).
- *
- * 此面板的 x 轴衬距（如果有缩进）（例如选项组）。
- *
- */
-export const SELECT_PANEL_INDENT_PADDING_X = SELECT_PANEL_PADDING_X * 2;
-
-/**
- * The height of the select items in `em` units.
- *
- * 选择此条目的高度，以 `em` 为单位。
- *
- */
-export const SELECT_ITEM_HEIGHT_EM = 3;
-
-// TODO(josephperrott): Revert to a constant after 2018 spec updates are fully merged.
-/**
- * Distance between the panel edge and the option text in
- * multi-selection mode.
- *
- * 面板边缘与多选模式下的选项文本之间的距离。
- *
- * Calculated as:
- * (SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40
- * The padding is multiplied by 1.5 because the checkbox's margin is half the padding.
- * The checkbox width is 16px.
- *
- * 计算公式为：(SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40。
- * 衬距要乘以 1.5，因为复选框的外边距是衬距的一半。复选框的宽度为 16 像素。
- *
- */
-export const SELECT_MULTIPLE_PANEL_PADDING_X = SELECT_PANEL_PADDING_X * 1.5 + 16;
-
-/**
- * The select panel will only "fit" inside the viewport if it is positioned at
- * this value or more away from the viewport boundary.
- *
- * 只有当选择面板位于视口内部且位于此值或距视口边界更远的位置时，才认为它“适合”视口。
- *
- */
-export const SELECT_PANEL_VIEWPORT_PADDING = 8;
-
-/**
- * Injection token that determines the scroll handling while a select is open.
- *
- * 当选择框被打开时，本注入令牌决定滚动时的处理方式。
- *
- */
+/** Injection token that determines the scroll handling while a select is open. */
 export const MAT_SELECT_SCROLL_STRATEGY = new InjectionToken<() => ScrollStrategy>(
   'mat-select-scroll-strategy',
 );
@@ -239,11 +168,13 @@ export const MAT_SELECT_SCROLL_STRATEGY_PROVIDER = {
 };
 
 /**
- * Change event object that is emitted when the select value has changed.
- *
- * 当选择框的值发生更改后触发的事件对象。
- *
+ * Injection token that can be used to reference instances of `MatSelectTrigger`. It serves as
+ * alternative token to the actual `MatSelectTrigger` class which could cause unnecessary
+ * retention of the class and its directive metadata.
  */
+export const MAT_SELECT_TRIGGER = new InjectionToken<MatSelectTrigger>('MatSelectTrigger');
+
+/** Change event object that is emitted when the select value has changed. */
 export class MatSelectChange {
   constructor(
     /**
@@ -297,34 +228,7 @@ const _MatSelectMixinBase = mixinDisableRipple(
   ),
 );
 
-/**
- * Injection token that can be used to reference instances of `MatSelectTrigger`. It serves as
- * alternative token to the actual `MatSelectTrigger` class which could cause unnecessary
- * retention of the class and its directive metadata.
- *
- * 这个注入令牌可以用来引用 `MatSelectTrigger` 的实例。它可以作为实际 `MatSelectTrigger` 类的备用令牌，直接使用实际类可能导致该类及其元数据无法被优化掉。
- *
- */
-export const MAT_SELECT_TRIGGER = new InjectionToken<MatSelectTrigger>('MatSelectTrigger');
-
-/**
- * Allows the user to customize the trigger that is displayed when the select has a value.
- *
- * 当选择框具有值时，允许用户自定义要显示的触发器。
- *
- */
-@Directive({
-  selector: 'mat-select-trigger',
-  providers: [{provide: MAT_SELECT_TRIGGER, useExisting: MatSelectTrigger}],
-})
-export class MatSelectTrigger {}
-
-/**
- * Base class with all of the `MatSelect` functionality.
- *
- * 具备所有 `MatSelect` 功能的基类。
- *
- */
+/** Base class with all of the `MatSelect` functionality. */
 @Directive()
 export abstract class _MatSelectBase<C>
   extends _MatSelectMixinBase
@@ -436,7 +340,7 @@ export abstract class _MatSelectBase<C>
   private _uid = `mat-select-${nextUniqueId++}`;
 
   /**
-   * Current `ariar-labelledby` value for the select trigger.
+   * Current `aria-labelledby` value for the select trigger.
    *
    * 此选择框触发器的当前 `aria-labelledby` 值。
    *
@@ -923,6 +827,7 @@ export abstract class _MatSelectBase<C>
   }
 
   ngOnDestroy() {
+    this._keyManager?.destroy();
     this._destroy.next();
     this._destroy.complete();
     this.stateChanges.complete();
@@ -1205,6 +1110,7 @@ export abstract class _MatSelectBase<C>
    */
   _onBlur() {
     this._focused = false;
+    this._keyManager?.cancelTypeahead();
 
     if (!this.disabled && !this.panelOpen) {
       this._onTouched();
@@ -1361,9 +1267,10 @@ export abstract class _MatSelectBase<C>
       .withVerticalOrientation()
       .withHorizontalOrientation(this._isRtl() ? 'rtl' : 'ltr')
       .withHomeAndEnd()
+      .withPageUpDown()
       .withAllowedModifierKeys(['shiftKey']);
 
-    this._keyManager.tabOut.pipe(takeUntil(this._destroy)).subscribe(() => {
+    this._keyManager.tabOut.subscribe(() => {
       if (this.panelOpen) {
         // Select the active item when tabbing away. This is consistent with how the native
         // select behaves. Note that we only want to do this in single selection mode.
@@ -1378,7 +1285,7 @@ export abstract class _MatSelectBase<C>
       }
     });
 
-    this._keyManager.change.pipe(takeUntil(this._destroy)).subscribe(() => {
+    this._keyManager.change.subscribe(() => {
       if (this._panelOpen && this.panel) {
         this._scrollOptionIntoView(this._keyManager.activeItemIndex || 0);
       } else if (!this._panelOpen && !this.multiple && this._keyManager.activeItem) {
@@ -1410,7 +1317,10 @@ export abstract class _MatSelectBase<C>
     merge(...this.options.map(option => option._stateChanges))
       .pipe(takeUntil(changedOrDestroyed))
       .subscribe(() => {
-        this._changeDetectorRef.markForCheck();
+        // `_stateChanges` can fire as a result of a change in the label's DOM value which may
+        // be the result of an expression changing. We have to use `detectChanges` in order
+        // to avoid "changed after checked" errors (see #14793).
+        this._changeDetectorRef.detectChanges();
         this.stateChanges.next();
       });
   }
@@ -1640,6 +1550,15 @@ export abstract class _MatSelectBase<C>
   }
 }
 
+/**
+ * Allows the user to customize the trigger that is displayed when the select has a value.
+ */
+@Directive({
+  selector: 'mat-select-trigger',
+  providers: [{provide: MAT_SELECT_TRIGGER, useExisting: MatSelectTrigger}],
+})
+export class MatSelectTrigger {}
+
 @Component({
   selector: 'mat-select',
   exportAs: 'matSelect',
@@ -1651,11 +1570,8 @@ export abstract class _MatSelectBase<C>
   host: {
     'role': 'combobox',
     'aria-autocomplete': 'none',
-    // TODO(crisbeto): the value for aria-haspopup should be `listbox`, but currently it's difficult
-    // to sync into Google, because of an outdated automated a11y check which flags it as an invalid
-    // value. At some point we should try to switch it back to being `listbox`.
-    'aria-haspopup': 'true',
-    'class': 'mat-select',
+    'aria-haspopup': 'listbox',
+    'class': 'mat-mdc-select',
     '[attr.id]': 'id',
     '[attr.tabindex]': 'tabIndex',
     '[attr.aria-controls]': 'panelOpen ? id + "-panel" : null',
@@ -1665,109 +1581,52 @@ export abstract class _MatSelectBase<C>
     '[attr.aria-disabled]': 'disabled.toString()',
     '[attr.aria-invalid]': 'errorState',
     '[attr.aria-activedescendant]': '_getAriaActiveDescendant()',
-    '[class.mat-select-disabled]': 'disabled',
-    '[class.mat-select-invalid]': 'errorState',
-    '[class.mat-select-required]': 'required',
-    '[class.mat-select-empty]': 'empty',
-    '[class.mat-select-multiple]': 'multiple',
+    '[class.mat-mdc-select-disabled]': 'disabled',
+    '[class.mat-mdc-select-invalid]': 'errorState',
+    '[class.mat-mdc-select-required]': 'required',
+    '[class.mat-mdc-select-empty]': 'empty',
+    '[class.mat-mdc-select-multiple]': 'multiple',
     '(keydown)': '_handleKeydown($event)',
     '(focus)': '_onFocus()',
     '(blur)': '_onBlur()',
   },
-  animations: [matSelectAnimations.transformPanelWrap, matSelectAnimations.transformPanel],
+  animations: [matSelectAnimations.transformPanel],
   providers: [
     {provide: MatFormFieldControl, useExisting: MatSelect},
     {provide: MAT_OPTION_PARENT_COMPONENT, useExisting: MatSelect},
   ],
 })
-export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit {
-  /**
-   * The scroll position of the overlay panel, calculated to center the selected option.
-   *
-   * 浮层面板的滚动位置，计算为选定项的中心位置。
-   *
-   */
-  private _scrollTop = 0;
-
-  /**
-   * The last measured value for the trigger's client bounding rect.
-   *
-   * 触发器的 BoundingClientRect 的最后一次测量值。
-   *
-   */
-  _triggerRect: ClientRect;
-
-  /**
-   * The cached font-size of the trigger element.
-   *
-   * 缓存的触发器元素字体大小。
-   *
-   */
-  _triggerFontSize = 0;
-
-  /**
-   * The value of the select panel's transform-origin property.
-   *
-   * 选择面板的 transform-origin 属性的值。
-   *
-   */
-  _transformOrigin: string = 'top';
-
-  /**
-   * The y-offset of the overlay panel in relation to the trigger's top start corner.
-   * This must be adjusted to align the selected option text over the trigger text.
-   * when the panel opens. Will change based on the y-position of the selected option.
-   *
-   * 浮层面板相对于触发器顶部 "start" 角的 y 偏移量。
-   * 必须调整它，以便在触发器文本上对齐选定的选项文本。面板打开时会根据选定选项的 y 坐标进行更改。
-   *
-   */
-  _offsetY = 0;
-
+export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit, AfterViewInit {
   @ContentChildren(MatOption, {descendants: true}) options: QueryList<MatOption>;
-
   @ContentChildren(MAT_OPTGROUP, {descendants: true}) optionGroups: QueryList<MatOptgroup>;
-
   @ContentChild(MAT_SELECT_TRIGGER) customTrigger: MatSelectTrigger;
 
   _positions: ConnectedPosition[] = [
     {
       originX: 'start',
-      originY: 'top',
+      originY: 'bottom',
       overlayX: 'start',
       overlayY: 'top',
     },
     {
       originX: 'start',
-      originY: 'bottom',
+      originY: 'top',
       overlayX: 'start',
       overlayY: 'bottom',
+      panelClass: 'mat-mdc-select-panel-above',
     },
   ];
 
-  /**
-   * Calculates the scroll position of the select's overlay panel.
-   *
-   * 计算选择框的浮层面板的滚动位置。
-   *
-   * Attempts to center the selected option in the panel. If the option is
-   * too high or too low in the panel to be scrolled to the center, it clamps the
-   * scroll position to the min or max scroll positions respectively.
-   *
-   * 试图让选定的选项在面板中居中。如果面板中的选项太高或太低而无法滚动到中心位置，它会在最小或最大滚动位置之间夹取此位置。
-   *
-   */
-  _calculateOverlayScroll(selectedIndex: number, scrollBuffer: number, maxScroll: number): number {
-    const itemHeight = this._getItemHeight();
-    const optionOffsetFromScrollTop = itemHeight * selectedIndex;
-    const halfOptionHeight = itemHeight / 2;
+  /** Ideal origin for the overlay panel. */
+  _preferredOverlayOrigin: CdkOverlayOrigin | ElementRef | undefined;
 
-    // Starts at the optionOffsetFromScrollTop, which scrolls the option to the top of the
-    // scroll container, then subtracts the scroll buffer to scroll the option down to
-    // the center of the overlay panel. Half the option height must be re-added to the
-    // scrollTop so the option is centered based on its middle, not its top edge.
-    const optimalScrollPosition = optionOffsetFromScrollTop - scrollBuffer + halfOptionHeight;
-    return Math.min(Math.max(0, optimalScrollPosition), maxScroll);
+  /** Width of the overlay panel. */
+  _overlayWidth: number;
+
+  override get shouldLabelFloat(): boolean {
+    // Since the panel doesn't overlap the trigger, we
+    // want the label to only float when there's a value.
+    return this.panelOpen || !this.empty || (this.focused && !!this.placeholder);
   }
 
   override ngOnInit() {
@@ -1777,34 +1636,31 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
       .pipe(takeUntil(this._destroy))
       .subscribe(() => {
         if (this.panelOpen) {
-          this._triggerRect = this.trigger.nativeElement.getBoundingClientRect();
-          this._changeDetectorRef.markForCheck();
+          this._overlayWidth = this._getOverlayWidth();
+          this._changeDetectorRef.detectChanges();
         }
       });
   }
 
-  override open(): void {
-    if (super._canOpen()) {
-      super.open();
-      this._triggerRect = this.trigger.nativeElement.getBoundingClientRect();
-      // Note: The computed font-size will be a string pixel value (e.g. "16px").
-      // `parseInt` ignores the trailing 'px' and converts this to a number.
-      this._triggerFontSize = parseInt(
-        getComputedStyle(this.trigger.nativeElement).fontSize || '0',
-      );
-      this._calculateOverlayPosition();
-
-      // Set the font size on the panel element once it exists.
-      this._ngZone.onStable.pipe(take(1)).subscribe(() => {
-        if (
-          this._triggerFontSize &&
-          this._overlayDir.overlayRef &&
-          this._overlayDir.overlayRef.overlayElement
-        ) {
-          this._overlayDir.overlayRef.overlayElement.style.fontSize = `${this._triggerFontSize}px`;
-        }
-      });
+  ngAfterViewInit() {
+    // Note that it's important that we read this in `ngAfterViewInit`, because
+    // reading it earlier will cause the form field to return a different element.
+    if (this._parentFormField) {
+      this._preferredOverlayOrigin = this._parentFormField.getConnectedOverlayOrigin();
     }
+  }
+
+  override open() {
+    this._overlayWidth = this._getOverlayWidth();
+    super.open();
+    // Required for the MDC form field to pick up when the overlay has been opened.
+    this.stateChanges.next();
+  }
+
+  override close() {
+    super.close();
+    // Required for the MDC form field to pick up when the overlay has been closed.
+    this.stateChanges.next();
   }
 
   /**
@@ -1814,305 +1670,43 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
    *
    */
   protected _scrollOptionIntoView(index: number): void {
-    const labelCount = _countGroupLabelsBeforeOption(index, this.options, this.optionGroups);
-    const itemHeight = this._getItemHeight();
+    const option = this.options.toArray()[index];
 
-    if (index === 0 && labelCount === 1) {
-      // If we've got one group label before the option and we're at the top option,
-      // scroll the list to the top. This is better UX than scrolling the list to the
-      // top of the option, because it allows the user to read the top group's label.
-      this.panel.nativeElement.scrollTop = 0;
-    } else {
-      this.panel.nativeElement.scrollTop = _getOptionScrollPosition(
-        (index + labelCount) * itemHeight,
-        itemHeight,
-        this.panel.nativeElement.scrollTop,
-        SELECT_PANEL_MAX_HEIGHT,
-      );
+    if (option) {
+      const panel: HTMLElement = this.panel.nativeElement;
+      const labelCount = _countGroupLabelsBeforeOption(index, this.options, this.optionGroups);
+      const element = option._getHostElement();
+
+      if (index === 0 && labelCount === 1) {
+        // If we've got one group label before the option and we're at the top option,
+        // scroll the list to the top. This is better UX than scrolling the list to the
+        // top of the option, because it allows the user to read the top group's label.
+        panel.scrollTop = 0;
+      } else {
+        panel.scrollTop = _getOptionScrollPosition(
+          element.offsetTop,
+          element.offsetHeight,
+          panel.scrollTop,
+          panel.offsetHeight,
+        );
+      }
     }
   }
 
   protected _positioningSettled() {
-    this._calculateOverlayOffsetX();
-    this.panel.nativeElement.scrollTop = this._scrollTop;
-  }
-
-  protected override _panelDoneAnimating(isOpen: boolean) {
-    if (this.panelOpen) {
-      this._scrollTop = 0;
-    } else {
-      this._overlayDir.offsetX = 0;
-      this._changeDetectorRef.markForCheck();
-    }
-
-    super._panelDoneAnimating(isOpen);
+    this._scrollOptionIntoView(this._keyManager.activeItemIndex || 0);
   }
 
   protected _getChangeEvent(value: any) {
     return new MatSelectChange(this, value);
   }
 
-  /**
-   * Sets the x-offset of the overlay panel in relation to the trigger's top start corner.
-   * This must be adjusted to align the selected option text over the trigger text when
-   * the panel opens. Will change based on LTR or RTL text direction. Note that the offset
-   * can't be calculated until the panel has been attached, because we need to know the
-   * content width in order to constrain the panel within the viewport.
-   *
-   * 设置浮层面板相对于触发器顶部起始角的 x 偏移量。当面板打开时，必须调整它，以便让触发器文本与选定项的文本对齐。
-   * 会根据 LTR 或 RTL 的而改变文本方向。请注意，在连接面板之前，无法计算偏移量，因为我们需要知道内容的宽度才能在视口中约束此面板。
-   *
-   */
-  private _calculateOverlayOffsetX(): void {
-    const overlayRect = this._overlayDir.overlayRef.overlayElement.getBoundingClientRect();
-    const viewportSize = this._viewportRuler.getViewportSize();
-    const isRtl = this._isRtl();
-    const paddingWidth = this.multiple
-      ? SELECT_MULTIPLE_PANEL_PADDING_X + SELECT_PANEL_PADDING_X
-      : SELECT_PANEL_PADDING_X * 2;
-    let offsetX: number;
-
-    // Adjust the offset, depending on the option padding.
-    if (this.multiple) {
-      offsetX = SELECT_MULTIPLE_PANEL_PADDING_X;
-    } else if (this.disableOptionCentering) {
-      offsetX = SELECT_PANEL_PADDING_X;
-    } else {
-      let selected = this._selectionModel.selected[0] || this.options.first;
-      offsetX = selected && selected.group ? SELECT_PANEL_INDENT_PADDING_X : SELECT_PANEL_PADDING_X;
-    }
-
-    // Invert the offset in LTR.
-    if (!isRtl) {
-      offsetX *= -1;
-    }
-
-    // Determine how much the select overflows on each side.
-    const leftOverflow = 0 - (overlayRect.left + offsetX - (isRtl ? paddingWidth : 0));
-    const rightOverflow =
-      overlayRect.right + offsetX - viewportSize.width + (isRtl ? 0 : paddingWidth);
-
-    // If the element overflows on either side, reduce the offset to allow it to fit.
-    if (leftOverflow > 0) {
-      offsetX += leftOverflow + SELECT_PANEL_VIEWPORT_PADDING;
-    } else if (rightOverflow > 0) {
-      offsetX -= rightOverflow + SELECT_PANEL_VIEWPORT_PADDING;
-    }
-
-    // Set the offset directly in order to avoid having to go through change detection and
-    // potentially triggering "changed after it was checked" errors. Round the value to avoid
-    // blurry content in some browsers.
-    this._overlayDir.offsetX = Math.round(offsetX);
-    this._overlayDir.overlayRef.updatePosition();
-  }
-
-  /**
-   * Calculates the y-offset of the select's overlay panel in relation to the
-   * top start corner of the trigger. It has to be adjusted in order for the
-   * selected option to be aligned over the trigger when the panel opens.
-   *
-   * 计算选择框的浮层面板相对于触发器顶部起始角的 y 偏移量。必须对它进行调整，以便当面板打开时，选定的选项可以与触发器对齐。
-   *
-   */
-  private _calculateOverlayOffsetY(
-    selectedIndex: number,
-    scrollBuffer: number,
-    maxScroll: number,
-  ): number {
-    const itemHeight = this._getItemHeight();
-    const optionHeightAdjustment = (itemHeight - this._triggerRect.height) / 2;
-    const maxOptionsDisplayed = Math.floor(SELECT_PANEL_MAX_HEIGHT / itemHeight);
-    let optionOffsetFromPanelTop: number;
-
-    // Disable offset if requested by user by returning 0 as value to offset
-    if (this.disableOptionCentering) {
-      return 0;
-    }
-
-    if (this._scrollTop === 0) {
-      optionOffsetFromPanelTop = selectedIndex * itemHeight;
-    } else if (this._scrollTop === maxScroll) {
-      const firstDisplayedIndex = this._getItemCount() - maxOptionsDisplayed;
-      const selectedDisplayIndex = selectedIndex - firstDisplayedIndex;
-
-      // The first item is partially out of the viewport. Therefore we need to calculate what
-      // portion of it is shown in the viewport and account for it in our offset.
-      let partialItemHeight =
-        itemHeight - ((this._getItemCount() * itemHeight - SELECT_PANEL_MAX_HEIGHT) % itemHeight);
-
-      // Because the panel height is longer than the height of the options alone,
-      // there is always extra padding at the top or bottom of the panel. When
-      // scrolled to the very bottom, this padding is at the top of the panel and
-      // must be added to the offset.
-      optionOffsetFromPanelTop = selectedDisplayIndex * itemHeight + partialItemHeight;
-    } else {
-      // If the option was scrolled to the middle of the panel using a scroll buffer,
-      // its offset will be the scroll buffer minus the half height that was added to
-      // center it.
-      optionOffsetFromPanelTop = scrollBuffer - itemHeight / 2;
-    }
-
-    // The final offset is the option's offset from the top, adjusted for the height difference,
-    // multiplied by -1 to ensure that the overlay moves in the correct direction up the page.
-    // The value is rounded to prevent some browsers from blurring the content.
-    return Math.round(optionOffsetFromPanelTop * -1 - optionHeightAdjustment);
-  }
-
-  /**
-   * Checks that the attempted overlay position will fit within the viewport.
-   * If it will not fit, tries to adjust the scroll position and the associated
-   * y-offset so the panel can open fully on-screen. If it still won't fit,
-   * sets the offset back to 0 to allow the fallback position to take over.
-   *
-   * 检查尝试的浮层位置是否适合视口。如果它不适合，尝试调整滚动位置和相关的 y 偏移量，这样面板就可以在屏幕上完全打开。如果它仍然不适合，则把偏移量设置回 0，以允许使用回退位置。
-   *
-   */
-  private _checkOverlayWithinViewport(maxScroll: number): void {
-    const itemHeight = this._getItemHeight();
-    const viewportSize = this._viewportRuler.getViewportSize();
-
-    const topSpaceAvailable = this._triggerRect.top - SELECT_PANEL_VIEWPORT_PADDING;
-    const bottomSpaceAvailable =
-      viewportSize.height - this._triggerRect.bottom - SELECT_PANEL_VIEWPORT_PADDING;
-
-    const panelHeightTop = Math.abs(this._offsetY);
-    const totalPanelHeight = Math.min(this._getItemCount() * itemHeight, SELECT_PANEL_MAX_HEIGHT);
-    const panelHeightBottom = totalPanelHeight - panelHeightTop - this._triggerRect.height;
-
-    if (panelHeightBottom > bottomSpaceAvailable) {
-      this._adjustPanelUp(panelHeightBottom, bottomSpaceAvailable);
-    } else if (panelHeightTop > topSpaceAvailable) {
-      this._adjustPanelDown(panelHeightTop, topSpaceAvailable, maxScroll);
-    } else {
-      this._transformOrigin = this._getOriginBasedOnOption();
-    }
-  }
-
-  /**
-   * Adjusts the overlay panel up to fit in the viewport.
-   *
-   * 向上调整浮层面板以适合视口。
-   *
-   */
-  private _adjustPanelUp(panelHeightBottom: number, bottomSpaceAvailable: number) {
-    // Browsers ignore fractional scroll offsets, so we need to round.
-    const distanceBelowViewport = Math.round(panelHeightBottom - bottomSpaceAvailable);
-
-    // Scrolls the panel up by the distance it was extending past the boundary, then
-    // adjusts the offset by that amount to move the panel up into the viewport.
-    this._scrollTop -= distanceBelowViewport;
-    this._offsetY -= distanceBelowViewport;
-    this._transformOrigin = this._getOriginBasedOnOption();
-
-    // If the panel is scrolled to the very top, it won't be able to fit the panel
-    // by scrolling, so set the offset to 0 to allow the fallback position to take
-    // effect.
-    if (this._scrollTop <= 0) {
-      this._scrollTop = 0;
-      this._offsetY = 0;
-      this._transformOrigin = `50% bottom 0px`;
-    }
-  }
-
-  /**
-   * Adjusts the overlay panel down to fit in the viewport.
-   *
-   * 向下调整浮层面板以适应视口。
-   *
-   */
-  private _adjustPanelDown(panelHeightTop: number, topSpaceAvailable: number, maxScroll: number) {
-    // Browsers ignore fractional scroll offsets, so we need to round.
-    const distanceAboveViewport = Math.round(panelHeightTop - topSpaceAvailable);
-
-    // Scrolls the panel down by the distance it was extending past the boundary, then
-    // adjusts the offset by that amount to move the panel down into the viewport.
-    this._scrollTop += distanceAboveViewport;
-    this._offsetY += distanceAboveViewport;
-    this._transformOrigin = this._getOriginBasedOnOption();
-
-    // If the panel is scrolled to the very bottom, it won't be able to fit the
-    // panel by scrolling, so set the offset to 0 to allow the fallback position
-    // to take effect.
-    if (this._scrollTop >= maxScroll) {
-      this._scrollTop = maxScroll;
-      this._offsetY = 0;
-      this._transformOrigin = `50% top 0px`;
-      return;
-    }
-  }
-
-  /**
-   * Calculates the scroll position and x- and y-offsets of the overlay panel.
-   *
-   * 计算浮层面板的滚动位置和 x 和 y 偏移量。
-   *
-   */
-  private _calculateOverlayPosition(): void {
-    const itemHeight = this._getItemHeight();
-    const items = this._getItemCount();
-    const panelHeight = Math.min(items * itemHeight, SELECT_PANEL_MAX_HEIGHT);
-    const scrollContainerHeight = items * itemHeight;
-
-    // The farthest the panel can be scrolled before it hits the bottom
-    const maxScroll = scrollContainerHeight - panelHeight;
-
-    // If no value is selected we open the popup to the first item.
-    let selectedOptionOffset: number;
-
-    if (this.empty) {
-      selectedOptionOffset = 0;
-    } else {
-      selectedOptionOffset = Math.max(
-        this.options.toArray().indexOf(this._selectionModel.selected[0]),
-        0,
-      );
-    }
-
-    selectedOptionOffset += _countGroupLabelsBeforeOption(
-      selectedOptionOffset,
-      this.options,
-      this.optionGroups,
-    );
-
-    // We must maintain a scroll buffer so the selected option will be scrolled to the
-    // center of the overlay panel rather than the top.
-    const scrollBuffer = panelHeight / 2;
-    this._scrollTop = this._calculateOverlayScroll(selectedOptionOffset, scrollBuffer, maxScroll);
-    this._offsetY = this._calculateOverlayOffsetY(selectedOptionOffset, scrollBuffer, maxScroll);
-
-    this._checkOverlayWithinViewport(maxScroll);
-  }
-
-  /**
-   * Sets the transform origin point based on the selected option.
-   *
-   * 基于选定的选项设置变换的原点。
-   *
-   */
-  private _getOriginBasedOnOption(): string {
-    const itemHeight = this._getItemHeight();
-    const optionHeightAdjustment = (itemHeight - this._triggerRect.height) / 2;
-    const originY = Math.abs(this._offsetY) - optionHeightAdjustment + itemHeight / 2;
-    return `50% ${originY}px 0px`;
-  }
-
-  /**
-   * Calculates the height of the select's options.
-   *
-   * 计算选择框选项的高度。
-   *
-   */
-  private _getItemHeight(): number {
-    return this._triggerFontSize * SELECT_ITEM_HEIGHT_EM;
-  }
-
-  /**
-   * Calculates the amount of items in the select. This includes options and group labels.
-   *
-   * 计算选择框中的条目数量。包括选项和组标签。
-   *
-   */
-  private _getItemCount(): number {
-    return this.options.length + this.optionGroups.length;
+  /** Gets how wide the overlay panel should be. */
+  private _getOverlayWidth() {
+    const refToMeasure =
+      this._preferredOverlayOrigin instanceof CdkOverlayOrigin
+        ? this._preferredOverlayOrigin.elementRef
+        : this._preferredOverlayOrigin || this._elementRef;
+    return refToMeasure.nativeElement.getBoundingClientRect().width;
   }
 }

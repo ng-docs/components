@@ -6,17 +6,6 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {FocusKeyManager, FocusOrigin} from '@angular/cdk/a11y';
-import {Direction} from '@angular/cdk/bidi';
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {
-  ESCAPE,
-  LEFT_ARROW,
-  RIGHT_ARROW,
-  DOWN_ARROW,
-  UP_ARROW,
-  hasModifierKey,
-} from '@angular/cdk/keycodes';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -39,15 +28,31 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
+import {AnimationEvent} from '@angular/animations';
+import {FocusKeyManager, FocusOrigin} from '@angular/cdk/a11y';
+import {Direction} from '@angular/cdk/bidi';
+import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {
+  ESCAPE,
+  LEFT_ARROW,
+  RIGHT_ARROW,
+  DOWN_ARROW,
+  UP_ARROW,
+  hasModifierKey,
+} from '@angular/cdk/keycodes';
 import {merge, Observable, Subject, Subscription} from 'rxjs';
 import {startWith, switchMap, take} from 'rxjs/operators';
-import {matMenuAnimations} from './menu-animations';
-import {MAT_MENU_CONTENT, MatMenuContent} from './menu-content';
+import {MatMenuItem} from './menu-item';
+import {MatMenuPanel, MAT_MENU_PANEL} from './menu-panel';
 import {MenuPositionX, MenuPositionY} from './menu-positions';
 import {throwMatMenuInvalidPositionX, throwMatMenuInvalidPositionY} from './menu-errors';
-import {MatMenuItem} from './menu-item';
-import {MAT_MENU_PANEL, MatMenuPanel} from './menu-panel';
-import {AnimationEvent} from '@angular/animations';
+import {MatMenuContent, MAT_MENU_CONTENT} from './menu-content';
+import {matMenuAnimations} from './menu-animations';
+
+let menuPanelUid = 0;
+
+/** Reason why the menu was closed. */
+export type MenuCloseReason = void | 'click' | 'keydown' | 'tab';
 
 /**
  * Default `mat-menu` options that can be overridden.
@@ -129,22 +134,7 @@ export function MAT_MENU_DEFAULT_OPTIONS_FACTORY(): MatMenuDefaultOptions {
   };
 }
 
-let menuPanelUid = 0;
-
-/**
- * Reason why the menu was closed.
- *
- * 菜单被关闭的原因。
- *
- */
-export type MenuCloseReason = void | 'click' | 'keydown' | 'tab';
-
-/**
- * Base class with all of the `MatMenu` functionality.
- *
- * 具有所有 `MatMenu` 功能的基类。
- *
- */
+/** Base class with all of the `MatMenu` functionality. */
 @Directive()
 export class _MatMenuBase
   implements AfterContentInit, MatMenuPanel<MatMenuItem>, OnInit, OnDestroy
@@ -152,6 +142,7 @@ export class _MatMenuBase
   private _keyManager: FocusKeyManager<MatMenuItem>;
   private _xPosition: MenuPositionX = this._defaultOptions.xPosition;
   private _yPosition: MenuPositionY = this._defaultOptions.yPosition;
+  private _firstItemFocusSubscription?: Subscription;
   private _previousElevation: string;
   protected _elevationPrefix: string;
   protected _baseElevation: number;
@@ -172,20 +163,7 @@ export class _MatMenuBase
    */
   _directDescendantItems = new QueryList<MatMenuItem>();
 
-  /**
-   * Subscription to tab events on the menu panel
-   *
-   * 对菜单面板上 tab 事件的订阅
-   *
-   */
-  private _tabSubscription = Subscription.EMPTY;
-
-  /**
-   * Config object to be passed into the menu's ngClass
-   *
-   * 要传给菜单 ngClass 的配置对象
-   *
-   */
+  /** Config object to be passed into the menu's ngClass */
   _classList: {[key: string]: boolean} = {};
 
   /**
@@ -478,7 +456,7 @@ export class _MatMenuBase
       .withWrap()
       .withTypeAhead()
       .withHomeAndEnd();
-    this._tabSubscription = this._keyManager.tabOut.subscribe(() => this.closed.emit('tab'));
+    this._keyManager.tabOut.subscribe(() => this.closed.emit('tab'));
 
     // If a user manually (programmatically) focuses a menu item, we need to reflect that focus
     // change back to the key manager. Note that we don't need to unsubscribe here because _focused
@@ -510,9 +488,10 @@ export class _MatMenuBase
   }
 
   ngOnDestroy() {
+    this._keyManager?.destroy();
     this._directDescendantItems.destroy();
-    this._tabSubscription.unsubscribe();
     this.closed.complete();
+    this._firstItemFocusSubscription?.unsubscribe();
   }
 
   /**
@@ -604,7 +583,8 @@ export class _MatMenuBase
    */
   focusFirstItem(origin: FocusOrigin = 'program'): void {
     // Wait for `onStable` to ensure iOS VoiceOver screen reader focuses the first item (#24735).
-    this._ngZone.onStable.pipe(take(1)).subscribe(() => {
+    this._firstItemFocusSubscription?.unsubscribe();
+    this._firstItemFocusSubscription = this._ngZone.onStable.pipe(take(1)).subscribe(() => {
       let menuPanel: HTMLElement | null = null;
 
       if (this._directDescendantItems.length) {
@@ -763,7 +743,6 @@ export class _MatMenuBase
   }
 }
 
-/** @docs-public MatMenu */
 @Component({
   selector: 'mat-menu',
   templateUrl: 'menu.html',
@@ -781,9 +760,9 @@ export class _MatMenuBase
 })
 export class MatMenu extends _MatMenuBase {
   protected override _elevationPrefix = 'mat-elevation-z';
-  protected override _baseElevation = 4;
+  protected override _baseElevation = 8;
 
-  /**
+  /*
    * @deprecated
    *
    * `changeDetectorRef` parameter will become a required parameter.
@@ -799,11 +778,11 @@ export class MatMenu extends _MatMenuBase {
   );
 
   constructor(
-    elementRef: ElementRef<HTMLElement>,
-    ngZone: NgZone,
-    @Inject(MAT_MENU_DEFAULT_OPTIONS) defaultOptions: MatMenuDefaultOptions,
+    _elementRef: ElementRef<HTMLElement>,
+    _ngZone: NgZone,
+    @Inject(MAT_MENU_DEFAULT_OPTIONS) _defaultOptions: MatMenuDefaultOptions,
     changeDetectorRef?: ChangeDetectorRef,
   ) {
-    super(elementRef, ngZone, defaultOptions, changeDetectorRef);
+    super(_elementRef, _ngZone, _defaultOptions, changeDetectorRef);
   }
 }

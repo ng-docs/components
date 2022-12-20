@@ -137,6 +137,7 @@ export class MatAccordion
 
   override ngOnDestroy() {
     super.ngOnDestroy();
+    this._keyManager?.destroy();
     this._ownHeaders.destroy();
   }
 }

@@ -6,38 +6,36 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Component, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Directionality} from '@angular/cdk/bidi';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
+import {Component, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {
   MatSnackBar,
   MatSnackBarConfig,
   MatSnackBarHorizontalPosition,
-  MatSnackBarModule,
   MatSnackBarVerticalPosition,
+  MatSnackBarModule,
 } from '@angular/material/snack-bar';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'snack-bar-demo',
-  styleUrls: ['snack-bar-demo.css'],
   templateUrl: 'snack-bar-demo.html',
+  styleUrls: ['snack-bar-demo.css'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [
+    MatSnackBarModule,
     CommonModule,
     FormsModule,
     MatButtonModule,
     MatCheckboxModule,
-    MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatSnackBarModule,
   ],
 })
 export class SnackBarDemo {

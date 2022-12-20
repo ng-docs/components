@@ -49,7 +49,7 @@ import {MatStep, MatStepper} from './stepper';
 import {MatStepperNext, MatStepperPrevious} from './stepper-button';
 import {MatStepperIntl} from './stepper-intl';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '../input/input-module';
+import {MatInputModule} from '@angular/material/input';
 
 const VALID_REGEX = /valid/;
 let dir: {value: Direction; readonly change: EventEmitter<Direction>};
@@ -129,22 +129,6 @@ describe('MatStepper', () => {
     it('should set the "tablist" role on stepper', () => {
       const stepperEl = fixture.debugElement.query(By.css('mat-stepper'))!.nativeElement;
       expect(stepperEl.getAttribute('role')).toBe('tablist');
-    });
-
-    it('should set aria-expanded of content correctly', () => {
-      const stepContents = fixture.debugElement.queryAll(By.css(`.mat-vertical-stepper-content`));
-      const stepperComponent = fixture.debugElement.query(
-        By.directive(MatStepper),
-      )!.componentInstance;
-      const firstStepContentEl = stepContents[0].nativeElement;
-      expect(firstStepContentEl.getAttribute('aria-expanded')).toBe('true');
-
-      stepperComponent.selectedIndex = 1;
-      fixture.detectChanges();
-
-      expect(firstStepContentEl.getAttribute('aria-expanded')).toBe('false');
-      const secondStepContentEl = stepContents[1].nativeElement;
-      expect(secondStepContentEl.getAttribute('aria-expanded')).toBe('true');
     });
 
     it('should display the correct label', () => {

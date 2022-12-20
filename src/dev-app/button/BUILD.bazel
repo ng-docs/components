@@ -10,7 +10,6 @@ ng_module(
         ":button_demo_scss",
     ],
     deps = [
-        "//src/components-examples/material/button",
         "//src/material/button",
         "//src/material/icon",
     ],

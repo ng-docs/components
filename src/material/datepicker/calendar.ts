@@ -41,6 +41,8 @@ import {
 import {MatYearView} from './year-view';
 import {MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER, DateRange} from './date-selection-model';
 
+let calendarHeaderId = 1;
+
 /**
  * Possible views for the calendar.
  *
@@ -49,14 +51,6 @@ import {MAT_SINGLE_DATE_SELECTION_MODEL_PROVIDER, DateRange} from './date-select
  * @docs-private
  */
 export type MatCalendarView = 'month' | 'year' | 'multi-year';
-
-/**
- * Counter used to generate unique IDs.
- *
- * 用于生成唯一 ID 的计数器。
- *
- */
-let uniqueId = 0;
 
 /**
  * Default header for MatCalendar
@@ -72,8 +66,6 @@ let uniqueId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatCalendarHeader<D> {
-  _buttonDescriptionId = `mat-calendar-button-${uniqueId++}`;
-
   constructor(
     private _intl: MatDatepickerIntl,
     @Inject(forwardRef(() => MatCalendar)) public calendar: MatCalendar<D>,
@@ -85,7 +77,7 @@ export class MatCalendarHeader<D> {
   }
 
   /**
-   * The label for the current calendar view.
+   * The display text for the current calendar view.
    *
    * 当前日历视图的标签。
    *
@@ -100,28 +92,26 @@ export class MatCalendarHeader<D> {
       return this._dateAdapter.getYearName(this.calendar.activeDate);
     }
 
-    // The offset from the active year to the "slot" for the starting year is the
-    // *actual* first rendered year in the multi-year view, and the last year is
-    // just yearsPerPage - 1 away.
-    const activeYear = this._dateAdapter.getYear(this.calendar.activeDate);
-    const minYearOfPage =
-      activeYear -
-      getActiveOffset(
-        this._dateAdapter,
-        this.calendar.activeDate,
-        this.calendar.minDate,
-        this.calendar.maxDate,
-      );
-    const maxYearOfPage = minYearOfPage + yearsPerPage - 1;
-    const minYearName = this._dateAdapter.getYearName(
-      this._dateAdapter.createDate(minYearOfPage, 0, 1),
-    );
-    const maxYearName = this._dateAdapter.getYearName(
-      this._dateAdapter.createDate(maxYearOfPage, 0, 1),
-    );
-    return this._intl.formatYearRange(minYearName, maxYearName);
+    return this._intl.formatYearRange(...this._formatMinAndMaxYearLabels());
   }
 
+  /** The aria description for the current calendar view. */
+  get periodButtonDescription(): string {
+    if (this.calendar.currentView == 'month') {
+      return this._dateAdapter
+        .format(this.calendar.activeDate, this._dateFormats.display.monthYearLabel)
+        .toLocaleUpperCase();
+    }
+    if (this.calendar.currentView == 'year') {
+      return this._dateAdapter.getYearName(this.calendar.activeDate);
+    }
+
+    // Format a label for the window of years displayed in the multi-year calendar view. Use
+    // `formatYearRangeLabel` because it is TTS friendly.
+    return this._intl.formatYearRangeLabel(...this._formatMinAndMaxYearLabels());
+  }
+
+  /** The `aria-label` for changing the calendar view. */
   get periodButtonLabel(): string {
     return this.calendar.currentView == 'month'
       ? this._intl.switchToMultiYearViewLabel
@@ -250,6 +240,39 @@ export class MatCalendarHeader<D> {
       this.calendar.maxDate,
     );
   }
+
+  /**
+   * Format two individual labels for the minimum year and maximum year available in the multi-year
+   * calendar view. Returns an array of two strings where the first string is the formatted label
+   * for the minimum year, and the second string is the formatted label for the maximum year.
+   */
+  private _formatMinAndMaxYearLabels(): [minYearLabel: string, maxYearLabel: string] {
+    // The offset from the active year to the "slot" for the starting year is the
+    // *actual* first rendered year in the multi-year view, and the last year is
+    // just yearsPerPage - 1 away.
+    const activeYear = this._dateAdapter.getYear(this.calendar.activeDate);
+    const minYearOfPage =
+      activeYear -
+      getActiveOffset(
+        this._dateAdapter,
+        this.calendar.activeDate,
+        this.calendar.minDate,
+        this.calendar.maxDate,
+      );
+    const maxYearOfPage = minYearOfPage + yearsPerPage - 1;
+    const minYearLabel = this._dateAdapter.getYearName(
+      this._dateAdapter.createDate(minYearOfPage, 0, 1),
+    );
+    const maxYearLabel = this._dateAdapter.getYearName(
+      this._dateAdapter.createDate(maxYearOfPage, 0, 1),
+    );
+
+    return [minYearLabel, maxYearLabel];
+  }
+
+  private _id = `mat-calendar-header-${calendarHeaderId++}`;
+
+  _periodButtonLabelId = `${this._id}-period-label`;
 }
 
 /**
@@ -402,6 +425,12 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
    *
    */
   @Input() comparisonEnd: D | null;
+
+  /** ARIA Accessible name of the `<input matStartDate/>` */
+  @Input() startDateAccessibleName: string | null;
+
+  /** ARIA Accessible name of the `<input matEndDate/>` */
+  @Input() endDateAccessibleName: string | null;
 
   /**
    * Emits when the currently selected date changes.
@@ -668,7 +697,7 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
    */
   private _getCurrentViewComponent(): MatMonthView<D> | MatYearView<D> | MatMultiYearView<D> {
     // The return type is explicitly written as a union to ensure that the Closure compiler does
-    // not optimize calls to _init(). Without the explict return type, TypeScript narrows it to
+    // not optimize calls to _init(). Without the explicit return type, TypeScript narrows it to
     // only the first component type. See https://github.com/angular/components/issues/22996.
     return this.monthView || this.yearView || this.multiYearView;
   }

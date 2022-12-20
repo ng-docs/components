@@ -29,6 +29,11 @@ export const DEV_APP_ROUTES: Routes = [
     loadComponent: () => import('./baseline/baseline-demo').then(m => m.BaselineDemo),
   },
   {
+    path: 'legacy-baseline',
+    loadComponent: () =>
+      import('./legacy-baseline/legacy-baseline-demo').then(m => m.LegacyBaselineDemo),
+  },
+  {
     path: 'button',
     loadComponent: () => import('./button/button-demo').then(m => m.ButtonDemo),
   },
@@ -50,9 +55,8 @@ export const DEV_APP_ROUTES: Routes = [
     loadComponent: () => import('./cdk-dialog/dialog-demo').then(m => m.DialogDemo),
   },
   {
-    path: 'cdk-experimental-listbox',
-    loadComponent: () =>
-      import('./cdk-experimental-listbox/cdk-listbox-demo').then(m => m.CdkListboxDemo),
+    path: 'cdk-listbox',
+    loadComponent: () => import('./cdk-listbox/cdk-listbox-demo').then(m => m.CdkListboxDemo),
   },
   {
     path: 'cdk-menu',
@@ -77,6 +81,11 @@ export const DEV_APP_ROUTES: Routes = [
   {
     path: 'datepicker',
     loadComponent: () => import('./datepicker/datepicker-demo').then(m => m.DatepickerDemo),
+  },
+  {
+    path: 'legacy-datepicker',
+    loadComponent: () =>
+      import('./legacy-datepicker/datepicker-demo').then(m => m.LegacyDatepickerDemo),
   },
   {
     path: 'dialog',
@@ -115,8 +124,8 @@ export const DEV_APP_ROUTES: Routes = [
     loadComponent: () => import('./icon/icon-demo').then(m => m.IconDemo),
   },
   {
-    path: 'input',
-    loadComponent: () => import('./input/input-demo').then(m => m.InputDemo),
+    path: 'legacy-input',
+    loadComponent: () => import('./legacy-input/legacy-input-demo').then(m => m.LegacyInputDemo),
   },
   {
     path: 'layout',
@@ -130,8 +139,8 @@ export const DEV_APP_ROUTES: Routes = [
       ),
   },
   {
-    path: 'list',
-    loadComponent: () => import('./list/list-demo').then(m => m.ListDemo),
+    path: 'legacy-list',
+    loadComponent: () => import('./legacy-list/legacy-list-demo').then(m => m.LegacyListDemo),
   },
   {
     path: 'live-announcer',
@@ -143,90 +152,91 @@ export const DEV_APP_ROUTES: Routes = [
     loadComponent: () => import('./menubar/mat-menubar-demo').then(m => m.MatMenuBarDemo),
   },
   {
-    path: 'mdc-autocomplete',
+    path: 'legacy-autocomplete',
     loadComponent: () =>
-      import('./mdc-autocomplete/mdc-autocomplete-demo').then(m => m.MdcAutocompleteDemo),
+      import('./legacy-autocomplete/legacy-autocomplete-demo').then(m => m.LegacyAutocompleteDemo),
   },
   {
-    path: 'mdc-button',
-    loadComponent: () => import('./mdc-button/mdc-button-demo').then(m => m.MdcButtonDemo),
+    path: 'legacy-button',
+    loadComponent: () => import('./legacy-button/legacy-button-demo').then(m => m.LegacyButtonDemo),
   },
   {
-    path: 'mdc-card',
-    loadComponent: () => import('./mdc-card/mdc-card-demo').then(m => m.MdcCardDemo),
+    path: 'legacy-card',
+    loadComponent: () => import('./legacy-card/legacy-card-demo').then(m => m.LegacyCardDemo),
   },
   {
-    path: 'mdc-checkbox',
-    loadComponent: () => import('./mdc-checkbox/mdc-checkbox-demo').then(m => m.MdcCheckboxDemo),
-  },
-  {
-    path: 'mdc-progress-bar',
+    path: 'legacy-checkbox',
     loadComponent: () =>
-      import('./mdc-progress-bar/mdc-progress-bar-demo').then(m => m.MdcProgressBarDemo),
+      import('./legacy-checkbox/legacy-checkbox-demo').then(m => m.LegacyCheckboxDemo),
   },
   {
-    path: 'mdc-chips',
-    loadComponent: () => import('./mdc-chips/mdc-chips-demo').then(m => m.MdcChipsDemo),
+    path: 'progress-bar',
+    loadComponent: () => import('./progress-bar/progress-bar-demo').then(m => m.ProgressBarDemo),
   },
   {
-    path: 'mdc-dialog',
-    loadComponent: () => import('./mdc-dialog/mdc-dialog-demo').then(m => m.DialogDemo),
+    path: 'legacy-chips',
+    loadComponent: () => import('./legacy-chips/legacy-chips-demo').then(m => m.LegacyChipsDemo),
   },
   {
-    path: 'mdc-input',
-    loadComponent: () => import('./mdc-input/mdc-input-demo').then(m => m.MdcInputDemo),
+    path: 'legacy-dialog',
+    loadComponent: () => import('./legacy-dialog/legacy-dialog-demo').then(m => m.LegacyDialogDemo),
   },
   {
-    path: 'mdc-list',
-    loadComponent: () => import('./mdc-list/mdc-list-demo').then(m => m.MdcListDemo),
+    path: 'input',
+    loadComponent: () => import('./input/input-demo').then(m => m.InputDemo),
   },
   {
-    path: 'mdc-menu',
-    loadComponent: () => import('./mdc-menu/mdc-menu-demo').then(m => m.MdcMenuDemo),
+    path: 'list',
+    loadComponent: () => import('./list/list-demo').then(m => m.ListDemo),
   },
   {
-    path: 'mdc-paginator',
-    loadComponent: () => import('./mdc-paginator/mdc-paginator-demo').then(m => m.MdcPaginatorDemo),
+    path: 'legacy-menu',
+    loadComponent: () => import('./legacy-menu/legacy-menu-demo').then(m => m.LegacyMenuDemo),
   },
   {
-    path: 'mdc-progress-spinner',
+    path: 'legacy-paginator',
     loadComponent: () =>
-      import('./mdc-progress-spinner/mdc-progress-spinner-demo').then(
-        m => m.MdcProgressSpinnerDemo,
+      import('./legacy-paginator/legacy-paginator-demo').then(m => m.LegacyPaginatorDemo),
+  },
+  {
+    path: 'legacy-progress-spinner',
+    loadComponent: () =>
+      import('./legacy-progress-spinner/legacy-progress-spinner-demo').then(
+        m => m.LegacyProgressSpinnerDemo,
       ),
   },
   {
-    path: 'mdc-radio',
-    loadComponent: () => import('./mdc-radio/mdc-radio-demo').then(m => m.MdcRadioDemo),
+    path: 'legacy-radio',
+    loadComponent: () => import('./legacy-radio/legacy-radio-demo').then(m => m.LegacyRadioDemo),
   },
   {
-    path: 'mdc-select',
-    loadComponent: () => import('./mdc-select/mdc-select-demo').then(m => m.MdcSelectDemo),
+    path: 'select',
+    loadComponent: () => import('./select/select-demo').then(m => m.SelectDemo),
   },
   {
-    path: 'mdc-snack-bar',
-    loadComponent: () => import('./mdc-snack-bar/mdc-snack-bar-demo').then(m => m.MdcSnackBarDemo),
+    path: 'snack-bar',
+    loadComponent: () => import('./snack-bar/snack-bar-demo').then(m => m.SnackBarDemo),
   },
   {
-    path: 'mdc-slide-toggle',
+    path: 'slide-toggle',
+    loadComponent: () => import('./slide-toggle/slide-toggle-demo').then(m => m.SlideToggleDemo),
+  },
+  {
+    path: 'slider',
+    loadComponent: () => import('./slider/slider-demo').then(m => m.SliderDemo),
+  },
+  {
+    path: 'legacy-table',
+    loadComponent: () => import('./legacy-table/legacy-table-demo').then(m => m.LegacyTableDemo),
+  },
+  {
+    path: 'legacy-tabs',
+    loadComponent: () => import('./legacy-tabs/legacy-tabs-demo').then(m => m.LegacyTabsDemo),
+  },
+  {
+    path: 'legacy-tooltip',
     loadComponent: () =>
-      import('./mdc-slide-toggle/mdc-slide-toggle-demo').then(m => m.MdcSlideToggleDemo),
-  },
-  {
-    path: 'mdc-slider',
-    loadComponent: () => import('./mdc-slider/mdc-slider-demo').then(m => m.MdcSliderDemo),
-  },
-  {
-    path: 'mdc-table',
-    loadComponent: () => import('./mdc-table/mdc-table-demo').then(m => m.MdcTableDemo),
-  },
-  {
-    path: 'mdc-tabs',
-    loadComponent: () => import('./mdc-tabs/mdc-tabs-demo').then(m => m.MdcTabsDemo),
-  },
-  {
-    path: 'mdc-tooltip',
-    loadComponent: () => import('./mdc-tooltip/mdc-tooltip-demo').then(m => m.MdcTooltipDemo),
+      import('./legacy-tooltip/legacy-tooltip-demo').then(m => m.LegacyTooltipDemo),
   },
   {
     path: 'menu',
@@ -249,8 +259,9 @@ export const DEV_APP_ROUTES: Routes = [
     loadComponent: () => import('./portal/portal-demo').then(m => m.PortalDemo),
   },
   {
-    path: 'progress-bar',
-    loadComponent: () => import('./progress-bar/progress-bar-demo').then(m => m.ProgressBarDemo),
+    path: 'legacy-progress-bar',
+    loadComponent: () =>
+      import('./legacy-progress-bar/legacy-progress-bar-demo').then(m => m.LegacyProgressBarDemo),
   },
   {
     path: 'progress-spinner',
@@ -266,24 +277,26 @@ export const DEV_APP_ROUTES: Routes = [
     loadComponent: () => import('./ripple/ripple-demo').then(m => m.RippleDemo),
   },
   {
-    path: 'select',
-    loadComponent: () => import('./select/select-demo').then(m => m.SelectDemo),
+    path: 'legacy-select',
+    loadComponent: () => import('./legacy-select/legacy-select-demo').then(m => m.LegacySelectDemo),
   },
   {
     path: 'sidenav',
     loadComponent: () => import('./sidenav/sidenav-demo').then(m => m.SidenavDemo),
   },
   {
-    path: 'slide-toggle',
-    loadComponent: () => import('./slide-toggle/slide-toggle-demo').then(m => m.SlideToggleDemo),
+    path: 'legacy-slide-toggle',
+    loadComponent: () =>
+      import('./legacy-slide-toggle/legacy-slide-toggle-demo').then(m => m.LegacySlideToggleDemo),
   },
   {
-    path: 'slider',
-    loadComponent: () => import('./slider/slider-demo').then(m => m.SliderDemo),
+    path: 'legacy-slider',
+    loadComponent: () => import('./legacy-slider/legacy-slider-demo').then(m => m.LegacySliderDemo),
   },
   {
-    path: 'snack-bar',
-    loadComponent: () => import('./snack-bar/snack-bar-demo').then(m => m.SnackBarDemo),
+    path: 'legacy-snack-bar',
+    loadComponent: () =>
+      import('./legacy-snack-bar/legacy-snack-bar-demo').then(m => m.LegacySnackBarDemo),
   },
   {
     path: 'stepper',

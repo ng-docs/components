@@ -7,6 +7,7 @@
  */
 
 import {
+  ComponentHarnessConstructor,
   ContentContainerComponentHarness,
   HarnessLoader,
   HarnessPredicate,
@@ -14,7 +15,7 @@ import {
 import {TabHarnessFilters} from './tab-harness-filters';
 
 /**
- * Harness for interacting with a standard Angular Material tab-label in tests.
+ * Harness for interacting with an MDC_based Angular Material tab in tests.
  *
  * 在测试中可与标准 Angular Material 选项卡标签进行交互的测试工具。
  *
@@ -26,11 +27,10 @@ export class MatTabHarness extends ContentContainerComponentHarness<string> {
    * `MatTab` 实例的宿主元素选择器。
    *
    */
-  static hostSelector = '.mat-tab-label';
+  static hostSelector = '.mat-mdc-tab';
 
   /**
-   * Gets a `HarnessPredicate` that can be used to search for a `MatTabHarness` that meets
-   * certain criteria.
+   * Gets a `HarnessPredicate` that can be used to search for a tab with specific attributes.
    *
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatTabHarness`。
    *
@@ -42,11 +42,12 @@ export class MatTabHarness extends ContentContainerComponentHarness<string> {
    *
    * 用指定选项配置过的 `HarnessPredicate` 服务。
    */
-  static with(options: TabHarnessFilters = {}): HarnessPredicate<MatTabHarness> {
-    return new HarnessPredicate(MatTabHarness, options).addOption(
-      'label',
-      options.label,
-      (harness, label) => HarnessPredicate.stringMatches(harness.getLabel(), label),
+  static with<T extends MatTabHarness>(
+    this: ComponentHarnessConstructor<T>,
+    options: TabHarnessFilters = {},
+  ): HarnessPredicate<T> {
+    return new HarnessPredicate(this, options).addOption('label', options.label, (harness, label) =>
+      HarnessPredicate.stringMatches(harness.getLabel(), label),
     );
   }
 
@@ -109,7 +110,7 @@ export class MatTabHarness extends ContentContainerComponentHarness<string> {
    *
    */
   async select(): Promise<void> {
-    await (await this.host()).click();
+    await (await this.host()).click('center');
   }
 
   /**

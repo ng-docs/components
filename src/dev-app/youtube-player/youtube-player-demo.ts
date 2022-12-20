@@ -18,6 +18,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import {YouTubePlayerModule} from '@angular/youtube-player';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 interface Video {
   id: string;
@@ -44,7 +45,7 @@ const VIDEOS: Video[] = [
   templateUrl: 'youtube-player-demo.html',
   styleUrls: ['youtube-player-demo.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, MatRadioModule, YouTubePlayerModule],
+  imports: [CommonModule, FormsModule, MatRadioModule, MatCheckboxModule, YouTubePlayerModule],
 })
 export class YouTubePlayerDemo implements AfterViewInit, OnDestroy {
   @ViewChild('demoYouTubePlayer') demoYouTubePlayer: ElementRef<HTMLDivElement>;
@@ -52,6 +53,7 @@ export class YouTubePlayerDemo implements AfterViewInit, OnDestroy {
   videos = VIDEOS;
   videoWidth: number | undefined;
   videoHeight: number | undefined;
+  disableCookies = false;
 
   constructor(private _changeDetectorRef: ChangeDetectorRef) {
     this._loadApi();

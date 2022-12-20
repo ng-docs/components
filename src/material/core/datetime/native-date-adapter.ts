@@ -141,7 +141,7 @@ export class NativeDateAdapter extends DateAdapter<Date> {
     return new Date();
   }
 
-  parse(value: any): Date | null {
+  parse(value: any, parseFormat?: any): Date | null {
     // We have no way using the native JS Date to set the parse format or locale, so we ignore these
     // parameters.
     if (typeof value == 'number') {
@@ -276,7 +276,7 @@ export class NativeDateAdapter extends DateAdapter<Date> {
    *
    * 将 Date 对象转换为字符串时，javascript 内置函数可能会返回错误结果，因为它应用了其内部 DST 规则。世界各地的 DST 规则变化非常频繁，尽管当前有效的规则在前几年并不总是有效的。为了解决这个问题，我们构建了一个新的 Date 对象，该对象具有内部 UTC 表示以及本地日期和时间。
    *
-   * @param dtf Intl.DateTimeFormat object, containg the desired string format. It must have
+   * @param dtf Intl.DateTimeFormat object, containing the desired string format. It must have
    *    timeZone set to 'utc' to work fine.
    *
    * Intl.DateTimeFormat 对象，包含所需的字符串格式。必须将 timeZone 设置为 'utc' 才能正常工作。

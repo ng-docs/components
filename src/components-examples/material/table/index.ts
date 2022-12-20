@@ -43,6 +43,7 @@ import {TableRowBindingExample} from './table-row-binding/table-row-binding-exam
 import {TableDynamicArrayDataExample} from './table-dynamic-array-data/table-dynamic-array-data-example';
 import {TableDynamicObservableDataExample} from './table-dynamic-observable-data/table-dynamic-observable-data-example';
 import {TableGeneratedColumnsExample} from './table-generated-columns/table-generated-columns-example';
+import {TableFlexLargeRowExample} from './table-flex-large-row/table-flex-large-row-example';
 
 export {
   TableBasicExample,
@@ -53,6 +54,7 @@ export {
   TableExpandableRowsExample,
   TableFilteringExample,
   TableFlexBasicExample,
+  TableFlexLargeRowExample,
   TableFooterRowExample,
   TableGeneratedColumnsExample,
   TableHarnessExample,
@@ -87,6 +89,7 @@ const EXAMPLES = [
   TableExpandableRowsExample,
   TableFilteringExample,
   TableFlexBasicExample,
+  TableFlexLargeRowExample,
   TableFooterRowExample,
   TableGeneratedColumnsExample,
   TableHarnessExample,

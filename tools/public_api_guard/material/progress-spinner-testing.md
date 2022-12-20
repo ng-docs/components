@@ -6,6 +6,7 @@
 
 import { BaseHarnessFilters } from '@angular/cdk/testing';
 import { ComponentHarness } from '@angular/cdk/testing';
+import { ComponentHarnessConstructor } from '@angular/cdk/testing';
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 
@@ -14,7 +15,7 @@ export class MatProgressSpinnerHarness extends ComponentHarness {
     getMode(): Promise<ProgressSpinnerMode>;
     getValue(): Promise<number | null>;
     static hostSelector: string;
-    static with(options?: ProgressSpinnerHarnessFilters): HarnessPredicate<MatProgressSpinnerHarness>;
+    static with<T extends MatProgressSpinnerHarness>(this: ComponentHarnessConstructor<T>, options?: ProgressSpinnerHarnessFilters): HarnessPredicate<T>;
 }
 
 // @public

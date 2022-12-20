@@ -8,16 +8,22 @@ import {
   PizzaPartyComponent,
   SnackBarComponentExample,
 } from './snack-bar-component/snack-bar-component-example';
+import {
+  PizzaPartyAnnotatedComponent,
+  SnackBarAnnotatedComponentExample,
+} from './snack-bar-annotated-component/snack-bar-annotated-component-example';
 import {SnackBarOverviewExample} from './snack-bar-overview/snack-bar-overview-example';
 import {SnackBarPositionExample} from './snack-bar-position/snack-bar-position-example';
 import {SnackBarHarnessExample} from './snack-bar-harness/snack-bar-harness-example';
 
 export {
+  SnackBarAnnotatedComponentExample,
   SnackBarComponentExample,
   SnackBarHarnessExample,
   SnackBarOverviewExample,
   SnackBarPositionExample,
   PizzaPartyComponent,
+  PizzaPartyAnnotatedComponent,
 };
 
 const EXAMPLES = [
@@ -25,11 +31,12 @@ const EXAMPLES = [
   SnackBarHarnessExample,
   SnackBarOverviewExample,
   SnackBarPositionExample,
+  SnackBarAnnotatedComponentExample,
 ];
 
 @NgModule({
   imports: [FormsModule, MatButtonModule, MatInputModule, MatSelectModule, MatSnackBarModule],
-  declarations: [...EXAMPLES, PizzaPartyComponent],
+  declarations: [...EXAMPLES, PizzaPartyComponent, PizzaPartyAnnotatedComponent],
   exports: EXAMPLES,
 })
 export class SnackBarExamplesModule {}

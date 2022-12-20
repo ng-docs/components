@@ -7,10 +7,23 @@
  */
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
-/**
- * A set of criteria that can be used to filter a list of `MatSliderHarness` instances.
- *
- * 一组可用于过滤 `MatSliderHarness` 实例列表的条件。
- *
- */
-export interface SliderHarnessFilters extends BaseHarnessFilters {}
+/** Possible positions of a slider thumb. */
+export const enum ThumbPosition {
+  START,
+  END,
+}
+
+/** A set of criteria that can be used to filter a list of `MatSliderHarness` instances. */
+export interface SliderHarnessFilters extends BaseHarnessFilters {
+  /** Filters out only range/non-range sliders. */
+  isRange?: boolean;
+
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
+}
+
+/** A set of criteria that can be used to filter a list of `MatSliderThumbHarness` instances. */
+export interface SliderThumbHarnessFilters extends BaseHarnessFilters {
+  /** Filters out slider thumbs with a particular position. */
+  position?: ThumbPosition;
+}

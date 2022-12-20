@@ -7,7 +7,7 @@
  */
 
 /**
- * Returns an error to be thrown when attempting to find an unexisting column.
+ * Returns an error to be thrown when attempting to find an nonexistent column.
  *
  * 返回试图查找不存在的列时要抛出的错误。
  *

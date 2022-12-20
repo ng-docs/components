@@ -10,7 +10,8 @@ with `mat-` instead of `cdk-`.
 树控件基于 CDK 的树控件构建，并使用相似的接口来表示其数据源和模板。只是它们的元素和属性选择器会用 `mat-` 前缀，而不是 `cdk-` 前缀。
 
 There are two types of trees: Flat tree and nested tree. The DOM structures are different for these
-two types of trees.
+two types of trees. Flat trees generally offer better performance, while nested trees provide
+flexibility.
 
 有两种类型的树：扁平树和嵌套树。这两种树的 DOM 结构是不同的。
 
@@ -38,8 +39,9 @@ used to style the node such that it is indented to the appropriate level.
 
 <!-- example(tree-flat-overview) -->
 
-Flat trees are generally easier to style and inspect. They are also more friendly to
-scrolling variations, such as infinite or virtual scrolling
+Flat trees are generally easier to style and inspect. They are also more friendly to scrolling
+variations, such as infinite or virtual scrolling. Flat trees
+generally offer better performance.
 
 扁平树通常更容易设置样式和审查元素。它们对各种滚动更加友好 —— 比如无尽滚动或虚拟滚动。
 

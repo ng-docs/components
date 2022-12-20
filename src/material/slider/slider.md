@@ -21,52 +21,41 @@ respectively. The initial value is set to the minimum value unless otherwise spe
 这些值可以通过设置 `min`、`max` 和 `step` 属性进行修改。除非另行指定，否则其初始值就等于最小值。
 
 ```html
-<mat-slider min="1" max="5" step="0.5" value="1.5"></mat-slider>
+<mat-slider min="1" max="5" step="0.5" value="1.5">
+  <input matSliderThumb>
+</mat-slider>
 ```
 
-### Orientation
-
-### 方向
-
-By default sliders are horizontal with the minimum value on the left and the maximum value on the
-right. The `vertical` attribute can be added to a slider to make it vertical with the minimum value
-on bottom and the maximum value on top.
-
-默认情况下，滑杆是水平放置的，其最小值在左侧，最大值在右侧。可以给滑杆添加 `vertical` 属性，来让它变成垂直的，其最小值在底部，而最大值在顶部。
-
-```html
-<mat-slider vertical></mat-slider>
-```
-
-An `invert` attribute is also available which can be specified to flip the axis that the thumb moves
-along. An inverted horizontal slider will have the minimum value on the right and the maximum value
-on the left, while an inverted vertical slider will have the minimum value on top and the maximum
-value on bottom.
+### Selecting a range
+A `<mat-slider>` can be converted into a range slider by projecting both a `matStartThumb` and a
+`matEndThumb` into it. Each of the thumbs has an independent value, but they won't be allowed to
+overlap and they're still bound by the same `min` and `max` from the slider.
 
 还可以指定 `invert` 属性，来翻转坐标轴（滑块会沿着它移动）。
 翻转后的水平滑杆，其最小值在右侧，而最大值在左侧；翻转后的垂直滑杆，其最小值在上部，而最大值在底部。
 
 ```html
-<mat-slider invert></mat-slider>
+<mat-slider>
+  <input matSliderStartThumb>
+  <input matSliderEndThumb>
+</mat-slider>
 ```
+
+<!-- example(slider-range) -->
 
 ### Thumb label
 
 ### 滑块标签
 
 By default, the exact selected value of a slider is not visible to the user. However, this value can
-be added to the thumb by adding the `thumbLabel` attribute.
-
-默认情况下，滑杆所选的精确值不会显示给用户。不过，可以通过 `thumbLabel` 属性来把这个值显示在滑块上。
-
-The [Material Design spec](https://material.io/design/components/sliders.html#discrete-slider) recommends using the
-`thumbLabel` attribute (along with `tickInterval="1"`) only for sliders that are used to display a
-discrete value (such as a 1-5 rating).
+be added to the thumb by adding the `discrete` attribute.
 
 [Material Design 规范](https://material.io/design/components/sliders.html#discrete-slider)建议只为那些用来显示离散值（比如 1~5 的打分值）的滑杆使用 `thumbLabel` 属性（同时设置 `tickInterval="1"`）。
 
 ```html
-<mat-slider thumbLabel tickInterval="1"></mat-slider>
+<mat-slider discrete>
+  <input matSliderThumb>
+</mat-slider>
 ```
 
 ### Formatting the thumb label
@@ -87,34 +76,15 @@ displayed, you can do so using the `displayWith` input.
 ### 刻度标记
 
 By default, sliders do not show tick marks along the thumb track. This can be enabled using the
-`tickInterval` attribute. The value of `tickInterval` should be a number representing the number
-of steps between ticks. For example a `tickInterval` of `3` with a `step` of `4` will draw
-tick marks at every `3` steps, which is the same as every `12` values.
+`showTickMarks` attribute.
 
 默认情况下，滑杆不会在滑块的导轨（track）上显示刻度标记，不过可以使用 `tickInterval` 属性来启用它。`tickInterval` 的值应该是一个表示刻度之间步长的数字。比如 `tickInterval` 为 `3` 而 `step` 为 `4` 时，将会每隔 `3` 步画出一个标记，每 `12` 个值重复一轮。
 
 ```html
-<mat-slider step="4" tickInterval="3"></mat-slider>
+<mat-slider showTickMarks>
+  <input matSliderThumb>
+</mat-slider>
 ```
-
-The `tickInterval` can also be set to `auto` which will automatically choose the number of steps
-such that there is at least `30px` of space between ticks.
-
-`tickInterval` 还可以设置为 `auto` 来自动选择步数，来让刻度之间至少相距 `30px`。
-
-```html
-<mat-slider tickInterval="auto"></mat-slider>
-```
-
-The slider will always show a tick at the beginning and end of the track. If the remaining space
-doesn't add up perfectly the last interval will be shortened or lengthened so that the tick can be
-shown at the end of the track.
-
-滑杆始终会在导轨的起点和终点显示一个刻度。如果剩下的控件不够添加了，那么最后一个间距可能被缩短或拉长，以便让刻度显示在导轨的末尾。
-
-The [Material Design spec](https://material.io/design/components/sliders.html#discrete-slider) recommends using the
-`tickInterval` attribute (set to `1` along with the `thumbLabel` attribute) only for sliders that
-are used to display a discrete value (such as a 1-5 rating).
 
 [Material Design 规范](https://material.io/design/components/sliders.html#discrete-slider) 建议只为那些用来显示离散值（比如 1~5 的打分值）的滑杆设置 `tickInterval` 属性（同时把 `thumbLabel` 属性设置为 `1`）。
 
@@ -150,8 +120,7 @@ The slider has the following keyboard bindings:
 
 ### 无障碍性
 
-`MatSlider` implements the ARIA `role="slider"` pattern, handling keyboard input and focus
-management. Always provide an accessible label for each slider via `aria-label` or
-`aria-labelledby`.
+`MatSlider` uses an internal `<input type="range">` to provide an accessible experience. The input
+receives focus and it can be labelled using `aria-label` or `aria-labelledby`.
 
 `MatSlider` 实现了 ARIA `role="slider"` 模式，它会处理键盘输入和焦点管理。始终要通过 `aria-label` 或 `aria-labelledby` 为每个滑块提供无障碍标签。

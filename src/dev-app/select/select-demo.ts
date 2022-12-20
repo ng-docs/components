@@ -6,17 +6,16 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Component, TemplateRef} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
+import {Component} from '@angular/core';
+import {FormControl, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ErrorStateMatcher, ThemePalette} from '@angular/material/core';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {FloatLabelType, MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
 import {MatSelectChange, MatSelectModule} from '@angular/material/select';
+import {FloatLabelType} from '@angular/material/form-field';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
 
 /**
  * Error any time control is invalid
@@ -43,8 +42,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     FormsModule,
     MatButtonModule,
     MatCardModule,
-    MatDialogModule,
-    MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatSelectModule,
@@ -64,7 +61,7 @@ export class SelectDemo {
   currentPokemonFromGroup: string;
   currentDigimon: string;
   currentAppearanceValue: string | null;
-  latestChangeEvent: MatSelectChange;
+  latestChangeEvent: MatSelectChange | undefined;
   floatLabel: FloatLabelType = 'auto';
   drinksWidth = 'default';
   foodControl = new FormControl('pizza-1');
@@ -157,8 +154,6 @@ export class SelectDemo {
     {value: 'indramon-5', viewValue: 'Indramon'},
   ];
 
-  constructor(private _dialog: MatDialog) {}
-
   toggleDisabled() {
     this.foodControl.enabled ? this.foodControl.disable() : this.foodControl.enable();
   }
@@ -183,9 +178,5 @@ export class SelectDemo {
 
   toggleSelected() {
     this.currentAppearanceValue = this.currentAppearanceValue ? null : this.digimon[0].value;
-  }
-
-  openDialogWithSelectInside(dialogTemplate: TemplateRef<unknown>) {
-    this._dialog.open(dialogTemplate);
   }
 }

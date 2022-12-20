@@ -7,7 +7,7 @@
  */
 
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {BACKSPACE, hasModifierKey, TAB} from '@angular/cdk/keycodes';
+import {BACKSPACE, hasModifierKey} from '@angular/cdk/keycodes';
 import {
   AfterContentInit,
   Directive,
@@ -17,10 +17,12 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  Optional,
   Output,
 } from '@angular/core';
-import {MatChipsDefaultOptions, MAT_CHIPS_DEFAULT_OPTIONS} from './chip-default-options';
-import {MatChipList} from './chip-list';
+import {MatFormField, MAT_FORM_FIELD} from '@angular/material/form-field';
+import {MatChipsDefaultOptions, MAT_CHIPS_DEFAULT_OPTIONS} from './tokens';
+import {MatChipGrid} from './chip-grid';
 import {MatChipTextControl} from './chip-text-control';
 
 /**
@@ -72,7 +74,7 @@ let nextUniqueId = 0;
 
 /**
  * Directive that adds chip-specific behaviors to an input element inside `<mat-form-field>`.
- * May be placed inside or outside of an `<mat-chip-list>`.
+ * May be placed inside or outside of a `<mat-chip-grid>`.
  *
  * 该指令用于把纸片特有的行为添加到 `<mat-form-field>` 里面的输入框元素中。可以放在 `<mat-chip-list>` 的内部或外部。
  *
@@ -81,7 +83,10 @@ let nextUniqueId = 0;
   selector: 'input[matChipInputFor]',
   exportAs: 'matChipInput, matChipInputFor',
   host: {
-    'class': 'mat-chip-input mat-input-element',
+    // TODO: eventually we should remove `mat-input-element` from here since it comes from the
+    // non-MDC version of the input. It's currently being kept for backwards compatibility, because
+    // the MDC chips were landed initially with it.
+    'class': 'mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element',
     '(keydown)': '_keydown($event)',
     '(keyup)': '_keyup($event)',
     '(blur)': '_blur()',
@@ -90,11 +95,12 @@ let nextUniqueId = 0;
     '[id]': 'id',
     '[attr.disabled]': 'disabled || null',
     '[attr.placeholder]': 'placeholder || null',
-    '[attr.aria-invalid]': '_chipList && _chipList.ngControl ? _chipList.ngControl.invalid : null',
-    '[attr.aria-required]': '_chipList && _chipList.required || null',
+    '[attr.aria-invalid]': '_chipGrid && _chipGrid.ngControl ? _chipGrid.ngControl.invalid : null',
+    '[attr.aria-required]': '_chipGrid && _chipGrid.required || null',
+    '[attr.required]': '_chipGrid && _chipGrid.required || null',
   },
 })
-export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, AfterContentInit {
+export class MatChipInput implements MatChipTextControl, AfterContentInit, OnChanges, OnDestroy {
   /**
    * Used to prevent focus moving to chips while user is holding backspace
    *
@@ -110,7 +116,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    *
    */
   focused: boolean = false;
-  _chipList: MatChipList;
+  _chipGrid: MatChipGrid;
 
   /**
    * Register input for chip list
@@ -119,10 +125,10 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    *
    */
   @Input('matChipInputFor')
-  set chipList(value: MatChipList) {
+  set chipGrid(value: MatChipGrid) {
     if (value) {
-      this._chipList = value;
-      this._chipList.registerInput(this);
+      this._chipGrid = value;
+      this._chipGrid.registerInput(this);
     }
   }
 
@@ -161,7 +167,8 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    * 当要添加纸片时会触发。
    *
    */
-  @Output('matChipInputTokenEnd') readonly chipEnd = new EventEmitter<MatChipInputEvent>();
+  @Output('matChipInputTokenEnd')
+  readonly chipEnd: EventEmitter<MatChipInputEvent> = new EventEmitter<MatChipInputEvent>();
 
   /**
    * The input's placeholder text.
@@ -177,7 +184,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    * 该输入框的唯一 ID。
    *
    */
-  @Input() id: string = `mat-chip-list-input-${nextUniqueId++}`;
+  @Input() id: string = `mat-mdc-chip-list-input-${nextUniqueId++}`;
 
   /**
    * Whether the input is disabled.
@@ -187,7 +194,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    */
   @Input()
   get disabled(): boolean {
-    return this._disabled || (this._chipList && this._chipList.disabled);
+    return this._disabled || (this._chipGrid && this._chipGrid.disabled);
   }
   set disabled(value: BooleanInput) {
     this._disabled = coerceBooleanProperty(value);
@@ -215,12 +222,17 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
   constructor(
     protected _elementRef: ElementRef<HTMLInputElement>,
     @Inject(MAT_CHIPS_DEFAULT_OPTIONS) private _defaultOptions: MatChipsDefaultOptions,
+    @Optional() @Inject(MAT_FORM_FIELD) formField?: MatFormField,
   ) {
     this.inputElement = this._elementRef.nativeElement as HTMLInputElement;
+
+    if (formField) {
+      this.inputElement.classList.add('mat-mdc-form-field-input-control');
+    }
   }
 
-  ngOnChanges(): void {
-    this._chipList.stateChanges.next();
+  ngOnChanges() {
+    this._chipGrid.stateChanges.next();
   }
 
   ngOnDestroy(): void {
@@ -239,17 +251,11 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    */
   _keydown(event?: KeyboardEvent) {
     if (event) {
-      // Allow the user's focus to escape when they're tabbing forward. Note that we don't
-      // want to do this when going backwards, because focus should go back to the first chip.
-      if (event.keyCode === TAB && !hasModifierKey(event, 'shiftKey')) {
-        this._chipList._allowFocusEscape();
-      }
-
       // To prevent the user from accidentally deleting chips when pressing BACKSPACE continuously,
       // We focus the last chip on backspace only after the user has released the backspace button,
-      // and the input is empty (see behaviour in _keyup)
+      // And the input is empty (see behaviour in _keyup)
       if (event.keyCode === BACKSPACE && this._focusLastChipOnBackspace) {
-        this._chipList._keyManager.setLastItemActive();
+        this._chipGrid._focusLastChip();
         event.preventDefault();
         return;
       } else {
@@ -286,16 +292,16 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
     }
     this.focused = false;
     // Blur the chip list if it is not focused
-    if (!this._chipList.focused) {
-      this._chipList._blur();
+    if (!this._chipGrid.focused) {
+      this._chipGrid._blur();
     }
-    this._chipList.stateChanges.next();
+    this._chipGrid.stateChanges.next();
   }
 
   _focus() {
     this.focused = true;
     this._focusLastChipOnBackspace = this.empty;
-    this._chipList.stateChanges.next();
+    this._chipGrid.stateChanges.next();
   }
 
   /**
@@ -305,10 +311,6 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    *
    */
   _emitChipEnd(event?: KeyboardEvent) {
-    if (!this.inputElement.value && !!event) {
-      this._chipList._keydown(event);
-    }
-
     if (!event || this._isSeparatorKey(event)) {
       this.chipEnd.emit({
         input: this.inputElement,
@@ -322,7 +324,7 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
 
   _onInput() {
     // Let chip list know whenever the value changes.
-    this._chipList.stateChanges.next();
+    this._chipGrid.stateChanges.next();
   }
 
   /**
@@ -331,8 +333,8 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
    * 让输入框获得焦点。
    *
    */
-  focus(options?: FocusOptions): void {
-    this.inputElement.focus(options);
+  focus(): void {
+    this.inputElement.focus();
   }
 
   /**
@@ -344,6 +346,18 @@ export class MatChipInput implements MatChipTextControl, OnChanges, OnDestroy, A
   clear(): void {
     this.inputElement.value = '';
     this._focusLastChipOnBackspace = true;
+  }
+
+  setDescribedByIds(ids: string[]): void {
+    const element = this._elementRef.nativeElement;
+
+    // Set the value directly in the DOM since this binding
+    // is prone to "changed after checked" errors.
+    if (ids.length) {
+      element.setAttribute('aria-describedby', ids.join(' '));
+    } else {
+      element.removeAttribute('aria-describedby');
+    }
   }
 
   /**
