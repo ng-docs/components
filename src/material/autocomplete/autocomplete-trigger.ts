@@ -278,13 +278,13 @@ export abstract class _MatAutocompleteTriggerBase
     private _zone: NgZone,
     private _changeDetectorRef: ChangeDetectorRef,
     @Inject(MAT_AUTOCOMPLETE_SCROLL_STRATEGY) scrollStrategy: any,
-    @Optional() private _dir: Directionality,
-    @Optional() @Inject(MAT_FORM_FIELD) @Host() private _formField: MatFormField,
+    @Optional() private _dir: Directionality | null,
+    @Optional() @Inject(MAT_FORM_FIELD) @Host() private _formField: MatFormField | null,
     @Optional() @Inject(DOCUMENT) private _document: any,
     private _viewportRuler: ViewportRuler,
     @Optional()
     @Inject(MAT_AUTOCOMPLETE_DEFAULT_OPTIONS)
-    private _defaults?: MatAutocompleteDefaultOptions,
+    private _defaults?: MatAutocompleteDefaultOptions | null,
   ) {
     this._scrollStrategy = scrollStrategy;
   }
@@ -635,7 +635,9 @@ export abstract class _MatAutocompleteTriggerBase
    */
   private _resetLabel(): void {
     if (this._manuallyFloatingLabel) {
-      this._formField.floatLabel = 'auto';
+      if (this._formField) {
+        this._formField.floatLabel = 'auto';
+      }
       this._manuallyFloatingLabel = false;
     }
   }
@@ -809,6 +811,7 @@ export abstract class _MatAutocompleteTriggerBase
 
     this.autocomplete._setVisibility();
     this.autocomplete._isOpen = this._overlayAttached = true;
+    this.autocomplete._setColor(this._formField?.color);
 
     // We need to do an extra `panelOpen` check in here, because the
     // autocomplete won't be shown if there are no options.
@@ -822,7 +825,7 @@ export abstract class _MatAutocompleteTriggerBase
       positionStrategy: this._getOverlayPosition(),
       scrollStrategy: this._scrollStrategy(),
       width: this._getPanelWidth(),
-      direction: this._dir,
+      direction: this._dir ?? undefined,
       panelClass: this._defaults?.overlayPanelClass,
     });
   }

@@ -392,7 +392,6 @@ DOM and CSS of the components, you may need to tweak some of your application's 
   child elements as appropriate. For example:
 
   `<mat-card-content>` 不再设置任何排版样式，用户可以自由添加对其应用程序有意义的任何排版样式，无论是 `<mat-card-content>` 本身还是任何适当的子元素。例如：
-
   ```scss
   @use '@angular/material' as mat;
   @include mat.typography-hierarchy();
@@ -420,7 +419,6 @@ DOM and CSS of the components, you may need to tweak some of your application's 
   the checkbox.
 
   复选框触控目标更大，现在为 40px 而不再是 16px，这样会更具无障碍性。请务必在布局中留出足够的空间，以使触控目标不会与其他组件重叠。如果你不关心无障碍性，你可以通过为复选框使用密集度 -1 来匹配以前的大小。
-
   ```scss
   @use '@angular/material' as mat;
   @include mat.checkbox-density(-1);

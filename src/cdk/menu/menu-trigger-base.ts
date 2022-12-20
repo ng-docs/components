@@ -99,7 +99,7 @@ export abstract class CdkMenuTriggerBase implements OnDestroy {
    * 此触发器打开的菜单的模板引用变量
    *
    */
-  menuTemplateRef: TemplateRef<unknown>;
+  menuTemplateRef: TemplateRef<unknown> | null;
 
   /** Context data to be passed along to the menu template */
   menuData: unknown;

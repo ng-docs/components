@@ -281,12 +281,7 @@ export class MatSlider
     }
   }
 
-  /**
-   * The values at which the thumb will snap.
-   *
-   * 滑块处的值。
-   *
-   */
+  /** The values at which the thumb will snap. */
   @Input()
   get step(): number {
     return this._step;
@@ -746,12 +741,7 @@ export class MatSlider
   // 2. Min, max, or step
   //    - Reason: The value may have silently changed.
 
-  /**
-   * Updates the translateX of the given thumb.
-   *
-   * 以滑杆宽度的百分比形式更新刻度之间的间距。
-   *
-   */
+  /** Updates the translateX of the given thumb. */
   _updateThumbUI(source: _MatSliderThumb) {
     if (this._skipUpdate()) {
       return;

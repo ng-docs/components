@@ -332,6 +332,45 @@ describe('MDC-based Row Chips', () => {
         expect(document.activeElement).not.toBe(primaryAction);
       }));
     });
+
+    describe('a11y', () => {
+      it('should apply `ariaLabel` and `ariaDesciption` to the primary gridcell', () => {
+        fixture.componentInstance.ariaLabel = 'chip name';
+        fixture.componentInstance.ariaDescription = 'chip description';
+
+        fixture.detectChanges();
+
+        const primaryGridCell = (fixture.nativeElement as HTMLElement).querySelector(
+          '[role="gridcell"].mdc-evolution-chip__cell--primary .mat-mdc-chip-action',
+        );
+        expect(primaryGridCell)
+          .withContext('expected to find the grid cell for the primary chip action')
+          .toBeTruthy();
+
+        expect(primaryGridCell!.getAttribute('aria-label')).toMatch(/chip name/i);
+
+        const primaryGridCellDescribedBy = primaryGridCell!.getAttribute('aria-describedby');
+        expect(primaryGridCellDescribedBy)
+          .withContext('expected primary grid cell to have a non-empty aria-describedby attribute')
+          .toBeTruthy();
+
+        const primaryGridCellDescriptions = Array.from(
+          (fixture.nativeElement as HTMLElement).querySelectorAll(
+            primaryGridCellDescribedBy!
+              .split(/\s+/g)
+              .map(x => `#${x}`)
+              .join(','),
+          ),
+        );
+
+        const primaryGridCellDescription = primaryGridCellDescriptions
+          .map(x => x.textContent?.trim())
+          .join(' ')
+          .trim();
+
+        expect(primaryGridCellDescription).toMatch(/chip description/i);
+      });
+    });
   });
 });
 
@@ -342,7 +381,8 @@ describe('MDC-based Row Chips', () => {
         <mat-chip-row [removable]="removable"
                  [color]="color" [disabled]="disabled" [editable]="editable"
                  (destroyed)="chipDestroy($event)"
-                 (removed)="chipRemove($event)" (edited)="chipEdit($event)">
+                 (removed)="chipRemove($event)" (edited)="chipEdit($event)"
+                 [aria-label]="ariaLabel" [aria-description]="ariaDescription">
           {{name}}
           <button matChipRemove>x</button>
           <span *ngIf="useCustomEditInput" class="projected-edit-input" matChipEditInput></span>
@@ -361,6 +401,8 @@ class SingleChip {
   shouldShow: boolean = true;
   editable: boolean = false;
   useCustomEditInput: boolean = true;
+  ariaLabel: string | null = null;
+  ariaDescription: string | null = null;
 
   chipDestroy: (event?: MatChipEvent) => void = () => {};
   chipRemove: (event?: MatChipEvent) => void = () => {};

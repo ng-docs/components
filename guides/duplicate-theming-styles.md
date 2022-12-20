@@ -1,6 +1,6 @@
 # Avoiding duplicated theming styles
 
-# 避免重复的主题风格
+# 避免重复的主题样式
 
 As explained in the [theming guide](./theming.md), a theme in Angular Material consists of
 configurations for the `color`, `density` and `typography` systems. As some of these individual

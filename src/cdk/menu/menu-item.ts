@@ -147,7 +147,9 @@ export class CdkMenuItem implements FocusableOption, FocusableElement, Toggler, 
    * 该菜单项是否已打开了某个菜单。
    *
    */
-  readonly hasMenu = !!this._menuTrigger;
+  get hasMenu() {
+    return this._menuTrigger?.menuTemplateRef != null;
+  }
 
   /**
    * The tabindex for this menu item managed internally and used for implementing roving a

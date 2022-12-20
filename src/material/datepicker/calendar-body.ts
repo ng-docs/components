@@ -91,7 +91,7 @@ let calendarBodyId = 1;
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
+export class MatCalendarBody<D = any> implements OnChanges, OnDestroy, AfterViewChecked {
   /**
    * Used to skip the next focus event when rendering the preview range.
    * We need a flag like this, because some browsers fire focus events asynchronously.
@@ -255,6 +255,12 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
 
   @Output() readonly activeDateChange = new EventEmitter<MatCalendarUserEvent<number>>();
 
+  /** Emits the date at the possible start of a drag event. */
+  @Output() readonly dragStarted = new EventEmitter<MatCalendarUserEvent<D>>();
+
+  /** Emits the date at the conclusion of a drag, or null if mouse was not released on a date. */
+  @Output() readonly dragEnded = new EventEmitter<MatCalendarUserEvent<D | null>>();
+
   /**
    * The number of blank cells to put at the beginning for the first row.
    *
@@ -279,13 +285,20 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
    */
   _cellWidth: string;
 
+  private _didDragSinceMouseDown = false;
+
   constructor(private _elementRef: ElementRef<HTMLElement>, private _ngZone: NgZone) {
     _ngZone.runOutsideAngular(() => {
       const element = _elementRef.nativeElement;
       element.addEventListener('mouseenter', this._enterHandler, true);
+      element.addEventListener('touchmove', this._touchmoveHandler, true);
       element.addEventListener('focus', this._enterHandler, true);
       element.addEventListener('mouseleave', this._leaveHandler, true);
       element.addEventListener('blur', this._leaveHandler, true);
+      element.addEventListener('mousedown', this._mousedownHandler);
+      element.addEventListener('touchstart', this._mousedownHandler);
+      window.addEventListener('mouseup', this._mouseupHandler);
+      window.addEventListener('touchend', this._touchendHandler);
     });
   }
 
@@ -296,6 +309,12 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
    *
    */
   _cellClicked(cell: MatCalendarCell, event: MouseEvent): void {
+    // Ignore "clicks" that are actually canceled drags (eg the user dragged
+    // off and then went back to this cell to undo).
+    if (this._didDragSinceMouseDown) {
+      return;
+    }
+
     if (cell.enabled) {
       this.selectedValueChange.emit({value: cell.value, event});
     }
@@ -337,9 +356,14 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
   ngOnDestroy() {
     const element = this._elementRef.nativeElement;
     element.removeEventListener('mouseenter', this._enterHandler, true);
+    element.removeEventListener('touchmove', this._touchmoveHandler, true);
     element.removeEventListener('focus', this._enterHandler, true);
     element.removeEventListener('mouseleave', this._leaveHandler, true);
     element.removeEventListener('blur', this._leaveHandler, true);
+    element.removeEventListener('mousedown', this._mousedownHandler);
+    element.removeEventListener('touchstart', this._mousedownHandler);
+    window.removeEventListener('mouseup', this._mouseupHandler);
+    window.removeEventListener('touchend', this._touchendHandler);
   }
 
   /**
@@ -617,6 +641,25 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
     }
   };
 
+  private _touchmoveHandler = (event: TouchEvent) => {
+    if (!this.isRange) return;
+
+    const target = getActualTouchTarget(event);
+    const cell = target ? this._getCellFromElement(target as HTMLElement) : null;
+
+    if (target !== event.target) {
+      this._didDragSinceMouseDown = true;
+    }
+
+    // If the initial target of the touch is a date cell, prevent default so
+    // that the move is not handled as a scroll.
+    if (getCellElement(event.target as HTMLElement)) {
+      event.preventDefault();
+    }
+
+    this._ngZone.run(() => this.previewChange.emit({value: cell?.enabled ? cell : null, event}));
+  };
+
   /**
    * Event handler for when the user's pointer leaves an element
    * inside the calendar body (e.g. by hovering out or blurring).
@@ -627,12 +670,79 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
   private _leaveHandler = (event: Event) => {
     // We only need to hit the zone when we're selecting a range.
     if (this.previewEnd !== null && this.isRange) {
+      if (event.type !== 'blur') {
+        this._didDragSinceMouseDown = true;
+      }
+
       // Only reset the preview end value when leaving cells. This looks better, because
       // we have a gap between the cells and the rows and we don't want to remove the
       // range just for it to show up again when the user moves a few pixels to the side.
-      if (event.target && this._getCellFromElement(event.target as HTMLElement)) {
+      if (
+        event.target &&
+        this._getCellFromElement(event.target as HTMLElement) &&
+        !(
+          (event as MouseEvent).relatedTarget &&
+          this._getCellFromElement((event as MouseEvent).relatedTarget as HTMLElement)
+        )
+      ) {
         this._ngZone.run(() => this.previewChange.emit({value: null, event}));
       }
+    }
+  };
+
+  /**
+   * Triggered on mousedown or touchstart on a date cell.
+   * Respsonsible for starting a drag sequence.
+   */
+  private _mousedownHandler = (event: Event) => {
+    if (!this.isRange) return;
+
+    this._didDragSinceMouseDown = false;
+    // Begin a drag if a cell within the current range was targeted.
+    const cell = event.target && this._getCellFromElement(event.target as HTMLElement);
+    if (!cell || !this._isInRange(cell.rawValue)) {
+      return;
+    }
+
+    this._ngZone.run(() => {
+      this.dragStarted.emit({
+        value: cell.rawValue,
+        event,
+      });
+    });
+  };
+
+  /** Triggered on mouseup anywhere. Respsonsible for ending a drag sequence. */
+  private _mouseupHandler = (event: Event) => {
+    if (!this.isRange) return;
+
+    const cellElement = getCellElement(event.target as HTMLElement);
+    if (!cellElement) {
+      // Mouseup happened outside of datepicker. Cancel drag.
+      this._ngZone.run(() => {
+        this.dragEnded.emit({value: null, event});
+      });
+      return;
+    }
+
+    if (cellElement.closest('.mat-calendar-body') !== this._elementRef.nativeElement) {
+      // Mouseup happened inside a different month instance.
+      // Allow it to handle the event.
+      return;
+    }
+
+    this._ngZone.run(() => {
+      const cell = this._getCellFromElement(cellElement);
+      this.dragEnded.emit({value: cell?.rawValue ?? null, event});
+    });
+  };
+
+  /** Triggered on touchend anywhere. Respsonsible for ending a drag sequence. */
+  private _touchendHandler = (event: TouchEvent) => {
+    const target = getActualTouchTarget(event);
+
+    if (target) {
+      this._mouseupHandler({target} as unknown as Event);
     }
   };
 
@@ -643,13 +753,7 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
    *
    */
   private _getCellFromElement(element: HTMLElement): MatCalendarCell | null {
-    let cell: HTMLElement | undefined;
-
-    if (isTableCell(element)) {
-      cell = element;
-    } else if (isTableCell(element.parentNode!)) {
-      cell = element.parentNode as HTMLElement;
-    }
+    const cell = getCellElement(element);
 
     if (cell) {
       const row = cell.getAttribute('data-mat-row');
@@ -676,8 +780,25 @@ export class MatCalendarBody implements OnChanges, OnDestroy, AfterViewChecked {
  * 检查某个节点是否为表格单元格元素。
  *
  */
-function isTableCell(node: Node): node is HTMLTableCellElement {
-  return node.nodeName === 'TD';
+function isTableCell(node: Node | undefined | null): node is HTMLTableCellElement {
+  return node?.nodeName === 'TD';
+}
+
+/**
+ * Gets the date table cell element that is or contains the specified element.
+ * Or returns null if element is not part of a date cell.
+ */
+function getCellElement(element: HTMLElement): HTMLElement | null {
+  let cell: HTMLElement | undefined;
+  if (isTableCell(element)) {
+    cell = element;
+  } else if (isTableCell(element.parentNode)) {
+    cell = element.parentNode as HTMLElement;
+  } else if (isTableCell(element.parentNode?.parentNode)) {
+    cell = element.parentNode!.parentNode as HTMLElement;
+  }
+
+  return cell?.getAttribute('data-mat-row') != null ? cell : null;
 }
 
 /**
@@ -720,4 +841,13 @@ function isInRange(
     value >= start &&
     value <= end
   );
+}
+
+/**
+ * Extracts the element that actually corresponds to a touch event's location
+ * (rather than the element that initiated the sequence of touch events).
+ */
+function getActualTouchTarget(event: TouchEvent): Element | null {
+  const touchLocation = event.changedTouches[0];
+  return document.elementFromPoint(touchLocation.clientX, touchLocation.clientY);
 }

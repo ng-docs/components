@@ -2,7 +2,7 @@
 
 # 部署到本地环境
 
-有些企业内部的防火墙比较严格，如果无法打开 <https://material.angular.cn，你可以在企业内部进行私有化部署。步骤如下：>
+有些企业内部的防火墙比较严格，如果无法打开 <https://material.angular.cn>，你可以在企业内部进行私有化部署。步骤如下：
 
 本文档的预编译版本位于 [Github](https://github.com/ng-docs/material-cn-prebuilt) 上，如果你想进行私有化部署，请把它 Clone 下来，在 nginx 等服务器上按照静态网站的形式做部署即可，除此之外不需要任何服务端环境。
 

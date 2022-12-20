@@ -18,12 +18,7 @@ import {materialUpgradeData} from './upgrade-data';
 
 const materialMigrations: NullableDevkitMigration[] = [LegacyComponentsMigration];
 
-/**
- * Entry point for the migration schematics with target of Angular Material v15
- *
- * 以 Angular Material v15 为目标的迁移示意图的入口点
- *
- */
+/** Entry point for the migration schematics with target of Angular Material v15 */
 export function updateToV15(): Rule {
   return createMigrationSchematicRule(
     TargetVersion.V15,

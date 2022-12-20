@@ -13,6 +13,7 @@ import {
   ESCAPE,
   hasModifierKey,
   LEFT_ARROW,
+  ModifierKey,
   PAGE_DOWN,
   PAGE_UP,
   RIGHT_ARROW,
@@ -317,6 +318,10 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
     if ((!this._model || this._model.isComplete()) && !this._actionsPortal) {
       this.datepicker.close();
     }
+  }
+
+  _handleUserDragDrop(event: MatCalendarUserEvent<DateRange<D>>) {
+    this._model.updateSelection(event.value as unknown as S, this);
   }
 
   _startExitAnimation() {
@@ -1188,6 +1193,7 @@ export abstract class MatDatepickerBase<
    *
    */
   private _getCloseStream(overlayRef: OverlayRef) {
+    const ctrlShiftMetaModifiers: ModifierKey[] = ['ctrlKey', 'shiftKey', 'metaKey'];
     return merge(
       overlayRef.backdropClick(),
       overlayRef.detachments(),
@@ -1196,7 +1202,12 @@ export abstract class MatDatepickerBase<
           // Closing on alt + up is only valid when there's an input associated with the datepicker.
           return (
             (event.keyCode === ESCAPE && !hasModifierKey(event)) ||
-            (this.datepickerInput && hasModifierKey(event, 'altKey') && event.keyCode === UP_ARROW)
+            (this.datepickerInput &&
+              hasModifierKey(event, 'altKey') &&
+              event.keyCode === UP_ARROW &&
+              ctrlShiftMetaModifiers.every(
+                (modifier: ModifierKey) => !hasModifierKey(event, modifier),
+              ))
           );
         }),
       ),

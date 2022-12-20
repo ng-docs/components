@@ -14,6 +14,11 @@ import {DefaultTreeAdapterMap} from 'parse5';
 export type Element = DefaultTreeAdapterMap['element'];
 export type ChildNode = DefaultTreeAdapterMap['childNode'];
 
+// At the time of writing `parse5` doesn't expose the node interfaces directly, even though
+// they're used as return types, but We can still access them through `DefaultTreeAdapterMap`.
+export type Element = DefaultTreeAdapterMap['element'];
+export type ChildNode = DefaultTreeAdapterMap['childNode'];
+
 /**
  * Determines the indentation of child elements for the given Parse5 element.
  *

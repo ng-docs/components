@@ -296,6 +296,43 @@ describe('MDC-based Option Chips', () => {
       });
     });
 
+    describe('a11y', () => {
+      it('should apply `ariaLabel` and `ariaDesciption` to the element with option role', () => {
+        testComponent.ariaLabel = 'option name';
+        testComponent.ariaDescription = 'option description';
+
+        fixture.detectChanges();
+
+        const optionElement = fixture.nativeElement.querySelector('[role="option"]') as HTMLElement;
+        expect(optionElement)
+          .withContext('expected to find an element with option role')
+          .toBeTruthy();
+
+        expect(optionElement.getAttribute('aria-label')).toMatch(/option name/i);
+
+        const optionElementDescribedBy = optionElement!.getAttribute('aria-describedby');
+        expect(optionElementDescribedBy)
+          .withContext('expected primary grid cell to have a non-empty aria-describedby attribute')
+          .toBeTruthy();
+
+        const optionElementDescriptions = Array.from(
+          (fixture.nativeElement as HTMLElement).querySelectorAll(
+            optionElementDescribedBy!
+              .split(/\s+/g)
+              .map(x => `#${x}`)
+              .join(','),
+          ),
+        );
+
+        const optionElementDescription = optionElementDescriptions
+          .map(x => x.textContent?.trim())
+          .join(' ')
+          .trim();
+
+        expect(optionElementDescription).toMatch(/option description/i);
+      });
+    });
+
     it('should contain a focus indicator inside the text label', () => {
       const label = chipNativeElement.querySelector('.mdc-evolution-chip__text-label');
       expect(label?.querySelector('.mat-mdc-focus-indicator')).toBeTruthy();
@@ -310,7 +347,8 @@ describe('MDC-based Option Chips', () => {
         <mat-chip-option [selectable]="selectable"
                  [color]="color" [selected]="selected" [disabled]="disabled"
                  (destroyed)="chipDestroy($event)"
-                 (selectionChange)="chipSelectionChange($event)">
+                 (selectionChange)="chipSelectionChange($event)"
+                 [aria-label]="ariaLabel" [aria-description]="ariaDescription">
           <span class="avatar" matChipAvatar></span>
           {{name}}
         </mat-chip-option>
@@ -325,6 +363,8 @@ class SingleChip {
   selected: boolean = false;
   selectable: boolean = true;
   shouldShow: boolean = true;
+  ariaLabel: string | null = null;
+  ariaDescription: string | null = null;
 
   chipDestroy: (event?: MatChipEvent) => void = () => {};
   chipSelectionChange: (event?: MatChipSelectionChange) => void = () => {};
