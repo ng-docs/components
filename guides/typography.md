@@ -59,35 +59,35 @@ font weight, font size, and letter spacing. Angular Material uses the [typograph
 from the 2018 version of the Material Design specification][2018-typography], outlined in the
 table below.
 
-**排版级别**是与应用程序结构的特定部分（例如标题）相对应的排版样式的集合。每个级别包括字体系列、字体粗细、字体大小和字母间距的样式。 Angular Material 使用 [2014 版 Material Design 规范中的排版级别][2014-typography]，如下表所示。
+**排版级别**是与应用程序结构的特定部分（例如标题）相对应的排版样式的集合。每个级别包括字体系列、字体粗细、字体大小和字母间距的样式。 Angular Material 使用 [2018 版 Material Design 规范中的排版级别][2018-typography]，如下表所示。
 
-| Name            | Description                                                          |
-|-----------------|----------------------------------------------------------------------|
-| 名称            | 说明                                                          |
-| `headline-1`     | One-off header, usually at the top of the page (e.g. a hero header). |
-| `headline-1`     | 一次性标题，通常在页面顶部（例如英雄的标题）。                                              |
-| `headline-2`     | One-off header, usually at the top of the page (e.g. a hero header). |
-| `headline-2`     | 一次性标题，通常在页面顶部（例如英雄的标题）。                                              |
-| `headline-3`     | One-off header, usually at the top of the page (e.g. a hero header). |
-| `headline-3`     | 一次性标题，通常在页面顶部（例如英雄的标题）。                                              |
-| `headline-4`     | One-off header, usually at the top of the page (e.g. a hero header). |
-| `headline-4`     | 一次性标题，通常在页面顶部（例如英雄的标题）。                                              |
-| `headline-5`     | Section heading corresponding to the `<h1>` tag.                     |
-| `headline-5`     | 对应于 `<h1>` 标签的节标题。                                                   |
-| `headline-6`     | Section heading corresponding to the `<h2>` tag.                     |
-| `headline-6`     | 对应于 `<h2>` 标签的节标题。                                                   |
-| `subtitle-1`     | Section heading corresponding to the `<h3>` tag.                     |
-| `subtitle-1`     | 对应于 `<h3>` 标签的节标题。                                                   |
-| `subtitle-2`     | Section heading corresponding to the `<h4>` tag.                     |
-| `subtitle-2`     | 对应于 `<h4>` 标签的节标题。                                                   |
-| `body-1`         | Base body text.                                                      |
-| `body-1`         | 基础正文。                                                                |
-| `body-2`         | Bolder body text.                                                    |
-| `body-2`         | 加粗的正文。                                                               |
-| `caption`        | Smaller body and hint text.                                          |
-| `caption`        | 较小的正文和提示文本。                                                          |
-| `button`         | Buttons and anchors.                                                 |
-| `button`         | 按钮和锚点。                                                               |
+| Name | Description |
+| ---- | ----------- |
+| 名称 | 说明 |
+| `headline-1` | One-off header, usually at the top of the page (e.g. a hero header). |
+| `headline-1` | 一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `headline-2` | One-off header, usually at the top of the page (e.g. a hero header). |
+| `headline-2` | 一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `headline-3` | One-off header, usually at the top of the page (e.g. a hero header). |
+| `headline-3` | 一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `headline-4` | One-off header, usually at the top of the page (e.g. a hero header). |
+| `headline-4` | 一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `headline-5` | Section heading corresponding to the `<h1>` tag. |
+| `headline-5` | 对应于 `<h1>` 标签的节标题。 |
+| `headline-6` | Section heading corresponding to the `<h2>` tag. |
+| `headline-6` | 对应于 `<h2>` 标签的节标题。 |
+| `subtitle-1` | Section heading corresponding to the `<h3>` tag. |
+| `subtitle-1` | 对应于 `<h3>` 标签的节标题。 |
+| `subtitle-2` | Section heading corresponding to the `<h4>` tag. |
+| `subtitle-2` | 对应于 `<h4>` 标签的节标题。 |
+| `body-1` | Base body text. |
+| `body-1` | 基础正文。 |
+| `body-2` | Bolder body text. |
+| `body-2` | 加粗的正文。 |
+| `caption` | Smaller body and hint text. |
+| `caption` | 较小的正文和提示文本。 |
+| `button` | Buttons and anchors. |
+| `button` | 按钮和锚点。 |
 
 [2018-typography]: https://m2.material.io/design/typography/the-type-system.html#type-scale
 
@@ -261,7 +261,7 @@ The `.mat-h5` and `.mat-h6` styles don't directly correspond to a specific Mater
 typography level. The `.mat-h5` style uses the `body-2` level with the font-size scaled down by
 `0.83`. The `.mat-h6` style uses the `body-2` level with the font-size scaled down by `0.67`.
 
-`.mat-h5` 和 `.mat-h6` 样式不直接对应于特定的 Material Design 排版级别。 `.mat-h5` 样式使用 `body-1` 级别，字体大小按比例缩小至 `0.83` 倍。 `.mat-h6` 样式使用 `body-1` 级别，字体大小按比例缩小至 `0.67` 倍。
+`.mat-h5` 和 `.mat-h6` 样式不直接对应于特定的 Material Design 排版级别。 `.mat-h5` 样式使用 `body-2` 级别，字体大小按比例缩小至 `0.83` 倍。 `.mat-h6` 样式使用 `body-2` 级别，字体大小按比例缩小至 `0.67` 倍。
 
 The `button` and `input` typography levels do not map to CSS classes.
 

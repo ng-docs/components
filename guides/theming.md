@@ -10,7 +10,7 @@ Angular Material's theming system lets you customize color, typography, and dens
 in your application. The theming system is based on Google's
 [Material Design][material-design-theming] specification.
 
-Angular Material 的主题体系允许你为应用程序中的组件自定义颜色和排版样式。此主题体系基于 Google 的 [Material Design][material-design-theming] 规范。
+Angular Material 的主题体系允许你为应用程序中的组件自定义颜色、排版和密集度样式。此主题体系基于 Google 的 [Material Design][material-design-theming] 规范。
 
 This document describes the concepts and APIs for customizing colors. For typography customization,
 see [Angular Material Typography][mat-typography]. For guidance on building components to be
@@ -124,7 +124,7 @@ $my-palette: mat.$indigo-palette;
 A **theme** is a collection of color, typography, and density options. Each theme includes three palettes that
 determine component colors:
 
-**主题**是颜色和排版选项的集合。每个主题包括三个确定组件颜色的调色板：
+**主题**是颜色、排版和密集度选项的集合。每个主题包括三个确定组件颜色的调色板：
 
 * A **primary** palette for the color that appears most frequently throughout your application
 
@@ -150,7 +150,7 @@ custom theme with Sass, or by importing a pre-built theme CSS file.
 A **theme file** is a Sass file that calls Angular Material Sass mixins to output color,
 typography, and density CSS styles.
 
-**主题文件**是一个 Sass 文件，它会调用一些 Angular Material 的 Sass mixins 来输出颜色和排版 CSS 样式。
+**主题文件**是一个 Sass 文件，它会调用一些 Angular Material 的 Sass mixins 来输出颜色、排版和密集度这些 CSS 样式。
 
 #### The `core` mixin
 
@@ -177,7 +177,7 @@ Angular Material represents a theme as a Sass map that contains your color, typo
 choices. See [Angular Material Typography][mat-typography] for an in-depth guide to customizing typography. See
 [Customizing density](#customizing-density) below for details on adjusting component density.
 
-Angular Material 用 Sass 映射表来表达主题，其中包含你的颜色和排版选择。有关自定义排版的更多信息，请参阅 [Angular Material 排版][mat-typography]。
+Angular Material 用 Sass 映射表来表达主题，其中包含你的颜色、排版和密集度选择。有关自定义排版的更多信息，请参阅 [Angular Material 排版][mat-typography]。
 
 Constructing the theme first requires defining your primary and accent palettes, with an optional
 warn palette. The `define-palette` Sass function accepts a color palette, described in the
@@ -237,13 +237,13 @@ Each Angular Material component has a mixin for each color , typography, and den
 `button-color`, `button-typography`, and `button-density`. Each mixin emits only the styles corresponding to that
 area of customization.
 
-每个 Angular Material 组件都有一个生成组件颜色样式的 `color` mixin 和一个生成组件排版样式的 `typography` mixin。
+每个 Angular Material 组件都有一个生成颜色、排版和密集度样式的 mixin。比如，`MatButton` 就声明了 `button-color`、`button-typography` 和 `button-density`。每个 mixin 都只会生成与其负责定制化的区域相对应的样式。
 
 Additionally, each component has a "theme" mixin that emits all styles that depend on the theme config.
 This theme mixin only emits color, typography, or density styles if you provided a corresponding
 configuration to `define-light-theme` or `define-dark-theme`.
 
-此外，每个组件都有一个 `theme` mixin，它会同时生成颜色和排版的样式。如果你为 `define-light-theme` 或 `define-dark-theme` 提供了相应的配置，则这个 `theme` mixin 只会生成颜色或排版样式。
+此外，每个组件都有一个 `theme` mixin，它会根据主题配置生成所有样式。如果你为 `define-light-theme` 或 `define-dark-theme` 提供了相应的配置，则这个 `theme` mixin 只会生成颜色、排版或密集度样式。
 
 Apply the styles for each of the components used in your application by including each of their
 theme Sass mixins.
@@ -283,7 +283,7 @@ Sass mixins that includes styles for all components in the library: `all-compone
 individual component mixins, except they emit styles for `core-theme` and _all_ 35+ components in Angular
 Material. Unless your application uses every single component, this will produce unnecessary CSS.
 
-除了列出应用程序使用的每个组件之外，Angular Material 还提供了一些 Sass mixins，来为本库中的所有组件包含（`include`）样式： `all-component-colors` 、 `all-component-typographies` 和 `all-component-themes` 。这些 mixin 的行为与供单个组件使用的 mixin 是一样的，除了一点：它们会为 `core-theme` 和 Angular Material 中的*所有* 35+ 个组件生成样式。除非你的应用程序要用到每个组件，否则这将生成一些不必要的 CSS。
+除了列出应用程序使用的每个组件之外，Angular Material 还提供了一些 Sass mixins，来为本库中的所有组件包含（`include`）样式： `all-component-colors` 、`all-component-typographies`、`all-component-densitites` 和 `all-component-themes` 。这些 mixin 的行为与供单个组件使用的 mixin 是一样的，除了一点：它们会为 `core-theme` 和 Angular Material 中的*所有* 35+ 个组件生成样式。除非你的应用程序要用到每个组件，否则这将生成一些不必要的 CSS。
 
 ```scss
 @use '@angular/material' as mat;
@@ -508,21 +508,31 @@ $my-palette: mat.define-palette(mat.$indigo-palette);
 
 ## Customizing density
 
+## 自定义密集度
+
 Angular Material's density customization is based on the
 [Material Design density guidelines](https://m2.material.io/design/layout/applying-density.html). This system
 defines a scale where zero represents the default density. You can decrement the number for _more density_ and increment
 the number for _less density_.
 
+Angular Material 的密集度定制是基于 [Material Design 密集度指南](https://m2.material.io/design/layout/applying-density.html)的。该系统定义了一个等级，其中零表示默认密集度。你可以减少该数字以*增加密集度*，增加该数字以*减少密集度*。
+
 The density system is based on a *density scale*. The scale starts with the
 default density of `0`. Each whole number step down (`-1`, `-2`, etc.) reduces
 the affected sizes by `4px`, down to the minimum size necessary for a component to render coherently.
+
+密集度系统基于某个*密集度等级*。此等级以默认密集度 `0` 开始。每个整数递减（`-1`、`-2` 等）都会将受影响的尺寸减小 `4px` ，直至组件连续渲染所需的最小尺寸。
 
 Components that appear in task-based or pop-up contexts, such as `MatDatepicker`, don't change their size via the
 density system. The [Material Design density guidance](https://m2.material.io/design/layout/applying-density.html)
 explicitly discourages increasing density for such interactions because they don't compete for space in the
 application's layout.
 
+出现在基于任务的或弹出上下文中的组件，例如 `MatDatepicker`，无法通过密集度体系更改它们的大小。 [Material Design 密集度指南](https://m2.material.io/design/layout/applying-density.html)明确反对增加此类交互的密集度，因为它们不会在应用程序的布局中进行空间竞争。
+
 You can apply custom density setting to the entire library or to individual components using their density Sass mixins.
+
+你可以将自定义密集度设置应用于整个库，或使用它们的 density Sass mixin 将其应用于单个组件。
 
 ```scss
 // You can set a density setting in your theme to apply to all components.
@@ -654,10 +664,14 @@ Angular Material 假定，默认情况下，所有主题样式都作为全局 CS
 
 ## User preference media queries
 
+## 用户偏好媒体查询
+
 Angular Material does not apply styles based on user preference media queries, such as `prefers-color-scheme`
 or `prefers-contrast`. Instead, Angular Material's Sass mixins give you the flexibility to
 apply theme styles to based on the conditions that make the most sense for your users. This may mean using media
 queries directly or reading a saved user preference.
+
+Angular Material 不会根据用户偏好媒体查询来应用样式，例如 `prefers-color-scheme` 或 `prefers-contrast` 。反之，Angular Material 提供了一些 Sass mixin，让你可以根据对用户最有意义的条件灵活地应用主题样式。比如直接使用媒体查询，或读取已保存的用户偏好。
 
 ## Style customization outside the theming system
 
@@ -668,4 +682,4 @@ strongly discourages, and does not directly support, overriding component CSS ou
 APIs described above. Component DOM structure and CSS classes are considered private implementation
 details that may change at any time.
 
-Angular Material 支持自定义颜色和排版，如本文档所述。 Angular 强烈反对并且不直接支持覆盖上述主题 API 之外的组件 CSS。组件的 DOM 结构和 CSS 类被视为可能随时更改的私有实现细节。
+Angular Material 支持自定义颜色、排版和密集度，如本文档所述。 Angular 强烈反对并且不直接支持覆盖上述主题 API 之外的组件 CSS。组件的 DOM 结构和 CSS 类被视为可能随时更改的私有实现细节。

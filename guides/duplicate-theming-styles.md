@@ -38,7 +38,7 @@ To fix this, you can use the dedicated mixin for color styles for the `.dark-the
 selector. Replace the `all-component-themes` mixin and include the dark theme using the
 `all-component-colors` mixin. For example:
 
-为了解决这个问题，你可以使用专门的 mixin 作为 `.dark-theme` 选择器的颜色样式。请替换 `angular-material-theme` mixin 并使用 `angular-material-color` mixin 来包含黑色主题。例如：
+为了解决这个问题，你可以使用专门的 mixin 作为 `.dark-theme` 选择器的颜色样式。请替换 `all-component-themes` mixin 并使用 `all-component-colors` mixin 来包含黑色主题。例如：
 
 ```scss
 @use '@angular/material' as mat;
@@ -54,7 +54,7 @@ selector. Replace the `all-component-themes` mixin and include the dark theme us
 
 Typography can also be configured via Sass mixin; see `all-component-typographies`.
 
-排版也可以通过 Sass mixin 进行配置。参见 `angular-material-typography` 。
+排版也可以通过 Sass mixin 进行配置。参见 `all-component-typographies` 。
 
 **Example #2**
 

@@ -71,7 +71,7 @@ HammerJS 可以通过多种方式进行设置。本迁移可以处理最常见�
 
 *1.* Remove `hammerjs` from your project `package.json`.
 
-\*1.\*从项目的 `package.json` 中删除 `hammerjs`。
+*1.* 从项目的 `package.json` 中删除 `hammerjs`。
 
 ```json
 {

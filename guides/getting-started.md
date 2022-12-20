@@ -68,7 +68,7 @@ determine which features to include:
 
 The `ng add` command will additionally perform the following actions:
 
-`ng add` 命令还将执行以下配置：
+`ng add` 命令还将执行以下动作：
 
 * Add project dependencies to `package.json`
 
@@ -108,12 +108,12 @@ You're done! Angular Material is now configured to be used in your application.
 
 Let's display a slide toggle component in your app and verify that everything works.
 
-让我们在应用中显示一个滑块组件，来验证一切正常。
+让我们在应用中显示一个滑块开关组件，来验证一切正常。
 
 You need to import the `MatSlideToggleModule` that you want to display by adding the following lines to
 your `app.module.ts` file.
 
-你需要通过把以下代码添加到 app.module.ts 文件中来导入 `MatSliderModule`。
+你需要通过把以下代码添加到 `app.module.ts` 文件中来导入 `MatSlideToggleModule`。
 
 ```ts
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -128,7 +128,7 @@ class AppModule {}
 
 Add the `<mat-slide-toggle>` tag to the `app.component.html` like so:
 
-把 `<mat-slider>` 标签添加到 `app.component.html`，就像这样：
+把 `<mat-slide-toggle>` 标签添加到 `app.component.html`，就像这样：
 
 ```html
 <mat-slide-toggle>Toggle me!</mat-slide-toggle>
@@ -148,7 +148,7 @@ Then point your browser to <http://localhost:4200>
 
 You should see the Material slide toggle component on the page.
 
-你会在页面上看到这个 Material 滑块组件。
+你会在页面上看到这个 Material 滑块开关组件。
 
 In addition to the installation schematic, Angular Material comes with
 [several other schematics](https://material.angular.io/guide/schematics) (like nav, table,

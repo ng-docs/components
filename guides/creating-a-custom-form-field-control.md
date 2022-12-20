@@ -111,7 +111,7 @@ various methods and properties declared by the interface we just implemented. To
 the `MatFormFieldControl` interface, see the
 [form field API documentation](https://material.angular.io/components/form-field/api).
 
-这将准备好我们的组件，以便它能和 `<mat-form-field>` 协作。接下来我们还要实现该接口中声明的各个方法和属性。 要深入了解 `MatFormFieldControl` 接口，参见[表单字段的 API 文档](components/form-field/api)。
+这将准备好我们的组件，以便它能和 `<mat-form-field>` 协作。接下来我们还要实现该接口中声明的各个方法和属性。 要深入了解 `MatFormFieldControl` 接口，参见[表单字段的 API 文档](/components/form-field/api)。
 
 ### Implementing the methods and properties of MatFormFieldControl
 
@@ -380,7 +380,7 @@ private _disabled = false;
 This property indicates whether the associated `NgControl` is in an error state. In this example,
 we show an error if the input is invalid and our component has been touched.
 
-该属性表示相关的 `NgControl` 是否处于错误状态。由于我们这个例子中没有用到 `NgControl`，所以只要把它设置为 `false` 就行了。
+该属性表示相关的 `NgControl` 是否处于错误状态。在这个例子中，如果输入无效，且组件已经被碰过，我们就会显示一个错误。
 
 ```ts
 get errorState(): boolean {

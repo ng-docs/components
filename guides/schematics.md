@@ -20,7 +20,7 @@ Using the command below will install Angular Material, the [Component Dev Kit](h
 and [Angular Animations](https://angular.io/guide/animations) in your project. Then it will run the
 installation schematic.
 
-运行下列命令可以自动为你的项目安装 Angular Material、[组件开发工具](cdk) (CDK) 和 [Angular 动画库](https://angular.io/guide/animations)，并运行代码原理图。
+运行下列命令可以自动为你的项目安装 Angular Material、[组件开发工具](/cdk) (CDK) 和 [Angular 动画库](https://angular.cn/guide/animations)，并运行代码原理图。
 
 ```
 ng add @angular/material
@@ -28,7 +28,7 @@ ng add @angular/material
 
 In case you just want to install the `@angular/cdk`, there are also schematics for the [Component Dev Kit](https://material.angular.io/cdk)
 
-如果你只想安装 `@angular/cdk`，也可以使用[组件开发工具](cdk)的专用代码原理图
+如果你只想安装 `@angular/cdk`，也可以使用[组件开发工具](/cdk)的专用代码原理图
 
 ```
 ng add @angular/cdk
