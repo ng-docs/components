@@ -16,7 +16,13 @@ import {_MatTableHarnessBase, TableHarnessFilters} from '@angular/material/table
 
 /**
  * Harness for interacting with a standard mat-table in tests.
- * @deprecated Use `MatTableHarness` from `@angular/material/table/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 在测试中与标准 mat-table 进行交互的测试工具。
+ *
+ * @deprecated
+ *
+ * Use `MatTableHarness` from `@angular/material/table/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacyTableHarness extends _MatTableHarnessBase<
@@ -27,7 +33,12 @@ export class MatLegacyTableHarness extends _MatTableHarnessBase<
   typeof MatLegacyFooterRowHarness,
   MatLegacyFooterRowHarness
 > {
-  /** The selector for the host element of a `MatTableHarness` instance. */
+  /**
+   * The selector for the host element of a `MatTableHarness` instance.
+   *
+   * `MatTableHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-table';
   protected _headerRowHarness = MatLegacyHeaderRowHarness;
   protected _rowHarness = MatLegacyRowHarness;
@@ -35,8 +46,17 @@ export class MatLegacyTableHarness extends _MatTableHarnessBase<
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a table with specific attributes.
+   *
+   * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索具有特定属性的表。
+   *
    * @param options Options for narrowing the search
+   *
+   * 用来收窄搜索范围的选项：
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(options: TableHarnessFilters = {}): HarnessPredicate<MatLegacyTableHarness> {
     return new HarnessPredicate(MatLegacyTableHarness, options);

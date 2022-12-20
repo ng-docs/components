@@ -45,7 +45,10 @@ const _MatListBase = mixinDisabled(mixinDisableRipple(class {}));
 const _MatListItemMixinBase = mixinDisableRipple(class {});
 
 /**
- * @deprecated Use `MatNavList` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatNavList` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -66,7 +69,12 @@ export class MatLegacyNavList
   extends _MatListBase
   implements CanDisable, CanDisableRipple, OnChanges, OnDestroy
 {
-  /** Emits when the state of the list changes. */
+  /**
+   * Emits when the state of the list changes.
+   *
+   * 当此列表的状态发生变化时发出。
+   *
+   */
   readonly _stateChanges = new Subject<void>();
 
   ngOnChanges() {
@@ -79,7 +87,10 @@ export class MatLegacyNavList
 }
 
 /**
- * @deprecated Use `MatList` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatList` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -99,7 +110,12 @@ export class MatLegacyList
   extends _MatListBase
   implements CanDisable, CanDisableRipple, OnChanges, OnDestroy
 {
-  /** Emits when the state of the list changes. */
+  /**
+   * Emits when the state of the list changes.
+   *
+   * 当此列表的状态发生变化时发出。
+   *
+   */
   readonly _stateChanges = new Subject<void>();
 
   constructor(private _elementRef: ElementRef<HTMLElement>) {
@@ -136,8 +152,14 @@ export class MatLegacyList
 
 /**
  * Directive whose purpose is to add the mat- CSS styling to this selector.
+ *
+ * 指令，其目的是将 mat- CSS 样式添加到此选择器。
+ *
  * @docs-private
- * @deprecated Use `MatListAvatarCssMatStyler` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatListAvatarCssMatStyler` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -148,8 +170,14 @@ export class MatLegacyListAvatarCssMatStyler {}
 
 /**
  * Directive whose purpose is to add the mat- CSS styling to this selector.
+ *
+ * 指令，其目的是将 mat- CSS 样式添加到此选择器。
+ *
  * @docs-private
- * @deprecated Use `MatListIconCssMatStyler` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatListIconCssMatStyler` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -160,8 +188,14 @@ export class MatLegacyListIconCssMatStyler {}
 
 /**
  * Directive whose purpose is to add the mat- CSS styling to this selector.
+ *
+ * 指令，其目的是将 mat- CSS 样式添加到此选择器。
+ *
  * @docs-private
- * @deprecated Use `MatListSubheaderCssMatStyler` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatListSubheaderCssMatStyler` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -172,7 +206,13 @@ export class MatLegacyListSubheaderCssMatStyler {}
 
 /**
  * An item within a Material Design list.
- * @deprecated Use `MatListItem` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * “Material Design” 列表中的一个条目。
+ *
+ * @deprecated
+ *
+ * Use `MatListItem` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -227,7 +267,12 @@ export class MatLegacyListItem
     }
   }
 
-  /** Whether the option is disabled. */
+  /**
+   * Whether the option is disabled.
+   *
+   * 该选项是否已禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._disabled || !!(this._list && this._list.disabled);
@@ -246,14 +291,24 @@ export class MatLegacyListItem
     this._destroyed.complete();
   }
 
-  /** Whether this list item should show a ripple effect when clicked. */
+  /**
+   * Whether this list item should show a ripple effect when clicked.
+   *
+   * 单击此列表项时是否应显示涟漪效果。
+   *
+   */
   _isRippleDisabled() {
     return (
       !this._isInteractiveList || this.disableRipple || !!(this._list && this._list.disableRipple)
     );
   }
 
-  /** Retrieves the DOM element of the component host. */
+  /**
+   * Retrieves the DOM element of the component host.
+   *
+   * 检索此组件宿主的 DOM 元素。
+   *
+   */
   _getHostElement(): HTMLElement {
     return this._element.nativeElement;
   }

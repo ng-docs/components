@@ -11,7 +11,13 @@ import {MAT_TAB_LABEL, MatTabLabel as MatNonLegacyTabLabel} from '@angular/mater
 
 /**
  * Used to flag tab labels for use with the portal directive
- * @deprecated Use `MatTabLabel` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 标出选项卡标签，以供传送点指令使用
+ *
+ * @deprecated
+ *
+ * Use `MatTabLabel` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({

@@ -31,7 +31,12 @@ import {
  */
 export const matSelectAnimations: {
   /**
-   * @deprecated No longer being used. To be removed.
+   * @deprecated
+   *
+   * No longer being used. To be removed.
+   *
+   * 不再使用。即将被删除。
+   *
    * @breaking-change 12.0.0
    */
   readonly transformPanelWrap: AnimationTriggerMetadata;

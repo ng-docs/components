@@ -13,19 +13,39 @@ import {LegacyOptionHarnessFilters} from './option-harness-filters';
 
 /**
  * Harness for interacting with a `mat-optgroup` in tests.
- * @deprecated Use `MatOptgroupHarness` from `@angular/material/core/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 在测试中用来与 `mat-optgroup` 交互的测试工具。
+ *
+ * @deprecated
+ *
+ * Use `MatOptgroupHarness` from `@angular/material/core/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacyOptgroupHarness extends ComponentHarness {
-  /** Selector used to locate option group instances. */
+  /**
+   * Selector used to locate option group instances.
+   *
+   * 选择器，用于定位选项组实例。
+   *
+   */
   static hostSelector = '.mat-optgroup';
   private _label = this.locatorFor('.mat-optgroup-label');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatOptgroupHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatOptgroupHarness`。
+   *
    * @param options Options for filtering which option instances are considered a match.
+   *
+   * 用于过滤哪些选项实例应该视为匹配的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(options: LegacyOptgroupHarnessFilters = {}) {
     return new HarnessPredicate(MatLegacyOptgroupHarness, options).addOption(
@@ -35,19 +55,35 @@ export class MatLegacyOptgroupHarness extends ComponentHarness {
     );
   }
 
-  /** Gets the option group's label text. */
+  /**
+   * Gets the option group's label text.
+   *
+   * 获取此选项组的标签文本。
+   *
+   */
   async getLabelText(): Promise<string> {
     return (await this._label()).text();
   }
 
-  /** Gets whether the option group is disabled. */
+  /**
+   * Gets whether the option group is disabled.
+   *
+   * 获取此选项组是否已禁用。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     return (await this.host()).hasClass('mat-optgroup-disabled');
   }
 
   /**
    * Gets the options that are inside the group.
+   *
+   * 获取此组内的选项。
+   *
    * @param filter Optionally filters which options are included.
+   *
+   * （可选）过滤包含的选项。
+   *
    */
   async getOptions(filter: LegacyOptionHarnessFilters = {}): Promise<MatLegacyOptionHarness[]> {
     return this.locatorForAll(MatLegacyOptionHarness.with(filter))();

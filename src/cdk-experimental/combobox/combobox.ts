@@ -84,7 +84,12 @@ export class CdkCombobox<T = unknown> implements OnDestroy {
   }
   private _openActions: OpenAction[] = ['click'];
 
-  /** Whether the textContent is automatically updated upon change of the combobox value. */
+  /**
+   * Whether the textContent is automatically updated upon change of the combobox value.
+   *
+   * textContent 是否会在此组合框的值更改时自动更新。
+   *
+   */
   @Input()
   get autoSetText(): boolean {
     return this._autoSetText;
@@ -149,7 +154,12 @@ export class CdkCombobox<T = unknown> implements OnDestroy {
     }
   }
 
-  /** Handles click or focus interactions. */
+  /**
+   * Handles click or focus interactions.
+   *
+   * 处理点击或焦点相关的交互。
+   *
+   */
   _handleInteractions(interaction: OpenAction) {
     if (interaction === 'click') {
       if (this._openActions.indexOf('toggle') !== -1) {
@@ -164,7 +174,12 @@ export class CdkCombobox<T = unknown> implements OnDestroy {
     }
   }
 
-  /** Given a click in the document, determines if the click was inside a combobox. */
+  /**
+   * Given a click in the document, determines if the click was inside a combobox.
+   *
+   * 给定文档中的点击，确定点击是否在某个组合框内。
+   *
+   */
   _attemptClose(event: MouseEvent) {
     if (this.isOpen()) {
       let target = _getEventTarget(event);
@@ -179,14 +194,24 @@ export class CdkCombobox<T = unknown> implements OnDestroy {
     this.close();
   }
 
-  /** Toggles the open state of the panel. */
+  /**
+   * Toggles the open state of the panel.
+   *
+   * 切换面板的打开状态。
+   *
+   */
   toggle() {
     if (this.hasPanel()) {
       this.isOpen() ? this.close() : this.open();
     }
   }
 
-  /** If the combobox is closed and not disabled, opens the panel. */
+  /**
+   * If the combobox is closed and not disabled, opens the panel.
+   *
+   * 如果此组合框已关闭且未禁用，则打开面板。
+   *
+   */
   open() {
     if (!this.isOpen() && !this.disabled) {
       this.opened.next();
@@ -199,7 +224,12 @@ export class CdkCombobox<T = unknown> implements OnDestroy {
     }
   }
 
-  /** If the combobox is open and not disabled, closes the panel. */
+  /**
+   * If the combobox is open and not disabled, closes the panel.
+   *
+   * 如果此组合框已打开且未禁用，则关闭面板。
+   *
+   */
   close() {
     if (this.isOpen() && !this.disabled) {
       this.closed.next();
@@ -207,12 +237,22 @@ export class CdkCombobox<T = unknown> implements OnDestroy {
     }
   }
 
-  /** Returns true if panel is currently opened. */
+  /**
+   * Returns true if panel is currently opened.
+   *
+   * 如果当前正打开着面板，则返回 true。
+   *
+   */
   isOpen(): boolean {
     return this._overlayRef ? this._overlayRef.hasAttached() : false;
   }
 
-  /** Returns true if combobox has a child panel. */
+  /**
+   * Returns true if combobox has a child panel.
+   *
+   * 如果组合框有子面板，则返回 true。
+   *
+   */
   hasPanel(): boolean {
     return !!this._panelTemplateRef;
   }
@@ -302,7 +342,12 @@ export class CdkCombobox<T = unknown> implements OnDestroy {
     return actions as OpenAction[];
   }
 
-  /** Registers the content's id and the content type with the panel. */
+  /**
+   * Registers the content's id and the content type with the panel.
+   *
+   * 向此面板注册内容的 ID 和内容类型。
+   *
+   */
   _registerContent(contentId: string, contentType: AriaHasPopupValue) {
     if (
       (typeof ngDevMode === 'undefined' || ngDevMode) &&

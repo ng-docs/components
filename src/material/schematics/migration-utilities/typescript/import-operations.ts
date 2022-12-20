@@ -9,7 +9,12 @@
 import {Update} from '../update';
 import * as ts from 'typescript';
 
-/** Returns an Update that renames the module specifier of the given import declaration node. */
+/**
+ * Returns an Update that renames the module specifier of the given import declaration node.
+ *
+ * 返回一个更新，它会重命名给定导入声明节点的模块说明符。
+ *
+ */
 export function updateModuleSpecifier(
   node: ts.ImportDeclaration,
   opts: {
@@ -29,7 +34,12 @@ export function updateModuleSpecifier(
   };
 }
 
-/** Returns an Update that renames an export of the given named import node. */
+/**
+ * Returns an Update that renames an export of the given named import node.
+ *
+ * 返回一个更新，它会重命名给定名字的导入节点的导出。
+ *
+ */
 export function updateNamedImport(
   node: ts.NamedImports,
   opts: {
@@ -56,7 +66,12 @@ export function updateNamedImport(
   return;
 }
 
-/** Replaces the first instance of substring.old after the given index. */
+/**
+ * Replaces the first instance of substring.old after the given index.
+ *
+ * 在给定索引之后替换 substring.old 的第一个实例。
+ *
+ */
 function replaceAt(str: string, index: number, substring: {old: string; new: string}): string {
   return str.slice(0, index) + substring.new + str.slice(index + substring.old.length);
 }

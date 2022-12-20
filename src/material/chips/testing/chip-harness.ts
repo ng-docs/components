@@ -79,7 +79,12 @@ export class MatChipHarness extends ContentContainerComponentHarness {
     return (await this.host()).hasClass('mat-mdc-chip-disabled');
   }
 
-  /** Delete a chip from the set. */
+  /**
+   * Delete a chip from the set.
+   *
+   * 从集合中删除纸片。
+   *
+   */
   async remove(): Promise<void> {
     const hostEl = await this.host();
     await hostEl.sendKeys(TestKey.DELETE);

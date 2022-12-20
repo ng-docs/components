@@ -10,13 +10,29 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
 
 /**
  * A set of criteria that can be used to filter a list of `MatAutocompleteHarness` instances.
- * @deprecated Use `AutocompleteHarnessFilters` from `@angular/material/autocomplete/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 一组可以用来过滤 `MatAutocompleteHarness` 实例列表的条件。
+ *
+ * @deprecated
+ *
+ * Use `AutocompleteHarnessFilters` from `@angular/material/autocomplete/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export interface LegacyAutocompleteHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose associated input element matches the given value. */
+  /**
+   * Only find instances whose associated input element matches the given value.
+   *
+   * 只找到那些关联的输入框元素匹配指定值的实例。
+   *
+   */
   value?: string | RegExp;
 
-  /** Only find instances which match the given disabled state. */
+  /**
+   * Only find instances which match the given disabled state.
+   *
+   * 仅查找与给定禁用状态匹配的实例。
+   *
+   */
   disabled?: boolean;
 }

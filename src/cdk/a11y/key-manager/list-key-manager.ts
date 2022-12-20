@@ -255,7 +255,12 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
     return this;
   }
 
-  /** Cancels the current typeahead sequence. */
+  /**
+   * Cancels the current typeahead sequence.
+   *
+   * 取消当前的预先输入序列。
+   *
+   */
   cancelTypeahead(): this {
     this._pressedLetters = [];
     return this;
@@ -280,8 +285,17 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
   /**
    * Configures the key manager to activate every 10th, configured or first/last element in up/down direction
    * respectively when the Page-Up or Page-Down key is pressed.
+   *
+   * 将键盘管理器配置为在按下 Page-Up 或 Page-Down 键时分别在向上/向下方向激活每第 10 个、已配置的或第一个/最后一个元素。
+   *
    * @param enabled Whether pressing the Page-Up or Page-Down key activates the first/last item.
+   *
+   * 按 Page-Up 或 Page-Down 键是否激活第一个/最后一个条目。
+   *
    * @param delta Whether pressing the Home or End key activates the first/last item.
+   *
+   * 按下 Home 键或 End 键时是否激活第一项/最后一项。
+   *
    */
   withPageUpDown(enabled: boolean = true, delta: number = 10): this {
     this._pageUpAndDown = {enabled, delta};
@@ -537,7 +551,12 @@ export class ListKeyManager<T extends ListKeyManagerOption> {
     this._activeItemIndex = index;
   }
 
-  /** Cleans up the key manager. */
+  /**
+   * Cleans up the key manager.
+   *
+   * 清理键盘管理器。
+   *
+   */
   destroy() {
     this._typeaheadSubscription.unsubscribe();
     this._itemChangesSubscription?.unsubscribe();

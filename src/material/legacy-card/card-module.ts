@@ -26,7 +26,10 @@ import {
 } from './card';
 
 /**
- * @deprecated Use `MatCardModule` from `@angular/material/card` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatCardModule` from `@angular/material/card` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @NgModule({

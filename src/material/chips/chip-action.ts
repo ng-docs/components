@@ -20,6 +20,9 @@ const _MatChipActionMixinBase = mixinTabIndex(_MatChipActionBase, -1);
 
 /**
  * Section within a chip.
+ *
+ * 纸片内的部分。
+ *
  * @docs-private
  */
 @Directive({
@@ -38,13 +41,28 @@ const _MatChipActionMixinBase = mixinTabIndex(_MatChipActionBase, -1);
   },
 })
 export class MatChipAction extends _MatChipActionMixinBase implements HasTabIndex {
-  /** Whether the action is interactive. */
+  /**
+   * Whether the action is interactive.
+   *
+   * 此动作是否交互。
+   *
+   */
   @Input() isInteractive = true;
 
-  /** Whether this is the primary action in the chip. */
+  /**
+   * Whether this is the primary action in the chip.
+   *
+   * 这是否是纸片中的主要动作。
+   *
+   */
   _isPrimary = true;
 
-  /** Whether the action is disabled. */
+  /**
+   * Whether the action is disabled.
+   *
+   * 此动作是否被禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._disabled || this._parentChip.disabled;
@@ -62,6 +80,9 @@ export class MatChipAction extends _MatChipActionMixinBase implements HasTabInde
 
   /**
    * Determine the value of the disabled attribute for this chip action.
+   *
+   * 确定此纸片操作的 disabled 属性值。
+   *
    */
   protected _getDisabledAttribute(): string | null {
     // When this chip action is disabled and focusing disabled chips is not permitted, return empty
@@ -71,6 +92,9 @@ export class MatChipAction extends _MatChipActionMixinBase implements HasTabInde
 
   /**
    * Determine the value of the tabindex attribute for this chip action.
+   *
+   * 确定此纸片操作的 tabindex 属性值。
+   *
    */
   protected _getTabindex(): string | null {
     return (this.disabled && !this._allowFocusWhenDisabled) || !this.isInteractive

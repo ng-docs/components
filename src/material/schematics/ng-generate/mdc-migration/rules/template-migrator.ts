@@ -10,6 +10,11 @@ import * as compiler from '@angular/compiler';
 import {Update} from '../../../migration-utilities';
 
 export abstract class TemplateMigrator {
-  /** Returns the data needed to update the given node. */
+  /**
+   * Returns the data needed to update the given node.
+   *
+   * 返回更新给定节点所需的数据。
+   *
+   */
   abstract getUpdates(ast: compiler.ParsedTemplate): Update[];
 }

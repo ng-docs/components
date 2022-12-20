@@ -16,7 +16,10 @@ import {MatLegacyPaginator} from './paginator';
 import {MAT_PAGINATOR_INTL_PROVIDER} from '@angular/material/paginator';
 
 /**
- * @deprecated Use `MatPaginatorModule` from `@angular/material/paginator` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatPaginatorModule` from `@angular/material/paginator` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @NgModule({

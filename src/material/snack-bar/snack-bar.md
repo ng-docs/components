@@ -102,15 +102,30 @@ export class MessageArchivedComponent {
 ```
 
 ### Annotating custom snackbar content
+
+### 标记自定义快餐栏内容
+
 When opening a custom snackbar via the `snackBar.openFromComponent` method, you can use the
 following directives to annotate the content and ensure that it is styled consistently compared to
 snackbars  opened via `snackBar.open`.
 
+通过 `snackBar.openFromComponent` 方法打开自定义 snackbar 时，你可以使用以下指令来标记内容并确保其样式与通过 snackBar.open 打开的一致。
+
 * `matSnackBarLabel` - Marks the text of the snackbar shown to users
+
+  `matSnackBarLabel` - 标记要向用户显示的快餐栏文本
+
 * `matSnackBarActions` - Marks the container element containing any action buttons
+
+  `matSnackBarActions` - 标记包含任何操作按钮的容器元素
+
 * `matSnackBarAction` - Marks an individual action button
 
+  `matSnackBarAction` - 标记一个单独的操作按钮
+
 If no annotations are used, all the content will be treated as text content.
+
+如果不使用标记，所有内容将被视为文本内容。
 
 <!-- example({
   "example": "snack-bar-annotated-component-example",

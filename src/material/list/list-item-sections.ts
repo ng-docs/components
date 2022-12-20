@@ -13,7 +13,12 @@ import {LIST_OPTION, ListOption} from './list-option-types';
  * Directive capturing the title of a list item. A list item usually consists of a
  * title and optional secondary or tertiary lines.
  *
+ * 指令捕获列表条目的标题。列表条目通常由标题和可选的第二行或第三行组成。
+ *
  * Text content for the title never wraps. There can only be a single title per list item.
+ *
+ * 标题的文本内容从不换行。每个列表条目只能有一个标题。
+ *
  */
 @Directive({
   selector: '[matListItemTitle]',
@@ -27,7 +32,12 @@ export class MatListItemTitle {
  * Directive capturing a line in a list item. A list item usually consists of a
  * title and optional secondary or tertiary lines.
  *
+ * 此指令捕获列表条目中的一行。列表条目通常由标题和可选的第二行或第三行组成。
+ *
  * Text content inside a line never wraps. There can be at maximum two lines per list item.
+ *
+ * 一行内的文本内容从不换行。每个列表条目最多可以有两行。
+ *
  */
 @Directive({
   selector: '[matListItemLine]',
@@ -40,8 +50,13 @@ export class MatListItemLine {
 /**
  * Directive matching an optional meta section for list items.
  *
+ * 此指令匹配列表条目的可选元区段。
+ *
  * List items can reserve space at the end of an item to display a control,
  * button or additional text content.
+ *
+ * 列表条目可以在条目的末尾预留空间以显示控件、按钮或附加文本内容。
+ *
  */
 @Directive({
   selector: '[matListItemMeta]',
@@ -80,7 +95,12 @@ export class _MatListItemGraphicBase {
 /**
  * Directive matching an optional avatar within a list item.
  *
+ * 与列表条目中的可选头像匹配的指令。
+ *
  * List items can reserve space at the beginning of an item to display an avatar.
+ *
+ * 列表条目可以在条目的开头预留空间来显示头像。
+ *
  */
 @Directive({
   selector: '[matListItemAvatar]',
@@ -91,7 +111,12 @@ export class MatListItemAvatar extends _MatListItemGraphicBase {}
 /**
  * Directive matching an optional icon within a list item.
  *
+ * 与列表条目中的可选图标匹配的指令。
+ *
  * List items can reserve space at the beginning of an item to display an icon.
+ *
+ * 列表条目可以在条目的开头预留空间来显示图标。
+ *
  */
 @Directive({
   selector: '[matListItemIcon]',

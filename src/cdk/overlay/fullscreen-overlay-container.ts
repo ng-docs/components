@@ -14,9 +14,9 @@ import {Platform} from '@angular/cdk/platform';
 /**
  * Alternative to OverlayContainer that supports correct displaying of overlay elements in
  * Fullscreen mode
- * <https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen>
+ * https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen
  *
- * OverlayContainer 的替代品，支持在全屏模式（<https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen）下正确显示浮层元素>
+ * OverlayContainer 的替代品，支持在全屏模式（https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen）下正确显示浮层元素
  *
  * Should be provided in the root component.
  *

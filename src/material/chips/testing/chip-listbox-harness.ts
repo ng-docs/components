@@ -15,7 +15,12 @@ import {
 import {ChipListboxHarnessFilters, ChipOptionHarnessFilters} from './chip-harness-filters';
 import {MatChipOptionHarness} from './chip-option-harness';
 
-/** Harness for interacting with a mat-chip-listbox in tests. */
+/**
+ * Harness for interacting with a mat-chip-listbox in tests.
+ *
+ * 在测试中与 mat-chip-listbox 交互的组件测试工具。
+ *
+ */
 export class MatChipListboxHarness extends ComponentHarness {
   static hostSelector = '.mat-mdc-chip-listbox';
 
@@ -46,22 +51,42 @@ export class MatChipListboxHarness extends ComponentHarness {
     );
   }
 
-  /** Gets whether the chip listbox is disabled. */
+  /**
+   * Gets whether the chip listbox is disabled.
+   *
+   * 获取此纸片列表框是否已禁用。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     return (await (await this.host()).getAttribute('aria-disabled')) === 'true';
   }
 
-  /** Gets whether the chip listbox is required. */
+  /**
+   * Gets whether the chip listbox is required.
+   *
+   * 获取是否需要纸片列表框。
+   *
+   */
   async isRequired(): Promise<boolean> {
     return (await (await this.host()).getAttribute('aria-required')) === 'true';
   }
 
-  /** Gets whether the chip listbox is in multi selection mode. */
+  /**
+   * Gets whether the chip listbox is in multi selection mode.
+   *
+   * 获取此纸片列表框是否处于多选模式。
+   *
+   */
   async isMultiple(): Promise<boolean> {
     return (await (await this.host()).getAttribute('aria-multiselectable')) === 'true';
   }
 
-  /** Gets whether the orientation of the chip list. */
+  /**
+   * Gets whether the orientation of the chip list.
+   *
+   * 获取纸片列表的方向。
+   *
+   */
   async getOrientation(): Promise<'horizontal' | 'vertical'> {
     const orientation = await (await this.host()).getAttribute('aria-orientation');
     return orientation === 'vertical' ? 'vertical' : 'horizontal';

@@ -8,8 +8,13 @@
 
 /**
  * Default parameters for the animation for backwards compatibility.
+ *
+ * 用于向后兼容的动画的默认参数。
+ *
  * @docs-private
- * @deprecated Use `defaultParams` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `defaultParams` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
  * @breaking-change 17.0.0
  */
 export const defaultParams = {

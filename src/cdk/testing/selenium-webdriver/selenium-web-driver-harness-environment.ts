@@ -29,10 +29,10 @@ declare global {
      *
      * 这些挂钩是由 Angular 暴露出来的，以在应用程序稳定时（没有更多未决任务）注册回调。
      *
-     * For the implementation, see: <https://github.com/>
+     * For the implementation, see: https://github.com/
      *  angular/angular/blob/main/packages/platform-browser/src/browser/testability.ts#L30-L49
      *
-     * 有关实现，请参见：<https://github.com/angular/angular/blob/main/packages/platform-browser/src/browser/testability.ts#L30-L49>
+     * 有关实现，请参见：https://github.com/angular/angular/blob/main/packages/platform-browser/src/browser/testability.ts#L30-L49
      *
      */
     frameworkStabilizers: FrameworkStabilizer[];

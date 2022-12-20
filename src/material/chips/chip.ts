@@ -68,6 +68,9 @@ export interface MatChipEvent {
 
 /**
  * Boilerplate for applying mixins to MatChip.
+ *
+ * 用于将 mixins 应用于 MatChip 的样板代码。
+ *
  * @docs-private
  */
 const _MatChipMixinBase = mixinTabIndex(
@@ -87,7 +90,12 @@ const _MatChipMixinBase = mixinTabIndex(
 /**
  * Material design styled Chip base component. Used inside the MatChipSet component.
  *
+ * Material Design 风格的纸片基础组件。在 MatChipSet 组件内部使用。
+ *
  * Extended by MatChipOption and MatChipRow for different interaction patterns.
+ *
+ * 由 MatChipOption 和 MatChipRow 扩展用于不同的交互模式。
+ *
  */
 @Component({
   selector: 'mat-basic-chip, mat-chip',
@@ -126,19 +134,44 @@ export class MatChip
 {
   protected _document: Document;
 
-  /** Whether the ripple is centered on the chip. */
+  /**
+   * Whether the ripple is centered on the chip.
+   *
+   * 涟漪是否应以纸片为中心。
+   *
+   */
   readonly _isRippleCentered = false;
 
-  /** Emits when the chip is focused. */
+  /**
+   * Emits when the chip is focused.
+   *
+   * 当纸片聚焦时发出。
+   *
+   */
   readonly _onFocus = new Subject<MatChipEvent>();
 
-  /** Emits when the chip is blurred. */
+  /**
+   * Emits when the chip is blurred.
+   *
+   * 当纸片失焦时发出。
+   *
+   */
   readonly _onBlur = new Subject<MatChipEvent>();
 
-  /** Whether this chip is a basic (unstyled) chip. */
+  /**
+   * Whether this chip is a basic (unstyled) chip.
+   *
+   * 此纸片是否为基本（无样式）纸片。
+   *
+   */
   readonly _isBasicChip: boolean;
 
-  /** Role for the root of the chip. */
+  /**
+   * Role for the root of the chip.
+   *
+   * 用作纸片的根。
+   *
+   */
   @Input() role: string | null = null;
 
   /**
@@ -164,22 +197,42 @@ export class MatChip
     return this._hasFocusInternal;
   }
 
-  /** A unique id for the chip. If none is supplied, it will be auto-generated. */
+  /**
+   * A unique id for the chip. If none is supplied, it will be auto-generated.
+   *
+   * 纸片的唯一 ID。如果没有提供，它将自动生成。
+   *
+   */
   @Input() id: string = `mat-mdc-chip-${uid++}`;
 
   // TODO(#26104): Consider deprecating and using `_computeAriaAccessibleName` instead.
   // `ariaLabel` may be unnecessary, and `_computeAriaAccessibleName` only supports
   // datepicker's use case.
-  /** ARIA label for the content of the chip. */
+  /**
+   * ARIA label for the content of the chip.
+   *
+   * 纸片内容的 ARIA 标签。
+   *
+   */
   @Input('aria-label') ariaLabel: string | null = null;
 
   // TODO(#26104): Consider deprecating and using `_computeAriaAccessibleName` instead.
   // `ariaDescription` may be unnecessary, and `_computeAriaAccessibleName` only supports
   // datepicker's use case.
-  /** ARIA description for the content of the chip. */
+  /**
+   * ARIA description for the content of the chip.
+   *
+   * 纸片内容的 ARIA 描述。
+   *
+   */
   @Input('aria-description') ariaDescription: string | null = null;
 
-  /** Id of a span that contains this chip's aria description. */
+  /**
+   * Id of a span that contains this chip's aria description.
+   *
+   * 包含此纸片的 ARIA 描述的 span 的 ID。
+   *
+   */
   _ariaDescriptionId = `${this.id}-aria-description`;
 
   private _textElement!: HTMLElement;
@@ -187,6 +240,9 @@ export class MatChip
   /**
    * The value of the chip. Defaults to the content inside
    * the `mat-mdc-chip-action-label` element.
+   *
+   * 纸片的值。默认为 `mat-mdc-chip-action-label` 元素内的内容。
+   *
    */
   @Input()
   get value(): any {
@@ -214,6 +270,9 @@ export class MatChip
 
   /**
    * Colors the chip for emphasis as if it were selected.
+   *
+   * 为纸片着色以表强调，就好像它已被选中一样。
+   *
    */
   @Input()
   get highlighted(): boolean {
@@ -224,7 +283,12 @@ export class MatChip
   }
   protected _highlighted: boolean = false;
 
-  /** Emitted when a chip is to be removed. */
+  /**
+   * Emitted when a chip is to be removed.
+   *
+   * 当要移除某个纸片时会触发。
+   *
+   */
   @Output() readonly removed: EventEmitter<MatChipEvent> = new EventEmitter<MatChipEvent>();
 
   /**
@@ -235,22 +299,52 @@ export class MatChip
    */
   @Output() readonly destroyed: EventEmitter<MatChipEvent> = new EventEmitter<MatChipEvent>();
 
-  /** The unstyled chip selector for this component. */
+  /**
+   * The unstyled chip selector for this component.
+   *
+   * 此组件的无样式纸片选择器。
+   *
+   */
   protected basicChipAttrName = 'mat-basic-chip';
 
-  /** The chip's leading icon. */
+  /**
+   * The chip's leading icon.
+   *
+   * 纸片的主要图标。
+   *
+   */
   @ContentChild(MAT_CHIP_AVATAR) leadingIcon: MatChipAvatar;
 
-  /** The chip's trailing icon. */
+  /**
+   * The chip's trailing icon.
+   *
+   * 该纸片的尾部图标。
+   *
+   */
   @ContentChild(MAT_CHIP_TRAILING_ICON) trailingIcon: MatChipTrailingIcon;
 
-  /** The chip's trailing remove icon. */
+  /**
+   * The chip's trailing remove icon.
+   *
+   * 纸片的尾随删除图标。
+   *
+   */
   @ContentChild(MAT_CHIP_REMOVE) removeIcon: MatChipRemove;
 
-  /** Reference to the MatRipple instance of the chip. */
+  /**
+   * Reference to the MatRipple instance of the chip.
+   *
+   * 引用纸片的 MatRipple 实例。
+   *
+   */
   @ViewChild(MatRipple) ripple: MatRipple;
 
-  /** Action receiving the primary set of user interactions. */
+  /**
+   * Action receiving the primary set of user interactions.
+   *
+   * 接收主要用户交互集的操作。
+   *
+   */
   @ViewChild(MatChipAction) primaryAction: MatChipAction;
 
   constructor(
@@ -309,7 +403,12 @@ export class MatChip
     }
   }
 
-  /** Whether or not the ripple should be disabled. */
+  /**
+   * Whether or not the ripple should be disabled.
+   *
+   * 是否应禁用涟漪。
+   *
+   */
   _isRippleDisabled(): boolean {
     return (
       this.disabled ||
@@ -320,12 +419,22 @@ export class MatChip
     );
   }
 
-  /** Returns whether the chip has a trailing icon. */
+  /**
+   * Returns whether the chip has a trailing icon.
+   *
+   * 返回纸片是否有尾随图标。
+   *
+   */
   _hasTrailingIcon() {
     return !!(this.trailingIcon || this.removeIcon);
   }
 
-  /** Handles keyboard events on the chip. */
+  /**
+   * Handles keyboard events on the chip.
+   *
+   * 处理纸片上的键盘事件。
+   *
+   */
   _handleKeydown(event: KeyboardEvent) {
     if (event.keyCode === BACKSPACE || event.keyCode === DELETE) {
       event.preventDefault();
@@ -333,7 +442,12 @@ export class MatChip
     }
   }
 
-  /** Allows for programmatic focusing of the chip. */
+  /**
+   * Allows for programmatic focusing of the chip.
+   *
+   * 允许通过编程把该纸片设为焦点。
+   *
+   */
   focus(): void {
     if (!this.disabled) {
       // If `focus` is called before `ngAfterViewInit`, we won't have access to the primary action.
@@ -347,7 +461,12 @@ export class MatChip
     }
   }
 
-  /** Gets the action that contains a specific target node. */
+  /**
+   * Gets the action that contains a specific target node.
+   *
+   * 获取包含特定目标节点的操作。
+   *
+   */
   _getSourceAction(target: Node): MatChipAction | undefined {
     return this._getActions().find(action => {
       const element = action._elementRef.nativeElement;
@@ -355,7 +474,12 @@ export class MatChip
     });
   }
 
-  /** Gets all of the actions within the chip. */
+  /**
+   * Gets all of the actions within the chip.
+   *
+   * 获取纸片内的所有操作。
+   *
+   */
   _getActions(): MatChipAction[] {
     const result: MatChipAction[] = [];
 
@@ -374,7 +498,12 @@ export class MatChip
     return result;
   }
 
-  /** Handles interactions with the primary action of the chip. */
+  /**
+   * Handles interactions with the primary action of the chip.
+   *
+   * 处理与纸片主要操作的交互。
+   *
+   */
   _handlePrimaryActionInteraction() {
     // Empty here, but is overwritten in child classes.
   }

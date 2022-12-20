@@ -10,7 +10,12 @@ import * as ts from 'typescript';
 import {FileSystem} from '../file-system';
 import {createFormatDiagnosticHost} from './virtual-host';
 
-/** Formats the specified diagnostics with respect to the given file system. */
+/**
+ * Formats the specified diagnostics with respect to the given file system.
+ *
+ * 格式化关于给定文件系统的指定诊断。
+ *
+ */
 export function formatDiagnostics(diagnostics: ts.Diagnostic[], fileSystem: FileSystem): string {
   const formatHost = createFormatDiagnosticHost(fileSystem);
   return ts.formatDiagnosticsWithColorAndContext(diagnostics, formatHost);

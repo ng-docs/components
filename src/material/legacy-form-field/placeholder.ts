@@ -10,8 +10,16 @@ import {Directive} from '@angular/core';
 
 /**
  * The placeholder text for an `MatFormField`.
- * @deprecated Use `<mat-label>` to specify the label and the `placeholder` attribute to specify the
+ *
+ * `MatFormField` 的占位符文本。
+ *
+ * @deprecated
+ *
+ * Use `<mat-label>` to specify the label and the `placeholder` attribute to specify the
  *     placeholder.
+ *
+ * 使用 `<mat-label>` 指定标签，使用 `placeholder` 属性指定占位符。
+ *
  * @breaking-change 8.0.0
  */
 @Directive({

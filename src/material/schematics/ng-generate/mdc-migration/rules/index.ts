@@ -39,7 +39,12 @@ import {SliderTemplateMigrator} from './components/slider/slider-template';
 import {TypographyHierarchyTemplateMigrator} from './components/typography-hierarchy/typography-hierarchy-template';
 import {TypographyHierarchyStylesMigrator} from './components/typography-hierarchy/typography-hierarchy-styles';
 
-/** Contains the migrators to migrate a single component. */
+/**
+ * Contains the migrators to migrate a single component.
+ *
+ * 包含用于迁移单个组件的一些迁移器。
+ *
+ */
 export interface ComponentMigrator {
   component: string;
   styles: StyleMigrator;

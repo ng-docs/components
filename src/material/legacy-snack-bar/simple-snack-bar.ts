@@ -12,7 +12,13 @@ import {TextOnlySnackBar, MatSnackBarRef, MAT_SNACK_BAR_DATA} from '@angular/mat
 /**
  * A component used to open as the default snack bar, matching material spec.
  * This should only be used internally by the snack bar service.
- * @deprecated Use `SimpleSnackBar` from `@angular/material/snack-bar` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 用来打开默认快餐栏的组件，匹配 Material 规范。这应该只在快餐栏服务的内部使用。
+ *
+ * @deprecated
+ *
+ * Use `SimpleSnackBar` from `@angular/material/snack-bar` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -26,7 +32,12 @@ import {TextOnlySnackBar, MatSnackBarRef, MAT_SNACK_BAR_DATA} from '@angular/mat
   },
 })
 export class LegacySimpleSnackBar implements TextOnlySnackBar {
-  /** Data that was injected into the snack bar. */
+  /**
+   * Data that was injected into the snack bar.
+   *
+   * 那些注入快餐栏的数据。
+   *
+   */
   data: {message: string; action: string};
 
   constructor(
@@ -36,12 +47,22 @@ export class LegacySimpleSnackBar implements TextOnlySnackBar {
     this.data = data;
   }
 
-  /** Performs the action on the snack bar. */
+  /**
+   * Performs the action on the snack bar.
+   *
+   * 执行快餐店里的动作。
+   *
+   */
   action(): void {
     this.snackBarRef.dismissWithAction();
   }
 
-  /** If the action button should be shown. */
+  /**
+   * If the action button should be shown.
+   *
+   * 是否要显示动作按钮。
+   *
+   */
   get hasAction(): boolean {
     return !!this.data.action;
   }

@@ -29,10 +29,20 @@ const _MatProgressSpinnerBase = mixinColor(
   'primary',
 );
 
-/** Possible mode for a progress spinner. */
+/**
+ * Possible mode for a progress spinner.
+ *
+ * 进度圈的可能模式。
+ *
+ */
 export type ProgressSpinnerMode = 'determinate' | 'indeterminate';
 
-/** Default `mat-progress-spinner` options that can be overridden. */
+/**
+ * Default `mat-progress-spinner` options that can be overridden.
+ *
+ * 默认的 `mat-progress-spinner` 选项，可以改写它们。
+ *
+ */
 export interface MatProgressSpinnerDefaultOptions {
   /**
    * Default color of the spinner.
@@ -84,6 +94,9 @@ export function MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS_FACTORY(): MatProgressSpinn
 
 /**
  * Base reference size of the spinner.
+ *
+ * 微调器的基本参考大小。
+ *
  */
 const BASE_SIZE = 100;
 
@@ -120,10 +133,20 @@ const BASE_STROKE_WIDTH = 10;
   encapsulation: ViewEncapsulation.None,
 })
 export class MatProgressSpinner extends _MatProgressSpinnerBase implements CanColor {
-  /** Whether the _mat-animation-noopable class should be applied, disabling animations.  */
+  /**
+   * Whether the \_mat-animation-noopable class should be applied, disabling animations.
+   *
+   * 是否要应用 \_mat-animation-noopable 类，以禁用动画。
+   *
+   */
   _noopAnimations: boolean;
 
-  /** The element of the determinate spinner. */
+  /**
+   * The element of the determinate spinner.
+   *
+   * 确定微调器的元素。
+   *
+   */
   @ViewChild('determinateSpinner') _determinateCircle: ElementRef<HTMLElement>;
 
   constructor(
@@ -154,16 +177,26 @@ export class MatProgressSpinner extends _MatProgressSpinnerBase implements CanCo
   /**
    * Mode of the progress bar.
    *
+   * 进度条的模式吧。
+   *
    * Input must be one of these values: determinate, indeterminate, buffer, query, defaults to
    * 'determinate'.
    * Mirrored to mode attribute.
+   *
+   * 此输入属性必须是以下值之一：determinate、indeterminate、buffer 和 query，默认为 'determinate'。会镜像到 mode 属性。
+   *
    */
   @Input() mode: ProgressSpinnerMode =
     this._elementRef.nativeElement.nodeName.toLowerCase() === 'mat-spinner'
       ? 'indeterminate'
       : 'determinate';
 
-  /** Value of the progress bar. Defaults to zero. Mirrored to aria-valuenow. */
+  /**
+   * Value of the progress bar. Defaults to zero. Mirrored to aria-valuenow.
+   *
+   * 进度条的值。默认为零。镜像到 aria-valuenow。
+   *
+   */
   @Input()
   get value(): number {
     return this.mode === 'determinate' ? this._value : 0;
@@ -173,7 +206,12 @@ export class MatProgressSpinner extends _MatProgressSpinnerBase implements CanCo
   }
   private _value = 0;
 
-  /** The diameter of the progress spinner (will set width and height of svg). */
+  /**
+   * The diameter of the progress spinner (will set width and height of svg).
+   *
+   * 进度圈的直径（用于设置 svg 的宽度和高度）。
+   *
+   */
   @Input()
   get diameter(): number {
     return this._diameter;
@@ -183,7 +221,12 @@ export class MatProgressSpinner extends _MatProgressSpinnerBase implements CanCo
   }
   private _diameter = BASE_SIZE;
 
-  /** Stroke width of the progress spinner. */
+  /**
+   * Stroke width of the progress spinner.
+   *
+   * 进度圈的线宽。
+   *
+   */
   @Input()
   get strokeWidth(): number {
     return this._strokeWidth ?? this.diameter / 10;
@@ -249,8 +292,13 @@ export class MatProgressSpinner extends _MatProgressSpinnerBase implements CanCo
 }
 
 /**
- * @deprecated Import Progress Spinner instead. Note that the
+ * @deprecated
+ *
+ * Import Progress Spinner instead. Note that the
  *    `mat-spinner` selector isn't deprecated.
+ *
+ * 改为导入 Progress Spinner。请注意，不推荐使用 `mat-spinner` 选择器。
+ *
  * @breaking-change 16.0.0
  */
 // tslint:disable-next-line:variable-name

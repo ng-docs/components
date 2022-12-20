@@ -75,11 +75,25 @@ export interface MatDateRangeSelectionStrategy<D> {
    * Called when the user has dragged a date in the currently selected range to another
    * date. Returns the date updated range that should result from this interaction.
    *
+   * 当用户将当前选定范围内的日期拖到另一个日期时调用。返回应由此交互产生的日期更新范围。
+   *
    * @param dateOrigin The date the user started dragging from.
+   *
+   * 用户开始拖动的日期。
+   *
    * @param originalRange The originally selected date range.
+   *
+   * 最初选择的日期范围。
+   *
    * @param newDate The currently targeted date in the drag operation.
+   *
+   * 拖动操作中的当前目标日期。
+   *
    * @param event DOM event that triggered the updated drag state. Will be
    *     `mouseenter`/`mouseup` or `touchmove`/`touchend` depending on the device type.
+   *
+   * 触发更新拖动状态的 DOM 事件。将是 `mouseenter` / `mouseup` 或 `touchmove` / `touchend` 之一，具体取决于设备类型。
+   *
    */
   createDrag?(
     dragOrigin: D,

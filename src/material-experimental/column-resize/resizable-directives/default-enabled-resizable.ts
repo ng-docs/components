@@ -35,6 +35,9 @@ import {AbstractMatResizable, RESIZABLE_HOST_BINDINGS, RESIZABLE_INPUTS} from '.
 /**
  * Implicitly enables column resizing for a mat-header-cell unless the disableResize attribute
  * is present.
+ *
+ * 除非存在 disableResize 属性，否则隐式启用 mat-header-cell 的列大小调整。
+ *
  */
 @Directive({
   selector: 'mat-header-cell:not([disableResize]), th[mat-header-cell]:not([disableResize])',

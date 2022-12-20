@@ -69,6 +69,9 @@ export class TableWrappedExample implements AfterViewInit {
 /**
  * Table component that accepts column and row definitions in its content to be registered to the
  * table.
+ *
+ * 接受其内容中的列和行定义以注册到表中的表组件。
+ *
  */
 @Component({
   selector: 'wrapper-table',

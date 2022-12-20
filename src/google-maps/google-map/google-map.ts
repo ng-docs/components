@@ -69,6 +69,7 @@ export const DEFAULT_WIDTH = '500px';
  * 通过 Google Maps JavaScript API 渲染 Google Map 的 Angular 组件。
  *
  * @see https://developers.google.com/maps/documentation/javascript/reference/
+ *
  */
 @Component({
   selector: 'google-map',

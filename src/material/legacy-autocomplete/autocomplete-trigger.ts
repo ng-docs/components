@@ -15,8 +15,14 @@ import {
 
 /**
  * Provider that allows the autocomplete to register as a ControlValueAccessor.
+ *
+ * 允许此自动完成组件注册为 ControlValueAccessor 的提供者。
+ *
  * @docs-private
- * @deprecated Use `MAT_AUTOCOMPLETE_VALUE_ACCESSOR` from `@angular/material/autocomplete` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MAT_AUTOCOMPLETE_VALUE_ACCESSOR` from `@angular/material/autocomplete` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
@@ -26,7 +32,10 @@ export const MAT_LEGACY_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 };
 
 /**
- * @deprecated Use `MatAutocompleteTrigger` from `@angular/material/autocomplete` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatAutocompleteTrigger` from `@angular/material/autocomplete` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({

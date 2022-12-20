@@ -37,6 +37,9 @@ import {Platform} from '@angular/cdk/platform';
 /**
  * Injection token that can be used to reference instances of an `SelectionList`. It serves
  * as alternative token to an actual implementation which would result in circular references.
+ *
+ * 可用于引用 `SelectionList` 实例的注入令牌。它作为实际实现的替代标记，这将导致循环引用。
+ *
  * @docs-private
  */
 export const SELECTION_LIST = new InjectionToken<SelectionList>('SelectionList');
@@ -44,6 +47,9 @@ export const SELECTION_LIST = new InjectionToken<SelectionList>('SelectionList')
 /**
  * Interface describing the containing list of an list option. This is used to avoid
  * circular dependencies between the list-option and the selection list.
+ *
+ * 描述列表选项的包含列表的接口。这可用于避免列表选项和选择列表之间的循环依赖。
+ *
  * @docs-private
  */
 export interface SelectionList extends MatListBase {
@@ -99,18 +105,33 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
   /**
    * Emits when the selected state of the option has changed.
    * Use to facilitate two-data binding to the `selected` property.
+   *
+   * 当此选项的选定状态发生变化时发出。用于支持双向数据绑定到 `selected` 属性。
+   *
    * @docs-private
    */
   @Output()
   readonly selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  /** Whether the label should appear before or after the checkbox/radio. Defaults to 'after' */
+  /**
+   * Whether the label should appear before or after the checkbox/radio. Defaults to 'after'
+   *
+   * 标签应该出现在复选框/单选框之前还是之后。默认为“之后（after）”
+   *
+   */
   @Input() togglePosition: MatListOptionTogglePosition = 'after';
 
   /**
    * Whether the label should appear before or after the checkbox/radio. Defaults to 'after'
    *
-   * @deprecated Use `togglePosition` instead.
+   * 标签应该出现在复选框/单选框之前还是之后。默认为“之后（after）”
+   *
+   * @deprecated
+   *
+   * Use `togglePosition` instead.
+   *
+   * 请改用 `togglePosition` 。
+   *
    * @breaking-change 17.0.0
    */
   @Input() get checkboxPosition(): MatListOptionTogglePosition {
@@ -120,7 +141,12 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
     this.togglePosition = value;
   }
 
-  /** Theme color of the list option. This sets the color of the checkbox/radio. */
+  /**
+   * Theme color of the list option. This sets the color of the checkbox/radio.
+   *
+   * 此列表选项的主题颜色。这设置了复选框/单选框的颜色。
+   *
+   */
   @Input()
   get color(): ThemePalette {
     return this._color || this._selectionList.color;
@@ -130,7 +156,12 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
   }
   private _color: ThemePalette;
 
-  /** Value of the option */
+  /**
+   * Value of the option
+   *
+   * 选项的值
+   *
+   */
   @Input()
   get value(): any {
     return this._value;
@@ -144,7 +175,12 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
   }
   private _value: any;
 
-  /** Whether the option is selected. */
+  /**
+   * Whether the option is selected.
+   *
+   * 该选项是否被选定。
+   *
+   */
   @Input()
   get selected(): boolean {
     return this._selectionList.selectedOptions.isSelected(this);
@@ -217,17 +253,32 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
     }
   }
 
-  /** Toggles the selection state of the option. */
+  /**
+   * Toggles the selection state of the option.
+   *
+   * 切换该选项的选定状态。
+   *
+   */
   toggle(): void {
     this.selected = !this.selected;
   }
 
-  /** Allows for programmatic focusing of the option. */
+  /**
+   * Allows for programmatic focusing of the option.
+   *
+   * 可以通过编程让该选项获得焦点。
+   *
+   */
   focus(): void {
     this._hostElement.focus();
   }
 
-  /** Gets the text label of the list option. Used for the typeahead functionality in the list. */
+  /**
+   * Gets the text label of the list option. Used for the typeahead functionality in the list.
+   *
+   * 获取此列表选项的文本标签。用于列表中的预先输入功能。
+   *
+   */
   getLabel() {
     const titleElement = this._titles?.get(0)?._elementRef.nativeElement;
     // If there is no explicit title element, the unscoped text content
@@ -236,22 +287,42 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
     return labelEl?.textContent || '';
   }
 
-  /** Whether a checkbox is shown at the given position. */
+  /**
+   * Whether a checkbox is shown at the given position.
+   *
+   * 判断某个复选框是否显示在了给定位置。
+   *
+   */
   _hasCheckboxAt(position: MatListOptionTogglePosition): boolean {
     return this._selectionList.multiple && this._getTogglePosition() === position;
   }
 
-  /** Where a radio indicator is shown at the given position. */
+  /**
+   * Where a radio indicator is shown at the given position.
+   *
+   * 在给定位置显示单选指示器的位置。
+   *
+   */
   _hasRadioAt(position: MatListOptionTogglePosition): boolean {
     return !this._selectionList.multiple && this._getTogglePosition() === position;
   }
 
-  /** Whether icons or avatars are shown at the given position. */
+  /**
+   * Whether icons or avatars are shown at the given position.
+   *
+   * 判断图标或头像是否显示在了给定位置。
+   *
+   */
   _hasIconsOrAvatarsAt(position: 'before' | 'after'): boolean {
     return this._hasProjected('icons', position) || this._hasProjected('avatars', position);
   }
 
-  /** Gets whether the given type of element is projected at the specified position. */
+  /**
+   * Gets whether the given type of element is projected at the specified position.
+   *
+   * 获取给定类型的元素是否投影在了给定位置。
+   *
+   */
   _hasProjected(type: 'icons' | 'avatars', position: 'before' | 'after'): boolean {
     // If the checkbox/radio is shown at the specified position, neither icons or
     // avatars can be shown at the position.
@@ -265,14 +336,27 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
     this._selectionList._onTouched();
   }
 
-  /** Gets the current position of the checkbox/radio. */
+  /**
+   * Gets the current position of the checkbox/radio.
+   *
+   * 获取复选框/单选框的当前位置。
+   *
+   */
   _getTogglePosition() {
     return this.togglePosition || 'after';
   }
 
   /**
    * Sets the selected state of the option.
-   * @returns Whether the value has changed.
+   *
+   * 设置此选项的选定状态。
+   *
+   * @returns
+   *
+   * Whether the value has changed.
+   *
+   * 值是否发生变化。
+   *
    */
   _setSelected(selected: boolean): boolean {
     if (selected === this._selected) {
@@ -296,12 +380,20 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
    * Notifies Angular that the option needs to be checked in the next change detection run.
    * Mainly used to trigger an update of the list option if the disabled state of the selection
    * list changed.
+   *
+   * 通知 Angular，该选项需要在下一次变更检测运行时进行检查。主要用于在选择列表的禁用状态发生变化时触发列表选项的更新。
+   *
    */
   _markForCheck() {
     this._changeDetectorRef.markForCheck();
   }
 
-  /** Toggles the option's value based on a user interaction. */
+  /**
+   * Toggles the option's value based on a user interaction.
+   *
+   * 根据用户交互切换此选项的值。
+   *
+   */
   _toggleOnInteraction() {
     if (!this.disabled) {
       if (this._selectionList.multiple) {
@@ -314,7 +406,12 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
     }
   }
 
-  /** Sets the tabindex of the list option. */
+  /**
+   * Sets the tabindex of the list option.
+   *
+   * 设置列表选项的 tabindex。
+   *
+   */
   _setTabindex(value: number) {
     this._hostElement.setAttribute('tabindex', value + '');
   }

@@ -235,7 +235,12 @@ export class ComponentResourceCollector {
   }
 }
 
-/** Strips the BOM from a string. */
+/**
+ * Strips the BOM from a string.
+ *
+ * 从字符串中剥离 BOM。
+ *
+ */
 function stripBom(content: string): string {
   return content.replace(/\uFEFF/g, '');
 }

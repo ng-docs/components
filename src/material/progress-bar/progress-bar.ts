@@ -38,16 +38,36 @@ export interface ProgressAnimationEnd {
   value: number;
 }
 
-/** Default `mat-progress-bar` options that can be overridden. */
+/**
+ * Default `mat-progress-bar` options that can be overridden.
+ *
+ * 可覆盖的默认 `mat-progress-bar` 选项。
+ *
+ */
 export interface MatProgressBarDefaultOptions {
-  /** Default color of the progress bar. */
+  /**
+   * Default color of the progress bar.
+   *
+   * 进度条的默认颜色。
+   *
+   */
   color?: ThemePalette;
 
-  /** Default mode of the progress bar. */
+  /**
+   * Default mode of the progress bar.
+   *
+   * 进度条的默认模式。
+   *
+   */
   mode?: ProgressBarMode;
 }
 
-/** Injection token to be used to override the default options for `mat-progress-bar`. */
+/**
+ * Injection token to be used to override the default options for `mat-progress-bar`.
+ *
+ * 用于覆盖 `mat-progress-bar` 的默认选项的注入令牌。
+ *
+ */
 export const MAT_PROGRESS_BAR_DEFAULT_OPTIONS = new InjectionToken<MatProgressBarDefaultOptions>(
   'MAT_PROGRESS_BAR_DEFAULT_OPTIONS',
 );
@@ -233,17 +253,32 @@ export class MatProgressBar
     this._elementRef.nativeElement.removeEventListener('transitionend', this._transitionendHandler);
   }
 
-  /** Gets the transform style that should be applied to the primary bar. */
+  /**
+   * Gets the transform style that should be applied to the primary bar.
+   *
+   * 获取要应用于主栏的转换（transform）样式。
+   *
+   */
   _getPrimaryBarTransform(): string {
     return `scaleX(${this._isIndeterminate() ? 1 : this.value / 100})`;
   }
 
-  /** Gets the `flex-basis` value that should be applied to the buffer bar. */
+  /**
+   * Gets the `flex-basis` value that should be applied to the buffer bar.
+   *
+   * 获取要应用于缓冲条的 `flex-basis` 值。
+   *
+   */
   _getBufferBarFlexBasis(): string {
     return `${this.mode === 'buffer' ? this.bufferValue : 100}%`;
   }
 
-  /** Returns whether the progress bar is indeterminate. */
+  /**
+   * Returns whether the progress bar is indeterminate.
+   *
+   * 返回此进度条是否处于未定状态。
+   *
+   */
   _isIndeterminate(): boolean {
     return this.mode === 'indeterminate' || this.mode === 'query';
   }

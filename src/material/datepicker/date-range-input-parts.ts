@@ -171,7 +171,12 @@ abstract class MatDateRangeInputPartBase<D>
     this._elementRef.nativeElement.focus();
   }
 
-  /** Gets the value that should be used when mirroring the input's size. */
+  /**
+   * Gets the value that should be used when mirroring the input's size.
+   *
+   * 获取镜像输入框大小时应该使用的值。
+   *
+   */
   getMirrorValue(): string {
     const element = this._elementRef.nativeElement;
     const value = element.value;
@@ -247,7 +252,12 @@ abstract class MatDateRangeInputPartBase<D>
     opposite?._validatorOnChange();
   }
 
-  /** return the ARIA accessible name of the input element */
+  /**
+   * return the ARIA accessible name of the input element
+   *
+   * 返回此输入元素的 ARIA 无障碍名称
+   *
+   */
   _getAccessibleName(): string {
     return _computeAriaAccessibleName(this._elementRef.nativeElement);
   }

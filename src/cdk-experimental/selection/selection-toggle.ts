@@ -17,22 +17,37 @@ import {CdkSelection} from './selection';
 /**
  * Makes the element a selection toggle.
  *
+ * 使元素成为选择开关。
+ *
  * Must be used within a parent `CdkSelection` directive.
  * Must be provided with the value. If `trackBy` is used on `CdkSelection`, the index of the value
  * is required. If the element implements `ControlValueAccessor`, e.g. `MatCheckbox`, the directive
  * automatically connects it with the selection state provided by the `CdkSelection` directive. If
  * not, use `checked$` to get the checked state of the value, and `toggle()` to change the selection
  * state.
+ *
+ * 必须在父 `CdkSelection` 指令中使用。必须提供此值。如果在 `trackBy` 上使用 `CdkSelection` ，则需要值的索引。如果该元素实现了 `ControlValueAccessor` ，例如 `MatCheckbox` ，指令会自动将它与 `CdkSelection` 指令提供的选择状态连接起来。如果不是，则使用 `checked$` 获取值的选定状态，并使用 `toggle()` 更改选定状态。
+ *
  */
 @Directive({
   selector: '[cdkSelectionToggle]',
   exportAs: 'cdkSelectionToggle',
 })
 export class CdkSelectionToggle<T> implements OnDestroy, OnInit {
-  /** The value that is associated with the toggle */
+  /**
+   * The value that is associated with the toggle
+   *
+   * 与此开关相关联的值
+   *
+   */
   @Input('cdkSelectionToggleValue') value: T;
 
-  /** The index of the value in the list. Required when used with `trackBy` */
+  /**
+   * The index of the value in the list. Required when used with `trackBy`
+   *
+   * 列表中值的索引。与 `trackBy` 使用时需要
+   *
+   */
   @Input('cdkSelectionToggleIndex')
   get index(): number | undefined {
     return this._index;
@@ -42,13 +57,23 @@ export class CdkSelectionToggle<T> implements OnDestroy, OnInit {
   }
   protected _index?: number;
 
-  /** The checked state of the selection toggle */
+  /**
+   * The checked state of the selection toggle
+   *
+   * 此选择开关的选定状态
+   *
+   */
   readonly checked: Observable<boolean> = this._selection.change.pipe(
     switchMap(() => observableOf(this._isSelected())),
     distinctUntilChanged(),
   );
 
-  /** Toggles the selection */
+  /**
+   * Toggles the selection
+   *
+   * 切换选择结果
+   *
+   */
   toggle() {
     this._selection.toggleSelection(this.value, this.index);
   }

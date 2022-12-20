@@ -32,8 +32,14 @@ import {MatLegacyTabLabelWrapper} from './tab-label-wrapper';
  * an ink bar that follows the currently selected tab. When the tabs list's width exceeds the
  * width of the header container, then arrows will be displayed to allow the user to scroll
  * left and right across the header.
+ *
+ * 此选项卡组的标题，用于显示选项卡组中所有选项卡的列表。包括跟在当前选定选项卡后面的墨条。当标签列表的宽度超过标头容器的宽度时，将显示箭头，以允许用户在标题上向左和向右滚动。
+ *
  * @docs-private
- * @deprecated Use `MatTabHeader` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatTabHeader` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({

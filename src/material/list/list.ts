@@ -74,7 +74,12 @@ export class MatListItem extends MatListItemBase {
   @ViewChild('unscopedContent') _unscopedContent: ElementRef<HTMLSpanElement>;
   @ViewChild('text') _itemText: ElementRef<HTMLElement>;
 
-  /** Indicates whether an item in a `<mat-nav-list>` is the currently active page. */
+  /**
+   * Indicates whether an item in a `<mat-nav-list>` is the currently active page.
+   *
+   * 指示 `<mat-nav-list>` 中的条目是否是当前活动页面。
+   *
+   */
   @Input()
   get activated() {
     return this._activated;
@@ -98,6 +103,9 @@ export class MatListItem extends MatListItemBase {
   /**
    * Determine the value of `aria-current`. Return 'page' if this item is an activated anchor tag.
    * Otherwise, return `null`. This method is safe to use with server-side rendering.
+   *
+   * 确定 `aria-current` 的值。如果此条目是激活的锚点标记，则返回“页面（page）”。否则，返回 `null` 。此方法可以安全地用于服务器端渲染。
+   *
    */
   _getAriaCurrent(): string | null {
     return this._hostElement.nodeName === 'A' && this._activated ? 'page' : null;

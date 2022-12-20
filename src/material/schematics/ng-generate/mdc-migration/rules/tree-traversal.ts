@@ -17,13 +17,26 @@ import {
 /**
  * Traverses the given tree of nodes and runs the given callbacks for each Element node encountered.
  *
+ * 遍历给定的节点树并对遇到的每个元素节点运行给定的回调。
+ *
  * Note that updates to the start tags of html element should be done in the postorder callback,
  * and updates to the end tags of html elements should be done in the preorder callback to avoid
  * issues with line collisions.
  *
+ * 请注意，对 html 元素的开始标记的更新应在后序回调中完成，而对 html 元素的结束标记的更新应在前序回调中完成，以避免行冲突问题。
+ *
  * @param nodes The nodes of the ast from a parsed template.
+ *
+ * 来自模板解析结果的 ast 节点。
+ *
  * @param preorderCallback A function that gets run for each Element node in a preorder traversal.
+ *
+ * 要对前序遍历中的每个元素节点运行的函数。
+ *
  * @param postorderCallback A function that gets run for each Element node in a postorder traversal.
+ *
+ * 要对后序遍历中的每个元素节点运行的函数。
+ *
  */
 export function visitElements(
   nodes: TmplAstNode[],
@@ -53,11 +66,21 @@ export function visitElements(
  * A wrapper for the Angular compilers parseTemplate, which passes the correct options to ensure
  * the parsed template is accurate.
  *
+ * Angular 编译器 parseTemplate 的包装器，它传递正确的选项以确保解析出的模板是准确的。
+ *
  * For more details, see https://github.com/angular/angular/blob/4332897baa2226ef246ee054fdd5254e3c129109/packages/compiler-cli/src/ngtsc/annotations/component/src/resources.ts#L230.
  *
  * @param template text of the template to parse
+ *
+ * 要解析的模板文本
  * @param templateUrl URL to use for source mapping of the parsed template
- * @returns the updated template html.
+ *
+ * 用于已解析模板的源码映射 URL
+ * @returns
+ *
+ * the updated template html.
+ *
+ * 更新后的模板 html。
  */
 export function parseTemplate(template: string, templateUrl: string = ''): ParsedTemplate {
   return parseTemplateUsingCompiler(template, templateUrl, {
@@ -70,10 +93,26 @@ export function parseTemplate(template: string, templateUrl: string = ''): Parse
 /**
  * Replaces the start tag of the given Element node inside of the html document with a new tag name.
  *
+ * 用新的标签名称替换 html 文档中给定 Element 节点的起始标签。
+ *
  * @param html The full html document.
+ *
+ * 完整的 html 文档。
+ *
  * @param node The Element node to be updated.
+ *
+ * 要更新的元素节点。
+ *
  * @param tag A new tag name.
- * @returns an updated html document.
+ *
+ * 一个新的标签名称。
+ *
+ * @returns
+ *
+ * an updated html document.
+ *
+ * 更新后的 html 文档。
+ *
  */
 export function replaceStartTag(html: string, node: TmplAstElement, tag: string): string {
   return replaceAt(html, node.startSourceSpan.start.offset + 1, node.name, tag);
@@ -82,10 +121,26 @@ export function replaceStartTag(html: string, node: TmplAstElement, tag: string)
 /**
  * Replaces the end tag of the given Element node inside of the html document with a new tag name.
  *
+ * 用新的标签名称替换 html 文档内给定 Element 节点的结束标签。
+ *
  * @param html The full html document.
+ *
+ * 完整的 html 文档。
+ *
  * @param node The Element node to be updated.
+ *
+ * 要更新的元素节点。
+ *
  * @param tag A new tag name.
- * @returns an updated html document.
+ *
+ * 一个新的标签名称。
+ *
+ * @returns
+ *
+ * an updated html document.
+ *
+ * 更新后的 html 文档。
+ *
  */
 export function replaceEndTag(html: string, node: TmplAstElement, tag: string): string {
   if (!node.endSourceSpan) {
@@ -97,11 +152,30 @@ export function replaceEndTag(html: string, node: TmplAstElement, tag: string): 
 /**
  * Appends an attribute to the given node of the template html.
  *
+ * 将属性附加到此模板 html 的给定节点。
+ *
  * @param html The template html to be updated.
+ *
+ * 要更新的模板 html。
+ *
  * @param node The node to be updated.
+ *
+ * 要更新的节点。
+ *
  * @param name The name of the attribute.
+ *
+ * 此属性的名称。
+ *
  * @param update The function that determines how to update the value.
- * @returns The updated template html.
+ *
+ * 确定如何更新这个值的函数。
+ *
+ * @returns
+ *
+ * The updated template html.
+ *
+ * 更新后的模板 html。
+ *
  */
 export function updateAttribute(
   html: string,
@@ -181,11 +255,30 @@ function parseIndentation(html: string, node: TmplAstElement): string {
 /**
  * Replaces a substring of a given string starting at some offset index.
  *
+ * 从某个偏移索引开始替换给定字符串的子字符串。
+ *
  * @param str A string to be updated.
+ *
+ * 要更新的字符串。
+ *
  * @param offset An offset index to start at.
+ *
+ * 起始的偏移索引。
+ *
  * @param oldSubstr The old substring to be replaced.
+ *
+ * 要替换的旧子字符串。
+ *
  * @param newSubstr A new substring.
- * @returns the updated string.
+ *
+ * 一个新的子字符串。
+ *
+ * @returns
+ *
+ * the updated string.
+ *
+ * 更新后的字符串。
+ *
  */
 function replaceAt(str: string, offset: number, oldSubstr: string, newSubstr: string): string {
   const index = offset;

@@ -12,6 +12,9 @@ import {Subject} from 'rxjs';
 /**
  * Maintains a set of selected values. One or more values can be added to or removed from the
  * selection.
+ *
+ * 维护一组选定的值。可以在选择结果中添加或删除一个或多个值。
+ *
  */
 interface TrackBySelection<T> {
   isSelected(value: SelectableWithIndex<T>): boolean;
@@ -23,6 +26,9 @@ interface TrackBySelection<T> {
 /**
  * A selectable value with an optional index. The index is required when the selection is used with
  * `trackBy`.
+ *
+ * 带有可选索引的可选值。当选择结果与 `trackBy` 一起使用时，这是必要的.。
+ *
  */
 export interface SelectableWithIndex<T> {
   value: T;
@@ -31,6 +37,9 @@ export interface SelectableWithIndex<T> {
 
 /**
  * Represents the change in the selection set.
+ *
+ * 表示选择结果中的变化。
+ *
  */
 export interface SelectionChange<T> {
   before: SelectableWithIndex<T>[];
@@ -43,6 +52,9 @@ export interface SelectionChange<T> {
  * When constructed with a `trackByFn`, all the items will be identified by applying the `trackByFn`
  * on them. Because `trackByFn` requires the index of the item to be passed in, the `index` field is
  * expected to be set when calling `isSelected`, `select` and `deselect`.
+ *
+ * 维护一组选定的条目。支持选定和取消选定条目，并检查是否选定了一个值。当使用 `trackByFn` 构造时，所有条目都将通过在它们上调用 `trackByFn` 来识别。因为 `trackByFn` 需要所传入条目的索引，所以在调用 `isSelected`、`select` 和 `deselect` 时应该设置 `index` 字段。
+ *
  */
 export class SelectionSet<T> implements TrackBySelection<T> {
   private _selectionMap = new Map<T | ReturnType<TrackByFunction<T>>, SelectableWithIndex<T>>();

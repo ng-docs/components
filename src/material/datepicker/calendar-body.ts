@@ -229,10 +229,20 @@ export class MatCalendarBody<D = any> implements OnChanges, OnDestroy, AfterView
    */
   @Input() previewEnd: number | null = null;
 
-  /** ARIA Accessible name of the `<input matStartDate/>` */
+  /**
+   * ARIA Accessible name of the `<input matStartDate/>`
+   *
+   * `<input matStartDate/>` 的 ARIA 无障碍名称
+   *
+   */
   @Input() startDateAccessibleName: string | null;
 
-  /** ARIA Accessible name of the `<input matEndDate/>` */
+  /**
+   * ARIA Accessible name of the `<input matEndDate/>`
+   *
+   * `<input matEndDate/>` 的 ARIA 无障碍名称
+   *
+   */
   @Input() endDateAccessibleName: string | null;
 
   /**
@@ -255,10 +265,20 @@ export class MatCalendarBody<D = any> implements OnChanges, OnDestroy, AfterView
 
   @Output() readonly activeDateChange = new EventEmitter<MatCalendarUserEvent<number>>();
 
-  /** Emits the date at the possible start of a drag event. */
+  /**
+   * Emits the date at the possible start of a drag event.
+   *
+   * 在拖动事件可能开始时发出此日期。
+   *
+   */
   @Output() readonly dragStarted = new EventEmitter<MatCalendarUserEvent<D>>();
 
-  /** Emits the date at the conclusion of a drag, or null if mouse was not released on a date. */
+  /**
+   * Emits the date at the conclusion of a drag, or null if mouse was not released on a date.
+   *
+   * 在拖动结束时发出此日期，如果鼠标未在某个日期释放则为 null。
+   *
+   */
   @Output() readonly dragEnded = new EventEmitter<MatCalendarUserEvent<D | null>>();
 
   /**
@@ -602,7 +622,12 @@ export class MatCalendarBody<D = any> implements OnChanges, OnDestroy, AfterView
     return isInRange(value, this.previewStart, this.previewEnd, this.isRange);
   }
 
-  /** Gets ids of aria descriptions for the start and end of a date range. */
+  /**
+   * Gets ids of aria descriptions for the start and end of a date range.
+   *
+   * 获取日期范围开始和结束的 ARIA 描述的 ID。
+   *
+   */
   _getDescribedby(value: number): string | null {
     if (!this.isRange) {
       return null;
@@ -787,6 +812,9 @@ function isTableCell(node: Node | undefined | null): node is HTMLTableCellElemen
 /**
  * Gets the date table cell element that is or contains the specified element.
  * Or returns null if element is not part of a date cell.
+ *
+ * 获取属于或包含指定元素的日期单元格元素。或者，如果元素不是日期单元格的一部分，则返回 null。
+ *
  */
 function getCellElement(element: HTMLElement): HTMLElement | null {
   let cell: HTMLElement | undefined;
@@ -846,6 +874,9 @@ function isInRange(
 /**
  * Extracts the element that actually corresponds to a touch event's location
  * (rather than the element that initiated the sequence of touch events).
+ *
+ * 提取实际对应于触控事件位置的元素（而不是启动触控事件序列的元素）。
+ *
  */
 function getActualTouchTarget(event: TouchEvent): Element | null {
   const touchLocation = event.changedTouches[0];

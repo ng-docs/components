@@ -165,7 +165,7 @@ const funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
  *   include the special class `mat-ligature-font`. It is recommended to use the attribute alternative
  *   to prevent the ligature text to be selectable and to appear in search engine results.
  *   By default, the Material icons font is used as described at
- *   <http://google.github.io/material-design-icons/#icon-font-for-the-web>. You can specify an
+ *   http://google.github.io/material-design-icons/#icon-font-for-the-web. You can specify an
  *   alternate font by setting the fontSet input to either the CSS class to apply to use the
  *   desired font, or to an alias previously registered with MatIconRegistry.registerFontClassAlias.
  *   Examples:
@@ -174,16 +174,16 @@ const funcIriPattern = /^url\(['"]?#(.*?)['"]?\)$/;
  *     <mat-icon fontSet="myfont" fontIcon="sun"></mat-icon>
  *     <mat-icon fontSet="myfont">sun</mat-icon>`
  *
- *   通过将合字文本放在 `fontIcon` 属性或 `<mat-icon>` 组件的内容中，将合字字体用作图标。如果你注册了自定义字体类，请不要忘记还要包括特殊类 `mat-ligature-font` 。建议使用替代属性来防止合字文本被选中以及出现在搜索引擎结果中。默认情况下，使用 <http://google.github.io/material-design-icons/#icon-font-for-the-web> 中所述的 Material 图标字体。你可以通过将 fontSet 输入设置为要应用以使用所需字体的 CSS 类或之前使用 MatIconRegistry.registerFontClassAlias 注册的别名来指定备用字体。示例： `<mat-icon fontIcon="home"></mat-icon> <mat-icon>home</mat-icon> <mat-icon fontSet="myfont" fontIcon="sun"></mat-icon> <mat-icon fontSet="myfont">sun</mat-icon>`
+ *   通过将合字文本放在 `fontIcon` 属性或 `<mat-icon>` 组件的内容中，将合字字体用作图标。如果你注册了自定义字体类，请不要忘记还要包括特殊类 `mat-ligature-font` 。建议使用替代属性来防止合字文本被选中以及出现在搜索引擎结果中。默认情况下，使用 http://google.github.io/material-design-icons/#icon-font-for-the-web 中所述的 Material 图标字体。你可以通过将 fontSet 输入设置为要应用以使用所需字体的 CSS 类或之前使用 MatIconRegistry.registerFontClassAlias 注册的别名来指定备用字体。示例： `<mat-icon fontIcon="home"></mat-icon> <mat-icon>home</mat-icon> <mat-icon fontSet="myfont" fontIcon="sun"></mat-icon> <mat-icon fontSet="myfont">sun</mat-icon>`
  *
  * - Specify a font glyph to be included via CSS rules by setting the fontSet input to specify the
  *   font, and the fontIcon input to specify the icon. Typically the fontIcon will specify a
  *   CSS class which causes the glyph to be displayed via a :before selector, as in
- *   <https://fortawesome.github.io/Font-Awesome/examples/>
+ *   https://fortawesome.github.io/Font-Awesome/examples/
  *   Example:
  *     `<mat-icon fontSet="fa" fontIcon="alarm"></mat-icon>`
  *
- *   指定要通过 CSS 规则包含的字体字形，方法是设置输入属性 fontSet 以指定字体，并使用输入属性 fontIcon 来指定图标。通常，fontIcon 会指定一个 CSS 类，它会让这个字形通过 :before 选择器显示出来，就像 <https://fortawesome.github.io/Font-Awesome/examples/> 中一样，例如： `<mat-icon fontSet="fa" fontIcon="alarm"></mat-icon`
+ *   指定要通过 CSS 规则包含的字体字形，方法是设置输入属性 fontSet 以指定字体，并使用输入属性 fontIcon 来指定图标。通常，fontIcon 会指定一个 CSS 类，它会让这个字形通过 :before 选择器显示出来，就像 https://fortawesome.github.io/Font-Awesome/examples/ 中一样，例如： `<mat-icon fontSet="fa" fontIcon="alarm"></mat-icon`
  *
  */
 @Component({

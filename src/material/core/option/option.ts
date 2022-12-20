@@ -139,7 +139,12 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
   // tslint:disable-next-line:no-output-on-prefix
   @Output() readonly onSelectionChange = new EventEmitter<MatOptionSelectionChange<T>>();
 
-  /** Element containing the option's text. */
+  /**
+   * Element containing the option's text.
+   *
+   * 包含选项文本的元素。
+   *
+   */
   @ViewChild('text', {static: true}) _text: ElementRef<HTMLElement> | undefined;
 
   /**
@@ -284,6 +289,9 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
   /**
    * `Selects the option while indicating the selection came from the user. Used to
    * determine if the select's view -> model callback should be invoked.`
+   *
+   * 选择此选项，同时指出这种选择来自用户。用于决定是否应调用选择的视图 -> 模型回调。
+   *
    */
   _selectViaInteraction(): void {
     if (!this.disabled) {

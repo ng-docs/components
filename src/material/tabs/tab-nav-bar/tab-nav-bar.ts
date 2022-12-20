@@ -364,6 +364,9 @@ const _MatTabLinkBaseWithInkBarItem = mixinInkBarItem(_MatTabLinkBase);
 /**
  * Navigation component matching the styles of the tab group header.
  * Provides anchored navigation with animated ink bar.
+ *
+ * 与选项卡组标题样式匹配的导航组件。提供带有动画墨水栏的链接导航。
+ *
  */
 @Component({
   selector: '[mat-tab-nav-bar]',
@@ -387,7 +390,12 @@ const _MatTabLinkBaseWithInkBarItem = mixinInkBarItem(_MatTabLinkBase);
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MatTabNav extends _MatTabNavBase implements AfterContentInit, AfterViewInit {
-  /** Whether the ink bar should fit its width to the size of the tab label content. */
+  /**
+   * Whether the ink bar should fit its width to the size of the tab label content.
+   *
+   * 此墨条是否应使其宽度适合选项卡标签内容的大小。
+   *
+   */
   @Input()
   get fitInkBarToContent(): boolean {
     return this._fitInkBarToContent.value;
@@ -398,7 +406,12 @@ export class MatTabNav extends _MatTabNavBase implements AfterContentInit, After
   }
   _fitInkBarToContent = new BehaviorSubject(false);
 
-  /** Whether tabs should be stretched to fill the header. */
+  /**
+   * Whether tabs should be stretched to fill the header.
+   *
+   * 是否应拉伸选项卡以填充标题区。
+   *
+   */
   @Input('mat-stretch-tabs')
   get stretchTabs(): boolean {
     return this._stretchTabs;

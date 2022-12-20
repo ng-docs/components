@@ -395,10 +395,18 @@ export class MatSnackBarContainer extends _MatSnackBarContainerBase {
    * Element that will have the `mdc-snackbar__label` class applied if the attached component
    * or template does not have it. This ensures that the appropriate structure, typography, and
    * color is applied to the attached view.
+   *
+   * 如果附加的组件或模板没有 `mdc-snackbar__label` 类，则应用此类。这可确保将适当的结构、排版和颜色应用于附加视图。
+   *
    */
   @ViewChild('label', {static: true}) _label: ElementRef;
 
-  /** Applies the correct CSS class to the label based on its content. */
+  /**
+   * Applies the correct CSS class to the label based on its content.
+   *
+   * 根据其内容将正确的 CSS 类应用于标签。
+   *
+   */
   protected override _afterPortalAttached() {
     super._afterPortalAttached();
 

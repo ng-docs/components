@@ -12,7 +12,13 @@ import {_MatAutocompleteOriginBase} from '@angular/material/autocomplete';
 /**
  * Directive applied to an element to make it usable
  * as a connection point for an autocomplete panel.
- * @deprecated Use `MatAutocompleteOrigin` from `@angular/material/autocomplete` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 指令应用于某个元素，以使其可用作自动完成面板的连接点。
+ *
+ * @deprecated
+ *
+ * Use `MatAutocompleteOrigin` from `@angular/material/autocomplete` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({

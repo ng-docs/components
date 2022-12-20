@@ -9,7 +9,12 @@
 import {Component, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
 import {CdkMenuItem} from '@angular/cdk/menu';
 
-/** Removes all icons from within the given element. */
+/**
+ * Removes all icons from within the given element.
+ *
+ * 从给定元素中删除所有图标。
+ *
+ */
 function removeIcons(element: Element) {
   for (const icon of Array.from(element.querySelectorAll('mat-icon, .material-icons'))) {
     icon.remove();
@@ -20,6 +25,9 @@ function removeIcons(element: Element) {
  * A material design MenubarItem adhering to the functionality of CdkMenuItem and
  * CdkMenuItemTrigger. Its main purpose is to trigger menus and it lives inside of
  * MatMenubar.
+ *
+ * 一个 Material Design 的 MenubarItem，它秉承了 CdkMenuItem 和 CdkMenuItemTrigger 的功能。它的主要目的是触发菜单，它位于 MatMenubar 内部。
+ *
  */
 @Component({
   selector: 'mat-menubar-item',

@@ -29,7 +29,12 @@ import {MatChip, MatChipEvent} from './chip';
 import {MatChipOption, MatChipSelectionChange} from './chip-option';
 import {MatChipSet} from './chip-set';
 
-/** Change event object that is emitted when the chip listbox value has changed. */
+/**
+ * Change event object that is emitted when the chip listbox value has changed.
+ *
+ * 纸片列表框值更改时发出的更改事件对象。
+ *
+ */
 export class MatChipListboxChange {
   constructor(
     /** Chip listbox that emitted the event. */
@@ -42,6 +47,9 @@ export class MatChipListboxChange {
 /**
  * Provider Expression that allows mat-chip-listbox to register as a ControlValueAccessor.
  * This allows it to support [(ngModel)].
+ *
+ * 允许 mat-chip-listbox 注册为 ControlValueAccessor 的提供者表达式。这允许它支持[(ngModel)]。
+ *
  * @docs-private
  */
 export const MAT_CHIP_LISTBOX_CONTROL_VALUE_ACCESSOR: any = {
@@ -53,6 +61,9 @@ export const MAT_CHIP_LISTBOX_CONTROL_VALUE_ACCESSOR: any = {
 /**
  * An extension of the MatChipSet component that supports chip selection.
  * Used with MatChipOption chips.
+ *
+ * 支持纸片选择的 MatChipSet 组件的扩展。与 MatChipOption 纸片一起使用。
+ *
  */
 @Component({
   selector: 'mat-chip-listbox',
@@ -89,12 +100,18 @@ export class MatChipListbox
 {
   /**
    * Function when touched. Set as part of ControlValueAccessor implementation.
+   *
+   * 已接触时调用的函数。设置为 ControlValueAccessor 实现的一部分。
+   *
    * @docs-private
    */
   _onTouched = () => {};
 
   /**
    * Function when changed. Set as part of ControlValueAccessor implementation.
+   *
+   * 已改变时调用的函数。设置为 ControlValueAccessor 实现的一部分。
+   *
    * @docs-private
    */
   _onChange: (value: any) => void = () => {};
@@ -105,7 +122,12 @@ export class MatChipListbox
   /** Value that was assigned before the listbox was initialized. */
   private _pendingInitialValue: any;
 
-  /** Whether the user should be allowed to select multiple chips. */
+  /**
+   * Whether the user should be allowed to select multiple chips.
+   *
+   * 是否允许用户选择多个纸片。
+   *
+   */
   @Input()
   get multiple(): boolean {
     return this._multiple;
@@ -116,20 +138,35 @@ export class MatChipListbox
   }
   private _multiple: boolean = false;
 
-  /** The array of selected chips inside the chip listbox. */
+  /**
+   * The array of selected chips inside the chip listbox.
+   *
+   * 纸片列表框中已选定纸片的数组。
+   *
+   */
   get selected(): MatChipOption[] | MatChipOption {
     const selectedChips = this._chips.toArray().filter(chip => chip.selected);
     return this.multiple ? selectedChips : selectedChips[0];
   }
 
-  /** Orientation of the chip list. */
+  /**
+   * Orientation of the chip list.
+   *
+   * 纸片列表的方向。
+   *
+   */
   @Input('aria-orientation') ariaOrientation: 'horizontal' | 'vertical' = 'horizontal';
 
   /**
    * Whether or not this chip listbox is selectable.
    *
+   * 此纸片列表框是否可选。
+   *
    * When a chip listbox is not selectable, the selected states for all
    * the chips inside the chip listbox are always ignored.
+   *
+   * 当纸片列表框不可选时，纸片列表框内所有纸片的选定状态总是被忽略。
+   *
    */
   @Input()
   get selectable(): boolean {
@@ -145,10 +182,18 @@ export class MatChipListbox
    * A function to compare the option values with the selected values. The first argument
    * is a value from an option. The second is a value from the selection. A boolean
    * should be returned.
+   *
+   * 用来比较选项值和当前选择的函数。第一个参数是选项的值，第二个选定的值。应该返回一个布尔值。
+   *
    */
   @Input() compareWith: (o1: any, o2: any) => boolean = (o1: any, o2: any) => o1 === o2;
 
-  /** Whether this chip listbox is required. */
+  /**
+   * Whether this chip listbox is required.
+   *
+   * 此纸片列表框是否必要的。
+   *
+   */
   @Input()
   get required(): boolean {
     return this._required;
@@ -158,17 +203,32 @@ export class MatChipListbox
   }
   protected _required: boolean = false;
 
-  /** Combined stream of all of the child chips' selection change events. */
+  /**
+   * Combined stream of all of the child chips' selection change events.
+   *
+   * 所有子纸片的选定状态更改事件的组合流。
+   *
+   */
   get chipSelectionChanges(): Observable<MatChipSelectionChange> {
     return this._getChipStream<MatChipSelectionChange, MatChipOption>(chip => chip.selectionChange);
   }
 
-  /** Combined stream of all of the child chips' blur events. */
+  /**
+   * Combined stream of all of the child chips' blur events.
+   *
+   * 所有子纸片的失焦事件的组合流。
+   *
+   */
   get chipBlurChanges(): Observable<MatChipEvent> {
     return this._getChipStream(chip => chip._onBlur);
   }
 
-  /** The value of the listbox, which is the combined value of the selected chips. */
+  /**
+   * The value of the listbox, which is the combined value of the selected chips.
+   *
+   * 此列表框的值，即所选定纸片的组合值。
+   *
+   */
   @Input()
   get value(): any {
     return this._value;
@@ -179,7 +239,12 @@ export class MatChipListbox
   }
   protected _value: any;
 
-  /** Event emitted when the selected chip listbox value has been changed by the user. */
+  /**
+   * Event emitted when the selected chip listbox value has been changed by the user.
+   *
+   * 当用户更改了所选定纸片列表框值时发出的事件。
+   *
+   */
   @Output() readonly change: EventEmitter<MatChipListboxChange> =
     new EventEmitter<MatChipListboxChange>();
 
@@ -222,6 +287,9 @@ export class MatChipListbox
   /**
    * Focuses the first selected chip in this chip listbox, or the first non-disabled chip when there
    * are no selected chips.
+   *
+   * 聚焦此纸片列表框中第一个选定的纸片，或者在没有选定纸片时聚焦第一个未禁用的纸片。
+   *
    */
   override focus(): void {
     if (this.disabled) {
@@ -241,6 +309,9 @@ export class MatChipListbox
 
   /**
    * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
    * @docs-private
    */
   writeValue(value: any): void {
@@ -253,6 +324,9 @@ export class MatChipListbox
 
   /**
    * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
    * @docs-private
    */
   registerOnChange(fn: (value: any) => void): void {
@@ -261,6 +335,9 @@ export class MatChipListbox
 
   /**
    * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
    * @docs-private
    */
   registerOnTouched(fn: () => void): void {
@@ -269,13 +346,21 @@ export class MatChipListbox
 
   /**
    * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
    * @docs-private
    */
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  /** Selects all chips with value. */
+  /**
+   * Selects all chips with value.
+   *
+   * 选择所有有值的纸片。
+   *
+   */
   _setSelectionByValue(value: any, isUserInput: boolean = true) {
     this._clearSelection();
 
@@ -286,7 +371,12 @@ export class MatChipListbox
     }
   }
 
-  /** When blurred, marks the field as touched when focus moved outside the chip listbox. */
+  /**
+   * When blurred, marks the field as touched when focus moved outside the chip listbox.
+   *
+   * 失焦时，当焦点移出纸片列表框时，将字段标记为已接触。
+   *
+   */
   _blur() {
     if (!this.disabled) {
       // Wait to see if focus moves to an individual chip.
@@ -381,6 +471,9 @@ export class MatChipListbox
   /**
    * Determines if key manager should avoid putting a given chip action in the tab index. Skip
    * non-interactive actions since the user can't do anything with them.
+   *
+   * 确定键盘管理器是否应避免将给定的纸片操作放入 tabindex 中。要跳过非交互式操作，是因为用户无法对它们执行任何操作。
+   *
    */
   protected override _skipPredicate(action: MatChipAction): boolean {
     // Override the skip predicate in the base class to avoid skipping disabled chips. Allow

@@ -35,6 +35,9 @@ import {
  * "text button", "outlined button", and "contained button" per the Material Design
  * specification. `MatButton` additionally captures an additional "flat" appearance, which matches
  * "contained" but without elevation.
+ *
+ * `MatButton` 类应用于原生按钮元素，并根据 Material Design 规范来表现“文本（text）按钮”、“轮廓（outlined）按钮”和“实心（contained）按钮”的外观。 `MatButton` 还表现了一个额外的“平面按钮”外观，它匹配“实心按钮”但没有纵深。
+ *
  */
 @Component({
   selector: `

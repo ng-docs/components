@@ -50,6 +50,9 @@ const DEFAULT_CLUSTERER_OPTIONS: MarkerClustererOptions = {};
 /**
  * The clusterer has to be defined and referred to as a global variable,
  * otherwise it'll cause issues when minified through Closure.
+ *
+ * 此聚类器必须被定义并作为全局变量引用，否则在通过 Closure Compiler 进行最小化时就会导致问题。
+ *
  */
 declare const MarkerClusterer: typeof MarkerClustererInstance;
 
@@ -231,7 +234,7 @@ export class MapMarkerClusterer implements OnInit, AfterContentInit, OnChanges, 
    * googlemaps.github.io/v3-utility-library/classes/
    * \_google_markerclustererplus.markerclusterer.html
    *
-   * 参阅 googlemaps.github.io/v3-utility-library/classes/_google_markerclustererplus.markerclusterer.html
+   * 参阅 googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.markerclusterer.html
    *
    */
   markerClusterer?: MarkerClustererInstance;

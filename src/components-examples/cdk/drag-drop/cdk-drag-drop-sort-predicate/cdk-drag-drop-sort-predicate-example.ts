@@ -19,6 +19,9 @@ export class CdkDragDropSortPredicateExample {
   /**
    * Predicate function that only allows even numbers to be
    * sorted into even indices and odd numbers at odd indices.
+   *
+   * 一个谓词函数，只允许将偶数排序到偶数索引和奇数索引处的奇数。
+   *
    */
   sortPredicate(index: number, item: CdkDrag<number>) {
     return (index + 1) % 2 === item.data % 2;

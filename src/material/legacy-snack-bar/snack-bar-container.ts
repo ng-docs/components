@@ -11,8 +11,14 @@ import {_MatSnackBarContainerBase, matSnackBarAnimations} from '@angular/materia
 
 /**
  * Internal component that wraps user-provided snack bar content.
+ *
+ * 包装用户提供的快餐栏内容的内部组件。
+ *
  * @docs-private
- * @deprecated Use `MatSnackBarContainer` from `@angular/material/snack-bar` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatSnackBarContainer` from `@angular/material/snack-bar` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({

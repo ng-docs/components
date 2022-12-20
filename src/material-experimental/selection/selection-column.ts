@@ -30,7 +30,12 @@ import {MatSelection} from './selection';
  * Column that adds row selecting checkboxes and a select-all checkbox if `matSelectionMultiple` is
  * `true`.
  *
+ * 如果 `matSelectionMultiple` 为 `true` ，则添加容纳行选复选框和全选复选框的列。
+ *
  * Must be used within a parent `MatSelection` directive.
+ *
+ * 必须在父 `MatSelection` 指令中使用。
+ *
  */
 @Component({
   selector: 'mat-selection-column',

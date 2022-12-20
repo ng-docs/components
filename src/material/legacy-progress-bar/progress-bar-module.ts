@@ -12,7 +12,10 @@ import {MatCommonModule} from '@angular/material/core';
 import {MatLegacyProgressBar} from './progress-bar';
 
 /**
- * @deprecated Use `MatProgressBarModule` from `@angular/material/progress-bar` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatProgressBarModule` from `@angular/material/progress-bar` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @NgModule({

@@ -11,7 +11,13 @@ import {MAT_SUFFIX} from '@angular/material/form-field';
 
 /**
  * Suffix to be placed at the end of the form field.
- * @deprecated Use `MatSuffix` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 后缀放在表单字段的末尾。
+ *
+ * @deprecated
+ *
+ * Use `MatSuffix` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({

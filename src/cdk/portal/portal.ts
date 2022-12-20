@@ -148,6 +148,9 @@ export class ComponentPortal<T> extends Portal<ComponentRef<T>> {
 
   /**
    * List of DOM nodes that should be projected through `<ng-content>` of the attached component.
+   *
+   * 要通过所附着组件的 `<ng-content>` 投影进去的 DOM 节点列表。
+   *
    */
   projectableNodes?: Node[][] | null;
 

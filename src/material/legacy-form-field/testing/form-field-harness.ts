@@ -22,7 +22,13 @@ import {MatLegacyErrorHarness} from './error-harness';
 // TODO(devversion): support support chip list harness
 /**
  * Possible harnesses of controls which can be bound to a form-field.
- * @deprecated Use `FormFieldControlHarness` from `@angular/material/form-field/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 可以绑定到表单字段的可能的控件测试工具。
+ *
+ * @deprecated
+ *
+ * Use `FormFieldControlHarness` from `@angular/material/form-field/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export type LegacyFormFieldControlHarness =
@@ -33,7 +39,13 @@ export type LegacyFormFieldControlHarness =
 
 /**
  * Harness for interacting with a standard Material form-field's in tests.
- * @deprecated Use `MatFormFieldHarness` from `@angular/material/form-field/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 在测试中与标准 Material 表单字段进行交互的测试工具。
+ *
+ * @deprecated
+ *
+ * Use `MatFormFieldHarness` from `@angular/material/form-field/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacyFormFieldHarness extends _MatFormFieldHarnessBase<
@@ -45,8 +57,17 @@ export class MatLegacyFormFieldHarness extends _MatFormFieldHarnessBase<
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatFormFieldHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatFormFieldHarness`。
+   *
    * @param options Options for filtering which form field instances are considered a match.
+   *
+   * 用于过滤哪些表单字段实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(options: FormFieldHarnessFilters = {}): HarnessPredicate<MatLegacyFormFieldHarness> {
     return new HarnessPredicate(MatLegacyFormFieldHarness, options)
@@ -76,7 +97,12 @@ export class MatLegacyFormFieldHarness extends _MatFormFieldHarnessBase<
   protected _dateRangeInputControl = this.locatorForOptional(MatDateRangeInputHarness);
   protected _errorHarness = MatLegacyErrorHarness;
 
-  /** Gets the appearance of the form-field. */
+  /**
+   * Gets the appearance of the form-field.
+   *
+   * 获取此表单字段的外观。
+   *
+   */
   async getAppearance(): Promise<'legacy' | 'standard' | 'fill' | 'outline'> {
     const hostClasses = await (await this.host()).getAttribute('class');
     if (hostClasses !== null) {
@@ -90,12 +116,22 @@ export class MatLegacyFormFieldHarness extends _MatFormFieldHarnessBase<
     throw Error('Could not determine appearance of form-field.');
   }
 
-  /** Whether the form-field has a label. */
+  /**
+   * Whether the form-field has a label.
+   *
+   * 此表单字段是否具有标签。
+   *
+   */
   async hasLabel(): Promise<boolean> {
     return (await this.host()).hasClass('mat-form-field-has-label');
   }
 
-  /** Whether the label is currently floating. */
+  /**
+   * Whether the label is currently floating.
+   *
+   * 此标签当前是否浮动的。
+   *
+   */
   async isLabelFloating(): Promise<boolean> {
     const host = await this.host();
     const [hasLabel, shouldFloat] = await parallel(() => [

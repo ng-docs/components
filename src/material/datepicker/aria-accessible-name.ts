@@ -45,15 +45,31 @@
  * required for the Datepicker's specific use case. This function is not intended for any other
  * use.
  *
- * Limitations:
- *  - Only covers the needs of `matStartDate` and `matEndDate`. Does not support other use cases.
- *  - See NOTES's in implementation for specific details on what parts of the accname-1.2
- *  specification are not implemented.
+ * 预期用途：
+ * 这不是一般用途的实现。仅实现 Datepicker 的特定用例所需的 accname-1.2 部分。此功能不用于任何其他用途。
  *
- *  @param element {HTMLInputElement} native &lt;input/&gt; element of `matStartDate` or
+ * Limitations:
+ *
+ * 限制：
+ *
+ * - Only covers the needs of `matStartDate` and `matEndDate`. Does not support other use cases.
+ *
+ *   仅涵盖 `matStartDate` 和 `matEndDate` 的需求。不支持其他用例。
+ *
+ * - See NOTES's in implementation for specific details on what parts of the accname-1.2
+ *   specification are not implemented.
+ *
+ *   有关 accname-1.2 规范的哪些部分未实现的具体细节，请参阅实现中的注释。
+ *
+ * @param element {HTMLInputElement} native &lt;input/> element of `matStartDate` or
  *  `matEndDate` component. Corresponds to the 'Root Element' from accname-1.2
  *
- *  @return expected ARIA accessible name of argument &lt;input/&gt;
+ * `matStartDate` 或 `matEndDate` 组件的原生 {HTMLInputElement} &lt;input/> 元素。对应于 accname-1.2 中的“根元素”
+ *
+ * @return expected ARIA accessible name of argument &lt;input/>
+ *
+ * 预期的 ARIA 无障碍参数名称 &lt;input/>
+ *
  */
 export function _computeAriaAccessibleName(
   element: HTMLInputElement | HTMLTextAreaElement,
@@ -64,6 +80,9 @@ export function _computeAriaAccessibleName(
 /**
  * Determine if argument node is an Element based on `nodeType` property. This function is safe to
  * use with server-side rendering.
+ *
+ * 根据 `nodeType` 属性确定参数节点是否为元素。此函数可以安全地用于服务端渲染。
+ *
  */
 function ssrSafeIsElement(node: Node): node is Element {
   return node.nodeType === Node.ELEMENT_NODE;
@@ -72,6 +91,9 @@ function ssrSafeIsElement(node: Node): node is Element {
 /**
  * Determine if argument node is an HTMLInputElement based on `nodeName` property. This funciton is
  * safe to use with server-side rendering.
+ *
+ * 根据 `nodeName` 属性确定参数节点是否为 HTMLInputElement。此函数可以安全地用于服务端渲染。
+ *
  */
 function ssrSafeIsHTMLInputElement(node: Node): node is HTMLInputElement {
   return node.nodeName === 'INPUT';
@@ -80,6 +102,9 @@ function ssrSafeIsHTMLInputElement(node: Node): node is HTMLInputElement {
 /**
  * Determine if argument node is an HTMLTextAreaElement based on `nodeName` property. This
  * funciton is safe to use with server-side rendering.
+ *
+ * 根据 `nodeName` 属性确定参数节点是否为 HTMLTextAreaElement。此函数可以安全地用于服务端渲染。
+ *
  */
 function ssrSafeIsHTMLTextAreaElement(node: Node): node is HTMLTextAreaElement {
   return node.nodeName === 'TEXTAREA';
@@ -89,11 +114,21 @@ function ssrSafeIsHTMLTextAreaElement(node: Node): node is HTMLTextAreaElement {
  * Calculate the expected ARIA accessible name for given DOM Node. Given DOM Node may be either the
  * "Root node" passed to `_computeAriaAccessibleName` or "Current node" as result of recursion.
  *
+ * 计算给定 DOM 节点的预期 ARIA 无障碍名称。作为递归的结果，给定的 DOM 节点可能是传递给 `_computeAriaAccessibleName` 的“根节点”或“当前节点”。
+ *
  * @return the accessible name of argument DOM Node
  *
+ * 参数 DOM 节点的无障碍名称
+ *
  * @param currentNode node to determine accessible name of
+ *
+ * 确定无障碍名称的节点
+ *
  * @param isDirectlyReferenced true if `currentNode` is the root node to calculate ARIA accessible
  * name of. False if it is a result of recursion.
+ *
+ * 如果 `currentNode` 是计算 ARIA 无障碍名称的根节点，则为真。如果它是递归的结果，则为假。
+ *
  */
 function _computeAriaAccessibleNameInternal(
   currentNode: Node,

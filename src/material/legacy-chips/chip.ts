@@ -46,17 +46,34 @@ import {take} from 'rxjs/operators';
 
 /**
  * Represents an event fired on an individual `mat-chip`.
- * @deprecated Use `MatChipEvent` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 表示单个 `mat-chip` 上触发的事件。
+ *
+ * @deprecated
+ *
+ * Use `MatChipEvent` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export interface MatLegacyChipEvent {
-  /** The chip the event was fired on. */
+  /**
+   * The chip the event was fired on.
+   *
+   * 触发该事件的纸片。
+   *
+   */
   chip: MatLegacyChip;
 }
 
 /**
  * Event object emitted by MatChip when selected or deselected.
- * @deprecated Use `MatChipSelectionChange` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * MatChip 在选定或取消选定时会发出本事件对象。
+ *
+ * @deprecated
+ *
+ * Use `MatChipSelectionChange` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacyChipSelectionChange {
@@ -74,7 +91,13 @@ export class MatLegacyChipSelectionChange {
  * Injection token that can be used to reference instances of `MatChipRemove`. It serves as
  * alternative token to the actual `MatChipRemove` class which could cause unnecessary
  * retention of the class and its directive metadata.
- * @deprecated Use `MAT_CHIP_REMOVE` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 这个注入令牌可以用来引用 `MatChipRemove` 实例。它可以作为实际 `MatChipRemove` 类的备用令牌，直接使用实际类可能导致该类及其元数据无法被优化掉。
+ *
+ * @deprecated
+ *
+ * Use `MAT_CHIP_REMOVE` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_CHIP_REMOVE = new InjectionToken<MatLegacyChipRemove>('MatChipRemove');
@@ -83,7 +106,13 @@ export const MAT_LEGACY_CHIP_REMOVE = new InjectionToken<MatLegacyChipRemove>('M
  * Injection token that can be used to reference instances of `MatChipAvatar`. It serves as
  * alternative token to the actual `MatChipAvatar` class which could cause unnecessary
  * retention of the class and its directive metadata.
- * @deprecated Use `MAT_CHIP_AVATAR` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 这个注入令牌可以用来引用 `MatChipAvatar` 实例。它可以作为实际 `MatChipAvatar` 类的备用令牌，直接使用实际类可能导致该类及其元数据无法被优化掉。
+ *
+ * @deprecated
+ *
+ * Use `MAT_CHIP_AVATAR` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_CHIP_AVATAR = new InjectionToken<MatLegacyChipAvatar>('MatChipAvatar');
@@ -92,7 +121,13 @@ export const MAT_LEGACY_CHIP_AVATAR = new InjectionToken<MatLegacyChipAvatar>('M
  * Injection token that can be used to reference instances of `MatChipTrailingIcon`. It serves as
  * alternative token to the actual `MatChipTrailingIcon` class which could cause unnecessary
  * retention of the class and its directive metadata.
- * @deprecated Use `MAT_CHIP_TRAILING_ICON` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 这个注入令牌可以用来引用 `MatChipTrailingIcon` 实例。它可以作为实际 `MatChipTrailingIcon` 类的备用令牌，直接使用实际类可能导致该类及其元数据无法被优化掉。
+ *
+ * @deprecated
+ *
+ * Use `MAT_CHIP_TRAILING_ICON` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_CHIP_TRAILING_ICON = new InjectionToken<MatLegacyChipTrailingIcon>(
@@ -110,8 +145,13 @@ const _MatChipMixinBase = mixinTabIndex(mixinColor(mixinDisableRipple(MatChipBas
 
 /**
  * Dummy directive to add CSS class to chip avatar.
+ *
+ * 将 CSS 类添加到纸片头像的虚拟指令。
+ *
  * @docs-private
- * @deprecated Use `MatChipAvatar` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatChipAvatar` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -123,8 +163,13 @@ export class MatLegacyChipAvatar {}
 
 /**
  * Dummy directive to add CSS class to chip trailing icon.
+ *
+ * 将 CSS 类添加到纸片尾随图标的虚拟指令。
+ *
  * @docs-private
- * @deprecated Use `MatChipTrailingIcon` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatChipTrailingIcon` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -136,7 +181,12 @@ export class MatLegacyChipTrailingIcon {}
 
 /**
  * Material Design styled chip directive. Used inside the MatChipList component.
- * @deprecated Use `MatChip` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * Material Design 风格的纸片指令。在 MatChipList 组件内部使用。
+ *
+ * @deprecated
+ *
+ * Use `MatChip` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -186,12 +236,18 @@ export class MatLegacyChip
    * Ripple configuration for ripples that are launched on pointer down. The ripple config
    * is set to the global ripple options since we don't have any configurable options for
    * the chip ripples.
+   *
+   * 当指针按下时启动的涟漪的配置。涟漪配置设置为全局涟漪选项，因为我们没有任何可配置的纸片涟漪选项。
+   *
    * @docs-private
    */
   rippleConfig: RippleConfig & RippleGlobalOptions;
 
   /**
    * Whether ripples are disabled on interaction
+   *
+   * 交互时是否禁用涟漪
+   *
    * @docs-private
    */
   get rippleDisabled(): boolean {
@@ -203,34 +259,84 @@ export class MatLegacyChip
     );
   }
 
-  /** Whether the chip has focus. */
+  /**
+   * Whether the chip has focus.
+   *
+   * 纸片是否有焦点。
+   *
+   */
   _hasFocus: boolean = false;
 
-  /** Whether animations for the chip are enabled. */
+  /**
+   * Whether animations for the chip are enabled.
+   *
+   * 纸片的动画是否已启用。
+   *
+   */
   _animationsDisabled: boolean;
 
-  /** Whether the chip list is selectable */
+  /**
+   * Whether the chip list is selectable
+   *
+   * 纸片列表是否可选
+   *
+   */
   chipListSelectable: boolean = true;
 
-  /** Whether the chip list is in multi-selection mode. */
+  /**
+   * Whether the chip list is in multi-selection mode.
+   *
+   * 纸片列表是否为多选模式。
+   *
+   */
   _chipListMultiple: boolean = false;
 
-  /** Whether the chip list as a whole is disabled. */
+  /**
+   * Whether the chip list as a whole is disabled.
+   *
+   * 纸片列表是否作为一个整体被禁用。
+   *
+   */
   _chipListDisabled: boolean = false;
 
-  /** The chip avatar */
+  /**
+   * The chip avatar
+   *
+   * 该纸片的头像
+   *
+   */
   @ContentChild(MAT_LEGACY_CHIP_AVATAR) avatar: MatLegacyChipAvatar;
 
-  /** The chip's trailing icon. */
+  /**
+   * The chip's trailing icon.
+   *
+   * 该纸片的尾部图标。
+   *
+   */
   @ContentChild(MAT_LEGACY_CHIP_TRAILING_ICON) trailingIcon: MatLegacyChipTrailingIcon;
 
-  /** The chip's remove toggler. */
+  /**
+   * The chip's remove toggler.
+   *
+   * 该纸片的移除切换器。
+   *
+   */
   @ContentChild(MAT_LEGACY_CHIP_REMOVE) removeIcon: MatLegacyChipRemove;
 
-  /** ARIA role that should be applied to the chip. */
+  /**
+   * ARIA role that should be applied to the chip.
+   *
+   * 应该应用于本纸片的 ARIA 角色。
+   *
+   */
   @Input() role: string = 'option';
 
-  /** Whether the chip is selected. */
+  /**
+   * Whether the chip is selected.
+   *
+   * 纸片是否被选定。
+   *
+   */
   @Input()
   get selected(): boolean {
     return this._selected;
@@ -245,7 +351,12 @@ export class MatLegacyChip
   }
   protected _selected: boolean = false;
 
-  /** The value of the chip. Defaults to the content inside `<mat-chip>` tags. */
+  /**
+   * The value of the chip. Defaults to the content inside `<mat-chip>` tags.
+   *
+   * 该纸片的值。默认为 `<mat-chip>` 标签中的内容。
+   *
+   */
   @Input()
   get value(): any {
     return this._value !== undefined ? this._value : this._elementRef.nativeElement.textContent;
@@ -260,6 +371,9 @@ export class MatLegacyChip
    * changes to its selected state are always ignored. By default a chip is
    * selectable, and it becomes non-selectable if its parent chip list is
    * not selectable.
+   *
+   * 该纸片是否可以选择。当纸片不可选时，总会忽略对选定状态的更改。默认情况下，纸片是可选择的，如果它的父纸片列表不可选，它就会变得不可选。
+   *
    */
   @Input()
   get selectable(): boolean {
@@ -270,7 +384,12 @@ export class MatLegacyChip
   }
   protected _selectable: boolean = true;
 
-  /** Whether the chip is disabled. */
+  /**
+   * Whether the chip is disabled.
+   *
+   * 纸片是否已禁用了。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._chipListDisabled || this._disabled;
@@ -282,6 +401,9 @@ export class MatLegacyChip
 
   /**
    * Determines whether or not the chip displays the remove styling and emits (removed) events.
+   *
+   * 确定该纸片是否显示移除样式并发出 (removed) 事件。
+   *
    */
   @Input()
   get removable(): boolean {
@@ -292,25 +414,55 @@ export class MatLegacyChip
   }
   protected _removable: boolean = true;
 
-  /** Emits when the chip is focused. */
+  /**
+   * Emits when the chip is focused.
+   *
+   * 当纸片聚焦时发出。
+   *
+   */
   readonly _onFocus = new Subject<MatLegacyChipEvent>();
 
-  /** Emits when the chip is blurred. */
+  /**
+   * Emits when the chip is blurred.
+   *
+   * 当纸片失焦时发出。
+   *
+   */
   readonly _onBlur = new Subject<MatLegacyChipEvent>();
 
-  /** Emitted when the chip is selected or deselected. */
+  /**
+   * Emitted when the chip is selected or deselected.
+   *
+   * 该纸片被选定或取消选定时会触发。
+   *
+   */
   @Output() readonly selectionChange: EventEmitter<MatLegacyChipSelectionChange> =
     new EventEmitter<MatLegacyChipSelectionChange>();
 
-  /** Emitted when the chip is destroyed. */
+  /**
+   * Emitted when the chip is destroyed.
+   *
+   * 当该纸片被销毁时会触发。
+   *
+   */
   @Output() readonly destroyed: EventEmitter<MatLegacyChipEvent> =
     new EventEmitter<MatLegacyChipEvent>();
 
-  /** Emitted when a chip is to be removed. */
+  /**
+   * Emitted when a chip is to be removed.
+   *
+   * 当要移除某个纸片时会触发。
+   *
+   */
   @Output() readonly removed: EventEmitter<MatLegacyChipEvent> =
     new EventEmitter<MatLegacyChipEvent>();
 
-  /** The ARIA selected applied to the chip. */
+  /**
+   * The ARIA selected applied to the chip.
+   *
+   * 应用于该纸片的 ARIA 选定属性。
+   *
+   */
   get ariaSelected(): string | null {
     // Remove the `aria-selected` when the chip is deselected in single-selection mode, because
     // it adds noise to NVDA users where "not selected" will be read out for each chip.
@@ -369,7 +521,12 @@ export class MatLegacyChip
     this._chipRipple._removeTriggerEvents();
   }
 
-  /** Selects the chip. */
+  /**
+   * Selects the chip.
+   *
+   * 选择该纸片。
+   *
+   */
   select(): void {
     if (!this._selected) {
       this._selected = true;
@@ -378,7 +535,12 @@ export class MatLegacyChip
     }
   }
 
-  /** Deselects the chip. */
+  /**
+   * Deselects the chip.
+   *
+   * 取消选择该纸片。
+   *
+   */
   deselect(): void {
     if (this._selected) {
       this._selected = false;
@@ -387,7 +549,12 @@ export class MatLegacyChip
     }
   }
 
-  /** Select this chip and emit selected event */
+  /**
+   * Select this chip and emit selected event
+   *
+   * 选择这个纸片并发出 selected 事件
+   *
+   */
   selectViaInteraction(): void {
     if (!this._selected) {
       this._selected = true;
@@ -396,7 +563,12 @@ export class MatLegacyChip
     }
   }
 
-  /** Toggles the current selected state of this chip. */
+  /**
+   * Toggles the current selected state of this chip.
+   *
+   * 切换当前纸片的选定状态。
+   *
+   */
   toggleSelected(isUserInput: boolean = false): boolean {
     this._selected = !this.selected;
     this._dispatchSelectionChange(isUserInput);
@@ -404,7 +576,12 @@ export class MatLegacyChip
     return this.selected;
   }
 
-  /** Allows for programmatic focusing of the chip. */
+  /**
+   * Allows for programmatic focusing of the chip.
+   *
+   * 允许通过编程把该纸片设为焦点。
+   *
+   */
   focus(): void {
     if (!this._hasFocus) {
       this._elementRef.nativeElement.focus();
@@ -417,7 +594,12 @@ export class MatLegacyChip
    * Allows for programmatic removal of the chip. Called by the MatChipList when the DELETE or
    * BACKSPACE keys are pressed.
    *
+   * 允许以编程方式移除该纸片。当按下 DELETE 或 BACKSPACE 键时，会由 MatChipList 调用。
+   *
    * Informs any listeners of the removal request. Does not remove the chip from the DOM.
+   *
+   * 通知任何监听器这个删除请求。但不会从 DOM 中移除纸片。
+   *
    */
   remove(): void {
     if (this.removable) {
@@ -425,14 +607,24 @@ export class MatLegacyChip
     }
   }
 
-  /** Handles click events on the chip. */
+  /**
+   * Handles click events on the chip.
+   *
+   * 处理纸片上的点击事件。
+   *
+   */
   _handleClick(event: Event) {
     if (this.disabled) {
       event.preventDefault();
     }
   }
 
-  /** Handle custom key presses. */
+  /**
+   * Handle custom key presses.
+   *
+   * 处理自定义按键。
+   *
+   */
   _handleKeydown(event: KeyboardEvent): void {
     if (this.disabled) {
       return;
@@ -484,16 +676,27 @@ export class MatLegacyChip
  * Applies proper (click) support and adds styling for use with the Material Design "cancel" icon
  * available at https://material.io/icons/#ic_cancel.
  *
+ * 应用正确的（click）支持，并为 https://material.io/icons/#ic_cancel 提供的 Material Design “cancel” 图标添加样式。
+ *
  * Example:
  *
- *     `<mat-chip>
- *       <mat-icon matChipRemove>cancel</mat-icon>
- *     </mat-chip>`
+ * 示例：
+ *
+ * ```
+ * `<mat-chip>
+ *   <mat-icon matChipRemove>cancel</mat-icon>
+ * </mat-chip>`
+ * ```
  *
  * You *may* use a custom icon, but you may need to override the `mat-chip-remove` positioning
  * styles to properly center the icon within the chip.
  *
- * @deprecated Use `MatChipRemove` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * 你*可以*使用自定义图标，但是可能需要改写 `mat-chip-remove` 的定位样式，这样才能让图标在纸片内正确居中。
+ *
+ * @deprecated
+ *
+ * Use `MatChipRemove` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -511,7 +714,12 @@ export class MatLegacyChipRemove {
     }
   }
 
-  /** Calls the parent chip's public `remove()` method if applicable. */
+  /**
+   * Calls the parent chip's public `remove()` method if applicable.
+   *
+   * 如果适用，调用父纸片的公共 `remove()` 方法。
+   *
+   */
   _handleClick(event: Event): void {
     const parentChip = this._parentChip;
 

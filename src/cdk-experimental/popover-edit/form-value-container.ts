@@ -13,7 +13,14 @@ export interface Entry<FormValue> {
 /**
  * A convenience class for preserving unsaved form state while an edit lens is closed.
  *
+ * 一个便利类，用于在关闭编辑镜头时保留未保存的表单状态。
+ *
  * Example usage:
+ * class MyComponent {
+ *   readonly nameEditValues = new FormValueContainer&lt;Item, {name: string}>();
+ * }
+ *
+ * 用法示例：
  * class MyComponent {
  *   readonly nameEditValues = new FormValueContainer&lt;Item, {name: string}>();
  * }

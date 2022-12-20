@@ -19,7 +19,12 @@ import {
 import {MatChip} from './chip';
 import {MAT_CHIP} from './tokens';
 
-/** Event object emitted by MatChipOption when selected or deselected. */
+/**
+ * Event object emitted by MatChipOption when selected or deselected.
+ *
+ * 当选择或取消选择时由 MatChipOption 发出的事件对象。
+ *
+ */
 export class MatChipSelectionChange {
   constructor(
     /** Reference to the chip that emitted the event. */
@@ -34,8 +39,13 @@ export class MatChipSelectionChange {
 /**
  * An extension of the MatChip component that supports chip selection. Used with MatChipListbox.
  *
+ * 支持纸片选择的 MatChip 组件的扩展。与 MatChipListbox 一起使用。
+ *
  * Unlike other chips, the user can focus on disabled chip options inside a MatChipListbox. The
  * user cannot click disabled chips.
+ *
+ * 与其他纸片不同，用户可以专注于 MatChipListbox 中禁用的纸片选项。用户不能单击已禁用的纸片。
+ *
  */
 @Component({
   selector: 'mat-basic-chip-option, mat-chip-option',
@@ -75,18 +85,33 @@ export class MatChipSelectionChange {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatChipOption extends MatChip implements OnInit {
-  /** Whether the chip list is selectable. */
+  /**
+   * Whether the chip list is selectable.
+   *
+   * 纸片列表是否可选。
+   *
+   */
   chipListSelectable: boolean = true;
 
-  /** Whether the chip list is in multi-selection mode. */
+  /**
+   * Whether the chip list is in multi-selection mode.
+   *
+   * 纸片列表是否为多选模式。
+   *
+   */
   _chipListMultiple: boolean = false;
 
   /**
    * Whether or not the chip is selectable.
    *
+   * 纸片是否可选。
+   *
    * When a chip is not selectable, changes to its selected state are always
    * ignored. By default an option chip is selectable, and it becomes
    * non-selectable if its parent chip list is not selectable.
+   *
+   * 当一个纸片不可选择时，对其选定状态的改变总是被忽略。默认情况下，选项纸片是可选的，如果其父纸片列表不可选，则该可选纸片变为不可选。
+   *
    */
   @Input()
   get selectable(): boolean {
@@ -98,7 +123,12 @@ export class MatChipOption extends MatChip implements OnInit {
   }
   protected _selectable: boolean = true;
 
-  /** Whether the chip is selected. */
+  /**
+   * Whether the chip is selected.
+   *
+   * 纸片是否被选定。
+   *
+   */
   @Input()
   get selected(): boolean {
     return this._selected;
@@ -112,23 +142,37 @@ export class MatChipOption extends MatChip implements OnInit {
    * The ARIA selected applied to the chip. Conforms to WAI ARIA best practices for listbox
    * interaction patterns.
    *
-   * From [WAI ARIA Listbox authoring practices guide](
-   * https://www.w3.org/WAI/ARIA/apg/patterns/listbox/):
+   * 将 ARIA selected 应用于此纸片。遵循列表框交互模式的 WAI ARIA 最佳实践。
+   *
+   * From [WAI ARIA Listbox authoring practices guide](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/):
    *  "If any options are selected, each selected option has either aria-selected or aria-checked
    *  set to true. All options that are selectable but not selected have either aria-selected or
    *  aria-checked set to false."
    *
    * Set `aria-selected="false"` on not-selected listbox options that are selectable to fix
    * VoiceOver reading every option as "selected" (#25736).
+   *
+   * 在可选择的未选择列表框选项上设置 `aria-selected="false"` 以修复 VoiceOver 将每个选项读取为“selected”的问题(#25736)。
+   *
    */
   get ariaSelected(): string | null {
     return this.selectable ? this.selected.toString() : null;
   }
 
-  /** The unstyled chip selector for this component. */
+  /**
+   * The unstyled chip selector for this component.
+   *
+   * 此组件的无样式纸片选择器。
+   *
+   */
   protected override basicChipAttrName = 'mat-basic-chip-option';
 
-  /** Emitted when the chip is selected or deselected. */
+  /**
+   * Emitted when the chip is selected or deselected.
+   *
+   * 该纸片被选定或取消选定时会触发。
+   *
+   */
   @Output() readonly selectionChange: EventEmitter<MatChipSelectionChange> =
     new EventEmitter<MatChipSelectionChange>();
 
@@ -136,22 +180,42 @@ export class MatChipOption extends MatChip implements OnInit {
     this.role = 'presentation';
   }
 
-  /** Selects the chip. */
+  /**
+   * Selects the chip.
+   *
+   * 选择该纸片。
+   *
+   */
   select(): void {
     this._setSelectedState(true, false, true);
   }
 
-  /** Deselects the chip. */
+  /**
+   * Deselects the chip.
+   *
+   * 取消选择该纸片。
+   *
+   */
   deselect(): void {
     this._setSelectedState(false, false, true);
   }
 
-  /** Selects this chip and emits userInputSelection event */
+  /**
+   * Selects this chip and emits userInputSelection event
+   *
+   * 选择此纸片并发出 userInputSelection 事件
+   *
+   */
   selectViaInteraction(): void {
     this._setSelectedState(true, true, true);
   }
 
-  /** Toggles the current selected state of this chip. */
+  /**
+   * Toggles the current selected state of this chip.
+   *
+   * 切换当前纸片的选定状态。
+   *
+   */
   toggleSelected(isUserInput: boolean = false): boolean {
     this._setSelectedState(!this.selected, isUserInput, true);
     return this.selected;

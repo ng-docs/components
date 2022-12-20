@@ -62,7 +62,12 @@ export class MatFooterRowDef extends CdkFooterRowDef {}
 })
 export class MatRowDef<T> extends CdkRowDef<T> {}
 
-/** Footer template container that contains the cell outlet. Adds the right class and role. */
+/**
+ * Footer template container that contains the cell outlet. Adds the right class and role.
+ *
+ * 包含单元格出口的表尾模板容器。添加合适的类和角色。
+ *
+ */
 /**
  * Header template container that contains the cell outlet. Adds the right class and role.
  *

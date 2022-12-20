@@ -34,32 +34,59 @@ import {matLegacySelectAnimations} from './select-animations';
  * The following style constants are necessary to save here in order
  * to properly calculate the alignment of the selected option over
  * the trigger element.
+ *
+ * 为了正确计算所选选项在触发元素上的对齐方式，必须在此处保存以下样式常量。
+ *
  */
 
 /**
  * The max height of the select's overlay panel.
- * @deprecated Use `SELECT_PANEL_MAX_HEIGHT` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 此选择框的浮层面板的最大高度。
+ *
+ * @deprecated
+ *
+ * Use `SELECT_PANEL_MAX_HEIGHT` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const SELECT_PANEL_MAX_HEIGHT = 256;
 
 /**
  * The panel's padding on the x-axis.
- * @deprecated Use `SELECT_PANEL_PADDING_X` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 此面板在 x 轴上的内衬距。
+ *
+ * @deprecated
+ *
+ * Use `SELECT_PANEL_PADDING_X` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const SELECT_PANEL_PADDING_X = 16;
 
 /**
  * The panel's x axis padding if it is indented (e.g. there is an option group).
- * @deprecated Use `SELECT_PANEL_INDENT_PADDING_X` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 此面板的 x 轴内衬距，如果它是缩进的（例如，有一个选项组）。
+ *
+ * @deprecated
+ *
+ * Use `SELECT_PANEL_INDENT_PADDING_X` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const SELECT_PANEL_INDENT_PADDING_X = SELECT_PANEL_PADDING_X * 2;
 
 /**
  * The height of the select items in `em` units.
- * @deprecated Use `SELECT_ITEM_HEIGHT_EM` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 所选条目的高度（以 `em` 为单位）。
+ *
+ * @deprecated
+ *
+ * Use `SELECT_ITEM_HEIGHT_EM` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const SELECT_ITEM_HEIGHT_EM = 3;
@@ -69,12 +96,19 @@ export const SELECT_ITEM_HEIGHT_EM = 3;
  * Distance between the panel edge and the option text in
  * multi-selection mode.
  *
+ * 多选模式下此面板的边缘与选项文本之间的距离。
+ *
  * Calculated as:
- * (SELECT_PANEL_PADDING_X * 1.5) + 16 = 40
+ * (SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40
  * The padding is multiplied by 1.5 because the checkbox's margin is half the padding.
  * The checkbox width is 16px.
  *
- * @deprecated Use `SELECT_MULTIPLE_PANEL_PADDING_X` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * 计算如下：(SELECT_PANEL_PADDING_X \* 1.5) + 16 = 40 内衬距要乘以 1.5，因为复选框的边距是内衬距的一半。复选框宽度为 16px。
+ *
+ * @deprecated
+ *
+ * Use `SELECT_MULTIPLE_PANEL_PADDING_X` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const SELECT_MULTIPLE_PANEL_PADDING_X = SELECT_PANEL_PADDING_X * 1.5 + 16;
@@ -82,14 +116,26 @@ export const SELECT_MULTIPLE_PANEL_PADDING_X = SELECT_PANEL_PADDING_X * 1.5 + 16
 /**
  * The select panel will only "fit" inside the viewport if it is positioned at
  * this value or more away from the viewport boundary.
- * @deprecated Use `SELECT_PANEL_VIEWPORT_PADDING` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 如果此选择面板位于此值或更远离视口边界，则选择面板将仅“适应”在视口内。
+ *
+ * @deprecated
+ *
+ * Use `SELECT_PANEL_VIEWPORT_PADDING` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const SELECT_PANEL_VIEWPORT_PADDING = 8;
 
 /**
  * Change event object that is emitted when the select value has changed.
- * @deprecated Use `MatSelectChange` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 当选择框的值发生更改后触发的事件对象。
+ *
+ * @deprecated
+ *
+ * Use `MatSelectChange` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacySelectChange {
@@ -103,7 +149,13 @@ export class MatLegacySelectChange {
 
 /**
  * Allows the user to customize the trigger that is displayed when the select has a value.
- * @deprecated Use `MatSelectTrigger` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 当选择框具有值时，允许用户自定义要显示的触发器。
+ *
+ * @deprecated
+ *
+ * Use `MatSelectTrigger` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -113,7 +165,10 @@ export class MatLegacySelectChange {
 export class MatLegacySelectTrigger {}
 
 /**
- * @deprecated Use `MatSelect` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatSelect` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -166,16 +221,29 @@ export class MatLegacySelect extends _MatSelectBase<MatLegacySelectChange> imple
   /** The last measured value for the trigger's client bounding rect. */
   private _triggerRect: ClientRect;
 
-  /** The cached font-size of the trigger element. */
+  /**
+   * The cached font-size of the trigger element.
+   *
+   * 此触发器元素的缓存字体大小。
+   *
+   */
   _triggerFontSize = 0;
 
-  /** The value of the select panel's transform-origin property. */
+  /**
+   * The value of the select panel's transform-origin property.
+   *
+   * 此选择面板的 transform-origin 属性的值。
+   *
+   */
   _transformOrigin: string = 'top';
 
   /**
    * The y-offset of the overlay panel in relation to the trigger's top start corner.
    * This must be adjusted to align the selected option text over the trigger text.
    * when the panel opens. Will change based on the y-position of the selected option.
+   *
+   * 此浮层面板相对于触发器顶部起始角的 y 偏移量。必须对此进行调整，以将选定的选项文本与触发器文本对齐。当面板打开时。将根据所选选项的 y 位置更改。
+   *
    */
   _offsetY = 0;
 
@@ -204,9 +272,14 @@ export class MatLegacySelect extends _MatSelectBase<MatLegacySelectChange> imple
   /**
    * Calculates the scroll position of the select's overlay panel.
    *
+   * 计算选择框的浮层面板的滚动位置。
+   *
    * Attempts to center the selected option in the panel. If the option is
    * too high or too low in the panel to be scrolled to the center, it clamps the
    * scroll position to the min or max scroll positions respectively.
+   *
+   * 尝试在面板中将所选选项居中。如果面板中的选项太高或太低而无法滚动到中心，它会将滚动位置分别固定在最小或最大滚动位置。
+   *
    */
   _calculateOverlayScroll(selectedIndex: number, scrollBuffer: number, maxScroll: number): number {
     const itemHeight = this._getItemHeight();
@@ -258,7 +331,12 @@ export class MatLegacySelect extends _MatSelectBase<MatLegacySelectChange> imple
     }
   }
 
-  /** Scrolls the active option into view. */
+  /**
+   * Scrolls the active option into view.
+   *
+   * 将活动选项滚动到视图中。
+   *
+   */
   protected _scrollOptionIntoView(index: number): void {
     const labelCount = _countGroupLabelsBeforeLegacyOption(index, this.options, this.optionGroups);
     const itemHeight = this._getItemHeight();

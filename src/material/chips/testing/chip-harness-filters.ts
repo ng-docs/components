@@ -16,7 +16,12 @@ export interface ChipHarnessFilters extends BaseHarnessFilters {
    *
    */
   text?: string | RegExp;
-  /** Only find instances which match the given disabled state. */
+  /**
+   * Only find instances which match the given disabled state.
+   *
+   * 仅查找与给定禁用状态匹配的实例。
+   *
+   */
   disabled?: boolean;
 }
 
@@ -35,22 +40,42 @@ export interface ChipInputHarnessFilters extends BaseHarnessFilters {
    *
    */
   placeholder?: string | RegExp;
-  /** Only find instances which match the given disabled state. */
+  /**
+   * Only find instances which match the given disabled state.
+   *
+   * 仅查找与给定禁用状态匹配的实例。
+   *
+   */
   disabled?: boolean;
 }
 
 export interface ChipListboxHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances which match the given disabled state. */
+  /**
+   * Only find instances which match the given disabled state.
+   *
+   * 仅查找与给定禁用状态匹配的实例。
+   *
+   */
   disabled?: boolean;
 }
 
 export interface ChipOptionHarnessFilters extends ChipHarnessFilters {
-  /** Only find chip instances whose selected state matches the given value. */
+  /**
+   * Only find chip instances whose selected state matches the given value.
+   *
+   * 只查找选定状态与指定值匹配的纸片实例。
+   *
+   */
   selected?: boolean;
 }
 
 export interface ChipGridHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances which match the given disabled state. */
+  /**
+   * Only find instances which match the given disabled state.
+   *
+   * 仅查找与给定禁用状态匹配的实例。
+   *
+   */
   disabled?: boolean;
 }
 

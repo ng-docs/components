@@ -8,7 +8,12 @@
 
 import {Directive} from '@angular/core';
 
-/** Directive that should be applied to the text element to be rendered in the snack bar. */
+/**
+ * Directive that should be applied to the text element to be rendered in the snack bar.
+ *
+ * 要应用于要在快餐栏中渲染的文本元素的指令。
+ *
+ */
 @Directive({
   selector: `[matSnackBarLabel]`,
   host: {
@@ -17,7 +22,12 @@ import {Directive} from '@angular/core';
 })
 export class MatSnackBarLabel {}
 
-/** Directive that should be applied to the element containing the snack bar's action buttons. */
+/**
+ * Directive that should be applied to the element containing the snack bar's action buttons.
+ *
+ * 要应用于包含快餐栏操作按钮的元素的指令。
+ *
+ */
 @Directive({
   selector: `[matSnackBarActions]`,
   host: {
@@ -26,7 +36,12 @@ export class MatSnackBarLabel {}
 })
 export class MatSnackBarActions {}
 
-/** Directive that should be applied to each of the snack bar's action buttons. */
+/**
+ * Directive that should be applied to each of the snack bar's action buttons.
+ *
+ * 要应用于快餐栏的每个操作按钮的指令。
+ *
+ */
 @Directive({
   selector: `[matSnackBarAction]`,
   host: {

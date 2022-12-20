@@ -70,7 +70,12 @@ export const MAT_MENU_SCROLL_STRATEGY_FACTORY_PROVIDER = {
   useFactory: MAT_MENU_SCROLL_STRATEGY_FACTORY,
 };
 
-/** Options for binding a passive event listener. */
+/**
+ * Options for binding a passive event listener.
+ *
+ * 绑定被动事件侦听器的选项。
+ *
+ */
 const passiveEventListenerOptions = normalizePassiveListenerOptions({passive: true});
 
 /**

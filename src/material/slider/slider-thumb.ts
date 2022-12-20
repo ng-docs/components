@@ -32,8 +32,13 @@ import {
 /**
  * The visual slider thumb.
  *
+ * 此可视滑杆的滑块。
+ *
  * Handles the slider thumb ripple states (hover, focus, and active),
  * and displaying the value tooltip on discrete sliders.
+ *
+ * 处理此滑杆的滑块状态（悬停、焦点和活动），并在离散滑杆上显示值的工具提示。
+ *
  * @docs-private
  */
 @Component({
@@ -48,22 +53,52 @@ import {
   providers: [{provide: MAT_SLIDER_VISUAL_THUMB, useExisting: MatSliderVisualThumb}],
 })
 export class MatSliderVisualThumb implements _MatSliderVisualThumb, AfterViewInit, OnDestroy {
-  /** Whether the slider displays a numeric value label upon pressing the thumb. */
+  /**
+   * Whether the slider displays a numeric value label upon pressing the thumb.
+   *
+   * 此滑杆是否要在按下滑块时显示数值标签。
+   *
+   */
   @Input() discrete: boolean;
 
-  /** Indicates which slider thumb this input corresponds to. */
+  /**
+   * Indicates which slider thumb this input corresponds to.
+   *
+   * 指示此输入组件对应于哪个滑杆的滑块。
+   *
+   */
   @Input() thumbPosition: _MatThumb;
 
-  /** The display value of the slider thumb. */
+  /**
+   * The display value of the slider thumb.
+   *
+   * 此滑杆的滑块的显示值。
+   *
+   */
   @Input() valueIndicatorText: string;
 
-  /** The MatRipple for this slider thumb. */
+  /**
+   * The MatRipple for this slider thumb.
+   *
+   * 此滑杆的滑块的 MatRipple。
+   *
+   */
   @ViewChild(MatRipple) readonly _ripple: MatRipple;
 
-  /** The slider thumb knob. */
+  /**
+   * The slider thumb knob.
+   *
+   * 此滑杆的滑块旋钮。
+   *
+   */
   @ViewChild('knob') _knob: ElementRef<HTMLElement>;
 
-  /** The slider thumb value indicator container. */
+  /**
+   * The slider thumb value indicator container.
+   *
+   * 此滑杆的滑块值指示器容器。
+   *
+   */
   @ViewChild('valueIndicatorContainer')
   _valueIndicatorContainer: ElementRef<HTMLElement>;
 
@@ -85,13 +120,28 @@ export class MatSliderVisualThumb implements _MatSliderVisualThumb, AfterViewIni
   /** Whether the slider thumb is currently being hovered. */
   private _isHovered: boolean = false;
 
-  /** Whether the slider thumb is currently being pressed. */
+  /**
+   * Whether the slider thumb is currently being pressed.
+   *
+   * 当前是否按下此滑杆的滑块。
+   *
+   */
   _isActive = false;
 
-  /** Whether the value indicator tooltip is visible. */
+  /**
+   * Whether the value indicator tooltip is visible.
+   *
+   * 值指示器的工具提示是否可见。
+   *
+   */
   _isValueIndicatorVisible: boolean = false;
 
-  /** The host native HTML input element. */
+  /**
+   * The host native HTML input element.
+   *
+   * 宿主原生 HTML 输入元素。
+   *
+   */
   _hostElement: HTMLElement;
 
   constructor(
@@ -263,12 +313,22 @@ export class MatSliderVisualThumb implements _MatSliderVisualThumb, AfterViewIni
     }
   }
 
-  /** Shows the value indicator ui. */
+  /**
+   * Shows the value indicator ui.
+   *
+   * 显示值指示器 ui。
+   *
+   */
   _showValueIndicator(): void {
     this._hostElement.classList.add('mdc-slider__thumb--with-indicator');
   }
 
-  /** Hides the value indicator ui. */
+  /**
+   * Hides the value indicator ui.
+   *
+   * 隐藏值指示器 ui。
+   *
+   */
   _hideValueIndicator(): void {
     this._hostElement.classList.remove('mdc-slider__thumb--with-indicator');
   }
@@ -279,12 +339,22 @@ export class MatSliderVisualThumb implements _MatSliderVisualThumb, AfterViewIni
     );
   }
 
-  /** Gets the value indicator container's native HTML element. */
+  /**
+   * Gets the value indicator container's native HTML element.
+   *
+   * 获取值指示器容器的原生 HTML 元素。
+   *
+   */
   _getValueIndicatorContainer(): HTMLElement | undefined {
     return this._valueIndicatorContainer?.nativeElement;
   }
 
-  /** Gets the native HTML element of the slider thumb knob. */
+  /**
+   * Gets the native HTML element of the slider thumb knob.
+   *
+   * 获取此滑杆的滑块旋钮的原生 HTML 元素。
+   *
+   */
   _getKnob(): HTMLElement {
     return this._knob.nativeElement;
   }

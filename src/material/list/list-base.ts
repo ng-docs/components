@@ -45,7 +45,12 @@ import {
 export abstract class MatListBase {
   _isNonInteractive: boolean = true;
 
-  /** Whether ripples for all list items is disabled. */
+  /**
+   * Whether ripples for all list items is disabled.
+   *
+   * 是否禁用所有列表条目的涟漪。
+   *
+   */
   @Input()
   get disableRipple(): boolean {
     return this._disableRipple;
@@ -58,6 +63,9 @@ export abstract class MatListBase {
   /**
    * Whether the entire list is disabled. When disabled, the list itself and each of its list items
    * are disabled.
+   *
+   * 是否禁用整个列表。禁用时，列表本身及其每个列表条目都被禁用。
+   *
    */
   @Input()
   get disabled(): boolean {
@@ -77,24 +85,49 @@ export abstract class MatListBase {
 })
 /** @docs-private */
 export abstract class MatListItemBase implements AfterViewInit, OnDestroy, RippleTarget {
-  /** Query list matching list-item line elements. */
+  /**
+   * Query list matching list-item line elements.
+   *
+   * 查询匹配列表条目行元素的列表。
+   *
+   */
   abstract _lines: QueryList<MatListItemLine> | undefined;
 
-  /** Query list matching list-item title elements. */
+  /**
+   * Query list matching list-item title elements.
+   *
+   * 查询匹配列表条目标题元素的列表。
+   *
+   */
   abstract _titles: QueryList<MatListItemTitle> | undefined;
 
   /**
    * Element reference to the unscoped content in a list item.
    *
+   * 对列表条目中未限定范围的内容的元素引用。
+   *
    * Unscoped content is user-projected text content in a list item that is
    * not part of an explicit line or title.
+   *
+   * 未限定范围的内容是列表条目中用户投射的文本内容，它不是显式行或标题的一部分。
+   *
    */
   abstract _unscopedContent: ElementRef<HTMLSpanElement> | undefined;
 
-  /** Host element for the list item. */
+  /**
+   * Host element for the list item.
+   *
+   * 列表条目的宿主元素。
+   *
+   */
   _hostElement: HTMLElement;
 
-  /** Whether animations are disabled. */
+  /**
+   * Whether animations are disabled.
+   *
+   * 是否禁用动画。
+   *
+   */
   _noopAnimations: boolean;
 
   @ContentChildren(MatListItemAvatar, {descendants: false}) _avatars: QueryList<never>;
@@ -104,11 +137,18 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
    * The number of lines this list item should reserve space for. If not specified,
    * lines are inferred based on the projected content.
    *
+   * 此列表条目应为其保留空间的行数。如果未指定，则根据投影内容推断行数。
+   *
    * Explicitly specifying the number of lines is useful if you want to acquire additional
    * space and enable the wrapping of text. The unscoped text content of a list item will
    * always be able to take up the remaining space of the item, unless it represents the title.
    *
+   * 如果你想获得额外的空间并启用文本换行，明确指定行数会很有用。列表条目的未限定范围文本内容将始终能够占用条目的剩余空间，除非它代表标题。
+   *
    * A maximum of three lines is supported as per the Material Design specification.
+   *
+   * 根据 Material Design 规范，最多支持三行。
+   *
    */
   @Input()
   set lines(lines: number | string | null) {
@@ -131,7 +171,12 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
   }
   private _disableRipple: boolean = false;
 
-  /** Whether the list-item is disabled. */
+  /**
+   * Whether the list-item is disabled.
+   *
+   * 列表条目是否已禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._disabled || !!this._listBase?.disabled;
@@ -144,17 +189,28 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
   private _subscriptions = new Subscription();
   private _rippleRenderer: RippleRenderer | null = null;
 
-  /** Whether the list item has unscoped text content. */
+  /**
+   * Whether the list item has unscoped text content.
+   *
+   * 列表条目是否具有未限定范围的文本内容。
+   *
+   */
   _hasUnscopedTextContent: boolean = false;
 
   /**
    * Implemented as part of `RippleTarget`.
+   *
+   * 作为 `RippleTarget` 的一部分实现。
+   *
    * @docs-private
    */
   rippleConfig: RippleConfig & RippleGlobalOptions;
 
   /**
    * Implemented as part of `RippleTarget`.
+   *
+   * 作为 `RippleTarget` 的一部分实现。
+   *
    * @docs-private
    */
   get rippleDisabled(): boolean {
@@ -202,7 +258,12 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
     }
   }
 
-  /** Whether the list item has icons or avatars. */
+  /**
+   * Whether the list item has icons or avatars.
+   *
+   * 列表条目是否有图标或头像。
+   *
+   */
   _hasIconOrAvatar() {
     return !!(this._avatars.length || this._icons.length);
   }
@@ -236,12 +297,19 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
    * Updates the lines of the list item. Based on the projected user content and optional
    * explicit lines setting, the visual appearance of the list item is determined.
    *
+   * 更新列表条目的行。根据投影的用户内容和可选的显式行设置，确定列表条目的视觉外观。
+   *
    * This method should be invoked whenever the projected user content changes, or
    * when the explicit lines have been updated.
+   *
+   * 只要投影的用户内容发生变化，或者显式行已更新，就应调用此方法。
    *
    * @param recheckUnscopedContent Whether the projected unscoped content should be re-checked.
    *   The unscoped content is not re-checked for every update as it is a rather expensive check
    *   for content that is expected to not change very often.
+   *
+   * 是否应重新检查投影的未限定范围的内容。每次更新都不会重新检查未限定范围的内容，因为这是对预期不会经常更改的内容的相当昂贵的检查。
+   *
    */
   _updateItemLines(recheckUnscopedContent: boolean) {
     // If the updated is triggered too early before the view and content is initialized,
@@ -314,8 +382,13 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
  * Sanity checks the configuration of the list item with respect to the amount
  * of lines, whether there is a title, or if there is unscoped text content.
  *
+ * 清醒地检查列表条目的行数配置，是否有标题，或者是否有未限定范围的文本内容。
+ *
  * The checks are extracted into a top-level function that can be dead-code
  * eliminated by Terser or other optimizers in production mode.
+ *
+ * 这些检查会被提取到一个顶级函数中，该函数可以在生产模式下被 Terser 或其他优化器消除死代码。
+ *
  */
 function sanityCheckListItemContent(item: MatListItemBase) {
   const numTitles = item._titles!.length;

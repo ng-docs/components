@@ -125,7 +125,12 @@ export class MatSelectionList
    */
   @Input() compareWith: (o1: any, o2: any) => boolean = (a1, a2) => a1 === a2;
 
-  /** Whether selection is limited to one or multiple items (default multiple). */
+  /**
+   * Whether selection is limited to one or multiple items (default multiple).
+   *
+   * 选择是否限制到一个或多个条目（默认的多个）。
+   *
+   */
   @Input()
   get multiple(): boolean {
     return this._multiple;
@@ -154,10 +159,20 @@ export class MatSelectionList
    */
   selectedOptions = new SelectionModel<MatListOption>(this._multiple);
 
-  /** Keeps track of the currently-selected value. */
+  /**
+   * Keeps track of the currently-selected value.
+   *
+   * 跟踪当前选定的值。
+   *
+   */
   _value: string[] | null;
 
-  /** View to model callback that should be called if the list or its options lost focus. */
+  /**
+   * View to model callback that should be called if the list or its options lost focus.
+   *
+   * 如果列表或其选项失去焦点，则应调用模型回调视图。
+   *
+   */
   _onTouched: () => void = () => {};
 
   constructor(public _element: ElementRef<HTMLElement>, private _ngZone: NgZone) {
@@ -236,7 +251,12 @@ export class MatSelectionList
     return this._setAllOptionsSelected(false);
   }
 
-  /** Reports a value change to the ControlValueAccessor */
+  /**
+   * Reports a value change to the ControlValueAccessor
+   *
+   * 向 ControlValueAccessor 报告值已更改
+   *
+   */
   _reportValueChange() {
     // Stop reporting value changes after the list has been destroyed. This avoids
     // cases where the list might wrongly reset its value once it is removed, but
@@ -285,6 +305,9 @@ export class MatSelectionList
   /**
    * Whether the *entire* selection list is disabled. When true, each list item is also disabled
    * and each list item is removed from the tab order (has tabindex="-1").
+   *
+   * 是否禁用*整个*选择列表。当为 true 时，每个列表项都会被禁用并且每个列表项都从 Tab 顺序中删除（有 tabindex="-1"）。
+   *
    */
   @Input()
   override get disabled(): boolean {
@@ -301,7 +324,12 @@ export class MatSelectionList
   }
   private _selectionListDisabled = false;
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
+   */
   registerOnChange(fn: (value: any) => void): void {
     this._onChange = fn;
   }
@@ -395,12 +423,22 @@ export class MatSelectionList
 
   // Note: This getter exists for backwards compatibility. The `_items` query list
   // cannot be named `options` as it will be picked up by the interactive list base.
-  /** The option components contained within this selection-list. */
+  /**
+   * The option components contained within this selection-list.
+   *
+   * 这个选择列表中包含的选项组件。
+   *
+   */
   get options(): QueryList<MatListOption> {
     return this._items;
   }
 
-  /** Handles keydown events within the list. */
+  /**
+   * Handles keydown events within the list.
+   *
+   * 处理此列表中的按键事件。
+   *
+   */
   _handleKeydown(event: KeyboardEvent) {
     const activeItem = this._keyManager.activeItem;
 
@@ -426,7 +464,8 @@ export class MatSelectionList
     }
   }
 
-  /** Handles focusout events within the list. *
+  /**
+   * Handles focusout events within the list. \*
    * 从选择列表中删除 tabindex，然后重置它，以便允许用户跳出它。这会阻止该列表捕获焦点并将其重定向到列表中，如果用户试图离开它，就会创建一个焦点陷阱。
    *
    */
@@ -464,10 +503,10 @@ export class MatSelectionList
    * Normally WAI ARIA's instructions are to exclude disabled items from the tab order, but it
    * makes a few exceptions for compound widgets.
    *
-   * From [Developing a Keyboard Interface](
-   * https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/):
+   * From [Developing a Keyboard Interface](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/):
    *   "For the following composite widget elements, keep them focusable when disabled: Options in a
    *   Listbox..."
+   *
    */
   private _setupRovingTabindex() {
     this._keyManager = new FocusKeyManager(this._items)

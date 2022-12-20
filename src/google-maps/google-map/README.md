@@ -27,7 +27,6 @@ import {GoogleMapDemo} from './google-map-demo';
 export class GoogleMapDemoModule {
 }
 
-
 // google-maps-demo.component.ts
 import {Component} from '@angular/core';
 

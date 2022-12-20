@@ -21,6 +21,9 @@ export {TABLE_LAYOUT_FIXED_RESIZE_STRATEGY_PROVIDER};
 
 /**
  * Overrides CdkFlexTableResizeStrategy to match mat-column elements.
+ *
+ * 覆盖 CdkFlexTableResizeStrategy 以匹配 mat-column 元素。
+ *
  */
 @Injectable()
 export class MatFlexTableResizeStrategy extends CdkFlexTableResizeStrategy {

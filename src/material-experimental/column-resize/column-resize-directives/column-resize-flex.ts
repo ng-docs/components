@@ -19,6 +19,9 @@ import {AbstractMatColumnResize, FLEX_HOST_BINDINGS, FLEX_PROVIDERS} from './com
 /**
  * Explicitly enables column resizing for a flexbox-based mat-table.
  * Individual columns must be annotated specifically.
+ *
+ * 明确启用基于 flexbox 的 mat-table 的列大小调整。必须特别标注各个列。
+ *
  */
 @Directive({
   selector: 'mat-table[columnResize]',

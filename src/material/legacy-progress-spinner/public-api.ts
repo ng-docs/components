@@ -19,8 +19,13 @@ export {
 } from '@angular/material/progress-spinner';
 
 /**
- * @deprecated Import Progress Spinner instead. Note that the
+ * @deprecated
+ *
+ * Import Progress Spinner instead. Note that the
  *    `mat-spinner` selector isn't deprecated.
+ *
+ * 改为导入 Progress Spinner。请注意，不推荐使用 `mat-spinner` 选择器。
+ *
  * @breaking-change 8.0.0
  */
 // tslint:disable-next-line:variable-name

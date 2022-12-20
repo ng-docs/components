@@ -25,7 +25,10 @@ import {
 
 /**
  * @docs-public MatMenu
- * @deprecated Use `MatMenu` from `@angular/material/menu` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatMenu` from `@angular/material/menu` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -48,7 +51,12 @@ export class MatLegacyMenu extends _MatMenuBase {
   protected override _baseElevation = 4;
 
   /**
-   * @deprecated `changeDetectorRef` parameter will become a required parameter.
+   * @deprecated
+   *
+   * `changeDetectorRef` parameter will become a required parameter.
+   *
+   * `changeDetectorRef` 参数将会变为必要参数。
+   *
    * @breaking-change 15.0.0
    */
   constructor(

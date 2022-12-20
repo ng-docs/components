@@ -35,6 +35,9 @@ import {AbstractMatColumnResize} from './column-resize-directives/common';
 /**
  * Component shown over the edge of a resizable column that is responsible
  * for handling column resize mouse events and displaying a vertical line along the column edge.
+ *
+ * 此组件显示在可调整大小的列的边缘，负责处理列大小调整鼠标事件并沿列边缘显示垂直线。
+ *
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

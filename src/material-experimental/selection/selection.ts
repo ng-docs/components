@@ -15,6 +15,9 @@ import {Directive, Input, Output, EventEmitter} from '@angular/core';
  * states.
  * It must be applied to the parent element if `matSelectionToggle`, `matSelectAll`,
  * `matRowSelection` and `matSelectionColumn` are applied.
+ *
+ * 管理条目的选定状态并提供检查和更新选定状态的方法。如果应用了 `matSelectionToggle`、`matSelectAll`、`matRowSelection` 和 `matSelectionColumn`，则它必须应用于父元素。
+ *
  */
 @Directive({
   selector: '[matSelection]',
@@ -23,7 +26,12 @@ import {Directive, Input, Output, EventEmitter} from '@angular/core';
 })
 // tslint:disable-next-line: coercion-types
 export class MatSelection<T> extends CdkSelection<T> {
-  /** Whether to support multiple selection */
+  /**
+   * Whether to support multiple selection
+   *
+   * 是否支持多选
+   *
+   */
   @Input('matSelectionMultiple')
   override get multiple(): boolean {
     return this._multiple;
@@ -32,7 +40,12 @@ export class MatSelection<T> extends CdkSelection<T> {
     this._multiple = coerceBooleanProperty(multiple);
   }
 
-  /** Emits when selection changes. */
+  /**
+   * Emits when selection changes.
+   *
+   * 选择结果更改时发出。
+   *
+   */
   @Output('matSelectionChange') override readonly change = new EventEmitter<SelectionChange<T>>();
 }
 

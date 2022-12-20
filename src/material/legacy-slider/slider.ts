@@ -62,23 +62,47 @@ const activeEventOptions = normalizePassiveListenerOptions({passive: false});
 /**
  * Visually, a 30px separation between tick marks looks best. This is very subjective but it is
  * the default separation we chose.
+ *
+ * 从视觉上看，刻度线之间 30 像素的间距看起来最好。这是非常主观的，这只是我们选择的默认间距。
+ *
  */
 const MIN_AUTO_TICK_SEPARATION = 30;
 
-/** The thumb gap size for a disabled slider. */
+/**
+ * The thumb gap size for a disabled slider.
+ *
+ * 禁用滑杆的滑块间隙大小。
+ *
+ */
 const DISABLED_THUMB_GAP = 7;
 
-/** The thumb gap size for a non-active slider at its minimum value. */
+/**
+ * The thumb gap size for a non-active slider at its minimum value.
+ *
+ * 非活动滑杆的最小值的滑块间隙大小。
+ *
+ */
 const MIN_VALUE_NONACTIVE_THUMB_GAP = 7;
 
-/** The thumb gap size for an active slider at its minimum value. */
+/**
+ * The thumb gap size for an active slider at its minimum value.
+ *
+ * 活动滑杆的最小值的滑块间隙大小。
+ *
+ */
 const MIN_VALUE_ACTIVE_THUMB_GAP = 10;
 
 /**
  * Provider Expression that allows mat-slider to register as a ControlValueAccessor.
  * This allows it to support [(ngModel)] and [formControl].
+ *
+ * 允许 mat-slider 注册为 ControlValueAccessor 的提供者表达式。这允许它支持 `[(ngModel)]` 和 `[formControl]` 。
+ *
  * @docs-private
- * @deprecated Use `MAT_SLIDER_VALUE_ACCESSOR` from `@angular/material/slider` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MAT_SLIDER_VALUE_ACCESSOR` from `@angular/material/slider` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_SLIDER_VALUE_ACCESSOR: any = {
@@ -89,14 +113,30 @@ export const MAT_LEGACY_SLIDER_VALUE_ACCESSOR: any = {
 
 /**
  * A simple change event emitted by the MatSlider component.
- * @deprecated Use `MatSliderChange` from `@angular/material/slider` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * MatSlider 组件发出的一个简单的 change 事件。
+ *
+ * @deprecated
+ *
+ * Use `MatSliderChange` from `@angular/material/slider` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacySliderChange {
-  /** The MatSlider that changed. */
+  /**
+   * The MatSlider that changed.
+   *
+   * 发生改变的 MatSlider。
+   *
+   */
   source: MatLegacySlider;
 
-  /** The new value of the source slider. */
+  /**
+   * The new value of the source slider.
+   *
+   * 源滑杆的新值。
+   *
+   */
   value: number | null;
 }
 
@@ -116,7 +156,13 @@ const _MatSliderBase = mixinTabIndex(
 /**
  * Allows users to select from a range of values by moving the slider thumb. It is similar in
  * behavior to the native `<input type="range">` element.
- * @deprecated Use `MatSlider` from `@angular/material/slider` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 允许用户通过移动滑杆来从一系列值中进行选择。它的行为类似于原生的 `<input type="range">` 元素。
+ *
+ * @deprecated
+ *
+ * Use `MatSlider` from `@angular/material/slider` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -173,7 +219,12 @@ export class MatLegacySlider
   extends _MatSliderBase
   implements ControlValueAccessor, OnDestroy, CanDisable, CanColor, AfterViewInit, HasTabIndex
 {
-  /** Whether the slider is inverted. */
+  /**
+   * Whether the slider is inverted.
+   *
+   * 滑杆是否反转了。
+   *
+   */
   @Input()
   get invert(): boolean {
     return this._invert;
@@ -183,7 +234,12 @@ export class MatLegacySlider
   }
   private _invert = false;
 
-  /** The maximum value that the slider can have. */
+  /**
+   * The maximum value that the slider can have.
+   *
+   * 滑杆所具有的最大值。
+   *
+   */
   @Input()
   get max(): number {
     return this._max;
@@ -197,7 +253,12 @@ export class MatLegacySlider
   }
   private _max: number = 100;
 
-  /** The minimum value that the slider can have. */
+  /**
+   * The minimum value that the slider can have.
+   *
+   * 滑杆所具有的最小值。
+   *
+   */
   @Input()
   get min(): number {
     return this._min;
@@ -211,7 +272,12 @@ export class MatLegacySlider
   }
   private _min: number = 0;
 
-  /** The values at which the thumb will snap. */
+  /**
+   * The values at which the thumb will snap.
+   *
+   * 滑块处的值。
+   *
+   */
   @Input()
   get step(): number {
     return this._step;
@@ -228,7 +294,12 @@ export class MatLegacySlider
   }
   private _step: number = 1;
 
-  /** Whether or not to show the thumb label. */
+  /**
+   * Whether or not to show the thumb label.
+   *
+   * 是否要显示这个滑块标签。
+   *
+   */
   @Input()
   get thumbLabel(): boolean {
     return this._thumbLabel;
@@ -241,6 +312,9 @@ export class MatLegacySlider
   /**
    * How often to show ticks. Relative to the step so that a tick always appears on a step.
    * Ex: Tick interval of 4 with a step of 3 will draw a tick every 4 steps (every 12 values).
+   *
+   * 多远才显示一个刻度。相对于步长来说，刻度总是会出现在一个步长上。例如：刻度的间隔为 4，步长为 3，则每 4 步（每 12 个值）就会画一个刻度。
+   *
    */
   @Input()
   get tickInterval(): 'auto' | number {
@@ -257,7 +331,12 @@ export class MatLegacySlider
   }
   private _tickInterval: 'auto' | number = 0;
 
-  /** Value of the slider. */
+  /**
+   * Value of the slider.
+   *
+   * 滑杆的值。
+   *
+   */
   @Input()
   get value(): number {
     // If the value needs to be read and it is still uninitialized, initialize it to the min.
@@ -289,13 +368,26 @@ export class MatLegacySlider
    * Function that will be used to format the value before it is displayed
    * in the thumb label. Can be used to format very large number in order
    * for them to fit into the slider thumb.
+   *
+   * 在滑块的标签上显示值之前用来格式化该值的函数。可以用来格式化非常大的数字，以便让它们适配滑杆。
+   *
    */
   @Input() displayWith: (value: number) => string | number;
 
-  /** Text corresponding to the slider's value. Used primarily for improved accessibility. */
+  /**
+   * Text corresponding to the slider's value. Used primarily for improved accessibility.
+   *
+   * 对应滑杆值的文本。主要用于改善无障碍性。
+   *
+   */
   @Input() valueText: string;
 
-  /** Whether the slider is vertical. */
+  /**
+   * Whether the slider is vertical.
+   *
+   * 滑杆是否垂直。
+   *
+   */
   @Input()
   get vertical(): boolean {
     return this._vertical;
@@ -305,22 +397,40 @@ export class MatLegacySlider
   }
   private _vertical = false;
 
-  /** Event emitted when the slider value has changed. */
+  /**
+   * Event emitted when the slider value has changed.
+   *
+   * 滑杆值发生变化时发出的事件。
+   *
+   */
   @Output() readonly change: EventEmitter<MatLegacySliderChange> =
     new EventEmitter<MatLegacySliderChange>();
 
-  /** Event emitted when the slider thumb moves. */
+  /**
+   * Event emitted when the slider thumb moves.
+   *
+   * 滑杆上的滑块移动时发出的事件。
+   *
+   */
   @Output() readonly input: EventEmitter<MatLegacySliderChange> =
     new EventEmitter<MatLegacySliderChange>();
 
   /**
    * Emits when the raw value of the slider changes. This is here primarily
    * to facilitate the two-way binding for the `value` input.
+   *
+   * 当滑杆的原始值发生变化时发出。这里主要是为了方便输入 `value` 的双向绑定。
+   *
    * @docs-private
    */
   @Output() readonly valueChange: EventEmitter<number | null> = new EventEmitter<number | null>();
 
-  /** The value to be used for display purposes. */
+  /**
+   * The value to be used for display purposes.
+   *
+   * 供显示用的值。
+   *
+   */
   get displayValue(): string | number {
     if (this.displayWith) {
       // Value is never null but since setters and getters cannot have
@@ -338,20 +448,40 @@ export class MatLegacySlider
     return this.value || 0;
   }
 
-  /** set focus to the host element */
+  /**
+   * set focus to the host element
+   *
+   * 把焦点设置到宿主元素上
+   *
+   */
   focus(options?: FocusOptions) {
     this._focusHostElement(options);
   }
 
-  /** blur the host element */
+  /**
+   * blur the host element
+   *
+   * 让宿主元素失焦
+   *
+   */
   blur() {
     this._blurHostElement();
   }
 
-  /** onTouch function registered via registerOnTouch (ControlValueAccessor). */
+  /**
+   * onTouch function registered via registerOnTouch (ControlValueAccessor).
+   *
+   * 通过 ControlValueAccessor 上的 registerOnTouch 注册的 onTouch 函数。
+   *
+   */
   onTouched: () => any = () => {};
 
-  /** The percentage of the slider that coincides with the value. */
+  /**
+   * The percentage of the slider that coincides with the value.
+   *
+   * 与滑杆值一致的百分比值。
+   *
+   */
   get percent(): number {
     return this._clamp(this._percent);
   }
@@ -360,18 +490,27 @@ export class MatLegacySlider
   /**
    * Whether or not the thumb is sliding and what the user is using to slide it with.
    * Used to determine if there should be a transition for the thumb and fill track.
+   *
+   * 此滑块是否在滑动以及用户使用什么来滑动它。用于确定滑块和填充轨道是否应该有过渡动画。
+   *
    */
   _isSliding: 'keyboard' | 'pointer' | null = null;
 
   /**
    * Whether or not the slider is active (clicked or sliding).
    * Used to shrink and grow the thumb as according to the Material Design spec.
+   *
+   * 滑杆是否处于活动状态（单击或滑动）。用于根据 Material Design 规范缩小和增大滑块。
+   *
    */
   _isActive: boolean = false;
 
   /**
    * Whether the axis of the slider is inverted.
    * (i.e. whether moving the thumb in the positive x or y direction decreases the slider's value).
+   *
+   * 滑杆的轴是否已反转。 （即在正 x 或 y 方向移动滑块是否会减小滑杆的值）。
+   *
    */
   _shouldInvertAxis() {
     // Standard non-inverted mode for a vertical slider should be dragging the thumb from bottom to
@@ -379,7 +518,12 @@ export class MatLegacySlider
     return this.vertical ? !this.invert : this.invert;
   }
 
-  /** Whether the slider is at its minimum value. */
+  /**
+   * Whether the slider is at its minimum value.
+   *
+   * 此滑杆是否处于其最小值。
+   *
+   */
   _isMinValue() {
     return this.percent === 0;
   }
@@ -387,6 +531,9 @@ export class MatLegacySlider
   /**
    * The amount of space to leave between the slider thumb and the track fill & track background
    * elements.
+   *
+   * 此滑杆的滑块与轨道填充和轨道背景元素之间的空间量。
+   *
    */
   _getThumbGap() {
     if (this.disabled) {
@@ -398,7 +545,12 @@ export class MatLegacySlider
     return 0;
   }
 
-  /** CSS styles for the track background element. */
+  /**
+   * CSS styles for the track background element.
+   *
+   * 此轨道背景元素的 CSS 样式。
+   *
+   */
   _getTrackBackgroundStyles(): {[key: string]: string} {
     const axis = this.vertical ? 'Y' : 'X';
     const scale = this.vertical ? `1, ${1 - this.percent}, 1` : `${1 - this.percent}, 1, 1`;
@@ -410,7 +562,12 @@ export class MatLegacySlider
     };
   }
 
-  /** CSS styles for the track fill element. */
+  /**
+   * CSS styles for the track fill element.
+   *
+   * 此轨道填充元素的 CSS 样式。
+   *
+   */
   _getTrackFillStyles(): {[key: string]: string} {
     const percent = this.percent;
     const axis = this.vertical ? 'Y' : 'X';
@@ -428,7 +585,12 @@ export class MatLegacySlider
     };
   }
 
-  /** CSS styles for the ticks container element. */
+  /**
+   * CSS styles for the ticks container element.
+   *
+   * 此刻度容器元素的 CSS 样式。
+   *
+   */
   _getTicksContainerStyles(): {[key: string]: string} {
     let axis = this.vertical ? 'Y' : 'X';
     // For a horizontal slider in RTL languages we push the ticks container off the left edge
@@ -440,7 +602,12 @@ export class MatLegacySlider
     };
   }
 
-  /** CSS styles for the ticks element. */
+  /**
+   * CSS styles for the ticks element.
+   *
+   * 此刻度元素的 CSS 样式。
+   *
+   */
   _getTicksStyles(): {[key: string]: string} {
     let tickSize = this._tickIntervalPercent * 100;
     let backgroundSize = this.vertical ? `2px ${tickSize}%` : `${tickSize}% 2px`;
@@ -508,6 +675,9 @@ export class MatLegacySlider
   /**
    * Whether mouse events should be converted to a slider position by calculating their distance
    * from the right or bottom edge of the slider as opposed to the top or left.
+   *
+   * 鼠标事件是否应通过计算它们与滑杆右边缘或下边缘的距离而不是上边缘或左边缘的距离来转换为滑杆位置。
+   *
    */
   _shouldInvertMouseCoords() {
     const shouldInvertAxis = this._shouldInvertAxis();
@@ -522,15 +692,22 @@ export class MatLegacySlider
   /** Keeps track of the last pointer event that was captured by the slider. */
   private _lastPointerEvent: MouseEvent | TouchEvent | null;
 
-  /** Used to subscribe to global move and end events */
+  /**
+   * Used to subscribe to global move and end events
+   *
+   * 用于订阅全局移动和结束事件
+   *
+   */
   protected _document: Document;
 
   /**
    * Identifier used to attribute a touch event to a particular slider.
    * Will be undefined if one of the following conditions is true:
+   *
    * - The user isn't dragging using a touch device.
    * - The browser doesn't support `Touch.identifier`.
    * - Dragging hasn't started yet.
+   *
    */
   private _touchId: number | undefined;
 
@@ -937,6 +1114,9 @@ export class MatLegacySlider
 
   /**
    * Sets the model value. Implemented as part of ControlValueAccessor.
+   *
+   * 设置模型值。作为 ControlValueAccessor 的一部分实现。
+   *
    * @param value
    */
   writeValue(value: any) {
@@ -946,7 +1126,13 @@ export class MatLegacySlider
   /**
    * Registers a callback to be triggered when the value has changed.
    * Implemented as part of ControlValueAccessor.
+   *
+   * 注册在值更改时要触发的回调。作为 ControlValueAccessor 的一部分实现。
+   *
    * @param fn Callback to be registered.
+   *
+   * 要注册的回调。
+   *
    */
   registerOnChange(fn: (value: any) => void) {
     this._controlValueAccessorChangeFn = fn;
@@ -955,7 +1141,13 @@ export class MatLegacySlider
   /**
    * Registers a callback to be triggered when the component is touched.
    * Implemented as part of ControlValueAccessor.
+   *
+   * 注册在组件被接触时要触发的回调。作为 ControlValueAccessor 的一部分实现。
+   *
    * @param fn Callback to be registered.
+   *
+   * 要注册的回调。
+   *
    */
   registerOnTouched(fn: any) {
     this.onTouched = fn;
@@ -964,6 +1156,9 @@ export class MatLegacySlider
   /**
    * Sets whether the component should be disabled.
    * Implemented as part of ControlValueAccessor.
+   *
+   * 设置此组件是否应该被禁用。作为 ControlValueAccessor 的一部分实现。
+   *
    * @param isDisabled
    */
   setDisabledState(isDisabled: boolean) {
@@ -971,12 +1166,22 @@ export class MatLegacySlider
   }
 }
 
-/** Checks if number is safe for calculation */
+/**
+ * Checks if number is safe for calculation
+ *
+ * 检查数字是否可以安全计算
+ *
+ */
 function isSafeNumber(value: number) {
   return !isNaN(value) && isFinite(value);
 }
 
-/** Returns whether an event is a touch event. */
+/**
+ * Returns whether an event is a touch event.
+ *
+ * 返回某个事件是否为触控事件。
+ *
+ */
 function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
   // This function is called for every pixel that the user has dragged so we need it to be
   // as fast as possible. Since we only bind mouse events and touch events, we can assume
@@ -984,7 +1189,12 @@ function isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
   return event.type[0] === 't';
 }
 
-/** Gets the coordinates of a touch or mouse event relative to the viewport. */
+/**
+ * Gets the coordinates of a touch or mouse event relative to the viewport.
+ *
+ * 获取触控或鼠标事件相对于此视口的坐标。
+ *
+ */
 function getPointerPositionOnPage(event: MouseEvent | TouchEvent, id: number | undefined) {
   let point: {clientX: number; clientY: number} | undefined;
 
@@ -1005,7 +1215,12 @@ function getPointerPositionOnPage(event: MouseEvent | TouchEvent, id: number | u
   return point ? {x: point.clientX, y: point.clientY} : undefined;
 }
 
-/** Finds a `Touch` with a specific ID in a `TouchList`. */
+/**
+ * Finds a `Touch` with a specific ID in a `TouchList`.
+ *
+ * 在 `TouchList` 中查找具有特定 ID 的 `Touch` 。
+ *
+ */
 function findMatchingTouch(touches: TouchList, id: number): Touch | undefined {
   for (let i = 0; i < touches.length; i++) {
     if (touches[i].identifier === id) {
@@ -1016,7 +1231,12 @@ function findMatchingTouch(touches: TouchList, id: number): Touch | undefined {
   return undefined;
 }
 
-/** Gets the unique ID of a touch that matches a specific slider. */
+/**
+ * Gets the unique ID of a touch that matches a specific slider.
+ *
+ * 获取与特定滑杆匹配的触控的唯一 ID。
+ *
+ */
 function getTouchIdForSlider(event: TouchEvent, sliderHost: HTMLElement): number | undefined {
   for (let i = 0; i < event.touches.length; i++) {
     const target = event.touches[i].target as HTMLElement;

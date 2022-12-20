@@ -32,7 +32,13 @@ import {
  * Material design tab-group component. Supports basic tab pairs (label + content) and includes
  * animated ink-bar, keyboard navigation, and screen reader.
  * See: https://material.io/design/components/tabs.html
- * @deprecated Use `MatTabGroup` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：https://material.io/design/components/tabs.html
+ *
+ * @deprecated
+ *
+ * Use `MatTabGroup` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({

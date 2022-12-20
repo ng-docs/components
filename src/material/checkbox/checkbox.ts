@@ -680,7 +680,12 @@ export class MatCheckbox
     );
   }
 
-  /** Focuses the checkbox. */
+  /**
+   * Focuses the checkbox.
+   *
+   * 聚焦复选框。
+   *
+   */
   focus() {
     this._inputElement.nativeElement.focus();
   }
@@ -701,11 +706,14 @@ export class MatCheckbox
   }
 
   /**
-   *  Prevent click events that come from the `<label/>` element from bubbling. This prevents the
+   * Prevent click events that come from the `<label/>` element from bubbling. This prevents the
    *  click handler on the host from triggering twice when clicking on the `<label/>` element. After
    *  the click event on the `<label/>` propagates, the browsers dispatches click on the associated
    *  `<input/>`. By preventing clicks on the label by bubbling, we ensure only one click event
    *  bubbles when the label is clicked.
+   *
+   * 阻止来自 `<label/>` 元素的点击事件冒泡。这可以阻止宿主上的点击处理程序在点击 `<label/>` 元素时触发两次。`<label/>` 上的点击事件传播出去后，浏览器会调度关联的 `<input/>` 上的点击。通过阻止对标签的点击进行冒泡，我们可以确保在点击标签时只会有一个点击事件冒泡。
+   *
    */
   _preventBubblingFromLabel(event: MouseEvent) {
     if (!!event.target && this._labelElement.nativeElement.contains(event.target as HTMLElement)) {

@@ -13,7 +13,13 @@ import {_MatMenuTriggerBase} from '@angular/material/menu';
 
 /**
  * Directive applied to an element that should trigger a `mat-menu`.
- * @deprecated Use `MatMenuTrigger` from `@angular/material/menu` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 用于应触发 `mat-menu` 的元素的指令。
+ *
+ * @deprecated
+ *
+ * Use `MatMenuTrigger` from `@angular/material/menu` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({

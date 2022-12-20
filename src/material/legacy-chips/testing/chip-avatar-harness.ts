@@ -11,7 +11,12 @@ import {LegacyChipAvatarHarnessFilters} from './chip-harness-filters';
 
 /**
  * Harness for interacting with a standard Material chip avatar in tests.
- * @deprecated Use `MatChipAvatarHarness` from `@angular/material/chips/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 用于在测试中与标准 Material 纸片头像交互的组件测试工具。
+ *
+ * @deprecated
+ *
+ * Use `MatChipAvatarHarness` from `@angular/material/chips/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
  * @breaking-change 17.0.0
  */
 export class MatLegacyChipAvatarHarness extends ComponentHarness {
@@ -20,8 +25,17 @@ export class MatLegacyChipAvatarHarness extends ComponentHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatChipAvatarHarness` that meets
    * certain criteria.
+   *
+   * 获取可用于搜索满足特定条件的 `HarnessPredicate` 的 `MatChipAvatarHarness` 。
+   *
    * @param options Options for filtering which input instances are considered a match.
+   *
+   * 一个选项，用于筛选哪些输入框实例是匹配的。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(
     options: LegacyChipAvatarHarnessFilters = {},

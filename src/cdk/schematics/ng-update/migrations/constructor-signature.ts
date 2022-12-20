@@ -17,7 +17,7 @@ import {UpgradeData} from '../upgrade-data';
  *
  * 诊断代码列表，代表发出前诊断信息，它会指出无效的新表达式或 super 调用签名。请在此处查看诊断列表：
  *
- * <https://github.com/Microsoft/TypeScript/blob/master/src/compiler/diagnosticMessages.json>
+ * https://github.com/Microsoft/TypeScript/blob/master/src/compiler/diagnosticMessages.json
  *
  */
 const signatureErrorDiagnostics = [
@@ -58,9 +58,9 @@ export class ConstructorSignatureMigration extends Migration<UpgradeData> {
    *
    * By using the diagnostics, the migration can handle type assignability. Not using
    * diagnostics would mean that we need to use simple type equality checking which is
-   * too strict. See related issue: <https://github.com/Microsoft/TypeScript/issues/9879>
+   * too strict. See related issue: https://github.com/Microsoft/TypeScript/issues/9879
    *
-   * 通过使用这些诊断，本迁移可以处理类型的赋值兼容。不使用诊断程序意味着我们需要使用简单类型相等性检查，那样就过于严格了。请参阅相关问题：<https://github.com/Microsoft/TypeScript/issues/9879>
+   * 通过使用这些诊断，本迁移可以处理类型的赋值兼容。不使用诊断程序意味着我们需要使用简单类型相等性检查，那样就过于严格了。请参阅相关问题：https://github.com/Microsoft/TypeScript/issues/9879
    *
    */
   private _visitSourceFile(sourceFile: ts.SourceFile) {

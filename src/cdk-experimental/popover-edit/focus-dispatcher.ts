@@ -17,10 +17,18 @@ import {closest} from './polyfill';
 /**
  * Service responsible for moving cell focus around in response to keyboard events.
  * May be overridden to customize the keyboard behavior of popover edit.
+ *
+ * 负责移动单元格焦点以响应键盘事件的服务。可以重写以自定义弹出框编辑的键盘行为。
+ *
  */
 @Injectable({providedIn: 'root'})
 export class FocusDispatcher {
-  /** Observes keydown events triggered from the table. */
+  /**
+   * Observes keydown events triggered from the table.
+   *
+   * 观察从表格触发的 keydown 事件。
+   *
+   */
   readonly keyObserver: PartialObserver<KeyboardEvent>;
 
   constructor(protected readonly directionality: Directionality) {
@@ -30,6 +38,9 @@ export class FocusDispatcher {
   /**
    * Moves focus to earlier or later cells (in dom order) by offset cells relative to
    * currentCell.
+   *
+   * 通过相对于 currentCell 的偏移单元格将焦点移动到较早或较晚的单元格（按 dom 中的顺序）。
+   *
    */
   moveFocusHorizontally(currentCell: HTMLElement, offset: number): void {
     const cells = Array.from(
@@ -43,7 +54,12 @@ export class FocusDispatcher {
     }
   }
 
-  /** Moves focus to up or down by row by offset cells relative to currentCell. */
+  /**
+   * Moves focus to up or down by row by offset cells relative to currentCell.
+   *
+   * 通过相对于 currentCell 的偏移单元格逐行向上或向下移动焦点。
+   *
+   */
   moveFocusVertically(currentCell: HTMLElement, offset: number): void {
     const currentRow = closest(currentCell, ROW_SELECTOR)!;
     const rows = Array.from(closest(currentRow, TABLE_SELECTOR)!.querySelectorAll(ROW_SELECTOR));
@@ -64,7 +80,12 @@ export class FocusDispatcher {
     }
   }
 
-  /** Translates arrow keydown events into focus move operations. */
+  /**
+   * Translates arrow keydown events into focus move operations.
+   *
+   * 将箭头键 keydown 事件转换为焦点移动操作。
+   *
+   */
   protected handleKeyboardEvent(event: KeyboardEvent): void {
     const cell = closest(event.target, EDITABLE_CELL_SELECTOR) as HTMLElement | null;
 

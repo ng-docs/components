@@ -11,23 +11,48 @@ import {TemplateMigrator} from '../../template-migrator';
 import {replaceStartTag, replaceEndTag, visitElements} from '../../tree-traversal';
 import {Update} from '../../../../../migration-utilities';
 
-/** Stores a mat-chip-list with the mat-chip elements nested within it. */
+/**
+ * Stores a mat-chip-list with the mat-chip elements nested within it.
+ *
+ * 存储一个 mat-chip-list，其中嵌套了 mat-chip 元素。
+ *
+ */
 interface ChipMap {
   chipList: compiler.TmplAstElement;
   chips: compiler.TmplAstElement[];
 }
 
 export class ChipsTemplateMigrator extends TemplateMigrator {
-  /** Stores the mat-chip-list elements with their nested mat-chip elements. */
+  /**
+   * Stores the mat-chip-list elements with their nested mat-chip elements.
+   *
+   * 存储 mat-chip-list 元素及其嵌套的 mat-chip 元素。
+   *
+   */
   chipMap?: ChipMap;
 
-  /** All of the ChipMaps found while parsing a template AST. */
+  /**
+   * All of the ChipMaps found while parsing a template AST.
+   *
+   * 解析模板 AST 时找到的所有 ChipMap。
+   *
+   */
   chipMaps: ChipMap[] = [];
 
-  /** Chips that are not nested within mat-chip elements. */
+  /**
+   * Chips that are not nested within mat-chip elements.
+   *
+   * 未嵌套在 mat-chip 元素中的纸片。
+   *
+   */
   standaloneChips: compiler.TmplAstElement[] = [];
 
-  /** Input elements that have matChipInputFor attributes. */
+  /**
+   * Input elements that have matChipInputFor attributes.
+   *
+   * 具有 matChipInputFor 属性的输入框元素。
+   *
+   */
   chipInputs: compiler.TmplAstBoundAttribute[] = [];
 
   getUpdates(ast: compiler.ParsedTemplate): Update[] {

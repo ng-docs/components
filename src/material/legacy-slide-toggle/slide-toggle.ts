@@ -29,7 +29,10 @@ import {_MatSlideToggleBase} from '@angular/material/slide-toggle';
 
 /**
  * @docs-private
- * @deprecated Use `MAT_SLIDE_TOGGLE_VALUE_ACCESSOR` from `@angular/material/slide-toggle` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MAT_SLIDE_TOGGLE_VALUE_ACCESSOR` from `@angular/material/slide-toggle` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_SLIDE_TOGGLE_VALUE_ACCESSOR = {
@@ -40,7 +43,12 @@ export const MAT_LEGACY_SLIDE_TOGGLE_VALUE_ACCESSOR = {
 
 /**
  * Change event object emitted by a slide toggle.
- * @deprecated Use `MatSlideToggleChange` from `@angular/material/slide-toggle` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 由滑动开关发出的变更事件对象。
+ *
+ * @deprecated
+ *
+ * Use `MatSlideToggleChange` from `@angular/material/slide-toggle` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
  * @breaking-change 17.0.0
  */
 export class MatLegacySlideToggleChange {
@@ -54,7 +62,13 @@ export class MatLegacySlideToggleChange {
 
 /**
  * Represents a slidable "switch" toggle that can be moved between on and off.
- * @deprecated Use `MatSlideToggle` from `@angular/material/slide-toggle` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 表示一个滑动“切换”开关，它可以在打开和关闭之间移动。
+ *
+ * @deprecated
+ *
+ * Use `MatSlideToggle` from `@angular/material/slide-toggle` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -81,7 +95,12 @@ export class MatLegacySlideToggleChange {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatLegacySlideToggle extends _MatSlideToggleBase<MatLegacySlideToggleChange> {
-  /** Reference to the underlying input element. */
+  /**
+   * Reference to the underlying input element.
+   *
+   * 对底层输入框元素的引用。
+   *
+   */
   @ViewChild('input') _inputElement: ElementRef<HTMLInputElement>;
 
   constructor(
@@ -108,7 +127,12 @@ export class MatLegacySlideToggle extends _MatSlideToggleBase<MatLegacySlideTogg
     return new MatLegacySlideToggleChange(this, isChecked);
   }
 
-  /** Method being called whenever the underlying input emits a change event. */
+  /**
+   * Method being called whenever the underlying input emits a change event.
+   *
+   * 每当底层输入框发出更改事件时调用的方法。
+   *
+   */
   _onChangeEvent(event: Event) {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and
@@ -132,7 +156,12 @@ export class MatLegacySlideToggle extends _MatSlideToggleBase<MatLegacySlideTogg
     this._emitChangeEvent();
   }
 
-  /** Method being called whenever the slide-toggle has been clicked. */
+  /**
+   * Method being called whenever the slide-toggle has been clicked.
+   *
+   * 每当单击滑动开关时调用的方法。
+   *
+   */
   _onInputClick(event: Event) {
     // We have to stop propagation for click events on the visual hidden input element.
     // By default, when a user clicks on a label element, a generated click event will be
@@ -144,7 +173,12 @@ export class MatLegacySlideToggle extends _MatSlideToggleBase<MatLegacySlideTogg
     event.stopPropagation();
   }
 
-  /** Focuses the slide-toggle. */
+  /**
+   * Focuses the slide-toggle.
+   *
+   * 让此滑块开关获得焦点。
+   *
+   */
   focus(options?: FocusOptions, origin?: FocusOrigin): void {
     if (origin) {
       this._focusMonitor.focusVia(this._inputElement, origin, options);
@@ -153,7 +187,12 @@ export class MatLegacySlideToggle extends _MatSlideToggleBase<MatLegacySlideTogg
     }
   }
 
-  /** Method being called whenever the label text changes. */
+  /**
+   * Method being called whenever the label text changes.
+   *
+   * 每当标签文本更改时调用的方法。
+   *
+   */
   _onLabelTextChange() {
     // Since the event of the `cdkObserveContent` directive runs outside of the zone, the
     // slide-toggle component will be only marked for check, but no actual change detection runs

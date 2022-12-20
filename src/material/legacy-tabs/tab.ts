@@ -22,7 +22,10 @@ import {
 } from '@angular/material/tabs';
 
 /**
- * @deprecated Use `MatTab` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatTab` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -36,7 +39,12 @@ import {
   providers: [{provide: MAT_TAB, useExisting: MatLegacyTab}],
 })
 export class MatLegacyTab extends _MatTabBase {
-  /** Content for the tab label given by `<ng-template mat-tab-label>`. */
+  /**
+   * Content for the tab label given by `<ng-template mat-tab-label>`.
+   *
+   * 选项卡标签的内容由 `<ng-template mat-tab-label>` 指定。
+   *
+   */
   @ContentChild(MAT_TAB_LABEL)
   get templateLabel(): MatTabLabel {
     return this._templateLabel;
@@ -47,6 +55,9 @@ export class MatLegacyTab extends _MatTabBase {
 
   /**
    * Template provided in the tab content that will be used if present, used to enable lazy-loading
+   *
+   * 此选项卡内容中提供的模板，如果存在，将使用该模板，用于启用惰性加载
+   *
    */
   @ContentChild(MAT_TAB_CONTENT, {read: TemplateRef, static: true})
   override _explicitContent: TemplateRef<any>;

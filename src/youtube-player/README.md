@@ -73,7 +73,6 @@ class YoutubePlayerExample implements OnInit {
     }
   }
 }
-
 ```
 
 ## API

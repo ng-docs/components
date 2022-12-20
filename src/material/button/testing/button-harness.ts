@@ -31,9 +31,20 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
    * 获取一个 `HarnessPredicate`，它可以用来搜索符合条件 `MatButtonHarness`
    *
    * @param options Options for narrowing the search:
-   *   - `selector` finds a button whose host element matches the given selector.
-   *   - `text` finds a button with specific text content.
-   *   - `variant` finds buttons matching a specific variant.
+   *
+   * 用来收窄搜索范围的选项：
+   *
+   * - `selector` finds a button whose host element matches the given selector.
+   *
+   *   `selector` 找到一个按钮，其宿主元素与给定的选择器匹配。
+   *
+   * - `text` finds a button with specific text content.
+   *
+   *   `text` 查找具有特定文本内容的按钮。
+   *
+   * - `variant` finds buttons matching a specific variant.
+   *
+   *   `variant` 查找与特定变体匹配的按钮。
    *
    * 筛选与哪些按钮实例匹配的选项。
    *
@@ -141,7 +152,12 @@ export class MatButtonHarness extends ContentContainerComponentHarness {
     return (await this.host()).isFocused();
   }
 
-  /** Gets the variant of the button. */
+  /**
+   * Gets the variant of the button.
+   *
+   * 获取此按钮的变体。
+   *
+   */
   async getVariant(): Promise<ButtonVariant> {
     const host = await this.host();
 

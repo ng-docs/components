@@ -21,7 +21,12 @@ export interface TabHarnessFilters extends BaseHarnessFilters {
    *
    */
   label?: string | RegExp;
-  /** Only find instances whose selected state matches the given value. */
+  /**
+   * Only find instances whose selected state matches the given value.
+   *
+   * 仅查找所选状态与给定值匹配的实例。
+   *
+   */
   selected?: boolean;
 }
 

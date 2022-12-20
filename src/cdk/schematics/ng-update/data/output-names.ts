@@ -19,7 +19,7 @@ export interface OutputNameUpgradeData {
   /**
    * The new name for the @Output().
    *
-   * @Output() 的新名称。
+   * @Output () 的新名称。
    *
    */
   replaceWith: string;

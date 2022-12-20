@@ -72,7 +72,12 @@ export interface MatTabGroupBaseHeader {
   focusIndex: number;
 }
 
-/** Possible positions for the tab header. */
+/**
+ * Possible positions for the tab header.
+ *
+ * 选项卡标头的可能位置。
+ *
+ */
 export type MatTabHeaderPosition = 'above' | 'below';
 
 /**
@@ -209,9 +214,9 @@ export abstract class _MatTabGroupBase
    * `tabindex` to be set on the inner element that wraps the tab content. Can be used for improved
    * accessibility when the tab does not have focusable elements or if it has scrollable content.
    * The `tabindex` will be removed automatically for inactive tabs.
-   * Read more at <https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html>
+   * Read more at https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html
    *
-   * 在包装制表符内容的内部元素上设置的 `tabindex` 当标签没有聚焦元素或者它具有可滚动的内容时，可用于改进的无障碍性。对于无效的标签页，`tabindex` 将会被自动移除。到 <https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html> 了解更多信息。
+   * 在包装制表符内容的内部元素上设置的 `tabindex` 当标签没有聚焦元素或者它具有可滚动的内容时，可用于改进的无障碍性。对于无效的标签页，`tabindex` 将会被自动移除。到 https://www.w3.org/TR/wai-aria-practices/examples/tabs/tabs-2/tabs.html 了解更多信息。
    *
    */
   @Input()
@@ -668,9 +673,9 @@ export abstract class _MatTabGroupBase
 /**
  * Material design tab-group component. Supports basic tab pairs (label + content) and includes
  * animated ink-bar, keyboard navigation, and screen reader.
- * See: <https://material.io/design/components/tabs.html>
+ * See: https://material.io/design/components/tabs.html
  *
- * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：<https://material.io/design/components/tabs.html>
+ * Material Design 选项卡组组件。支持基本选项卡对（选项卡+内容），包括动画墨水条、键盘导航和屏幕阅读器。请参阅：https://material.io/design/components/tabs.html
  *
  */
 @Component({
@@ -700,7 +705,12 @@ export class MatTabGroup extends _MatTabGroupBase {
   @ViewChild('tabBodyWrapper') _tabBodyWrapper: ElementRef;
   @ViewChild('tabHeader') _tabHeader: MatTabHeader;
 
-  /** Whether the ink bar should fit its width to the size of the tab label content. */
+  /**
+   * Whether the ink bar should fit its width to the size of the tab label content.
+   *
+   * 此墨条是否应使其宽度适合选项卡标签内容的大小。
+   *
+   */
   @Input()
   get fitInkBarToContent(): boolean {
     return this._fitInkBarToContent;
@@ -711,7 +721,12 @@ export class MatTabGroup extends _MatTabGroupBase {
   }
   private _fitInkBarToContent = false;
 
-  /** Whether tabs should be stretched to fill the header. */
+  /**
+   * Whether tabs should be stretched to fill the header.
+   *
+   * 是否应拉伸选项卡以填充标题区。
+   *
+   */
   @Input('mat-stretch-tabs')
   get stretchTabs(): boolean {
     return this._stretchTabs;
@@ -735,10 +750,25 @@ export class MatTabGroup extends _MatTabGroupBase {
   }
 }
 
-/** A simple change event emitted on focus or selection changes. */
+/**
+ * A simple change event emitted on focus or selection changes.
+ *
+ * 焦点或选定状态发生变化时会发出的简单变更事件。
+ *
+ */
 export class MatTabChangeEvent {
-  /** Index of the currently-selected tab. */
+  /**
+   * Index of the currently-selected tab.
+   *
+   * 当前选定的选项卡的索引。
+   *
+   */
   index: number;
-  /** Reference to the currently-selected tab. */
+  /**
+   * Reference to the currently-selected tab.
+   *
+   * 到当前选定的选项卡的引用。
+   *
+   */
   tab: MatTab;
 }

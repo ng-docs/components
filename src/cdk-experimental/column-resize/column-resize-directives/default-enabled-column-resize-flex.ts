@@ -17,6 +17,9 @@ import {FLEX_PROVIDERS} from './constants';
 /**
  * Implicitly enables column resizing for a flex cdk-table.
  * Individual columns will be resizable unless opted out.
+ *
+ * 隐式启用 flex cdk-table 的列大小调整。除非专项禁用，否则各个列将可调整大小。
+ *
  */
 @Directive({
   selector: 'cdk-table',

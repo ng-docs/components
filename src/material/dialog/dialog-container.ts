@@ -114,6 +114,9 @@ const TRANSITION_DURATION_PROPERTY = '--mat-dialog-transition-duration';
 /**
  * Converts a CSS time string to a number in ms. If the given time is already a
  * number, it is assumed to be in ms.
+ *
+ * 将 CSS 时间字符串转换为以毫秒为单位的数字。如果给定时间已经是一个数字，则假定以毫秒为单位。
+ *
  */
 function parseCssTime(time: string | number | undefined): number | null {
   if (time == null) {
@@ -136,6 +139,9 @@ function parseCssTime(time: string | number | undefined): number | null {
 
 /**
  * Internal component that wraps user-provided dialog content in a MDC dialog.
+ *
+ * 将用户提供的对话内容包装在 MDC 对话中的内部组件。
+ *
  * @docs-private
  */
 @Component({
@@ -159,7 +165,12 @@ function parseCssTime(time: string | number | undefined): number | null {
   },
 })
 export class MatDialogContainer extends _MatDialogContainerBase implements OnDestroy {
-  /** Whether animations are enabled. */
+  /**
+   * Whether animations are enabled.
+   *
+   * 是否启用动画。
+   *
+   */
   _animationsEnabled: boolean = this._animationMode !== 'NoopAnimations';
 
   /** Host element of the dialog container component. */
@@ -250,6 +261,9 @@ export class MatDialogContainer extends _MatDialogContainerBase implements OnDes
   /**
    * Starts the exit animation of the dialog if enabled. This method is
    * called by the dialog ref.
+   *
+   * 如果启用了，则开始对话框的退出动画。此方法由对话框引用调用。
+   *
    */
   _startExitAnimation(): void {
     this._animationStateChanged.emit({state: 'closing', totalTime: this._closeAnimationDuration});

@@ -12,7 +12,12 @@ import {MatCommonModule, MatRippleModule} from '@angular/material/core';
 import {MatSlideToggle} from './slide-toggle';
 import {MatSlideToggleRequiredValidator} from './slide-toggle-required-validator';
 
-/** This module is used by both original and MDC-based slide-toggle implementations. */
+/**
+ * This module is used by both original and MDC-based slide-toggle implementations.
+ *
+ * 此模块由原始和基于 MDC 的滑动开关实现使用。
+ *
+ */
 @NgModule({
   exports: [MatSlideToggleRequiredValidator],
   declarations: [MatSlideToggleRequiredValidator],

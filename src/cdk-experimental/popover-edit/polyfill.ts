@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-/** closest implementation that is able to start from non-Element Nodes. */
+/**
+ * closest implementation that is able to start from non-Element Nodes.
+ *
+ * 能够从非元素节点开始的最接近的实现。
+ *
+ */
 export function closest(
   element: EventTarget | Element | null | undefined,
   selector: string,

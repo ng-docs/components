@@ -11,9 +11,9 @@ import * as webdriver from 'selenium-webdriver';
 
 /**
  * Maps the `TestKey` constants to WebDriver's `webdriver.Key` constants.
- * See <https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/webdriver/key.js#L29>
+ * See https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/webdriver/key.js#L29
  *
- * 将 `TestKey` 常量映射到 WebDriver 的 `webdriver.Key` 常量。参见<https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/webdriver/key.js#L29>
+ * 将 `TestKey` 常量映射到 WebDriver 的 `webdriver.Key` 常量。参见https://github.com/SeleniumHQ/selenium/blob/trunk/javascript/webdriver/key.js#L29
  *
  */
 export const seleniumWebDriverKeyMap = {

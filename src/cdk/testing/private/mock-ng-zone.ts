@@ -14,9 +14,9 @@ import {EventEmitter, Injectable, NgZone} from '@angular/core';
  *
  * 模拟同步 NgZone 实现，可用于清除测试中的 `onStable` 订阅。
  *
- * via: <https://github.com/angular/angular/blob/main/packages/core/testing/src/ng_zone_mock.ts>
+ * via: https://github.com/angular/angular/blob/main/packages/core/testing/src/ng_zone_mock.ts
  *
- * 通过：<https://github.com/angular/angular/blob/main/packages/core/testing/src/ng_zone_mock.ts>
+ * 通过：https://github.com/angular/angular/blob/main/packages/core/testing/src/ng_zone_mock.ts
  *
  * @docs-private
  */

@@ -46,19 +46,30 @@ import {EditRef} from './edit-ref';
  * Describes the number of columns before and after the originating cell that the
  * edit popup should span. In left to right locales, before means left and after means
  * right. In right to left locales before means right and after means left.
+ *
+ * 描述编辑弹出窗口应跨越的原始单元格前后的列数。在从左到右的语言环境中，before 表示左，after 表示右。在从右到左的语言环境中，before 表示右，after 表示左。
+ *
  */
 export interface CdkPopoverEditColspan {
   before?: number;
   after?: number;
 }
 
-/** Used for rate-limiting mousemove events. */
+/**
+ * Used for rate-limiting mousemove events.
+ *
+ * 用于限速 mousemove 事件。
+ *
+ */
 const MOUSE_MOVE_THROTTLE_TIME_MS = 10;
 
 /**
  * A directive that must be attached to enable editability on a table.
  * It is responsible for setting up delegated event handlers and providing the
  * EditEventDispatcher service for use by the other edit directives.
+ *
+ * 要在表上启用可编辑性时必须附加的指令。它负责设置委托事件处理程序并提供 EditEventDispatcher 服务以供其他编辑指令使用。
+ *
  */
 @Directive({
   selector: 'table[editable], cdk-table[editable], mat-table[editable]',
@@ -170,6 +181,9 @@ const POPOVER_EDIT_INPUTS = [
  * Attaches an ng-template to a cell and shows it when instructed to by the
  * EditEventDispatcher service.
  * Makes the cell focusable.
+ *
+ * 将 ng-template 附着到单元格，并在 EditEventDispatcher 服务指示时显示它。使单元格可获得焦点。
+ *
  */
 @Directive({
   selector: '[cdkPopoverEdit]:not([cdkPopoverEditTabOut])',
@@ -177,18 +191,29 @@ const POPOVER_EDIT_INPUTS = [
   inputs: POPOVER_EDIT_INPUTS,
 })
 export class CdkPopoverEdit<C> implements AfterViewInit, OnDestroy {
-  /** The edit lens template shown over the cell on edit. */
+  /**
+   * The edit lens template shown over the cell on edit.
+   *
+   * 编辑时显示在单元格上方的编辑镜头模板。
+   *
+   */
   template: TemplateRef<any> | null = null;
 
   /**
    * Implicit context to pass along to the template. Can be omitted if the template
    * is defined within the cell.
+   *
+   * 要传递给模板的隐式上下文。如果模板是在单元格中定义的，则可以省略。
+   *
    */
   context?: C;
 
   /**
    * Specifies that the popup should cover additional table cells before and/or after
    * this one.
+   *
+   * 指定弹出窗口应覆盖此单元格之前和/或之后的其他表格单元格。
+   *
    */
   get colspan(): CdkPopoverEditColspan {
     return this._colspan;
@@ -207,7 +232,12 @@ export class CdkPopoverEdit<C> implements AfterViewInit, OnDestroy {
   }
   private _colspan: CdkPopoverEditColspan = {};
 
-  /** Whether popover edit is disabled for this cell. */
+  /**
+   * Whether popover edit is disabled for this cell.
+   *
+   * 是否禁用此单元格的弹出窗口编辑。
+   *
+   */
   get disabled(): boolean {
     return this._disabled;
   }
@@ -357,6 +387,9 @@ export class CdkPopoverEdit<C> implements AfterViewInit, OnDestroy {
  * Attaches an ng-template to a cell and shows it when instructed to by the
  * EditEventDispatcher service.
  * Makes the cell focusable.
+ *
+ * 将 ng-template 附着到单元格，并在 EditEventDispatcher 服务指示时显示它。使单元格可获得焦点。
+ *
  */
 @Directive({
   selector: '[cdkPopoverEdit][cdkPopoverEditTabOut]',
@@ -399,6 +432,9 @@ export class CdkPopoverEditTabOut<C> extends CdkPopoverEdit<C> {
 /**
  * A structural directive that shows its contents when the table row containing
  * it is hovered or when an element in the row has focus.
+ *
+ * 一个结构指令，当包含它的表行或当行中的元素被悬停或具有焦点时，用于显示其内容。
+ *
  */
 @Directive({
   selector: '[cdkRowHoverContent]',
@@ -440,12 +476,18 @@ export class CdkRowHoverContent implements AfterViewInit, OnDestroy {
    * Called immediately after the hover content is created and added to the dom.
    * In the CDK version, this is a noop but subclasses such as MatRowHoverContent use this
    * to prepare/style the inserted element.
+   *
+   * 在创建悬停内容并将其添加到 dom 后立即调用。在 CDK 版本中，这是一个 noop，但 MatRowHoverContent 等子类使用它来准备/设置插入元素的样式。
+   *
    */
   protected initElement(_: HTMLElement): void {}
 
   /**
    * Called when the hover content needs to be focusable to preserve a reasonable tab ordering
    * but should not yet be shown.
+   *
+   * 当悬停内容需要可获得焦点以保持合理的 tab 顺序但不应显示时调用。
+   *
    */
   protected makeElementHiddenButFocusable(element: HTMLElement): void {
     element.style.opacity = '0';
@@ -454,6 +496,9 @@ export class CdkRowHoverContent implements AfterViewInit, OnDestroy {
   /**
    * Called when the hover content needs to be focusable to preserve a reasonable tab ordering
    * but should not yet be shown.
+   *
+   * 当悬停内容需要可获得焦点以保持合理的 tab 顺序但不应显示时调用。
+   *
    */
   protected makeElementVisible(element: HTMLElement): void {
     element.style.opacity = '';
@@ -492,6 +537,9 @@ export class CdkRowHoverContent implements AfterViewInit, OnDestroy {
 /**
  * Opens the closest edit popover to this element, whether it's associated with this exact
  * element or an ancestor element.
+ *
+ * 打开离此元素最近的编辑弹出窗口，无论它是与此元素相关联还是与其祖先元素相关联。
+ *
  */
 @Directive({
   selector: '[cdkEditOpen]',

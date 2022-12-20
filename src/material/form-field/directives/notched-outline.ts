@@ -19,8 +19,13 @@ import {
 /**
  * Internal component that creates an instance of the MDC notched-outline component.
  *
+ * 创建 MDC 缺口轮廓组件实例的内部组件。
+ *
  * The component sets up the HTML structure and styles for the notched-outline. It provides
  * inputs to toggle the notch state and width.
+ *
+ * 该组件为缺口轮廓设置 HTML 结构和样式。它提供用于切换缺口状态和宽度的输入。
+ *
  */
 @Component({
   selector: 'div[matFormFieldNotchedOutline]',
@@ -35,10 +40,20 @@ import {
   encapsulation: ViewEncapsulation.None,
 })
 export class MatFormFieldNotchedOutline implements AfterViewInit {
-  /** Width of the label (original scale) */
+  /**
+   * Width of the label (original scale)
+   *
+   * 标签宽度（原始比例）
+   *
+   */
   @Input('matFormFieldNotchedOutlineLabelWidth') labelWidth: number = 0;
 
-  /** Whether the notch should be opened. */
+  /**
+   * Whether the notch should be opened.
+   *
+   * 缺口是否应该打开。
+   *
+   */
   @Input('matFormFieldNotchedOutlineOpen') open: boolean = false;
 
   constructor(private _elementRef: ElementRef<HTMLElement>, private _ngZone: NgZone) {}

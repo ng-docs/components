@@ -22,7 +22,12 @@ export interface BaseListItemHarnessFilters extends BaseHarnessFilters {
   tertiaryText?: string | RegExp | null;
   fullText?: string | RegExp;
   /**
-   * @deprecated Use the `fullText` filter instead.
+   * @deprecated
+   *
+   * Use the `fullText` filter instead.
+   *
+   * 请改用 `fullText` 过滤器。
+   *
    * @breaking-change 16.0.0
    */
   text?: string | RegExp;

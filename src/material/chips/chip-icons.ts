@@ -11,7 +11,12 @@ import {Directive} from '@angular/core';
 import {MatChipAction} from './chip-action';
 import {MAT_CHIP_AVATAR, MAT_CHIP_REMOVE, MAT_CHIP_TRAILING_ICON} from './tokens';
 
-/** Avatar image within a chip. */
+/**
+ * Avatar image within a chip.
+ *
+ * 纸片内的头像图像。
+ *
+ */
 @Directive({
   selector: 'mat-chip-avatar, [matChipAvatar]',
   host: {
@@ -22,7 +27,12 @@ import {MAT_CHIP_AVATAR, MAT_CHIP_REMOVE, MAT_CHIP_TRAILING_ICON} from './tokens
 })
 export class MatChipAvatar {}
 
-/** Non-interactive trailing icon in a chip. */
+/**
+ * Non-interactive trailing icon in a chip.
+ *
+ * 纸片中的非交互式尾随图标。
+ *
+ */
 @Directive({
   selector: 'mat-chip-trailing-icon, [matChipTrailingIcon]',
   host: {
@@ -36,6 +46,9 @@ export class MatChipTrailingIcon extends MatChipAction {
   /**
    * MDC considers all trailing actions as a remove icon,
    * but we support non-interactive trailing icons.
+   *
+   * MDC 将所有尾随操作视为删除图标，但我们支持非交互式尾随图标。
+   *
    */
   override isInteractive = false;
 
@@ -46,16 +59,21 @@ export class MatChipTrailingIcon extends MatChipAction {
  * Directive to remove the parent chip when the trailing icon is clicked or
  * when the ENTER key is pressed on it.
  *
+ * 用于在单击尾随图标或按下 ENTER 键时删除父纸片的指令。
+ *
  * Recommended for use with the Material Design "cancel" icon
  * available at https://material.io/icons/#ic_cancel.
  *
  * Example:
+ *
+ * 示例：
  *
  * ```
  * <mat-chip>
  *   <mat-icon matChipRemove>cancel</mat-icon>
  * </mat-chip>
  * ```
+ *
  */
 
 @Directive({

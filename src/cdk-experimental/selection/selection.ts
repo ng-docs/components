@@ -28,6 +28,9 @@ import {SelectableWithIndex, SelectionChange, SelectionSet} from './selection-se
  * states.
  * It must be applied to the parent element if `cdkSelectionToggle`, `cdkSelectAll`,
  * `cdkRowSelection` and `cdkSelectionColumn` are applied.
+ *
+ * 管理条目的选定状态并提供检查和更新选定状态的方法。如果应用了 `cdkSelectionToggle` 、 `cdkSelectAll` 、 `cdkRowSelection` 和 `cdkSelectionColumn` ，则它必须应用于父元素。
+ *
  */
 @Directive({
   selector: '[cdkSelection]',
@@ -49,7 +52,12 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
 
   @Input('trackBy') trackByFn: TrackByFunction<T>;
 
-  /** Whether to support multiple selection */
+  /**
+   * Whether to support multiple selection
+   *
+   * 是否支持多选
+   *
+   */
   @Input('cdkSelectionMultiple')
   get multiple(): boolean {
     return this._multiple;
@@ -59,7 +67,12 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
   }
   protected _multiple: boolean;
 
-  /** Emits when selection changes. */
+  /**
+   * Emits when selection changes.
+   *
+   * 选择结果更改时发出。
+   *
+   */
   @Output('cdkSelectionChange') readonly change = new EventEmitter<SelectionChange<T>>();
 
   /** Latest data provided by the data source. */
@@ -137,7 +150,12 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
     }
   }
 
-  /** Toggles selection for a given value. `index` is required if `trackBy` is used. */
+  /**
+   * Toggles selection for a given value. `index` is required if `trackBy` is used.
+   *
+   * 切换给定值的选定状态。如果使用 `trackBy` ，则需要 `index` 。
+   *
+   */
   toggleSelection(value: T, index?: number) {
     if (!!this.trackByFn && index == null && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw Error('CdkSelection: index required when trackBy is used');
@@ -153,6 +171,9 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
   /**
    * Toggles select-all. If no value is selected, select all values. If all values or some of the
    * values are selected, de-select all values.
+   *
+   * 切换全选。如果未选定任何值，则选定所有值。如果选定了所有值或部分值，请取消选定所有值。
+   *
    */
   toggleSelectAll() {
     if (!this._multiple && (typeof ngDevMode === 'undefined' || ngDevMode)) {
@@ -166,7 +187,12 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
     }
   }
 
-  /** Checks whether a value is selected. `index` is required if `trackBy` is used. */
+  /**
+   * Checks whether a value is selected. `index` is required if `trackBy` is used.
+   *
+   * 检查是否选定了一个值。如果使用 `trackBy` ，则需要 `index` 。
+   *
+   */
   isSelected(value: T, index?: number) {
     if (!!this.trackByFn && index == null && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw Error('CdkSelection: index required when trackBy is used');
@@ -175,12 +201,22 @@ export class CdkSelection<T> implements OnInit, AfterContentChecked, CollectionV
     return this._selection.isSelected({value, index});
   }
 
-  /** Checks whether all values are selected. */
+  /**
+   * Checks whether all values are selected.
+   *
+   * 检查是否选定了所有值。
+   *
+   */
   isAllSelected() {
     return this._data.every((value, index) => this._selection.isSelected({value, index}));
   }
 
-  /** Checks whether partially selected. */
+  /**
+   * Checks whether partially selected.
+   *
+   * 检查是否部分选定。
+   *
+   */
   isPartialSelected() {
     return (
       !this.isAllSelected() &&

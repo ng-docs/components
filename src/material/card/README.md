@@ -3,10 +3,17 @@ This is a prototype of an alternate version of `MatCard` built on top of
 experimental and should not be used in production.
 
 ## How to use
+
+## 如何使用
+
 Assuming your application is already up and running using Angular Material, you can add this
 component by following these steps:
 
+假设你的应用程序已经使用 Angular Material 启动并运行，你可以按照以下步骤添加此组件：
+
 1. Install `@angular/material-experimental` and MDC Web:
+
+   安装 `@angular/material-experimental` 和 MDC Web：
 
    ```bash
    npm i material-components-web @angular/material-experimental
@@ -14,6 +21,8 @@ component by following these steps:
 
 2. In your `angular.json`, make sure `node_modules/` is listed as a Sass include path. This is
    needed for the Sass compiler to be able to find the MDC Web Sass files.
+
+   在你的 `angular.json` 中，确保 `node_modules/` 被列为 Sass 包含路径。这是让 Sass 编译器能够找到 MDC Web Sass 文件所必需的。
 
    ```json
    ...
@@ -30,6 +39,8 @@ component by following these steps:
 
 3. Import the experimental `MatCardModule` and add it to the module that declares your component:
 
+   导入试验性的 `MatCardModule` 并将其添加到声明组件的模块中：
+
    ```ts
    import {MatCardModule} from '@angular/material/card';
 
@@ -41,6 +52,8 @@ component by following these steps:
    ```
 
 4. Use the card in your component's template:
+
+   在你的组件模板中使用卡片：
 
    ```html
    <mat-card>
@@ -56,6 +69,8 @@ component by following these steps:
    ```
 
 5. Add the theme and typography mixins to your Sass:
+
+   将主题和排版 mixin 添加到你的 Sass 中：
 
    ```scss
    @use '@angular/material' as mat;

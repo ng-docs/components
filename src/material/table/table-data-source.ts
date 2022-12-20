@@ -53,6 +53,9 @@ export interface MatTableDataSourcePaginator {
 /**
  * Corresponds to `Number.MAX_SAFE_INTEGER`. Moved out into a variable here due to
  * flaky browser support and the value not being defined in Closure's typings.
+ *
+ * 对应于 `Number.MAX_SAFE_INTEGER` 。由于不稳定的浏览器支持和未在 Closure 的类型中定义的值，移出到此处的变量中。
+ *
  */
 const MAX_SAFE_INTEGER = 9007199254740991;
 

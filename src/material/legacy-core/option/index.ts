@@ -13,7 +13,10 @@ import {MatLegacyOption} from './option';
 import {MatLegacyOptgroup} from './optgroup';
 
 /**
- * @deprecated Use `MatOptionModule` from `@angular/material/core` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatOptionModule` from `@angular/material/core` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @NgModule({

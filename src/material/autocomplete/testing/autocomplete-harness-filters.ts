@@ -23,6 +23,11 @@ export interface AutocompleteHarnessFilters extends BaseHarnessFilters {
    */
   value?: string | RegExp;
 
-  /** Only find instances which match the given disabled state. */
+  /**
+   * Only find instances which match the given disabled state.
+   *
+   * 仅查找与给定禁用状态匹配的实例。
+   *
+   */
   disabled?: boolean;
 }

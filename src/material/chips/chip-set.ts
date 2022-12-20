@@ -30,6 +30,9 @@ import {MatChipAction} from './chip-action';
 
 /**
  * Boilerplate for applying mixins to MatChipSet.
+ *
+ * 用于将 mixins 应用于 MatChipSet 的样板代码。
+ *
  * @docs-private
  */
 abstract class MatChipSetBase {
@@ -41,7 +44,12 @@ const _MatChipSetMixinBase = mixinTabIndex(MatChipSetBase);
 /**
  * Basic container component for the MatChip component.
  *
+ * 此 MatChip 组件的基本容器组件。
+ *
  * Extended by MatChipListbox and MatChipGrid for different interaction patterns.
+ *
+ * 由 MatChipListbox 和 MatChipGrid 扩展，用于不同的交互模式。
+ *
  */
 @Component({
   selector: 'mat-chip-set',
@@ -66,26 +74,56 @@ export class MatChipSet
   /** Index of the last destroyed chip that had focus. */
   private _lastDestroyedFocusedChipIndex: number | null = null;
 
-  /** Used to manage focus within the chip list. */
+  /**
+   * Used to manage focus within the chip list.
+   *
+   * 用于管理纸片列表中的焦点。
+   *
+   */
   protected _keyManager: FocusKeyManager<MatChipAction>;
 
-  /** Subject that emits when the component has been destroyed. */
+  /**
+   * Subject that emits when the component has been destroyed.
+   *
+   * 当组件被销毁时发出事件的主体。
+   *
+   */
   protected _destroyed = new Subject<void>();
 
-  /** Role to use if it hasn't been overwritten by the user. */
+  /**
+   * Role to use if it hasn't been overwritten by the user.
+   *
+   * 未被用户覆盖时使用的角色。
+   *
+   */
   protected _defaultRole = 'presentation';
 
-  /** Combined stream of all of the child chips' focus events. */
+  /**
+   * Combined stream of all of the child chips' focus events.
+   *
+   * 所有子纸片的焦点事件的组合流。
+   *
+   */
   get chipFocusChanges(): Observable<MatChipEvent> {
     return this._getChipStream(chip => chip._onFocus);
   }
 
-  /** Combined stream of all of the child chips' remove events. */
+  /**
+   * Combined stream of all of the child chips' remove events.
+   *
+   * 所有子纸片的移除事件的组合流。
+   *
+   */
   get chipDestroyedChanges(): Observable<MatChipEvent> {
     return this._getChipStream(chip => chip.destroyed);
   }
 
-  /** Whether the chip set is disabled. */
+  /**
+   * Whether the chip set is disabled.
+   *
+   * 此纸片组是否已禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._disabled;
@@ -96,12 +134,22 @@ export class MatChipSet
   }
   protected _disabled: boolean = false;
 
-  /** Whether the chip list contains chips or not. */
+  /**
+   * Whether the chip list contains chips or not.
+   *
+   * 此纸片列表是否包含纸片。
+   *
+   */
   get empty(): boolean {
     return this._chips.length === 0;
   }
 
-  /** The ARIA role applied to the chip set. */
+  /**
+   * The ARIA role applied to the chip set.
+   *
+   * 应用于此纸片组的 ARIA 角色。
+   *
+   */
   @Input()
   get role(): string | null {
     if (this._explicitRole) {
@@ -116,12 +164,22 @@ export class MatChipSet
   }
   private _explicitRole: string | null = null;
 
-  /** Whether any of the chips inside of this chip-set has focus. */
+  /**
+   * Whether any of the chips inside of this chip-set has focus.
+   *
+   * 该纸片组内是否有任何纸片拥有焦点。
+   *
+   */
   get focused(): boolean {
     return this._hasFocusedChip();
   }
 
-  /** The chips that are part of this chip set. */
+  /**
+   * The chips that are part of this chip set.
+   *
+   * 属于该纸片组的纸片。
+   *
+   */
   @ContentChildren(MatChip, {
     // We need to use `descendants: true`, because Ivy will no longer match
     // indirect descendants if it's left as false.
@@ -129,7 +187,12 @@ export class MatChipSet
   })
   _chips: QueryList<MatChip>;
 
-  /** Flat list of all the actions contained within the chips. */
+  /**
+   * Flat list of all the actions contained within the chips.
+   *
+   * 这些纸片中包含的所有操作的平面列表。
+   *
+   */
   _chipActions = new QueryList<MatChipAction>();
 
   constructor(
@@ -153,12 +216,22 @@ export class MatChipSet
     this._destroyed.complete();
   }
 
-  /** Checks whether any of the chips is focused. */
+  /**
+   * Checks whether any of the chips is focused.
+   *
+   * 检查是否有任何纸片拥有焦点。
+   *
+   */
   protected _hasFocusedChip() {
     return this._chips && this._chips.some(chip => chip._hasFocus());
   }
 
-  /** Syncs the chip-set's state with the individual chips. */
+  /**
+   * Syncs the chip-set's state with the individual chips.
+   *
+   * 将纸片组的状态与各个纸片同步。
+   *
+   */
   protected _syncChipsState() {
     if (this._chips) {
       this._chips.forEach(chip => {
@@ -168,10 +241,20 @@ export class MatChipSet
     }
   }
 
-  /** Dummy method for subclasses to override. Base chip set cannot be focused. */
+  /**
+   * Dummy method for subclasses to override. Base chip set cannot be focused.
+   *
+   * 子类要覆盖的虚拟方法。纸片组基类无法获得焦点。
+   *
+   */
   focus() {}
 
-  /** Handles keyboard events on the chip set. */
+  /**
+   * Handles keyboard events on the chip set.
+   *
+   * 处理此纸片组上的键盘事件。
+   *
+   */
   _handleKeydown(event: KeyboardEvent) {
     if (this._originatesFromChip(event)) {
       this._keyManager.onKeydown(event);
@@ -181,8 +264,18 @@ export class MatChipSet
   /**
    * Utility to ensure all indexes are valid.
    *
+   * 确保所有索引有效的实用程序。
+   *
    * @param index The index to be checked.
-   * @returns True if the index is valid for our list of chips.
+   *
+   * 要检查的索引。
+   *
+   * @returns
+   *
+   * True if the index is valid for our list of chips.
+   *
+   * 如果此索引对我们的纸片列表有效，则为真。
+   *
    */
   protected _isValidIndex(index: number): boolean {
     return index >= 0 && index < this._chips.length;
@@ -192,6 +285,9 @@ export class MatChipSet
    * Removes the `tabindex` from the chip grid and resets it back afterwards, allowing the
    * user to tab out of it. This prevents the grid from capturing focus and redirecting
    * it back to the first chip, creating a focus trap, if it user tries to tab away.
+   *
+   * 从纸片网格中删除 `tabindex` 并在之后将其重置，以允许用户退出它。这可以防止网格捕获焦点并将其重定向回第一个纸片，从而在用户尝试离开时创建焦点陷阱。
+   *
    */
   protected _allowFocusEscape() {
     const previousTabIndex = this.tabIndex;
@@ -209,6 +305,9 @@ export class MatChipSet
   /**
    * Gets a stream of events from all the chips within the set.
    * The stream will automatically incorporate any newly-added chips.
+   *
+   * 从集合中的所有纸片获取事件流。该流将自动并入任何新添加的纸片。
+   *
    */
   protected _getChipStream<T, C extends MatChip = MatChip>(
     mappingFunction: (chip: C) => Observable<T>,
@@ -219,7 +318,12 @@ export class MatChipSet
     );
   }
 
-  /** Checks whether an event comes from inside a chip element. */
+  /**
+   * Checks whether an event comes from inside a chip element.
+   *
+   * 检查事件是否来自纸片元素内部。
+   *
+   */
   protected _originatesFromChip(event: Event): boolean {
     let currentElement = event.target as HTMLElement | null;
 
@@ -269,6 +373,9 @@ export class MatChipSet
   /**
    * Determines if key manager should avoid putting a given chip action in the tab index. Skip
    * non-interactive and disabled actions since the user can't do anything with them.
+   *
+   * 确定键盘管理器是否应避免将给定的纸片操作放入 tabindex 中。跳过非交互和禁用的操作，因为用户无法对它们执行任何操作。
+   *
    */
   protected _skipPredicate(action: MatChipAction): boolean {
     // Skip chips that the user cannot interact with. `mat-chip-set` does not permit focusing disabled

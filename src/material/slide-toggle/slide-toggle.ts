@@ -363,15 +363,30 @@ export abstract class _MatSlideToggleBase<T>
   providers: [MAT_SLIDE_TOGGLE_VALUE_ACCESSOR],
 })
 export class MatSlideToggle extends _MatSlideToggleBase<MatSlideToggleChange> {
-  /** Unique ID for the label element. */
+  /**
+   * Unique ID for the label element.
+   *
+   * 标签元素的唯一 ID。
+   *
+   */
   _labelId: string;
 
-  /** Returns the unique id for the visual hidden button. */
+  /**
+   * Returns the unique id for the visual hidden button.
+   *
+   * 返回可视隐藏按钮的唯一 ID。
+   *
+   */
   get buttonId(): string {
     return `${this.id || this._uniqueId}-button`;
   }
 
-  /** Reference to the MDC switch element. */
+  /**
+   * Reference to the MDC switch element.
+   *
+   * 参考 MDC 开关元素。
+   *
+   */
   @ViewChild('switch') _switchElement: ElementRef<HTMLElement>;
 
   constructor(
@@ -395,7 +410,12 @@ export class MatSlideToggle extends _MatSlideToggleBase<MatSlideToggleChange> {
     this._labelId = this._uniqueId + '-label';
   }
 
-  /** Method being called whenever the underlying button is clicked. */
+  /**
+   * Method being called whenever the underlying button is clicked.
+   *
+   * 每当单击底层按钮时调用的方法。
+   *
+   */
   _handleClick() {
     this.toggleChange.emit();
 

@@ -341,9 +341,9 @@ export class MatDialogRef<T, R = any> {
 /**
  * Closes the dialog with the specified interaction type. This is currently not part of
  * `MatDialogRef` as that would conflict with custom dialog ref mocks provided in tests.
- * More details. See: <https://github.com/angular/components/pull/9257#issuecomment-651342226>.
+ * More details. See: https://github.com/angular/components/pull/9257#issuecomment-651342226.
  *
- * 用指定的交互类型关闭对话框。目前它不是 `MatDialogRef` 一部分，因为它会与测试中提供的自定义对话框引用模拟相冲突。更多细节请参阅： <https://github.com/angular/components/pull/9257#issuecomment-651342226。>
+ * 用指定的交互类型关闭对话框。目前它不是 `MatDialogRef` 一部分，因为它会与测试中提供的自定义对话框引用模拟相冲突。更多细节请参阅： https://github.com/angular/components/pull/9257#issuecomment-651342226。
  *
  */
 // TODO: Move this back into `MatDialogRef` when we provide an official mock dialog ref.

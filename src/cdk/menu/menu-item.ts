@@ -79,7 +79,7 @@ export class CdkMenuItem implements FocusableOption, FocusableElement, Toggler, 
   /**
    * The menu aim service used by this menu.
    *
-   * 此菜单使用的MenuAim 服务。
+   * 此菜单使用的 MenuAim 服务。
    *
    */
   private readonly _menuAim = inject(MENU_AIM, {optional: true});

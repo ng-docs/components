@@ -34,6 +34,9 @@ import {ResizeRef} from './resize-ref';
 /**
  * Base class for a component shown over the edge of a resizable column that is responsible
  * for handling column resize mouse events and displaying any visible UI on the column edge.
+ *
+ * 显示于可调大小的列的边缘的组件的基类，负责处理列大小调整的鼠标事件并在列边缘显示任何可见的 UI。
+ *
  */
 @Directive()
 export abstract class ResizeOverlayHandle implements AfterViewInit, OnDestroy {

@@ -66,5 +66,8 @@ export const MAT_CHIP_REMOVE = new InjectionToken('MatChipRemove');
 
 /**
  * Injection token used to avoid a circular dependency between the `MatChip` and `MatChipAction`.
+ *
+ * 此注入令牌用于避免 `MatChip` 和 `MatChipAction` 之间的循环依赖。
+ *
  */
 export const MAT_CHIP = new InjectionToken('MatChip');

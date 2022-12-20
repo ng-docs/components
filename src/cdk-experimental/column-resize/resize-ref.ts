@@ -9,7 +9,12 @@
 import {ElementRef} from '@angular/core';
 import {OverlayRef} from '@angular/cdk/overlay';
 
-/** Tracks state of resize events in progress. */
+/**
+ * Tracks state of resize events in progress.
+ *
+ * 跟踪正在进行的 resize 事件的状态。
+ *
+ */
 export class ResizeRef {
   constructor(
     readonly origin: ElementRef,

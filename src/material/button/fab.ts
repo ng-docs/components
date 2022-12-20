@@ -30,12 +30,22 @@ import {
 import {ThemePalette} from '@angular/material/core';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 
-/** Default FAB options that can be overridden. */
+/**
+ * Default FAB options that can be overridden.
+ *
+ * 可以覆盖的默认 FAB 选项。
+ *
+ */
 export interface MatFabDefaultOptions {
   color?: ThemePalette;
 }
 
-/** Injection token to be used to override the default options for FAB. */
+/**
+ * Injection token to be used to override the default options for FAB.
+ *
+ * 用于覆盖 FAB 的默认选项的注入令牌。
+ *
+ */
 export const MAT_FAB_DEFAULT_OPTIONS = new InjectionToken<MatFabDefaultOptions>(
   'mat-mdc-fab-default-options',
   {
@@ -63,6 +73,9 @@ let buttonInputs = [...MAT_ANCHOR_INPUTS, 'extended'];
  * See https://material.io/components/buttons-floating-action-button/
  *
  * The `MatFabButton` class has two appearances: normal and extended.
+ *
+ * `MatFabButton` 类有两种外观：正常（normal）和扩展（extended）。
+ *
  */
 @Component({
   selector: `button[mat-fab]`,
@@ -106,6 +119,7 @@ export class MatFabButton extends MatButtonBase {
  * Material Design mini floating action button (FAB) component. These buttons represent the primary
  * or most common action for users to interact with.
  * See https://material.io/components/buttons-floating-action-button/
+ *
  */
 @Component({
   selector: `button[mat-mini-fab]`,
@@ -139,6 +153,9 @@ export class MatMiniFabButton extends MatButtonBase {
  * See https://material.io/components/buttons-floating-action-button/
  *
  * The `MatFabAnchor` class has two appearances: normal and extended.
+ *
+ * `MatFabAnchor` 类有两种外观：正常（normal）和扩展（extended）。
+ *
  */
 @Component({
   selector: `a[mat-fab]`,
@@ -182,6 +199,7 @@ export class MatFabAnchor extends MatAnchor {
  * Material Design mini floating action button (FAB) component for anchor elements. Anchor elements
  * are used to provide links for the user to navigate across different routes or pages.
  * See https://material.io/components/buttons-floating-action-button/
+ *
  */
 @Component({
   selector: `a[mat-mini-fab]`,

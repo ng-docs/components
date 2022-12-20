@@ -22,6 +22,10 @@ import {EditRef} from './edit-ref';
  * Collects multiple Injectables into a singleton shared across the table. By reducing the
  * number of services injected into each CdkPopoverEdit, this saves about 0.023ms of cpu time
  * and 56 bytes of memory per instance.
+ *
+ * 优化
+ * 将多个 Injectables 收集到一个跨表共享的单例中。通过减少注入每个 CdkPopoverEdit 的服务数量，每个实例节省了大约 0.023ms 的 cpu 时间和 56 字节的内存。
+ *
  */
 @Injectable()
 export class EditServices {

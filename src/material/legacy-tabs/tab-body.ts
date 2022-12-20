@@ -31,8 +31,14 @@ import {
 
 /**
  * The portal host directive for the contents of the tab.
+ *
+ * 选项卡内容的门户宿主指令。
+ *
  * @docs-private
- * @deprecated Use `MatTabBodyPortal` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatTabBodyPortal` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -51,8 +57,14 @@ export class MatLegacyTabBodyPortal extends MatNonLegacyTabBodyPortal {
 
 /**
  * Wrapper for the contents of a tab.
+ *
+ * 选项卡内容的包装器。
+ *
  * @docs-private
- * @deprecated Use `MatTabBody` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatTabBody` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({

@@ -20,7 +20,13 @@ import {
 /**
  * Cell definition for the mat-table.
  * Captures the template of a column's data row cell as well as cell-specific properties.
- * @deprecated Use `MatCellDef` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * mat-table 的单元格定义。存放列的数据行单元格的模板以及单元格专有属性。
+ *
+ * @deprecated
+ *
+ * Use `MatCellDef` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -32,7 +38,13 @@ export class MatLegacyCellDef extends CdkCellDef {}
 /**
  * Header cell definition for the mat-table.
  * Captures the template of a column's header cell and as well as cell-specific properties.
- * @deprecated Use `MatHeaderCellDef` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * mat-table 的表头单元格定义。存放列表头单元格的模板以及单元格专有属性。
+ *
+ * @deprecated
+ *
+ * Use `MatHeaderCellDef` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -44,7 +56,13 @@ export class MatLegacyHeaderCellDef extends CdkHeaderCellDef {}
 /**
  * Footer cell definition for the mat-table.
  * Captures the template of a column's footer cell and as well as cell-specific properties.
- * @deprecated Use `MatFooterCellDef` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * mat-table 的表尾单元格定义。存放列的表尾单元格的模板以及单元格专有属性。
+ *
+ * @deprecated
+ *
+ * Use `MatFooterCellDef` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -56,7 +74,13 @@ export class MatLegacyFooterCellDef extends CdkFooterCellDef {}
 /**
  * Column definition for the mat-table.
  * Defines a set of cells available for a table column.
- * @deprecated Use `MatColumnDef` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * mat-table 的列定义。定义一组可用于表列的单元格。
+ *
+ * @deprecated
+ *
+ * Use `MatColumnDef` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -68,7 +92,12 @@ export class MatLegacyFooterCellDef extends CdkFooterCellDef {}
   ],
 })
 export class MatLegacyColumnDef extends CdkColumnDef {
-  /** Unique name for this column. */
+  /**
+   * Unique name for this column.
+   *
+   * 这个列的唯一名称。
+   *
+   */
   @Input('matColumnDef')
   override get name(): string {
     return this._name;
@@ -80,7 +109,10 @@ export class MatLegacyColumnDef extends CdkColumnDef {
   /**
    * Add "mat-column-" prefix in addition to "cdk-column-" prefix.
    * In the future, this will only add "mat-column-" and columnCssClassName
-   * will change from type string[] to string.
+   * will change from type string\[] to string.
+   *
+   * 除了“cdk-column-”前缀外，还添加“mat-column-”前缀。以后，这只需要添加“mat-column-”，columnCssClassName 也将从类型 string\[] 更改为 string。
+   *
    * @docs-private
    */
   protected override _updateColumnCssClassName() {
@@ -91,7 +123,13 @@ export class MatLegacyColumnDef extends CdkColumnDef {
 
 /**
  * Header cell template container that adds the right classes and role.
- * @deprecated Use `MatHeaderCell` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 用于添加正确的类和角色的表头单元格模板容器。
+ *
+ * @deprecated
+ *
+ * Use `MatHeaderCell` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -105,7 +143,13 @@ export class MatLegacyHeaderCell extends CdkHeaderCell {}
 
 /**
  * Footer cell template container that adds the right classes and role.
- * @deprecated Use `MatFooterCell` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 用于添加正确的类和角色的表尾单元格模板容器。
+ *
+ * @deprecated
+ *
+ * Use `MatFooterCell` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -119,7 +163,13 @@ export class MatLegacyFooterCell extends CdkFooterCell {}
 
 /**
  * Cell template container that adds the right classes and role.
- * @deprecated Use `MatCell` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 用于添加正确的类和角色的单元格模板容器。
+ *
+ * @deprecated
+ *
+ * Use `MatCell` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({

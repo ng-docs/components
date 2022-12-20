@@ -212,10 +212,20 @@ export abstract class _MatAutocompleteTriggerBase
       this._document.activeElement !== this._element.nativeElement || this.panelOpen;
   };
 
-  /** `View -> model callback called when value changes` */
+  /**
+   * `View -> model callback called when value changes`
+   *
+   * 视图 -> 模型回调，当值发生变化的时候调用
+   *
+   */
   _onChange: (value: any) => void = () => {};
 
-  /** `View -> model callback called when autocomplete has been touched` */
+  /**
+   * `View -> model callback called when autocomplete has been touched`
+   *
+   * 视图 -> 模型回调，autocomplete 已经被触碰过（touched）的时候调用
+   *
+   */
   _onTouched = () => {};
 
   /**

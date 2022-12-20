@@ -12,10 +12,10 @@ import {DateAdapter, MAT_DATE_LOCALE} from './date-adapter';
 
 /**
  * Matches strings that have the form of a valid RFC 3339 string
- * (<https://tools.ietf.org/html/rfc3339>). Note that the string may not actually be a valid date
+ * (https://tools.ietf.org/html/rfc3339). Note that the string may not actually be a valid date
  * because the regex will match strings an with out of bounds month, date, etc.
  *
- * 匹配具有有效 RFC 3339 字符串（ <https://tools.ietf.org/html/rfc3339> ）形式的字符串。请注意，该字符串实际上可能不是有效的日期，因为正则表达式将匹配具有超出范围的月份、日期等的字符串。
+ * 匹配具有有效 RFC 3339 字符串（ https://tools.ietf.org/html/rfc3339 ）形式的字符串。请注意，该字符串实际上可能不是有效的日期，因为正则表达式将匹配具有超出范围的月份、日期等的字符串。
  *
  */
 const ISO_8601_REGEX =
@@ -199,10 +199,10 @@ export class NativeDateAdapter extends DateAdapter<Date> {
 
   /**
    * Returns the given value if given a valid Date or null. Deserializes valid ISO 8601 strings
-   * (<https://www.ietf.org/rfc/rfc3339.txt>) into valid Dates and empty string into null. Returns an
+   * (https://www.ietf.org/rfc/rfc3339.txt) into valid Dates and empty string into null. Returns an
    * invalid date for all other values.
    *
-   * 如果给定有效的 Date 或 null，则返回给定的值。将有效的 ISO 8601 字符串（ <https://www.ietf.org/rfc/rfc3339.txt> ）反序列化为有效的日期，并将空字符串转换为 null。返回所有其他值的无效日期。
+   * 如果给定有效的 Date 或 null，则返回给定的值。将有效的 ISO 8601 字符串（ https://www.ietf.org/rfc/rfc3339.txt ）反序列化为有效的日期，并将空字符串转换为 null。返回所有其他值的无效日期。
    *
    */
   override deserialize(value: any): Date | null {

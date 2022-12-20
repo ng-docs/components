@@ -16,7 +16,13 @@ import {getListItemPredicate, MatLegacyListItemHarnessBase} from './list-item-ha
 
 /**
  * Harness for interacting with a standard mat-action-list in tests.
- * @deprecated Use `MatActionListHarness` from `@angular/material/list/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 在测试中用来与标准 mat-action-list 进行交互的测试工具。
+ *
+ * @deprecated
+ *
+ * Use `MatActionListHarness` from `@angular/material/list/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacyActionListHarness extends MatLegacyListHarnessBase<
@@ -24,14 +30,28 @@ export class MatLegacyActionListHarness extends MatLegacyListHarnessBase<
   MatLegacyActionListItemHarness,
   LegacyActionListItemHarnessFilters
 > {
-  /** The selector for the host element of a `MatActionList` instance. */
+  /**
+   * The selector for the host element of a `MatActionList` instance.
+   *
+   * `MatActionList` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = 'mat-action-list.mat-list';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatActionListHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatActionListHarness`。
+   *
    * @param options Options for filtering which action list instances are considered a match.
+   *
+   * 用于过滤哪些动作列表实例应该视为匹配的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(
     options: LegacyActionListHarnessFilters = {},
@@ -44,18 +64,38 @@ export class MatLegacyActionListHarness extends MatLegacyListHarnessBase<
 
 /**
  * Harness for interacting with an action list item.
- * @deprecated Use `MatActionListItemHarness` from `@angular/material/list/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 与动作列表条目进行交互的测试工具。
+ *
+ * @deprecated
+ *
+ * Use `MatActionListItemHarness` from `@angular/material/list/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacyActionListItemHarness extends MatLegacyListItemHarnessBase {
-  /** The selector for the host element of a `MatListItem` instance. */
+  /**
+   * The selector for the host element of a `MatListItem` instance.
+   *
+   * `MatListItem` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = `${MatLegacyActionListHarness.hostSelector} .mat-list-item`;
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatActionListItemHarness` that
    * meets certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，该 HarnessPredicate 可用于搜索满足某些条件的 `MatActionListItemHarness`。
+   *
    * @param options Options for filtering which action list item instances are considered a match.
+   *
+   * 用于过滤哪些动作列表条目目实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(
     options: LegacyActionListItemHarnessFilters = {},
@@ -63,22 +103,42 @@ export class MatLegacyActionListItemHarness extends MatLegacyListItemHarnessBase
     return getListItemPredicate(MatLegacyActionListItemHarness, options);
   }
 
-  /** Clicks on the action list item. */
+  /**
+   * Clicks on the action list item.
+   *
+   * 单击此动作列表条目。
+   *
+   */
   async click(): Promise<void> {
     return (await this.host()).click();
   }
 
-  /** Focuses the action list item. */
+  /**
+   * Focuses the action list item.
+   *
+   * 让此动作列表条目获得焦点。
+   *
+   */
   async focus(): Promise<void> {
     return (await this.host()).focus();
   }
 
-  /** Blurs the action list item. */
+  /**
+   * Blurs the action list item.
+   *
+   * 让此动作列表条目失焦。
+   *
+   */
   async blur(): Promise<void> {
     return (await this.host()).blur();
   }
 
-  /** Whether the action list item is focused. */
+  /**
+   * Whether the action list item is focused.
+   *
+   * 此动作列表条目是否具有焦点。
+   *
+   */
   async isFocused(): Promise<boolean> {
     return (await this.host()).isFocused();
   }

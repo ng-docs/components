@@ -188,7 +188,12 @@ export abstract class _MatFormFieldHarnessBase<
     return parallel(() => errors.map(e => e.getText()));
   }
 
-  /** Gets all of the error harnesses in the form field. */
+  /**
+   * Gets all of the error harnesses in the form field.
+   *
+   * 获取表单字段中的所有错误测试工具。
+   *
+   */
   async getErrors(filter: ErrorHarnessFilters = {}): Promise<MatErrorHarness[]> {
     return this.locatorForAll(this._errorHarness.with(filter))();
   }
@@ -302,7 +307,12 @@ export abstract class _MatFormFieldHarnessBase<
 }
 
 // TODO(devversion): support support chip list harness
-/** Possible harnesses of controls which can be bound to a form-field. */
+/**
+ * Possible harnesses of controls which can be bound to a form-field.
+ *
+ * 可以绑定到表单字段的可能的控件测试工具。
+ *
+ */
 export type FormFieldControlHarness =
   | MatInputHarness
   | MatSelectHarness

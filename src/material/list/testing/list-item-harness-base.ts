@@ -101,7 +101,12 @@ export const enum MatListItemSection {
   CONTENT = '.mdc-list-item__content',
 }
 
-/** Enum describing the possible variants of a list item. */
+/**
+ * Enum describing the possible variants of a list item.
+ *
+ * 描述列表条目的可能变体的枚举。
+ *
+ */
 export const enum MatListItemType {
   ONE_LINE_ITEM,
   TWO_LINE_ITEM,
@@ -122,7 +127,12 @@ export abstract class MatListItemHarnessBase extends ContentContainerComponentHa
   private _icon = this.locatorForOptional('.mat-mdc-list-item-icon');
   private _unscopedTextContent = this.locatorFor('.mat-mdc-list-item-unscoped-content');
 
-  /** Gets the type of the list item, currently describing how many lines there are. */
+  /**
+   * Gets the type of the list item, currently describing how many lines there are.
+   *
+   * 获取列表条目的类型，目前用来描述条目有多少行。
+   *
+   */
   async getType(): Promise<MatListItemType> {
     const host = await this.host();
     const [isOneLine, isTwoLine] = await parallel(() => [
@@ -142,7 +152,14 @@ export abstract class MatListItemHarnessBase extends ContentContainerComponentHa
    * Gets the full text content of the list item, excluding text
    * from icons and avatars.
    *
-   * @deprecated Use the `getFullText` method instead.
+   * 获取列表条目的全文内容，不包括来自图标和头像的文本。
+   *
+   * @deprecated
+   *
+   * Use the `getFullText` method instead.
+   *
+   * 请改用 `getFullText` 方法。
+   *
    * @breaking-change 16.0.0
    */
   async getText(): Promise<string> {
@@ -152,17 +169,30 @@ export abstract class MatListItemHarnessBase extends ContentContainerComponentHa
   /**
    * Gets the full text content of the list item, excluding text
    * from icons and avatars.
+   *
+   * 获取列表条目的全文内容，不包括来自图标和头像的文本。
+   *
    */
   async getFullText(): Promise<string> {
     return (await this.host()).text({exclude: `${iconSelector}, ${avatarSelector}`});
   }
 
-  /** Gets the title of the list item. */
+  /**
+   * Gets the title of the list item.
+   *
+   * 获取列表条目的标题。
+   *
+   */
   async getTitle(): Promise<string> {
     return (await this._primaryText()).text();
   }
 
-  /** Whether the list item is disabled. */
+  /**
+   * Whether the list item is disabled.
+   *
+   * 列表条目是否已禁用。
+   *
+   */
   async isDisabled(): Promise<boolean> {
     return (await this.host()).hasClass('mdc-list-item--disabled');
   }
@@ -170,6 +200,9 @@ export abstract class MatListItemHarnessBase extends ContentContainerComponentHa
   /**
    * Gets the secondary line text of the list item. Null if the list item
    * does not have a secondary line.
+   *
+   * 获取列表条目的辅助行文本。如果列表条目没有辅助行，则为空。
+   *
    */
   async getSecondaryText(): Promise<string | null> {
     const type = await this.getType();
@@ -194,6 +227,9 @@ export abstract class MatListItemHarnessBase extends ContentContainerComponentHa
   /**
    * Gets the tertiary line text of the list item. Null if the list item
    * does not have a tertiary line.
+   *
+   * 获取列表条目的第三行文本。如果列表条目没有第三行，则为空。
+   *
    */
   async getTertiaryText(): Promise<string | null> {
     const type = await this.getType();

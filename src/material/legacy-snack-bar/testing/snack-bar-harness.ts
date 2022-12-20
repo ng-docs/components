@@ -10,7 +10,13 @@ import {_MatSnackBarHarnessBase, SnackBarHarnessFilters} from '@angular/material
 
 /**
  * Harness for interacting with a standard mat-snack-bar in tests.
- * @deprecated Use `MatSnackBarHarness` from `@angular/material/snack-bar/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 在测试中用来与标准 mat-snack-bar 进行交互的测试工具。
+ *
+ * @deprecated
+ *
+ * Use `MatSnackBarHarness` from `@angular/material/snack-bar/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacySnackBarHarness extends _MatSnackBarHarnessBase {
@@ -19,15 +25,27 @@ export class MatLegacySnackBarHarness extends _MatSnackBarHarnessBase {
   // are in the process of being dismissed, because the element only gets removed after the
   // animation is finished and since it runs outside of Angular, we don't have a way of being
   // notified when it's done.
-  /** The selector for the host element of a `MatSnackBar` instance. */
+  /**
+   * The selector for the host element of a `MatSnackBar` instance.
+   *
+   * `MatSnackBar` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-snack-bar-container';
   protected override _messageSelector = '.mat-simple-snackbar > span';
   protected override _actionButtonSelector = '.mat-simple-snackbar-action > button';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a snack bar with specific attributes.
+   *
+   * 获取可用于搜索具有特定属性的快餐栏的 `HarnessPredicate` 。
+   *
    * @param options Options for filtering which snack bar instances are considered a match.
+   *
+   * 用于筛选哪些快餐栏实例应该视为匹配项的选项。
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
    */
   static with(options: SnackBarHarnessFilters = {}): HarnessPredicate<MatLegacySnackBarHarness> {
     return new HarnessPredicate(MatLegacySnackBarHarness, options);

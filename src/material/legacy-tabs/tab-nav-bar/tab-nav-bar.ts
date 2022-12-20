@@ -42,7 +42,13 @@ let nextUniqueId = 0;
 /**
  * Navigation component matching the styles of the tab group header.
  * Provides anchored navigation with animated ink bar.
- * @deprecated Use `MatTabNav` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 与选项卡组标题样式匹配的导航组件。提供带有动画墨水栏的链接导航。
+ *
+ * @deprecated
+ *
+ * Use `MatTabNav` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -89,7 +95,13 @@ export class MatLegacyTabNav extends _MatTabNavBase {
 
 /**
  * Link inside of a `mat-tab-nav-bar`.
- * @deprecated Use `MatTabLink` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 链接到 `mat-tab-nav-bar`。
+ *
+ * @deprecated
+ *
+ * Use `MatTabLink` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -138,7 +150,13 @@ export class MatLegacyTabLink extends _MatTabLinkBase implements OnDestroy {
 
 /**
  * Tab panel component associated with MatTabNav.
- * @deprecated Use `MatTabNavPanel` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 与 MatTabNav 关联的选项卡面板组件。
+ *
+ * @deprecated
+ *
+ * Use `MatTabNavPanel` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -155,9 +173,19 @@ export class MatLegacyTabLink extends _MatTabLinkBase implements OnDestroy {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatLegacyTabNavPanel {
-  /** Unique id for the tab panel. */
+  /**
+   * Unique id for the tab panel.
+   *
+   * 选项卡面板的唯一 ID。
+   *
+   */
   @Input() id = `mat-tab-nav-panel-${nextUniqueId++}`;
 
-  /** Id of the active tab in the nav bar. */
+  /**
+   * Id of the active tab in the nav bar.
+   *
+   * 导航栏中活动选项卡的 ID。
+   *
+   */
   _activeTabId?: string;
 }

@@ -23,12 +23,17 @@ let nextId = 0;
  * Applies styles to the host element that make its scrollbars match up with
  * the non-sticky scrollable portions of the CdkTable contained within.
  *
+ * 将样式应用于宿主元素，使其滚动条与包含在其中的 CdkTable 的非粘滞可滚动部分相匹配。
+ *
  * This visual effect only works in Webkit and Blink based browsers (eg Chrome,
  * Safari, Edge). Other browsers such as Firefox will gracefully degrade to
  * normal scrollbar appearance.
  * Further note: These styles have no effect when the browser is using OS-default
  * scrollbars. The easiest way to force them into custom mode is to specify width
  * and height for the scrollbar and thumb.
+ *
+ * 此视觉效果仅适用于基于 Webkit 和 Blink 的浏览器（例如 Chrome、Safari、Edge）。其他浏览器（如 Firefox）会优雅地降级为正常的滚动条外观。进一步注意：当浏览器使用操作系统默认滚动条时，这些样式无效。强制它们进入自定义模式的最简单方法是指定滚动条和滑块的宽度和高度。
+ *
  */
 @Directive({
   selector: '[cdkTableScrollContainer]',

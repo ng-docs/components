@@ -13,7 +13,10 @@ import {MatLegacyFormFieldModule} from '@angular/material/legacy-form-field';
 import {MatLegacyInput} from './input';
 
 /**
- * @deprecated Use `MatInputModule` from `@angular/material/input` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatInputModule` from `@angular/material/input` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @NgModule({

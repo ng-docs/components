@@ -179,7 +179,6 @@ choices. See [Angular Material Typography][mat-typography] for an in-depth guide
 
 Angular Material 用 Sass 映射表来表达主题，其中包含你的颜色、排版和密集度选择。有关自定义排版的更多信息，请参阅 [Angular Material 排版][mat-typography]。
 
-
 Constructing the theme first requires defining your primary and accent palettes, with an optional
 warn palette. The `define-palette` Sass function accepts a color palette, described in the
 [Palettes](#palettes) section above, as well as four optional hue numbers. These four hues

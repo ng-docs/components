@@ -119,7 +119,12 @@ export class MatDatepickerIntl {
    *
    * 日期范围中第一个日期的标签（由屏幕阅读器使用）。
    *
-   * @deprecated Provide your own internationalization string.
+   * @deprecated
+   *
+   * Provide your own internationalization string.
+   *
+   * 提供你自己的国际化字符串。
+   *
    * @breaking-change 17.0.0
    */
   startDateLabel = 'Start date';
@@ -129,7 +134,12 @@ export class MatDatepickerIntl {
    *
    * 日期范围中最后一个日期的标签（由屏幕阅读器使用）。
    *
-   * @deprecated Provide your own internationalization string.
+   * @deprecated
+   *
+   * Provide your own internationalization string.
+   *
+   * 提供你自己的国际化字符串。
+   *
    * @breaking-change 17.0.0
    */
   endDateLabel = 'End date';

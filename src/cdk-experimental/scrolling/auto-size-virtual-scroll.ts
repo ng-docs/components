@@ -19,6 +19,9 @@ import {Observable} from 'rxjs';
 /**
  * A class that tracks the size of items that have been seen and uses it to estimate the average
  * item size.
+ *
+ * 跟踪已看到条目大小并使用它来估计平均条目大小的类。
+ *
  */
 export class ItemSizeAverager {
   /** The total amount of weight behind the current average. */
@@ -27,24 +30,48 @@ export class ItemSizeAverager {
   /** The current average item size. */
   private _averageItemSize: number;
 
-  /** The default size to use for items when no data is available. */
+  /**
+   * The default size to use for items when no data is available.
+   *
+   * 没有可用数据时用于条目的默认大小。
+   *
+   */
   private _defaultItemSize: number;
 
-  /** @param defaultItemSize The default size to use for items when no data is available. */
+  /**
+   * @param defaultItemSize The default size to use for items when no data is available.
+   *
+   * 没有可用数据时用于条目的默认大小。
+   *
+   */
   constructor(defaultItemSize = 50) {
     this._defaultItemSize = defaultItemSize;
     this._averageItemSize = defaultItemSize;
   }
 
-  /** Returns the average item size. */
+  /**
+   * Returns the average item size.
+   *
+   * 返回平均条目大小。
+   *
+   */
   getAverageItemSize(): number {
     return this._averageItemSize;
   }
 
   /**
    * Adds a measurement sample for the estimator to consider.
+   *
+   * 添加一个测量样本供估算器考虑。
+   *
    * @param range The measured range.
+   *
+   * 测量的范围。
+   *
    * @param size The measured size of the given range in pixels.
+   *
+   * 给定范围的测量后大小（以像素为单位）。
+   *
    */
   addSample(range: ListRange, size: number) {
     const newTotalWeight = this._totalWeight + range.end - range.start;
@@ -58,14 +85,24 @@ export class ItemSizeAverager {
     }
   }
 
-  /** Resets the averager. */
+  /**
+   * Resets the averager.
+   *
+   * 重置平均器（Averager）。
+   *
+   */
   reset() {
     this._averageItemSize = this._defaultItemSize;
     this._totalWeight = 0;
   }
 }
 
-/** Virtual scrolling strategy for lists with items of unknown or dynamic size. */
+/**
+ * Virtual scrolling strategy for lists with items of unknown or dynamic size.
+ *
+ * 适用于具有未知或动态大小条目的列表的虚拟滚动策略。
+ *
+ */
 export class AutoSizeVirtualScrollStrategy implements VirtualScrollStrategy {
   /** @docs-private Implemented as part of VirtualScrollStrategy. */
   scrolledIndexChange = new Observable<number>(() => {
@@ -81,10 +118,20 @@ export class AutoSizeVirtualScrollStrategy implements VirtualScrollStrategy {
   /** The attached viewport. */
   private _viewport: CdkVirtualScrollViewport | null = null;
 
-  /** The minimum amount of buffer rendered beyond the viewport (in pixels). */
+  /**
+   * The minimum amount of buffer rendered beyond the viewport (in pixels).
+   *
+   * 要在视口之外渲染的最小缓冲区量（以像素为单位）。
+   *
+   */
   private _minBufferPx: number;
 
-  /** The number of buffer items to render beyond the edge of the viewport (in pixels). */
+  /**
+   * The number of buffer items to render beyond the edge of the viewport (in pixels).
+   *
+   * 要渲染超出视口边缘的缓冲区条目数（以像素为单位）。
+   *
+   */
   private _maxBufferPx: number;
 
   /** The estimator used to estimate the size of unseen items. */
@@ -109,10 +156,19 @@ export class AutoSizeVirtualScrollStrategy implements VirtualScrollStrategy {
   /**
    * @param minBufferPx The minimum amount of buffer rendered beyond the viewport (in pixels).
    *     If the amount of buffer dips below this number, more items will be rendered.
+   *
+   * 在视口之外渲染的最小缓冲区量（以像素为单位）。如果缓冲区数量低于此数字，将渲染更多条目。
+   *
    * @param maxBufferPx The number of pixels worth of buffer to shoot for when rendering new items.
    *     If the actual amount turns out to be less it will not necessarily trigger an additional
    *     rendering cycle (as long as the amount of buffer is still greater than `minBufferPx`).
+   *
+   * 渲染新条目时要预留的缓冲区像素数。如果实际数量更少，则不一定会触发额外的渲染周期（只要缓冲区数量仍然大于 `minBufferPx` ）。
+   *
    * @param averager The averager used to estimate the size of unseen items.
+   *
+   * 此平均器用于估计看不见的条目的大小。
+   *
    */
   constructor(minBufferPx: number, maxBufferPx: number, averager = new ItemSizeAverager()) {
     this._minBufferPx = minBufferPx;
@@ -193,9 +249,18 @@ export class AutoSizeVirtualScrollStrategy implements VirtualScrollStrategy {
 
   /**
    * Update the buffer parameters.
+   *
+   * 更新缓冲区参数。
+   *
    * @param minBufferPx The minimum amount of buffer rendered beyond the viewport (in pixels).
+   *
+   * 要在视口之外渲染的最小缓冲区量（以像素为单位）。
+   *
    * @param maxBufferPx The number of buffer items to render beyond the edge of the viewport (in
    *     pixels).
+   *
+   * 要渲染超出视口边缘的缓冲区条目数（以像素为单位）。
+   *
    */
   updateBufferSize(minBufferPx: number, maxBufferPx: number) {
     if (maxBufferPx < minBufferPx) {
@@ -461,14 +526,25 @@ export class AutoSizeVirtualScrollStrategy implements VirtualScrollStrategy {
 /**
  * Provider factory for `AutoSizeVirtualScrollStrategy` that simply extracts the already created
  * `AutoSizeVirtualScrollStrategy` from the given directive.
+ *
+ * `AutoSizeVirtualScrollStrategy` 的提供者工厂，它只会从给定的指令中提取已创建好的 `AutoSizeVirtualScrollStrategy` 。
+ *
  * @param autoSizeDir The instance of `CdkAutoSizeVirtualScroll` to extract the
  *     `AutoSizeVirtualScrollStrategy` from.
+ *
+ * 要从中提取 `AutoSizeVirtualScrollStrategy` 的 `CdkAutoSizeVirtualScroll` 实例。
+ *
  */
 export function _autoSizeVirtualScrollStrategyFactory(autoSizeDir: CdkAutoSizeVirtualScroll) {
   return autoSizeDir._scrollStrategy;
 }
 
-/** A virtual scroll strategy that supports unknown or dynamic size items. */
+/**
+ * A virtual scroll strategy that supports unknown or dynamic size items.
+ *
+ * 支持未知或动态大小条目的虚拟滚动策略。
+ *
+ */
 @Directive({
   selector: 'cdk-virtual-scroll-viewport[autosize]',
   providers: [
@@ -501,6 +577,9 @@ export class CdkAutoSizeVirtualScroll implements OnChanges {
    * If the actual amount turns out to be less it will not necessarily trigger an additional
    * rendering cycle (as long as the amount of buffer is still greater than `minBufferPx`).
    * Defaults to 200px.
+   *
+   * 渲染新条目时要预留的缓冲区像素数。如果实际数量更少，则不一定会触发额外的渲染周期（只要缓冲区数量仍然大于 `minBufferPx` ）。默认为 200 像素。
+   *
    */
   @Input()
   get maxBufferPx(): number {
@@ -511,7 +590,12 @@ export class CdkAutoSizeVirtualScroll implements OnChanges {
   }
   _maxBufferPx = 200;
 
-  /** The scroll strategy used by this directive. */
+  /**
+   * The scroll strategy used by this directive.
+   *
+   * 该指令使用的滚动策略。
+   *
+   */
   _scrollStrategy = new AutoSizeVirtualScrollStrategy(this.minBufferPx, this.maxBufferPx);
 
   ngOnChanges() {

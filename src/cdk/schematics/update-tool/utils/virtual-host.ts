@@ -121,7 +121,12 @@ export function createFileSystemCompilerHost(
   return host;
 }
 
-/** Creates a format diagnostic host that works with the given file system. */
+/**
+ * Creates a format diagnostic host that works with the given file system.
+ *
+ * 创建适用于给定文件系统的格式诊断宿主。
+ *
+ */
 export function createFormatDiagnosticHost(fileSystem: FileSystem): ts.FormatDiagnosticsHost {
   return {
     getCanonicalFileName: p => fileSystem.resolve(p),

@@ -35,9 +35,9 @@ export type FocusOrigin = 'touch' | 'mouse' | 'keyboard' | 'program' | null;
 
 /**
  * Corresponds to the options that can be passed to the native `focus` event.
- * via <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus>
+ * via https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
  *
- * 对应于可以传递给原生 `focus` 事件的选项。通过 <https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus>
+ * 对应于可以传递给原生 `focus` 事件的选项。通过 https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus
  *
  */
 export interface FocusOptions {

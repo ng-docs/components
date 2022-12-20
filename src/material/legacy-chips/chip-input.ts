@@ -28,21 +28,48 @@ import {MatLegacyChipTextControl} from './chip-text-control';
 
 /**
  * Represents an input event on a `matChipInput`.
- * @deprecated Use `MatChipInputEvent` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 表示 `matChipInput` 上的输入事件。
+ *
+ * @deprecated
+ *
+ * Use `MatChipInputEvent` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export interface MatLegacyChipInputEvent {
   /**
    * The native `<input>` element that the event is being fired for.
-   * @deprecated Use `MatChipInputEvent#chipInput.inputElement` instead.
+   *
+   * 触发该事件的原生 `<input>`。
+   *
+   * @deprecated
+   *
+   * Use `MatChipInputEvent#chipInput.inputElement` instead.
+   *
+   * 请改用 `MatChipInputEvent#chipInput.inputElement` 。
+   *
    * @breaking-change 13.0.0 This property will be removed.
+   *
+   * 此属性将被删除。
+   *
    */
   input: HTMLInputElement;
 
-  /** The value of the input. */
+  /**
+   * The value of the input.
+   *
+   * 输入框的值。
+   *
+   */
   value: string;
 
-  /** Reference to the chip input that emitted the event. */
+  /**
+   * Reference to the chip input that emitted the event.
+   *
+   * 对发出事件的纸片输入的引用。
+   *
+   */
   chipInput: MatLegacyChipInput;
 }
 
@@ -52,7 +79,13 @@ let nextUniqueId = 0;
 /**
  * Directive that adds chip-specific behaviors to an input element inside `<mat-form-field>`.
  * May be placed inside or outside of an `<mat-chip-list>`.
- * @deprecated Use `MatChipInput` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 该指令用于把纸片特有的行为添加到 `<mat-form-field>` 里面的输入框元素中。可以放在 `<mat-chip-list>` 的内部或外部。
+ *
+ * @deprecated
+ *
+ * Use `MatChipInput` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -78,11 +111,21 @@ export class MatLegacyChipInput
   /** Used to prevent focus moving to chips while user is holding backspace */
   private _focusLastChipOnBackspace: boolean;
 
-  /** Whether the control is focused. */
+  /**
+   * Whether the control is focused.
+   *
+   * 控件是否有焦点。
+   *
+   */
   focused: boolean = false;
   _chipList: MatLegacyChipList;
 
-  /** Register input for chip list */
+  /**
+   * Register input for chip list
+   *
+   * 注册纸片列表的输入框
+   *
+   */
   @Input('matChipInputFor')
   set chipList(value: MatLegacyChipList) {
     if (value) {
@@ -93,6 +136,9 @@ export class MatLegacyChipInput
 
   /**
    * Whether or not the chipEnd event will be emitted when the input is blurred.
+   *
+   * 当输入失焦时，是否会发出 chipEnd 事件。
+   *
    */
   @Input('matChipInputAddOnBlur')
   get addOnBlur(): boolean {
@@ -106,22 +152,47 @@ export class MatLegacyChipInput
   /**
    * The list of key codes that will trigger a chipEnd event.
    *
+   * 会触发 chipEnd 事件的键盘代码列表。
+   *
    * Defaults to `[ENTER]`.
+   *
+   * 默认为 `[ENTER]`。
+   *
    */
   @Input('matChipInputSeparatorKeyCodes')
   separatorKeyCodes: readonly number[] | ReadonlySet<number> =
     this._defaultOptions.separatorKeyCodes;
 
-  /** Emitted when a chip is to be added. */
+  /**
+   * Emitted when a chip is to be added.
+   *
+   * 当要添加纸片时会触发。
+   *
+   */
   @Output('matChipInputTokenEnd') readonly chipEnd = new EventEmitter<MatLegacyChipInputEvent>();
 
-  /** The input's placeholder text. */
+  /**
+   * The input's placeholder text.
+   *
+   * 输入框的占位符文本。
+   *
+   */
   @Input() placeholder: string = '';
 
-  /** Unique id for the input. */
+  /**
+   * Unique id for the input.
+   *
+   * 该输入框的唯一 ID。
+   *
+   */
   @Input() id: string = `mat-chip-list-input-${nextUniqueId++}`;
 
-  /** Whether the input is disabled. */
+  /**
+   * Whether the input is disabled.
+   *
+   * 输入框是否已禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._disabled || (this._chipList && this._chipList.disabled);
@@ -131,12 +202,22 @@ export class MatLegacyChipInput
   }
   private _disabled: boolean = false;
 
-  /** Whether the input is empty. */
+  /**
+   * Whether the input is empty.
+   *
+   * 输入框是否为空。
+   *
+   */
   get empty(): boolean {
     return !this.inputElement.value;
   }
 
-  /** The native input element to which this directive is attached. */
+  /**
+   * The native input element to which this directive is attached.
+   *
+   * 该指令所附属的原生输入框元素。
+   *
+   */
   readonly inputElement!: HTMLInputElement;
 
   constructor(
@@ -158,7 +239,12 @@ export class MatLegacyChipInput
     this._focusLastChipOnBackspace = this.empty;
   }
 
-  /** Utility method to make host definition/tests more clear. */
+  /**
+   * Utility method to make host definition/tests more clear.
+   *
+   * 使宿主定义/测试更清晰的实用方法。
+   *
+   */
   _keydown(event?: KeyboardEvent) {
     if (event) {
       // Allow the user's focus to escape when they're tabbing forward. Note that we don't
@@ -184,6 +270,9 @@ export class MatLegacyChipInput
 
   /**
    * Pass events to the keyboard manager. Available here for tests.
+   *
+   * 将事件传递给键盘管理器。可在此处进行测试。
+   *
    */
   _keyup(event: KeyboardEvent) {
     // Allow user to move focus to chips next time he presses backspace
@@ -193,7 +282,12 @@ export class MatLegacyChipInput
     }
   }
 
-  /** Checks to see if the blur should emit the (chipEnd) event. */
+  /**
+   * Checks to see if the blur should emit the (chipEnd) event.
+   *
+   * 检查失焦时是否应发出 (chipEnd) 事件。
+   *
+   */
   _blur() {
     if (this.addOnBlur) {
       this._emitChipEnd();
@@ -212,7 +306,12 @@ export class MatLegacyChipInput
     this._chipList.stateChanges.next();
   }
 
-  /** Checks to see if the (chipEnd) event needs to be emitted. */
+  /**
+   * Checks to see if the (chipEnd) event needs to be emitted.
+   *
+   * 检查是否需要发出 (chipEnd) 事件。
+   *
+   */
   _emitChipEnd(event?: KeyboardEvent) {
     if (!this.inputElement.value && !!event) {
       this._chipList._keydown(event);
@@ -234,12 +333,22 @@ export class MatLegacyChipInput
     this._chipList.stateChanges.next();
   }
 
-  /** Focuses the input. */
+  /**
+   * Focuses the input.
+   *
+   * 让输入框获得焦点。
+   *
+   */
   focus(options?: FocusOptions): void {
     this.inputElement.focus(options);
   }
 
-  /** Clears the input */
+  /**
+   * Clears the input
+   *
+   * 清除输入
+   *
+   */
   clear(): void {
     this.inputElement.value = '';
     this._focusLastChipOnBackspace = true;

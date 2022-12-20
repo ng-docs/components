@@ -31,20 +31,42 @@ import {
 
 /**
  * Change event object emitted by a checkbox.
- * @deprecated Use `MatCheckboxChange` from `@angular/material/checkbox` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 复选框发出的更改事件对象。
+ *
+ * @deprecated
+ *
+ * Use `MatCheckboxChange` from `@angular/material/checkbox` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacyCheckboxChange {
-  /** The source checkbox of the event. */
+  /**
+   * The source checkbox of the event.
+   *
+   * 此事件的源复选框。
+   *
+   */
   source: MatLegacyCheckbox;
-  /** The new `checked` value of the checkbox. */
+  /**
+   * The new `checked` value of the checkbox.
+   *
+   * 该复选框的新 `checked` 值。
+   *
+   */
   checked: boolean;
 }
 /**
  * Provider Expression that allows mat-checkbox to register as a ControlValueAccessor.
  * This allows it to support [(ngModel)].
+ *
+ * 允许 mat-checkbox 注册为 ControlValueAccessor 的提供者表达式。这允许它支持 `[(ngModel)]`。
+ *
  * @docs-private
- * @deprecated Use `MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR` from `@angular/material/checkbox` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MAT_CHECKBOX_CONTROL_VALUE_ACCESSOR` from `@angular/material/checkbox` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
@@ -60,7 +82,11 @@ export const MAT_LEGACY_CHECKBOX_CONTROL_VALUE_ACCESSOR: any = {
  * so there is no need to provide them yourself. However, if you want to omit a label and still
  * have the checkbox be accessible, you may supply an [aria-label] input.
  * See: https://material.io/design/components/selection-controls.html
- * @deprecated Use `MatCheckbox` from `@angular/material/checkbox` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * @deprecated
+ *
+ * Use `MatCheckbox` from `@angular/material/checkbox` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -142,6 +168,9 @@ export class MatLegacyCheckbox
    * Toggles checked state if element is not disabled.
    * Do not toggle on (change) event since IE doesn't fire change event when
    *   indeterminate checkbox is clicked.
+   *
+   * 复选框输入元素的事件处理器。如果元素未被禁用，则切换选定状态。不要在 change 事件上切换，因为在单击不确定复选框时 IE 不会触发更改事件。
+   *
    * @param event
    */
   _onInputClick(event: Event) {
@@ -156,7 +185,12 @@ export class MatLegacyCheckbox
     super._handleInputClick();
   }
 
-  /** Focuses the checkbox. */
+  /**
+   * Focuses the checkbox.
+   *
+   * 聚焦复选框。
+   *
+   */
   focus(origin?: FocusOrigin, options?: FocusOptions): void {
     if (origin) {
       this._focusMonitor.focusVia(this._inputElement, origin, options);

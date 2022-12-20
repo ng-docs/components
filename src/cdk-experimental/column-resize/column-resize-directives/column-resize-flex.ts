@@ -17,6 +17,9 @@ import {FLEX_PROVIDERS} from './constants';
 /**
  * Explicitly enables column resizing for a flexbox-based cdk-table.
  * Individual columns must be annotated specifically.
+ *
+ * 显式启用基于 flexbox 的 cdk 表的列大小调整。必须特别标注各个列。
+ *
  */
 @Directive({
   selector: 'cdk-table[columnResize]',

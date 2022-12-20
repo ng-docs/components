@@ -39,9 +39,14 @@ import {
  * Directive that attaches a material design tooltip to the host element. Animates the showing and
  * hiding of a tooltip provided position (defaults to below the element).
  *
+ * 将 Material Design 工具提示附着到主体元素的指令。对工具提示提供的位置的显示和隐藏进行动画处理（默认为元素下方）。
+ *
  * https://material.io/design/components/tooltips.html
  *
- * @deprecated Use `MatTooltip` from `@angular/material/tooltip` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatTooltip` from `@angular/material/tooltip` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -87,8 +92,13 @@ export class MatLegacyTooltip extends _MatTooltipBase<LegacyTooltipComponent> {
 
 /**
  * Internal component that wraps the tooltip's content.
+ *
+ * 包装工具提示内容的内部组件。
+ *
  * @docs-private
- * @deprecated Use `TooltipComponent` from `@angular/material/tooltip` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `TooltipComponent` from `@angular/material/tooltip` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
  * @breaking-change 17.0.0
  */
 @Component({
@@ -106,7 +116,12 @@ export class MatLegacyTooltip extends _MatTooltipBase<LegacyTooltipComponent> {
   },
 })
 export class LegacyTooltipComponent extends _TooltipComponentBase {
-  /** Stream that emits whether the user has a handset-sized display.  */
+  /**
+   * Stream that emits whether the user has a handset-sized display.
+   *
+   * 发出用户是否正持有手机大小显示器的流。
+   *
+   */
   _isHandset: Observable<BreakpointState> = this._breakpointObserver.observe(Breakpoints.Handset);
   _showAnimation = 'mat-tooltip-show';
   _hideAnimation = 'mat-tooltip-hide';

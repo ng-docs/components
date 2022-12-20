@@ -23,7 +23,10 @@ import {MatLegacyTabContent} from './tab-content';
 import {MatLegacyTabLabelWrapper} from './tab-label-wrapper';
 
 /**
- * @deprecated Use `MatTabsModule` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatTabsModule` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @NgModule({

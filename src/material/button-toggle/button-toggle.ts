@@ -812,7 +812,12 @@ export class MatButtonToggle
     this._changeDetectorRef.markForCheck();
   }
 
-  /** Gets the name that should be assigned to the inner DOM node. */
+  /**
+   * Gets the name that should be assigned to the inner DOM node.
+   *
+   * 获取应赋值给内部 DOM 节点的名称。
+   *
+   */
   _getButtonName(): string | null {
     if (this._isSingleSelector()) {
       return this.buttonToggleGroup.name;

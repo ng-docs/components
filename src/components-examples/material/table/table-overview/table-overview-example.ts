@@ -10,7 +10,12 @@ export interface UserData {
   fruit: string;
 }
 
-/** Constants used to fill up our data base. */
+/**
+ * Constants used to fill up our data base.
+ *
+ * 一些用于填充我们的数据库的常量。
+ *
+ */
 const FRUITS: string[] = [
   'blueberry',
   'lychee',
@@ -81,7 +86,12 @@ export class TableOverviewExample implements AfterViewInit {
   }
 }
 
-/** Builds and returns a new User. */
+/**
+ * Builds and returns a new User.
+ *
+ * 构建并返回一个新用户。
+ *
+ */
 function createNewUser(id: number): UserData {
   const name =
     NAMES[Math.round(Math.random() * (NAMES.length - 1))] +

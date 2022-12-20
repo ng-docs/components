@@ -185,16 +185,36 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
    */
   @Input() comparisonEnd: D | null;
 
-  /** ARIA Accessible name of the `<input matStartDate/>` */
+  /**
+   * ARIA Accessible name of the `<input matStartDate/>`
+   *
+   * `<input matStartDate/>` 的 ARIA 无障碍名称
+   *
+   */
   @Input() startDateAccessibleName: string | null;
 
-  /** ARIA Accessible name of the `<input matEndDate/>` */
+  /**
+   * ARIA Accessible name of the `<input matEndDate/>`
+   *
+   * `<input matEndDate/>` 的 ARIA 无障碍名称
+   *
+   */
   @Input() endDateAccessibleName: string | null;
 
-  /** Origin of active drag, or null when dragging is not active. */
+  /**
+   * Origin of active drag, or null when dragging is not active.
+   *
+   * 活动拖动的原点，或当没有活动的拖动时为 null。
+   *
+   */
   @Input() activeDrag: MatCalendarUserEvent<D> | null = null;
 
-  /** Emits when a new date is selected. */
+  /**
+   * Emits when a new date is selected.
+   *
+   * 已选择新日期时发出。
+   *
+   */
   @Output() readonly selectedChange: EventEmitter<D | null> = new EventEmitter<D | null>();
 
   /**
@@ -206,16 +226,29 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   @Output() readonly _userSelection: EventEmitter<MatCalendarUserEvent<D | null>> =
     new EventEmitter<MatCalendarUserEvent<D | null>>();
 
-  /** Emits when the user initiates a date range drag via mouse or touch. */
+  /**
+   * Emits when the user initiates a date range drag via mouse or touch.
+   *
+   * 当用户通过鼠标或触控启动日期范围拖动时发出。
+   *
+   */
   @Output() readonly dragStarted = new EventEmitter<MatCalendarUserEvent<D>>();
 
   /**
    * Emits when the user completes or cancels a date range drag.
    * Emits null when the drag was canceled or the newly selected date range if completed.
+   *
+   * 当用户完成或取消日期范围拖动时发出。当拖动被取消或新选择的日期范围完成时发出 null。
+   *
    */
   @Output() readonly dragEnded = new EventEmitter<MatCalendarUserEvent<DateRange<D> | null>>();
 
-  /** Emits when any date is activated. */
+  /**
+   * Emits when any date is activated.
+   *
+   * 激活任何日期时发出。
+   *
+   */
   @Output() readonly activeDateChange: EventEmitter<D> = new EventEmitter<D>();
 
   /**
@@ -623,6 +656,9 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   /**
    * Called when the user has ended a drag. If the drag/drop was successful,
    * computes and emits the new range selection.
+   *
+   * 当用户结束拖动时调用。如果拖放成功，则计算并发出新的范围选择。
+   *
    */
   protected _dragEnded(event: MatCalendarUserEvent<D | null>) {
     if (!this.activeDrag) return;

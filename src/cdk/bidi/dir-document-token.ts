@@ -26,9 +26,9 @@ import {inject, InjectionToken} from '@angular/core';
  * 我们也无法从 platform-browser 中重新提供 DOCUMENT 令牌，因为单元测试本身会在测试代码中使用 `querySelector` 等。
  *
  * This token is defined in a separate file from Directionality as a workaround for
- * <https://github.com/angular/angular/issues/22559>
+ * https://github.com/angular/angular/issues/22559
  *
- * 这个令牌是在 Directionality 的一个独立文件中定义的，用于解决 <https://github.com/angular/angular/issues/22559> 问题。
+ * 这个令牌是在 Directionality 的一个独立文件中定义的，用于解决 https://github.com/angular/angular/issues/22559 问题。
  *
  * @docs-private
  */

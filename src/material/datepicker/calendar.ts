@@ -95,7 +95,12 @@ export class MatCalendarHeader<D> {
     return this._intl.formatYearRange(...this._formatMinAndMaxYearLabels());
   }
 
-  /** The aria description for the current calendar view. */
+  /**
+   * The aria description for the current calendar view.
+   *
+   * 当前日历视图的 ARIA 描述。
+   *
+   */
   get periodButtonDescription(): string {
     if (this.calendar.currentView == 'month') {
       return this._dateAdapter
@@ -111,7 +116,12 @@ export class MatCalendarHeader<D> {
     return this._intl.formatYearRangeLabel(...this._formatMinAndMaxYearLabels());
   }
 
-  /** The `aria-label` for changing the calendar view. */
+  /**
+   * The `aria-label` for changing the calendar view.
+   *
+   * 用于更改日历视图的 `aria-label` 。
+   *
+   */
   get periodButtonLabel(): string {
     return this.calendar.currentView == 'month'
       ? this._intl.switchToMultiYearViewLabel
@@ -426,10 +436,20 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
    */
   @Input() comparisonEnd: D | null;
 
-  /** ARIA Accessible name of the `<input matStartDate/>` */
+  /**
+   * ARIA Accessible name of the `<input matStartDate/>`
+   *
+   * `<input matStartDate/>` 的 ARIA 无障碍名称
+   *
+   */
   @Input() startDateAccessibleName: string | null;
 
-  /** ARIA Accessible name of the `<input matEndDate/>` */
+  /**
+   * ARIA Accessible name of the `<input matEndDate/>`
+   *
+   * `<input matEndDate/>` 的 ARIA 无障碍名称
+   *
+   */
   @Input() endDateAccessibleName: string | null;
 
   /**
@@ -477,7 +497,12 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   @Output() readonly _userSelection: EventEmitter<MatCalendarUserEvent<D | null>> =
     new EventEmitter<MatCalendarUserEvent<D | null>>();
 
-  /** Emits a new date range value when the user completes a drag drop operation. */
+  /**
+   * Emits a new date range value when the user completes a drag drop operation.
+   *
+   * 当用户完成拖放操作时发出新的日期范围值。
+   *
+   */
   @Output() readonly _userDragDrop = new EventEmitter<MatCalendarUserEvent<DateRange<D>>>();
 
   /**
@@ -541,7 +566,12 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   }
   private _currentView: MatCalendarView;
 
-  /** Origin of active drag, or null when dragging is not active. */
+  /**
+   * Origin of active drag, or null when dragging is not active.
+   *
+   * 活动拖动的原点，或当没有活动的拖动时为 null。
+   *
+   */
   protected _activeDrag: MatCalendarUserEvent<D> | null = null;
 
   /**
@@ -695,7 +725,12 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
     this.currentView = view;
   }
 
-  /** Called when the user starts dragging to change a date range. */
+  /**
+   * Called when the user starts dragging to change a date range.
+   *
+   * 当用户开始拖动以更改日期范围时调用。
+   *
+   */
   _dragStarted(event: MatCalendarUserEvent<D>) {
     this._activeDrag = event;
   }
@@ -703,6 +738,9 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   /**
    * Called when a drag completes. It may end in cancelation or in the selection
    * of a new range.
+   *
+   * 拖动完成时调用。它可能以取消或选择新范围而告终。
+   *
    */
   _dragEnded(event: MatCalendarUserEvent<DateRange<D> | null>) {
     if (!this._activeDrag) return;

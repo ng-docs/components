@@ -48,7 +48,10 @@ const _MatListOptionBase = mixinDisableRipple(class {});
 
 /**
  * @docs-private
- * @deprecated Use `MAT_SELECTION_LIST_VALUE_ACCESSOR` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MAT_SELECTION_LIST_VALUE_ACCESSOR` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_SELECTION_LIST_VALUE_ACCESSOR: any = {
@@ -59,7 +62,13 @@ export const MAT_LEGACY_SELECTION_LIST_VALUE_ACCESSOR: any = {
 
 /**
  * Change event that is being fired whenever the selected state of an option changes.
- * @deprecated Use `MatSelectionListChange` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 当选项的某个选定状态发生变化时，就会触发这个事件。
+ *
+ * @deprecated
+ *
+ * Use `MatSelectionListChange` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacySelectionListChange {
@@ -74,7 +83,13 @@ export class MatLegacySelectionListChange {
 /**
  * Type describing possible positions of a checkbox in a list option
  * with respect to the list item's text.
- * @deprecated Use `MatListOptionTogglePosition` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 此类型描述列表中的复选框相对于列表条目文本的的可能位置。
+ *
+ * @deprecated
+ *
+ * Use `MatListOptionTogglePosition` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export type MatLegacyListOptionCheckboxPosition = 'before' | 'after';
@@ -83,7 +98,13 @@ export type MatLegacyListOptionCheckboxPosition = 'before' | 'after';
  * Component for list-options of selection-list. Each list-option can automatically
  * generate a checkbox and can put current item into the selectionModel of selection-list
  * if the current item is selected.
- * @deprecated Use `MatListOption` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 选项列表中的列表项组件。每个列表项都会自动生成一个复选框，如果当前列表项被选定了，就会把当前条目放入选项列表的 selectionModel 中。
+ *
+ * @deprecated
+ *
+ * Use `MatListOption` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -130,18 +151,36 @@ export class MatLegacyListOption
   /**
    * Emits when the selected state of the option has changed.
    * Use to facilitate two-data binding to the `selected` property.
+   *
+   * 当此选项的选定状态发生变化时发出。用于支持双向数据绑定到 `selected` 属性。
+   *
    * @docs-private
    */
   @Output()
   readonly selectedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  /** DOM element containing the item's text. */
+  /**
+   * DOM element containing the item's text.
+   *
+   * 包含此条目文本的 DOM 元素。
+   *
+   */
   @ViewChild('text') _text: ElementRef;
 
-  /** Whether the label should appear before or after the checkbox. Defaults to 'after' */
+  /**
+   * Whether the label should appear before or after the checkbox. Defaults to 'after'
+   *
+   * 标签是出现在复选框之前还是之后。默认为'after'
+   *
+   */
   @Input() checkboxPosition: MatLegacyListOptionCheckboxPosition = 'after';
 
-  /** Theme color of the list option. This sets the color of the checkbox. */
+  /**
+   * Theme color of the list option. This sets the color of the checkbox.
+   *
+   * 列表选项的主题颜色。这会设置复选框的颜色。
+   *
+   */
   @Input()
   get color(): ThemePalette {
     return this._color || this.selectionList.color;
@@ -156,7 +195,12 @@ export class MatLegacyListOption
    * in the first cycle.
    */
   private _inputsInitialized = false;
-  /** Value of the option */
+  /**
+   * Value of the option
+   *
+   * 选项的值
+   *
+   */
   @Input()
   get value(): any {
     return this._value;
@@ -174,7 +218,12 @@ export class MatLegacyListOption
   }
   private _value: any;
 
-  /** Whether the option is disabled. */
+  /**
+   * Whether the option is disabled.
+   *
+   * 该选项是否已禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._disabled || (this.selectionList && this.selectionList.disabled);
@@ -188,7 +237,12 @@ export class MatLegacyListOption
     }
   }
 
-  /** Whether the option is selected. */
+  /**
+   * Whether the option is selected.
+   *
+   * 该选项是否被选定。
+   *
+   */
   @Input()
   get selected(): boolean {
     return this.selectionList.selectedOptions.isSelected(this);
@@ -259,25 +313,43 @@ export class MatLegacyListOption
     }
   }
 
-  /** Toggles the selection state of the option. */
+  /**
+   * Toggles the selection state of the option.
+   *
+   * 切换该选项的选定状态。
+   *
+   */
   toggle(): void {
     this.selected = !this.selected;
   }
 
-  /** Allows for programmatic focusing of the option. */
+  /**
+   * Allows for programmatic focusing of the option.
+   *
+   * 可以通过编程让该选项获得焦点。
+   *
+   */
   focus(): void {
     this._element.nativeElement.focus();
   }
 
   /**
    * Returns the list item's text label. Implemented as a part of the FocusKeyManager.
+   *
+   * 返回此列表项的文本标签。作为 FocusKeyManager 的一部分实现。
+   *
    * @docs-private
    */
   getLabel() {
     return this._text ? this._text.nativeElement.textContent || '' : '';
   }
 
-  /** Whether this list item should show a ripple effect when clicked. */
+  /**
+   * Whether this list item should show a ripple effect when clicked.
+   *
+   * 单击此列表项时是否应显示涟漪效果。
+   *
+   */
   _isRippleDisabled() {
     return this.disabled || this.disableRipple || this.selectionList.disableRipple;
   }
@@ -301,12 +373,22 @@ export class MatLegacyListOption
     this._hasFocus = false;
   }
 
-  /** Retrieves the DOM element of the component host. */
+  /**
+   * Retrieves the DOM element of the component host.
+   *
+   * 检索此组件宿主的 DOM 元素。
+   *
+   */
   _getHostElement(): HTMLElement {
     return this._element.nativeElement;
   }
 
-  /** Sets the selected state of the option. Returns whether the value has changed. */
+  /**
+   * Sets the selected state of the option. Returns whether the value has changed.
+   *
+   * 设置此选项的选定状态。返回这个值是否已更改。
+   *
+   */
   _setSelected(selected: boolean): boolean {
     if (selected === this._selected) {
       return false;
@@ -329,6 +411,9 @@ export class MatLegacyListOption
    * Notifies Angular that the option needs to be checked in the next change detection run. Mainly
    * used to trigger an update of the list option if the disabled state of the selection list
    * changed.
+   *
+   * 通知 Angular，该选项需要在下一次变更检测运行时进行检查。主要用于在选择列表的禁用状态发生变化时触发列表选项的更新。
+   *
    */
   _markForCheck() {
     this._changeDetector.markForCheck();
@@ -337,7 +422,13 @@ export class MatLegacyListOption
 
 /**
  * Material Design list component where each item is a selectable option. Behaves as a listbox.
- * @deprecated Use `MatSelectionList` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * Material Design 列表组件，每个条目都是一个可选的选项。其行为和列表框一致。
+ *
+ * @deprecated
+ *
+ * Use `MatSelectionList` from `@angular/material/list` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -365,28 +456,56 @@ export class MatLegacySelectionList
   private _multiple = true;
   private _contentInitialized = false;
 
-  /** The FocusKeyManager which handles focus. */
+  /**
+   * The FocusKeyManager which handles focus.
+   *
+   * 处理焦点的 FocusKeyManager。
+   *
+   */
   _keyManager: FocusKeyManager<MatLegacyListOption>;
 
-  /** The option components contained within this selection-list. */
+  /**
+   * The option components contained within this selection-list.
+   *
+   * 这个选择列表中包含的选项组件。
+   *
+   */
   @ContentChildren(MatLegacyListOption, {descendants: true})
   options: QueryList<MatLegacyListOption>;
 
-  /** Emits a change event whenever the selected state of an option changes. */
+  /**
+   * Emits a change event whenever the selected state of an option changes.
+   *
+   * 每当选项的选定状态发生变化时，就会发出一个 change 事件。
+   *
+   */
   @Output() readonly selectionChange: EventEmitter<MatLegacySelectionListChange> =
     new EventEmitter<MatLegacySelectionListChange>();
 
-  /** Theme color of the selection list. This sets the checkbox color for all list options. */
+  /**
+   * Theme color of the selection list. This sets the checkbox color for all list options.
+   *
+   * 选择列表的主题颜色。这会为所有列表中的选项设置复选框颜色。
+   *
+   */
   @Input() color: ThemePalette = 'accent';
 
   /**
    * Function used for comparing an option against the selected value when determining which
    * options should appear as selected. The first argument is the value of an options. The second
    * one is a value from the selected value. A boolean must be returned.
+   *
+   * 函数用于在确定哪些选项应该显示为选定状态时，比较一个选项和选定的值。第一个参数就是选项的值。第二个参数是选定值的值。必须返回一个布尔值。
+   *
    */
   @Input() compareWith: (o1: any, o2: any) => boolean = (a1, a2) => a1 === a2;
 
-  /** Whether the selection list is disabled. */
+  /**
+   * Whether the selection list is disabled.
+   *
+   * 是否禁用了选择列表。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._disabled;
@@ -402,7 +521,12 @@ export class MatLegacySelectionList
   }
   private _disabled: boolean = false;
 
-  /** Whether selection is limited to one or multiple items (default multiple). */
+  /**
+   * Whether selection is limited to one or multiple items (default multiple).
+   *
+   * 选择是否限制到一个或多个条目（默认的多个）。
+   *
+   */
   @Input()
   get multiple(): boolean {
     return this._multiple;
@@ -422,22 +546,42 @@ export class MatLegacySelectionList
     }
   }
 
-  /** The currently selected options. */
+  /**
+   * The currently selected options.
+   *
+   * 当前选定的选项。
+   *
+   */
   selectedOptions = new SelectionModel<MatLegacyListOption>(this._multiple);
 
-  /** The tabindex of the selection list. */
+  /**
+   * The tabindex of the selection list.
+   *
+   * 此选择列表的 tabindex。
+   *
+   */
   _tabIndex = -1;
 
   /** View to model callback that should be called whenever the selected options change. */
   private _onChange: (value: any) => void = (_: any) => {};
 
-  /** Keeps track of the currently-selected value. */
+  /**
+   * Keeps track of the currently-selected value.
+   *
+   * 跟踪当前选定的值。
+   *
+   */
   _value: string[] | null;
 
   /** Emits when the list has been destroyed. */
   private readonly _destroyed = new Subject<void>();
 
-  /** View to model callback that should be called if the list or its options lost focus. */
+  /**
+   * View to model callback that should be called if the list or its options lost focus.
+   *
+   * 如果列表或其选项失去焦点，则应调用模型回调视图。
+   *
+   */
   _onTouched: () => void = () => {};
 
   /** Whether the list has been destroyed. */
@@ -527,29 +671,57 @@ export class MatLegacySelectionList
     this._isDestroyed = true;
   }
 
-  /** Focuses the selection list. */
+  /**
+   * Focuses the selection list.
+   *
+   * 让此选择列表获得焦点。
+   *
+   */
   focus(options?: FocusOptions) {
     this._element.nativeElement.focus(options);
   }
 
-  /** Selects all of the options. Returns the options that changed as a result. */
+  /**
+   * Selects all of the options. Returns the options that changed as a result.
+   *
+   * 选择所有选项。返回变化过的选项。
+   *
+   */
   selectAll(): MatLegacyListOption[] {
     return this._setAllOptionsSelected(true);
   }
 
-  /** Deselects all of the options. Returns the options that changed as a result. */
+  /**
+   * Deselects all of the options. Returns the options that changed as a result.
+   *
+   * 取消选定所有选项。返回变化过的选项。
+   *
+   */
   deselectAll(): MatLegacyListOption[] {
     return this._setAllOptionsSelected(false);
   }
 
-  /** Sets the focused option of the selection-list. */
+  /**
+   * Sets the focused option of the selection-list.
+   *
+   * 设置此选择列表中的有焦点选项。
+   *
+   */
   _setFocusedOption(option: MatLegacyListOption) {
     this._keyManager.updateActiveItem(option);
   }
 
   /**
    * Removes an option from the selection list and updates the active item.
-   * @returns Currently-active item.
+   *
+   * 从选择列表中删除一个选项并更新活动条目。
+   *
+   * @returns
+   *
+   * Currently-active item.
+   *
+   * 当前活动的条目。
+   *
    */
   _removeOptionFromList(option: MatLegacyListOption): MatLegacyListOption | null {
     const optionIndex = this._getOptionIndex(option);
@@ -566,7 +738,12 @@ export class MatLegacySelectionList
     return this._keyManager.activeItem;
   }
 
-  /** Passes relevant key presses to our key manager. */
+  /**
+   * Passes relevant key presses to our key manager.
+   *
+   * 将相关的按键操作传递给我们的键盘管理器。
+   *
+   */
   _keydown(event: KeyboardEvent) {
     const keyCode = event.keyCode;
     const manager = this._keyManager;
@@ -608,7 +785,12 @@ export class MatLegacySelectionList
     }
   }
 
-  /** Reports a value change to the ControlValueAccessor */
+  /**
+   * Reports a value change to the ControlValueAccessor
+   *
+   * 向 ControlValueAccessor 报告值已更改
+   *
+   */
   _reportValueChange() {
     // Stop reporting value changes after the list has been destroyed. This avoids
     // cases where the list might wrongly reset its value once it is removed, but
@@ -620,12 +802,22 @@ export class MatLegacySelectionList
     }
   }
 
-  /** Emits a change event if the selected state of an option changed. */
+  /**
+   * Emits a change event if the selected state of an option changed.
+   *
+   * 如果选项的选定状态发生更改，则发出更改事件。
+   *
+   */
   _emitChangeEvent(options: MatLegacyListOption[]) {
     this.selectionChange.emit(new MatLegacySelectionListChange(this, options));
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
+   */
   writeValue(values: string[]): void {
     this._value = values;
 
@@ -634,17 +826,32 @@ export class MatLegacySelectionList
     }
   }
 
-  /** Implemented as a part of ControlValueAccessor. */
+  /**
+   * Implemented as a part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
+   */
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
+   */
   registerOnChange(fn: (value: any) => void): void {
     this._onChange = fn;
   }
 
-  /** Implemented as part of ControlValueAccessor. */
+  /**
+   * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
+   */
   registerOnTouched(fn: () => void): void {
     this._onTouched = fn;
   }
@@ -720,7 +927,13 @@ export class MatLegacySelectionList
 
   /**
    * Utility to ensure all indexes are valid.
+   *
+   * 确保所有索引有效的实用程序。
+   *
    * @param index The index to be checked.
+   *
+   * 要检查的索引。
+   *
    * @returns True if the index is valid for our list of options.
    */
   private _isValidIndex(index: number): boolean {

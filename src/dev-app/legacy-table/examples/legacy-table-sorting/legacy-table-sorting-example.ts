@@ -51,7 +51,12 @@ export class LegacyTableSortingExample implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-  /** Announce the change in sort state for assistive technology. */
+  /**
+   * Announce the change in sort state for assistive technology.
+   *
+   * 供辅助技术朗读排序状态的变更。
+   *
+   */
   announceSortChange(sortState: Sort) {
     // This example uses English messages. If your application supports
     // multiple language, you would internationalize these strings.

@@ -11,7 +11,13 @@ import {MAT_TAB_CONTENT, MatTabContent as MatNonLegacyTabContent} from '@angular
 
 /**
  * Decorates the `ng-template` tags and reads out the template from it.
- * @deprecated Use `MatTabContent` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 修饰 `ng-template` 标签，并从中读出模板。
+ *
+ * @deprecated
+ *
+ * Use `MatTabContent` from `@angular/material/tabs` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({

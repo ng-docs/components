@@ -46,7 +46,12 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 // Increasing integer for generating unique ids for radio components.
 let nextUniqueId = 0;
 
-/** Change event object emitted by radio button and radio group. */
+/**
+ * Change event object emitted by radio button and radio group.
+ *
+ * 更改单选按钮和单选组发出的事件对象。
+ *
+ */
 export class MatRadioChange {
   constructor(
     /** The radio button that emits the change event. */
@@ -931,7 +936,12 @@ export abstract class _MatRadioButtonBase
   },
 })
 export class MatRadioGroup extends _MatRadioGroupBase<MatRadioButton> {
-  /** Child radio buttons. */
+  /**
+   * Child radio buttons.
+   *
+   * 子单选按钮。
+   *
+   */
   @ContentChildren(forwardRef(() => MatRadioButton), {descendants: true})
   _radios: QueryList<MatRadioButton>;
 }

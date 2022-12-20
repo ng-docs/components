@@ -99,20 +99,45 @@ export class MatSlider
   extends _MatSliderMixinBase
   implements AfterViewInit, CanDisableRipple, OnDestroy, _MatSlider
 {
-  /** The active portion of the slider track. */
+  /**
+   * The active portion of the slider track.
+   *
+   * 滑杆轨道的活动部分。
+   *
+   */
   @ViewChild('trackActive') _trackActive: ElementRef<HTMLElement>;
 
-  /** The slider thumb(s). */
+  /**
+   * The slider thumb(s).
+   *
+   * 此滑杆的滑块。
+   *
+   */
   @ViewChildren(MAT_SLIDER_VISUAL_THUMB) _thumbs: QueryList<_MatSliderVisualThumb>;
 
-  /** The sliders hidden range input(s). */
+  /**
+   * The sliders hidden range input(s).
+   *
+   * 此滑杆隐藏范围输入组件。
+   *
+   */
   @ContentChild(MAT_SLIDER_THUMB) _input: _MatSliderThumb;
 
-  /** The sliders hidden range input(s). */
+  /**
+   * The sliders hidden range input(s).
+   *
+   * 此滑杆隐藏范围输入组件。
+   *
+   */
   @ContentChildren(MAT_SLIDER_RANGE_THUMB, {descendants: false})
   _inputs: QueryList<_MatSliderRangeThumb>;
 
-  /** Whether the slider is disabled. */
+  /**
+   * Whether the slider is disabled.
+   *
+   * 此滑块是否已禁用。
+   *
+   */
   @Input()
   get disabled(): boolean {
     return this._disabled;
@@ -131,7 +156,12 @@ export class MatSlider
   }
   private _disabled: boolean = false;
 
-  /** Whether the slider displays a numeric value label upon pressing the thumb. */
+  /**
+   * Whether the slider displays a numeric value label upon pressing the thumb.
+   *
+   * 此滑杆是否要在按下滑块时显示数值标签。
+   *
+   */
   @Input()
   get discrete(): boolean {
     return this._discrete;
@@ -142,7 +172,12 @@ export class MatSlider
   }
   private _discrete: boolean = false;
 
-  /** Whether the slider displays tick marks along the slider track. */
+  /**
+   * Whether the slider displays tick marks along the slider track.
+   *
+   * 此滑杆是否要沿滑杆轨道显示刻度线。
+   *
+   */
   @Input()
   get showTickMarks(): boolean {
     return this._showTickMarks;
@@ -219,7 +254,12 @@ export class MatSlider
     }
   }
 
-  /** The maximum value that the slider can have. */
+  /**
+   * The maximum value that the slider can have.
+   *
+   * 滑杆所具有的最大值。
+   *
+   */
   @Input()
   get max(): number {
     return this._max;
@@ -281,7 +321,12 @@ export class MatSlider
     }
   }
 
-  /** The values at which the thumb will snap. */
+  /**
+   * The values at which the thumb will snap.
+   *
+   * 滑块处的值。
+   *
+   */
   @Input()
   get step(): number {
     return this._step;
@@ -367,10 +412,20 @@ export class MatSlider
    */
   @Input() displayWith: (value: number) => string = (value: number) => `${value}`;
 
-  /** Used to keep track of & render the active & inactive tick marks on the slider track. */
+  /**
+   * Used to keep track of & render the active & inactive tick marks on the slider track.
+   *
+   * 用于跟踪和渲染滑杆轨道上的活动和非活动刻度线。
+   *
+   */
   _tickMarks: _MatTickMark[];
 
-  /** Whether animations have been disabled. */
+  /**
+   * Whether animations have been disabled.
+   *
+   * 动画是否已被禁用。
+   *
+   */
   _noopAnimations: boolean;
 
   /** Subscription to changes to the directionality (LTR / RTL) context for the application. */
@@ -401,7 +456,12 @@ export class MatSlider
 
   _isRange: boolean = false;
 
-  /** Whether the slider is rtl. */
+  /**
+   * Whether the slider is rtl.
+   *
+   * 此滑杆是否为右到左（RTL）的。
+   *
+   */
   _isRtl: boolean = false;
 
   private _hasViewInitialized: boolean = false;
@@ -409,6 +469,9 @@ export class MatSlider
   /**
    * The width of the tick mark track.
    * The tick mark track width is different from full track width
+   *
+   * 此刻度线的宽度。刻度线轨道宽度与完整轨道宽度不同
+   *
    */
   _tickMarkTrackWidth: number = 0;
 
@@ -433,7 +496,12 @@ export class MatSlider
     this._isRtl = this._dir.value === 'rtl';
   }
 
-  /** The radius of the native slider's knob. AFAIK there is no way to avoid hardcoding this. */
+  /**
+   * The radius of the native slider's knob. AFAIK there is no way to avoid hardcoding this.
+   *
+   * 此原生滑杆旋钮的半径。 AFAIK 没有办法避免对此进行硬编码。
+   *
+   */
   _knobRadius: number = 8;
 
   _inputPadding: number;
@@ -582,13 +650,23 @@ export class MatSlider
     );
   }
 
-  /** Stores the slider dimensions. */
+  /**
+   * Stores the slider dimensions.
+   *
+   * 存储此滑杆的尺寸。
+   *
+   */
   _updateDimensions(): void {
     this._cachedWidth = this._elementRef.nativeElement.offsetWidth;
     this._cachedLeft = this._elementRef.nativeElement.getBoundingClientRect().left;
   }
 
-  /** Sets the styles for the active portion of the track. */
+  /**
+   * Sets the styles for the active portion of the track.
+   *
+   * 设置此轨道的活动部分的样式。
+   *
+   */
   _setTrackActiveStyles(styles: {
     left: string;
     right: string;
@@ -614,7 +692,12 @@ export class MatSlider
     }
   }
 
-  /** Returns the translateX positioning for a tick mark based on it's index. */
+  /**
+   * Returns the translateX positioning for a tick mark based on it's index.
+   *
+   * 根据索引返回刻度线的 translateX 定位。
+   *
+   */
   _calcTickMarkTransform(index: number): string {
     // TODO(wagnermaciel): See if we can avoid doing this and just using flex to position these.
     const translateX = index * (this._tickMarkTrackWidth / (this._tickMarks.length - 1));
@@ -741,7 +824,12 @@ export class MatSlider
   // 2. Min, max, or step
   //    - Reason: The value may have silently changed.
 
-  /** Updates the translateX of the given thumb. */
+  /**
+   * Updates the translateX of the given thumb.
+   *
+   * 更新给定滑块的 translateX。
+   *
+   */
   _updateThumbUI(source: _MatSliderThumb) {
     if (this._skipUpdate()) {
       return;
@@ -759,7 +847,12 @@ export class MatSlider
   // 2. Min, max, or step
   //    - Reason: The value may have silently changed.
 
-  /** Updates the value indicator tooltip ui for the given thumb. */
+  /**
+   * Updates the value indicator tooltip ui for the given thumb.
+   *
+   * 更新给定滑块的值指示器工具提示 ui。
+   *
+   */
   _updateValueIndicatorUI(source: _MatSliderThumb): void {
     if (this._skipUpdate()) {
       return;
@@ -832,7 +925,12 @@ export class MatSlider
   // 5. Resize
   //    - Reason: The total width the 'active' tracks translateX is based on has changed.
 
-  /** Updates the scale on the active portion of the track. */
+  /**
+   * Updates the scale on the active portion of the track.
+   *
+   * 更新此轨道活动部分的比例。
+   *
+   */
   _updateTrackUI(source: _MatSliderThumb): void {
     if (this._skipUpdate()) {
       return;
@@ -892,7 +990,12 @@ export class MatSlider
   //    - Reason #1: the number of tick marks may have changed.
   //    - Reason #2: The value may have silently changed.
 
-  /** Updates the dots along the slider track. */
+  /**
+   * Updates the dots along the slider track.
+   *
+   * 更新此滑杆轨道上的点。
+   *
+   */
   _updateTickMarkUI(): void {
     if (this.step === undefined || this.min === undefined || this.max === undefined) {
       return;
@@ -930,7 +1033,12 @@ export class MatSlider
       );
   }
 
-  /** Gets the slider thumb input of the given thumb position. */
+  /**
+   * Gets the slider thumb input of the given thumb position.
+   *
+   * 获取给定滑块位置的滑杆滑块输入组件。
+   *
+   */
   _getInput(thumbPosition: _MatThumb): _MatSliderThumb | _MatSliderRangeThumb | undefined {
     if (thumbPosition === _MatThumb.END && this._input) {
       return this._input;
@@ -941,7 +1049,12 @@ export class MatSlider
     return;
   }
 
-  /** Gets the slider thumb HTML input element of the given thumb position. */
+  /**
+   * Gets the slider thumb HTML input element of the given thumb position.
+   *
+   * 获取给定滑块位置的滑杆滑块 HTML 输入元素。
+   *
+   */
   _getThumb(thumbPosition: _MatThumb): _MatSliderVisualThumb {
     return thumbPosition === _MatThumb.END ? this._thumbs?.last! : this._thumbs?.first!;
   }
@@ -955,7 +1068,12 @@ export class MatSlider
   }
 }
 
-/** Ensures that there is not an invalid configuration for the slider thumb inputs. */
+/**
+ * Ensures that there is not an invalid configuration for the slider thumb inputs.
+ *
+ * 确保此滑杆的滑块输入组件没有无效配置。
+ *
+ */
 function _validateInputs(
   isRange: boolean,
   endInputElement: _MatSliderThumb | _MatSliderRangeThumb,

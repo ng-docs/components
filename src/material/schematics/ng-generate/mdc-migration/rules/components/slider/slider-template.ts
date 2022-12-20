@@ -11,19 +11,49 @@ import {TemplateMigrator} from '../../template-migrator';
 import {visitElements} from '../../tree-traversal';
 import {Update} from '../../../../../migration-utilities';
 
-/** Contains a parsed binding node's standardized data. */
+/**
+ * Contains a parsed binding node's standardized data.
+ *
+ * 包含已解析的绑定节点的标准化数据。
+ *
+ */
 interface Binding {
-  /** The actual compiler ast binding node. */
+  /**
+   * The actual compiler ast binding node.
+   *
+   * 实际的编译器 ast 绑定节点。
+   *
+   */
   node: compiler.TmplAstNode;
-  /** The type of binding this node is. */
+  /**
+   * The type of binding this node is.
+   *
+   * 此节点的绑定类型。
+   *
+   */
   type: BindingType;
-  /** The name of the property, attribute, or event. */
+  /**
+   * The name of the property, attribute, or event.
+   *
+   * Property、Attribute 或事件的名称。
+   *
+   */
   name: string;
-  /** The event handler or property/attribute value. */
+  /**
+   * The event handler or property/attribute value.
+   *
+   * 事件处理器或属性/特性值。
+   *
+   */
   value: string;
 }
 
-/** Describes the different types of bindings we care about. */
+/**
+ * Describes the different types of bindings we care about.
+ *
+ * 描述我们关心的不同类型的绑定。
+ *
+ */
 const enum BindingType {
   INPUT,
   OUTPUT,

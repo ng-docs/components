@@ -46,12 +46,27 @@ import {MatPaginatorIntl} from './paginator-intl';
  */
 const DEFAULT_PAGE_SIZE = 50;
 
-/** Object that can used to configure the underlying `MatSelect` inside a `MatPaginator`. */
+/**
+ * Object that can used to configure the underlying `MatSelect` inside a `MatPaginator`.
+ *
+ * 可用于在 MatPaginator 中配置底层 `MatSelect` 的 `MatPaginator` 。
+ *
+ */
 export interface MatPaginatorSelectConfig {
-  /** Whether to center the active option over the trigger. */
+  /**
+   * Whether to center the active option over the trigger.
+   *
+   * 是否要把活动选项置于触发器的中心位置。
+   *
+   */
   disableOptionCentering?: boolean;
 
-  /** Classes to be passed to the select panel. */
+  /**
+   * Classes to be passed to the select panel.
+   *
+   * 要传递给选择器面板的类。
+   *
+   */
   panelClass?: string | string[] | Set<string> | {[key: string]: any};
 }
 
@@ -82,10 +97,20 @@ export class PageEvent {
    */
   previousPageIndex?: number;
 
-  /** The current page size. */
+  /**
+   * The current page size.
+   *
+   * 当前分页大小。
+   *
+   */
   pageSize: number;
 
-  /** The current total number of items being paged. */
+  /**
+   * The current total number of items being paged.
+   *
+   * 当前正被分页的条目总数。
+   *
+   */
   length: number;
 }
 
@@ -564,7 +589,12 @@ export class MatPaginator extends _MatPaginatorBase<MatPaginatorDefaultOptions> 
    */
   _formFieldAppearance?: MatFormFieldAppearance;
 
-  /** ID for the DOM node containing the paginator's items per page label. */
+  /**
+   * ID for the DOM node containing the paginator's items per page label.
+   *
+   * 包含分页器每页条目标签的 DOM 节点的 ID。
+   *
+   */
   readonly _pageSizeLabelId = `mat-paginator-page-size-label-${nextUniqueId++}`;
 
   constructor(

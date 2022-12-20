@@ -101,7 +101,12 @@ export abstract class CdkMenuTriggerBase implements OnDestroy {
    */
   menuTemplateRef: TemplateRef<unknown> | null;
 
-  /** Context data to be passed along to the menu template */
+  /**
+   * Context data to be passed along to the menu template
+   *
+   * 要传递给菜单模板的上下文数据
+   *
+   */
   menuData: unknown;
 
   /**

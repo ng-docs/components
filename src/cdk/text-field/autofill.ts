@@ -65,7 +65,7 @@ const listenerOptions = normalizePassiveListenerOptions({passive: true});
 /**
  * An injectable service that can be used to monitor the autofill state of an input.
  * Based on the following blog post:
- * <https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7>
+ * https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7
  *
  * 一种可注入的服务，可以用来监控输入框的自动填充状态。根据以下博客文章： [https：//medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7](https://medium.com/@brunn/detecting-autofilled-fields-in-javascript-aed598d25da7)
  *

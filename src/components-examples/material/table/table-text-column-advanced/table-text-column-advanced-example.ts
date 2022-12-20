@@ -38,7 +38,12 @@ export class TableTextColumnAdvancedExample {
 
   decimalPipe = new DecimalPipe('en-US');
 
-  /** Data accessor function that transforms the weight value to have at most 2 decimal digits. */
+  /**
+   * Data accessor function that transforms the weight value to have at most 2 decimal digits.
+   *
+   * 将重量值转换为最多 2 位小数的数据访问器函数。
+   *
+   */
   getWeight = (data: PeriodicElement): string => {
     const result = this.decimalPipe.transform(data.weight, '1.0-2');
     return result === null ? '' : result;

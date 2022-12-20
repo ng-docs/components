@@ -28,10 +28,20 @@ import {
   mixinDisableRipple,
 } from '@angular/material/core';
 
-/** Inputs common to all buttons. */
+/**
+ * Inputs common to all buttons.
+ *
+ * 所有按钮通用的输入属性。
+ *
+ */
 export const MAT_BUTTON_INPUTS = ['disabled', 'disableRipple', 'color'];
 
-/** Shared host configuration for all buttons */
+/**
+ * Shared host configuration for all buttons
+ *
+ * 所有按钮的共享宿主配置
+ *
+ */
 export const MAT_BUTTON_HOST = {
   '[attr.disabled]': 'disabled || null',
   '[class._mat-animation-noopable]': '_animationMode === "NoopAnimations"',
@@ -44,7 +54,12 @@ export const MAT_BUTTON_HOST = {
   '[class.mat-mdc-button-base]': 'true',
 };
 
-/** List of classes to add to buttons instances based on host attribute selector. */
+/**
+ * List of classes to add to buttons instances based on host attribute selector.
+ *
+ * 基于宿主属性选择器添加到按钮实例的类列表。
+ *
+ */
 const HOST_SELECTOR_MDC_CLASS_PAIR: {selector: string; mdcClasses: string[]}[] = [
   {
     selector: 'mat-button',
@@ -88,7 +103,12 @@ export const _MatButtonMixin = mixinColor(
   ),
 );
 
-/** Base class for all buttons.  */
+/**
+ * Base class for all buttons.
+ *
+ * 所有按钮的基类。
+ *
+ */
 @Directive()
 export class MatButtonBase
   extends _MatButtonMixin
@@ -96,10 +116,20 @@ export class MatButtonBase
 {
   private readonly _focusMonitor = inject(FocusMonitor);
 
-  /** Whether this button is a FAB. Used to apply the correct class on the ripple. */
+  /**
+   * Whether this button is a FAB. Used to apply the correct class on the ripple.
+   *
+   * 此按钮是否为 FAB。用于在涟漪上应用正确的类。
+   *
+   */
   _isFab = false;
 
-  /** Reference to the MatRipple instance of the button. */
+  /**
+   * Reference to the MatRipple instance of the button.
+   *
+   * 引用此按钮的 MatRipple 实例。
+   *
+   */
   @ViewChild(MatRipple) ripple: MatRipple;
 
   constructor(
@@ -131,7 +161,12 @@ export class MatButtonBase
     this._focusMonitor.stopMonitoring(this._elementRef);
   }
 
-  /** Focuses the button. */
+  /**
+   * Focuses the button.
+   *
+   * 让此按钮获得焦点。
+   *
+   */
   focus(_origin: FocusOrigin = 'program', options?: FocusOptions): void {
     if (_origin) {
       this._focusMonitor.focusVia(this._elementRef.nativeElement, _origin, options);
@@ -140,7 +175,12 @@ export class MatButtonBase
     }
   }
 
-  /** Gets whether the button has one of the given attributes. */
+  /**
+   * Gets whether the button has one of the given attributes.
+   *
+   * 获取按钮是否具有给定属性之一。
+   *
+   */
   private _hasHostAttributes(...attributes: string[]) {
     return attributes.some(attribute => this._elementRef.nativeElement.hasAttribute(attribute));
   }
@@ -150,10 +190,20 @@ export class MatButtonBase
   }
 }
 
-/** Shared inputs by buttons using the `<a>` tag */
+/**
+ * Shared inputs by buttons using the `<a>` tag
+ *
+ * 由使用 `<a>` 标签的按钮共享的输入属性
+ *
+ */
 export const MAT_ANCHOR_INPUTS = ['disabled', 'disableRipple', 'color', 'tabIndex'];
 
-/** Shared host configuration for buttons using the `<a>` tag. */
+/**
+ * Shared host configuration for buttons using the `<a>` tag.
+ *
+ * 由使用 `<a>` 标签的按钮共享的宿主配置。
+ *
+ */
 export const MAT_ANCHOR_HOST = {
   '[attr.disabled]': 'disabled || null',
   '[class._mat-animation-noopable]': '_animationMode === "NoopAnimations"',
@@ -174,6 +224,9 @@ export const MAT_ANCHOR_HOST = {
 
 /**
  * Anchor button base.
+ *
+ * 锚点按钮基类。
+ *
  */
 @Directive()
 export class MatAnchorBase extends MatButtonBase implements OnInit, OnDestroy {

@@ -27,6 +27,9 @@ respectively. The initial value is set to the minimum value unless otherwise spe
 ```
 
 ### Selecting a range
+
+### 选择范围
+
 A `<mat-slider>` can be converted into a range slider by projecting both a `matStartThumb` and a
 `matEndThumb` into it. Each of the thumbs has an independent value, but they won't be allowed to
 overlap and they're still bound by the same `min` and `max` from the slider.

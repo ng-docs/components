@@ -39,6 +39,9 @@ import {
 
 /**
  * Provider that allows the slider thumb to register as a ControlValueAccessor.
+ *
+ * 允许此滑杆的滑块注册为 ControlValueAccessor 的提供者。
+ *
  * @docs-private
  */
 export const MAT_SLIDER_THUMB_VALUE_ACCESSOR: any = {
@@ -49,6 +52,9 @@ export const MAT_SLIDER_THUMB_VALUE_ACCESSOR: any = {
 
 /**
  * Provider that allows the range slider thumb to register as a ControlValueAccessor.
+ *
+ * 允许范围滑杆的滑块注册为 ControlValueAccessor 的提供者。
+ *
  * @docs-private
  */
 export const MAT_SLIDER_RANGE_THUMB_VALUE_ACCESSOR: any = {
@@ -61,9 +67,14 @@ export const MAT_SLIDER_RANGE_THUMB_VALUE_ACCESSOR: any = {
  * Directive that adds slider-specific behaviors to an input element inside `<mat-slider>`.
  * Up to two may be placed inside of a `<mat-slider>`.
  *
+ * 将特定于滑杆的行为添加到 `<mat-slider>` 内的输入元素上的指令。 `<mat-slider>` 中最多可以放置两个。
+ *
  * If one is used, the selector `matSliderThumb` must be used, and the outcome will be a normal
  * slider. If two are used, the selectors `matSliderStartThumb` and `matSliderEndThumb` must be
  * used, and the outcome will be a range slider with two slider thumbs.
+ *
+ * 如果使用一个，则必须使用选择器 `matSliderThumb` ，结果将是一个普通滑杆。如果使用两个，则必须使用选择器 `matSliderStartThumb` 和 `matSliderEndThumb` ，结果将是一个带有两个滑杆的滑块的范围滑杆。
+ *
  */
 @Directive({
   selector: 'input[matSliderThumb]',
@@ -103,19 +114,37 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
     this._slider._onValueChange(this);
     this._cdr.detectChanges();
   }
-  /** Event emitted when the `value` is changed. */
+  /**
+   * Event emitted when the `value` is changed.
+   *
+   * `value` 更改时发出的事件。
+   *
+   */
   @Output() readonly valueChange: EventEmitter<number> = new EventEmitter<number>();
 
-  /** Event emitted when the slider thumb starts being dragged. */
+  /**
+   * Event emitted when the slider thumb starts being dragged.
+   *
+   * 当开始拖动此滑杆的滑块时发出的事件。
+   *
+   */
   @Output() readonly dragStart: EventEmitter<MatSliderDragEvent> =
     new EventEmitter<MatSliderDragEvent>();
 
-  /** Event emitted when the slider thumb stops being dragged. */
+  /**
+   * Event emitted when the slider thumb stops being dragged.
+   *
+   * 当停止拖动此滑杆的滑块时发出的事件。
+   *
+   */
   @Output() readonly dragEnd: EventEmitter<MatSliderDragEvent> =
     new EventEmitter<MatSliderDragEvent>();
 
   /**
    * The current translateX in px of the slider visual thumb.
+   *
+   * 此滑杆的可见滑块的当前 translateX（以 px 为单位）。
+   *
    * @docs-private
    */
   get translateX(): number {
@@ -135,6 +164,9 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
 
   /**
    * Indicates whether this thumb is the start or end thumb.
+   *
+   * 指示此滑块是开始滑块还是结束滑块。
+   *
    * @docs-private
    */
   thumbPosition: _MatThumb = _MatThumb.END;
@@ -178,7 +210,12 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
     }
   }
 
-  /** The percentage of the slider that coincides with the value. */
+  /**
+   * The percentage of the slider that coincides with the value.
+   *
+   * 与滑杆值一致的百分比值。
+   *
+   */
   get percentage(): number {
     if (this._slider.min >= this._slider.max) {
       return this._slider._isRtl ? 1 : 0;
@@ -197,22 +234,50 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
     return this.translateX / this._slider._cachedWidth;
   }
 
-  /** The host native HTML input element. */
+  /**
+   * The host native HTML input element.
+   *
+   * 宿主原生 HTML 输入元素。
+   *
+   */
   _hostElement: HTMLInputElement;
 
-  /** The aria-valuetext string representation of the input's value. */
+  /**
+   * The aria-valuetext string representation of the input's value.
+   *
+   * 输入值的 aria-valuetext 字符串表示。
+   *
+   */
   _valuetext: string;
 
-  /** The radius of a native html slider's knob. */
+  /**
+   * The radius of a native html slider's knob.
+   *
+   * 原生 html 滑杆旋钮的半径。
+   *
+   */
   _knobRadius: number = 8;
 
-  /** Whether user's cursor is currently in a mouse down state on the input. */
+  /**
+   * Whether user's cursor is currently in a mouse down state on the input.
+   *
+   * 用户的光标当前是否处于输入框上的鼠标按下状态。
+   *
+   */
   _isActive: boolean = false;
 
-  /** Whether the input is currently focused (either by tab or after clicking). */
+  /**
+   * Whether the input is currently focused (either by tab or after clicking).
+   *
+   * 此输入框当前是否拥有焦点（通过 tab 或单击后）。
+   *
+   */
   _isFocused: boolean = false;
 
-  /** Used to relay updates to _isFocused to the slider visual thumbs. */
+  /**
+   * Used to relay updates to \_isFocused to the slider visual thumbs.
+   *
+   */
   private _setIsFocused(v: boolean): void {
     this._isFocused = v;
   }
@@ -225,20 +290,35 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
    */
   private _hasSetInitialValue: boolean = false;
 
-  /** The stored initial value. */
+  /**
+   * The stored initial value.
+   *
+   * 已存储的初始值。
+   *
+   */
   _initialValue: string | undefined;
 
   /** Defined when a user is using a form control to manage slider value & validation. */
   private _formControl: FormControl | undefined;
 
-  /** Emits when the component is destroyed. */
+  /**
+   * Emits when the component is destroyed.
+   *
+   * 当此组件被销毁时发出。
+   *
+   */
   protected readonly _destroyed = new Subject<void>();
 
   /**
    * Indicates whether UI updates should be skipped.
    *
+   * 指示是否应跳过 UI 更新。
+   *
    * This flag is used to avoid flickering
    * when correcting values on pointer up/down.
+   *
+   * 此标志用于避免在向上/向下指针上更正值时出现闪烁。
+   *
    */
   _skipUIUpdate: boolean = false;
 
@@ -392,7 +472,12 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
     }, 0);
   }
 
-  /** Corrects the value of the slider based on the pointer event's position. */
+  /**
+   * Corrects the value of the slider based on the pointer event's position.
+   *
+   * 根据指针事件的位置更正滑杆的值。
+   *
+   */
   _fixValue(event: PointerEvent): void {
     const xPos = event.clientX - this._slider._cachedLeft;
     const width = this._slider._cachedWidth;
@@ -464,6 +549,9 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
   /**
    * Used to set the slider width to the correct
    * dimensions while the user is dragging.
+   *
+   * 用于在用户拖动时将滑杆宽度设置为正确的尺寸。
+   *
    */
   _updateWidthActive(): void {
     this._hostElement.style.padding = `0 ${this._slider._inputPadding}px`;
@@ -473,6 +561,9 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
   /**
    * Sets the slider input to disproportionate dimensions to allow for touch
    * events to be captured on touch devices.
+   *
+   * 将此滑杆输入组件设置为不成比例的尺寸，以允许在触摸设备上捕获触控事件。
+   *
    */
   _updateWidthInactive(): void {
     this._hostElement.style.padding = '0px';
@@ -497,7 +588,13 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
 
   /**
    * Sets the input's value.
+   *
+   * 设置此输入组件的值。
+   *
    * @param value The new value of the input
+   *
+   * 此输入组件的新值
+   *
    * @docs-private
    */
   writeValue(value: any): void {
@@ -506,7 +603,13 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
 
   /**
    * Registers a callback to be invoked when the input's value changes from user input.
+   *
+   * 注册一个回调，当此输入组件的值从用户输入改变时调用。
+   *
    * @param fn The callback to register
+   *
+   * 要注册的回调
+   *
    * @docs-private
    */
   registerOnChange(fn: any): void {
@@ -515,7 +618,13 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
 
   /**
    * Registers a callback to be invoked when the input is blurred by the user.
+   *
+   * 注册一个回调，当此输入组件被用户失焦时调用。
+   *
    * @param fn The callback to register
+   *
+   * 要注册的回调
+   *
    * @docs-private
    */
   registerOnTouched(fn: any): void {
@@ -524,7 +633,13 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
 
   /**
    * Sets the disabled state of the slider.
+   *
+   * 设置此滑杆的禁用状态。
+   *
    * @param isDisabled The new disabled state
+   *
+   * 新的禁用状态
+   *
    * @docs-private
    */
   setDisabledState(isDisabled: boolean): void {
@@ -562,6 +677,9 @@ export class MatSliderRangeThumb extends MatSliderThumb implements _MatSliderRan
 
   /**
    * Returns the minimum translateX position allowed for this slider input's visual thumb.
+   *
+   * 返回此滑杆输入组件的可见滑块允许的最小 translateX 位置。
+   *
    * @docs-private
    */
   getMinPos(): number {
@@ -574,6 +692,9 @@ export class MatSliderRangeThumb extends MatSliderThumb implements _MatSliderRan
 
   /**
    * Returns the maximum translateX position allowed for this slider input's visual thumb.
+   *
+   * 返回此滑杆输入组件的可见滑块允许的最大 translateX 位置。
+   *
    * @docs-private
    */
   getMaxPos(): number {
@@ -589,10 +710,20 @@ export class MatSliderRangeThumb extends MatSliderThumb implements _MatSliderRan
       (this._isEndThumb && this._slider._isRtl) || (!this._isEndThumb && !this._slider._isRtl);
   }
 
-  /** Whether this slider corresponds to the input on the left hand side. */
+  /**
+   * Whether this slider corresponds to the input on the left hand side.
+   *
+   * 此滑杆是否对应于左侧的输入。
+   *
+   */
   _isLeftThumb: boolean;
 
-  /** Whether this slider corresponds to the input with greater value. */
+  /**
+   * Whether this slider corresponds to the input with greater value.
+   *
+   * 此滑杆是否对应于具有更大值的输入。
+   *
+   */
   _isEndThumb: boolean;
 
   constructor(
@@ -735,7 +866,13 @@ export class MatSliderRangeThumb extends MatSliderThumb implements _MatSliderRan
 
   /**
    * Sets the input's value.
+   *
+   * 设置此输入组件的值。
+   *
    * @param value The new value of the input
+   *
+   * 此输入组件的新值
+   *
    * @docs-private
    */
   override writeValue(value: any): void {

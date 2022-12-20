@@ -141,11 +141,21 @@ export abstract class _MatSnackBarHarnessBase extends ContentContainerComponentH
   }
 }
 
-/** Harness for interacting with an MDC-based mat-snack-bar in tests. */
+/**
+ * Harness for interacting with an MDC-based mat-snack-bar in tests.
+ *
+ * 用于在测试中与基于 MDC 的 mat-snack-bar 交互的组件测试工具。
+ *
+ */
 export class MatSnackBarHarness extends _MatSnackBarHarnessBase {
   // Developers can provide a custom component or template for the
   // snackbar. The canonical snack-bar parent is the "MatSnackBarContainer".
-  /** The selector for the host element of a `MatSnackBar` instance. */
+  /**
+   * The selector for the host element of a `MatSnackBar` instance.
+   *
+   * `MatSnackBar` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-mdc-snack-bar-container:not([mat-exit])';
   protected override _messageSelector = '.mdc-snackbar__label';
   protected override _actionButtonSelector = '.mat-mdc-snack-bar-action';
@@ -153,8 +163,17 @@ export class MatSnackBarHarness extends _MatSnackBarHarnessBase {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a `MatSnackBarHarness` that meets
    * certain criteria.
+   *
+   * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatSnackBarHarness`。
+   *
    * @param options Options for filtering which snack bar instances are considered a match.
+   *
+   * 用于筛选哪些快餐栏实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(options: SnackBarHarnessFilters = {}): HarnessPredicate<MatSnackBarHarness> {
     return new HarnessPredicate(MatSnackBarHarness, options);
@@ -163,6 +182,9 @@ export class MatSnackBarHarness extends _MatSnackBarHarnessBase {
   /**
    * Asserts that the current snack-bar has annotated content. Promise reject
    * if content is not annotated.
+   *
+   * 断言当前的快餐栏有标注内容。如果内容未标注，则拒绝此 Promise。
+   *
    */
   protected override async _assertContentAnnotated() {}
 }

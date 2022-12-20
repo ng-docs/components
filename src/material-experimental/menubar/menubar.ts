@@ -12,6 +12,9 @@ import {CDK_MENU, CdkMenuBar, CdkMenuGroup, MENU_STACK, MenuStack} from '@angula
 /**
  * A material design Menubar adhering to the functionality of CdkMenuBar. MatMenubar
  * should contain MatMenubarItems which trigger their own sub-menus.
+ *
+ * 一个秉承 CdkMenuBar 功能性 Material Design Menubar。 MatMenubar 应该包含触发它们自己的子菜单的 MatMenubarItems。
+ *
  */
 @Component({
   selector: 'mat-menubar',

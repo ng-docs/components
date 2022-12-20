@@ -9,7 +9,12 @@ import {CdkStepper} from '@angular/cdk/stepper';
 })
 export class CdkCustomStepperWithoutFormExample {}
 
-/** Custom CDK stepper component */
+/**
+ * Custom CDK stepper component
+ *
+ * 自定义 CDK 步进器组件
+ *
+ */
 @Component({
   selector: 'example-custom-stepper',
   templateUrl: './example-custom-stepper.html',

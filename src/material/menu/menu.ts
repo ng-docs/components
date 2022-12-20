@@ -51,7 +51,12 @@ import {matMenuAnimations} from './menu-animations';
 
 let menuPanelUid = 0;
 
-/** Reason why the menu was closed. */
+/**
+ * Reason why the menu was closed.
+ *
+ * 此菜单关闭的原因。
+ *
+ */
 export type MenuCloseReason = void | 'click' | 'keydown' | 'tab';
 
 /**
@@ -134,7 +139,12 @@ export function MAT_MENU_DEFAULT_OPTIONS_FACTORY(): MatMenuDefaultOptions {
   };
 }
 
-/** Base class with all of the `MatMenu` functionality. */
+/**
+ * Base class with all of the `MatMenu` functionality.
+ *
+ * 具有所有 `MatMenu` 功能的基类。
+ *
+ */
 @Directive()
 export class _MatMenuBase
   implements AfterContentInit, MatMenuPanel<MatMenuItem>, OnInit, OnDestroy
@@ -163,7 +173,12 @@ export class _MatMenuBase
    */
   _directDescendantItems = new QueryList<MatMenuItem>();
 
-  /** Config object to be passed into the menu's ngClass */
+  /**
+   * Config object to be passed into the menu's ngClass
+   *
+   * 要传递到此菜单的 ngClass 中的配置对象
+   *
+   */
   _classList: {[key: string]: boolean} = {};
 
   /**

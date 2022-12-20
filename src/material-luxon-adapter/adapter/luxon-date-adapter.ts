@@ -24,12 +24,18 @@ export interface MatLuxonDateAdapterOptions {
   /**
    * Turns the use of utc dates on or off.
    * Changing this will change how Angular Material components like DatePicker output dates.
+   *
+   * 打开或关闭 utc 日期的使用。更改此设置将更改 Angular Material 组件（如 DatePicker）输出日期的方式。
+   *
    */
   useUtc: boolean;
 
   /**
    * Sets the first day of week.
    * Changing this will change how Angular Material components like DatePicker shows start of week.
+   *
+   * 设置一周的第一天。更改此设置将更改 DatePicker 等 Angular Material 组件显示周起始日的方式。
+   *
    */
   firstDayOfWeek: number;
 }

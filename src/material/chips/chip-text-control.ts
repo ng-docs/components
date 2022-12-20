@@ -53,6 +53,11 @@ export interface MatChipTextControl {
    */
   focus(): void;
 
-  /** Sets the list of ids the input is described by. */
+  /**
+   * Sets the list of ids the input is described by.
+   *
+   * 设置描述输入框的 ID 列表。
+   *
+   */
   setDescribedByIds(ids: string[]): void;
 }

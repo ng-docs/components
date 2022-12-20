@@ -182,15 +182,22 @@ export class MatSlideToggleHarness extends _MatSlideToggleHarnessBase {
    * 获取一个 `HarnessPredicate`，可用于搜索满足某些条件的 `MatSlideToggleHarness`。
    *
    * @param options Options for narrowing the search:
-   *   - `selector` finds a slide-toggle whose host element matches the given selector.
-   *   - `label` finds a slide-toggle with specific label text.
+   *
+   * 用来收窄搜索范围的选项：
+   *
+   * - `selector` finds a slide-toggle whose host element matches the given selector.
+   *
+   *   `selector` 用于查找一个滑动开关，其宿主元素与给定的选择器匹配。
+   *
+   * - `label` finds a slide-toggle with specific label text.
+   *
+   *   `label` 用于查找带有特定标签文本的滑动开关。
    *
    * 用于筛选哪些滑块开关实例应该视为匹配项的选项。
    *
    * @return a `HarnessPredicate` configured with the given options.
    *
    * 使用给定选项配置过的 `HarnessPredicate`
-   *
    */
   static with<T extends MatSlideToggleHarness>(
     this: ComponentHarnessConstructor<T>,

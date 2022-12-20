@@ -148,7 +148,12 @@ export class MatNavListItemHarness extends MatListItemHarnessBase {
     return (await this.host()).isFocused();
   }
 
-  /** Whether the list item is activated. Should only be used for nav list items. */
+  /**
+   * Whether the list item is activated. Should only be used for nav list items.
+   *
+   * 列表条目是否被激活。应该只用于导航列表条目。
+   *
+   */
   async isActivated(): Promise<boolean> {
     return (await this.host()).hasClass('mdc-list-item--activated');
   }

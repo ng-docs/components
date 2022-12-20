@@ -19,7 +19,7 @@ export interface InputNameUpgradeData {
   /**
    * The new name for the @Input().
    *
-   * @Input() 的新名称。
+   * @Input () 的新名称。
    *
    */
   replaceWith: string;

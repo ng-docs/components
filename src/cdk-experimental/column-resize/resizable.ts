@@ -39,6 +39,9 @@ const OVERLAY_ACTIVE_CLASS = 'cdk-resizable-overlay-thumb-active';
 /**
  * Base class for Resizable directives which are applied to column headers to make those columns
  * resizable.
+ *
+ * 各种 Resizable 指令的基类，这些指令可应用于列标题，以使这些列可调整大小。
+ *
  */
 @Directive()
 export abstract class Resizable<HandleComponent extends ResizeOverlayHandle>
@@ -69,7 +72,12 @@ export abstract class Resizable<HandleComponent extends ResizeOverlayHandle>
   private _viewInitialized = false;
   private _isDestroyed = false;
 
-  /** The minimum width to allow the column to be sized to. */
+  /**
+   * The minimum width to allow the column to be sized to.
+   *
+   * 允许列大小调整到的最小宽度。
+   *
+   */
   get minWidthPx(): number {
     return this.minWidthPxInternal;
   }
@@ -82,7 +90,12 @@ export abstract class Resizable<HandleComponent extends ResizeOverlayHandle>
     }
   }
 
-  /** The maximum width to allow the column to be sized to. */
+  /**
+   * The maximum width to allow the column to be sized to.
+   *
+   * 允许列大小调整到的最大宽度。
+   *
+   */
   get maxWidthPx(): number {
     return this.maxWidthPxInternal;
   }

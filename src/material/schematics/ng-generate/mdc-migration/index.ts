@@ -22,7 +22,12 @@ import {Schema} from './schema';
 import {TemplateMigration} from './rules/template-migration';
 import {ThemingStylesMigration} from './rules/theming-styles';
 
-/** Groups of components that must be migrated together. */
+/**
+ * Groups of components that must be migrated together.
+ *
+ * 必须一起迁移的组件组。
+ *
+ */
 const migrationGroups = [
   ['autocomplete', 'form-field', 'input', 'option', 'optgroup', 'select'],
   ['button'],

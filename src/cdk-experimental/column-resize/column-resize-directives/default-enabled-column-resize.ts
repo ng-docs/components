@@ -17,6 +17,9 @@ import {TABLE_PROVIDERS} from './constants';
 /**
  * Implicitly enables column resizing for a table-based cdk-table.
  * Individual columns will be resizable unless opted out.
+ *
+ * 为基于表的 cdk-table 隐式启用列大小调整。除非专门禁用，否则各个列将可调整大小。
+ *
  */
 @Directive({
   selector: 'table[cdk-table]',

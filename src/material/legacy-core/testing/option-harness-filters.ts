@@ -9,7 +9,10 @@
 import {BaseHarnessFilters} from '@angular/cdk/testing';
 
 /**
- * @deprecated Use `OptionHarnessFilters` from `@angular/material/core/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `OptionHarnessFilters` from `@angular/material/core/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export interface LegacyOptionHarnessFilters extends BaseHarnessFilters {

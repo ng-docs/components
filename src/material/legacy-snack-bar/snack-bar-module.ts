@@ -16,7 +16,10 @@ import {LegacySimpleSnackBar} from './simple-snack-bar';
 import {MatLegacySnackBarContainer} from './snack-bar-container';
 
 /**
- * @deprecated Use `MatSnackBarModule` from `@angular/material/snack-bar` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatSnackBarModule` from `@angular/material/snack-bar` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @NgModule({

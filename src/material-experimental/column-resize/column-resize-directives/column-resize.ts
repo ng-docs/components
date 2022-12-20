@@ -19,6 +19,9 @@ import {AbstractMatColumnResize, TABLE_HOST_BINDINGS, TABLE_PROVIDERS} from './c
 /**
  * Explicitly enables column resizing for a table-based mat-table.
  * Individual columns must be annotated specifically.
+ *
+ * 显式启用基于表格的 mat-table 的列大小调整。必须特别标注各个列。
+ *
  */
 @Directive({
   selector: 'table[mat-table][columnResize]',

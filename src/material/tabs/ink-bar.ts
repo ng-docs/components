@@ -11,6 +11,9 @@ import {ElementRef, InjectionToken, OnDestroy, OnInit, QueryList} from '@angular
 
 /**
  * Item inside a tab header relative to which the ink bar can be aligned.
+ *
+ * 选项卡标题内的条目，墨条可以相对于该条目对齐。
+ *
  * @docs-private
  */
 export interface MatInkBarItem extends OnInit, OnDestroy {
@@ -20,14 +23,27 @@ export interface MatInkBarItem extends OnInit, OnDestroy {
   fitInkBarToContent: boolean;
 }
 
-/** Class that is applied when a tab indicator is active. */
+/**
+ * Class that is applied when a tab indicator is active.
+ *
+ * 标签指示器处于活动状态时要应用的类。
+ *
+ */
 const ACTIVE_CLASS = 'mdc-tab-indicator--active';
 
-/** Class that is applied when the tab indicator should not transition. */
+/**
+ * Class that is applied when the tab indicator should not transition.
+ *
+ * 当标签指示器不需要过渡动画时要应用的类。
+ *
+ */
 const NO_TRANSITION_CLASS = 'mdc-tab-indicator--no-transition';
 
 /**
  * Abstraction around the MDC tab indicator that acts as the tab header's ink bar.
+ *
+ * 围绕 MDC 选项卡指示器的抽象物，该指示器充当标签标题的墨条。
+ *
  * @docs-private
  */
 export class MatInkBar {
@@ -36,12 +52,22 @@ export class MatInkBar {
 
   constructor(private _items: QueryList<MatInkBarItem>) {}
 
-  /** Hides the ink bar. */
+  /**
+   * Hides the ink bar.
+   *
+   * 隐藏此墨条。
+   *
+   */
   hide() {
     this._items.forEach(item => item.deactivateInkBar());
   }
 
-  /** Aligns the ink bar to a DOM node. */
+  /**
+   * Aligns the ink bar to a DOM node.
+   *
+   * 将墨条与 DOM 节点对齐。
+   *
+   */
   alignToElement(element: HTMLElement) {
     const correspondingItem = this._items.find(item => item.elementRef.nativeElement === element);
     const currentItem = this._currentItem;
@@ -62,6 +88,7 @@ export class MatInkBar {
  * Mixin that can be used to apply the `MatInkBarItem` behavior to a class.
  * Base on MDC's `MDCSlidingTabIndicatorFoundation`:
  * https://github.com/material-components/material-components-web/blob/c0a11ef0d000a098fd0c372be8f12d6a99302855/packages/mdc-tab-indicator/sliding-foundation.ts
+ *
  * @docs-private
  */
 export function mixinInkBarItem<
@@ -76,7 +103,12 @@ export function mixinInkBarItem<
     private _inkBarContentElement: HTMLElement | null;
     private _fitToContent = false;
 
-    /** Whether the ink bar should fit to the entire tab or just its content. */
+    /**
+     * Whether the ink bar should fit to the entire tab or just its content.
+     *
+     * 墨条是应该适合整个选项卡还是只适合它的内容。
+     *
+     */
     get fitInkBarToContent(): boolean {
       return this._fitToContent;
     }
@@ -92,7 +124,12 @@ export function mixinInkBarItem<
       }
     }
 
-    /** Aligns the ink bar to the current item. */
+    /**
+     * Aligns the ink bar to the current item.
+     *
+     * 将墨条与当前条目对齐。
+     *
+     */
     activateInkBar(previousIndicatorClientRect?: ClientRect) {
       const element = this.elementRef.nativeElement;
 
@@ -128,17 +165,32 @@ export function mixinInkBarItem<
       this._inkBarContentElement.style.setProperty('transform', '');
     }
 
-    /** Removes the ink bar from the current item. */
+    /**
+     * Removes the ink bar from the current item.
+     *
+     * 从当前条目中移除墨条。
+     *
+     */
     deactivateInkBar() {
       this.elementRef.nativeElement.classList.remove(ACTIVE_CLASS);
     }
 
-    /** Initializes the foundation. */
+    /**
+     * Initializes the foundation.
+     *
+     * 初始化地基。
+     *
+     */
     ngOnInit() {
       this._createInkBarElement();
     }
 
-    /** Destroys the foundation. */
+    /**
+     * Destroys the foundation.
+     *
+     * 销毁地基。
+     *
+     */
     ngOnDestroy() {
       this._inkBarElement?.remove();
       this._inkBarElement = this._inkBarContentElement = null!;
@@ -207,7 +259,12 @@ export function _MAT_INK_BAR_POSITIONER_FACTORY(): _MatInkBarPositioner {
   return method;
 }
 
-/** Injection token for the MatInkBar's Positioner. */
+/**
+ * Injection token for the MatInkBar's Positioner.
+ *
+ * MatInkBar 定位器的注入令牌。
+ *
+ */
 export const _MAT_INK_BAR_POSITIONER = new InjectionToken<_MatInkBarPositioner>(
   'MatInkBarPositioner',
   {

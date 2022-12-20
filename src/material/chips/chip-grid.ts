@@ -43,7 +43,12 @@ import {MatChipRow} from './chip-row';
 import {MatChipSet} from './chip-set';
 import {Directionality} from '@angular/cdk/bidi';
 
-/** Change event object that is emitted when the chip grid value has changed. */
+/**
+ * Change event object that is emitted when the chip grid value has changed.
+ *
+ * 纸片网格值的更改时发出的更改事件对象。
+ *
+ */
 export class MatChipGridChange {
   constructor(
     /** Chip grid that emitted the event. */
@@ -55,12 +60,18 @@ export class MatChipGridChange {
 
 /**
  * Boilerplate for applying mixins to MatChipGrid.
+ *
+ * 用于将 mixin 应用于 MatChipGrid 的样板。
+ *
  * @docs-private
  */
 class MatChipGridBase extends MatChipSet {
   /**
    * Emits whenever the component state changes and should cause the parent
    * form-field to update. Implemented as part of `MatFormFieldControl`.
+   *
+   * 每当组件状态更改时发出，并会导致父表单字段更新。作为 `MatFormFieldControl` 的一部分实现。
+   *
    * @docs-private
    */
   readonly stateChanges = new Subject<void>();
@@ -87,6 +98,9 @@ const _MatChipGridMixinBase = mixinErrorState(MatChipGridBase);
 /**
  * An extension of the MatChipSet component used with MatChipRow chips and
  * the matChipInputFor directive.
+ *
+ * 与 MatChipRow 纸片和 matChipInputFor 指令一起使用的 MatChipSet 组件的扩展。
+ *
  */
 @Component({
   selector: 'mat-chip-grid',
@@ -126,11 +140,19 @@ export class MatChipGrid
 {
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   readonly controlType: string = 'mat-chip-grid';
 
-  /** The chip input to add more chips */
+  /**
+   * The chip input to add more chips
+   *
+   * 纸片输入，用以添加更多纸片
+   *
+   */
   protected _chipInput: MatChipTextControl;
 
   protected override _defaultRole = 'grid';
@@ -142,18 +164,27 @@ export class MatChipGrid
 
   /**
    * Function when touched. Set as part of ControlValueAccessor implementation.
+   *
+   * 已接触时调用的函数。设置为 ControlValueAccessor 实现的一部分。
+   *
    * @docs-private
    */
   _onTouched = () => {};
 
   /**
    * Function when changed. Set as part of ControlValueAccessor implementation.
+   *
+   * 已改变时调用的函数。设置为 ControlValueAccessor 实现的一部分。
+   *
    * @docs-private
    */
   _onChange: (value: any) => void = () => {};
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input()
@@ -167,6 +198,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   get id(): string {
@@ -175,6 +209,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   override get empty(): boolean {
@@ -185,6 +222,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input()
@@ -197,13 +237,21 @@ export class MatChipGrid
   }
   protected _placeholder: string;
 
-  /** Whether any chips or the matChipInput inside of this chip-grid has focus. */
+  /**
+   * Whether any chips or the matChipInput inside of this chip-grid has focus.
+   *
+   * 这是任意纸片还是纸片网格中具有焦点的 matChipInput。
+   *
+   */
   override get focused(): boolean {
     return this._chipInput.focused || this._hasFocusedChip();
   }
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input()
@@ -218,6 +266,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   get shouldLabelFloat(): boolean {
@@ -226,6 +277,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input()
@@ -237,21 +291,39 @@ export class MatChipGrid
   }
   protected _value: any[] = [];
 
-  /** An object used to control when error messages are shown. */
+  /**
+   * An object used to control when error messages are shown.
+   *
+   * 用于控制何时显示错误信息的对象。
+   *
+   */
   @Input() override errorStateMatcher: ErrorStateMatcher;
 
-  /** Combined stream of all of the child chips' blur events. */
+  /**
+   * Combined stream of all of the child chips' blur events.
+   *
+   * 所有子纸片的失焦事件的组合流。
+   *
+   */
   get chipBlurChanges(): Observable<MatChipEvent> {
     return this._getChipStream(chip => chip._onBlur);
   }
 
-  /** Emits when the chip grid value has been changed by the user. */
+  /**
+   * Emits when the chip grid value has been changed by the user.
+   *
+   * 当用户更改纸片网格的值时发出。
+   *
+   */
   @Output() readonly change: EventEmitter<MatChipGridChange> =
     new EventEmitter<MatChipGridChange>();
 
   /**
    * Emits whenever the raw value of the chip-grid changes. This is here primarily
    * to facilitate the two-way binding for the `value` input.
+   *
+   * 每当纸片网格的原始值发生变化时发出。这里主要是为了方便输入 `value` 的双向绑定。
+   *
    * @docs-private
    */
   @Output() readonly valueChange: EventEmitter<any> = new EventEmitter<any>();
@@ -319,7 +391,12 @@ export class MatChipGrid
     this.stateChanges.complete();
   }
 
-  /** Associates an HTML input element with this chip grid. */
+  /**
+   * Associates an HTML input element with this chip grid.
+   *
+   * 将 HTML input 元素与此纸片网格相关联。
+   *
+   */
   registerInput(inputElement: MatChipTextControl): void {
     this._chipInput = inputElement;
     this._chipInput.setDescribedByIds(this._ariaDescribedbyIds);
@@ -327,6 +404,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   onContainerClick(event: MouseEvent) {
@@ -338,6 +418,9 @@ export class MatChipGrid
   /**
    * Focuses the first chip in this chip grid, or the associated input when there
    * are no eligible chips.
+   *
+   * 聚焦此纸片网格中的第一个纸片，或在没有符合条件的纸片时聚焦关联的输入。
+   *
    */
   override focus(): void {
     if (this.disabled || this._chipInput.focused) {
@@ -357,6 +440,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   setDescribedByIds(ids: string[]) {
@@ -368,6 +454,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
    * @docs-private
    */
   writeValue(value: any): void {
@@ -377,6 +466,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
    * @docs-private
    */
   registerOnChange(fn: (value: any) => void): void {
@@ -385,6 +477,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
    * @docs-private
    */
   registerOnTouched(fn: () => void): void {
@@ -393,6 +488,9 @@ export class MatChipGrid
 
   /**
    * Implemented as part of ControlValueAccessor.
+   *
+   * 作为 ControlValueAccessor 的一部分实现。
+   *
    * @docs-private
    */
   setDisabledState(isDisabled: boolean): void {
@@ -400,7 +498,12 @@ export class MatChipGrid
     this.stateChanges.next();
   }
 
-  /** When blurred, mark the field as touched when focus moved outside the chip grid. */
+  /**
+   * When blurred, mark the field as touched when focus moved outside the chip grid.
+   *
+   * 当失焦时，当焦点移到纸片网格之外时，将此字段标记为已接触。
+   *
+   */
   _blur() {
     if (!this.disabled) {
       // Check whether the focus moved to chip input.
@@ -420,6 +523,9 @@ export class MatChipGrid
    * Removes the `tabindex` from the chip grid and resets it back afterwards, allowing the
    * user to tab out of it. This prevents the grid from capturing focus and redirecting
    * it back to the first chip, creating a focus trap, if it user tries to tab away.
+   *
+   * 从纸片网格中删除 `tabindex` 并在之后将其重置，以允许用户退出它。这可以防止网格捕获焦点并将其重定向回第一个纸片，从而在用户尝试离开时创建焦点陷阱。
+   *
    */
   protected override _allowFocusEscape() {
     if (!this._chipInput.focused) {
@@ -427,7 +533,12 @@ export class MatChipGrid
     }
   }
 
-  /** Handles custom keyboard events. */
+  /**
+   * Handles custom keyboard events.
+   *
+   * 处理自定义键盘事件。
+   *
+   */
   override _handleKeydown(event: KeyboardEvent) {
     if (event.keyCode === TAB) {
       if (
@@ -472,7 +583,12 @@ export class MatChipGrid
     this._changeDetectorRef.markForCheck();
   }
 
-  /** Mark the field as touched */
+  /**
+   * Mark the field as touched
+   *
+   * 将此字段标记为已接触
+   *
+   */
   private _markAsTouched() {
     this._onTouched();
     this._changeDetectorRef.markForCheck();

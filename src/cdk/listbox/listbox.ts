@@ -39,7 +39,12 @@ import {filter, map, startWith, switchMap, takeUntil} from 'rxjs/operators';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Directionality} from '@angular/cdk/bidi';
 
-/** The next id to use for creating unique DOM IDs. */
+/**
+ * The next id to use for creating unique DOM IDs.
+ *
+ * 用于创建唯一 DOM ID 的下一个 ID。
+ *
+ */
 let nextId = 0;
 
 /**
@@ -47,8 +52,13 @@ let nextId = 0;
  * multi-selection. This is necessary so that we can recover the full selection if the user
  * switches the listbox from single-selection to multi-selection after initialization.
  *
+ * SelectionModel 的一种实现，它在内部始终会将选定结果表示为多选形式。这是必要的，因为如果用户可能会在初始化后将列表框从单选切换到多选，这时我们可以借此恢复全部选定结果。
+ *
  * This selection model may report multiple selected values, even if it is in single-selection
  * mode. It is up to the user (CdkListbox) to check for invalid selections.
+ *
+ * 此选择模型可能会报告多个选定结果，即使它处于单选模式也一样。如何检查无效选定结果取决于用户 (CdkListbox)。
+ *
  */
 class ListboxSelectionModel<T> extends SelectionModel<T> {
   constructor(
@@ -75,7 +85,12 @@ class ListboxSelectionModel<T> extends SelectionModel<T> {
   }
 }
 
-/** A selectable option in a listbox. */
+/**
+ * A selectable option in a listbox.
+ *
+ * 列表框中的可选选项。
+ *
+ */
 @Directive({
   selector: '[cdkOption]',
   standalone: true,
@@ -93,7 +108,12 @@ class ListboxSelectionModel<T> extends SelectionModel<T> {
   },
 })
 export class CdkOption<T = unknown> implements ListKeyManagerOption, Highlightable, OnDestroy {
-  /** The id of the option's host element. */
+  /**
+   * The id of the option's host element.
+   *
+   * 选项的宿主元素的 ID。
+   *
+   */
   @Input()
   get id() {
     return this._id || this._generatedId;
@@ -104,16 +124,29 @@ export class CdkOption<T = unknown> implements ListKeyManagerOption, Highlightab
   private _id: string;
   private _generatedId = `cdk-option-${nextId++}`;
 
-  /** The value of this option. */
+  /**
+   * The value of this option.
+   *
+   * 此选项的值。
+   *
+   */
   @Input('cdkOption') value: T;
 
   /**
    * The text used to locate this item during listbox typeahead. If not specified,
    * the `textContent` of the item will be used.
+   *
+   * 用于在列表框预先输入（typeahead）期间定位此条目的文本。如果未指定，将使用条目的 `textContent` 。
+   *
    */
   @Input('cdkOptionTypeaheadLabel') typeaheadLabel: string;
 
-  /** Whether this option is disabled. */
+  /**
+   * Whether this option is disabled.
+   *
+   * 该选项是否已禁用。
+   *
+   */
   @Input('cdkOptionDisabled')
   get disabled(): boolean {
     return this.listbox.disabled || this._disabled;
@@ -123,7 +156,12 @@ export class CdkOption<T = unknown> implements ListKeyManagerOption, Highlightab
   }
   private _disabled: boolean = false;
 
-  /** The tabindex of the option when it is enabled. */
+  /**
+   * The tabindex of the option when it is enabled.
+   *
+   * 此选项启用时的 tabindex。
+   *
+   */
   @Input('tabindex')
   get enabledTabIndex() {
     return this._enabledTabIndex === undefined
@@ -135,16 +173,36 @@ export class CdkOption<T = unknown> implements ListKeyManagerOption, Highlightab
   }
   private _enabledTabIndex?: number | null;
 
-  /** The option's host element */
+  /**
+   * The option's host element
+   *
+   * 此选项的宿主元素
+   *
+   */
   readonly element: HTMLElement = inject(ElementRef).nativeElement;
 
-  /** The parent listbox this option belongs to. */
+  /**
+   * The parent listbox this option belongs to.
+   *
+   * 此选项所属的父列表框。
+   *
+   */
   protected readonly listbox: CdkListbox<T> = inject(CdkListbox);
 
-  /** Emits when the option is destroyed. */
+  /**
+   * Emits when the option is destroyed.
+   *
+   * 当销毁此选项时发出。
+   *
+   */
   protected destroyed = new Subject<void>();
 
-  /** Emits when the option is clicked. */
+  /**
+   * Emits when the option is clicked.
+   *
+   * 当单击此选项时发出。
+   *
+   */
   readonly _clicked = new Subject<MouseEvent>();
 
   ngOnDestroy() {
@@ -152,54 +210,100 @@ export class CdkOption<T = unknown> implements ListKeyManagerOption, Highlightab
     this.destroyed.complete();
   }
 
-  /** Whether this option is selected. */
+  /**
+   * Whether this option is selected.
+   *
+   * 是否选定了此选项。
+   *
+   */
   isSelected() {
     return this.listbox.isSelected(this);
   }
 
-  /** Whether this option is active. */
+  /**
+   * Whether this option is active.
+   *
+   * 此选项是否处于活动状态。
+   *
+   */
   isActive() {
     return this.listbox.isActive(this);
   }
 
-  /** Toggle the selected state of this option. */
+  /**
+   * Toggle the selected state of this option.
+   *
+   * 切换此选项的选定状态。
+   *
+   */
   toggle() {
     this.listbox.toggle(this);
   }
 
-  /** Select this option if it is not selected. */
+  /**
+   * Select this option if it is not selected.
+   *
+   * 如果未选定此选项，就选定它。
+   *
+   */
   select() {
     this.listbox.select(this);
   }
 
-  /** Deselect this option if it is selected. */
+  /**
+   * Deselect this option if it is selected.
+   *
+   * 如果已选定此选项，就取消选定它。
+   *
+   */
   deselect() {
     this.listbox.deselect(this);
   }
 
-  /** Focus this option. */
+  /**
+   * Focus this option.
+   *
+   * 聚焦此选项。
+   *
+   */
   focus() {
     this.element.focus();
   }
 
-  /** Get the label for this element which is required by the FocusableOption interface. */
+  /**
+   * Get the label for this element which is required by the FocusableOption interface.
+   *
+   * 获取 FocusableOption 接口所需的本元素的标签。
+   *
+   */
   getLabel() {
     return (this.typeaheadLabel ?? this.element.textContent?.trim()) || '';
   }
 
   /**
    * No-op implemented as a part of `Highlightable`.
+   *
+   * 作为 `Highlightable` 一部分的无操作（No-op）实现。
+   *
    * @docs-private
    */
   setActiveStyles() {}
 
   /**
    * No-op implemented as a part of `Highlightable`.
+   *
+   * 作为 `Highlightable` 一部分的无操作（No-op）实现。
+   *
    * @docs-private
    */
   setInactiveStyles() {}
 
-  /** Handle focus events on the option. */
+  /**
+   * Handle focus events on the option.
+   *
+   * 处理此选项上的焦点事件。
+   *
+   */
   protected _handleFocus() {
     // Options can wind up getting focused in active descendant mode if the user clicks on them.
     // In this case, we push focus back to the parent listbox to prevent an extra tab stop when
@@ -210,7 +314,12 @@ export class CdkOption<T = unknown> implements ListKeyManagerOption, Highlightab
     }
   }
 
-  /** Get the tabindex for this option. */
+  /**
+   * Get the tabindex for this option.
+   *
+   * 获取此选项的 tabindex。
+   *
+   */
   protected _getTabIndex() {
     if (this.listbox.useActiveDescendant || this.disabled) {
       return -1;
@@ -246,7 +355,12 @@ export class CdkOption<T = unknown> implements ListKeyManagerOption, Highlightab
   ],
 })
 export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, ControlValueAccessor {
-  /** The id of the option's host element. */
+  /**
+   * The id of the option's host element.
+   *
+   * 选项的宿主元素的 ID。
+   *
+   */
   @Input()
   get id() {
     return this._id || this._generatedId;
@@ -257,7 +371,12 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   private _id: string;
   private _generatedId = `cdk-listbox-${nextId++}`;
 
-  /** The tabindex to use when the listbox is enabled. */
+  /**
+   * The tabindex to use when the listbox is enabled.
+   *
+   * 启用此列表框时使用的 tabindex。
+   *
+   */
   @Input('tabindex')
   get enabledTabIndex() {
     return this._enabledTabIndex === undefined ? 0 : this._enabledTabIndex;
@@ -267,7 +386,12 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   }
   private _enabledTabIndex?: number | null;
 
-  /** The value selected in the listbox, represented as an array of option values. */
+  /**
+   * The value selected in the listbox, represented as an array of option values.
+   *
+   * 此列表框中选定的值，表示为选项值的数组。
+   *
+   */
   @Input('cdkListboxValue')
   get value(): readonly T[] {
     return this._invalid ? [] : this.selectionModel.selected;
@@ -279,6 +403,9 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   /**
    * Whether the listbox allows multiple options to be selected. If the value switches from `true`
    * to `false`, and more than one option is selected, all options are deselected.
+   *
+   * 此列表框是否允许选定多个选项。如果值从 `true` 切换为 `false` ，并且选定了多个选项，则取消选定所有选项。
+   *
    */
   @Input('cdkListboxMultiple')
   get multiple(): boolean {
@@ -292,7 +419,12 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
     }
   }
 
-  /** Whether the listbox is disabled. */
+  /**
+   * Whether the listbox is disabled.
+   *
+   * 此列表框是否被禁用。
+   *
+   */
   @Input('cdkListboxDisabled')
   get disabled(): boolean {
     return this._disabled;
@@ -302,7 +434,12 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   }
   private _disabled: boolean = false;
 
-  /** Whether the listbox will use active descendant or will move focus onto the options. */
+  /**
+   * Whether the listbox will use active descendant or will move focus onto the options.
+   *
+   * 此列表框要使用活动后代还是将焦点移到选项上。
+   *
+   */
   @Input('cdkListboxUseActiveDescendant')
   get useActiveDescendant(): boolean {
     return this._useActiveDescendant;
@@ -312,7 +449,12 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   }
   private _useActiveDescendant: boolean = false;
 
-  /** The orientation of the listbox. Only affects keyboard interaction, not visual layout. */
+  /**
+   * The orientation of the listbox. Only affects keyboard interaction, not visual layout.
+   *
+   * 此列表框的方向。只影响键盘交互，不影响视觉布局。
+   *
+   */
   @Input('cdkListboxOrientation')
   get orientation() {
     return this._orientation;
@@ -327,7 +469,12 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   }
   private _orientation: 'horizontal' | 'vertical' = 'vertical';
 
-  /** The function used to compare option values. */
+  /**
+   * The function used to compare option values.
+   *
+   * 用于比较选项值的函数。
+   *
+   */
   @Input('cdkListboxCompareWith')
   get compareWith(): undefined | ((o1: T, o2: T) => boolean) {
     return this.selectionModel.compareWith;
@@ -339,6 +486,9 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   /**
    * Whether the keyboard navigation should wrap when the user presses arrow down on the last item
    * or arrow up on the first item.
+   *
+   * 当用户在最后一个条目上按下向下箭头或在第一个条目上按下向上箭头时，键盘导航是否应该回绕。
+   *
    */
   @Input('cdkListboxNavigationWrapDisabled')
   get navigationWrapDisabled() {
@@ -350,7 +500,12 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   }
   private _navigationWrapDisabled = false;
 
-  /** Whether keyboard navigation should skip over disabled items. */
+  /**
+   * Whether keyboard navigation should skip over disabled items.
+   *
+   * 键盘导航是否应跳过禁用的条目。
+   *
+   */
   @Input('cdkListboxNavigatesDisabledOptions')
   get navigateDisabledOptions() {
     return this._navigateDisabledOptions;
@@ -363,25 +518,60 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   }
   private _navigateDisabledOptions = false;
 
-  /** Emits when the selected value(s) in the listbox change. */
+  /**
+   * Emits when the selected value(s) in the listbox change.
+   *
+   * 当列表框中的选定值更改时发出。
+   *
+   */
   @Output('cdkListboxValueChange') readonly valueChange = new Subject<ListboxValueChangeEvent<T>>();
 
-  /** The child options in this listbox. */
+  /**
+   * The child options in this listbox.
+   *
+   * 此列表框中的子选项。
+   *
+   */
   @ContentChildren(CdkOption, {descendants: true}) protected options: QueryList<CdkOption<T>>;
 
-  /** The selection model used by the listbox. */
+  /**
+   * The selection model used by the listbox.
+   *
+   * 此列表框使用的选择模型。
+   *
+   */
   protected selectionModel = new ListboxSelectionModel<T>();
 
-  /** The key manager that manages keyboard navigation for this listbox. */
+  /**
+   * The key manager that manages keyboard navigation for this listbox.
+   *
+   * 管理此列表框的键盘导航的键盘管理器。
+   *
+   */
   protected listKeyManager: ActiveDescendantKeyManager<CdkOption<T>>;
 
-  /** Emits when the listbox is destroyed. */
+  /**
+   * Emits when the listbox is destroyed.
+   *
+   * 当销毁此列表框时发出。
+   *
+   */
   protected readonly destroyed = new Subject<void>();
 
-  /** The host element of the listbox. */
+  /**
+   * The host element of the listbox.
+   *
+   * 此列表框的宿主元素。
+   *
+   */
   protected readonly element: HTMLElement = inject(ElementRef).nativeElement;
 
-  /** The change detector for this listbox. */
+  /**
+   * The change detector for this listbox.
+   *
+   * 此列表框的变更检测器。
+   *
+   */
   protected readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   /** Whether the currently selected value in the selection model is invalid. */
@@ -447,7 +637,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Toggle the selected state of the given option.
+   *
+   * 切换给定选项的选定状态。
+   *
    * @param option The option to toggle
+   *
+   * 要切换的选项
+   *
    */
   toggle(option: CdkOption<T>) {
     this.toggleValue(option.value);
@@ -455,7 +651,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Toggle the selected state of the given value.
+   *
+   * 切换给定值的选定状态。
+   *
    * @param value The value to toggle
+   *
+   * 要切换的值
+   *
    */
   toggleValue(value: T) {
     if (this._invalid) {
@@ -466,7 +668,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Select the given option.
+   *
+   * 选定给定的选项。
+   *
    * @param option The option to select
+   *
+   * 要选定的选项
+   *
    */
   select(option: CdkOption<T>) {
     this.selectValue(option.value);
@@ -474,7 +682,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Select the given value.
+   *
+   * 选定给定的值。
+   *
    * @param value The value to select
+   *
+   * 要选定的值
+   *
    */
   selectValue(value: T) {
     if (this._invalid) {
@@ -485,7 +699,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Deselect the given option.
+   *
+   * 取消选择给定的选项。
+   *
    * @param option The option to deselect
+   *
+   * 要取消选定的选项
+   *
    */
   deselect(option: CdkOption<T>) {
     this.deselectValue(option.value);
@@ -493,7 +713,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Deselect the given value.
+   *
+   * 取消选定给定的值。
+   *
    * @param value The value to deselect
+   *
+   * 要取消选定的值
+   *
    */
   deselectValue(value: T) {
     if (this._invalid) {
@@ -504,7 +730,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Set the selected state of all options.
+   *
+   * 设置所有选项的选定状态。
+   *
    * @param isSelected The new selected state to set
+   *
+   * 要设置的新选定状态
+   *
    */
   setAllSelected(isSelected: boolean) {
     if (!isSelected) {
@@ -519,7 +751,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Get whether the given option is selected.
+   *
+   * 获取是否选定了给定的选项。
+   *
    * @param option The option to get the selected state of
+   *
+   * 要获取选定状态的选项
+   *
    */
   isSelected(option: CdkOption<T>) {
     return this.isValueSelected(option.value);
@@ -527,7 +765,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Get whether the given option is active.
+   *
+   * 获取给定选项是否处于活动状态。
+   *
    * @param option The option to get the active state of
+   *
+   * 要获取活动状态的选项
+   *
    */
   isActive(option: CdkOption<T>): boolean {
     return !!(this.listKeyManager?.activeItem === option);
@@ -535,7 +779,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Get whether the given value is selected.
+   *
+   * 获取给定值是否已选定。
+   *
    * @param value The value to get the selected state of
+   *
+   * 要获取选定状态的值
+   *
    */
   isValueSelected(value: T) {
     if (this._invalid) {
@@ -546,7 +796,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Registers a callback to be invoked when the listbox's value changes from user input.
+   *
+   * 注册一个回调，当列表框的值因用户输入而改变时被调用。
+   *
    * @param fn The callback to register
+   *
+   * 要注册的回调
+   *
    * @docs-private
    */
   registerOnChange(fn: (value: readonly T[]) => void): void {
@@ -555,7 +811,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Registers a callback to be invoked when the listbox is blurred by the user.
+   *
+   * 注册一个回调，当列表框因为用户操作而失去焦点时调用。
+   *
    * @param fn The callback to register
+   *
+   * 要注册的回调
+   *
    * @docs-private
    */
   registerOnTouched(fn: () => {}): void {
@@ -564,7 +826,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Sets the listbox's value.
+   *
+   * 设置列表框的值。
+   *
    * @param value The new value of the listbox
+   *
+   * 此列表框的新值
+   *
    * @docs-private
    */
   writeValue(value: readonly T[]): void {
@@ -574,23 +842,46 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Sets the disabled state of the listbox.
+   *
+   * 设置此列表框的禁用状态。
+   *
    * @param isDisabled The new disabled state
+   *
+   * 新的禁用状态
+   *
    * @docs-private
    */
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  /** Focus the listbox's host element. */
+  /**
+   * Focus the listbox's host element.
+   *
+   * 聚焦此列表框的宿主元素。
+   *
+   */
   focus() {
     this.element.focus();
   }
 
   /**
    * Triggers the given option in response to user interaction.
+   *
+   * 触发给定选项以响应用户交互。
+   *
    * - In single selection mode: selects the option and deselects any other selected option.
+   *
+   *   在单选模式下：选择此选项并取消选择任何其他选定的选项。
+   *
    * - In multi selection mode: toggles the selected state of the option.
+   *
+   *   在多选模式下：切换此选项的选定状态。
+   *
    * @param option The option to trigger
+   *
+   * 要触发的选项
+   *
    */
   protected triggerOption(option: CdkOption<T> | null) {
     if (option && !option.disabled) {
@@ -612,10 +903,25 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   /**
    * Trigger the given range of options in response to user interaction.
    * Should only be called in multi-selection mode.
+   *
+   * 触发给定范围的选项以响应用户交互。只应在多选模式下调用。
+   *
    * @param trigger The option that was triggered
+   *
+   * 触发过的选项
+   *
    * @param from The start index of the options to toggle
+   *
+   * 要切换的选项的起始索引
+   *
    * @param to The end index of the options to toggle
+   *
+   * 要切换的选项的结束索引
+   *
    * @param on Whether to toggle the option range on
+   *
+   * 是否开启选项范围
+   *
    */
   protected triggerRange(trigger: CdkOption<T> | null, from: number, to: number, on: boolean) {
     if (this.disabled || (trigger && trigger.disabled)) {
@@ -651,13 +957,24 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Sets the given option as active.
+   *
+   * 将给定的选项设置为活动的。
+   *
    * @param option The option to make active
+   *
+   * 要激活的选项
+   *
    */
   _setActiveOption(option: CdkOption<T>) {
     this.listKeyManager.setActiveItem(option);
   }
 
-  /** Called when the listbox receives focus. */
+  /**
+   * Called when the listbox receives focus.
+   *
+   * 当此列表框获得焦点时调用。
+   *
+   */
   protected _handleFocus() {
     if (!this.useActiveDescendant) {
       if (this.selectionModel.selected.length > 0) {
@@ -670,7 +987,12 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
     }
   }
 
-  /** Called when the user presses keydown on the listbox. */
+  /**
+   * Called when the user presses keydown on the listbox.
+   *
+   * 当用户按下列表框上的按键时调用。
+   *
+   */
   protected _handleKeydown(event: KeyboardEvent) {
     if (this._disabled) {
       return;
@@ -771,7 +1093,12 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
     }
   }
 
-  /** Called when a focus moves into the listbox. */
+  /**
+   * Called when a focus moves into the listbox.
+   *
+   * 当焦点移入列表框时调用。
+   *
+   */
   protected _handleFocusIn() {
     // Note that we use a `focusin` handler for this instead of the existing `focus` handler,
     // because focus won't land on the listbox if `useActiveDescendant` is enabled.
@@ -780,7 +1107,13 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
 
   /**
    * Called when the focus leaves an element in the listbox.
+   *
+   * 当焦点离开列表框中的元素时调用。
+   *
    * @param event The focusout event
+   *
+   * 焦点移出（focusout）事件
+   *
    */
   protected _handleFocusOut(event: FocusEvent) {
     const otherElement = event.relatedTarget as Element;
@@ -791,12 +1124,22 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
     }
   }
 
-  /** Get the id of the active option if active descendant is being used. */
+  /**
+   * Get the id of the active option if active descendant is being used.
+   *
+   * 如果正在使用活动后代，则获取此活动选项的 ID。
+   *
+   */
   protected _getAriaActiveDescendant(): string | null | undefined {
     return this._useActiveDescendant ? this.listKeyManager?.activeItem?.id : null;
   }
 
-  /** Get the tabindex for the listbox. */
+  /**
+   * Get the tabindex for the listbox.
+   *
+   * 获取此列表框的 tabindex。
+   *
+   */
   protected _getTabIndex() {
     if (this.disabled) {
       return -1;
@@ -995,14 +1338,34 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   }
 }
 
-/** Change event that is fired whenever the value of the listbox changes. */
+/**
+ * Change event that is fired whenever the value of the listbox changes.
+ *
+ * change 事件，当列表框的值改变时触发。
+ *
+ */
 export interface ListboxValueChangeEvent<T> {
-  /** The new value of the listbox. */
+  /**
+   * The new value of the listbox.
+   *
+   * 此列表框的新值。
+   *
+   */
   readonly value: readonly T[];
 
-  /** Reference to the listbox that emitted the event. */
+  /**
+   * Reference to the listbox that emitted the event.
+   *
+   * 对发出本事件的列表框的引用。
+   *
+   */
   readonly listbox: CdkListbox<T>;
 
-  /** Reference to the option that was triggered. */
+  /**
+   * Reference to the option that was triggered.
+   *
+   * 对触发过的选项的引用。
+   *
+   */
   readonly option: CdkOption<T> | null;
 }

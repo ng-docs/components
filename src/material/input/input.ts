@@ -505,7 +505,12 @@ export class MatInput
     }
   }
 
-  /** Gets the current placeholder of the form field. */
+  /**
+   * Gets the current placeholder of the form field.
+   *
+   * 获取此表单字段的当前占位符。
+   *
+   */
   protected _getPlaceholder(): string | null {
     return this.placeholder || null;
   }

@@ -49,6 +49,9 @@ const _MatTabLabelWrapperBaseWithInkBarItem = mixinInkBarItem(_MatTabLabelWrappe
 
 /**
  * Used in the `mat-tab-group` view to display tab labels.
+ *
+ * 在 `mat-tab-group` 视图中用于显示选项卡标签。
+ *
  * @docs-private
  */
 @Directive({

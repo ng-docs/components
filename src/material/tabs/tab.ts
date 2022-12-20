@@ -224,11 +224,19 @@ export class _MatTabBase
 export class MatTab extends _MatTabBase {
   /**
    * Template provided in the tab content that will be used if present, used to enable lazy-loading
+   *
+   * 此选项卡内容中提供的模板，如果存在，将使用该模板，用于启用惰性加载
+   *
    */
   @ContentChild(MatTabContent, {read: TemplateRef, static: true})
   override _explicitContent: TemplateRef<any>;
 
-  /** Content for the tab label given by `<ng-template mat-tab-label>`. */
+  /**
+   * Content for the tab label given by `<ng-template mat-tab-label>`.
+   *
+   * 选项卡标签的内容由 `<ng-template mat-tab-label>` 指定。
+   *
+   */
   @ContentChild(MatTabLabel)
   get templateLabel(): MatTabLabel {
     return this._templateLabel;

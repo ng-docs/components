@@ -24,6 +24,9 @@ let nextId = 0;
 /**
  * Base class for ColumnResize directives which attach to mat-table elements to
  * provide common events and services for column resizing.
+ *
+ * ColumnResize 指令的基类，它附着到 mat-table 元素以提供用于列大小调整的通用事件和服务。
+ *
  */
 @Directive()
 export abstract class ColumnResize implements AfterViewInit, OnDestroy {
@@ -39,10 +42,20 @@ export abstract class ColumnResize implements AfterViewInit, OnDestroy {
   protected abstract readonly ngZone: NgZone;
   protected abstract readonly notifier: ColumnResizeNotifierSource;
 
-  /** Unique ID for this table instance. */
+  /**
+   * Unique ID for this table instance.
+   *
+   * 此表实例的唯一 ID。
+   *
+   */
   protected readonly selectorId = `${++nextId}`;
 
-  /** The id attribute of the table, if specified. */
+  /**
+   * The id attribute of the table, if specified.
+   *
+   * 表的 id 属性（如已指定）。
+   *
+   */
   id?: string;
 
   ngAfterViewInit() {
@@ -58,12 +71,22 @@ export abstract class ColumnResize implements AfterViewInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  /** Gets the unique CSS class name for this table instance. */
+  /**
+   * Gets the unique CSS class name for this table instance.
+   *
+   * 获取此表实例的唯一 CSS 类名称。
+   *
+   */
   getUniqueCssClass() {
     return `cdk-column-resize-${this.selectorId}`;
   }
 
-  /** Called when a column in the table is resized. Applies a css class to the table element. */
+  /**
+   * Called when a column in the table is resized. Applies a css class to the table element.
+   *
+   * 调整表中列的大小时调用。将 css 类应用于表格元素。
+   *
+   */
   setResized() {
     this.elementRef.nativeElement!.classList.add(WITH_RESIZED_COLUMN_CLASS);
   }

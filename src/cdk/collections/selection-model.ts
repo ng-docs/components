@@ -93,8 +93,17 @@ export class SelectionModel<T> {
    * 选定一个值或一个值数组。
    *
    * @param values The values to select
+   *
+   * 要选中的值
+   *
    * @return Whether the selection changed as a result of this call
+   *
+   * 选择结果是否因为本次调用而发生了变化
+   *
    * @breaking-change 16.0.0 make return type boolean
+   *
+   * 返回值变成了 boolean 型
+   *
    */
   select(...values: T[]): boolean | void {
     this._verifyValueAssignment(values);
@@ -110,8 +119,17 @@ export class SelectionModel<T> {
    * 取消选定一个值或一个值数组。
    *
    * @param values The values to deselect
+   *
+   * 要取消选中的值
+   *
    * @return Whether the selection changed as a result of this call
+   *
+   * 选择结果是否因为本次调用而发生了变化
+   *
    * @breaking-change 16.0.0 make return type boolean
+   *
+   * 返回值变成了 boolean 型
+   *
    */
   deselect(...values: T[]): boolean | void {
     this._verifyValueAssignment(values);
@@ -123,9 +141,21 @@ export class SelectionModel<T> {
 
   /**
    * Sets the selected values
+   *
+   * 设置一组要选中的值
+   *
    * @param values The new selected values
+   *
+   * 新的要选中的值
+   *
    * @return Whether the selection changed as a result of this call
+   *
+   * 选择结果是否因为本次调用而发生了变化
+   *
    * @breaking-change 16.0.0 make return type boolean
+   *
+   * 返回值变成了 boolean 型
+   *
    */
   setSelection(...values: T[]): boolean | void {
     this._verifyValueAssignment(values);
@@ -146,8 +176,17 @@ export class SelectionModel<T> {
    * 在选定和取消选定之间切换一个值。
    *
    * @param value The value to toggle
+   *
+   * 要切换的值
+   *
    * @return Whether the selection changed as a result of this call
+   *
+   * 选择结果是否因为本次调用而发生了变化
+   *
    * @breaking-change 16.0.0 make return type boolean
+   *
+   * 返回值变成了 boolean 型
+   *
    */
   toggle(value: T): boolean | void {
     return this.isSelected(value) ? this.deselect(value) : this.select(value);
@@ -160,8 +199,17 @@ export class SelectionModel<T> {
    *
    * @param flushEvent Whether to flush the changes in an event.
    *   If false, the changes to the selection will be flushed along with the next event.
+   *
+   * 是否要在一个事件中刷新这些值。如果为 false，对选取结果的变更将会随着下一个事件一起刷新。
+   *
    * @return Whether the selection changed as a result of this call
+   *
+   * 选择结果是否因为本次调用而发生了变化
+   *
    * @breaking-change 16.0.0 make return type boolean
+   *
+   * 返回值变成了 boolean 型
+   *
    */
   clear(flushEvent = true): boolean | void {
     this._unmarkAll();

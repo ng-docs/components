@@ -11,39 +11,99 @@ import * as postcss from 'postcss';
 const END_OF_SELECTOR_REGEX = '(?!-)';
 const MIXIN_ARGUMENTS_REGEX = '\\(((\\s|.)*)\\)';
 
-/** The changes to a class names. */
+/**
+ * The changes to a class names.
+ *
+ * 对类名称的更改。
+ *
+ */
 export interface ClassNameChange {
-  /** The legacy class name. */
+  /**
+   * The legacy class name.
+   *
+   * 旧的类名。
+   *
+   */
   old: string;
 
-  /** The new class name. */
+  /**
+   * The new class name.
+   *
+   * 新的类名。
+   *
+   */
   new: string;
 }
 
-/** The changes to an scss mixin. */
+/**
+ * The changes to an scss mixin.
+ *
+ * 对 scss mixin 的更改。
+ *
+ */
 export interface MixinChange {
-  /** The name of the legacy scss mixin. */
+  /**
+   * The name of the legacy scss mixin.
+   *
+   * 旧的 scss mixin 名称。
+   *
+   */
   old: string;
 
-  /** The name(s) of the new scss mixin(s). */
+  /**
+   * The name(s) of the new scss mixin(s).
+   *
+   * 新的 scss mixin 名称。
+   *
+   */
   new: string[] | null;
 
-  /** Optional check to see if new scss mixin(s) already exist in the styles */
+  /**
+   * Optional check to see if new scss mixin(s) already exist in the styles
+   *
+   * 可选检查以查看样式中是否已存在新的 scss mixin
+   *
+   */
   checkForDuplicates?: boolean;
 }
 
-/** StyleMigrator implements the basic case for migrating old component styles to new ones. */
+/**
+ * StyleMigrator implements the basic case for migrating old component styles to new ones.
+ *
+ * StyleMigrator 实现了将旧组件样式迁移到新组件样式的基本案例。
+ *
+ */
 export abstract class StyleMigrator {
-  /** The name of the component that this migration handles. */
+  /**
+   * The name of the component that this migration handles.
+   *
+   * 此迁移所处理的组件的名称。
+   *
+   */
   abstract component: string;
 
-  /** The old and new class names of this component. */
+  /**
+   * The old and new class names of this component.
+   *
+   * 此组件的旧类名和新类名。
+   *
+   */
   abstract classChanges: ClassNameChange[];
 
-  /** The old mixins and their replacements. */
+  /**
+   * The old mixins and their replacements.
+   *
+   * 旧的 mixin 及其替代品。
+   *
+   */
   abstract mixinChanges: MixinChange[];
 
-  /** The prefix of classes that are specific to the old components */
+  /**
+   * The prefix of classes that are specific to the old components
+   *
+   * 特定于旧组件的类的前缀
+   *
+   */
   abstract deprecatedPrefixes: string[];
 
   /**
@@ -55,13 +115,21 @@ export abstract class StyleMigrator {
   /**
    * Wraps a value in a placeholder string to prevent it
    * from being matched multiple times in a migration.
+   *
+   * 将值包装在占位符字符串中，以防止它在迁移中被多次匹配。
+   *
    */
   static wrapValue(value: string): string {
     const escapeString = '__NG_MDC_MIGRATION_PLACEHOLDER__';
     return `${escapeString}${value}${escapeString}`;
   }
 
-  /** Unwraps all the values that we wrapped by `wrapValue`. */
+  /**
+   * Unwraps all the values that we wrapped by `wrapValue`.
+   *
+   * 解开我们用 `wrapValue` 包装的所有值。
+   *
+   */
   static unwrapAllValues(content: string): string {
     return content.replace(/__NG_MDC_MIGRATION_PLACEHOLDER__/g, '');
   }
@@ -69,9 +137,22 @@ export abstract class StyleMigrator {
   /**
    * Returns whether the given at-include at-rule is a use of a legacy mixin for this component.
    *
+   * 返回给定的 at-include at-rule 是否为此组件使用了旧版 mixin。
+   *
    * @param namespace the namespace being used for angular/material.
+   *
+   * 用于 angular/material 的命名空间。
+   *
    * @param atRule a postcss at-include at-rule.
-   * @returns `true` if the given at-rule is a use of a legacy mixin for this component.
+   *
+   * postcss 的 at-include at-rule。
+   *
+   * @returns
+   *
+   * `true` if the given at-rule is a use of a legacy mixin for this component.
+   *
+   * 如果给定的 at-rule 为此组件使用了旧版 mixin，则为 `true`。
+   *
    */
   isLegacyMixin(namespace: string, atRule: postcss.AtRule): boolean {
     return this.mixinChanges.some(change => atRule.params.includes(`${namespace}.${change.old}`));
@@ -81,9 +162,22 @@ export abstract class StyleMigrator {
    * Gets the mixin change object that has the new mixin(s) replacements if
    * found for the at rule node.
    *
+   * 如果为 at-rule 节点找到了新的 mixin 替代品，则获取此 mixin 更改对象。
+   *
    * @param namespace the namespace being used for angular/material.
+   *
+   * 用于 angular/material 的命名空间。
+   *
    * @param atRule an at-include at-rule of a legacy mixin for this component.
-   * @returns the mixin change object or null if not found
+   *
+   * 此组件的旧版 mixin 的 at-include 规则。
+   *
+   * @returns
+   *
+   * the mixin change object or null if not found
+   *
+   * 此 mixin 的更改对象，如果未找到则返回 null
+   *
    */
   getMixinChange(namespace: string, atRule: postcss.AtRule): MixinChange | null {
     const processedKey = `mixinChange-${namespace}`;
@@ -127,8 +221,18 @@ export abstract class StyleMigrator {
   /**
    * Returns whether the given postcss rule uses a legacy selector of this component.
    *
+   * 返回给定的 postcss 规则是否使用了此组件的旧版选择器。
+   *
    * @param rule a postcss rule.
-   * @returns `true` if the given Rule uses a legacy selector of this component.
+   *
+   * postcss 规则。
+   *
+   * @returns
+   *
+   * `true` if the given Rule uses a legacy selector of this component.
+   *
+   * 如果规定的规则为此组件使用了旧版选择器，则为 `true`。
+   *
    */
   isLegacySelector(rule: postcss.Rule): boolean {
     // Since a legacy class can also have the deprecated prefix, we also
@@ -141,7 +245,12 @@ export abstract class StyleMigrator {
   /**
    * Replaces a legacy selector of this component with the new one.
    *
+   * 将此组件的旧版选择器替换为新版选择器。
+   *
    * @param rule a postcss rule.
+   *
+   * postcss 规则。
+   *
    */
   replaceLegacySelector(rule: postcss.Rule): void {
     if (!this._nodeIsProcessed(rule, 'replaceLegacySelector')) {
@@ -159,8 +268,18 @@ export abstract class StyleMigrator {
    * Returns whether the given postcss rule uses a potentially deprecated
    * selector of the old component.
    *
+   * 返回给定的 postcss 规则是否使用了旧组件的可能已弃用的选择器。
+   *
    * @param rule a postcss rule.
-   * @returns `true` if the given Rule uses a selector with the deprecated prefix.
+   *
+   * postcss 规则。
+   *
+   * @returns
+   *
+   * `true` if the given Rule uses a selector with the deprecated prefix.
+   *
+   * 如果规定的规则使用了一个具有旧版前缀的选择器，则为 `true`。
+   *
    */
   isDeprecatedSelector(rule: postcss.Rule): boolean {
     return this.deprecatedPrefixes.some(deprecatedPrefix =>

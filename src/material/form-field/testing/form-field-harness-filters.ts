@@ -29,6 +29,11 @@ export interface FormFieldHarnessFilters extends BaseHarnessFilters {
    *
    */
   hasErrors?: boolean;
-  /** Filters based on whether the form field value is valid. */
+  /**
+   * Filters based on whether the form field value is valid.
+   *
+   * 根据表单字段值是否有效进行过滤。
+   *
+   */
   isValid?: boolean;
 }

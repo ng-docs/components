@@ -10,7 +10,12 @@ import {ComponentHarnessConstructor, HarnessPredicate} from '@angular/cdk/testin
 import {MatChipHarness} from './chip-harness';
 import {ChipOptionHarnessFilters} from './chip-harness-filters';
 
-/** Harness for interacting with a mat-chip-option in tests. */
+/**
+ * Harness for interacting with a mat-chip-option in tests.
+ *
+ * 用于在测试中与 mat-chip-option 交互的组件测试工具。
+ *
+ */
 export class MatChipOptionHarness extends MatChipHarness {
   static override hostSelector = '.mat-mdc-chip-option';
 

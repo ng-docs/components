@@ -50,7 +50,12 @@ export class MatSliderHarness extends ComponentHarness {
       });
   }
 
-  /** Gets the start thumb of the slider (only applicable for range sliders). */
+  /**
+   * Gets the start thumb of the slider (only applicable for range sliders).
+   *
+   * 获取滑杆的起始缩略图（仅适用于范围滑杆）。
+   *
+   */
   async getStartThumb(): Promise<MatSliderThumbHarness> {
     if (!(await this.isRange())) {
       throw Error(
@@ -71,7 +76,8 @@ export class MatSliderHarness extends ComponentHarness {
     return this.locatorFor(MatSliderThumbHarness.with({position: ThumbPosition.END}))();
   }
 
-  /** Gets whether the slider is a range slider. *
+  /**
+   * Gets whether the slider is a range slider. \*
    * 获取滑块的当前显示值。如果禁用了指示标签，则返回一个空的 Promise。
    *
    */

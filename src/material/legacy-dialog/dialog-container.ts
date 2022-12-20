@@ -27,8 +27,12 @@ import {_MatDialogContainerBase, matDialogAnimations} from '@angular/material/di
 /**
  * Internal component that wraps user-provided dialog content.
  * Animation is based on https://material.io/guidelines/motion/choreography.html.
+ *
  * @docs-private
- * @deprecated Use `MatDialogContainer` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatDialogContainer` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -55,10 +59,20 @@ import {_MatDialogContainerBase, matDialogAnimations} from '@angular/material/di
   },
 })
 export class MatLegacyDialogContainer extends _MatDialogContainerBase {
-  /** State of the dialog animation. */
+  /**
+   * State of the dialog animation.
+   *
+   * 对话框动画的状态。
+   *
+   */
   _state: 'void' | 'enter' | 'exit' = 'enter';
 
-  /** Callback, invoked whenever an animation on the host completes. */
+  /**
+   * Callback, invoked whenever an animation on the host completes.
+   *
+   * 回调，每当宿主上的动画完成时调用。
+   *
+   */
   _onAnimationDone({toState, totalTime}: AnimationEvent) {
     if (toState === 'enter') {
       this._openAnimationDone(totalTime);
@@ -67,7 +81,12 @@ export class MatLegacyDialogContainer extends _MatDialogContainerBase {
     }
   }
 
-  /** Callback, invoked when an animation on the host starts. */
+  /**
+   * Callback, invoked when an animation on the host starts.
+   *
+   * 回调，每当宿主上的动画开始时调用。
+   *
+   */
   _onAnimationStart({toState, totalTime}: AnimationEvent) {
     if (toState === 'enter') {
       this._animationStateChanged.next({state: 'opening', totalTime});
@@ -76,7 +95,12 @@ export class MatLegacyDialogContainer extends _MatDialogContainerBase {
     }
   }
 
-  /** Starts the dialog exit animation. */
+  /**
+   * Starts the dialog exit animation.
+   *
+   * 开始播放对话框退出动画。
+   *
+   */
   _startExitAnimation(): void {
     this._state = 'exit';
 

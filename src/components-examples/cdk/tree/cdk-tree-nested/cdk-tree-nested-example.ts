@@ -5,6 +5,9 @@ import {NestedTreeControl} from '@angular/cdk/tree';
 /**
  * Food data with nested structure.
  * Each node has a name and an optional list of children.
+ *
+ * 具有嵌套结构的食物数据。每个节点都有一个名称和一个可选的子节点列表。
+ *
  */
 interface FoodNode {
   name: string;

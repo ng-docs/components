@@ -31,9 +31,19 @@ export interface ButtonHarnessFilters extends BaseHarnessFilters {
    */
   text?: string | RegExp;
 
-  /** Only find instances with a variant. */
+  /**
+   * Only find instances with a variant.
+   *
+   * 仅查找具有变体的实例。
+   *
+   */
   variant?: ButtonVariant;
 
-  /** Only find instances which match the given disabled state. */
+  /**
+   * Only find instances which match the given disabled state.
+   *
+   * 仅查找与给定禁用状态匹配的实例。
+   *
+   */
   disabled?: boolean;
 }

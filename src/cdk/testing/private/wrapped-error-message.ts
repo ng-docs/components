@@ -8,9 +8,9 @@
 
 /**
  * Gets a RegExp used to detect an angular wrapped error message.
- * See <https://github.com/angular/angular/issues/8348>
+ * See https://github.com/angular/angular/issues/8348
  *
- * 获取用于检测 Angular 包装的错误消息的 RegExp。参见 <https://github.com/angular/angular/issues/8348>
+ * 获取用于检测 Angular 包装的错误消息的 RegExp。参见 https://github.com/angular/angular/issues/8348
  *
  */
 export function wrappedErrorMessage(e: Error) {

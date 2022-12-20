@@ -94,7 +94,7 @@ used `tslint` had various issues:
 
   TSLint 以递归方式访问每个升级 lint 规则的所有源文件的节点（性能问题）
 
-- TSLint is not guaranteed to be installed in CLI projects. See: <https://github.com/angular/angular-cli/issues/14555>
+- TSLint is not guaranteed to be installed in CLI projects. See: https://github.com/angular/angular-cli/issues/14555
 
   不保证在 CLI 项目中安装 TSLint。请参阅： [https：//github.com/angular/angular-cli/issues/14555](https://github.com/angular/angular-cli/issues/14555)
 

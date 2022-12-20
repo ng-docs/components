@@ -108,7 +108,12 @@ import {
 
 let nextUniqueId = 0;
 
-/** Injection token that determines the scroll handling while a select is open. */
+/**
+ * Injection token that determines the scroll handling while a select is open.
+ *
+ * 当选择框被打开时，本注入令牌决定滚动时的处理方式。
+ *
+ */
 export const MAT_SELECT_SCROLL_STRATEGY = new InjectionToken<() => ScrollStrategy>(
   'mat-select-scroll-strategy',
 );
@@ -171,10 +176,18 @@ export const MAT_SELECT_SCROLL_STRATEGY_PROVIDER = {
  * Injection token that can be used to reference instances of `MatSelectTrigger`. It serves as
  * alternative token to the actual `MatSelectTrigger` class which could cause unnecessary
  * retention of the class and its directive metadata.
+ *
+ * 这个注入令牌可以用来引用 `MatSelectTrigger` 的实例。它可以作为实际 `MatSelectTrigger` 类的备用令牌，直接使用实际类可能导致该类及其元数据无法被优化掉。
+ *
  */
 export const MAT_SELECT_TRIGGER = new InjectionToken<MatSelectTrigger>('MatSelectTrigger');
 
-/** Change event object that is emitted when the select value has changed. */
+/**
+ * Change event object that is emitted when the select value has changed.
+ *
+ * 当选择框的值发生更改后触发的事件对象。
+ *
+ */
 export class MatSelectChange {
   constructor(
     /**
@@ -228,7 +241,12 @@ const _MatSelectMixinBase = mixinDisableRipple(
   ),
 );
 
-/** Base class with all of the `MatSelect` functionality. */
+/**
+ * Base class with all of the `MatSelect` functionality.
+ *
+ * 具有所有 `MatSelect` 功能的基类。
+ *
+ */
 @Directive()
 export abstract class _MatSelectBase<C>
   extends _MatSelectMixinBase
@@ -389,10 +407,20 @@ export abstract class _MatSelectBase<C>
    */
   _keyManager: ActiveDescendantKeyManager<MatOption>;
 
-  /** `View -> model callback called when value changes` */
+  /**
+   * `View -> model callback called when value changes`
+   *
+   * 视图 -> 模型回调，当值发生变化的时候调用
+   *
+   */
   _onChange: (value: any) => void = () => {};
 
-  /** `View -> model callback called when select has been touched` */
+  /**
+   * `View -> model callback called when select has been touched`
+   *
+   * 视图 -> 模型的回调，当次选择框被接触时调用
+   *
+   */
   _onTouched = () => {};
 
   /**
@@ -1552,6 +1580,9 @@ export abstract class _MatSelectBase<C>
 
 /**
  * Allows the user to customize the trigger that is displayed when the select has a value.
+ *
+ * 当选择框具有值时，允许用户自定义要显示的触发器。
+ *
  */
 @Directive({
   selector: 'mat-select-trigger',
@@ -1617,10 +1648,20 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     },
   ];
 
-  /** Ideal origin for the overlay panel. */
+  /**
+   * Ideal origin for the overlay panel.
+   *
+   * 浮层面板的理想化来源。
+   *
+   */
   _preferredOverlayOrigin: CdkOverlayOrigin | ElementRef | undefined;
 
-  /** Width of the overlay panel. */
+  /**
+   * Width of the overlay panel.
+   *
+   * 浮层面板的宽度。
+   *
+   */
   _overlayWidth: number;
 
   override get shouldLabelFloat(): boolean {

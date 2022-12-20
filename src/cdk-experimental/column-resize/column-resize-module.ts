@@ -16,6 +16,9 @@ import {CdkDefaultEnabledColumnResizeFlex} from './column-resize-directives/defa
 /**
  * One of two NgModules for use with CdkColumnResize.
  * When using this module, columns are resizable by default.
+ *
+ * 与 CdkColumnResize 一起使用的两个 NgModule 之一。使用此模块时，列默认情况下可调整大小。
+ *
  */
 @NgModule({
   declarations: [CdkDefaultEnabledColumnResize, CdkDefaultEnabledColumnResizeFlex],
@@ -26,6 +29,9 @@ export class CdkColumnResizeDefaultEnabledModule {}
 /**
  * One of two NgModules for use with CdkColumnResize.
  * When using this module, columns are not resizable by default.
+ *
+ * 与 CdkColumnResize 一起使用的两个 NgModule 之一。使用此模块时，列默认情况下不可调整大小。
+ *
  */
 @NgModule({
   declarations: [CdkColumnResize, CdkColumnResizeFlex],

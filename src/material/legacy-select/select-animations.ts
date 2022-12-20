@@ -21,9 +21,16 @@ import {
  * The following are all the animations for the mat-select component, with each
  * const containing the metadata for one animation.
  *
+ * 以下是 mat-select 组件的所有动画，每个常量包含一个动画的元数据。
+ *
  * The values below match the implementation of the AngularJS Material mat-select animation.
+ *
+ * 下面的值与 AngularJS Material mat-select 动画的实现相匹配。
+ *
  * @docs-private
- * @deprecated Use `matSelectAnimations` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `matSelectAnimations` from `@angular/material/select` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
  * @breaking-change 17.0.0
  */
 export const matLegacySelectAnimations: {

@@ -12,6 +12,9 @@ import {DOCUMENT} from '@angular/common';
 /**
  * A directive that makes a span editable and exposes functions to modify and retrieve the
  * element's contents.
+ *
+ * 该指令能让某个 span 可编辑并暴露一些函数以修改和检索元素内容。
+ *
  */
 @Directive({
   selector: 'span[matChipEditInput]',

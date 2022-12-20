@@ -31,12 +31,20 @@ import {
 } from '@angular/material/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
-/** Default color palette for round buttons (mat-fab and mat-mini-fab) */
+/**
+ * Default color palette for round buttons (mat-fab and mat-mini-fab)
+ *
+ * 圆形按钮（mat-fab 和 mat-mini-fab）的默认调色板
+ *
+ */
 const DEFAULT_ROUND_BUTTON_COLOR = 'accent';
 
 /**
  * List of classes to add to button instances based on host attributes to
  * style as different variants.
+ *
+ * 根据宿主属性添加到按钮实例的类列表，以设置为不同的变体。
+ *
  */
 const BUTTON_HOST_ATTRIBUTES = [
   'mat-button',
@@ -61,7 +69,13 @@ const _MatButtonBase = mixinColor(
 
 /**
  * Material design button.
- * @deprecated Use `MatButton` from `@angular/material/button` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * Material Design 按钮。
+ *
+ * @deprecated
+ *
+ * Use `MatButton` from `@angular/material/button` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -88,13 +102,28 @@ export class MatLegacyButton
   extends _MatButtonBase
   implements AfterViewInit, OnDestroy, CanDisable, CanColor, CanDisableRipple, FocusableOption
 {
-  /** Whether the button is round. */
+  /**
+   * Whether the button is round.
+   *
+   * 此按钮是否为圆形的。
+   *
+   */
   readonly isRoundButton: boolean = this._hasHostAttributes('mat-fab', 'mat-mini-fab');
 
-  /** Whether the button is icon button. */
+  /**
+   * Whether the button is icon button.
+   *
+   * 此按钮是否为图标按钮。
+   *
+   */
   readonly isIconButton: boolean = this._hasHostAttributes('mat-icon-button');
 
-  /** Reference to the MatRipple instance of the button. */
+  /**
+   * Reference to the MatRipple instance of the button.
+   *
+   * 引用此按钮的 MatRipple 实例。
+   *
+   */
   @ViewChild(MatRipple) ripple: MatRipple;
 
   constructor(
@@ -130,7 +159,12 @@ export class MatLegacyButton
     this._focusMonitor.stopMonitoring(this._elementRef);
   }
 
-  /** Focuses the button. */
+  /**
+   * Focuses the button.
+   *
+   * 让此按钮获得焦点。
+   *
+   */
   focus(origin?: FocusOrigin, options?: FocusOptions): void {
     if (origin) {
       this._focusMonitor.focusVia(this._getHostElement(), origin, options);
@@ -147,7 +181,12 @@ export class MatLegacyButton
     return this.disableRipple || this.disabled;
   }
 
-  /** Gets whether the button has one of the given attributes. */
+  /**
+   * Gets whether the button has one of the given attributes.
+   *
+   * 获取按钮是否具有给定属性之一。
+   *
+   */
   _hasHostAttributes(...attributes: string[]) {
     return attributes.some(attribute => this._getHostElement().hasAttribute(attribute));
   }
@@ -155,7 +194,13 @@ export class MatLegacyButton
 
 /**
  * Material design anchor button.
- * @deprecated Use `MatAnchor` from `@angular/material/button` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * Material Design 锚定按钮。
+ *
+ * @deprecated
+ *
+ * Use `MatAnchor` from `@angular/material/button` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -180,7 +225,12 @@ export class MatLegacyButton
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatLegacyAnchor extends MatLegacyButton implements AfterViewInit, OnDestroy {
-  /** Tabindex of the button. */
+  /**
+   * Tabindex of the button.
+   *
+   * 此按钮的 tabindex。
+   *
+   */
   @Input() tabIndex: number;
 
   constructor(

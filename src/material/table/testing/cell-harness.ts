@@ -14,7 +14,12 @@ import {
 import {CellHarnessFilters} from './table-harness-filters';
 
 export abstract class _MatCellHarnessBase extends ContentContainerComponentHarness {
-  /** Gets the cell's text. */
+  /**
+   * Gets the cell's text.
+   *
+   * 获取此单元格的文本。
+   *
+   */
   async getText(): Promise<string> {
     return (await this.host()).text();
   }
@@ -59,15 +64,33 @@ export abstract class _MatCellHarnessBase extends ContentContainerComponentHarne
 }
 
 /**
- * Harness for interacting with an MDC-based Angular Material table cell. */
+ * Harness for interacting with an MDC-based Angular Material table cell.
+ *
+ * 用于与基于 MDC 的 Angular Material 表单元格进行交互的组件测试工具。
+ *
+ */
 export class MatCellHarness extends _MatCellHarnessBase {
-  /** The selector for the host element of a `MatCellHarness` instance. */
+  /**
+   * The selector for the host element of a `MatCellHarness` instance.
+   *
+   * `MatCellHarness` 实例的宿主元素选择器。
+   *
+   */
   static hostSelector = '.mat-mdc-cell';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a table cell with specific attributes.
+   *
+   * 获取一个可用来使用指定属性搜索表格中单元格的 `HarnessPredicate`。
+   *
    * @param options Options for narrowing the search
+   *
+   * 用来收窄搜索范围的选项：
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(options: CellHarnessFilters = {}): HarnessPredicate<MatCellHarness> {
     return _MatCellHarnessBase._getCellPredicate(this, options);

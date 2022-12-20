@@ -33,15 +33,28 @@ import {MatChipEditInput} from './chip-edit-input';
 import {takeUntil} from 'rxjs/operators';
 import {MAT_CHIP} from './tokens';
 
-/** Represents an event fired on an individual `mat-chip` when it is edited. */
+/**
+ * Represents an event fired on an individual `mat-chip` when it is edited.
+ *
+ * 表示当单个 `mat-chip` 被编辑时触发的事件。
+ *
+ */
 export interface MatChipEditedEvent extends MatChipEvent {
-  /** The final edit value. */
+  /**
+   * The final edit value.
+   *
+   * 最终的编辑值。
+   *
+   */
   value: string;
 }
 
 /**
  * An extension of the MatChip component used with MatChipGrid and
  * the matChipInputFor directive.
+ *
+ * 与 MatChipGrid 和 matChipInputFor 指令一起使用的 MatChip 组件的扩展。
+ *
  */
 @Component({
   selector: 'mat-chip-row, mat-basic-chip-row',
@@ -88,14 +101,29 @@ export class MatChipRow extends MatChip implements AfterViewInit {
 
   @Input() editable: boolean = false;
 
-  /** Emitted when the chip is edited. */
+  /**
+   * Emitted when the chip is edited.
+   *
+   * 编辑纸片时发出。
+   *
+   */
   @Output() readonly edited: EventEmitter<MatChipEditedEvent> =
     new EventEmitter<MatChipEditedEvent>();
 
-  /** The default chip edit input that is used if none is projected into this chip row. */
+  /**
+   * The default chip edit input that is used if none is projected into this chip row.
+   *
+   * 如果没有投影到此纸片行，则使用默认的纸片编辑输入框。
+   *
+   */
   @ViewChild(MatChipEditInput) defaultEditInput?: MatChipEditInput;
 
-  /** The projected chip edit input. */
+  /**
+   * The projected chip edit input.
+   *
+   * 投影进来的纸片编辑输入框。
+   *
+   */
   @ContentChild(MatChipEditInput) contentEditInput?: MatChipEditInput;
 
   _isEditing = false;
@@ -136,7 +164,12 @@ export class MatChipRow extends MatChip implements AfterViewInit {
     return !this._isEditing && super._hasTrailingIcon();
   }
 
-  /** Sends focus to the first gridcell when the user clicks anywhere inside the chip. */
+  /**
+   * Sends focus to the first gridcell when the user clicks anywhere inside the chip.
+   *
+   * 当用户单击纸片内的任意位置时，将焦点发送到第一个网格单元。
+   *
+   */
   _mousedown(event: MouseEvent) {
     if (!this._isEditing) {
       if (!this.disabled) {

@@ -10,6 +10,9 @@ import {Directive} from '@angular/core';
 
 /**
  * Directive whose purpose is to add the mat- CSS styling to this selector.
+ *
+ * 指令，其目的是将 mat- CSS 样式添加到此选择器。
+ *
  * @docs-private
  */
 @Directive({

@@ -17,14 +17,26 @@ import {MatLegacyDialogConfig} from './dialog-config';
 
 /**
  * Injection token that can be used to access the data that was passed in to a dialog.
- * @deprecated Use `MAT_DIALOG_DATA` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 这个注入令牌可以用来访问那些传入对话框的数据。
+ *
+ * @deprecated
+ *
+ * Use `MAT_DIALOG_DATA` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_DIALOG_DATA = new InjectionToken<any>('MatDialogData');
 
 /**
  * Injection token that can be used to specify default dialog options.
- * @deprecated Use `MAT_DIALOG_DEFAULT_OPTIONS` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 这个注入令牌可以用来指定默认的对话框选项。
+ *
+ * @deprecated
+ *
+ * Use `MAT_DIALOG_DEFAULT_OPTIONS` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_DIALOG_DEFAULT_OPTIONS = new InjectionToken<MatLegacyDialogConfig>(
@@ -33,7 +45,13 @@ export const MAT_LEGACY_DIALOG_DEFAULT_OPTIONS = new InjectionToken<MatLegacyDia
 
 /**
  * Injection token that determines the scroll handling while the dialog is open.
- * @deprecated Use `MAT_DIALOG_SCROLL_STRATEGY` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 一个注入令牌，它在对话框打开时确定滚动的处理方式。
+ *
+ * @deprecated
+ *
+ * Use `MAT_DIALOG_SCROLL_STRATEGY` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_DIALOG_SCROLL_STRATEGY = new InjectionToken<() => ScrollStrategy>(
@@ -42,7 +60,10 @@ export const MAT_LEGACY_DIALOG_SCROLL_STRATEGY = new InjectionToken<() => Scroll
 
 /**
  * @docs-private
- * @deprecated Use `MAT_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MAT_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export function MAT_LEGACY_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY(
@@ -53,7 +74,10 @@ export function MAT_LEGACY_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY(
 
 /**
  * @docs-private
- * @deprecated Use `MAT_DIALOG_SCROLL_STRATEGY_PROVIDER` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MAT_DIALOG_SCROLL_STRATEGY_PROVIDER` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_DIALOG_SCROLL_STRATEGY_PROVIDER = {
@@ -64,7 +88,13 @@ export const MAT_LEGACY_DIALOG_SCROLL_STRATEGY_PROVIDER = {
 
 /**
  * Service to open Material Design modal dialogs.
- * @deprecated Use `MatDialog` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 用于打开 Material Design 模态对话框的服务。
+ *
+ * @deprecated
+ *
+ * Use `MatDialog` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Injectable()

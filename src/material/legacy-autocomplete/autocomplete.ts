@@ -22,7 +22,10 @@ import {
 import {_MatAutocompleteBase} from '@angular/material/autocomplete';
 
 /**
- * @deprecated Use `MatAutocomplete` from `@angular/material/autocomplete` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatAutocomplete` from `@angular/material/autocomplete` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -39,10 +42,20 @@ import {_MatAutocompleteBase} from '@angular/material/autocomplete';
   providers: [{provide: MAT_LEGACY_OPTION_PARENT_COMPONENT, useExisting: MatLegacyAutocomplete}],
 })
 export class MatLegacyAutocomplete extends _MatAutocompleteBase {
-  /** Reference to all option groups within the autocomplete. */
+  /**
+   * Reference to all option groups within the autocomplete.
+   *
+   * 对自动完成中所有选项组的引用。
+   *
+   */
   @ContentChildren(MAT_LEGACY_OPTGROUP, {descendants: true})
   optionGroups: QueryList<MatLegacyOptgroup>;
-  /** Reference to all options within the autocomplete. */
+  /**
+   * Reference to all options within the autocomplete.
+   *
+   * 对自动完成中所有选项的引用。
+   *
+   */
   @ContentChildren(MatLegacyOption, {descendants: true}) options: QueryList<MatLegacyOption>;
   protected _visibleClass = 'mat-autocomplete-visible';
   protected _hiddenClass = 'mat-autocomplete-hidden';

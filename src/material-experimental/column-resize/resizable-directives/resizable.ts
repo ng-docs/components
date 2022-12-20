@@ -34,6 +34,9 @@ import {AbstractMatResizable, RESIZABLE_HOST_BINDINGS, RESIZABLE_INPUTS} from '.
 
 /**
  * Explicitly enables column resizing for a mat-header-cell.
+ *
+ * 明确启用 mat-header-cell 的列大小调整。
+ *
  */
 @Directive({
   selector: 'mat-header-cell[resizable], th[mat-header-cell][resizable]',

@@ -8,10 +8,16 @@ base list component, it provides Material Design styling, but no behavior of its
 
 List items can be constructed in two ways depending the the content they need to show:
 
+列表条目可以通过两种方式构建，具体取决于它们需要显示的内容：
+
 ### Simple lists
+
+### 简单列表
 
 If a list item needs to show a single line of textual information, the text can be inserted
 directly into the `<mat-list-item>` element.
+
+如果列表条目需要显示单行文本信息，可以将文本直接插入到 `<mat-list-item>` 元素中。
 
 ```html
 <mat-list>
@@ -23,9 +29,13 @@ directly into the `<mat-list-item>` element.
 
 ### Multi-line lists
 
+### 多行列表
+
 List items that have more than one line of text have to use the `matListItemTitle` directive to
 indicate their title text for accessibility purposes, in addition to the `matListItemLine` directive
 for each subsequent line of text.
+
+具有多行文本的列表条目必须使用 `matListItemTitle` 指令来指示其标题文本以实现无障碍性目的，但 `matListItemLine` 指令除外，它用于每个后续文本行。
 
 ```html
 <mat-list>
@@ -47,15 +57,25 @@ for each subsequent line of text.
 To activate text wrapping, the `lines` input has to be set on the `<mat-list-item>` indicating the
 number of lines of text.
 
+要激活文本换行，必须在 `<mat-list-item>` 上设置 `lines` 输入以指示文本行数。
+
 The following directives can be used to style the content of a list item:
 
-| Directive           | Description                                                                |
-|---------------------|----------------------------------------------------------------------------|
-| `matListItemTitle`  | Indicates the title of the list item. Required for multi-line list items.  |
-| `matListItemLine`   | Wraps a line of text within a list item.                                   |
-| `matListItemIcon`   | Icon typically placed at the beginning of a list item.                     |
-| `matListItemAvatar` | Image typically placed at the beginning of a list item.                    |
-| `matListItemMeta`   | Inserts content in the meta section at the end of a list item.             |
+以下指令可用于设置列表条目内容的样式：
+
+| Directive | Description |
+| --------- | ----------- |
+| 指令 | 说明 |
+| `matListItemTitle` | Indicates the title of the list item. Required for multi-line list items. |
+| `matListItemTitle` | 指示列表条目的标题。多行列表条目需要。 |
+| `matListItemLine` | Wraps a line of text within a list item. |
+| `matListItemLine` | 在列表条目中进行文本换行。 |
+| `matListItemIcon` | Icon typically placed at the beginning of a list item. |
+| `matListItemIcon` | 图标通常放置在列表条目的开头。 |
+| `matListItemAvatar` | Image typically placed at the beginning of a list item. |
+| `matListItemAvatar` | 图像通常放置在列表条目的开头。 |
+| `matListItemMeta` | Inserts content in the meta section at the end of a list item. |
+| `matListItemMeta` | 在列表条目末尾的 meta 部分中插入内容。 |
 
 ### Navigation lists
 
@@ -202,6 +222,8 @@ To include an avatar image, add an image tag with an `matListItemAvatar` attribu
 ```
 
 ### Lists with multiple sections
+
+### 带有多个分区的列表
 
 Subheaders can be added to a list by annotating a heading tag with an `matSubheader` attribute.
 To add a divider, use `<mat-divider>`.

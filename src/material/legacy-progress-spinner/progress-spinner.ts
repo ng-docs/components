@@ -34,12 +34,18 @@ import {Subscription} from 'rxjs';
 
 /**
  * Base reference size of the spinner.
+ *
+ * 微调器的基本参考大小。
+ *
  * @docs-private
  */
 const BASE_SIZE = 100;
 
 /**
  * Base reference stroke width of the spinner.
+ *
+ * 微调器的基本参考笔划宽度。
+ *
  * @docs-private
  */
 const BASE_STROKE_WIDTH = 10;
@@ -83,7 +89,13 @@ const INDETERMINATE_ANIMATION_TEMPLATE = `
 
 /**
  * `<mat-progress-spinner>` component.
- * @deprecated Use `MatProgressSpinner` from `@angular/material/progress-spinner` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * `<mat-progress-spinner>` 组件。
+ *
+ * @deprecated
+ *
+ * Use `MatProgressSpinner` from `@angular/material/progress-spinner` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -134,13 +146,28 @@ export class MatLegacyProgressSpinner
    */
   private static _diameters = new WeakMap<Node, Set<number>>();
 
-  /** Whether the _mat-animation-noopable class should be applied, disabling animations.  */
+  /**
+   * Whether the \_mat-animation-noopable class should be applied, disabling animations.
+   *
+   * 是否要应用 \_mat-animation-noopable 类，以禁用动画。
+   *
+   */
   _noopAnimations: boolean;
 
-  /** A string that is used for setting the spinner animation-name CSS property */
+  /**
+   * A string that is used for setting the spinner animation-name CSS property
+   *
+   * 用于设置微调器动画名称 CSS 属性的字符串
+   *
+   */
   _spinnerAnimationLabel: string;
 
-  /** The diameter of the progress spinner (will set width and height of svg). */
+  /**
+   * The diameter of the progress spinner (will set width and height of svg).
+   *
+   * 进度圈的直径（用于设置 svg 的宽度和高度）。
+   *
+   */
   @Input()
   get diameter(): number {
     return this._diameter;
@@ -155,7 +182,12 @@ export class MatLegacyProgressSpinner
     }
   }
 
-  /** Stroke width of the progress spinner. */
+  /**
+   * Stroke width of the progress spinner.
+   *
+   * 进度圈的线宽。
+   *
+   */
   @Input()
   get strokeWidth(): number {
     return this._strokeWidth || this.diameter / 10;
@@ -164,10 +196,20 @@ export class MatLegacyProgressSpinner
     this._strokeWidth = coerceNumberProperty(value);
   }
 
-  /** Mode of the progress circle */
+  /**
+   * Mode of the progress circle
+   *
+   * 进步圈的模式
+   *
+   */
   @Input() mode: ProgressSpinnerMode = 'determinate';
 
-  /** Value of the progress circle. */
+  /**
+   * Value of the progress circle.
+   *
+   * 进度圈的值。
+   *
+   */
   @Input()
   get value(): number {
     return this.mode === 'determinate' ? this._value : 0;
@@ -256,23 +298,43 @@ export class MatLegacyProgressSpinner
     this._resizeSubscription.unsubscribe();
   }
 
-  /** The radius of the spinner, adjusted for stroke width. */
+  /**
+   * The radius of the spinner, adjusted for stroke width.
+   *
+   * 微调器的半径，根据笔画宽度进行调整。
+   *
+   */
   _getCircleRadius() {
     return (this.diameter - BASE_STROKE_WIDTH) / 2;
   }
 
-  /** The view box of the spinner's svg element. */
+  /**
+   * The view box of the spinner's svg element.
+   *
+   * 微调器的 svg 元素的视图框。
+   *
+   */
   _getViewBox() {
     const viewBox = this._getCircleRadius() * 2 + this.strokeWidth;
     return `0 0 ${viewBox} ${viewBox}`;
   }
 
-  /** The stroke circumference of the svg circle. */
+  /**
+   * The stroke circumference of the svg circle.
+   *
+   * svg 圆的笔划周长。
+   *
+   */
   _getStrokeCircumference(): number {
     return 2 * Math.PI * this._getCircleRadius();
   }
 
-  /** The dash offset of the svg circle. */
+  /**
+   * The dash offset of the svg circle.
+   *
+   * svg 圆的破折号偏移量。
+   *
+   */
   _getStrokeDashOffset() {
     if (this.mode === 'determinate') {
       return (this._getStrokeCircumference() * (100 - this._value)) / 100;
@@ -281,12 +343,22 @@ export class MatLegacyProgressSpinner
     return null;
   }
 
-  /** Stroke width of the circle in percent. */
+  /**
+   * Stroke width of the circle in percent.
+   *
+   * 以百分比表示的圆的描边宽度。
+   *
+   */
   _getCircleStrokeWidth() {
     return (this.strokeWidth / this.diameter) * 100;
   }
 
-  /** Gets the `transform-origin` for the inner circle element. */
+  /**
+   * Gets the `transform-origin` for the inner circle element.
+   *
+   * 获取内圆元素的 `transform-origin` 。
+   *
+   */
   _getCircleTransformOrigin(svg: HTMLElement): string {
     // Safari has an issue where the `transform-origin` doesn't work as expected when the page
     // has a different zoom level from the default. The problem appears to be that a zoom

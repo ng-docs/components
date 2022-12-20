@@ -80,6 +80,9 @@ export type DateFilterFn<D> = (date: D | null) => boolean;
 /**
  * Partial representation of `MatFormField` that is used for backwards-compatibility
  * between the legacy and non-legacy variants.
+ *
+ * `MatFormField` 的部分表示，用于旧式和非旧式变体之间的向后兼容性。
+ *
  */
 export interface _MatFormFieldPartial {
   getConnectedOverlayOrigin(): ElementRef;

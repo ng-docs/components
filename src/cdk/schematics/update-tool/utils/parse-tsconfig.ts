@@ -12,13 +12,23 @@ import {FileSystemHost} from './virtual-host';
 import {dirname} from 'path';
 import {formatDiagnostics} from './diagnostics';
 
-/** Class capturing a tsconfig parse error. */
+/**
+ * Class capturing a tsconfig parse error.
+ *
+ * 捕获 tsconfig 解析错误的类。
+ *
+ */
 export class TsconfigParseError extends Error {}
 
 /**
  * Attempts to parse the specified tsconfig file.
  *
+ * 尝试解析指定的 tsconfig 文件。
+ *
  * @throws {TsconfigParseError} If the tsconfig could not be read or parsed.
+ *
+ * 如果无法读取或解析 tsconfig。
+ *
  */
 export function parseTsconfigFile(
   tsconfigPath: WorkspacePath,

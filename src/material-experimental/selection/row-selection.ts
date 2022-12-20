@@ -12,9 +12,14 @@ import {Input, Directive} from '@angular/core';
 /**
  * Applies `mat-selected` class and `aria-selected` to an element.
  *
+ * 将 `mat-selected` 类和 `aria-selected` 应用于元素。
+ *
  * Must be used within a parent `MatSelection` directive.
  * Must be provided with the value. The index is required if `trackBy` is used on the `CdkSelection`
  * directive.
+ *
+ * 必须在父 `MatSelection` 指令中使用。必须提供值。如果在 `trackBy` 指令上使用 `CdkSelection` ，则需要索引。
+ *
  */
 @Directive({
   selector: '[matRowSelection]',
@@ -26,6 +31,11 @@ import {Input, Directive} from '@angular/core';
   inputs: ['index: matRowSelectionIndex'],
 })
 export class MatRowSelection<T> extends CdkRowSelection<T> {
-  /** The value that is associated with the row */
+  /**
+   * The value that is associated with the row
+   *
+   * 与本行关联的值
+   *
+   */
   @Input('matRowSelectionValue') override value: T;
 }

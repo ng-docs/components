@@ -49,9 +49,9 @@ type PatchedProxyZone = ProxyZone & {
  *
  * `ProxyZone` 实例中设置的拦截器。拦截器将跟踪任务状态，并在状态改变时发出。
  *
- * This serves as a workaround for <https://github.com/angular/angular/issues/32896>.
+ * This serves as a workaround for https://github.com/angular/angular/issues/32896.
  *
- * 这是解决 <https://github.com/angular/angular/issues/32896> 的变通方法。
+ * 这是解决 https://github.com/angular/angular/issues/32896 的变通方法。
  *
  */
 export class TaskStateZoneInterceptor {

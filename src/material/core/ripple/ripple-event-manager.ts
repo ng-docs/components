@@ -9,17 +9,32 @@
 import {normalizePassiveListenerOptions, _getEventTarget} from '@angular/cdk/platform';
 import {NgZone} from '@angular/core';
 
-/** Options used to bind a passive capturing event. */
+/**
+ * Options used to bind a passive capturing event.
+ *
+ * 用于绑定被动捕获事件的选项。
+ *
+ */
 const passiveCapturingEventOptions = normalizePassiveListenerOptions({
   passive: true,
   capture: true,
 });
 
-/** Manages events through delegation so that as few event handlers as possible are bound. */
+/**
+ * Manages events through delegation so that as few event handlers as possible are bound.
+ *
+ * 通过委托管理事件，以便绑定尽可能少的事件处理器。
+ *
+ */
 export class RippleEventManager {
   private _events = new Map<string, Map<HTMLElement, Set<EventListenerObject>>>();
 
-  /** Adds an event handler. */
+  /**
+   * Adds an event handler.
+   *
+   * 添加事件处理器。
+   *
+   */
   addHandler(ngZone: NgZone, name: string, element: HTMLElement, handler: EventListenerObject) {
     const handlersForEvent = this._events.get(name);
 
@@ -40,7 +55,12 @@ export class RippleEventManager {
     }
   }
 
-  /** Removes an event handler. */
+  /**
+   * Removes an event handler.
+   *
+   * 删除事件处理器。
+   *
+   */
   removeHandler(name: string, element: HTMLElement, handler: EventListenerObject) {
     const handlersForEvent = this._events.get(name);
 

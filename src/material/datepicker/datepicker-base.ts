@@ -193,10 +193,20 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
    */
   comparisonEnd: D | null;
 
-  /** ARIA Accessible name of the `<input matStartDate/>` */
+  /**
+   * ARIA Accessible name of the `<input matStartDate/>`
+   *
+   * `<input matStartDate/>` 的 ARIA 无障碍名称
+   *
+   */
   startDateAccessibleName: string | null;
 
-  /** ARIA Accessible name of the `<input matEndDate/>` */
+  /**
+   * ARIA Accessible name of the `<input matEndDate/>`
+   *
+   * `<input matEndDate/>` 的 ARIA 无障碍名称
+   *
+   */
   endDateAccessibleName: string | null;
 
   /**
@@ -223,7 +233,12 @@ export class MatDatepickerContent<S, D = ExtractDateTypeFromSelection<S>>
    */
   readonly _animationDone = new Subject<void>();
 
-  /** Whether there is an in-progress animation. */
+  /**
+   * Whether there is an in-progress animation.
+   *
+   * 是否有进行中的动画。
+   *
+   */
   _isAnimating = false;
 
   /**

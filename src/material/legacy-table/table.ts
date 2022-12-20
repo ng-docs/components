@@ -24,7 +24,13 @@ import {
 /**
  * Enables the recycle view repeater strategy, which reduces rendering latency. Not compatible with
  * tables that animate rows.
- * @deprecated Use `MatRecycleRows` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 启用复写器的视图回收策略，从而减少渲染延迟。与为各个表行设置动画的表格不兼容。
+ *
+ * @deprecated
+ *
+ * Use `MatRecycleRows` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -35,7 +41,13 @@ export class MatLegacyRecycleRows {}
 
 /**
  * Wrapper for the CdkTable with Material design styles.
- * @deprecated Use `MatTable` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 采用 Material Design 样式的 CdkTable 封装器。
+ *
+ * @deprecated
+ *
+ * Use `MatTable` from `@angular/material/table` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -63,9 +75,19 @@ export class MatLegacyRecycleRows {}
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MatLegacyTable<T> extends CdkTable<T> {
-  /** Overrides the sticky CSS class set by the `CdkTable`. */
+  /**
+   * Overrides the sticky CSS class set by the `CdkTable`.
+   *
+   * `CdkTable` 设置的粘性 CSS 类。
+   *
+   */
   protected override stickyCssClass = 'mat-table-sticky';
 
-  /** Overrides the need to add position: sticky on every sticky cell element in `CdkTable`. */
+  /**
+   * Overrides the need to add position: sticky on every sticky cell element in `CdkTable`.
+   *
+   * 改写在 `CdkTable` 每个粘性单元元素上添加 position: sticky 的需求。
+   *
+   */
   protected override needsPositionStickyOnElement = false;
 }

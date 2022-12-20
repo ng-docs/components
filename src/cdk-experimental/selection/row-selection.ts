@@ -14,9 +14,14 @@ import {CdkSelection} from './selection';
 /**
  * Applies `cdk-selected` class and `aria-selected` to an element.
  *
+ * 将 `cdk-selected` 类和 `aria-selected` 应用于元素。
+ *
  * Must be used within a parent `CdkSelection` directive.
  * Must be provided with the value. The index is required if `trackBy` is used on the `CdkSelection`
  * directive.
+ *
+ * 必须在父 `CdkSelection` 指令中使用。必须提供值。如果在 `trackBy` 指令上使用 `CdkSelection` ，则需要索引。
+ *
  */
 @Directive({
   selector: '[cdkRowSelection]',

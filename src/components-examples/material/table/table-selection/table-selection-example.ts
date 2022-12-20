@@ -35,14 +35,24 @@ export class TableSelectionExample {
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   selection = new SelectionModel<PeriodicElement>(true, []);
 
-  /** Whether the number of selected elements matches the total number of rows. */
+  /**
+   * Whether the number of selected elements matches the total number of rows.
+   *
+   * 所选元素的数量是否与总行数匹配。
+   *
+   */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  /**
+   * Selects all rows if they are not all selected; otherwise clear selection.
+   *
+   * 如果未全部选定，则选定所有行；否则清除选定。
+   *
+   */
   toggleAllRows() {
     if (this.isAllSelected()) {
       this.selection.clear();
@@ -52,7 +62,12 @@ export class TableSelectionExample {
     this.selection.select(...this.dataSource.data);
   }
 
-  /** The label for the checkbox on the passed row */
+  /**
+   * The label for the checkbox on the passed row
+   *
+   * 传入的行上的复选框的标签
+   *
+   */
   checkboxLabel(row?: PeriodicElement): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;

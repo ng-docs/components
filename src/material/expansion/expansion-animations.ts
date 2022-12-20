@@ -49,9 +49,9 @@ export const EXPANSION_PANEL_ANIMATION_TIMING = '225ms cubic-bezier(0.4,0.0,0.2,
  *
  * 如果 angular 的动画状态与可展开面板的状态不同步，那么展开的面板就会变为 `expanded`，而 Angular 动画是 `void`，从 `expanded` （虽然实际处于 `void` 动画状态）状态到已折叠状态的动画效果符合预期。
  *
- * Angular Bug: <https://github.com/angular/angular/issues/18847>
+ * Angular Bug: https://github.com/angular/angular/issues/18847
  *
- * Angular 的 BUG：<https://github.com/angular/angular/issues/18847>
+ * Angular 的 BUG：https://github.com/angular/angular/issues/18847
  *
  * @docs-private
  */

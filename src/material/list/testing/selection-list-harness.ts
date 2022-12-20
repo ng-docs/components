@@ -168,12 +168,22 @@ export class MatListOptionHarness extends MatListItemHarnessBase {
     return (await this._beforeCheckbox()) !== null ? 'before' : 'after';
   }
 
-  /** Gets the position of the radio relative to the list option content. */
+  /**
+   * Gets the position of the radio relative to the list option content.
+   *
+   * 获取单选框相对于列表选项内容的位置。
+   *
+   */
   async getRadioPosition(): Promise<MatListOptionTogglePosition> {
     return (await this._beforeRadio()) !== null ? 'before' : 'after';
   }
 
-  /** Whether the list option is selected. */
+  /**
+   * Whether the list option is selected.
+   *
+   * 是否选择此列表选项。
+   *
+   */
   async isSelected(): Promise<boolean> {
     return (await (await this.host()).getAttribute('aria-selected')) === 'true';
   }

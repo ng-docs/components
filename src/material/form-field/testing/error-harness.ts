@@ -13,14 +13,29 @@ import {
   HarnessPredicate,
 } from '@angular/cdk/testing';
 
-/** A set of criteria that can be used to filter a list of error harness instances. */
+/**
+ * A set of criteria that can be used to filter a list of error harness instances.
+ *
+ * 一组可用于过滤错误组件测试工具实例列表的条件。
+ *
+ */
 export interface ErrorHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances whose text matches the given value. */
+  /**
+   * Only find instances whose text matches the given value.
+   *
+   * 只查找其文本内容匹配指定值的实例。
+   *
+   */
   text?: string | RegExp;
 }
 
 export abstract class _MatErrorHarnessBase extends ComponentHarness {
-  /** Gets a promise for the error's label text. */
+  /**
+   * Gets a promise for the error's label text.
+   *
+   * 获取错误标签文本的 Promise。
+   *
+   */
   async getText(): Promise<string> {
     return (await this.host()).text();
   }
@@ -35,15 +50,28 @@ export abstract class _MatErrorHarnessBase extends ComponentHarness {
   }
 }
 
-/** Harness for interacting with an MDC-based `mat-error` in tests. */
+/**
+ * Harness for interacting with an MDC-based `mat-error` in tests.
+ *
+ * 用于在测试中与基于 MDC 的 `mat-error` 交互的组件测试工具。
+ *
+ */
 export class MatErrorHarness extends _MatErrorHarnessBase {
   static hostSelector = '.mat-mdc-form-field-error';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for an error with specific
    * attributes.
+   *
+   * 获取可用于搜索具有特定属性的错误的 `HarnessPredicate` 。
+   *
    * @param options Options for filtering which error instances are considered a match.
+   *
+   * 用于过滤哪些错误实例被视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
    */
   static with<T extends MatErrorHarness>(
     this: ComponentHarnessConstructor<T>,

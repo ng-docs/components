@@ -46,7 +46,10 @@ const CIRCLE_RADIUS = 500000;
 
 let apiLoadingPromise: Promise<unknown> | null = null;
 
-/** Demo Component for @angular/google-maps/map */
+/**
+ * Demo Component for @angular/google-maps/map
+ *
+ */
 @Component({
   selector: 'google-map-demo',
   templateUrl: 'google-map-demo.html',

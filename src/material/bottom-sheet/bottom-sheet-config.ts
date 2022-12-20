@@ -97,7 +97,12 @@ export class MatBottomSheetConfig<D = any> {
    */
   ariaLabel?: string | null = null;
 
-  /** Whether this is a modal bottom sheet. Used to set the `aria-modal` attribute. */
+  /**
+   * Whether this is a modal bottom sheet. Used to set the `aria-modal` attribute.
+   *
+   * 这个底部操作表是否是模态的。用于设置 `aria-modal` 属性。
+   *
+   */
   ariaModal?: boolean = true;
 
   /**

@@ -2,7 +2,15 @@ import {Component} from '@angular/core';
 
 /**
  * @title Chips avatar
- * @description An avatar inside a chip
+ *
+ * 纸片头像
+ *
+ * @description
+ *
+ * An avatar inside a chip
+ *
+ * 纸片内的头像
+ *
  */
 @Component({
   selector: 'chips-avatar-example',

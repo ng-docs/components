@@ -19,7 +19,13 @@ import {_MatTestDialogOpenerBase} from '@angular/material/dialog/testing';
 
 /**
  * Test component that immediately opens a dialog when created.
- * @deprecated Use `MatTestDialogOpener` from `@angular/material/dialog/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 可以在创建时立即打开对话框的测试组件。
+ *
+ * @deprecated
+ *
+ * Use `MatTestDialogOpener` from `@angular/material/dialog/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -37,7 +43,12 @@ export class MatTestLegacyDialogOpener<T = unknown, R = unknown> extends _MatTes
     super(dialog);
   }
 
-  /** Static method that prepares this class to open the provided component. */
+  /**
+   * Static method that prepares this class to open the provided component.
+   *
+   * 一个静态方法，可以准备此类以打开所提供的组件。
+   *
+   */
   static withComponent<T = unknown, R = unknown>(
     component: ComponentType<T>,
     config?: MatLegacyDialogConfig,
@@ -49,7 +60,10 @@ export class MatTestLegacyDialogOpener<T = unknown, R = unknown> extends _MatTes
 }
 
 /**
- * @deprecated Use `MatTestDialogOpenerModule` from `@angular/material/dialog/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ * @deprecated
+ *
+ * Use `MatTestDialogOpenerModule` from `@angular/material/dialog/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @NgModule({

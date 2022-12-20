@@ -45,7 +45,12 @@ import {MatSelectModule} from '@angular/material/select';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
-/** Range selection strategy that preserves the current range. */
+/**
+ * Range selection strategy that preserves the current range.
+ *
+ * 会保留当前范围的范围选择策略。
+ *
+ */
 @Injectable()
 export class PreserveRangeStrategy<D> implements MatDateRangeSelectionStrategy<D> {
   constructor(private _dateAdapter: DateAdapter<D>) {}

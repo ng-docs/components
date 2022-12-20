@@ -668,6 +668,8 @@ export class MyApp {}
 If you need to work with native `Date` objects, but need custom behavior (for example custom date
 parsing), you can consider subclassing `NativeDateAdapter`.
 
+如果你需要使用原生 `Date` 对象，但需要自定义行为（例如自定义日期解析），你可以考虑子类 `NativeDateAdapter` 。
+
 #### Customizing the parse and display formats
 
 #### 自定义解析和显示格式

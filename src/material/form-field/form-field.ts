@@ -49,7 +49,12 @@ import {
   getMatFormFieldMissingControlError,
 } from './form-field-errors';
 
-/** Type for the available floatLabel values. */
+/**
+ * Type for the available floatLabel values.
+ *
+ * 可用的 floatLabel 值的类型。
+ *
+ */
 export type FloatLabelType = 'always' | 'auto';
 
 /**
@@ -60,7 +65,12 @@ export type FloatLabelType = 'always' | 'auto';
  */
 export type MatFormFieldAppearance = 'fill' | 'outline';
 
-/** Behaviors for how the subscript height is set. */
+/**
+ * Behaviors for how the subscript height is set.
+ *
+ * 决定如何设置下标高度的行为。
+ *
+ */
 export type SubscriptSizing = 'fixed' | 'dynamic';
 
 /**
@@ -100,7 +110,12 @@ export interface MatFormFieldDefaultOptions {
    *
    */
   floatLabel?: FloatLabelType;
-  /** Whether the form field should reserve space for one line by default. */
+  /**
+   * Whether the form field should reserve space for one line by default.
+   *
+   * 此表单字段是否要默认预留一行空间。
+   *
+   */
   subscriptSizing?: SubscriptSizing;
 }
 
@@ -108,6 +123,9 @@ export interface MatFormFieldDefaultOptions {
  * Injection token that can be used to inject an instances of `MatFormField`. It serves
  * as alternative token to the actual `MatFormField` class which would cause unnecessary
  * retention of the `MatFormField` class and its component metadata.
+ *
+ * 这个注入令牌可以用来注入一个 `MatFormField` 的实例。它可以作为实际 `MatFormField` 类的备用令牌，使用实际类会导致 `MatFormField` 类及其组件元数据无法优化掉。
+ *
  */
 export const MAT_FORM_FIELD = new InjectionToken<MatFormField>('MatFormField');
 
@@ -124,16 +142,29 @@ export const MAT_FORM_FIELD_DEFAULT_OPTIONS = new InjectionToken<MatFormFieldDef
 
 let nextUniqueId = 0;
 
-/** Default appearance used by the form field. */
+/**
+ * Default appearance used by the form field.
+ *
+ * 此表单字段使用的默认外观。
+ *
+ */
 const DEFAULT_APPEARANCE: MatFormFieldAppearance = 'fill';
 
 /**
  * Whether the label for form fields should by default float `always`,
  * `never`, or `auto`.
+ *
+ * 表单字段的标签默认浮动方式应该是 `always`、`never` 还是 `auto`。
+ *
  */
 const DEFAULT_FLOAT_LABEL: FloatLabelType = 'auto';
 
-/** Default way that the subscript element height is set. */
+/**
+ * Default way that the subscript element height is set.
+ *
+ * 设置下标元素高度的默认方式。
+ *
+ */
 const DEFAULT_SUBSCRIPT_SIZING: SubscriptSizing = 'fixed';
 
 /**
@@ -223,7 +254,12 @@ export class MatFormField
   }
   private _hideRequiredMarker = false;
 
-  /** The color palette for the form field. */
+  /**
+   * The color palette for the form field.
+   *
+   * 此表单字段的调色板。
+   *
+   */
   @Input() color: ThemePalette = 'primary';
 
   /**
@@ -248,7 +284,12 @@ export class MatFormField
   }
   private _floatLabel: FloatLabelType;
 
-  /** The form field appearance style. */
+  /**
+   * The form field appearance style.
+   *
+   * 表单字段的外观样式。
+   *
+   */
   @Input()
   get appearance(): MatFormFieldAppearance {
     return this._appearance;
@@ -279,6 +320,9 @@ export class MatFormField
    * Whether the form field should reserve space for one line of hint/error text (default)
    * or to have the spacing grow from 0px as needed based on the size of the hint/error content.
    * Note that when using dynamic sizing, layout shifts will occur when hint/error text changes.
+   *
+   * 表单字段是否应该为单行提示/错误文本保留空间（默认）或根据提示/错误内容的大小根据需要从 0px 增加间距。请注意，使用动态调整大小时，布局会在提示/错误文本更改时发生变化。
+   *
    */
   @Input()
   get subscriptSizing(): SubscriptSizing {
@@ -316,13 +360,28 @@ export class MatFormField
   // Unique id for the hint label.
   readonly _hintLabelId = `mat-mdc-hint-${nextUniqueId++}`;
 
-  /** State of the mat-hint and mat-error animations. */
+  /**
+   * State of the mat-hint and mat-error animations.
+   *
+   * mat-hint 和 mat-error 动画的状态。
+   *
+   */
   _subscriptAnimationState = '';
 
-  /** Width of the label element (at scale=1). */
+  /**
+   * Width of the label element (at scale=1).
+   *
+   * 标签元素的宽度（比例为 1）。
+   *
+   */
   _labelWidth = 0;
 
-  /** Gets the current form field control */
+  /**
+   * Gets the current form field control
+   *
+   * 获取当前表单字段控件
+   *
+   */
   get _control(): MatFormFieldControl<any> {
     return this._explicitFormFieldControl || this._formFieldControl;
   }
@@ -424,7 +483,12 @@ export class MatFormField
     return this._textField || this._elementRef;
   }
 
-  /** Animates the placeholder up and locks it in position. */
+  /**
+   * Animates the placeholder up and locks it in position.
+   *
+   * 针对此占位符播放动画并将其锁定到位。
+   *
+   */
   _animateAndLockLabel(): void {
     // This is for backwards compatibility only. Consumers of the form field might use
     // this method. e.g. the autocomplete trigger. This method has been added to the non-MDC
@@ -506,7 +570,12 @@ export class MatFormField
     this._syncDescribedByIds();
   }
 
-  /** Throws an error if the form field's control is missing. */
+  /**
+   * Throws an error if the form field's control is missing.
+   *
+   * 如果此表单字段缺少控件，则抛出错误。
+   *
+   */
   private _assertFormFieldControl() {
     if (!this._control && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw getMatFormFieldMissingControlError();
@@ -563,7 +632,12 @@ export class MatFormField
       .subscribe(() => (this._needsOutlineLabelOffsetUpdateOnStable = true));
   }
 
-  /** Whether the floating label should always float or not. */
+  /**
+   * Whether the floating label should always float or not.
+   *
+   * 此浮动标签是否应该始终浮动。
+   *
+   */
   _shouldAlwaysFloat() {
     return this.floatLabel === 'always';
   }
@@ -579,6 +653,9 @@ export class MatFormField
    * measure the width of the prefix container. To make the docked label appear as if the
    * right offset has been calculated, we forcibly render the label inside the infix. Since
    * the label is part of the infix, the label cannot overflow the prefix content.
+   *
+   * 此标签是否应显示在中缀区。轮廓外观中的标签会显示为带槽口轮廓的一部分，并水平偏移以说明表单字段前缀内容。这在服务器端渲染中不起作用，因为我们无法测量前缀容器的宽度。为了使停靠标签看起来好像已经计算出正确的偏移量，我们强制在中缀区渲染标签。由于标签是中缀的一部分，标签不能溢出前缀内容。
+   *
    */
   _forceDisplayInfixLabel() {
     return !this._platform.isBrowser && this._prefixChildren.length && !this._shouldLabelFloat();
@@ -615,7 +692,12 @@ export class MatFormField
       : 'hint';
   }
 
-  /** Refreshes the width of the outline-notch, if present. */
+  /**
+   * Refreshes the width of the outline-notch, if present.
+   *
+   * 刷新轮廓槽口的宽度（如果存在）。
+   *
+   */
   _refreshOutlineNotchWidth() {
     if (!this._hasOutline() || !this._floatingLabel) {
       return;

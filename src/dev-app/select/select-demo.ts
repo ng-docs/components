@@ -20,7 +20,7 @@ import {MatInputModule} from '@angular/material/input';
 /**
  * Error any time control is invalid
  *
- * 任何时候控制无效都要显示的错误
+ * 任何时候控件无效都要显示的错误
  *
  */
 export class MyErrorStateMatcher implements ErrorStateMatcher {

@@ -49,6 +49,9 @@ const _MatChipListBase = mixinErrorState(
     /**
      * Emits whenever the component state changes and should cause the parent
      * form-field to update. Implemented as part of `MatFormFieldControl`.
+     *
+     * 每当组件状态更改时发出，并会导致父表单字段更新。作为 `MatFormFieldControl` 的一部分实现。
+     *
      * @docs-private
      */
     readonly stateChanges = new Subject<void>();
@@ -72,7 +75,13 @@ let nextUniqueId = 0;
 
 /**
  * Change event object that is emitted when the chip list value has changed.
- * @deprecated Use `MatChipListChange` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 纸片列表的值发生变化时发出的事件对象。
+ *
+ * @deprecated
+ *
+ * Use `MatChipListChange` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacyChipListChange {
@@ -86,7 +95,13 @@ export class MatLegacyChipListChange {
 
 /**
  * A material design chips component (named ChipList for its similarity to the List component).
- * @deprecated Use `MatChipList` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 一种 Material Design 纸片组件（由于类似于 List 组件，因此得名 ChipList）。
+ *
+ * @deprecated
+ *
+ * Use `MatChipList` from `@angular/material/chips` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -128,6 +143,9 @@ export class MatLegacyChipList
 {
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   readonly controlType: string = 'mat-chip-list';
@@ -139,7 +157,12 @@ export class MatLegacyChipList
    */
   private _lastDestroyedChipIndex: number | null = null;
 
-  /** Subject that emits when the component has been destroyed. */
+  /**
+   * Subject that emits when the component has been destroyed.
+   *
+   * 当组件被销毁时发出事件的主体。
+   *
+   */
   private readonly _destroyed = new Subject<void>();
 
   /** Subscription to focus changes in the chips. */
@@ -154,38 +177,81 @@ export class MatLegacyChipList
   /** Subscription to remove changes in chips. */
   private _chipRemoveSubscription: Subscription | null;
 
-  /** The chip input to add more chips */
+  /**
+   * The chip input to add more chips
+   *
+   * 纸片输入，用以添加更多纸片
+   *
+   */
   protected _chipInput: MatLegacyChipTextControl;
 
-  /** Uid of the chip list */
+  /**
+   * Uid of the chip list
+   *
+   * 纸片列表的 uid
+   *
+   */
   _uid: string = `mat-chip-list-${nextUniqueId++}`;
 
-  /** Tab index for the chip list. */
+  /**
+   * Tab index for the chip list.
+   *
+   * 纸片列表的 tabindex 。
+   *
+   */
   _tabIndex = 0;
 
   /**
    * User defined tab index.
-   * When it is not null, use user defined tab index. Otherwise use _tabIndex
+   * When it is not null, use user defined tab index. Otherwise use \_tabIndex
+   *
+   * 用户定义的 tabindex 。当它不为空时，使用用户定义的 tabindex 。否则使用 \_tabIndex
+   *
    */
   _userTabIndex: number | null = null;
 
-  /** The FocusKeyManager which handles focus. */
+  /**
+   * The FocusKeyManager which handles focus.
+   *
+   * 处理焦点的 FocusKeyManager。
+   *
+   */
   _keyManager: FocusKeyManager<MatLegacyChip>;
 
-  /** Function when touched */
+  /**
+   * Function when touched
+   *
+   * 已接触时调用的函数
+   *
+   */
   _onTouched = () => {};
 
-  /** Function when changed */
+  /**
+   * Function when changed
+   *
+   * 已改变时调用的函数
+   *
+   */
   _onChange: (value: any) => void = () => {};
 
   _selectionModel: SelectionModel<MatLegacyChip>;
 
-  /** The array of selected chips inside chip list. */
+  /**
+   * The array of selected chips inside chip list.
+   *
+   * 纸片列表中选定纸片的数组。
+   *
+   */
   get selected(): MatLegacyChip[] | MatLegacyChip {
     return this.multiple ? this._selectionModel?.selected || [] : this._selectionModel?.selected[0];
   }
 
-  /** The ARIA role applied to the chip list. */
+  /**
+   * The ARIA role applied to the chip list.
+   *
+   * ARIA 的角色，应用于纸片列表中。
+   *
+   */
   @Input()
   get role(): string | null {
     if (this._explicitRole) {
@@ -201,14 +267,27 @@ export class MatLegacyChipList
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input('aria-describedby') userAriaDescribedBy: string;
 
-  /** An object used to control when error messages are shown. */
+  /**
+   * An object used to control when error messages are shown.
+   *
+   * 用于控制何时显示错误信息的对象。
+   *
+   */
   @Input() override errorStateMatcher: ErrorStateMatcher;
 
-  /** Whether the user should be allowed to select multiple chips. */
+  /**
+   * Whether the user should be allowed to select multiple chips.
+   *
+   * 是否允许用户选择多个纸片。
+   *
+   */
   @Input()
   get multiple(): boolean {
     return this._multiple;
@@ -223,6 +302,9 @@ export class MatLegacyChipList
    * A function to compare the option values with the selected values. The first argument
    * is a value from an option. The second is a value from the selection. A boolean
    * should be returned.
+   *
+   * 用来比较选项值和当前选择的函数。第一个参数是选项的值，第二个选定的值。应该返回一个布尔值。
+   *
    */
   @Input()
   get compareWith(): (o1: any, o2: any) => boolean {
@@ -239,6 +321,9 @@ export class MatLegacyChipList
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input()
@@ -253,6 +338,9 @@ export class MatLegacyChipList
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   get id(): string {
@@ -261,6 +349,9 @@ export class MatLegacyChipList
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input()
@@ -275,6 +366,9 @@ export class MatLegacyChipList
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input()
@@ -287,13 +381,21 @@ export class MatLegacyChipList
   }
   protected _placeholder: string;
 
-  /** Whether any chips or the matChipInput inside of this chip-list has focus. */
+  /**
+   * Whether any chips or the matChipInput inside of this chip-list has focus.
+   *
+   * 这个纸片列表中是否存在任何拥有焦点的纸片或 matChipInput。
+   *
+   */
   get focused(): boolean {
     return (this._chipInput && this._chipInput.focused) || this._hasFocusedChip();
   }
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   get empty(): boolean {
@@ -302,6 +404,9 @@ export class MatLegacyChipList
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   get shouldLabelFloat(): boolean {
@@ -310,6 +415,9 @@ export class MatLegacyChipList
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   @Input()
@@ -322,12 +430,20 @@ export class MatLegacyChipList
   }
   protected _disabled: boolean = false;
 
-  /** Orientation of the chip list. */
+  /**
+   * Orientation of the chip list.
+   *
+   * 纸片列表的方向。
+   *
+   */
   @Input('aria-orientation') ariaOrientation: 'horizontal' | 'vertical' = 'horizontal';
 
   /**
    * Whether or not this chip list is selectable. When a chip list is not selectable,
    * the selected states for all the chips inside the chip list are always ignored.
+   *
+   * 这个纸片列表是否可以选择。当纸片列表不可选时，纸片列表中所有纸片的选定状态总会被忽略。
+   *
    */
   @Input()
   get selectable(): boolean {
@@ -345,37 +461,70 @@ export class MatLegacyChipList
     this._tabIndex = value;
   }
 
-  /** Combined stream of all of the child chips' selection change events. */
+  /**
+   * Combined stream of all of the child chips' selection change events.
+   *
+   * 所有子纸片的选定状态更改事件的组合流。
+   *
+   */
   get chipSelectionChanges(): Observable<MatLegacyChipSelectionChange> {
     return merge(...this.chips.map(chip => chip.selectionChange));
   }
 
-  /** Combined stream of all of the child chips' focus change events. */
+  /**
+   * Combined stream of all of the child chips' focus change events.
+   *
+   * 所有子纸片的聚焦事件的组合流。
+   *
+   */
   get chipFocusChanges(): Observable<MatLegacyChipEvent> {
     return merge(...this.chips.map(chip => chip._onFocus));
   }
 
-  /** Combined stream of all of the child chips' blur change events. */
+  /**
+   * Combined stream of all of the child chips' blur change events.
+   *
+   * 所有子纸片的失焦事件的组合流。
+   *
+   */
   get chipBlurChanges(): Observable<MatLegacyChipEvent> {
     return merge(...this.chips.map(chip => chip._onBlur));
   }
 
-  /** Combined stream of all of the child chips' remove change events. */
+  /**
+   * Combined stream of all of the child chips' remove change events.
+   *
+   * 所有子纸片的删除事件的组合流。
+   *
+   */
   get chipRemoveChanges(): Observable<MatLegacyChipEvent> {
     return merge(...this.chips.map(chip => chip.destroyed));
   }
 
-  /** Event emitted when the selected chip list value has been changed by the user. */
+  /**
+   * Event emitted when the selected chip list value has been changed by the user.
+   *
+   * 当纸片列表当前选择被用户改变时发出的事件。
+   *
+   */
   @Output() readonly change = new EventEmitter<MatLegacyChipListChange>();
 
   /**
    * Event that emits whenever the raw value of the chip-list changes. This is here primarily
    * to facilitate the two-way binding for the `value` input.
+   *
+   * 每当纸片列表的原始值发生变化时发出的事件。这里主要是为了方便进行输入框 `value` 的双向绑定。
+   *
    * @docs-private
    */
   @Output() readonly valueChange = new EventEmitter<any>();
 
-  /** The chips contained within this chip list. */
+  /**
+   * The chips contained within this chip list.
+   *
+   * 这个纸片列表中包含的纸片组件。
+   *
+   */
   @ContentChildren(MatLegacyChip, {
     // We need to use `descendants: true`, because Ivy will no longer match
     // indirect descendants if it's left as false.
@@ -464,7 +613,12 @@ export class MatLegacyChipList
     this._dropSubscriptions();
   }
 
-  /** Associates an HTML input element with this chip list. */
+  /**
+   * Associates an HTML input element with this chip list.
+   *
+   * 将 HTML 输入框元素与该纸片列表关联起来。
+   *
+   */
   registerInput(inputElement: MatLegacyChipTextControl): void {
     this._chipInput = inputElement;
 
@@ -475,6 +629,9 @@ export class MatLegacyChipList
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   setDescribedByIds(ids: string[]) {
@@ -510,6 +667,9 @@ export class MatLegacyChipList
 
   /**
    * Implemented as part of MatFormFieldControl.
+   *
+   * 作为 MatFormFieldControl 的一部分实现。
+   *
    * @docs-private
    */
   onContainerClick(event: MouseEvent) {
@@ -521,6 +681,9 @@ export class MatLegacyChipList
   /**
    * Focuses the first non-disabled chip in this chip list, or the associated input when there
    * are no eligible chips.
+   *
+   * 让这个纸片列表中的第一个非禁用纸片获得焦点，或在没有合格纸片时让其关联输入框获得焦点。
+   *
    */
   focus(options?: FocusOptions): void {
     if (this.disabled) {
@@ -540,7 +703,12 @@ export class MatLegacyChipList
     }
   }
 
-  /** Attempt to focus an input if we have one. */
+  /**
+   * Attempt to focus an input if we have one.
+   *
+   * 如果我们有输入框，就尝试聚焦输入框。
+   *
+   */
   _focusInput(options?: FocusOptions) {
     if (this._chipInput) {
       this._chipInput.focus(options);
@@ -549,6 +717,9 @@ export class MatLegacyChipList
 
   /**
    * Pass events to the keyboard manager. Available here for tests.
+   *
+   * 将事件传递给键盘管理器。可在此处进行测试。
+   *
    */
   _keydown(event: KeyboardEvent) {
     const target = event.target as HTMLElement;
@@ -561,6 +732,9 @@ export class MatLegacyChipList
 
   /**
    * Check the tab index as you should not be allowed to focus an empty list.
+   *
+   * 检查 tabindex ，因为不应允许你聚焦到空列表。
+   *
    */
   protected _updateTabIndex(): void {
     // If we have 0 chips, we should not allow keyboard focus
@@ -570,6 +744,9 @@ export class MatLegacyChipList
   /**
    * If the amount of chips changed, we need to update the
    * key manager state and focus the next closest chip.
+   *
+   * 如果纸片数量发生变化，我们需要更新键盘管理器状态并聚焦到下一个最接近的纸片。
+   *
    */
   protected _updateFocusForDestroyedChips() {
     // Move focus to the closest chip. If no other chips remain, focus the chip-list itself.
@@ -588,8 +765,18 @@ export class MatLegacyChipList
   /**
    * Utility to ensure all indexes are valid.
    *
+   * 确保所有索引有效的实用程序。
+   *
    * @param index The index to be checked.
-   * @returns True if the index is valid for our list of chips.
+   *
+   * 要检查的索引。
+   *
+   * @returns
+   *
+   * True if the index is valid for our list of chips.
+   *
+   * 如果此索引对我们的纸片列表有效，则为真。
+   *
    */
   private _isValidIndex(index: number): boolean {
     return index >= 0 && index < this.chips.length;
@@ -690,7 +877,12 @@ export class MatLegacyChipList
     this._changeDetectorRef.markForCheck();
   }
 
-  /** When blurred, mark the field as touched when focus moved outside the chip list. */
+  /**
+   * When blurred, mark the field as touched when focus moved outside the chip list.
+   *
+   * 失焦时，当焦点移出纸片列表时，将此字段标记为已接触。
+   *
+   */
   _blur() {
     if (!this._hasFocusedChip()) {
       this._keyManager.setActiveItem(-1);
@@ -714,7 +906,12 @@ export class MatLegacyChipList
     }
   }
 
-  /** Mark the field as touched */
+  /**
+   * Mark the field as touched
+   *
+   * 将此字段标记为已接触
+   *
+   */
   _markAsTouched() {
     this._onTouched();
     this._changeDetectorRef.markForCheck();
@@ -725,6 +922,9 @@ export class MatLegacyChipList
    * Removes the `tabindex` from the chip list and resets it back afterwards, allowing the
    * user to tab out of it. This prevents the list from capturing focus and redirecting
    * it back to the first chip, creating a focus trap, if it user tries to tab away.
+   *
+   * 从纸片列表中删除 `tabindex` 并在之后将其重置，允许用户从中切换。这可以防止列表捕获焦点并将其重定向回第一个纸片，从而在用户尝试离开时创建焦点陷阱。
+   *
    */
   _allowFocusEscape() {
     if (this._tabIndex !== -1) {
@@ -819,7 +1019,12 @@ export class MatLegacyChipList
     });
   }
 
-  /** Checks whether an event comes from inside a chip element. */
+  /**
+   * Checks whether an event comes from inside a chip element.
+   *
+   * 检查事件是否来自纸片元素内部。
+   *
+   */
   private _originatesFromChip(event: Event): boolean {
     let currentElement = event.target as HTMLElement | null;
 
@@ -834,7 +1039,12 @@ export class MatLegacyChipList
     return false;
   }
 
-  /** Checks whether any of the chips is focused. */
+  /**
+   * Checks whether any of the chips is focused.
+   *
+   * 检查是否有任何纸片拥有焦点。
+   *
+   */
   private _hasFocusedChip() {
     return this.chips && this.chips.some(chip => chip._hasFocus);
   }

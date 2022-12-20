@@ -46,12 +46,23 @@ const _MatProgressBarBase = mixinColor(
   'primary',
 );
 
-/** Counter used to generate unique IDs for progress bars. */
+/**
+ * Counter used to generate unique IDs for progress bars.
+ *
+ * 用于为进度条生成唯一 ID 的计数器。
+ *
+ */
 let progressbarId = 0;
 
 /**
  * `<mat-progress-bar>` component.
- * @deprecated Use `MatProgressBar` from `@angular/material/progress-bar` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * `<mat-progress-bar>` 组件。
+ *
+ * @deprecated
+ *
+ * Use `MatProgressBar` from `@angular/material/progress-bar` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -118,10 +129,20 @@ export class MatLegacyProgressBar
     }
   }
 
-  /** Flag that indicates whether NoopAnimations mode is set to true. */
+  /**
+   * Flag that indicates whether NoopAnimations mode is set to true.
+   *
+   * 指示 NoopAnimations 模式是否设置为 true 的标志。
+   *
+   */
   _isNoopAnimation = false;
 
-  /** Value of the progress bar. Defaults to zero. Mirrored to aria-valuenow. */
+  /**
+   * Value of the progress bar. Defaults to zero. Mirrored to aria-valuenow.
+   *
+   * 进度条的值。默认为零。镜像到 aria-valuenow。
+   *
+   */
   @Input()
   get value(): number {
     return this._value;
@@ -134,7 +155,12 @@ export class MatLegacyProgressBar
   }
   private _value: number = 0;
 
-  /** Buffer value of the progress bar. Defaults to zero. */
+  /**
+   * Buffer value of the progress bar. Defaults to zero.
+   *
+   * 进度条的缓冲值。默认为零。
+   *
+   */
   @Input()
   get bufferValue(): number {
     return this._bufferValue;
@@ -153,6 +179,9 @@ export class MatLegacyProgressBar
    * Event emitted when animation of the primary progress bar completes. This event will not
    * be emitted when animations are disabled, nor will it be emitted for modes with continuous
    * animations (indeterminate and query).
+   *
+   * 当主进度条的动画完成时会发出本事件。当禁用动画时，不会发出此事件，也不会为具有连续动画的模式（不定动画和查询动画）发出此事件。
+   *
    */
   @Output() readonly animationEnd = new EventEmitter<ProgressAnimationEnd>();
 
@@ -162,19 +191,39 @@ export class MatLegacyProgressBar
   /**
    * Mode of the progress bar.
    *
+   * 进度条的模式吧。
+   *
    * Input must be one of these values: determinate, indeterminate, buffer, query, defaults to
    * 'determinate'.
    * Mirrored to mode attribute.
+   *
+   * 此输入属性必须是以下值之一：determinate、indeterminate、buffer 和 query，默认为 'determinate'。会镜像到 mode 属性。
+   *
    */
   @Input() mode: ProgressBarMode = 'determinate';
 
-  /** ID of the progress bar. */
+  /**
+   * ID of the progress bar.
+   *
+   * 进度条的 ID。
+   *
+   */
   progressbarId = `mat-progress-bar-${progressbarId++}`;
 
-  /** Attribute to be used for the `fill` attribute on the internal `rect` element. */
+  /**
+   * Attribute to be used for the `fill` attribute on the internal `rect` element.
+   *
+   * 用作内部 `rect` 元素上的 `fill` 属性的属性。
+   *
+   */
   _rectangleFillValue: string;
 
-  /** Gets the current transform value for the progress bar's primary indicator. */
+  /**
+   * Gets the current transform value for the progress bar's primary indicator.
+   *
+   * 获取进度条主要指示器的当前转换值。
+   *
+   */
   _primaryTransform() {
     // We use a 3d transform to work around some rendering issues in iOS Safari. See #19328.
     const scale = this.value / 100;
@@ -184,6 +233,9 @@ export class MatLegacyProgressBar
   /**
    * Gets the current transform value for the progress bar's buffer indicator. Only used if the
    * progress mode is set to buffer, otherwise returns an undefined, causing no transformation.
+   *
+   * 获取进度条缓冲区指示器的当前转换值。仅在进度模式设置为缓冲时使用，否则返回未定义，导致无法转换。
+   *
    */
   _bufferTransform() {
     if (this.mode === 'buffer') {
@@ -221,7 +273,12 @@ export class MatLegacyProgressBar
   }
 }
 
-/** Clamps a value to be between two numbers, by default 0 and 100. */
+/**
+ * Clamps a value to be between two numbers, by default 0 and 100.
+ *
+ * 将值限制在两个数字之间，默认为 0 和 100。
+ *
+ */
 function clamp(v: number, min = 0, max = 100) {
   return Math.max(min, Math.min(max, v));
 }

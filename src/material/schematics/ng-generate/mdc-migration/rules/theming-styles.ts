@@ -135,8 +135,19 @@ export class ThemingStylesMigration extends Migration<ComponentMigrator[], Schem
 /**
  * Returns whether the given AtRule is an import for @angular/material styles.
  *
+ * 返回给定的 AtRule 是否是对 @angular/material 样式的导入。
+ *
  * @param atRule a postcss AtRule node.
- * @returns true if the given AtRule is an import for @angular/material styles.
+ *
+ * 一个 postcss AtRule 节点。
+ *
+ * @returns
+ *
+ * true if the given AtRule is an import for
+ *
+ * 如果给定的 AtRule 是对 @angular/material 样式的导入，则为真【模糊翻译】
+ *
+ * @angular /material styles.
  */
 function isAngularMaterialImport(atRule: postcss.AtRule): boolean {
   const params = postcss.list.space(atRule.params);
@@ -146,8 +157,16 @@ function isAngularMaterialImport(atRule: postcss.AtRule): boolean {
 /**
  * Parses the given @use AtRule and returns the namespace being used.
  *
- * @param atRule a postcss @use AtRule.
- * @returns the namespace being used.
+ * 解析给定的 @use AtRule 并返回正在使用的命名空间。
+ *
+ * @param atRule a postcss
+ * @use AtRule.
+ * @returns
+ *
+ * the namespace being used.
+ *
+ * 正在使用的命名空间。
+ *
  */
 function parseNamespace(atRule: postcss.AtRule): string {
   const params = postcss.list.space(atRule.params);
@@ -156,9 +175,18 @@ function parseNamespace(atRule: postcss.AtRule): string {
 
 /**
  *
- * @param atRule a postcss @use AtRule.
+ * @param atRule a postcss
+ * @use AtRule.
  * @param legacyComment comment that will be added to legacy mixin
- * @returns true if comment added, false if comment already exists
+ *
+ * 将被添加到旧版 mixin 的注释
+ *
+ * @returns
+ *
+ * true if comment added, false if comment already exists
+ *
+ * 如果注释已添加，则为 true；如果注释已存在，则为 false
+ *
  */
 function addLegacyCommentForPartialMigrations(
   atRule: postcss.AtRule,
@@ -186,8 +214,15 @@ function addLegacyCommentForPartialMigrations(
 /**
  * Adds comment before postcss rule or at rule node
  *
+ * 在 postcss 规则之前或规则节点添加注释
+ *
  * @param node a postcss rule.
+ *
+ * postcss 规则。
  * @param comment the text content for the comment
+ *
+ * 注释的文本内容
+ *
  */
 function addCommentBeforeNode(node: postcss.Rule | postcss.AtRule, comment: string): void {
   let commentNode = postcss.comment({
@@ -205,8 +240,14 @@ function addCommentBeforeNode(node: postcss.Rule | postcss.AtRule, comment: stri
 /**
  * Replaces a cross-cutting mixin that affects multiple components with the MDC equivalent.
  *
+ * 用 MDC 等效项替换影响多个组件的横切 mixin。
+ *
  * @param atRule A mixin inclusion node
- * @param namespace The @angular/material namespace
+ *
+ * mixin 包含的节点
+ *
+ * @param namespace The
+ * @angular /material namespace
  */
 function replaceCrossCuttingMixin(atRule: postcss.AtRule, namespace: string) {
   atRule.cloneBefore({
@@ -220,10 +261,19 @@ function replaceCrossCuttingMixin(atRule: postcss.AtRule, namespace: string) {
 /**
  * Replaces the text in an atRule with multiple replacements on new lines
  *
- * @param atRule a postcss @use AtRule.
+ * 用新行上的多个替代品替换 atRule 中的文本
+ *
+ * @param atRule a postcss
+ * @use AtRule.
  * @param textToReplace text to replace in the at rule node's params attributes
+ *
+ * 要在 at 规则节点的参数属性中替换的文本
+ *
  * @param replacements an array of strings to replace the specified text. Each
  * entry appears on a new line.
+ *
+ * 用于替换指定文本的字符串数组。每个条目出现在一个新行上。
+ *
  */
 function replaceAtRuleWithMultiple(
   atRule: postcss.AtRule,
@@ -253,8 +303,17 @@ function replaceAtRuleWithMultiple(
 
 /**
  * Migrates all of the `define-legacy-typography-config` calls within a file.
+ *
+ * 迁移文件中的所有 `define-legacy-typography-config` 调用。
+ *
  * @param content Content of the file to be migrated.
+ *
+ * 要迁移的文件的内容。
+ *
  * @param namespace Namespace under which `define-legacy-typography-config` is being used.
+ *
+ * 正在使用 `define-legacy-typography-config` 的命名空间。
+ *
  */
 function migrateTypographyConfigs(content: string, namespace: string): string {
   const calls = extractFunctionCalls(`${namespace}.define-legacy-typography-config`, content);
@@ -317,8 +376,17 @@ function migrateTypographyConfigs(content: string, namespace: string): string {
 
 /**
  * Extracts the spans of all calls of a specific Sass function within a file.
+ *
+ * 提取文件中特定 Sass 函数的所有调用的跨度。
+ *
  * @param name Name of the function to look for.
+ *
+ * 要查找的函数的名称。
+ *
  * @param content Content of the file being searched.
+ *
+ * 正在搜索的文件的内容。
+ *
  */
 function extractFunctionCalls(name: string, content: string) {
   const results: {name: {start: number; end: number}; args: {start: number; end: number}}[] = [];
@@ -359,7 +427,12 @@ function extractFunctionCalls(name: string, content: string) {
   return results;
 }
 
-/** Extracts all of the named parameters and their values from a string. */
+/**
+ * Extracts all of the named parameters and their values from a string.
+ *
+ * 从字符串中提取所有命名参数及其值。
+ *
+ */
 function extractNamedParameters(content: string, argsRange: {start: number; end: number}) {
   let escapeCount = 0;
 
@@ -403,9 +476,18 @@ function extractNamedParameters(content: string, argsRange: {start: number; end:
 
 /**
  * Extracts the text range that contains the key of a named Sass parameter, including the leading $.
+ *
+ * 提取包含命名 Sass 参数键的文本范围，包括前导 $。
+ *
  * @param content Text content in which to search.
+ *
+ * 要搜索的文本内容。
+ *
  * @param colonIndex Index of the colon between the key and value.
  * Used as a starting point for the search.
+ *
+ * 键和值之间的冒号索引。用作搜索的起点。
+ *
  */
 function extractKeyRange(content: string, colonIndex: number) {
   let index = colonIndex - 1;
@@ -430,9 +512,18 @@ function extractKeyRange(content: string, colonIndex: number) {
 
 /**
  * Extracts the text range that contains the value of a named Sass parameter.
+ *
+ * 提取包含命名 Sass 参数值的文本范围。
+ *
  * @param content Text content in which to search.
+ *
+ * 要搜索的文本内容。
+ *
  * @param colonIndex Index of the colon between the key and value.
  * Used as a starting point for the search.
+ *
+ * 键和值之间的冒号索引。用作搜索的起点。
+ *
  */
 function extractValueRange(content: string, colonIndex: number) {
   let index = colonIndex + 1;

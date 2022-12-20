@@ -11,18 +11,38 @@ import {_MatCheckboxHarnessBase, CheckboxHarnessFilters} from '@angular/material
 
 /**
  * Harness for interacting with a standard mat-checkbox in tests.
- * @deprecated Use `MatCheckboxHarness` from `@angular/material/checkbox/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 与测试中的标准 mat-checkbox 交互的测试工具。
+ *
+ * @deprecated
+ *
+ * Use `MatCheckboxHarness` from `@angular/material/checkbox/testing` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export class MatLegacyCheckboxHarness extends _MatCheckboxHarnessBase {
-  /** The selector for the host element of a checkbox instance. */
+  /**
+   * The selector for the host element of a checkbox instance.
+   *
+   * 复选框实例的宿主元素的选择器。
+   *
+   */
   static hostSelector = '.mat-checkbox';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a checkbox harness that meets
    * certain criteria.
+   *
+   * 获取可用于搜索满足特定条件的复选框组件测试工具的 `HarnessPredicate` 。
+   *
    * @param options Options for filtering which checkbox instances are considered a match.
+   *
+   * 用于过滤哪些复选框实例应该视为匹配项的选项。
+   *
    * @return a `HarnessPredicate` configured with the given options.
+   *
+   * 使用给定选项配置过的 `HarnessPredicate`。
+   *
    */
   static with(options: CheckboxHarnessFilters = {}): HarnessPredicate<MatLegacyCheckboxHarness> {
     return (

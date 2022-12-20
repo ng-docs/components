@@ -49,6 +49,8 @@ With this setting turned on, the tooltip will display relative to the origin of 
 than the host element. In cases where the tooltip is not triggered by a touch event or mouse click,
 it will display the same as if this setting was turned off.
 
+要显示相对于触发它的鼠标或触控的工具提示，请使用 `matTooltipPositionAtOrigin` 输入属性。启用此设置后，工具提示将相对于触发器的原点而不是宿主元素显示。在工具提示不是由触控事件或鼠标单击触发的情况下，它的显示方式与此设置关闭时的显示方式相同。
+
 ### Showing and hiding
 
 ### 显示与隐藏

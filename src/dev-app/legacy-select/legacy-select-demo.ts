@@ -18,7 +18,12 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatLegacyInputModule} from '@angular/material/legacy-input';
 import {MatLegacySelectChange, MatLegacySelectModule} from '@angular/material/legacy-select';
 
-/** Error any time control is invalid */
+/**
+ * Error any time control is invalid
+ *
+ * 任何时候控件无效都要显示的错误
+ *
+ */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null): boolean {
     if (control) {

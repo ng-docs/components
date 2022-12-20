@@ -32,7 +32,12 @@ export class LegacyTableFooterRowExample {
     {item: 'Swim suit', cost: 15},
   ];
 
-  /** Gets the total cost of all transactions. */
+  /**
+   * Gets the total cost of all transactions.
+   *
+   * 获取所有交易的总成本。
+   *
+   */
   getTotalCost() {
     return this.transactions.map(t => t.cost).reduce((acc, value) => acc + value, 0);
   }

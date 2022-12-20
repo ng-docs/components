@@ -19,12 +19,23 @@ import {MatLegacyDialog} from './dialog';
 import {MatLegacyDialogRef} from './dialog-ref';
 import {_closeDialogVia} from '@angular/material/dialog';
 
-/** Counter used to generate unique IDs for dialog elements. */
+/**
+ * Counter used to generate unique IDs for dialog elements.
+ *
+ * 用于为对话框元素生成唯一 ID 的计数器。
+ *
+ */
 let dialogElementUid = 0;
 
 /**
  * Button that will close the current dialog.
- * @deprecated Use `MatDialogClose` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 该按钮用于关闭当前对话框。
+ *
+ * @deprecated
+ *
+ * Use `MatDialogClose` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -37,13 +48,28 @@ let dialogElementUid = 0;
   },
 })
 export class MatLegacyDialogClose implements OnInit, OnChanges {
-  /** Screen reader label for the button. */
+  /**
+   * Screen reader label for the button.
+   *
+   * 该按钮的屏幕阅读器标签。
+   *
+   */
   @Input('aria-label') ariaLabel: string;
 
-  /** Default to "button" to prevents accidental form submits. */
+  /**
+   * Default to "button" to prevents accidental form submits.
+   *
+   * 默认为 “button” 以防止意外的表单提交。
+   *
+   */
   @Input() type: 'submit' | 'button' | 'reset' = 'button';
 
-  /** Dialog close input. */
+  /**
+   * Dialog close input.
+   *
+   * 对话框关闭的输入属性。
+   *
+   */
   @Input('mat-dialog-close') dialogResult: any;
 
   @Input('matDialogClose') _matDialogClose: any;
@@ -95,7 +121,13 @@ export class MatLegacyDialogClose implements OnInit, OnChanges {
 
 /**
  * Title of a dialog element. Stays fixed to the top of the dialog when scrolling.
- * @deprecated Use `MatDialogTitle` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 该对话框元素的标头。当滚动时，它会固定在对话框的顶部。
+ *
+ * @deprecated
+ *
+ * Use `MatDialogTitle` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -107,7 +139,12 @@ export class MatLegacyDialogClose implements OnInit, OnChanges {
   },
 })
 export class MatLegacyDialogTitle implements OnInit {
-  /** Unique id for the dialog title. If none is supplied, it will be auto-generated. */
+  /**
+   * Unique id for the dialog title. If none is supplied, it will be auto-generated.
+   *
+   * 对话框标题的唯一 ID。如果没有提供，它将自动生成。
+   *
+   */
   @Input() id: string = `mat-dialog-title-${dialogElementUid++}`;
 
   constructor(
@@ -137,7 +174,13 @@ export class MatLegacyDialogTitle implements OnInit {
 
 /**
  * Scrollable content container of a dialog.
- * @deprecated Use `MatDialogContent` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 对话框的可滚动内容容器。
+ *
+ * @deprecated
+ *
+ * Use `MatDialogContent` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -149,7 +192,13 @@ export class MatLegacyDialogContent {}
 /**
  * Container for the bottom action buttons in a dialog.
  * Stays fixed to the bottom when scrolling.
- * @deprecated Use `MatDialogActions` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 对话框中底部操作按钮的容器。当滚动时，它会固定在底部。
+ *
+ * @deprecated
+ *
+ * Use `MatDialogActions` from `@angular/material/dialog` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Directive({
@@ -163,6 +212,9 @@ export class MatLegacyDialogContent {}
 export class MatLegacyDialogActions {
   /**
    * Horizontal alignment of action buttons.
+   *
+   * 操作按钮的水平对齐方式。
+   *
    */
   @Input() align?: 'start' | 'center' | 'end' = 'start';
 }
@@ -173,8 +225,17 @@ export class MatLegacyDialogActions {
 // fallback logic in place.
 /**
  * Finds the closest MatDialogRef to an element by looking at the DOM.
+ *
+ * 通过查看 DOM 找到最接近元素的 MatDialogRef。
+ *
  * @param element Element relative to which to look for a dialog.
+ *
+ * 要相对于其查找对话框的元素。
+ *
  * @param openDialogs References to the currently-open dialogs.
+ *
+ * 对当前打开的对话框的引用。
+ *
  */
 function getClosestDialog(
   element: ElementRef<HTMLElement>,

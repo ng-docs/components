@@ -58,6 +58,9 @@ const outlineGapPadding = 5;
 
 /**
  * Boilerplate for applying mixins to MatFormField.
+ *
+ * 用于将 mixins 应用于 MatFormField 的样板代码。
+ *
  * @docs-private
  */
 const _MatFormFieldBase = mixinColor(
@@ -69,14 +72,26 @@ const _MatFormFieldBase = mixinColor(
 
 /**
  * Possible appearance styles for the form field.
- * @deprecated Use `MatFormFieldAppearance` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 表单字段可能的外观样式。
+ *
+ * @deprecated
+ *
+ * Use `MatFormFieldAppearance` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export type MatLegacyFormFieldAppearance = 'legacy' | 'standard' | 'fill' | 'outline';
 
 /**
  * Possible values for the "floatLabel" form field input.
- * @deprecated Use `FloatLabelType` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 表单字段输入属性 “floatLabel” 的可用值。
+ *
+ * @deprecated
+ *
+ * Use `FloatLabelType` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export type LegacyFloatLabelType = 'always' | 'never' | 'auto';
@@ -84,19 +99,43 @@ export type LegacyFloatLabelType = 'always' | 'never' | 'auto';
 /**
  * Represents the default options for the form field that can be configured
  * using the `MAT_FORM_FIELD_DEFAULT_OPTIONS` injection token.
- * @deprecated Use `MatFormFieldDefaultOptions` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 表示可通过 `MAT_FORM_FIELD_DEFAULT_OPTIONS` 令牌配置的表单字段的默认选项。
+ *
+ * @deprecated
+ *
+ * Use `MatFormFieldDefaultOptions` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export interface MatLegacyFormFieldDefaultOptions {
-  /** Default form field appearance style. */
+  /**
+   * Default form field appearance style.
+   *
+   * 默认表单字段外观样式。
+   *
+   */
   appearance?: MatLegacyFormFieldAppearance;
-  /** Default color of the form field. */
+  /**
+   * Default color of the form field.
+   *
+   * 表单字段的默认颜色。
+   *
+   */
   color?: ThemePalette;
-  /** Whether the required marker should be hidden by default. */
+  /**
+   * Whether the required marker should be hidden by default.
+   *
+   * 默认情况下是否应隐藏所需的标记。
+   *
+   */
   hideRequiredMarker?: boolean;
   /**
    * Whether the label for form fields should by default float `always`,
    * `never`, or `auto` (only when necessary).
+   *
+   * 表单字段的标签默认应该是 `always`、`never` 还是 `auto`（只在必要时）。
+   *
    */
   floatLabel?: LegacyFloatLabelType;
 }
@@ -104,7 +143,13 @@ export interface MatLegacyFormFieldDefaultOptions {
 /**
  * Injection token that can be used to configure the
  * default options for all form field within an app.
- * @deprecated Use `MAT_FORM_FIELD_DEFAULT_OPTIONS` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 注入令牌，可以用来配置应用中所有表单字段的默认选项。
+ *
+ * @deprecated
+ *
+ * Use `MAT_FORM_FIELD_DEFAULT_OPTIONS` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 export const MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS =
@@ -112,7 +157,13 @@ export const MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS =
 
 /**
  * Container for form controls that applies Material Design styling and behavior.
- * @deprecated Use `MatFormField` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
+ * 表单控件的容器，用来应用 Material Design 的样式和行为。
+ *
+ * @deprecated
+ *
+ * Use `MatFormField` from `@angular/material/form-field` instead. See https://material.angular.io/guide/mdc-migration for information about migrating.
+ *
  * @breaking-change 17.0.0
  */
 @Component({
@@ -174,7 +225,12 @@ export class MatLegacyFormField
 
   private readonly _destroyed = new Subject<void>();
 
-  /** The form field appearance style. */
+  /**
+   * The form field appearance style.
+   *
+   * 表单字段的外观样式。
+   *
+   */
   @Input()
   get appearance(): MatLegacyFormFieldAppearance {
     return this._appearance;
@@ -190,7 +246,12 @@ export class MatLegacyFormField
   }
   _appearance: MatLegacyFormFieldAppearance;
 
-  /** Whether the required marker should be hidden. */
+  /**
+   * Whether the required marker should be hidden.
+   *
+   * 是否应隐藏必填项标记。
+   *
+   */
   @Input()
   get hideRequiredMarker(): boolean {
     return this._hideRequiredMarker;
@@ -203,20 +264,40 @@ export class MatLegacyFormField
   /** Override for the logic that disables the label animation in certain cases. */
   private _showAlwaysAnimate = false;
 
-  /** Whether the floating label should always float or not. */
+  /**
+   * Whether the floating label should always float or not.
+   *
+   * 此浮动标签是否应该始终浮动。
+   *
+   */
   _shouldAlwaysFloat(): boolean {
     return this.floatLabel === 'always' && !this._showAlwaysAnimate;
   }
 
-  /** Whether the label can float or not. */
+  /**
+   * Whether the label can float or not.
+   *
+   * 此标签是否可以浮动。
+   *
+   */
   _canLabelFloat(): boolean {
     return this.floatLabel !== 'never';
   }
 
-  /** State of the mat-hint and mat-error animations. */
+  /**
+   * State of the mat-hint and mat-error animations.
+   *
+   * mat-hint 和 mat-error 动画的状态。
+   *
+   */
   _subscriptAnimationState: string = '';
 
-  /** Text for the form field hint. */
+  /**
+   * Text for the form field hint.
+   *
+   * 表单字段提示的文本。
+   *
+   */
   @Input()
   get hintLabel(): string {
     return this._hintLabel;
@@ -236,10 +317,15 @@ export class MatLegacyFormField
   /**
    * Whether the label should always float, never float or float as the user types.
    *
+   * 标签是否应该始终是浮动的、永远不会浮动或根据用户的输入浮动。
+   *
    * Note: only the legacy appearance supports the `never` option. `never` was originally added as a
    * way to make the floating label emulate the behavior of a standard input placeholder. However
    * the form field now supports both floating labels and placeholders. Therefore in the non-legacy
    * appearances the `never` option has been disabled in favor of just using the placeholder.
+   *
+   * 注意：只有旧版外观支持 `never` 选项。`never` 原本添加为让浮动标签模仿标准输入占位符行为的方法。但是，表单字段现在同时支持浮动标签和占位符。因此，在非遗留应用的外观中，只为了作为占位符使用的 `never` 选项已被禁用。
+   *
    */
   @Input()
   get floatLabel(): LegacyFloatLabelType {
@@ -253,7 +339,12 @@ export class MatLegacyFormField
   }
   private _floatLabel: LegacyFloatLabelType;
 
-  /** Whether the Angular animations are enabled. */
+  /**
+   * Whether the Angular animations are enabled.
+   *
+   * Angular 动画是否已启用。
+   *
+   */
   _animationsEnabled: boolean;
 
   @ViewChild('connectionContainer', {static: true}) _connectionContainerRef: ElementRef;
@@ -311,6 +402,9 @@ export class MatLegacyFormField
 
   /**
    * Gets the id of the label element. If no label is present, returns `null`.
+   *
+   * 获取 label 元素的 id。如果没有 label，则返回 `null`。
+   *
    */
   getLabelId(): string | null {
     return this._hasFloatingLabel() ? this._labelId : null;
@@ -319,6 +413,9 @@ export class MatLegacyFormField
   /**
    * Gets an ElementRef for the element that a overlay attached to the form field should be
    * positioned relative to.
+   *
+   * 获取一个 ElementRef 元素，它为附着到表单字段上的浮层提供相对于该元素定位。
+   *
    */
   getConnectedOverlayOrigin(): ElementRef {
     return this._connectionContainerRef || this._elementRef;
@@ -410,6 +507,9 @@ export class MatLegacyFormField
   /**
    * Determines whether a class from the AbstractControlDirective
    * should be forwarded to the host element.
+   *
+   * 确定是否应将来自 AbstractControlDirective 的类转发到宿主元素。
+   *
    */
   _shouldForward(prop: keyof AbstractControlDirective): boolean {
     const control = this._control ? this._control.ngControl : null;
@@ -444,14 +544,24 @@ export class MatLegacyFormField
     return this._hasLabel() || (this.appearance === 'legacy' && this._hasPlaceholder());
   }
 
-  /** Determines whether to display hints or errors. */
+  /**
+   * Determines whether to display hints or errors.
+   *
+   * 确定是否显示提示或错误。
+   *
+   */
   _getDisplayedMessages(): 'error' | 'hint' {
     return this._errorChildren && this._errorChildren.length > 0 && this._control.errorState
       ? 'error'
       : 'hint';
   }
 
-  /** Animates the placeholder up and locks it in position. */
+  /**
+   * Animates the placeholder up and locks it in position.
+   *
+   * 针对此占位符播放动画并将其锁定到位。
+   *
+   */
   _animateAndLockLabel(): void {
     if (this._hasFloatingLabel() && this._canLabelFloat()) {
       // If animations are disabled, we shouldn't go in here,
@@ -561,7 +671,12 @@ export class MatLegacyFormField
     }
   }
 
-  /** Throws an error if the form field's control is missing. */
+  /**
+   * Throws an error if the form field's control is missing.
+   *
+   * 如果此表单字段缺少控件，则抛出错误。
+   *
+   */
   protected _validateControlChild() {
     if (!this._control && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw getMatFormFieldMissingControlError();
@@ -571,6 +686,9 @@ export class MatLegacyFormField
   /**
    * Updates the width and position of the gap in the outline. Only relevant for the outline
    * appearance.
+   *
+   * 更新轮廓中间隙的宽度和位置。只与轮廓外观有关。
+   *
    */
   updateOutlineGap() {
     const labelEl = this._label ? this._label.nativeElement : null;

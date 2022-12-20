@@ -2,7 +2,12 @@ import {Component} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 
-/** Error when invalid control is dirty, touched, or submitted. */
+/**
+ * Error when invalid control is dirty, touched, or submitted.
+ *
+ * 无效控件已变脏、已接触或已提交时出错。
+ *
+ */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;

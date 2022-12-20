@@ -15,6 +15,11 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
  *
  */
 export interface ButtonToggleGroupHarnessFilters extends BaseHarnessFilters {
-  /** Only find instances which match the given disabled state. */
+  /**
+   * Only find instances which match the given disabled state.
+   *
+   * 仅查找与给定禁用状态匹配的实例。
+   *
+   */
   disabled?: boolean;
 }

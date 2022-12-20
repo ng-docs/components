@@ -127,7 +127,12 @@ export function MAT_TOOLTIP_DEFAULT_OPTIONS_FACTORY(): MatTooltipDefaultOptions 
   };
 }
 
-/** Injection token to be used to override the default options for `matTooltip`. */
+/**
+ * Injection token to be used to override the default options for `matTooltip`.
+ *
+ * 这个注入令牌用来改写 `matTooltip` 的默认选项。
+ *
+ */
 export const MAT_TOOLTIP_DEFAULT_OPTIONS = new InjectionToken<MatTooltipDefaultOptions>(
   'mat-tooltip-default-options',
   {
@@ -136,7 +141,12 @@ export const MAT_TOOLTIP_DEFAULT_OPTIONS = new InjectionToken<MatTooltipDefaultO
   },
 );
 
-/** Default `matTooltip` options that can be overridden. */
+/**
+ * Default `matTooltip` options that can be overridden.
+ *
+ * 默认 `matTooltip`，可改写。
+ *
+ */
 export interface MatTooltipDefaultOptions {
   /**
    * Default delay when the tooltip is shown.
@@ -181,28 +191,50 @@ export interface MatTooltipDefaultOptions {
   /**
    * Default value for whether tooltips should be positioned near the click or touch origin
    * instead of outside the element bounding box.
+   *
+   * 工具提示是否应位于单击或触摸原点附近而不是元素边界框外的默认值。
+   *
    */
   positionAtOrigin?: boolean;
 
-  /** Disables the ability for the user to interact with the tooltip element. */
+  /**
+   * Disables the ability for the user to interact with the tooltip element.
+   *
+   * 禁用用户与工具提示元素交互的能力。
+   *
+   */
   disableTooltipInteractivity?: boolean;
 }
 
 /**
  * CSS class that will be attached to the overlay panel.
+ *
+ * 那些要附着到浮层面板上的 CSS 类。
+ *
  * @deprecated
  * @breaking-change 13.0.0 remove this variable
+ *
+ * 删除这个变量
+ *
  */
 export const TOOLTIP_PANEL_CLASS = 'mat-mdc-tooltip-panel';
 
 const PANEL_CLASS = 'tooltip-panel';
 
-/** Options used to bind passive event listeners. */
+/**
+ * Options used to bind passive event listeners.
+ *
+ * 用于绑定被动事件侦听器的选项。
+ *
+ */
 const passiveListenerOptions = normalizePassiveListenerOptions({passive: true});
 
 /**
  * Time between the user putting the pointer on a tooltip
  * trigger and the long press event being fired.
+ *
+ * 用户将指针放在工具提示触发器上与触发长按事件之间的时间。
+ *
  */
 const LONGPRESS_DELAY = 500;
 
@@ -1046,7 +1078,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
  *
  * 将 Material Design 工具提示附着到主体元素的指令。对工具提示提供的位置的显示和隐藏进行动画处理（默认为元素下方）。
  *
- * <https://material.io/design/components/tooltips.html>
+ * https://material.io/design/components/tooltips.html
  *
  */
 @Directive({
@@ -1286,9 +1318,9 @@ export abstract class _TooltipComponentBase implements OnDestroy {
   /**
    * Interactions on the HTML body should close the tooltip immediately as defined in the
    * material design spec.
-   * <https://material.io/design/components/tooltips.html#behavior>
+   * https://material.io/design/components/tooltips.html#behavior
    *
-   * HTML 正文中的交互应该立即关闭工具提示，就像在 Material Design 规范中定义的那样。<https://material.io/design/components/tooltips.html#behavior>
+   * HTML 正文中的交互应该立即关闭工具提示，就像在 Material Design 规范中定义的那样。https://material.io/design/components/tooltips.html#behavior
    *
    */
   _handleBodyInteraction(): void {
@@ -1341,7 +1373,12 @@ export abstract class _TooltipComponentBase implements OnDestroy {
     }
   }
 
-  /** Cancels any pending animation sequences. */
+  /**
+   * Cancels any pending animation sequences.
+   *
+   * 取消任何挂起的动画序列。
+   *
+   */
   _cancelPendingAnimations() {
     clearTimeout(this._showTimeoutId);
     clearTimeout(this._hideTimeoutId);
@@ -1424,7 +1461,12 @@ export class TooltipComponent extends _TooltipComponentBase {
   /* Whether the tooltip text overflows to multiple lines */
   _isMultiline = false;
 
-  /** Reference to the internal tooltip element. */
+  /**
+   * Reference to the internal tooltip element.
+   *
+   * 对内部工具提示元素的引用。
+   *
+   */
   @ViewChild('tooltip', {
     // Use a static query here since we interact directly with
     // the DOM which can happen before `ngAfterViewInit`.
