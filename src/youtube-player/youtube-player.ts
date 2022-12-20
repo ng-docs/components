@@ -101,11 +101,11 @@ interface PendingPlayerState {
 /**
  * Angular component that renders a YouTube player via the YouTube player
  * iframe API.
- * @see https://developers.google.com/youtube/iframe_api_reference
  *
  * 用于通过 YouTube 播放器的 iframe API 渲染 YouTube 播放器的 Angular 组件。
  *
  * @see https://developers.google.com/youtube/iframe_api_reference
+ *
  */
 @Component({
   selector: 'youtube-player',
@@ -227,7 +227,12 @@ export class YouTubePlayer implements AfterViewInit, OnDestroy, OnInit {
   }
   private _playerVars = new BehaviorSubject<YT.PlayerVars | undefined>(undefined);
 
-  /** Whether cookies inside the player have been disabled. */
+  /**
+   * Whether cookies inside the player have been disabled.
+   *
+   * 播放器内的 cookies 是否被禁用。
+   *
+   */
   @Input()
   get disableCookies(): boolean {
     return this._disableCookies.value;

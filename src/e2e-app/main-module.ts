@@ -29,7 +29,12 @@ import {StepperE2eModule} from './stepper/stepper-e2e-module';
 import {ToolbarE2eModule} from './toolbar/toolbar-e2e-module';
 import {VirtualScrollE2eModule} from './virtual-scroll/virtual-scroll-e2e-module';
 
-/** We allow for animations to be explicitly enabled in certain e2e tests. */
+/**
+ * We allow for animations to be explicitly enabled in certain e2e tests.
+ *
+ * 我们允许在某些 e2e 测试中明确启用动画。
+ *
+ */
 const enableAnimations = window.location.search.includes('animations=true');
 
 @NgModule({

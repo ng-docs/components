@@ -8,5 +8,10 @@
 
 import {Version} from '@angular/core';
 
-/** Current version of the CDK Experimental package. */
+/**
+ * Current version of the CDK Experimental package.
+ *
+ * CDK 实验包的当前版本。
+ *
+ */
 export const VERSION = new Version('0.0.0-PLACEHOLDER');
