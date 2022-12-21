@@ -74,7 +74,7 @@ const _MatSliderMixinBase = mixinColor(
  * Allows users to select from a range of values by moving the slider thumb. It is similar in
  * behavior to the native `<input type="range">` element.
  *
- * 允许用户通过移动滑杆来从一系列值中进行选择。它的行为类似于原生的 `<input type="range">` 元素。
+ * 允许用户通过移动滑杆的滑块来从一系列值中进行选择。它的行为类似于原生的 `<input type="range">` 元素。
  *
  */
 @Component({
@@ -407,7 +407,7 @@ export class MatSlider
    * in the thumb label. Can be used to format very large number in order
    * for them to fit into the slider thumb.
    *
-   * 在滑块的标签上显示值之前用来格式化该值的函数。可以用来格式化非常大的数字，以便让它们适配滑杆。
+   * 在滑块的标签上显示值之前用来格式化该值的函数。可以用来格式化非常大的数字，以便让它们适配滑块。
    *
    */
   @Input() displayWith: (value: number) => string = (value: number) => `${value}`;
