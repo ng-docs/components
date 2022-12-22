@@ -44,7 +44,7 @@ type HasInitializedCtor = Constructor<HasInitialized>;
 /**
  * Mixin to augment a directive with an initialized property that will emits when ngOnInit ends.
  *
- * 混入 `initialized` 属性以扩展某个之灵，，该指令将在 ngOnInit 结束时发出事件。
+ * 混入 `initialized` 属性以扩展某个指令，，该指令将在 ngOnInit 结束时发出事件。
  *
  */
 export function mixinInitialized<T extends Constructor<{}>>(base: T): HasInitializedCtor & T {
