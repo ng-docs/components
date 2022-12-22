@@ -6,7 +6,7 @@ As explained in the [theming guide](./theming.md), a theme in Angular Material c
 configurations for the `color`, `density` and `typography` systems. As some of these individual
 systems have default configurations, some usage patterns may cause duplication in the CSS output.
 
-正如[主题指南](./theming.md)中所解释的，Angular Material 中的主题包括 `color`（颜色）、`density`（浓淡）和 `typography`（排版）体系的配置。由于某些独立体系具有其默认配置，因此在某些使用模式下可能导致重复的 CSS 输出。
+正如[主题指南](./theming.md)中所解释的，Angular Material 中的主题包括 `color`（颜色）、`density`（密集度）和 `typography`（排版）体系的配置。由于某些独立体系具有其默认配置，因此在某些使用模式下可能导致重复的 CSS 输出。
 
 Below are examples of patterns that generate duplicative theme styles:
 
