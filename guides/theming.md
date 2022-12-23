@@ -550,7 +550,7 @@ $dark-theme: mat.define-dark-theme((
 
 ## Strong focus indicators
 
-## 强烈焦点指示器
+## 强焦点指示器
 
 By default, most components indicate browser focus by changing their background color as described
 by the Material Design specification. This behavior, however, can fall short of accessibility
@@ -562,7 +562,7 @@ Angular Material supports rendering highly visible outlines on focused elements.
 enable these strong focus indicators via two Sass mixins:
 `strong-focus-indicators` and `strong-focus-indicators-theme`.
 
-Angular Material 支持在有焦点的元素上渲染高度可见的轮廓。应用程序可以通过两个 Sass mixin 启用这些强烈焦点指示器： `strong-focus-indicators` 和 `strong-focus-indicators-theme` 。
+Angular Material 支持在有焦点的元素上渲染高度可见的轮廓。应用程序可以通过两个 Sass mixin 启用这些强焦点指示器： `strong-focus-indicators` 和 `strong-focus-indicators-theme` 。
 
 The `strong-focus-indicators` mixin emits structural indicator styles for all components. This mixin
 should be included exactly once in an application, similar to the `core` mixin described above.
@@ -579,7 +579,7 @@ would not contrast sufficiently with the background color.
 The following example includes strong focus indicator styles in an application alongside the rest of
 the custom theme API.
 
-以下示例在应用程序中包含强烈焦点指示器样式以及自定义主题 API 的其余部分。
+以下示例在应用程序中包含强焦点指示器样式以及自定义主题 API 的其余部分。
 
 ```scss
 @use '@angular/material' as mat;
@@ -603,7 +603,7 @@ $my-theme: mat.define-light-theme((
 
 ### Customizing strong focus indicators
 
-### 自定义强焦点指标
+### 自定义强焦点指示器
 
 You can pass a configuration map to `strong-focus-indicators` to customize the appearance of the
 indicators. This configuration includes `border-style`, `border-width`, and `border-radius`.
@@ -619,7 +619,7 @@ theme, the indicators will use the default hue of the primary palette.
 The following example includes strong focus indicator styles with custom settings alongside the rest
 of the custom theme API.
 
-以下示例包括具有自定义设置的强烈焦点指示器样式以及自定义主题 API 的其余部分。
+以下示例包括具有自定义设置的强焦点指示器样式以及自定义主题 API 的其余部分。
 
 ```scss
 @use '@angular/material' as mat;
