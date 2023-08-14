@@ -8,7 +8,7 @@
 
 import {Rule, SchematicContext, Tree} from '@angular-devkit/schematics';
 import {NodePackageInstallTask} from '@angular-devkit/schematics/tasks';
-import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
+import {workspaces} from '@angular-devkit/core';
 
 import {UpdateProject} from '../update-tool';
 import {WorkspacePath} from '../update-tool/file-system';
@@ -151,7 +151,7 @@ export function createMigrationSchematicRule(
      *
      */
     function runMigrations(
-      project: ProjectDefinition,
+      project: workspaces.ProjectDefinition,
       projectName: string,
       tsconfigPath: WorkspacePath,
       additionalStylesheetPaths: string[],

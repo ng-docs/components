@@ -8,8 +8,8 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 # Add NodeJS rules
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "2b2004784358655f334925e7eadc7ba80f701144363df949b3293e1ae7a2fb7b",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.4.0/rules_nodejs-5.4.0.tar.gz"],
+    sha256 = "5dd1e5dea1322174c57d3ca7b899da381d516220793d0adef3ba03b9d23baa8e",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.3/rules_nodejs-5.8.3.tar.gz"],
 )
 
 # Add sass rules
@@ -73,7 +73,8 @@ yarn_install(
         "//:.yarn/releases/yarn-1.22.17.cjs",
         "//:.yarnrc",
         "//:tools/postinstall/apply-patches.js",
-        "//:tools/postinstall/devmode-es2020-bazel.patch",
+        "//:tools/postinstall/patches/@angular+bazel+16.0.0-next.6.patch",
+        "//:tools/postinstall/patches/@bazel+concatjs+5.8.1.patch",
     ],
     # Currently disabled due to:
     #  1. Missing Windows support currently.

@@ -24,18 +24,17 @@ import {
   ChangeDetectorRef,
   SkipSelf,
   Inject,
-  InjectionToken,
 } from '@angular/core';
 import {Directionality} from '@angular/cdk/bidi';
 import {ScrollDispatcher} from '@angular/cdk/scrolling';
-import {CdkDrag} from './drag';
+import {CDK_DROP_LIST, CdkDrag} from './drag';
 import {CdkDragDrop, CdkDragEnter, CdkDragExit, CdkDragSortEvent} from '../drag-events';
 import {CDK_DROP_LIST_GROUP, CdkDropListGroup} from './drop-list-group';
 import {DropListRef} from '../drop-list-ref';
 import {DragRef} from '../drag-ref';
 import {DragDrop} from '../drag-drop';
 import {DropListOrientation, DragAxis, DragDropConfig, CDK_DRAG_CONFIG} from './config';
-import {Subject} from 'rxjs';
+import {merge, Subject} from 'rxjs';
 import {startWith, takeUntil} from 'rxjs/operators';
 import {assertElementNode} from './assertions';
 
@@ -46,26 +45,6 @@ import {assertElementNode} from './assertions';
  *
  */
 let _uniqueIdCounter = 0;
-
-/**
- * Internal compile-time-only representation of a `CdkDropList`.
- * Used to avoid circular import issues between the `CdkDropList` and the `CdkDrag`.
- *
- * `CdkDropList` 内部的仅编译时表示法。用来解决 `CdkDropList` 和 `CdkDrag` 之间的循环导入问题。
- *
- * @docs-private
- */
-export interface CdkDropListInternal extends CdkDropList {}
-
-/**
- * Injection token that can be used to reference instances of `CdkDropList`. It serves as
- * alternative token to the actual `CdkDropList` class which could cause unnecessary
- * retention of the class and its directive metadata.
- *
- * 用来引用 `CdkDropList` 实例的注入令牌。它用作实际 `CdkDropList` 类的备用令牌，这可能导致不必要地保留该类及其指令元数据。
- *
- */
-export const CDK_DROP_LIST = new InjectionToken<CdkDropList>('CdkDropList');
 
 /**
  * Container that wraps a set of draggable items.
@@ -509,6 +488,10 @@ export class CdkDropList<T = any> implements OnDestroy {
       // detection and we're not guaranteed for something else to have triggered it.
       this._changeDetectorRef.markForCheck();
     });
+
+    merge(ref.receivingStarted, ref.receivingStopped).subscribe(() =>
+      this._changeDetectorRef.markForCheck(),
+    );
   }
 
   /**

@@ -13,11 +13,11 @@ of the text input to be when that option is selected.
 首先，创建自动完成面板，并在其中显示选项。每个选项都应该用 `mat-option` 标签来定义。把每个选项的 value 属性设置为你希望选择该选项时输入的文本值的值。
 
 <!-- example({"example":"autocomplete-simple",
-              "file":"autocomplete-simple-example.html", 
+              "file":"autocomplete-simple-example.html",
               "region":"mat-autocomplete"}) -->
 
-Next, create the input and set the `matAutocomplete` input to refer to the template reference we assigned 
-to the autocomplete. Let's assume you're using the `formControl` directive from `ReactiveFormsModule` to 
+Next, create the input and set the `matAutocomplete` input to refer to the template reference we assigned
+to the autocomplete. Let's assume you're using the `formControl` directive from `ReactiveFormsModule` to
 track the value of the input.
 
 接下来，创建输入框并设置 `matAutocomplete` 输入属性以引用我们赋值给此自动完成器的模板引用。我们假设你使用 `ReactiveFormsModule` 中的 `formControl` 指令来跟踪输入框的值。
@@ -38,7 +38,7 @@ to the input's `matAutocomplete` property.
 现在，我们需要把这个输入框和它的面板联系起来。我们可以把这个自动完成面板的实例导出给一个局部模板变量（这里叫它 "auto"），然后把这个变量绑定到输入框的 `matAutocomplete` 属性上。
 
 <!-- example({"example":"autocomplete-simple",
-              "file":"autocomplete-simple-example.html", 
+              "file":"autocomplete-simple-example.html",
               "region":"input"}) -->
 
 ### Adding a custom filter
@@ -94,6 +94,22 @@ desired display value. Then bind it to the autocomplete's `displayWith` property
 要做到这一点，请在你的组件类上创建一个用于把控件值映射为其显示值的函数。然后把该函数绑定到自动完成器的 `displayWith` 属性上。
 
 <!-- example(autocomplete-display) -->
+
+### Require an option to be selected
+
+By default, the autocomplete will accept the value that the user typed into the input field.
+Instead, if you want to instead ensure that an option from the autocomplete was selected, you can
+enable the `requireSelection` input on `mat-autocomplete`. This will change the behavior of
+the autocomplete in the following ways:
+1. If the user opens the autocomplete, changes its value, but doesn't select anything, the
+autocomplete value will be reset back to `null`.
+2. If the user opens and closes the autocomplete without changing the value, the old value will
+be preserved.
+
+This behavior can be configured globally using the `MAT_AUTOCOMPLETE_DEFAULT_OPTIONS`
+injection token.
+
+<!-- example(autocomplete-require-selection) -->
 
 ### Automatically highlighting the first option
 
@@ -177,7 +193,7 @@ autocomplete is attached to using the `matAutocompleteOrigin` directive together
 可以使用 `mat-optgroup` 元素对 `mat-option` 进行分组：
 
 <!-- example({"example":"autocomplete-optgroup",
-              "file":"autocomplete-optgroup-example.html", 
+              "file":"autocomplete-optgroup-example.html",
               "region":"mat-autocomplete"}) -->
 
 ### Accessibility
@@ -202,3 +218,7 @@ attribute, or the `aria-labelledby` attribute.
 navigation though the autocomplete options.
 
 `MatAutocomplete` 会保留对文本触发器的焦点，使用 `aria-activedescendant` 可以支持通过自动完成选项进行导航。
+
+By default, `MatAutocomplete` displays a checkmark to identify the selected item. While you can hide
+the checkmark indicator via `hideSingleSelectionIndicator`, this makes the component less accessible
+by making it harder or impossible for users to visually identify selected items.

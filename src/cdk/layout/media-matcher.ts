@@ -5,7 +5,7 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import {Injectable} from '@angular/core';
+import {Injectable, CSP_NONCE, Optional, Inject} from '@angular/core';
 import {Platform} from '@angular/cdk/platform';
 
 /**
@@ -40,7 +40,10 @@ export class MediaMatcher {
    */
   private _matchMedia: (query: string) => MediaQueryList;
 
-  constructor(private _platform: Platform) {
+  constructor(
+    private _platform: Platform,
+    @Optional() @Inject(CSP_NONCE) private _nonce?: string | null,
+  ) {
     this._matchMedia =
       this._platform.isBrowser && window.matchMedia
         ? // matchMedia is bound to the window scope intentionally as it is an illegal invocation to
@@ -60,7 +63,7 @@ export class MediaMatcher {
    */
   matchMedia(query: string): MediaQueryList {
     if (this._platform.WEBKIT || this._platform.BLINK) {
-      createEmptyStyleRule(query);
+      createEmptyStyleRule(query, this._nonce);
     }
     return this._matchMedia(query);
   }
@@ -84,7 +87,7 @@ export class MediaMatcher {
  *    在某些情况下，如果 `@media` 中的任何规则都不能匹配页面上的现有元素，则 Blink 浏览器将停止触发 `matchMedia` 侦听器。我们通过制定一个针对 `body` 的规则来解决它。请参阅https://github.com/angular/components/issues/23546 。
  *
  */
-function createEmptyStyleRule(query: string) {
+function createEmptyStyleRule(query: string, nonce: string | undefined | null) {
   if (mediaQueriesForWebkitCompatibility.has(query)) {
     return;
   }
@@ -92,6 +95,11 @@ function createEmptyStyleRule(query: string) {
   try {
     if (!mediaQueryStyleNode) {
       mediaQueryStyleNode = document.createElement('style');
+
+      if (nonce) {
+        mediaQueryStyleNode.nonce = nonce;
+      }
+
       mediaQueryStyleNode.setAttribute('type', 'text/css');
       document.head!.appendChild(mediaQueryStyleNode);
     }

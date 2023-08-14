@@ -10,6 +10,7 @@ import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {
   AfterViewInit,
+  AfterContentInit,
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -25,6 +26,11 @@ import {
   ViewEncapsulation,
   ViewChild,
   Attribute,
+  ContentChildren,
+  QueryList,
+  OnInit,
+  DoCheck,
+  inject,
 } from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {
@@ -39,9 +45,10 @@ import {
   mixinTabIndex,
   mixinDisabled,
   RippleGlobalOptions,
+  MatRippleLoader,
 } from '@angular/material/core';
 import {FocusMonitor} from '@angular/cdk/a11y';
-import {Subject} from 'rxjs';
+import {merge, Subject, Subscription} from 'rxjs';
 import {take} from 'rxjs/operators';
 import {MatChipAvatar, MatChipTrailingIcon, MatChipRemove} from './chip-icons';
 import {MatChipAction} from './chip-action';
@@ -98,7 +105,7 @@ const _MatChipMixinBase = mixinTabIndex(
  *
  */
 @Component({
-  selector: 'mat-basic-chip, mat-chip',
+  selector: 'mat-basic-chip, [mat-basic-chip], mat-chip, [mat-chip]',
   inputs: ['color', 'disabled', 'disableRipple', 'tabIndex'],
   exportAs: 'matChip',
   templateUrl: 'chip.html',
@@ -130,24 +137,20 @@ const _MatChipMixinBase = mixinTabIndex(
 })
 export class MatChip
   extends _MatChipMixinBase
-  implements AfterViewInit, CanColor, CanDisableRipple, CanDisable, HasTabIndex, OnDestroy
+  implements
+    OnInit,
+    AfterViewInit,
+    AfterContentInit,
+    CanColor,
+    CanDisableRipple,
+    CanDisable,
+    DoCheck,
+    HasTabIndex,
+    OnDestroy
 {
   protected _document: Document;
 
-  /**
-   * Whether the ripple is centered on the chip.
-   *
-   * 涟漪是否应以纸片为中心。
-   *
-   */
-  readonly _isRippleCentered = false;
-
-  /**
-   * Emits when the chip is focused.
-   *
-   * 当纸片聚焦时发出。
-   *
-   */
+  /** Emits when the chip is focused. */
   readonly _onFocus = new Subject<MatChipEvent>();
 
   /**
@@ -164,7 +167,7 @@ export class MatChip
    * 此纸片是否为基本（无样式）纸片。
    *
    */
-  readonly _isBasicChip: boolean;
+  _isBasicChip: boolean;
 
   /**
    * Role for the root of the chip.
@@ -185,13 +188,23 @@ export class MatChip
   /** Whether moving focus into the chip is pending. */
   private _pendingFocus: boolean;
 
-  /**
-   * Whether animations for the chip are enabled.
-   *
-   * 是否启用了该纸片的动画。
-   *
-   */
+  /** Subscription to changes in the chip's actions. */
+  private _actionChanges: Subscription | undefined;
+
+  /** Whether animations for the chip are enabled. */
   _animationsDisabled: boolean;
+
+  /** All avatars present in the chip. */
+  @ContentChildren(MAT_CHIP_AVATAR, {descendants: true})
+  protected _allLeadingIcons: QueryList<MatChipAvatar>;
+
+  /** All trailing icons present in the chip. */
+  @ContentChildren(MAT_CHIP_TRAILING_ICON, {descendants: true})
+  protected _allTrailingIcons: QueryList<MatChipTrailingIcon>;
+
+  /** All remove icons present in the chip. */
+  @ContentChildren(MAT_CHIP_REMOVE, {descendants: true})
+  protected _allRemoveIcons: QueryList<MatChipRemove>;
 
   _hasFocus() {
     return this._hasFocusInternal;
@@ -333,11 +346,15 @@ export class MatChip
 
   /**
    * Reference to the MatRipple instance of the chip.
-   *
-   * 引用纸片的 MatRipple 实例。
-   *
+   * @deprecated Considered an implementation detail. To be removed.
+   * @breaking-change 17.0.0
    */
-  @ViewChild(MatRipple) ripple: MatRipple;
+  get ripple(): MatRipple {
+    return this._rippleLoader?.getRipple(this._elementRef.nativeElement)!;
+  }
+  set ripple(v: MatRipple) {
+    this._rippleLoader?.attachRipple(this._elementRef.nativeElement, v);
+  }
 
   /**
    * Action receiving the primary set of user interactions.
@@ -346,6 +363,12 @@ export class MatChip
    *
    */
   @ViewChild(MatChipAction) primaryAction: MatChipAction;
+
+  /**
+   * Handles the lazy creation of the MatChip ripple.
+   * Used to improve initial load time of large applications.
+   */
+  _rippleLoader: MatRippleLoader = inject(MatRippleLoader);
 
   constructor(
     public _changeDetectorRef: ChangeDetectorRef,
@@ -360,16 +383,26 @@ export class MatChip
     @Attribute('tabindex') tabIndex?: string,
   ) {
     super(elementRef);
-    const element = elementRef.nativeElement;
     this._document = _document;
     this._animationsDisabled = animationMode === 'NoopAnimations';
-    this._isBasicChip =
-      element.hasAttribute(this.basicChipAttrName) ||
-      element.tagName.toLowerCase() === this.basicChipAttrName;
     if (tabIndex != null) {
       this.tabIndex = parseInt(tabIndex) ?? this.defaultTabIndex;
     }
     this._monitorFocus();
+
+    this._rippleLoader?.configureRipple(this._elementRef.nativeElement, {
+      className: 'mat-mdc-chip-ripple',
+      disabled: this._isRippleDisabled(),
+    });
+  }
+
+  ngOnInit() {
+    // This check needs to happen in `ngOnInit` so the overridden value of
+    // `basicChipAttrName` coming from base classes can be picked up.
+    const element = this._elementRef.nativeElement;
+    this._isBasicChip =
+      element.hasAttribute(this.basicChipAttrName) ||
+      element.tagName.toLowerCase() === this.basicChipAttrName;
   }
 
   ngAfterViewInit() {
@@ -381,8 +414,23 @@ export class MatChip
     }
   }
 
+  ngAfterContentInit(): void {
+    // Since the styling depends on the presence of some
+    // actions, we have to mark for check on changes.
+    this._actionChanges = merge(
+      this._allLeadingIcons.changes,
+      this._allTrailingIcons.changes,
+      this._allRemoveIcons.changes,
+    ).subscribe(() => this._changeDetectorRef.markForCheck());
+  }
+
+  ngDoCheck(): void {
+    this._rippleLoader.setDisabled(this._elementRef.nativeElement, this._isRippleDisabled());
+  }
+
   ngOnDestroy() {
     this._focusMonitor.stopMonitoring(this._elementRef);
+    this._actionChanges?.unsubscribe();
     this.destroyed.emit({chip: this});
     this.destroyed.complete();
   }

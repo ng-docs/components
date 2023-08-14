@@ -518,6 +518,9 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
    */
   @Output() readonly selectionChange = new EventEmitter<StepperSelectionEvent>();
 
+  /** Output to support two-way binding on `[(selectedIndex)]` */
+  @Output() readonly selectedIndexChange: EventEmitter<number> = new EventEmitter<number>();
+
   /**
    * Used to track unique ID for each stepper component.
    *
@@ -778,6 +781,7 @@ export class CdkStepper implements AfterContentInit, AfterViewInit, OnDestroy {
       : this._keyManager.updateActiveItem(newIndex);
 
     this._selectedIndex = newIndex;
+    this.selectedIndexChange.emit(this._selectedIndex);
     this._stateChanged();
   }
 

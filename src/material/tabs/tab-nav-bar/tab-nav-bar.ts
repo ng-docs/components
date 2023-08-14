@@ -45,10 +45,10 @@ import {Directionality} from '@angular/cdk/bidi';
 import {ViewportRuler} from '@angular/cdk/scrolling';
 import {Platform} from '@angular/cdk/platform';
 import {MatInkBar, MatInkBarItem, mixinInkBarItem} from '../ink-bar';
-import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {BooleanInput, coerceBooleanProperty, NumberInput} from '@angular/cdk/coercion';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {startWith, takeUntil} from 'rxjs/operators';
-import {SPACE} from '@angular/cdk/keycodes';
+import {ENTER, SPACE} from '@angular/cdk/keycodes';
 import {MAT_TABS_CONFIG, MatTabsConfig} from '../tab-config';
 import {MatPaginatedTabHeader, MatPaginatedTabHeaderItem} from '../paginated-tab-header';
 
@@ -323,7 +323,9 @@ export class _MatTabLinkBase
   }
 
   _handleKeydown(event: KeyboardEvent) {
-    if (this._tabNavBar.tabPanel && event.keyCode === SPACE) {
+    if (this.disabled && (event.keyCode === SPACE || event.keyCode === ENTER)) {
+      event.preventDefault();
+    } else if (this._tabNavBar.tabPanel && event.keyCode === SPACE) {
       this.elementRef.nativeElement.click();
     }
   }
@@ -384,6 +386,7 @@ const _MatTabLinkBaseWithInkBarItem = mixinInkBarItem(_MatTabLinkBase);
     '[class.mat-accent]': 'color === "accent"',
     '[class.mat-warn]': 'color === "warn"',
     '[class._mat-animation-noopable]': '_animationMode === "NoopAnimations"',
+    '[style.--mat-tab-animation-duration]': 'animationDuration',
   },
   encapsulation: ViewEncapsulation.None,
   // tslint:disable-next-line:validate-decorators
@@ -421,6 +424,17 @@ export class MatTabNav extends _MatTabNavBase implements AfterContentInit, After
   }
   private _stretchTabs = true;
 
+  @Input()
+  get animationDuration(): string {
+    return this._animationDuration;
+  }
+
+  set animationDuration(value: NumberInput) {
+    this._animationDuration = /^\d+$/.test(value + '') ? value + 'ms' : (value as string);
+  }
+
+  private _animationDuration: string;
+
   @ContentChildren(forwardRef(() => MatTabLink), {descendants: true}) _items: QueryList<MatTabLink>;
   @ViewChild('tabListContainer', {static: true}) _tabListContainer: ElementRef;
   @ViewChild('tabList', {static: true}) _tabList: ElementRef;
@@ -448,6 +462,8 @@ export class MatTabNav extends _MatTabNavBase implements AfterContentInit, After
       defaultConfig && defaultConfig.fitInkBarToContent != null
         ? defaultConfig.fitInkBarToContent
         : false;
+    this.stretchTabs =
+      defaultConfig && defaultConfig.stretchTabs != null ? defaultConfig.stretchTabs : true;
   }
 
   override ngAfterContentInit() {
@@ -459,6 +475,7 @@ export class MatTabNav extends _MatTabNavBase implements AfterContentInit, After
     if (!this.tabPanel && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw new Error('A mat-tab-nav-panel must be specified via [tabPanel].');
     }
+    super.ngAfterViewInit();
   }
 }
 

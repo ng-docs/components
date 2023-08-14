@@ -72,6 +72,10 @@ export class MatInkBar {
     const correspondingItem = this._items.find(item => item.elementRef.nativeElement === element);
     const currentItem = this._currentItem;
 
+    if (correspondingItem === currentItem) {
+      return;
+    }
+
     currentItem?.deactivateInkBar();
 
     if (correspondingItem) {
@@ -233,7 +237,7 @@ export function mixinInkBarItem<
 }
 
 /**
- * Interface for a a MatInkBar positioner method, defining the positioning and width of the ink
+ * Interface for a MatInkBar positioner method, defining the positioning and width of the ink
  * bar in a set of tabs.
  *
  * 一个 MatInkBar 定位器方法的接口，用于定义选项卡组中墨水条的位置和宽度。

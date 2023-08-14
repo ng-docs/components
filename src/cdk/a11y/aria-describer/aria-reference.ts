@@ -21,7 +21,7 @@ const ID_DELIMITER = ' ';
  * 将指定 ID 添加到元素上特定的 ARIA 属性上。用于诸如 aria-labelledby，aria-owns 等属性。
  *
  */
-export function addAriaReferencedId(el: Element, attr: string, id: string) {
+export function addAriaReferencedId(el: Element, attr: `aria-${string}`, id: string) {
   const ids = getAriaReferenceIds(el, attr);
   if (ids.some(existingId => existingId.trim() == id.trim())) {
     return;
@@ -38,7 +38,7 @@ export function addAriaReferencedId(el: Element, attr: string, id: string) {
  * 从元素上指定的 ARIA 属性中删除特定的 ID。用于诸如 aria-labelledby，aria-owns 等属性。
  *
  */
-export function removeAriaReferencedId(el: Element, attr: string, id: string) {
+export function removeAriaReferencedId(el: Element, attr: `aria-${string}`, id: string) {
   const ids = getAriaReferenceIds(el, attr);
   const filteredIds = ids.filter(val => val != id.trim());
 

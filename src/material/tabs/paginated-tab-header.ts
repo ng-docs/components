@@ -66,15 +66,6 @@ const passiveEventListenerOptions = normalizePassiveListenerOptions({
 export type ScrollDirection = 'after' | 'before';
 
 /**
- * The distance in pixels that will be overshot when scrolling a tab label into view. This helps
- * provide a small affordance to the label next to it.
- *
- * 把页标签滚动进视图时，要超过的像素距离。这有助于为其下一个选项卡提供一点点可见性。
- *
- */
-const EXAGGERATED_OVERSCROLL = 60;
-
-/**
  * Amount of milliseconds to wait before starting to scroll the header automatically.
  * Set a little conservatively in order to handle fake events dispatched on touch devices.
  *
@@ -316,7 +307,9 @@ export abstract class MatPaginatedTabHeader
     this._keyManager = new FocusKeyManager<MatPaginatedTabHeaderItem>(this._items)
       .withHorizontalOrientation(this._getLayoutDirection())
       .withHomeAndEnd()
-      .withWrap();
+      .withWrap()
+      // Allow focus to land on disabled tabs, as per https://w3c.github.io/aria-practices/#kbd_disabled_controls
+      .skipPredicate(() => false);
 
     this._keyManager.updateActiveItem(this._selectedIndex);
 
@@ -440,8 +433,12 @@ export abstract class MatPaginatedTabHeader
       case ENTER:
       case SPACE:
         if (this.focusIndex !== this.selectedIndex) {
-          this.selectFocusedIndex.emit(this.focusIndex);
-          this._itemSelected(event);
+          const item = this._items.get(this.focusIndex);
+
+          if (item && !item.disabled) {
+            this.selectFocusedIndex.emit(this.focusIndex);
+            this._itemSelected(event);
+          }
         }
         break;
       default:
@@ -524,12 +521,7 @@ export abstract class MatPaginatedTabHeader
    *
    */
   _isValidIndex(index: number): boolean {
-    if (!this._items) {
-      return true;
-    }
-
-    const tab = this._items ? this._items.toArray()[index] : null;
-    return !!tab && !tab.disabled;
+    return this._items ? !!this._items.toArray()[index] : true;
   }
 
   /**
@@ -688,10 +680,13 @@ export abstract class MatPaginatedTabHeader
 
     if (labelBeforePos < beforeVisiblePos) {
       // Scroll header to move label to the before direction
-      this.scrollDistance -= beforeVisiblePos - labelBeforePos + EXAGGERATED_OVERSCROLL;
+      this.scrollDistance -= beforeVisiblePos - labelBeforePos;
     } else if (labelAfterPos > afterVisiblePos) {
       // Scroll header to move label to the after direction
-      this.scrollDistance += labelAfterPos - afterVisiblePos + EXAGGERATED_OVERSCROLL;
+      this.scrollDistance += Math.min(
+        labelAfterPos - afterVisiblePos,
+        labelBeforePos - beforeVisiblePos,
+      );
     }
   }
 

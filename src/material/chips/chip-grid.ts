@@ -105,9 +105,9 @@ const _MatChipGridMixinBase = mixinErrorState(MatChipGridBase);
 @Component({
   selector: 'mat-chip-grid',
   template: `
-    <span class="mdc-evolution-chip-set__chips" role="presentation">
+    <div class="mdc-evolution-chip-set__chips" role="presentation">
       <ng-content></ng-content>
-    </span>
+    </div>
   `,
   styleUrls: ['chip-set.css'],
   inputs: ['tabIndex'],
@@ -333,7 +333,8 @@ export class MatChipGrid
     // indirect descendants if it's left as false.
     descendants: true,
   })
-  override _chips: QueryList<MatChipRow>;
+  // We need an initializer here to avoid a TS error. The value will be set in `ngAfterViewInit`.
+  override _chips: QueryList<MatChipRow> = undefined!;
 
   constructor(
     elementRef: ElementRef,

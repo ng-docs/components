@@ -54,9 +54,9 @@ const _MatChipSetMixinBase = mixinTabIndex(MatChipSetBase);
 @Component({
   selector: 'mat-chip-set',
   template: `
-    <span class="mdc-evolution-chip-set__chips" role="presentation">
+    <div class="mdc-evolution-chip-set__chips" role="presentation">
       <ng-content></ng-content>
-    </span>
+    </div>
   `,
   styleUrls: ['chip-set.css'],
   host: {
@@ -141,7 +141,7 @@ export class MatChipSet
    *
    */
   get empty(): boolean {
-    return this._chips.length === 0;
+    return !this._chips || this._chips.length === 0;
   }
 
   /**
@@ -282,23 +282,21 @@ export class MatChipSet
   }
 
   /**
-   * Removes the `tabindex` from the chip grid and resets it back afterwards, allowing the
-   * user to tab out of it. This prevents the grid from capturing focus and redirecting
+   * Removes the `tabindex` from the chip set and resets it back afterwards, allowing the
+   * user to tab out of it. This prevents the set from capturing focus and redirecting
    * it back to the first chip, creating a focus trap, if it user tries to tab away.
    *
    * 从纸片网格中删除 `tabindex` 并在之后将其重置，以允许用户退出它。这可以防止网格捕获焦点并将其重定向回第一个纸片，从而在用户尝试离开时创建焦点陷阱。
    *
    */
   protected _allowFocusEscape() {
-    const previousTabIndex = this.tabIndex;
-
     if (this.tabIndex !== -1) {
+      const previousTabIndex = this.tabIndex;
       this.tabIndex = -1;
 
-      Promise.resolve().then(() => {
-        this.tabIndex = previousTabIndex;
-        this._changeDetectorRef.markForCheck();
-      });
+      // Note that this needs to be a `setTimeout`, because a `Promise.resolve`
+      // doesn't allow enough time for the focus to escape.
+      setTimeout(() => (this.tabIndex = previousTabIndex));
     }
   }
 
@@ -328,8 +326,7 @@ export class MatChipSet
     let currentElement = event.target as HTMLElement | null;
 
     while (currentElement && currentElement !== this._elementRef.nativeElement) {
-      // Null check the classList, because IE and Edge don't support it on all elements.
-      if (currentElement.classList && currentElement.classList.contains('mdc-evolution-chip')) {
+      if (currentElement.classList.contains('mat-mdc-chip')) {
         return true;
       }
       currentElement = currentElement.parentElement;

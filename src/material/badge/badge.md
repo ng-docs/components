@@ -80,14 +80,14 @@ background color to `primary`, `accent`, or `warn`.
 
 ### 无障碍性
 
-Badges should be given a meaningful description via `matBadgeDescription`. This description will be
-applied, via `aria-describedby` to the element decorated by `matBadge`.
+You must provide a meaningful description via `matBadgeDescription`. When attached to an interactive
+element, `MatBadge` applies this description to its host via `aria-describedby`. When attached to
+a non-interactive element, `MatBadge` appends a visually-hidden, inline description element. The
+badge determines interactivity based on whether the host element is focusable.
 
-徽章应该通过 `matBadgeDescription` 来给出一个有意义的描述信息。该描述信息将会通过 `aria-describedby` 属性应用到 `matBadge` 所修饰的元素上。
-
-When applying a badge to a `<mat-icon>`, it is important to know that the icon is marked as
-`aria-hidden` by default. If the combination of icon and badge communicates some meaningful
-information, that information should be surfaced in another way. [See the guidance on indicator
+When applying a badge to a `<mat-icon>`, it is important to know that `<mat-icon>` is
+`aria-hidden="true"` by default. If the combination of icon and badge communicates meaningful
+information, always surface this information in another way. [See the guidance on indicator
 icons for more information](https://material.angular.io/components/icon/overview#indicator-icons).
 
 当给 `<mat-icon>` 添加徽章时，一定要知道一点：此图标默认是标记为 `aria-hidden` 的。

@@ -236,7 +236,7 @@ export class MatIconRegistry implements OnDestroy {
   /**
    * The CSS classes to apply when an `<mat-icon>` component has no icon name, url, or font
    * specified. The default 'material-icons' value assumes that the material icon font has been
-   * loaded as described at http://google.github.io/material-design-icons/#icon-font-for-the-web
+   * loaded as described at https://google.github.io/material-design-icons/#icon-font-for-the-web
    *
    * 当 `<mat-icon>` 组件没有指定图标名、url 或字体时，要应用的 CSS 类。默认的 “material-icons” 值假定已加载了 Material 字体图标，详见 http://google.github.io/material-design-icons/#icon-font-for-the-web
    *

@@ -124,6 +124,7 @@ export class MatLegacyChipListChange {
     '(blur)': '_blur()',
     '(keydown)': '_keydown($event)',
     '[id]': '_uid',
+    'ngSkipHydration': '',
   },
   providers: [{provide: MatLegacyFormFieldControl, useExisting: MatLegacyChipList}],
   styleUrls: ['chips.css'],

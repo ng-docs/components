@@ -6,8 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ProjectDefinition, TargetDefinition} from '@angular-devkit/core/src/workspace';
-import {JsonValue} from '@angular-devkit/core';
+import {JsonValue, workspaces} from '@angular-devkit/core';
 import {SchematicsException} from '@angular-devkit/schematics';
 
 /**
@@ -28,7 +27,7 @@ export const defaultTargetBuilders = {
  *
  */
 export function getProjectTargetOptions(
-  project: ProjectDefinition,
+  project: workspaces.ProjectDefinition,
   buildTarget: string,
 ): Record<string, JsonValue | undefined> {
   const options = project.targets?.get(buildTarget)?.options;
@@ -49,9 +48,9 @@ export function getProjectTargetOptions(
  *
  */
 export function getTargetsByBuilderName(
-  project: ProjectDefinition,
+  project: workspaces.ProjectDefinition,
   builderName: string,
-): TargetDefinition[] {
+): workspaces.TargetDefinition[] {
   return Array.from(project.targets.keys())
     .filter(name => project.targets.get(name)?.builder === builderName)
     .map(name => project.targets.get(name)!);

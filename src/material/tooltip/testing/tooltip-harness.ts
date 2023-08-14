@@ -18,6 +18,7 @@ import {TooltipHarnessFilters} from './tooltip-harness-filters';
 export abstract class _MatTooltipHarnessBase extends ComponentHarness {
   protected abstract _optionalPanel: AsyncFactoryFn<TestElement | null>;
   protected abstract _hiddenClass: string;
+  protected abstract _disabledClass: string;
   protected abstract _showAnimationName: string;
   protected abstract _hideAnimationName: string;
 
@@ -67,12 +68,13 @@ export abstract class _MatTooltipHarnessBase extends ComponentHarness {
     return !!panel && !(await panel.hasClass(this._hiddenClass));
   }
 
-  /**
-   * Gets a promise for the tooltip panel's text.
-   *
-   * 获得对此工具提示面板文本的 Promise。
-   *
-   */
+  /** Gets whether the tooltip is disabled */
+  async isDisabled(): Promise<boolean> {
+    const host = await this.host();
+    return host.hasClass(this._disabledClass);
+  }
+
+  /** Gets a promise for the tooltip panel's text. */
   async getTooltipText(): Promise<string> {
     const panel = await this._optionalPanel();
     return panel ? panel.text() : '';
@@ -90,6 +92,7 @@ export class MatTooltipHarness extends _MatTooltipHarnessBase {
     this.documentRootLocatorFactory().locatorForOptional('.mat-mdc-tooltip');
   static hostSelector = '.mat-mdc-tooltip-trigger';
   protected _hiddenClass = 'mat-mdc-tooltip-hide';
+  protected _disabledClass = 'mat-mdc-tooltip-disabled';
   protected _showAnimationName = 'mat-mdc-tooltip-show';
   protected _hideAnimationName = 'mat-mdc-tooltip-hide';
 

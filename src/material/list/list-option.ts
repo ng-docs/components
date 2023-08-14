@@ -56,6 +56,7 @@ export interface SelectionList extends MatListBase {
   multiple: boolean;
   color: ThemePalette;
   selectedOptions: SelectionModel<MatListOption>;
+  hideSingleSelectionIndicator: boolean;
   compareWith: (o1: any, o2: any) => boolean;
   _value: string[] | null;
   _reportValueChange(): void;
@@ -70,6 +71,10 @@ export interface SelectionList extends MatListBase {
   host: {
     'class': 'mat-mdc-list-item mat-mdc-list-option mdc-list-item',
     'role': 'option',
+    // As per MDC, only list items without checkbox or radio indicator should receive the
+    // `--selected` class.
+    '[class.mdc-list-item--selected]':
+      'selected && !_selectionList.multiple && _selectionList.hideSingleSelectionIndicator',
     // Based on the checkbox/radio position and whether there are icons or avatars, we apply MDC's
     // list-item `--leading` and `--trailing` classes.
     '[class.mdc-list-item--with-leading-avatar]': '_hasProjected("avatars", "before")',
@@ -304,7 +309,11 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
    *
    */
   _hasRadioAt(position: MatListOptionTogglePosition): boolean {
-    return !this._selectionList.multiple && this._getTogglePosition() === position;
+    return (
+      !this._selectionList.multiple &&
+      this._getTogglePosition() === position &&
+      !this._selectionList.hideSingleSelectionIndicator
+    );
   }
 
   /**

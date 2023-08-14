@@ -1,4 +1,4 @@
-import {SPACE} from '@angular/cdk/keycodes';
+import {ENTER, SPACE} from '@angular/cdk/keycodes';
 import {waitForAsync, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {Component, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions} from '@angular/material/core';
@@ -73,31 +73,6 @@ describe('MDC-based MatTabNavBar', () => {
       expect(tabLinkElements[1].classList.contains('mdc-tab--active')).toBeTruthy();
     });
 
-    it('should add the disabled class if disabled', () => {
-      const tabLinkElements = fixture.debugElement
-        .queryAll(By.css('a'))
-        .map(tabLinkDebugEl => tabLinkDebugEl.nativeElement);
-
-      expect(
-        tabLinkElements.every(tabLinkEl => {
-          return !tabLinkEl.classList.contains('mat-mdc-tab-disabled');
-        }),
-      )
-        .withContext('Expected every tab link to not have the disabled class initially')
-        .toBe(true);
-
-      fixture.componentInstance.disabled = true;
-      fixture.detectChanges();
-
-      expect(
-        tabLinkElements.every(tabLinkEl => {
-          return tabLinkEl.classList.contains('mat-mdc-tab-disabled');
-        }),
-      )
-        .withContext('Expected every tab link to have the disabled class if set through binding')
-        .toBe(true);
-    });
-
     it('should update aria-disabled if disabled', () => {
       const tabLinkElements = fixture.debugElement
         .queryAll(By.css('a'))
@@ -141,6 +116,20 @@ describe('MDC-based MatTabNavBar', () => {
       fixture.detectChanges();
 
       expect(tabLinkElement.classList).toContain('mat-mdc-tab-disabled');
+    });
+
+    it('should prevent default keyboard actions on disabled links', () => {
+      const link = fixture.debugElement.query(By.css('a')).nativeElement;
+      fixture.componentInstance.disabled = true;
+      fixture.detectChanges();
+
+      const spaceEvent = dispatchKeyboardEvent(link, 'keydown', SPACE);
+      fixture.detectChanges();
+      expect(spaceEvent.defaultPrevented).toBe(true);
+
+      const enterEvent = dispatchKeyboardEvent(link, 'keydown', ENTER);
+      fixture.detectChanges();
+      expect(enterEvent.defaultPrevented).toBe(true);
     });
 
     it('should re-align the ink bar when the direction changes', fakeAsync(() => {
@@ -489,6 +478,34 @@ describe('MatTabNavBar with a default config', () => {
   });
 });
 
+describe('MatTabNavBar with enabled animations', () => {
+  beforeEach(fakeAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [MatTabsModule, BrowserAnimationsModule],
+      declarations: [TabsWithCustomAnimationDuration],
+    });
+
+    TestBed.compileComponents();
+  }));
+
+  it('should not throw when setting an animationDuration without units', fakeAsync(() => {
+    expect(() => {
+      let fixture = TestBed.createComponent(TabsWithCustomAnimationDuration);
+      fixture.detectChanges();
+      tick();
+    }).not.toThrow();
+  }));
+
+  it('should set appropiate css variable given a specified animationDuration', fakeAsync(() => {
+    let fixture = TestBed.createComponent(TabsWithCustomAnimationDuration);
+    fixture.detectChanges();
+    tick();
+
+    const tabNavBar = fixture.nativeElement.querySelector('.mat-mdc-tab-nav-bar');
+    expect(tabNavBar.style.getPropertyValue('--mat-tab-animation-duration')).toBe('500ms');
+  }));
+});
+
 @Component({
   selector: 'test-app',
   template: `
@@ -544,4 +561,16 @@ class TabLinkWithNgIf {
 })
 class TabBarWithInactiveTabsOnInit {
   tabs = [0, 1, 2];
+}
+
+@Component({
+  template: `
+    <nav [animationDuration]="500" mat-tab-nav-bar [tabPanel]="tabPanel">
+    <a mat-tab-link *ngFor="let link of links">{{link}}</a>
+  </nav>
+  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>,
+  `,
+})
+class TabsWithCustomAnimationDuration {
+  links = ['First', 'Second', 'Third'];
 }

@@ -7,7 +7,6 @@
 import { _AbstractConstructor } from '@angular/material/core';
 import { ActiveDescendantKeyManager } from '@angular/cdk/a11y';
 import { AfterContentInit } from '@angular/core';
-import { AfterViewInit } from '@angular/core';
 import { AnimationTriggerMetadata } from '@angular/animations';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { CanDisable } from '@angular/material/core';
@@ -76,15 +75,15 @@ export function MAT_SELECT_SCROLL_STRATEGY_PROVIDER_FACTORY(overlay: Overlay): (
 export const MAT_SELECT_TRIGGER: InjectionToken<MatSelectTrigger>;
 
 // @public (undocumented)
-export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit, AfterViewInit {
+export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit {
     // (undocumented)
     close(): void;
     // (undocumented)
     customTrigger: MatSelectTrigger;
     // (undocumented)
     protected _getChangeEvent(value: any): MatSelectChange;
-    // (undocumented)
-    ngAfterViewInit(): void;
+    get hideSingleSelectionIndicator(): boolean;
+    set hideSingleSelectionIndicator(value: BooleanInput);
     // (undocumented)
     ngOnInit(): void;
     // (undocumented)
@@ -93,7 +92,8 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     optionGroups: QueryList<MatOptgroup>;
     // (undocumented)
     options: QueryList<MatOption>;
-    _overlayWidth: number;
+    _overlayWidth: string | number;
+    panelWidth: string | number | null;
     // (undocumented)
     protected _positioningSettled(): void;
     // (undocumented)
@@ -103,7 +103,10 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
     // (undocumented)
     get shouldLabelFloat(): boolean;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatSelect, "mat-select", ["matSelect"], { "disabled": "disabled"; "disableRipple": "disableRipple"; "tabIndex": "tabIndex"; }, {}, ["customTrigger", "options", "optionGroups"], ["mat-select-trigger", "*"], false, never>;
+    protected _skipPredicate: (option: MatOption) => boolean;
+    _syncParentProperties(): void;
+    // (undocumented)
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatSelect, "mat-select", ["matSelect"], { "disabled": { "alias": "disabled"; "required": false; }; "disableRipple": { "alias": "disableRipple"; "required": false; }; "tabIndex": { "alias": "tabIndex"; "required": false; }; "panelWidth": { "alias": "panelWidth"; "required": false; }; "hideSingleSelectionIndicator": { "alias": "hideSingleSelectionIndicator"; "required": false; }; }, {}, ["customTrigger", "options", "optionGroups"], ["mat-select-trigger", "*"], false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatSelect, never>;
 }
@@ -128,6 +131,8 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
     set compareWith(fn: (o1: any, o2: any) => boolean);
     controlType: string;
     abstract customTrigger: {};
+    // (undocumented)
+    protected _defaultOptions?: MatSelectConfig | undefined;
     protected readonly _destroy: Subject<void>;
     get disableOptionCentering(): boolean;
     set disableOptionCentering(value: BooleanInput);
@@ -199,6 +204,8 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
     setDescribedByIds(ids: string[]): void;
     setDisabledState(isDisabled: boolean): void;
     get shouldLabelFloat(): boolean;
+    // (undocumented)
+    protected _skipPredicate(item: MatOption): boolean;
     sortComparator: (a: MatOption, b: MatOption, options: MatOption[]) => number;
     toggle(): void;
     trigger: ElementRef;
@@ -214,7 +221,7 @@ export abstract class _MatSelectBase<C> extends _MatSelectMixinBase implements A
     protected _viewportRuler: ViewportRuler;
     writeValue(value: any): void;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatSelectBase<any>, never, never, { "userAriaDescribedBy": "aria-describedby"; "panelClass": "panelClass"; "placeholder": "placeholder"; "required": "required"; "multiple": "multiple"; "disableOptionCentering": "disableOptionCentering"; "compareWith": "compareWith"; "value": "value"; "ariaLabel": "aria-label"; "ariaLabelledby": "aria-labelledby"; "errorStateMatcher": "errorStateMatcher"; "typeaheadDebounceInterval": "typeaheadDebounceInterval"; "sortComparator": "sortComparator"; "id": "id"; }, { "openedChange": "openedChange"; "_openedStream": "opened"; "_closedStream": "closed"; "selectionChange": "selectionChange"; "valueChange": "valueChange"; }, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatSelectBase<any>, never, never, { "userAriaDescribedBy": { "alias": "aria-describedby"; "required": false; }; "panelClass": { "alias": "panelClass"; "required": false; }; "placeholder": { "alias": "placeholder"; "required": false; }; "required": { "alias": "required"; "required": false; }; "multiple": { "alias": "multiple"; "required": false; }; "disableOptionCentering": { "alias": "disableOptionCentering"; "required": false; }; "compareWith": { "alias": "compareWith"; "required": false; }; "value": { "alias": "value"; "required": false; }; "ariaLabel": { "alias": "aria-label"; "required": false; }; "ariaLabelledby": { "alias": "aria-labelledby"; "required": false; }; "errorStateMatcher": { "alias": "errorStateMatcher"; "required": false; }; "typeaheadDebounceInterval": { "alias": "typeaheadDebounceInterval"; "required": false; }; "sortComparator": { "alias": "sortComparator"; "required": false; }; "id": { "alias": "id"; "required": false; }; }, { "openedChange": "openedChange"; "_openedStream": "opened"; "_closedStream": "closed"; "selectionChange": "selectionChange"; "valueChange": "valueChange"; }, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatSelectBase<any>, [null, null, null, null, null, { optional: true; }, { optional: true; }, { optional: true; }, { optional: true; }, { optional: true; self: true; }, { attribute: "tabindex"; }, null, null, { optional: true; }]>;
 }
@@ -231,7 +238,9 @@ export class MatSelectChange {
 // @public
 export interface MatSelectConfig {
     disableOptionCentering?: boolean;
+    hideSingleSelectionIndicator?: boolean;
     overlayPanelClass?: string | string[];
+    panelWidth?: string | number | null;
     typeaheadDebounceInterval?: number;
 }
 

@@ -6,8 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {isJsonArray, normalize} from '@angular-devkit/core';
-import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
+import {isJsonArray, normalize, workspaces} from '@angular-devkit/core';
 import {getProjectTargetOptions} from './project-targets';
 
 /**
@@ -33,7 +32,10 @@ const validStyleFileRegex = /\.(c|le|sc)ss/;
  * 在项目中获取具有给定扩展名的样式文件，并返回其路径。如果未指定扩展名，则将返回任何具有有效扩展名的样式文件。
  *
  */
-export function getProjectStyleFile(project: ProjectDefinition, extension?: string): string | null {
+export function getProjectStyleFile(
+  project: workspaces.ProjectDefinition,
+  extension?: string,
+): string | null {
   const buildOptions = getProjectTargetOptions(project, 'build');
   if (buildOptions.styles && isJsonArray(buildOptions.styles) && buildOptions.styles.length) {
     const styles = buildOptions.styles.map(s =>

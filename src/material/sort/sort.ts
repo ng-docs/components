@@ -138,7 +138,9 @@ const _MatSortBase = mixinInitialized(mixinDisabled(class {}));
 @Directive({
   selector: '[matSort]',
   exportAs: 'matSort',
-  host: {'class': 'mat-sort'},
+  host: {
+    'class': 'mat-sort',
+  },
   inputs: ['disabled: matSortDisabled'],
 })
 export class MatSort

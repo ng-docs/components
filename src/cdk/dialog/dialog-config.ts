@@ -276,6 +276,17 @@ export class DialogConfig<D = unknown, R = unknown, C extends BasePortalOutlet =
   closeOnDestroy?: boolean = true;
 
   /**
+   * Whether the dialog should close when the underlying overlay is detached. This is useful if
+   * another service is wrapping the dialog and is managing the destruction instead. E.g. an
+   * external detachment can happen as a result of a scroll strategy triggering it or when the
+   * browser location changes.
+   *
+   * 当已解除底层浮层的附着时，对话框是否应该关闭。如果另一个服务包裹着本对话框并负责销毁，那么这将非常有用。例如，当触发了滚动策略或浏览器位置发生了变化时，就可能导致由于外部因素而解除附着。
+   *
+   */
+  closeOnOverlayDetachments?: boolean = true;
+
+  /**
    * Alternate `ComponentFactoryResolver` to use when resolving the associated component.
    *
    * 备用 `ComponentFactoryResolver`，用于解析其关联组件。

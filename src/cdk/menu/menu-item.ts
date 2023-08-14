@@ -17,7 +17,7 @@ import {
   Output,
 } from '@angular/core';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
-import {FocusableOption} from '@angular/cdk/a11y';
+import {FocusableOption, InputModalityDetector} from '@angular/cdk/a11y';
 import {ENTER, hasModifierKey, LEFT_ARROW, RIGHT_ARROW, SPACE} from '@angular/cdk/keycodes';
 import {Directionality} from '@angular/cdk/bidi';
 import {fromEvent, Subject} from 'rxjs';
@@ -27,6 +27,7 @@ import {CDK_MENU, Menu} from './menu-interface';
 import {FocusNext, MENU_STACK} from './menu-stack';
 import {FocusableElement} from './pointer-focus-tracker';
 import {MENU_AIM, Toggler} from './menu-aim';
+import {eventDispatchesNativeClick} from './event-detection';
 
 /**
  * Directive which provides the ability for an element to be focused and navigated to using the
@@ -52,29 +53,10 @@ import {MENU_AIM, Toggler} from './menu-aim';
   },
 })
 export class CdkMenuItem implements FocusableOption, FocusableElement, Toggler, OnDestroy {
-  /**
-   * The directionality (text direction) of the current page.
-   *
-   * 当前页面的方向性（文本方向）。
-   *
-   */
   protected readonly _dir = inject(Directionality, {optional: true});
-
-  /**
-   * The menu's native DOM host element.
-   *
-   * 菜单的原生 DOM 宿主元素。
-   *
-   */
   readonly _elementRef: ElementRef<HTMLElement> = inject(ElementRef);
-
-  /**
-   * The Angular zone.
-   *
-   * Angular 区域（Zone）。
-   *
-   */
   protected _ngZone = inject(NgZone);
+  private readonly _inputModalityDetector = inject(InputModalityDetector);
 
   /**
    * The menu aim service used by this menu.
@@ -315,8 +297,8 @@ export class CdkMenuItem implements FocusableOption, FocusableElement, Toggler, 
     switch (event.keyCode) {
       case SPACE:
       case ENTER:
-        if (!hasModifierKey(event)) {
-          event.preventDefault();
+        // Skip events that will trigger clicks so the handler doesn't get triggered twice.
+        if (!hasModifierKey(event) && !eventDispatchesNativeClick(this._elementRef, event)) {
           this.trigger({keepOpen: event.keyCode === SPACE && !this.closeOnSpacebarTrigger});
         }
         break;
@@ -416,7 +398,14 @@ export class CdkMenuItem implements FocusableOption, FocusableElement, Toggler, 
       this._ngZone.runOutsideAngular(() =>
         fromEvent(this._elementRef.nativeElement, 'mouseenter')
           .pipe(
-            filter(() => !this._menuStack.isEmpty() && !this.hasMenu),
+            filter(() => {
+              return (
+                // Skip fake `mouseenter` events dispatched by touch devices.
+                this._inputModalityDetector.mostRecentModality !== 'touch' &&
+                !this._menuStack.isEmpty() &&
+                !this.hasMenu
+              );
+            }),
             takeUntil(this.destroyed),
           )
           .subscribe(() => {

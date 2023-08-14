@@ -1,20 +1,22 @@
-@use '@material/tooltip/tooltip';
-@use '@material/tooltip/tooltip-theme';
-@use '@material/tooltip/plain-tooltip-theme';
-@use '../core/mdc-helpers/mdc-helpers';
+@use '@material/theme/custom-properties' as mdc-custom-properties;
+@use '@material/tooltip/tooltip' as mdc-tooltip;
+@use '@material/tooltip/plain-tooltip-theme' as mdc-plain-tooltip-theme;
+@use '../core/tokens/m2/mdc/plain-tooltip' as m2-mdc-plain-tooltip;
 
-@include mdc-helpers.disable-mdc-fallback-declarations {
-  // Only include the structural styles, because we handle the animation ourselves.
-  @include tooltip.static-styles($query: structure);
-  @include plain-tooltip-theme.theme-styles((
-    container-shape: tooltip-theme.$border-radius,
-    container-color: #fff,
-    supporting-text-color: #000,
-    supporting-text-font: inherit,
-    supporting-text-size: inherit,
-    supporting-text-tracking: inherit,
-    supporting-text-weight: inherit,
-  ));
+@include mdc-custom-properties.configure($emit-fallback-values: false,
+$emit-fallback-vars: false) {
+  $mdc-tooltip-token-slots: m2-mdc-plain-tooltip.get-token-slots();
+
+  // Add the MDC tooltip static styles.
+  @include mdc-tooltip.static-styles();
+
+  .mat-mdc-tooltip {
+    // Add the official slots for the MDC tooltip.
+    @include mdc-plain-tooltip-theme.theme-styles($mdc-tooltip-token-slots);
+
+    // Add default values for MDC tooltip tokens that aren't outputted by the theming API.
+    @include mdc-plain-tooltip-theme.theme(m2-mdc-plain-tooltip.get-unthemable-tokens());
+  }
 }
 
 .mat-mdc-tooltip {
@@ -26,12 +28,32 @@
   &::before {
     $offset: -8px;
     content: '';
-    top: $offset;
-    right: $offset;
-    bottom: $offset;
-    left: $offset;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: -1;
     position: absolute;
+
+    // Only set the offset on the side closest to the panel so we
+    // don't accidentally cover more content than we need to.
+    .mat-mdc-tooltip-panel-below & {
+      top: $offset;
+    }
+
+    .mat-mdc-tooltip-panel-above & {
+      bottom: $offset;
+    }
+
+    // Note that here we use left/right instead of before/after
+    // so that we don't have to add extra styles for RTL.
+    .mat-mdc-tooltip-panel-right & {
+      left: $offset;
+    }
+
+    .mat-mdc-tooltip-panel-left & {
+      right: $offset;
+    }
   }
 
   &._mat-animation-noopable {

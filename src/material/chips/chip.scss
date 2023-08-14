@@ -4,6 +4,33 @@
 @use '../core/mdc-helpers/mdc-helpers';
 @use '../core/style/layout-common';
 @use '../core/focus-indicators/private' as focus-indicators-private;
+@use '../core/tokens/m2/mdc/chip' as m2-mdc-chip;
+@use '../core/tokens/token-utils';
+@use '@material/theme/custom-properties' as mdc-custom-properties;
+
+// The slots for tokens that will be configured in the theme can be emitted with no fallback.
+@include mdc-custom-properties.configure($emit-fallback-values: false, $emit-fallback-vars: false) {
+  $token-slots: m2-mdc-chip.get-token-slots();
+
+  // Add the MDC chip static styles.
+  @include mdc-chip.static-styles();
+
+  .mat-mdc-standard-chip {
+    // Add the official slots for the MDC chip.
+    @include mdc-chip-theme.theme-styles($token-slots);
+
+    // Add default values for tokens that aren't outputted by the theming API.
+    @include mdc-chip-theme.theme(m2-mdc-chip.get-unthemable-tokens());
+  }
+
+  // Add additional slots for the MDC chip tokens, needed in Angular Material.
+  @include token-utils.use-tokens(m2-mdc-chip.$prefix, $token-slots) {
+    .mat-mdc-chip-focus-overlay {
+      @include token-utils.create-token-slot(background, focus-state-layer-color);
+      @include token-utils.create-token-slot(opacity, focus-state-layer-opacity);
+    }
+  }
+}
 
 // We *should* be able to include these styles through MDC's
 // `theme-styles` mixin, but we can't at the time of writing.
@@ -13,20 +40,24 @@
     @include mdc-chip-theme.trailing-action-size(mdc-chip-theme.$trailing-action-size);
     @include mdc-chip-theme.horizontal-padding(
       mdc-chip-theme.$leading-padding,
-      mdc-chip-theme.$trailing-padding);
+      mdc-chip-theme.$trailing-padding
+    );
     @include mdc-chip-theme.with-graphic-horizontal-padding(
       mdc-chip-theme.$graphic-leading-padding,
       mdc-chip-theme.$graphic-trailing-padding,
-      mdc-chip-theme.$trailing-padding);
+      mdc-chip-theme.$trailing-padding
+    );
     @include mdc-chip-theme.with-trailing-action-horizontal-padding(
       mdc-chip-theme.$leading-padding,
       mdc-chip-theme.$trailing-action-leading-padding,
-      mdc-chip-theme.$trailing-action-trailing-padding);
+      mdc-chip-theme.$trailing-action-trailing-padding
+    );
     @include mdc-chip-theme.with-graphic-and-trailing-action-horizontal-padding(
       mdc-chip-theme.$graphic-leading-padding,
       mdc-chip-theme.$graphic-trailing-padding,
       mdc-chip-theme.$trailing-action-leading-padding,
-      mdc-chip-theme.$trailing-action-trailing-padding);
+      mdc-chip-theme.$trailing-action-trailing-padding
+    );
 
     // MDC has some code looking for a `with-icon-selected-disabled-icon-color` token for this
     // color, but the token isn't defined in the theme map so the validation throws an error.
@@ -48,61 +79,15 @@
       mdc-chip-theme.$trailing-action-leading-padding,
       mdc-chip-theme.$trailing-action-trailing-padding
     );
-    @include mdc-chip-theme.graphic-size(mdc-chip-theme.$avatar-size);
-    @include mdc-chip-theme.icon-size(mdc-chip-theme.$avatar-size);
   }
 }
 
 @include mdc-helpers.disable-mdc-fallback-declarations {
-  @include mdc-chip.static-styles();
   @include _missing-mdc-theme-styles();
 }
 
 .mat-mdc-standard-chip {
   -webkit-tap-highlight-color: transparent;
-
-  @include mdc-helpers.disable-mdc-fallback-declarations {
-    @include mdc-chip-theme.theme-styles((
-      // Static tokens
-      with-avatar-avatar-shape: (
-        family: 'rounded',
-        radius: (14px, 14px, 14px, 14px)
-      ),
-      with-icon-icon-size: 18px,
-      with-leading-icon-disabled-leading-icon-opacity: 0.38,
-      with-leading-icon-leading-icon-size: 20px,
-      with-trailing-icon-disabled-trailing-icon-opacity: 0.38,
-      with-avatar-avatar-size: 28px,
-      with-avatar-disabled-avatar-opacity: 0.38,
-      with-icon-disabled-icon-opacity: 0.38,
-      with-trailing-icon-trailing-icon-size: 18px,
-      flat-disabled-outline-opacity: 0.12,
-      flat-disabled-unselected-outline-opacity: 0.12,
-      flat-selected-outline-width: 0,
-      outline-width: 1px,
-      flat-unselected-outline-width: 1px,
-      flat-outline-width: 1px,
-      disabled-label-text-opacity: 0.38,
-      disabled-outline-opacity: 0.12,
-      elevated-disabled-container-opacity: 0.12,
-      container-height: 32px,
-      container-shape: (
-        family: 'rounded',
-        radius: (16px, 16px, 16px, 16px)
-      ),
-
-      // Tokens that will be overwritten in the theme
-      elevated-container-color: transparent,
-      elevated-disabled-container-color: transparent,
-      label-text-color: currentColor,
-      disabled-label-text-color: currentColor,
-      with-icon-icon-color: currentColor,
-      with-icon-disabled-icon-color: currentColor,
-      with-trailing-icon-disabled-trailing-icon-color: currentColor,
-      with-trailing-icon-trailing-icon-color: currentColor,
-      with-icon-selected-icon-color: currentColor,
-    ));
-  }
 
   @include cdk.high-contrast(active, off) {
     outline: solid 1px;
@@ -133,7 +118,7 @@
 
   // Ensures that the trailing icon is pushed to the end if the chip has a set width.
   .mdc-evolution-chip__cell--primary {
-    width: 100%;
+    flex-basis: 100%;
   }
 
   // This element can be placed on a `button` node which usually has some user agent styles.
@@ -153,7 +138,6 @@
     box-sizing: content-box;
   }
 
-
   &._mat-animation-noopable {
     &,
     .mdc-evolution-chip__graphic,
@@ -165,6 +149,12 @@
       animation-duration: 1ms;
     }
   }
+}
+
+// Keeps basic listbox chips looking consistent with the other variations. Listbox chips don't
+// inherit the font size, because they wrap the label in a `button` that has user agent styles.
+.mat-mdc-basic-chip .mdc-evolution-chip__action--primary {
+  font: inherit;
 }
 
 // MDC's focus and hover indication is handled through their ripple which we currently
@@ -194,7 +184,7 @@
 }
 
 // The ripple container should match the bounds of the entire chip.
-.mat-mdc-chip-ripple {
+.mat-mdc-chip .mat-ripple.mat-mdc-chip-ripple {
   @include layout-common.fill;
 
   // Disable pointer events for the ripple container and state overlay because the container
@@ -220,6 +210,11 @@
 // Required for the strong focus indicator to fill the chip.
 .mat-mdc-chip {
   position: relative;
+
+  // `.mat-mdc-chip-action-label` below sets a `z-index: 1` to put the label above the focus
+  // overlay, but that can also cause it to appear above other elements like sticky columns
+  // (see #26793). Set an explicit `z-index` to prevent the label from leaking out.
+  z-index: 0;
 }
 
 .mat-mdc-chip-action-label {

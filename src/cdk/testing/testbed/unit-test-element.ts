@@ -66,6 +66,7 @@ const keyMap = {
   [TestKey.F11]: {keyCode: keyCodes.F11, key: 'F11'},
   [TestKey.F12]: {keyCode: keyCodes.F12, key: 'F12'},
   [TestKey.META]: {keyCode: keyCodes.META, key: 'Meta'},
+  [TestKey.COMMA]: {keyCode: keyCodes.COMMA, key: ','},
 };
 
 /**
@@ -267,6 +268,21 @@ export class UnitTestElement implements TestElement {
       return _getTextWithExcludedElements(this.element, options.exclude);
     }
     return (this.element.textContent || '').trim();
+  }
+
+  /**
+   * Sets the value of a `contenteditable` element.
+   * @param value Value to be set on the element.
+   */
+  async setContenteditableValue(value: string): Promise<void> {
+    const contenteditableAttr = await this.getAttribute('contenteditable');
+
+    if (contenteditableAttr !== '' && contenteditableAttr !== 'true') {
+      throw new Error('setContenteditableValue can only be called on a `contenteditable` element.');
+    }
+
+    await this._stabilize();
+    this.element.textContent = value;
   }
 
   /**

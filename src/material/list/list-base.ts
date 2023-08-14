@@ -13,6 +13,7 @@ import {
   ContentChildren,
   Directive,
   ElementRef,
+  inject,
   Inject,
   Input,
   NgZone,
@@ -35,6 +36,7 @@ import {
   MatListItemIcon,
   MatListItemAvatar,
 } from './list-item-sections';
+import {MAT_LIST_CONFIG} from './tokens';
 
 @Directive({
   host: {
@@ -75,12 +77,15 @@ export abstract class MatListBase {
     this._disabled = coerceBooleanProperty(value);
   }
   private _disabled = false;
+
+  protected _defaultOptions = inject(MAT_LIST_CONFIG, {optional: true});
 }
 
 @Directive({
   host: {
     '[class.mdc-list-item--disabled]': 'disabled',
     '[attr.aria-disabled]': 'disabled',
+    '[attr.disabled]': '(_isButtonElement && disabled) || null',
   },
 })
 /** @docs-private */
@@ -122,12 +127,10 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
    */
   _hostElement: HTMLElement;
 
-  /**
-   * Whether animations are disabled.
-   *
-   * 是否禁用动画。
-   *
-   */
+  /** indicate whether the host element is a button or not */
+  _isButtonElement: boolean;
+
+  /** Whether animations are disabled. */
   _noopAnimations: boolean;
 
   @ContentChildren(MatListItemAvatar, {descendants: false}) _avatars: QueryList<never>;
@@ -157,6 +160,7 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
   }
   _explicitLines: number | null = null;
 
+  /** Whether ripples for list items are disabled. */
   @Input()
   get disableRipple(): boolean {
     return (
@@ -166,7 +170,7 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
       !!this._listBase?.disableRipple
     );
   }
-  set disableRipple(value: boolean) {
+  set disableRipple(value: BooleanInput) {
     this._disableRipple = coerceBooleanProperty(value);
   }
   private _disableRipple: boolean = false;
@@ -229,6 +233,7 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
   ) {
     this.rippleConfig = globalRippleOptions || {};
     this._hostElement = this._elementRef.nativeElement;
+    this._isButtonElement = this._hostElement.nodeName.toLowerCase() === 'button';
     this._noopAnimations = animationMode === 'NoopAnimations';
 
     if (_listBase && !_listBase._isNonInteractive) {
@@ -238,10 +243,7 @@ export abstract class MatListItemBase implements AfterViewInit, OnDestroy, Rippl
     // If no type attribute is specified for a host `<button>` element, set it to `button`. If a
     // type attribute is already specified, we do nothing. We do this for backwards compatibility.
     // TODO: Determine if we intend to continue doing this for the MDC-based list.
-    if (
-      this._hostElement.nodeName.toLowerCase() === 'button' &&
-      !this._hostElement.hasAttribute('type')
-    ) {
+    if (this._isButtonElement && !this._hostElement.hasAttribute('type')) {
       this._hostElement.setAttribute('type', 'button');
     }
   }

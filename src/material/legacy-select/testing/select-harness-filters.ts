@@ -19,4 +19,7 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
  *
  * @breaking-change 17.0.0
  */
-export interface LegacySelectHarnessFilters extends BaseHarnessFilters {}
+export interface LegacySelectHarnessFilters extends BaseHarnessFilters {
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
+}

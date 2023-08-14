@@ -242,7 +242,7 @@ export class MatNativeDateModule {
 // @public
 export class MatOptgroup extends _MatOptgroupBase {
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatOptgroup, "mat-optgroup", ["matOptgroup"], { "disabled": "disabled"; }, {}, never, ["*", "mat-option, ng-container"], false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatOptgroup, "mat-optgroup", ["matOptgroup"], { "disabled": { "alias": "disabled"; "required": false; }; }, {}, never, ["*", "mat-option, ng-container"], false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatOptgroup, never>;
 }
@@ -254,7 +254,7 @@ export class _MatOptgroupBase extends _MatOptgroupMixinBase implements CanDisabl
     label: string;
     _labelId: string;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatOptgroupBase, never, never, { "label": "label"; }, {}, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatOptgroupBase, never, never, { "label": { "alias": "label"; "required": false; }; }, {}, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatOptgroupBase, [{ optional: true; }]>;
 }
@@ -272,18 +272,20 @@ export class MatOption<T = any> extends _MatOptionBase<T> {
 export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecked, OnDestroy {
     constructor(_element: ElementRef<HTMLElement>, _changeDetectorRef: ChangeDetectorRef, _parent: MatOptionParentComponent, group: _MatOptgroupBase);
     get active(): boolean;
-    deselect(): void;
+    // (undocumented)
+    _changeDetectorRef: ChangeDetectorRef;
+    deselect(emitEvent?: boolean): void;
     get disabled(): boolean;
     set disabled(value: BooleanInput);
     get disableRipple(): boolean;
     focus(_origin?: FocusOrigin, options?: FocusOptions): void;
-    _getAriaSelected(): boolean | null;
     _getHostElement(): HTMLElement;
     getLabel(): string;
     _getTabIndex(): string;
     // (undocumented)
     readonly group: _MatOptgroupBase;
     _handleKeydown(event: KeyboardEvent): void;
+    get hideSingleSelectionIndicator(): boolean;
     id: string;
     get multiple(): boolean | undefined;
     // (undocumented)
@@ -291,7 +293,7 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
     // (undocumented)
     ngOnDestroy(): void;
     readonly onSelectionChange: EventEmitter<MatOptionSelectionChange<T>>;
-    select(): void;
+    select(emitEvent?: boolean): void;
     get selected(): boolean;
     _selectViaInteraction(): void;
     setActiveStyles(): void;
@@ -301,7 +303,7 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
     value: T;
     get viewValue(): string;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatOptionBase<any>, never, never, { "value": "value"; "id": "id"; "disabled": "disabled"; }, { "onSelectionChange": "onSelectionChange"; }, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<_MatOptionBase<any>, never, never, { "value": { "alias": "value"; "required": false; }; "id": { "alias": "id"; "required": false; }; "disabled": { "alias": "disabled"; "required": false; }; }, { "onSelectionChange": "onSelectionChange"; }, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<_MatOptionBase<any>, never>;
 }
@@ -320,6 +322,8 @@ export class MatOptionModule {
 export interface MatOptionParentComponent {
     // (undocumented)
     disableRipple?: boolean;
+    // (undocumented)
+    hideSingleSelectionIndicator?: boolean;
     // (undocumented)
     inertGroups?: boolean;
     // (undocumented)
@@ -340,10 +344,11 @@ export class MatPseudoCheckbox {
     constructor(_animationMode?: string | undefined);
     // (undocumented)
     _animationMode?: string | undefined;
+    appearance: 'minimal' | 'full';
     disabled: boolean;
     state: MatPseudoCheckboxState;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatPseudoCheckbox, "mat-pseudo-checkbox", never, { "state": "state"; "disabled": "disabled"; }, {}, never, never, false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatPseudoCheckbox, "mat-pseudo-checkbox", never, { "state": { "alias": "state"; "required": false; }; "disabled": { "alias": "disabled"; "required": false; }; "appearance": { "alias": "appearance"; "required": false; }; }, {}, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatPseudoCheckbox, [{ optional: true; }]>;
 }
@@ -371,6 +376,7 @@ export class MatRipple implements OnInit, OnDestroy, RippleTarget {
     set disabled(value: boolean);
     fadeOutAll(): void;
     fadeOutAllNonPersistent(): void;
+    _isInitialized: boolean;
     launch(config: RippleConfig): RippleRef;
     launch(x: number, y: number, config?: RippleConfig): RippleRef;
     // (undocumented)
@@ -384,9 +390,30 @@ export class MatRipple implements OnInit, OnDestroy, RippleTarget {
     set trigger(trigger: HTMLElement);
     unbounded: boolean;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<MatRipple, "[mat-ripple], [matRipple]", ["matRipple"], { "color": "matRippleColor"; "unbounded": "matRippleUnbounded"; "centered": "matRippleCentered"; "radius": "matRippleRadius"; "animation": "matRippleAnimation"; "disabled": "matRippleDisabled"; "trigger": "matRippleTrigger"; }, {}, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<MatRipple, "[mat-ripple], [matRipple]", ["matRipple"], { "color": { "alias": "matRippleColor"; "required": false; }; "unbounded": { "alias": "matRippleUnbounded"; "required": false; }; "centered": { "alias": "matRippleCentered"; "required": false; }; "radius": { "alias": "matRippleRadius"; "required": false; }; "animation": { "alias": "matRippleAnimation"; "required": false; }; "disabled": { "alias": "matRippleDisabled"; "required": false; }; "trigger": { "alias": "matRippleTrigger"; "required": false; }; }, {}, never, never, false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatRipple, [null, null, null, { optional: true; }, { optional: true; }]>;
+}
+
+// @public
+export class MatRippleLoader implements OnDestroy {
+    constructor();
+    // (undocumented)
+    attachRipple(host: Element, ripple: MatRipple): void;
+    configureRipple(host: HTMLElement, config: {
+        className?: string;
+        centered?: boolean;
+        disabled?: boolean;
+    }): void;
+    createRipple(host: HTMLElement): MatRipple | undefined;
+    getRipple(host: HTMLElement): MatRipple | undefined;
+    // (undocumented)
+    ngOnDestroy(): void;
+    setDisabled(host: HTMLElement, disabled: boolean): void;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<MatRippleLoader, never>;
+    // (undocumented)
+    static ɵprov: i0.ɵɵInjectableDeclaration<MatRippleLoader>;
 }
 
 // @public (undocumented)

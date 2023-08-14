@@ -27,7 +27,7 @@ import {createFileSystemCompilerHost} from './utils/virtual-host';
  *
  */
 export class UpdateProject<Context> {
-  private readonly _typeChecker: ts.TypeChecker = this._program.getTypeChecker();
+  private readonly _typeChecker: ts.TypeChecker;
 
   constructor(
     /** Context provided to all migrations. */
@@ -43,7 +43,9 @@ export class UpdateProject<Context> {
     private _analyzedFiles: Set<WorkspacePath> = new Set(),
     /** Logger used for printing messages. */
     private _logger: UpdateLogger = defaultLogger,
-  ) {}
+  ) {
+    this._typeChecker = this._program.getTypeChecker();
+  }
 
   /**
    * Migrates the project to the specified target version.

@@ -16,6 +16,7 @@ import {
   ContentChildren,
   EventEmitter,
   forwardRef,
+  inject,
   Input,
   OnDestroy,
   Output,
@@ -28,6 +29,7 @@ import {startWith, takeUntil} from 'rxjs/operators';
 import {MatChip, MatChipEvent} from './chip';
 import {MatChipOption, MatChipSelectionChange} from './chip-option';
 import {MatChipSet} from './chip-set';
+import {MAT_CHIPS_DEFAULT_OPTIONS} from './tokens';
 
 /**
  * Change event object that is emitted when the chip listbox value has changed.
@@ -68,9 +70,9 @@ export const MAT_CHIP_LISTBOX_CONTROL_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'mat-chip-listbox',
   template: `
-    <span class="mdc-evolution-chip-set__chips" role="presentation">
+    <div class="mdc-evolution-chip-set__chips" role="presentation">
       <ng-content></ng-content>
-    </span>
+    </div>
   `,
   styleUrls: ['chip-set.css'],
   inputs: ['tabIndex'],
@@ -84,6 +86,7 @@ export const MAT_CHIP_LISTBOX_CONTROL_VALUE_ACCESSOR: any = {
     '[attr.aria-disabled]': 'disabled.toString()',
     '[attr.aria-multiselectable]': 'multiple',
     '[attr.aria-orientation]': 'ariaOrientation',
+    'ngSkipHydration': '',
     '[class.mat-mdc-chip-list-disabled]': 'disabled',
     '[class.mat-mdc-chip-list-required]': 'required',
     '(focus)': 'focus()',
@@ -122,12 +125,10 @@ export class MatChipListbox
   /** Value that was assigned before the listbox was initialized. */
   private _pendingInitialValue: any;
 
-  /**
-   * Whether the user should be allowed to select multiple chips.
-   *
-   * 是否允许用户选择多个纸片。
-   *
-   */
+  /** Default chip options. */
+  private _defaultOptions = inject(MAT_CHIPS_DEFAULT_OPTIONS, {optional: true});
+
+  /** Whether the user should be allowed to select multiple chips. */
   @Input()
   get multiple(): boolean {
     return this._multiple;
@@ -203,12 +204,19 @@ export class MatChipListbox
   }
   protected _required: boolean = false;
 
-  /**
-   * Combined stream of all of the child chips' selection change events.
-   *
-   * 所有子纸片的选定状态更改事件的组合流。
-   *
-   */
+  /** Whether checkmark indicator for single-selection options is hidden. */
+  @Input()
+  get hideSingleSelectionIndicator(): boolean {
+    return this._hideSingleSelectionIndicator;
+  }
+  set hideSingleSelectionIndicator(value: BooleanInput) {
+    this._hideSingleSelectionIndicator = coerceBooleanProperty(value);
+    this._syncListboxProperties();
+  }
+  private _hideSingleSelectionIndicator: boolean =
+    this._defaultOptions?.hideSingleSelectionIndicator ?? false;
+
+  /** Combined stream of all of the child chips' selection change events. */
   get chipSelectionChanges(): Observable<MatChipSelectionChange> {
     return this._getChipStream<MatChipSelectionChange, MatChipOption>(chip => chip.selectionChange);
   }
@@ -253,7 +261,8 @@ export class MatChipListbox
     // indirect descendants if it's left as false.
     descendants: true,
   })
-  override _chips: QueryList<MatChipOption>;
+  // We need an initializer here to avoid a TS error. The value will be set in `ngAfterViewInit`.
+  override _chips: QueryList<MatChipOption> = undefined!;
 
   ngAfterContentInit() {
     if (this._pendingInitialValue !== undefined) {
@@ -382,7 +391,6 @@ export class MatChipListbox
       // Wait to see if focus moves to an individual chip.
       setTimeout(() => {
         if (!this.focused) {
-          this._propagateChanges();
           this._markAsTouched();
         }
       });
@@ -453,6 +461,7 @@ export class MatChipListbox
         this._chips.forEach(chip => {
           chip._chipListMultiple = this.multiple;
           chip.chipListSelectable = this._selectable;
+          chip._chipListHideSingleSelectionIndicator = this.hideSingleSelectionIndicator;
           chip._changeDetectorRef.markForCheck();
         });
       });

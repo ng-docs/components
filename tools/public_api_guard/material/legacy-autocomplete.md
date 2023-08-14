@@ -44,13 +44,15 @@ export const MAT_LEGACY_AUTOCOMPLETE_VALUE_ACCESSOR: any;
 // @public @deprecated (undocumented)
 export class MatLegacyAutocomplete extends _MatAutocompleteBase {
     // (undocumented)
+    _animationDone: null;
+    // (undocumented)
     protected _hiddenClass: string;
     optionGroups: QueryList<MatLegacyOptgroup>;
     options: QueryList<MatLegacyOption>;
     // (undocumented)
     protected _visibleClass: string;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatLegacyAutocomplete, "mat-autocomplete", ["matAutocomplete"], { "disableRipple": "disableRipple"; }, {}, ["optionGroups", "options"], ["*"], false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatLegacyAutocomplete, "mat-autocomplete", ["matAutocomplete"], { "disableRipple": { "alias": "disableRipple"; "required": false; }; }, {}, ["optionGroups", "options"], ["*"], false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatLegacyAutocomplete, never>;
 }

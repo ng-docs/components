@@ -315,10 +315,10 @@
       <mat-form-field>
         <input matInput>
         <mat-label>
-          I <mat-icon>favorite</mat-icon> <b>bold</b> label
+          I <mat-icon>favorite</mat-icon><strong>bold</strong> label
         </mat-label>
         <mat-hint>
-          I also <mat-icon>home</mat-icon> <i>italic</i> hint labels
+          I also <mat-icon>home</mat-icon> <em>italic</em> hint labels
         </mat-hint>
       </mat-form-field>
     </p>
@@ -846,6 +846,22 @@
           <option>First</option>
           <option>Second</option>
         </select>
+      </mat-form-field>
+    </p>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="demo-card demo-basic">
+  <mat-card-content>
+    <button (click)="showHidden = !showHidden">Show/hide hidden form-field</button>
+    <button (click)="hiddenLabel = hiddenLabel + '!!'">Add !!</button>
+    <button (click)="hiddenAppearance = hiddenAppearance === 'fill' ? 'outline' : 'fill'">
+      Toggle appearance
+    </button>
+    <p [style.display]="showHidden ? 'block' : 'none'">
+      <mat-form-field [appearance]="hiddenAppearance">
+        <mat-label>{{hiddenLabel}}</mat-label>
+        <input matInput value="value">
       </mat-form-field>
     </p>
   </mat-card-content>

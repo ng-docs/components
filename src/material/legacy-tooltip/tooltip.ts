@@ -54,6 +54,7 @@ import {
   exportAs: 'matTooltip',
   host: {
     'class': 'mat-tooltip-trigger',
+    '[class.mat-tooltip-disabled]': 'disabled',
   },
 })
 export class MatLegacyTooltip extends _MatTooltipBase<LegacyTooltipComponent> {
@@ -113,6 +114,9 @@ export class MatLegacyTooltip extends _MatTooltipBase<LegacyTooltipComponent> {
     '[style.zoom]': 'isVisible() ? 1 : null',
     '(mouseleave)': '_handleMouseLeave($event)',
     'aria-hidden': 'true',
+    // This binding is used to ensure that the component
+    // ID doesn't clash with the `TooltipComponent`.
+    '[attr.mat-id-collision]': 'null',
   },
 })
 export class LegacyTooltipComponent extends _TooltipComponentBase {
@@ -122,7 +126,7 @@ export class LegacyTooltipComponent extends _TooltipComponentBase {
    * 发出用户是否正持有手机大小显示器的流。
    *
    */
-  _isHandset: Observable<BreakpointState> = this._breakpointObserver.observe(Breakpoints.Handset);
+  _isHandset: Observable<BreakpointState>;
   _showAnimation = 'mat-tooltip-show';
   _hideAnimation = 'mat-tooltip-hide';
 
@@ -135,9 +139,10 @@ export class LegacyTooltipComponent extends _TooltipComponentBase {
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
-    private _breakpointObserver: BreakpointObserver,
+    breakpointObserver: BreakpointObserver,
     @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
   ) {
     super(changeDetectorRef, animationMode);
+    this._isHandset = breakpointObserver.observe(Breakpoints.Handset);
   }
 }

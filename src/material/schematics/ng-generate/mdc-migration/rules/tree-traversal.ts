@@ -91,7 +91,7 @@ export function parseTemplate(template: string, templateUrl: string = ''): Parse
 }
 
 /**
- * Replaces the start tag of the given Element node inside of the html document with a new tag name.
+ * Replaces the start tag of the given Element node inside the html document with a new tag name.
  *
  * 用新的标签名称替换 html 文档中给定 Element 节点的起始标签。
  *
@@ -119,7 +119,7 @@ export function replaceStartTag(html: string, node: TmplAstElement, tag: string)
 }
 
 /**
- * Replaces the end tag of the given Element node inside of the html document with a new tag name.
+ * Replaces the end tag of the given Element node inside the html document with a new tag name.
  *
  * 用新的标签名称替换 html 文档内给定 Element 节点的结束标签。
  *

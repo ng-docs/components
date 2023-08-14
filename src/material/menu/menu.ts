@@ -150,8 +150,8 @@ export class _MatMenuBase
   implements AfterContentInit, MatMenuPanel<MatMenuItem>, OnInit, OnDestroy
 {
   private _keyManager: FocusKeyManager<MatMenuItem>;
-  private _xPosition: MenuPositionX = this._defaultOptions.xPosition;
-  private _yPosition: MenuPositionY = this._defaultOptions.yPosition;
+  private _xPosition: MenuPositionX;
+  private _yPosition: MenuPositionY;
   private _firstItemFocusSubscription?: Subscription;
   private _previousElevation: string;
   protected _elevationPrefix: string;
@@ -227,7 +227,7 @@ export class _MatMenuBase
    * 类的类或要添加到浮层面板的类列表。
    *
    */
-  overlayPanelClass: string | string[] = this._defaultOptions.overlayPanelClass || '';
+  overlayPanelClass: string | string[];
 
   /**
    * Class to be added to the backdrop element.
@@ -235,7 +235,7 @@ export class _MatMenuBase
    * 要添加到背景板元素中的类。
    *
    */
-  @Input() backdropClass: string = this._defaultOptions.backdropClass;
+  @Input() backdropClass: string;
 
   /**
    * aria-label for the menu panel.
@@ -336,7 +336,7 @@ export class _MatMenuBase
   set overlapTrigger(value: BooleanInput) {
     this._overlapTrigger = coerceBooleanProperty(value);
   }
-  private _overlapTrigger: boolean = this._defaultOptions.overlapTrigger;
+  private _overlapTrigger: boolean;
 
   /**
    * Whether the menu has a backdrop.
@@ -351,7 +351,7 @@ export class _MatMenuBase
   set hasBackdrop(value: BooleanInput) {
     this._hasBackdrop = coerceBooleanProperty(value);
   }
-  private _hasBackdrop: boolean | undefined = this._defaultOptions.hasBackdrop;
+  private _hasBackdrop: boolean | undefined;
 
   /**
    * This method takes classes set on the host mat-menu element and applies them on the
@@ -456,10 +456,17 @@ export class _MatMenuBase
   constructor(
     private _elementRef: ElementRef<HTMLElement>,
     private _ngZone: NgZone,
-    @Inject(MAT_MENU_DEFAULT_OPTIONS) private _defaultOptions: MatMenuDefaultOptions,
+    @Inject(MAT_MENU_DEFAULT_OPTIONS) defaultOptions: MatMenuDefaultOptions,
     // @breaking-change 15.0.0 `_changeDetectorRef` to become a required parameter.
     private _changeDetectorRef?: ChangeDetectorRef,
-  ) {}
+  ) {
+    this.overlayPanelClass = defaultOptions.overlayPanelClass || '';
+    this._xPosition = defaultOptions.xPosition;
+    this._yPosition = defaultOptions.yPosition;
+    this.backdropClass = defaultOptions.backdropClass;
+    this._overlapTrigger = defaultOptions.overlapTrigger;
+    this._hasBackdrop = defaultOptions.hasBackdrop;
+  }
 
   ngOnInit() {
     this.setPositionClasses();
@@ -769,6 +776,7 @@ export class _MatMenuBase
     '[attr.aria-label]': 'null',
     '[attr.aria-labelledby]': 'null',
     '[attr.aria-describedby]': 'null',
+    'ngSkipHydration': '',
   },
   animations: [matMenuAnimations.transformMenu, matMenuAnimations.fadeInItems],
   providers: [{provide: MAT_MENU_PANEL, useExisting: MatMenu}],

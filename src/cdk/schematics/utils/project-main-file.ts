@@ -6,8 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Path} from '@angular-devkit/core';
-import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
+import {Path, workspaces} from '@angular-devkit/core';
 import {SchematicsException} from '@angular-devkit/schematics';
 import {getProjectTargetOptions} from './project-targets';
 
@@ -17,7 +16,7 @@ import {getProjectTargetOptions} from './project-targets';
  * 在给定的项目中查找主要的 TypeScript 文件并返回其路径。
  *
  */
-export function getProjectMainFile(project: ProjectDefinition): Path {
+export function getProjectMainFile(project: workspaces.ProjectDefinition): Path {
   const buildOptions = getProjectTargetOptions(project, 'build');
 
   if (!buildOptions.main) {

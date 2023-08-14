@@ -42,10 +42,9 @@ Angular Material 的 `ng add` 原理图会帮助你的 Angular CLI 项目配置 
 
   确保 `package.json` 中具有[项目所需的依赖](./getting-started#step-1-install-angular-material-angular-cdk-and-angular-animations)
 
-- Enable the [BrowserAnimationsModule](./getting-started#step-2-configure-animations) your app module
+- Enable the [BrowserAnimationsModule](./getting-started#step-2-configure-animations) in your app module
 
   为应用启用 [BrowserAnimationsModule](./getting-started#step-2-configure-animations) 模块
-
 - Add either a [prebuilt theme](./theming#using-a-pre-built-theme) or a [custom theme](./theming#defining-a-custom-theme)
 
   添加一个[预定义的主题](./theming#using-a-pre-built-theme)或一个[自定义主题](./theming#defining-a-custom-theme)

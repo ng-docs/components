@@ -274,6 +274,12 @@ export class MatSelectHarness extends _MatSelectHarnessBase<
     this: ComponentHarnessConstructor<T>,
     options: SelectHarnessFilters = {},
   ): HarnessPredicate<T> {
-    return new HarnessPredicate(this, options);
+    return new HarnessPredicate(this, options).addOption(
+      'disabled',
+      options.disabled,
+      async (harness, disabled) => {
+        return (await harness.isDisabled()) === disabled;
+      },
+    );
   }
 }

@@ -34,6 +34,9 @@ $mat-slider-horizontal-margin: 8px !default;
   -webkit-tap-highlight-color: transparent;
 
   .mdc-slider__input {
+    // It's common for apps to globally set `box-sizing: border-box` which messes up our
+    // measurements. Explicitly set `content-box` to avoid issues like #26246.
+    box-sizing: content-box;
     pointer-events: auto;
 
     &.mat-mdc-slider-input-no-pointer-events {
@@ -55,12 +58,6 @@ $mat-slider-horizontal-margin: 8px !default;
     .mdc-slider__track--active_fill {
       transition-duration: 80ms;
     }
-
-    &.mat-mdc-slider-disable-track-animation {
-      .mdc-slider__track--active_fill {
-        transition-duration: 0ms;
-      }
-    }
   }
 
   // We need to repeat these styles to override discrete slider styling.
@@ -74,12 +71,6 @@ $mat-slider-horizontal-margin: 8px !default;
     .mdc-slider__thumb,
     .mdc-slider__track--active_fill {
       transition-duration: 80ms;
-    }
-
-    &.mat-mdc-slider-disable-track-animation {
-      .mdc-slider__track--active_fill {
-        transition-duration: 0ms;
-      }
     }
   }
 

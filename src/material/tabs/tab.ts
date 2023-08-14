@@ -229,7 +229,8 @@ export class MatTab extends _MatTabBase {
    *
    */
   @ContentChild(MatTabContent, {read: TemplateRef, static: true})
-  override _explicitContent: TemplateRef<any>;
+  // We need an initializer here to avoid a TS error. The value will be set in `ngAfterViewInit`.
+  override _explicitContent: TemplateRef<any> = undefined!;
 
   /**
    * Content for the tab label given by `<ng-template mat-tab-label>`.

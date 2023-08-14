@@ -6,7 +6,7 @@ base list component, it provides Material Design styling, but no behavior of its
 
 <!-- example(list-overview) -->
 
-List items can be constructed in two ways depending the the content they need to show:
+List items can be constructed in two ways depending the content they need to show:
 
 列表条目可以通过两种方式构建，具体取决于它们需要显示的内容：
 
@@ -289,6 +289,11 @@ Always provide an accessible label for the `<mat-selection-list>` element via `a
 `aria-labelledby` that describes the selection being made.
 
 始终通过 `aria-label` 或 `aria-labelledby` 为 `<mat-selection-list>` 元素提供一个无障碍标签，以描述正在进行的选择。
+
+By default, `MatSelectionList` displays radio or checkmark indicators to identify selected items.
+While you can hide the radio indicator for single-selection via `hideSingleSelectionIndicator`, this
+makes the component less accessible by making it harder or impossible for users to visually identify
+selected items.
 
 #### Custom scenarios
 

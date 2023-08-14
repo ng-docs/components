@@ -31,9 +31,14 @@ If you would like to chat about the question in real-time, you can reach out via
 
 ## <a name="issue"></a> Found an Issue?
 If you find a bug in the source code or a mistake in the documentation, you can help us by
-[submitting an issue](#submit-issue) to our [GitHub Repository][github]. Including an issue
-reproduction (via CodePen, JsBin, Plunkr, etc.) is the absolute best way to help the team quickly
-diagnose the problem. Screenshots are also helpful.
+[submitting an issue](#submit-issue) to our [GitHub Repository][github]. 
+
+For bugs, include an issue reproduction (via your preferred REPL: StackBlitz, CodePen, JsBin,
+Plunkr, etc.) Our team has limited resources, and this allows us quickly diagnose issues and make
+optimal use of the time we dedicate to fixing them. Issues that do not include a REPL reproduction
+will be closed. If a REPL reproduction is not possible for your issue, please explain why and
+include any other information that may be helpful in debugger (link to a repo, error messages, 
+screenshots, etc.)
 
 You can help the team even more and [submit a Pull Request](#submit-pr) with a fix.
 
@@ -63,7 +68,7 @@ chances of your issue being dealt with quickly:
     is a bug for you
 * **Browsers and Operating System** - is this a problem with all browsers?
 * **Reproduce the Error** - provide a live example (using [CodePen][codepen], [JsBin][jsbin],
-    [Plunker][plunker], etc.) or a unambiguous set of steps
+    [Plunker][plunker], etc.) or an unambiguous set of steps
 * **Screenshots** - Due to the visual nature of Angular Material, screenshots can help the team
     triage issues far more quickly than a text description.
 * **Related Issues** - has a similar issue been reported before?
@@ -252,8 +257,8 @@ A detailed explanation can be found in this [document][commit-message-format].
 Please sign our Contributor License Agreement (CLA) before sending pull requests. For any code
 changes to be accepted, the CLA must be signed. It's a quick process, we promise!
 
-* For individuals we have a [simple click-through form][individual-cla].
-* For corporations we'll need you to
+* For individuals, we have a [simple click-through form][individual-cla].
+* For corporations, we'll need you to
   [print, sign and one of scan+email, fax or mail the form][corporate-cla].
 
 
@@ -261,15 +266,15 @@ changes to be accepted, the CLA must be signed. It's a quick process, we promise
 [coc]: https://github.com/angular/code-of-conduct/blob/main/CODE_OF_CONDUCT.md
 [commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/preview
 [commit-message-scopes]: https://github.com/angular/components/blob/main/.ng-dev/commit-message.mts#L10
-[corporate-cla]: http://code.google.com/legal/corporate-cla-v1.0.html
+[corporate-cla]: https://code.google.com/legal/corporate-cla-v1.0.html
 [dev-doc]: https://github.com/angular/components/blob/main/DEV_ENVIRONMENT.md
 [github]: https://github.com/angular/components
 [gitter]: https://gitter.im/angular/material2
-[individual-cla]: http://code.google.com/legal/individual-cla-v1.0.html
+[individual-cla]: https://code.google.com/legal/individual-cla-v1.0.html
 [js-style-guide]: https://google.github.io/styleguide/jsguide.html
-[codepen]: http://codepen.io/
-[jsbin]: http://jsbin.com/
-[jsfiddle]: http://jsfiddle.net/
-[plunker]: http://plnkr.co/edit
-[runnable]: http://runnable.com/
-[stackoverflow]: http://stackoverflow.com/
+[codepen]: https://codepen.io/
+[jsbin]: https://jsbin.com/
+[jsfiddle]: https://jsfiddle.net/
+[plunker]: https://plnkr.co/edit
+[runnable]: https://runnable.com/
+[stackoverflow]: https://stackoverflow.com/

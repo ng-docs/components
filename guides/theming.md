@@ -279,7 +279,7 @@ $my-theme: mat.define-light-theme((
 
 As an alternative to listing every component that your application uses, Angular Material offers
 Sass mixins that includes styles for all components in the library: `all-component-colors`,
-`all-component-typographies`, `all-component-densitites`, and `all-component-themes`. These mixins behave the same as
+`all-component-typographies`, `all-component-densities`, and `all-component-themes`. These mixins behave the same as
 individual component mixins, except they emit styles for `core-theme` and _all_ 35+ components in Angular
 Material. Unless your application uses every single component, this will produce unnecessary CSS.
 
@@ -328,7 +328,7 @@ Angular Material 包括四个预构建的主题 CSS 文件，每个文件都选�
 | `deeppurple-amber.css` | 亮 | deep-purple, amber, red |
 | `indigo-pink.css` | Light | indigo, pink, red |
 | `indigo-pink.css` | 亮 | indigo, pink, red |
-| `pink-bluegrey.css` | Dark | pink, bluegrey, red |
+| `pink-bluegrey.css` | Dark | pink, blue-grey, red |
 | `pink-bluegrey.css` | 暗 | pink, bluegrey, red |
 | `purple-green.css` | Dark | purple, green, red |
 | `purple-green.css` | 暗 | purple, green, red |
@@ -485,7 +485,7 @@ hue's number identifier with `-contrast`.
 $my-palette: mat.define-palette(mat.$indigo-palette);
 
 .my-custom-style {
- background: mat.get-color-from-palette($my-palette, 500);
+ background: mat.get-color-from-palette($my-palette, '500');
  color: mat.get-color-from-palette($my-palette, '500-contrast');
 }
 ```

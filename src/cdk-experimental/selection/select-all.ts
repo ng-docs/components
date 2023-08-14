@@ -40,9 +40,7 @@ export class CdkSelectAll<T> implements OnDestroy, OnInit {
    * 开关的选定状态。如果选定了所有值，则解析为 `true` ，如果未选定任何值，则解析为 `false` 。
    *
    */
-  readonly checked: Observable<boolean> = this._selection.change.pipe(
-    switchMap(() => observableOf(this._selection.isAllSelected())),
-  );
+  readonly checked: Observable<boolean>;
 
   /**
    * The indeterminate state of the toggle.
@@ -52,9 +50,7 @@ export class CdkSelectAll<T> implements OnDestroy, OnInit {
    * 开关的不确定状态。如果选定了部分值（而不是全部），则解析为 `true` ；如果选定了所有值或根本未选定任何值，则解析为 `false` 。
    *
    */
-  readonly indeterminate: Observable<boolean> = this._selection.change.pipe(
-    switchMap(() => observableOf(this._selection.isPartialSelected())),
-  );
+  readonly indeterminate: Observable<boolean>;
 
   /**
    * Toggles the select-all state.
@@ -89,7 +85,15 @@ export class CdkSelectAll<T> implements OnDestroy, OnInit {
     @Self()
     @Inject(NG_VALUE_ACCESSOR)
     private readonly _controlValueAccessor: ControlValueAccessor[],
-  ) {}
+  ) {
+    this.checked = _selection.change.pipe(
+      switchMap(() => observableOf(_selection.isAllSelected())),
+    );
+
+    this.indeterminate = _selection.change.pipe(
+      switchMap(() => observableOf(_selection.isPartialSelected())),
+    );
+  }
 
   ngOnInit() {
     this._assertValidParentSelection();

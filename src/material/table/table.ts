@@ -48,6 +48,7 @@ export class MatRecycleRows {}
   host: {
     'class': 'mat-mdc-table mdc-data-table__table',
     '[class.mdc-table-fixed-layout]': 'fixedLayout',
+    'ngSkipHydration': '',
   },
   providers: [
     {provide: CdkTable, useExisting: MatTable},

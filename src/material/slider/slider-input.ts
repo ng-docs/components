@@ -18,6 +18,7 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
+  inject,
   Inject,
   Input,
   NgZone,
@@ -36,6 +37,7 @@ import {
   MAT_SLIDER_THUMB,
   MAT_SLIDER,
 } from './slider-interface';
+import {Platform} from '@angular/cdk/platform';
 
 /**
  * Provider that allows the slider thumb to register as a ControlValueAccessor.
@@ -113,6 +115,7 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
     this._updateThumbUIByValue();
     this._slider._onValueChange(this);
     this._cdr.detectChanges();
+    this._slider._cdr.markForCheck();
   }
   /**
    * Event emitted when the `value` is changed.
@@ -323,10 +326,22 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
   _skipUIUpdate: boolean = false;
 
   /** Callback called when the slider input value changes. */
-  private _onChangeFn: (value: any) => void = () => {};
+  protected _onChangeFn: ((value: any) => void) | undefined;
 
   /** Callback called when the slider input has been touched. */
   private _onTouchedFn: () => void = () => {};
+
+  /**
+   * Whether the NgModel has been initialized.
+   *
+   * This flag is used to ignore ghost null calls to
+   * writeValue which can break slider initialization.
+   *
+   * See https://github.com/angular/angular/issues/14988.
+   */
+  protected _isControlInitialized = false;
+
+  private _platform = inject(Platform);
 
   constructor(
     readonly _ngZone: NgZone,
@@ -399,6 +414,7 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
   }
 
   _onChange(): void {
+    this.valueChange.emit(this.value);
     // only used to handle the edge case where user
     // mousedown on the slider then uses arrow keys.
     if (this._isActive) {
@@ -407,8 +423,7 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
   }
 
   _onInput(): void {
-    this.valueChange.emit(this.value);
-    this._onChangeFn(this.value);
+    this._onChangeFn?.(this.value);
     // handles arrowing and updating the value when
     // a step is defined.
     if (this._slider.step || !this._isActive) {
@@ -432,8 +447,22 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
       return;
     }
 
-    this._isActive = true;
-    this._setIsFocused(true);
+    // On IOS, dragging only works if the pointer down happens on the
+    // slider thumb and the slider does not receive focus from pointer events.
+    if (this._platform.IOS) {
+      const isCursorOnSliderThumb = this._slider._isCursorOnSliderThumb(
+        event,
+        this._slider._getThumb(this.thumbPosition)._hostElement.getBoundingClientRect(),
+      );
+
+      if (isCursorOnSliderThumb) {
+        this._isActive = true;
+      }
+    } else {
+      this._isActive = true;
+      this._setIsFocused(true);
+    }
+
     this._updateWidthActive();
     this._slider._updateDimensions();
 
@@ -445,6 +474,7 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
 
     if (!this.disabled) {
       this._handleValueCorrection(event);
+      this.dragStart.emit({source: this, parent: this._slider, value: this.value});
     }
   }
 
@@ -491,10 +521,7 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
     const impreciseValue =
       fixedPercentage * (this._slider.max - this._slider.min) + this._slider.min;
     const value = Math.round(impreciseValue / step) * step;
-
     const prevValue = this.value;
-    const dragEvent = {source: this, parent: this._slider, value: value};
-    this._isActive ? this.dragStart.emit(dragEvent) : this.dragEnd.emit(dragEvent);
 
     if (value === prevValue) {
       // Because we prevented UI updates, if it turns out that the race
@@ -509,7 +536,7 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
 
     this.value = value;
     this.valueChange.emit(this.value);
-    this._onChangeFn(this.value);
+    this._onChangeFn?.(this.value);
     this._slider._onValueChange(this);
     this._slider.step > 0
       ? this._updateThumbUIByValue()
@@ -525,10 +552,16 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
   }
 
   _onPointerUp(): void {
-    this._isActive = false;
-    setTimeout(() => {
-      this._updateWidthInactive();
-    });
+    if (this._isActive) {
+      this._isActive = false;
+      this.dragEnd.emit({source: this, parent: this._slider, value: this.value});
+
+      // This setTimeout is to prevent the pointerup from triggering a value
+      // change on the input based on the inactive width. It's not clear why
+      // but for some reason on IOS this race condition is even more common so
+      // the timeout needs to be increased.
+      setTimeout(() => this._updateWidthInactive(), this._platform.IOS ? 10 : 0);
+    }
   }
 
   _clamp(v: number): number {
@@ -598,7 +631,9 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
    * @docs-private
    */
   writeValue(value: any): void {
-    this.value = value;
+    if (this._isControlInitialized || value !== null) {
+      this.value = value;
+    }
   }
 
   /**
@@ -614,6 +649,7 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
    */
   registerOnChange(fn: any): void {
     this._onChangeFn = fn;
+    this._isControlInitialized = true;
   }
 
   /**
@@ -756,7 +792,7 @@ export class MatSliderRangeThumb extends MatSliderThumb implements _MatSliderRan
   }
 
   override _onPointerDown(event: PointerEvent): void {
-    if (this.disabled) {
+    if (this.disabled || event.button !== 0) {
       return;
     }
     if (this._sibling) {
@@ -876,8 +912,10 @@ export class MatSliderRangeThumb extends MatSliderThumb implements _MatSliderRan
    * @docs-private
    */
   override writeValue(value: any): void {
-    this.value = value;
-    this._updateWidthInactive();
-    this._updateSibling();
+    if (this._isControlInitialized || value !== null) {
+      this.value = value;
+      this._updateWidthInactive();
+      this._updateSibling();
+    }
   }
 }

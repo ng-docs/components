@@ -24,7 +24,7 @@ import {
 } from '@angular/core';
 import {MatFormFieldControl, MAT_FORM_FIELD} from '@angular/material/form-field';
 import {ThemePalette, DateAdapter} from '@angular/material/core';
-import {NgControl, ControlContainer} from '@angular/forms';
+import {NgControl, ControlContainer, Validators} from '@angular/forms';
 import {Subject, merge, Subscription} from 'rxjs';
 import {FocusOrigin} from '@angular/cdk/a11y';
 import {coerceBooleanProperty, BooleanInput} from '@angular/cdk/coercion';
@@ -168,12 +168,18 @@ export class MatDateRangeInput<D>
    */
   @Input()
   get required(): boolean {
-    return !!this._required;
+    return (
+      this._required ??
+      (this._isTargetRequired(this) ||
+        this._isTargetRequired(this._startInput) ||
+        this._isTargetRequired(this._endInput)) ??
+      false
+    );
   }
   set required(value: BooleanInput) {
     this._required = coerceBooleanProperty(value);
   }
-  private _required: boolean;
+  private _required: boolean | undefined;
 
   /**
    * Function that can be used to filter out dates within the date range picker.
@@ -365,9 +371,11 @@ export class MatDateRangeInput<D>
     // The datepicker module can be used both with MDC and non-MDC form fields. We have
     // to conditionally add the MDC input class so that the range picker looks correctly.
     if (_formField?._elementRef.nativeElement.classList.contains('mat-mdc-form-field')) {
-      const classList = _elementRef.nativeElement.classList;
-      classList.add('mat-mdc-input-element');
-      classList.add('mat-mdc-form-field-input-control');
+      _elementRef.nativeElement.classList.add(
+        'mat-mdc-input-element',
+        'mat-mdc-form-field-input-control',
+        'mdc-text-field__input',
+      );
     }
 
     // TODO(crisbeto): remove `as any` after #18206 lands.
@@ -593,5 +601,10 @@ export class MatDateRangeInput<D>
     if (this._endInput) {
       this._endInput._registerModel(model);
     }
+  }
+
+  /** Checks whether a specific range input directive is required. */
+  private _isTargetRequired(target: {ngControl: NgControl | null} | null): boolean | undefined {
+    return target?.ngControl?.control?.hasValidator(Validators.required);
   }
 }

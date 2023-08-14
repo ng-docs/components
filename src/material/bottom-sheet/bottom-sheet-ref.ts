@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {ComponentRef} from '@angular/core';
 import {DialogRef} from '@angular/cdk/dialog';
 import {ESCAPE, hasModifierKey} from '@angular/cdk/keycodes';
 import {merge, Observable, Subject} from 'rxjs';
@@ -28,6 +29,14 @@ export class MatBottomSheetRef<T = any, R = any> {
    */
   get instance(): T {
     return this._ref.componentInstance!;
+  }
+
+  /**
+   * `ComponentRef` of the component opened into the bottom sheet. Will be
+   * null when the bottom sheet is opened using a `TemplateRef`.
+   */
+  get componentRef(): ComponentRef<T> | null {
+    return this._ref.componentRef;
   }
 
   /**

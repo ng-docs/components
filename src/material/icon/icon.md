@@ -29,7 +29,7 @@ component.
 有些字体是设计来用[合字](https://en.wikipedia.org/wiki/Typographic_ligature)的方式显示图标的，比如把文本格式的 "home" 显示为家的图标。要使用合字图标，请把它对应的文本放进 `mat-icon` 组件的内容中。
 
 By default, `<mat-icon>` expects the
-[Material icons font](http://google.github.io/material-design-icons/#icon-font-for-the-web).
+[Material icons font](https://google.github.io/material-design-icons/#icon-font-for-the-web).
 (You will still need to include the HTML to load the font and its CSS, as described in the link).
 You can specify a different font by setting the `fontSet` input to either the CSS class to apply to
 use the desired font, or to an alias previously registered with

@@ -51,6 +51,8 @@ export class MatIconButton extends MatButtonBase {
     @Optional() @Inject(ANIMATION_MODULE_TYPE) animationMode?: string,
   ) {
     super(elementRef, platform, ngZone, animationMode);
+
+    this._rippleLoader.configureRipple(this._elementRef.nativeElement, {centered: true});
   }
 }
 

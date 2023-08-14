@@ -42,6 +42,7 @@ import {BooleanInput, coerceBooleanProperty, coerceNumberProperty} from '@angula
 import {UniqueSelectionDispatcher} from '@angular/cdk/collections';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {Subscription} from 'rxjs';
 
 // Increasing integer for generating unique ids for radio components.
 let nextUniqueId = 0;
@@ -114,7 +115,7 @@ export function MAT_RADIO_DEFAULT_OPTIONS_FACTORY(): MatRadioDefaultOptions {
  */
 @Directive()
 export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
-  implements AfterContentInit, ControlValueAccessor
+  implements AfterContentInit, OnDestroy, ControlValueAccessor
 {
   /**
    * Selected value for the radio group.
@@ -172,12 +173,10 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
    */
   private _required: boolean = false;
 
-  /**
-   * The method to be called in order to update ngModel
-   *
-   * 为了更新 ngModel 而要调用的方法
-   *
-   */
+  /** Subscription to changes in amount of radio buttons. */
+  private _buttonChanges: Subscription;
+
+  /** The method to be called in order to update ngModel */
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
   /**
@@ -335,6 +334,20 @@ export abstract class _MatRadioGroupBase<T extends _MatRadioButtonBase>
     // possibly be set by NgModel on MatRadioGroup, and it is possible that the OnInit of the
     // NgModel occurs *after* the OnInit of the MatRadioGroup.
     this._isInitialized = true;
+
+    // Clear the `selected` button when it's destroyed since the tabindex of the rest of the
+    // buttons depends on it. Note that we don't clear the `value`, because the radio button
+    // may be swapped out with a similar one and there are some internal apps that depend on
+    // that behavior.
+    this._buttonChanges = this._radios.changes.subscribe(() => {
+      if (this.selected && !this._radios.find(radio => radio === this.selected)) {
+        this._selected = null;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this._buttonChanges?.unsubscribe();
   }
 
   /**
@@ -871,12 +884,18 @@ export abstract class _MatRadioButtonBase
     }
   }
 
-  /**
-   * Sets the disabled state and marks for check if a change occurred.
-   *
-   * 设置禁用状态和标记，以检查是否发生了变化。
-   *
-   */
+  /** Triggered when the user clicks on the touch target. */
+  _onTouchTargetClick(event: Event) {
+    this._onInputInteraction(event);
+
+    if (!this.disabled) {
+      // Normally the input should be focused already, but if the click
+      // comes from the touch target, then we might have to focus it ourselves.
+      this._inputElement.nativeElement.focus();
+    }
+  }
+
+  /** Sets the disabled state and marks for check if a change occurred. */
   protected _setDisabled(value: boolean) {
     if (this._disabled !== value) {
       this._disabled = value;

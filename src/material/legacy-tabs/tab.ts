@@ -37,6 +37,10 @@ import {
   encapsulation: ViewEncapsulation.None,
   exportAs: 'matTab',
   providers: [{provide: MAT_TAB, useExisting: MatLegacyTab}],
+  host: {
+    // This binding is used to ensure that the component ID doesn't clash with the `MatTab`.
+    '[attr.mat-id-collision]': 'null',
+  },
 })
 export class MatLegacyTab extends _MatTabBase {
   /**
@@ -60,5 +64,6 @@ export class MatLegacyTab extends _MatTabBase {
    *
    */
   @ContentChild(MAT_TAB_CONTENT, {read: TemplateRef, static: true})
-  override _explicitContent: TemplateRef<any>;
+  // We need an initializer here to avoid a TS error. The value will be set in `ngAfterViewInit`.
+  override _explicitContent: TemplateRef<any> = undefined!;
 }

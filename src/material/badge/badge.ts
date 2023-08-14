@@ -6,11 +6,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {AriaDescriber} from '@angular/cdk/a11y';
+import {AriaDescriber, InteractivityChecker} from '@angular/cdk/a11y';
 import {BooleanInput, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {DOCUMENT} from '@angular/common';
 import {
   Directive,
   ElementRef,
+  inject,
   Inject,
   Input,
   NgZone,
@@ -144,7 +146,7 @@ export class MatBadge extends _MatBadgeBase implements OnInit, OnDestroy, CanDis
     return this._description;
   }
   set description(newDescription: string) {
-    this._updateHostAriaDescription(newDescription);
+    this._updateDescription(newDescription);
   }
   private _description: string;
 
@@ -187,13 +189,16 @@ export class MatBadge extends _MatBadgeBase implements OnInit, OnDestroy, CanDis
    */
   private _badgeElement: HTMLElement | undefined;
 
-  /**
-   * Whether the OnInit lifecycle hook has run yet
-   *
-   * OnInit 生命周期钩子是否已经运行
-   *
-   */
+  /** Inline badge description. Used when the badge is applied to non-interactive host elements. */
+  private _inlineBadgeDescription: HTMLElement | undefined;
+
+  /** Whether the OnInit lifecycle hook has run yet */
   private _isInitialized = false;
+
+  /** InteractivityChecker to determine if the badge host is focusable. */
+  private _interactivityChecker = inject(InteractivityChecker);
+
+  private _document = inject(DOCUMENT);
 
   constructor(
     private _ngZone: NgZone,
@@ -208,6 +213,22 @@ export class MatBadge extends _MatBadgeBase implements OnInit, OnDestroy, CanDis
       const nativeElement = _elementRef.nativeElement;
       if (nativeElement.nodeType !== nativeElement.ELEMENT_NODE) {
         throw Error('matBadge must be attached to an element node.');
+      }
+
+      const matIconTagName: string = 'mat-icon';
+
+      // Heads-up for developers to avoid putting matBadge on <mat-icon>
+      // as it is aria-hidden by default docs mention this at:
+      // https://material.angular.io/components/badge/overview#accessibility
+      if (
+        nativeElement.tagName.toLowerCase() === matIconTagName &&
+        nativeElement.getAttribute('aria-hidden') === 'true'
+      ) {
+        console.warn(
+          `Detected a matBadge on an "aria-hidden" "<mat-icon>". ` +
+            `Consider setting aria-hidden="false" in order to surface the information assistive technology.` +
+            `\n${nativeElement.outerHTML}`,
+        );
       }
     }
   }
@@ -262,17 +283,21 @@ export class MatBadge extends _MatBadgeBase implements OnInit, OnDestroy, CanDis
     // We have to destroy it ourselves, otherwise it'll be retained in memory.
     if (this._renderer.destroyNode) {
       this._renderer.destroyNode(this._badgeElement);
+      this._inlineBadgeDescription?.remove();
     }
 
     this._ariaDescriber.removeDescription(this._elementRef.nativeElement, this.description);
   }
 
-  /**
-   * Creates the badge element
-   *
-   * 创建徽章元素
-   *
-   */
+  /** Gets whether the badge's host element is interactive. */
+  private _isHostInteractive(): boolean {
+    // Ignore visibility since it requires an expensive style caluclation.
+    return this._interactivityChecker.isFocusable(this._elementRef.nativeElement, {
+      ignoreVisibility: true,
+    });
+  }
+
+  /** Creates the badge element */
   private _createBadgeElement(): HTMLElement {
     const badgeElement = this._renderer.createElement('span');
     const activeClass = 'mat-badge-active';
@@ -333,12 +358,46 @@ export class MatBadge extends _MatBadgeBase implements OnInit, OnDestroy, CanDis
    * 通过 AriaDescriber 更新宿主元素的 aria 描述。
    *
    */
-  private _updateHostAriaDescription(newDescription: string): void {
+  private _updateDescription(newDescription: string): void {
+    // Always start by removing the aria-describedby; we will add a new one if necessary.
     this._ariaDescriber.removeDescription(this._elementRef.nativeElement, this.description);
-    if (newDescription) {
-      this._ariaDescriber.describe(this._elementRef.nativeElement, newDescription);
+
+    // NOTE: We only check whether the host is interactive here, which happens during
+    // when then badge content changes. It is possible that the host changes
+    // interactivity status separate from one of these. However, watching the interactivity
+    // status of the host would require a `MutationObserver`, which is likely more code + overhead
+    // than it's worth; from usages inside Google, we see that the vats majority of badges either
+    // never change interactivity, or also set `matBadgeHidden` based on the same condition.
+
+    if (!newDescription || this._isHostInteractive()) {
+      this._removeInlineDescription();
     }
+
     this._description = newDescription;
+
+    // We don't add `aria-describedby` for non-interactive hosts elements because we
+    // instead insert the description inline.
+    if (this._isHostInteractive()) {
+      this._ariaDescriber.describe(this._elementRef.nativeElement, newDescription);
+    } else {
+      this._updateInlineDescription();
+    }
+  }
+
+  private _updateInlineDescription() {
+    // Create the inline description element if it doesn't exist
+    if (!this._inlineBadgeDescription) {
+      this._inlineBadgeDescription = this._document.createElement('span');
+      this._inlineBadgeDescription.classList.add('cdk-visually-hidden');
+    }
+
+    this._inlineBadgeDescription.textContent = this.description;
+    this._badgeElement?.appendChild(this._inlineBadgeDescription);
+  }
+
+  private _removeInlineDescription() {
+    this._inlineBadgeDescription?.remove();
+    this._inlineBadgeDescription = undefined;
   }
 
   /**

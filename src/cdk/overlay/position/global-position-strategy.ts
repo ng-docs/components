@@ -6,8 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {OverlayRef} from '../overlay-ref';
 import {PositionStrategy} from './position-strategy';
-import {OverlayReference} from '../overlay-reference';
 
 /**
  * Class to be added to the overlay pane wrapper.
@@ -33,7 +33,7 @@ export class GlobalPositionStrategy implements PositionStrategy {
    * 此策略要附加到的浮层。
    *
    */
-  private _overlayRef: OverlayReference;
+  private _overlayRef: OverlayRef;
   private _cssPosition = 'static';
   private _topOffset = '';
   private _bottomOffset = '';
@@ -44,7 +44,7 @@ export class GlobalPositionStrategy implements PositionStrategy {
   private _height = '';
   private _isDisposed = false;
 
-  attach(overlayRef: OverlayReference): void {
+  attach(overlayRef: OverlayRef): void {
     const config = overlayRef.getConfig();
 
     this._overlayRef = overlayRef;

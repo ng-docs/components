@@ -74,6 +74,7 @@ ng_module(
         "//src/dev-app/menu",
         "//src/dev-app/menubar",
         "//src/dev-app/paginator",
+        "//src/dev-app/performance",
         "//src/dev-app/platform",
         "//src/dev-app/popover-edit",
         "//src/dev-app/portal",
@@ -136,6 +137,16 @@ sass_binary(
     ],
 )
 
+sass_binary(
+    name = "theme_token_api",
+    src = "theme-token-api.scss",
+    deps = [
+        "//src/material:sass_lib",
+        "//src/material-experimental:sass_lib",
+        "//src/material/core:theming_scss_lib",
+    ],
+)
+
 # Variables that are going to be inlined into the dev app index.html.
 filegroup(
     name = "variables",
@@ -153,6 +164,7 @@ filegroup(
         "favicon.ico",
         "index.html",
         ":theme",
+        ":theme_token_api",
         ":variables",
         "//src/dev-app/icon:icon_demo_assets",
         "@npm//:node_modules/moment/min/moment-with-locales.min.js",

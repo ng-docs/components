@@ -8,7 +8,7 @@ import {
   Type,
   ViewChild,
 } from '@angular/core';
-import {ComponentFixture, fakeAsync, flush, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
 import {
   FormControl,
   FormGroup,
@@ -186,20 +186,6 @@ describe('MatMdcInput without forms', () => {
 
     expect(inputElement.id).toBeTruthy();
     expect(inputElement.id).toEqual(labelElement.getAttribute('for')!);
-  }));
-
-  it('should add aria-owns to the label for the associated control', fakeAsync(() => {
-    let fixture = createComponent(MatInputTextTestController);
-    fixture.detectChanges();
-
-    const inputElement: HTMLInputElement = fixture.debugElement.query(
-      By.css('input'),
-    )!.nativeElement;
-    const labelElement: HTMLInputElement = fixture.debugElement.query(
-      By.css('label'),
-    )!.nativeElement;
-
-    expect(labelElement.getAttribute('aria-owns')).toBe(inputElement.id);
   }));
 
   it('should add aria-required reflecting the required state', fakeAsync(() => {
@@ -1357,17 +1343,20 @@ describe('MatMdcInput with forms', () => {
   it('should update notch size after changing appearance to outline', fakeAsync(() => {
     const fixture = createComponent(MatInputWithAppearance);
     fixture.detectChanges();
+    tick(16);
 
     expect(fixture.nativeElement.querySelector('.mdc-notched-outline__notch')).toBe(null);
 
     fixture.componentInstance.appearance = 'outline';
     fixture.detectChanges();
+    tick(16);
 
     let notch = fixture.nativeElement.querySelector('.mdc-notched-outline__notch')! as HTMLElement;
     expect(notch.style.width).toBeFalsy();
 
     fixture.nativeElement.querySelector('input')!.focus();
     fixture.detectChanges();
+    tick(16);
 
     expect(notch.style.width).toBeTruthy();
   }));

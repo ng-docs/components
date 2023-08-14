@@ -165,7 +165,7 @@ components. To get started, upgrade your application to Angular Material 15.
 Angular Material 包含一个示意图，可帮助迁移应用程序以使用新的基于 MDC 的组件。首先，将你的应用程序升级到 Angular Material 15。
 
 ```shell
-ng update @angular/material^15
+ng update @angular/material@15
 ```
 
 As part of this update, a schematic will run to automatically move your application to use the
@@ -277,6 +277,11 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
   应用于组件的 CSS 类使用 `mat-mdc-` 前缀，而之前它只是一个 `mat-` 前缀。大致对应于旧实现中的元素的元素已被赋予相同的类名（除了前缀）。例如，按钮的宿主类是 `mat-mdc-button` 而不再是 `mat-button` 。但是，并非以前实现中的所有元素在新实现中都具有等效元素。
 
+* The styles associated with the `mat-typography` class are no longer generated automatically. You
+  have to include them using the `mat.typography-hierarchy` mixin.
+
+  不再自动生成与 `mat-typography` 关联的样式。你只能通过 `include` `mat.typography-hierarchy` mixin 来使用它们。
+
 ### Theming
 
 ### 主题
@@ -292,7 +297,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
   所有组件现在都具有可主题化的密集度。当你包含主题混合时，默认密集度级别 (0) 的样式将默认包含在内。
 
   ```scss
-  @import '@angular/material' as mat;
+  @use '@angular/material' as mat;
 
   $theme: mat.define-light-theme((
     color: ...
@@ -450,6 +455,11 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
 ### 纸片
 
+* Chips used to be directives, but they're now components. This means that they can't be applied to
+  other components anymore.
+
+  纸片曾经是指令，但现在改成了组件。这意味着它们无法再用于其它组件。
+
 * The chips component has been split into multiple variants corresponding with more appropriate
   interaction patterns for accessibility. The original `mat-chip-list` used `role="listbox"`, but
   this interaction pattern is not suited for all use-cases. The new chips have:
@@ -568,7 +578,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
   基于 MDC 的 MatInput 隐藏了与 `<input matInput type="date">` 关联的原生日历选择器指示器，如果你希望此指示器出现在你的输入中，请使用以下样式：
 
   ```scss
-  .mat-mdc-input-element::-webkit-calendar-picker-indicator {
+  input.mat-mdc-input-element::-webkit-calendar-picker-indicator {
     display: block;
   }
   ```

@@ -7,9 +7,10 @@
  */
 import {NgZone} from '@angular/core';
 import {ScrollStrategy, getMatScrollStrategyAlreadyAttachedError} from './scroll-strategy';
-import {OverlayReference} from '../overlay-reference';
 import {Subscription} from 'rxjs';
 import {ScrollDispatcher, ViewportRuler} from '@angular/cdk/scrolling';
+import {filter} from 'rxjs/operators';
+import type {OverlayRef} from '../overlay-ref';
 
 /**
  * Config options for the CloseScrollStrategy.
@@ -35,7 +36,7 @@ export interface CloseScrollStrategyConfig {
  */
 export class CloseScrollStrategy implements ScrollStrategy {
   private _scrollSubscription: Subscription | null = null;
-  private _overlayRef: OverlayReference;
+  private _overlayRef: OverlayRef;
   private _initialScrollPosition: number;
 
   constructor(
@@ -51,7 +52,7 @@ export class CloseScrollStrategy implements ScrollStrategy {
    * 将此滚动策略附加到浮层。
    *
    */
-  attach(overlayRef: OverlayReference) {
+  attach(overlayRef: OverlayRef) {
     if (this._overlayRef && (typeof ngDevMode === 'undefined' || ngDevMode)) {
       throw getMatScrollStrategyAlreadyAttachedError();
     }
@@ -70,7 +71,14 @@ export class CloseScrollStrategy implements ScrollStrategy {
       return;
     }
 
-    const stream = this._scrollDispatcher.scrolled(0);
+    const stream = this._scrollDispatcher.scrolled(0).pipe(
+      filter(scrollable => {
+        return (
+          !scrollable ||
+          !this._overlayRef.overlayElement.contains(scrollable.getElementRef().nativeElement)
+        );
+      }),
+    );
 
     if (this._config && this._config.threshold && this._config.threshold > 1) {
       this._initialScrollPosition = this._viewportRuler.getViewportScrollPosition().top;

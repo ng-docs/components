@@ -8,9 +8,9 @@ set -e
 
 cd "$(dirname $0)/../../"
 
-if [ -z ${GITHUB_ACCESS_TOKEN} ]; then
+if [ -z ${SNAPSHOT_BUILDS_GITHUB_TOKEN} ]; then
   echo "Error: No access token for GitHub could be found." \
-       "Please set the environment variable 'GITHUB_ACCESS_TOKEN'."
+       "Please set the environment variable 'SNAPSHOT_BUILDS_GITHUB_TOKEN'."
   exit 1
 fi
 
@@ -24,17 +24,17 @@ docsDistPath="${projectPath}/dist/docs"
 docsContentPath="${projectPath}/tmp/material2-docs-content"
 
 # Path to the build output of the Bazel "@angular/components-examples" NPM package.
-# Note: When changing this, also change the path in `scripts/build-docs-content.js`.
-examplesPackagePath="${projectPath}/dist/docs-content-pkg"
+# Note: When changing this, also change the path in `scripts/build-docs-content.ts`.
+examplesPackagePath="${projectPath}/dist/docs-content-pkg/"
 
 # Git clone URL for the material2-docs-content repository.
-docsContentRepoUrl="https://github.com/ng-docs/material2-docs-content"
+docsContentRepoUrl="https://github.com/angular/material2-docs-content"
 
 # Current version of Angular Material from the package.json file
 buildVersion=$(node -pe "require('./package.json').version")
 
 # Name of the branch that is currently being deployed.
-branchName=${TRAVIS_BRANCH:-'master'}
+branchName=${CIRCLE_BRANCH:-'main'}
 
 # Additional information about the last commit for docs-content commits.
 commitSha=$(git rev-parse --short HEAD)
@@ -96,7 +96,7 @@ git config user.name "$commitAuthorName"
 git config user.email "$commitAuthorEmail"
 git config credential.helper "store --file=.git/credentials"
 
-echo "https://asnowwolf:${GITHUB_ACCESS_TOKEN}@github.com" > .git/credentials
+echo "https://${SNAPSHOT_BUILDS_GITHUB_TOKEN}:@github.com" > .git/credentials
 
 echo "Credentials for docs-content repository are now set up. Publishing.."
 

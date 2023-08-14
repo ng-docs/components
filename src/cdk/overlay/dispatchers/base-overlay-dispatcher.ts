@@ -8,7 +8,7 @@
 
 import {DOCUMENT} from '@angular/common';
 import {Inject, Injectable, OnDestroy} from '@angular/core';
-import {OverlayReference} from '../overlay-reference';
+import type {OverlayRef} from '../overlay-ref';
 
 /**
  * Service for dispatching events that land on the body to appropriate overlay ref,
@@ -26,7 +26,7 @@ export abstract class BaseOverlayDispatcher implements OnDestroy {
    * 当前已附加的浮层，按其附加顺序排列。
    *
    */
-  _attachedOverlays: OverlayReference[] = [];
+  _attachedOverlays: OverlayRef[] = [];
 
   protected _document: Document;
   protected _isAttached: boolean;
@@ -45,7 +45,7 @@ export abstract class BaseOverlayDispatcher implements OnDestroy {
    * 将新的浮层添加到已附加的浮层引用列表中。
    *
    */
-  add(overlayRef: OverlayReference): void {
+  add(overlayRef: OverlayRef): void {
     // Ensure that we don't get the same overlay multiple times.
     this.remove(overlayRef);
     this._attachedOverlays.push(overlayRef);
@@ -57,7 +57,7 @@ export abstract class BaseOverlayDispatcher implements OnDestroy {
    * 从已附加的浮层引用列表中删除浮层。
    *
    */
-  remove(overlayRef: OverlayReference): void {
+  remove(overlayRef: OverlayRef): void {
     const index = this._attachedOverlays.indexOf(overlayRef);
 
     if (index > -1) {

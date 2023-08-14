@@ -61,33 +61,33 @@ table below.
 
 **排版级别**是与应用程序结构的特定部分（例如标题）相对应的排版样式的集合。每个级别包括字体系列、字体粗细、字体大小和字母间距的样式。 Angular Material 使用 [2018 版 Material Design 规范中的排版级别][2018-typography]，如下表所示。
 
-| Name | Description |
-| ---- | ----------- |
-| 名称 | 说明 |
+| Name | Description                                                          |
+| ---- |----------------------------------------------------------------------|
+| 名称 | 说明                                                                   |
 | `headline-1` | One-off header, usually at the top of the page (e.g. a hero header). |
-| `headline-1` | 一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `headline-1` | 一次性标题，通常在页面顶部（例如英雄的标题）。                                              |
 | `headline-2` | One-off header, usually at the top of the page (e.g. a hero header). |
-| `headline-2` | 一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `headline-2` | 一次性标题，通常在页面顶部（例如英雄的标题）。                                              |
 | `headline-3` | One-off header, usually at the top of the page (e.g. a hero header). |
-| `headline-3` | 一次性标题，通常在页面顶部（例如英雄的标题）。 |
+| `headline-3` | 一次性标题，通常在页面顶部（例如英雄的标题）。                                              |
 | `headline-4` | One-off header, usually at the top of the page (e.g. a hero header). |
-| `headline-4` | 一次性标题，通常在页面顶部（例如英雄的标题）。 |
-| `headline-5` | Section heading corresponding to the `<h1>` tag. |
-| `headline-5` | 对应于 `<h1>` 标签的节标题。 |
-| `headline-6` | Section heading corresponding to the `<h2>` tag. |
-| `headline-6` | 对应于 `<h2>` 标签的节标题。 |
-| `subtitle-1` | Section heading corresponding to the `<h3>` tag. |
-| `subtitle-1` | 对应于 `<h3>` 标签的节标题。 |
-| `subtitle-2` | Section heading corresponding to the `<h4>` tag. |
-| `subtitle-2` | 对应于 `<h4>` 标签的节标题。 |
-| `body-1` | Base body text. |
-| `body-1` | 基础正文。 |
-| `body-2` | Bolder body text. |
-| `body-2` | 加粗的正文。 |
-| `caption` | Smaller body and hint text. |
-| `caption` | 较小的正文和提示文本。 |
-| `button` | Buttons and anchors. |
-| `button` | 按钮和锚点。 |
+| `headline-4` | 一次性标题，通常在页面顶部（例如英雄的标题）。                                              |
+| `headline-5` | Section heading corresponding to the `<h1>` tag.                     |
+| `headline-5` | 对应于 `<h1>` 标签的节标题。                                                   |
+| `headline-6` | Section heading corresponding to the `<h2>` tag.                     |
+| `headline-6` | 对应于 `<h2>` 标签的节标题。                                                   |
+| `subtitle-1` | Section heading corresponding to the `<h3>` tag.                     |
+| `subtitle-1` | 对应于 `<h3>` 标签的节标题。                                                   |
+| `subtitle-2` | Section heading corresponding to the `<h4>` tag.                     |
+| `subtitle-2` | 对应于 `<h4>` 标签的节标题。                                                   |
+| `body-1` | Base body text.                                                      |
+| `body-1` | 基础正文。                                                                |
+| `body-2` | Secondary body text.                                                 |
+| `body-2` | 二级正文。                                                                |
+| `caption` | Smaller body and hint text.                                          |
+| `caption` | 较小的正文和提示文本。                                                          |
+| `button` | Buttons and anchors.                                                 |
+| `button` | 按钮和锚点。                                                               |
 
 [2018-typography]: https://m2.material.io/design/typography/the-type-system.html#type-scale
 
@@ -183,8 +183,8 @@ $my-theme: mat.define-light-theme((
 
   $kids-theme: mat.define-light-theme((
    color: (
-     primary: $my-primary,
-     accent: $my-accent,
+     primary: $kids-primary,
+     accent: $kids-accent,
    ),
    typography: $kids-typography,
   ));
@@ -215,10 +215,20 @@ $kids-typography: mat.define-typography-config(
 
 ## 在应用程序中使用排版样式
 
-In addition to styles shared between components, the `core` mixin includes CSS classes for styling
-your application. These CSS classes correspond to the typography levels in your typography config.
-This mixin also emits styles for native header elements scoped within the `.mat-typography` CSS
-class. The table below lists the CSS classes emitted and the native elements styled.
+In addition to styles shared between components, the `typography-hierarchy` mixin includes CSS
+classes for styling your application. These CSS classes correspond to the typography levels in your
+typography config. This mixin also emits styles for native header elements scoped within the
+`.mat-typography` CSS class.
+
+```scss
+@use '@angular/material' as mat;
+
+// Use the default configuration.
+$my-typography: mat.define-typography-config();
+@include mat.typography-hierarchy($my-typography);
+```
+
+The table below lists the CSS classes emitted and the native elements styled.
 
 除了组件之间共享的样式之外， `core` mixin 还包括用于设置应用程序样式的 CSS 类。这些 CSS 类对应于你的排版配置中的排版级别。此 mixin 还为 `.mat-typography` CSS 类范围内的原生 header 元素生成样式。下表列出了生成的 CSS 类和样式化的原生元素。
 
@@ -267,15 +277,10 @@ The `button` and `input` typography levels do not map to CSS classes.
 
 `button` 和 `input` 的排版级别没有映射到 CSS 类。
 
-You can also manually emit the CSS rules for these CSS classes and native elements by calling the `typography-hierarchy`
-mixin. This mixin accepts a typography config and a CSS selector under which the styles are scopes (defaulting to
-`.mat-typography`).
+The following example demonstrates usage of the typography styles emitted by the
+`typography-hierarchy` mixin.
 
-你还可以通过调用 `typography-hierarchy` mixin 手动为这些 CSS 类和原生元素生成 CSS 规则。这个 mixin 接受一个排版配置和一个 CSS 选择器，此选择器下的样式是范围化的（默认为 `.mat-typography` ）。
-
-The following example demonstrates usage of the typography styles emitted by the `core` mixin.
-
-以下示例演示了 `core` mixin 生成的排版样式的用法。
+以下示例演示了 `typography-hierarchy` mixin 生成的排版样式的用法。
 
 ```html
 <body>

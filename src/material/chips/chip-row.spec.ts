@@ -1,5 +1,5 @@
 import {Directionality} from '@angular/cdk/bidi';
-import {BACKSPACE, DELETE, ENTER} from '@angular/cdk/keycodes';
+import {BACKSPACE, DELETE, ENTER, SPACE} from '@angular/cdk/keycodes';
 import {
   createKeyboardEvent,
   dispatchEvent,
@@ -96,11 +96,8 @@ describe('MDC-based Row Chips', () => {
         expect(testComponent.chipRemove).toHaveBeenCalledWith({chip: chipInstance});
       });
 
-      it('should prevent the default click action', () => {
-        const event = dispatchFakeEvent(chipNativeElement, 'mousedown');
-        fixture.detectChanges();
-
-        expect(event.defaultPrevented).toBe(true);
+      it('should have a tabindex', () => {
+        expect(chipNativeElement.getAttribute('tabindex')).toBe('-1');
       });
 
       it('should have the correct role', () => {
@@ -189,8 +186,8 @@ describe('MDC-based Row Chips', () => {
       });
 
       describe('focus management', () => {
-        it('sends focus to first grid cell on mousedown', () => {
-          dispatchFakeEvent(chipNativeElement, 'mousedown');
+        it('sends focus to first grid cell on root chip focus', () => {
+          dispatchFakeEvent(chipNativeElement, 'focus');
           fixture.detectChanges();
 
           expect(document.activeElement).toHaveClass('mdc-evolution-chip__action--primary');
@@ -259,14 +256,16 @@ describe('MDC-based Row Chips', () => {
         return chipNativeElement.querySelector('.mat-chip-edit-input')!;
       }
 
-      it('should set the role of the primary action based on whether it is editable', () => {
+      it('should set the role of the primary action to gridcell', () => {
         testComponent.editable = false;
         fixture.detectChanges();
-        expect(primaryAction.hasAttribute('role')).toBe(false);
+        expect(primaryAction.getAttribute('role')).toBe('gridcell');
 
         testComponent.editable = true;
         fixture.detectChanges();
-        expect(primaryAction.getAttribute('role')).toBe('button');
+        // Test regression of bug where element is mislabeled as a button role. Element that does not perform its
+        // action on click event is not a button by ARIA spec (#27106).
+        expect(primaryAction.getAttribute('role')).toBe('gridcell');
       });
 
       it('should not delete the chip on DELETE or BACKSPACE', () => {
@@ -331,6 +330,14 @@ describe('MDC-based Row Chips', () => {
         flush();
         expect(document.activeElement).not.toBe(primaryAction);
       }));
+
+      it('should not prevent SPACE events when editing', fakeAsync(() => {
+        const event = dispatchKeyboardEvent(getEditInput(), 'keydown', SPACE);
+        fixture.detectChanges();
+        flush();
+
+        expect(event.defaultPrevented).toBe(false);
+      }));
     });
 
     describe('a11y', () => {
@@ -341,7 +348,7 @@ describe('MDC-based Row Chips', () => {
         fixture.detectChanges();
 
         const primaryGridCell = (fixture.nativeElement as HTMLElement).querySelector(
-          '[role="gridcell"].mdc-evolution-chip__cell--primary .mat-mdc-chip-action',
+          '[role="gridcell"].mdc-evolution-chip__cell--primary.mat-mdc-chip-action',
         );
         expect(primaryGridCell)
           .withContext('expected to find the grid cell for the primary chip action')

@@ -73,7 +73,8 @@ export class MatStep extends CdkStep implements ErrorStateMatcher, AfterContentI
    * 步骤标签的内容，由 `<ng-template matStepLabel>` 提供。
    *
    */
-  @ContentChild(MatStepLabel) override stepLabel: MatStepLabel;
+  // We need an initializer here to avoid a TS error.
+  @ContentChild(MatStepLabel) override stepLabel: MatStepLabel = undefined!;
 
   /**
    * Theme color for the particular step.
@@ -163,6 +164,7 @@ export class MatStep extends CdkStep implements ErrorStateMatcher, AfterContentI
     '[class.mat-stepper-header-position-bottom]': 'headerPosition === "bottom"',
     '[attr.aria-orientation]': 'orientation',
     'role': 'tablist',
+    'ngSkipHydration': '',
   },
   animations: [
     matStepperAnimations.horizontalStepTransition,
@@ -179,7 +181,9 @@ export class MatStepper extends CdkStepper implements AfterContentInit {
    * 步进器中各步骤的步骤头列表。
    *
    */
-  @ViewChildren(MatStepHeader) override _stepHeader: QueryList<MatStepHeader>;
+  // We need an initializer here to avoid a TS error.
+  @ViewChildren(MatStepHeader) override _stepHeader: QueryList<MatStepHeader> =
+    undefined as unknown as QueryList<MatStepHeader>;
 
   /**
    * Full list of steps inside the stepper, including inside nested steppers.
@@ -187,7 +191,9 @@ export class MatStepper extends CdkStepper implements AfterContentInit {
    * 步进器里面的完整步骤列表，也包括嵌套的步进器内部的步骤。
    *
    */
-  @ContentChildren(MatStep, {descendants: true}) override _steps: QueryList<MatStep>;
+  // We need an initializer here to avoid a TS error.
+  @ContentChildren(MatStep, {descendants: true}) override _steps: QueryList<MatStep> =
+    undefined as unknown as QueryList<MatStep>;
 
   /**
    * Steps that belong to the current stepper, excluding ones from nested steppers.

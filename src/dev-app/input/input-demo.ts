@@ -15,7 +15,10 @@ import {
 } from '@angular/material/form-field';
 import {ErrorStateMatcher, ThemePalette} from '@angular/material/core';
 import {CommonModule} from '@angular/common';
-import {FormFieldExamplesModule} from '@angular/components-examples/material/form-field';
+import {
+  FormFieldCustomControlExample,
+  MyTelInput,
+} from '@angular/components-examples/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
@@ -49,7 +52,8 @@ const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA
     MatInputModule,
     MatTabsModule,
     MatToolbarModule,
-    FormFieldExamplesModule,
+    FormFieldCustomControlExample,
+    MyTelInput,
     ReactiveFormsModule,
   ],
 })
@@ -68,6 +72,9 @@ export class InputDemo {
   options: string[] = ['One', 'Two', 'Three'];
   showSecondPrefix = false;
   showPrefix = true;
+  showHidden = false;
+  hiddenLabel = 'Label';
+  hiddenAppearance: MatFormFieldAppearance = 'outline';
 
   name: string;
   errorMessageExample1: string;

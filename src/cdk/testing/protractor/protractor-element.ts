@@ -55,6 +55,7 @@ const keyMap = {
   [TestKey.F11]: Key.F11,
   [TestKey.F12]: Key.F12,
   [TestKey.META]: Key.META,
+  [TestKey.COMMA]: ',',
 };
 
 /**
@@ -284,6 +285,20 @@ export class ProtractorElement implements TestElement {
     }
     // We don't go through Protractor's `getText`, because it excludes text from hidden elements.
     return browser.executeScript(`return (arguments[0].textContent || '').trim()`, this.element);
+  }
+
+  /**
+   * Sets the value of a `contenteditable` element.
+   * @param value Value to be set on the element.
+   */
+  async setContenteditableValue(value: string): Promise<void> {
+    const contenteditableAttr = await this.getAttribute('contenteditable');
+
+    if (contenteditableAttr !== '' && contenteditableAttr !== 'true') {
+      throw new Error('setContenteditableValue can only be called on a `contenteditable` element.');
+    }
+
+    return browser.executeScript(`arguments[0].textContent = arguments[1];`, this.element, value);
   }
 
   /**

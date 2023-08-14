@@ -6,14 +6,9 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {normalize} from '@angular-devkit/core';
-import {
-  ProjectDefinition,
-  WorkspaceDefinition,
-  WorkspaceHost,
-} from '@angular-devkit/core/src/workspace';
-import {readJsonWorkspace} from '@angular-devkit/core/src/workspace/json/reader';
+import {normalize, workspaces} from '@angular-devkit/core';
 import {Tree} from '@angular-devkit/schematics';
+import {getWorkspace} from '@schematics/angular/utility/workspace';
 import {WorkspacePath} from '../update-tool/file-system';
 
 /**
@@ -31,7 +26,7 @@ const defaultWorkspaceConfigPaths = ['/angular.json', '/.angular.json'];
  *
  */
 export function getTargetTsconfigPath(
-  project: ProjectDefinition,
+  project: workspaces.ProjectDefinition,
   targetName: string,
 ): WorkspacePath | null {
   const tsconfig = project.targets?.get(targetName)?.options?.tsConfig;
@@ -46,18 +41,15 @@ export function getTargetTsconfigPath(
  */
 export async function getWorkspaceConfigGracefully(
   tree: Tree,
-): Promise<WorkspaceDefinition | null> {
+): Promise<workspaces.WorkspaceDefinition | null> {
   const path = defaultWorkspaceConfigPaths.find(filePath => tree.exists(filePath));
-  const configBuffer = tree.read(path!);
 
-  if (!path || !configBuffer) {
+  if (!path) {
     return null;
   }
 
   try {
-    return await readJsonWorkspace(path, {
-      readFile: async filePath => tree.read(filePath)!.toString(),
-    } as WorkspaceHost);
+    return getWorkspace(tree, path);
   } catch {
     return null;
   }

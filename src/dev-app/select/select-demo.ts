@@ -16,6 +16,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 /**
  * Error any time control is invalid
@@ -32,6 +33,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
+type DisableDrinkOption = 'none' | 'first-middle-last' | 'all';
+
 @Component({
   selector: 'select-demo',
   templateUrl: 'select-demo.html',
@@ -42,6 +45,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     FormsModule,
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
     MatIconModule,
     MatInputModule,
     MatSelectModule,
@@ -53,7 +57,9 @@ export class SelectDemo {
   drinkObjectRequired = false;
   pokemonRequired = false;
   drinksDisabled = false;
+  drinksOptionsDisabled: DisableDrinkOption = 'none';
   pokemonDisabled = false;
+  pokemonOptionsDisabled = false;
   showSelect = false;
   currentDrink: string;
   currentDrinkObject: {} | undefined = {value: 'tea-5', viewValue: 'Tea'};
@@ -71,6 +77,12 @@ export class SelectDemo {
   compareByValue = true;
   selectFormControl = new FormControl('', Validators.required);
 
+  sandwichBread = '';
+  sandwichMeat = '';
+  sandwichCheese = '';
+
+  sandwichHideSingleSelectionIndicator = false;
+
   foods = [
     {value: null, viewValue: 'None'},
     {value: 'steak-0', viewValue: 'Steak'},
@@ -79,19 +91,19 @@ export class SelectDemo {
   ];
 
   drinks = [
-    {value: 'coke-0', viewValue: 'Coke', disabled: false},
+    {value: 'coke-0', viewValue: 'Coke'},
     {
       value: 'long-name-1',
       viewValue: 'Decaf Chocolate Brownie Vanilla Gingerbread Frappuccino',
       disabled: false,
     },
-    {value: 'water-2', viewValue: 'Water', disabled: false},
-    {value: 'pepper-3', viewValue: 'Dr. Pepper', disabled: false},
-    {value: 'coffee-4', viewValue: 'Coffee', disabled: false},
-    {value: 'tea-5', viewValue: 'Tea', disabled: false},
-    {value: 'juice-6', viewValue: 'Orange juice', disabled: false},
-    {value: 'wine-7', viewValue: 'Wine', disabled: false},
-    {value: 'milk-8', viewValue: 'Milk', disabled: true},
+    {value: 'water-2', viewValue: 'Water'},
+    {value: 'pepper-3', viewValue: 'Dr. Pepper'},
+    {value: 'coffee-4', viewValue: 'Coffee'},
+    {value: 'tea-5', viewValue: 'Tea'},
+    {value: 'juice-6', viewValue: 'Orange juice'},
+    {value: 'wine-7', viewValue: 'Wine'},
+    {value: 'milk-8', viewValue: 'Milk'},
   ];
 
   pokemon = [
@@ -154,6 +166,26 @@ export class SelectDemo {
     {value: 'indramon-5', viewValue: 'Indramon'},
   ];
 
+  breads = [
+    {value: 'white', viewValue: 'White'},
+    {value: 'white', viewValue: 'Wheat'},
+    {value: 'white', viewValue: 'Sourdough'},
+  ];
+
+  meats = [
+    {value: 'turkey', viewValue: 'Turkey'},
+    {value: 'bacon', viewValue: 'Bacon'},
+    {value: 'veggiePatty', viewValue: 'Veggie Patty'},
+    {value: 'tuna', viewValue: 'Tuna'},
+  ];
+
+  cheeses = [
+    {value: 'none', viewValue: 'None'},
+    {value: 'swiss', viewValue: 'Swiss'},
+    {value: 'american', viewValue: 'American'},
+    {value: 'cheddar', viewValue: 'Cheddar'},
+  ];
+
   toggleDisabled() {
     this.foodControl.enabled ? this.foodControl.disable() : this.foodControl.enable();
   }
@@ -178,5 +210,19 @@ export class SelectDemo {
 
   toggleSelected() {
     this.currentAppearanceValue = this.currentAppearanceValue ? null : this.digimon[0].value;
+  }
+
+  isDrinkOptionDisabled(index: number) {
+    if (this.drinksOptionsDisabled === 'all') {
+      return true;
+    }
+    if (this.drinksOptionsDisabled === 'first-middle-last') {
+      return (
+        index === 0 ||
+        index === this.drinks.length - 1 ||
+        index === Math.floor(this.drinks.length / 2)
+      );
+    }
+    return false;
   }
 }

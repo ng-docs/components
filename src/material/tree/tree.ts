@@ -33,5 +33,7 @@ import {MatTreeNodeOutlet} from './outlet';
 })
 export class MatTree<T, K = T> extends CdkTree<T, K> {
   // Outlets within the tree's template where the dataNodes will be inserted.
-  @ViewChild(MatTreeNodeOutlet, {static: true}) override _nodeOutlet: MatTreeNodeOutlet;
+  // We need an initializer here to avoid a TS error. The value will be set in `ngAfterViewInit`.
+  @ViewChild(MatTreeNodeOutlet, {static: true}) override _nodeOutlet: MatTreeNodeOutlet =
+    undefined!;
 }

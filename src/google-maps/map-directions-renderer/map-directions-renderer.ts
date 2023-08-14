@@ -18,6 +18,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import {Observable} from 'rxjs';
 import {GoogleMap} from '../google-map/google-map';
@@ -39,7 +40,7 @@ import {MapEventManager} from '../map-event-manager';
   exportAs: 'mapDirectionsRenderer',
 })
 export class MapDirectionsRenderer implements OnInit, OnChanges, OnDestroy {
-  private _eventManager = new MapEventManager(this._ngZone);
+  private _eventManager = new MapEventManager(inject(NgZone));
 
   /**
    * See developers.google.com/maps/documentation/javascript/reference/directions#DirectionsRendererOptions.directions

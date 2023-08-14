@@ -103,15 +103,15 @@ describe('theming api', () => {
         )
       ));
 
-      // Updates the "icon" foreground color to "canary".
+      // Updates the "icon" foreground color to hotpink.
       $color: map-get($theme, color);
       $theme: map-merge($color,
-        (foreground: map-merge(map-get($color, foreground), (icon: "canary"))));
+        (foreground: map-merge(map-get($color, foreground), (icon: hotpink))));
 
       @include angular-material-theme($theme);
     `);
 
-    expect(result).toContain(': "canary"');
+    expect(result).toContain(': hotpink');
   });
 
   it('should warn if default density styles are duplicated', () => {
@@ -218,9 +218,15 @@ describe('theming api', () => {
         return;
       }
       node.selectors.forEach(selector => {
-        // Only check selectors that match the specified base selector.
-        if (baseSelector && !baseSelectorRegex.test(selector)) {
-          return;
+        if (baseSelector && selector === baseSelector) {
+          // Styles emitted directly to the baseSelector are emitted to html
+          // when there is no baseSelector.
+          selector = 'html';
+        } else {
+          // Only check selectors that match the specified base selector.
+          if (baseSelector && !baseSelectorRegex.test(selector)) {
+            return;
+          }
         }
         selector = selector.replace(baseSelectorRegex, '');
         const matchingRule = knownDensitySelectors.get(selector);

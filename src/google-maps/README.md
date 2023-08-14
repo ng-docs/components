@@ -14,47 +14,15 @@ File any bugs against the [angular/components repo](https://github.com/angular/c
 
 To install, run `npm install @angular/google-maps`.
 
-要安装它，请运行 `npm install @angular/google-maps`。
+## Getting the API Key
+
+## 获取 API 秘钥
+
+Follow [these steps](https://developers.google.com/maps/gmp-get-started) to get an API key that can be used to load Google Maps.
+
+按照[以下步骤操作](https://developers.google.com/maps/gmp-get-started)，获取可用于加载 Google 地图的 API 密钥。
 
 ## Loading the API
-
-## 加载 API
-
-- First follow [these steps](https://developers.google.com/maps/gmp-get-started) to get an API key that can be used to load Google Maps.
-
-  首先，按照[以下步骤操作](https://developers.google.com/maps/gmp-get-started)，获取可用于加载 Google 地图的 API 密钥。
-
-- Load the [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API).
-
-  加载 [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API)。
-
-- The Google Maps JavaScript API must be loaded before the `GoogleMap` component.
-
-  谷歌地图 JavaScript API 必须在 `GoogleMap` 组件之前加载。
-
-```html
-<!-- index.html -->
-<!doctype html>
-<head>
-  ...
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
-</head>
-```
-
-**Note:**
-If you're using the `<map-heatmap-layer>` directive, you also have to include the `visualization`
-library when loading the Google Maps API. To do so, you can add `&libraries=visualization` to the
-script URL:
-
-**注意：**如果你正在使用 `<map-heatmap-layer>` 指令，则在加载 Google Maps API 时还必须包含 `visualization` 库。为此，你可以将 `&libraries=visualization` 添加到脚本 URL：
-
-```html
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization"></script>
-```
-
-## Lazy Loading the API
-
-## 惰性加载 API
 
 The API can be loaded when the component is actually used by using the Angular HttpClient jsonp
 method to make sure that the component doesn't load until after the API has loaded.
@@ -102,6 +70,10 @@ export class GoogleMapsDemoComponent {
   apiLoaded: Observable<boolean>;
 
   constructor(httpClient: HttpClient) {
+    // If you're using the `<map-heatmap-layer>` directive, you also have to include the `visualization` library 
+    // when loading the Google Maps API. To do so, you can add `&libraries=visualization` to the script URL:
+    // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=visualization
+
     this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE', 'callback')
         .pipe(
           map(() => true),

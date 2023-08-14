@@ -130,12 +130,12 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
     return !!(this._parent && this._parent.disableRipple);
   }
 
-  /**
-   * Event emitted when the option is selected or deselected.
-   *
-   * 选择或取消选择该选项时发出的事件。
-   *
-   */
+  /** Whether to display checkmark for single-selection. */
+  get hideSingleSelectionIndicator(): boolean {
+    return !!(this._parent && this._parent.hideSingleSelectionIndicator);
+  }
+
+  /** Event emitted when the option is selected or deselected. */
   // tslint:disable-next-line:no-output-on-prefix
   @Output() readonly onSelectionChange = new EventEmitter<MatOptionSelectionChange<T>>();
 
@@ -157,7 +157,7 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
 
   constructor(
     private _element: ElementRef<HTMLElement>,
-    private _changeDetectorRef: ChangeDetectorRef,
+    public _changeDetectorRef: ChangeDetectorRef,
     private _parent: MatOptionParentComponent,
     readonly group: _MatOptgroupBase,
   ) {}
@@ -193,11 +193,14 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
    * 选择此选项。
    *
    */
-  select(): void {
+  select(emitEvent = true): void {
     if (!this._selected) {
       this._selected = true;
       this._changeDetectorRef.markForCheck();
-      this._emitSelectionChangeEvent();
+
+      if (emitEvent) {
+        this._emitSelectionChangeEvent();
+      }
     }
   }
 
@@ -207,11 +210,14 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
    * 取消选择此选项。
    *
    */
-  deselect(): void {
+  deselect(emitEvent = true): void {
     if (this._selected) {
       this._selected = false;
       this._changeDetectorRef.markForCheck();
-      this._emitSelectionChangeEvent();
+
+      if (emitEvent) {
+        this._emitSelectionChangeEvent();
+      }
     }
   }
 
@@ -301,25 +307,10 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
     }
   }
 
-  /**
-   * Gets the `aria-selected` value for the option. We explicitly omit the `aria-selected`
-   * attribute from single-selection, unselected options. Including the `aria-selected="false"`
-   * attributes adds a significant amount of noise to screen-reader users without providing useful
-   * information.
-   *
-   * 获取该选项的 `aria-selected` 值。我们未选中的选项中显式省略了单选的 `aria-selected` 属性。如果包含 `aria-selected="false"` 属性会在未提供有用信息的情况下为屏幕阅读器用户带来大量干扰。
-   *
-   */
-  _getAriaSelected(): boolean | null {
-    return this.selected || (this.multiple ? false : null);
-  }
-
-  /**
-   * Returns the correct tabindex for the option depending on disabled state.
-   *
-   * 根据禁用状态返回此选项的正确 tabindex。
-   *
-   */
+  /** Returns the correct tabindex for the option depending on disabled state. */
+  // This method is only used by `MatLegacyOption`. Keeping it here to avoid breaking the types.
+  // That's because `MatLegacyOption` use `MatOption` type in a few places such as
+  // `MatOptionSelectionChange`. It is safe to delete this when `MatLegacyOption` is deleted.
   _getTabIndex(): string {
     return this.disabled ? '-1' : '0';
   }
@@ -379,17 +370,25 @@ export class _MatOptionBase<T = any> implements FocusableOption, AfterViewChecke
   exportAs: 'matOption',
   host: {
     'role': 'option',
-    '[attr.tabindex]': '_getTabIndex()',
     '[class.mdc-list-item--selected]': 'selected',
     '[class.mat-mdc-option-multiple]': 'multiple',
     '[class.mat-mdc-option-active]': 'active',
     '[class.mdc-list-item--disabled]': 'disabled',
     '[id]': 'id',
-    '[attr.aria-selected]': '_getAriaSelected()',
+    // Set aria-selected to false for non-selected items and true for selected items. Conform to
+    // [WAI ARIA Listbox authoring practices guide](
+    //  https://www.w3.org/WAI/ARIA/apg/patterns/listbox/), "If any options are selected, each
+    // selected option has either aria-selected or aria-checked  set to true. All options that are
+    // selectable but not selected have either aria-selected or aria-checked set to false." Align
+    // aria-selected implementation of Chips and List components.
+    //
+    // Set `aria-selected="false"` on not-selected listbox options to fix VoiceOver announcing
+    // every option as "selected" (#21491).
+    '[attr.aria-selected]': 'selected',
     '[attr.aria-disabled]': 'disabled.toString()',
     '(click)': '_selectViaInteraction()',
     '(keydown)': '_handleKeydown($event)',
-    'class': 'mat-mdc-option mat-mdc-focus-indicator mdc-list-item',
+    'class': 'mat-mdc-option mdc-list-item',
   },
   styleUrls: ['option.css'],
   templateUrl: 'option.html',

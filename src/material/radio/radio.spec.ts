@@ -471,6 +471,19 @@ describe('MDC-based MatRadio', () => {
         }),
       ).toEqual(['-1', '-1', '0']);
     });
+
+    it('should clear the selected radio button but preserve the value on destroy', () => {
+      radioLabelElements[0].click();
+      fixture.detectChanges();
+      expect(groupInstance.selected).toBe(radioInstances[0]);
+      expect(groupInstance.value).toBe('fire');
+
+      fixture.componentInstance.isFirstShown = false;
+      fixture.detectChanges();
+
+      expect(groupInstance.selected).toBe(null);
+      expect(groupInstance.value).toBe('fire');
+    });
   });
 
   describe('group with ngModel', () => {
@@ -807,6 +820,15 @@ describe('MDC-based MatRadio', () => {
       }
     });
 
+    it('should focus on underlying input element when clicking on the touch target', () => {
+      const input = radioDebugElements[0].nativeElement.querySelector('input');
+      expect(document.activeElement).not.toBe(input);
+
+      radioDebugElements[0].nativeElement.querySelector('.mat-mdc-radio-touch-target').click();
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(input);
+    });
+
     it('should not change focus origin if origin not specified', () => {
       fruitRadioInstances[0].focus(undefined, 'mouse');
       fruitRadioInstances[1].focus();
@@ -986,7 +1008,7 @@ describe('MatRadioDefaultOverrides', () => {
                   [value]="groupValue"
                   name="test-name">
     <mat-radio-button value="fire" [disableRipple]="disableRipple" [disabled]="isFirstDisabled"
-                     [color]="color">
+                     [color]="color" *ngIf="isFirstShown">
       Charmander
     </mat-radio-button>
     <mat-radio-button value="water" [disableRipple]="disableRipple" [color]="color">
@@ -1000,12 +1022,13 @@ describe('MatRadioDefaultOverrides', () => {
 })
 class RadiosInsideRadioGroup {
   labelPos: 'before' | 'after';
-  isFirstDisabled: boolean = false;
-  isGroupDisabled: boolean = false;
-  isGroupRequired: boolean = false;
+  isFirstDisabled = false;
+  isGroupDisabled = false;
+  isGroupRequired = false;
   groupValue: string | null = null;
-  disableRipple: boolean = false;
+  disableRipple = false;
   color: string | null;
+  isFirstShown = true;
 }
 
 @Component({

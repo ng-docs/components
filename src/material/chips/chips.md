@@ -68,7 +68,7 @@ Use `<mat-chip-grid>` and `<mat-chip-row>` for assisting users with text entry.
 
 使用 `<mat-chip-grid>` 和 `<mat-chip-row>` 来帮助用户输入文本。
 
-Chips are always used inside a container. To create chips connected to an input field, start by creating a `<mat-chip-grid>` as the container. Add an `<input/>` element, and register it to the `<mat-chip-grid>` by passing the `matChipInputFor` Input. Always use an `<input/>` elemnt with `<mat-chip-grid>`. Nest a `<mat-chip-row>` element inside the `<mat-chip-grid>` for each piece of data entered by the user. An example of of using chips for text input.
+Chips are always used inside a container. To create chips connected to an input field, start by creating a `<mat-chip-grid>` as the container. Add an `<input/>` element, and register it to the `<mat-chip-grid>` by passing the `matChipInputFor` Input. Always use an `<input/>` element with `<mat-chip-grid>`. Nest a `<mat-chip-row>` element inside the `<mat-chip-grid>` for each piece of data entered by the user. An example of using chips for text input.
 
 纸片总是在容器内使用。要创建连接到输入字段的纸片，首先创建一个 `<mat-chip-grid>` 作为容器。添加一个 `<input/>` 元素，并通过把 `matChipInputFor` 传给 Input 将其注册到 `<mat-chip-grid>` 。始终将 `<input/>` 元素与 `<mat-chip-grid>` 一起使用。为用户输入的每条数据在 `<mat-chip-grid>` 中嵌套一个 `<mat-chip-row>` 元素。使用纸片进行文本输入的示例。
 
@@ -155,7 +155,7 @@ To create a remove button, nest a `<button>` element with `matChipRemove` attrib
 </mat-chip-option>
 ```
 
-See the [accessibility](#accessibility) section for how to create accessible icons.
+See the [accessibility](#accessibility) section for best practices on implementing the `removed` Output and creating accessible icons.
 
 有关如何创建无障碍图标的信息，请参阅[无障碍性](#accessibility)部分。
 
@@ -293,3 +293,9 @@ Always apply MatChipRemove to a `<button>` element, never a `<mat-icon>` element
 When using MatChipListbox, never nest other interactive controls inside of the `<mat-chip-option>` element. Nesting controls degrades the experience for assistive technology users.
 
 使用 MatChipListbox 时，切勿在 `<mat-chip-option>` 元素内嵌套其他交互式控件。嵌套控件会降低辅助技术用户的体验。
+
+By default, `MatChipListbox` displays a checkmark to identify selected items. While you can hide the checkmark indicator for single-selection via `hideSingleSelectionIndicator`, this makes the component less accessible by making it harder or impossible for users to visually identify selected items.
+
+When using `MatChipRemove`, you should always communicate removals for assistive technology. One way to accomplish this is by sending a message with `LiveAnnouncer`. Otherwise, removing a chip may only be communicated visually.
+
+When a chip is editable, provide instructions to assistive technology how to edit the chip using a keyboard. One way to accomplish this is adding an `aria-description` attribute with instructions to press enter to edit the chip.

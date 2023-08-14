@@ -6,9 +6,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
-import {isJsonObject, JsonObject} from '@angular-devkit/core';
+import {isJsonObject, JsonObject, workspaces} from '@angular-devkit/core';
 import {Schema, Style} from '@schematics/angular/component/schema';
+import {isStandaloneApp} from '@schematics/angular/utility/ng-ast-utils';
+import {getProjectMainFile} from './project-main-file';
+import {getWorkspace} from '@schematics/angular/utility/workspace';
+import {getProjectFromWorkspace} from './get-project';
+import {Tree} from '@angular-devkit/schematics';
 
 /**
  * Returns the default options for the `@schematics/angular:component` schematic which would
@@ -22,7 +26,7 @@ import {Schema, Style} from '@schematics/angular/component/schema';
  * 这是必需的，因为 Angular CLI 仅向“组件”原理图暴露 "--style"、"--inlineStyle"、"--skipTests" 和 "--inlineTemplate" 选项的默认值。
  *
  */
-export function getDefaultComponentOptions(project: ProjectDefinition): Partial<Schema> {
+export function getDefaultComponentOptions(project: workspaces.ProjectDefinition): Partial<Schema> {
   // Note: Not all options which are available when running "ng new" will be stored in the
   // workspace config. List of options which will be available in the configuration:
   // angular/angular-cli/blob/main/packages/schematics/angular/application/index.ts#L109-L131
@@ -43,6 +47,25 @@ export function getDefaultComponentOptions(project: ProjectDefinition): Partial<
   };
 }
 
+/** Determines whether the schematic is configured to be standalone. */
+export async function isStandaloneSchematic(host: Tree, options: Schema): Promise<boolean> {
+  if (options.standalone != null) {
+    return options.standalone;
+  }
+
+  // If the `--standalone` flag isn't passed and there isn't a default, infer based on the project.
+  const workspace = await getWorkspace(host);
+  const project = getProjectFromWorkspace(workspace, options.project);
+
+  // Legacy projects might not have a `build` target, but they're likely
+  // not on an Angular version that supports standalone either.
+  if (!project.targets?.has('build')) {
+    return false;
+  }
+
+  return isStandaloneApp(host, getProjectMainFile(project));
+}
+
 /**
  * Gets the default value for the specified option. The default options will be determined
  * by looking at the stored schematic options for `@schematics/angular:component` in the
@@ -52,7 +75,7 @@ export function getDefaultComponentOptions(project: ProjectDefinition): Partial<
  *
  */
 function getDefaultComponentOption<T>(
-  project: ProjectDefinition,
+  project: workspaces.ProjectDefinition,
   optionNames: string[],
   fallbackValue: T,
 ): T {

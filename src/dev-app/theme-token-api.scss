@@ -1,0 +1,48 @@
+@use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
+
+dev-app {
+  &::before {
+    content: 'Using experimental theming API';
+    display: inline-block;
+    position: fixed;
+    z-index: 100;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px;
+    background: red;
+    color: white;
+  }
+}
+
+.demo-unicorn-dark-theme {
+  background: black;
+  color: white;
+}
+
+@include mat.core();
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: mat.define-palette(mat.$indigo-palette),
+    accent: mat.define-palette(mat.$pink-palette),
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// Apply all tokens (derived from `$theme`) to the `html` element. This ensures that all components
+// on the page will inherit these tokens.
+html {
+  @include matx.theme(
+    matx.token-defaults(matx.get-m3-tokens()),
+    matx.card(),
+    matx.checkbox(),
+  );
+}
+
+// TODO(mmalerba): Figure out a consistent solution for handling dark themes & color palette
+//  variants across M2 & M3 (likely by implementing `matx.system-colors`). As a reference, see the
+//  prior version of this file that showed a possible way to accomplish this in M2:
+//  https://github.com/angular/components/blob/5f5c5160dc20331619fc6729aa2ad78ac84af1c3/src/dev-app/theme-token-api.scss

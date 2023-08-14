@@ -1,8 +1,6 @@
-load("//src/e2e-app:test_suite.bzl", "e2e_test_suite")
 load(
     "//tools:defaults.bzl",
     "markdown_to_html",
-    "ng_e2e_test_library",
     "ng_module",
     "ng_test_library",
     "ng_web_test_suite",
@@ -24,7 +22,6 @@ ng_module(
         "//src/cdk/overlay",
         "//src/cdk/portal",
         "//src/material/core",
-        "@npm//@material/dialog",
     ],
 )
 
@@ -55,7 +52,6 @@ ng_test_library(
     name = "dialog_tests_lib",
     srcs = glob(
         ["**/*.spec.ts"],
-        exclude = ["**/*.e2e.spec.ts"],
     ),
     deps = [
         ":dialog",
@@ -69,7 +65,6 @@ ng_test_library(
         "//src/cdk/testing/private",
         "@npm//@angular/common",
         "@npm//@angular/platform-browser",
-        "@npm//@material/dialog",
         "@npm//rxjs",
     ],
 )
@@ -78,22 +73,6 @@ ng_web_test_suite(
     name = "unit_tests",
     deps = [
         ":dialog_tests_lib",
-    ],
-)
-
-ng_e2e_test_library(
-    name = "e2e_test_sources",
-    srcs = glob(["**/*.e2e.spec.ts"]),
-    deps = [
-        "//src/cdk/testing/private/e2e",
-    ],
-)
-
-e2e_test_suite(
-    name = "e2e_tests",
-    deps = [
-        ":e2e_test_sources",
-        "//src/cdk/testing/private/e2e",
     ],
 )
 

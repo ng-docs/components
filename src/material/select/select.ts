@@ -6,7 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ActiveDescendantKeyManager, LiveAnnouncer} from '@angular/cdk/a11y';
+import {
+  ActiveDescendantKeyManager,
+  LiveAnnouncer,
+  addAriaReferencedId,
+  removeAriaReferencedId,
+} from '@angular/cdk/a11y';
 import {Directionality} from '@angular/cdk/bidi';
 import {
   BooleanInput,
@@ -35,7 +40,6 @@ import {
 import {ViewportRuler} from '@angular/cdk/scrolling';
 import {
   AfterContentInit,
-  AfterViewInit,
   Attribute,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -155,6 +159,15 @@ export interface MatSelectConfig {
    *
    */
   overlayPanelClass?: string | string[];
+
+  /** Wheter icon indicators should be hidden for single-selection. */
+  hideSingleSelectionIndicator?: boolean;
+
+  /**
+   * Width of the panel. If set to `auto`, the panel will match the trigger width.
+   * If set to null or an empty string, the panel will grow to match the longest option's text.
+   */
+  panelWidth?: string | number | null;
 }
 
 /**
@@ -757,7 +770,7 @@ export abstract class _MatSelectBase<C>
     @Attribute('tabindex') tabIndex: string,
     @Inject(MAT_SELECT_SCROLL_STRATEGY) scrollStrategyFactory: any,
     private _liveAnnouncer: LiveAnnouncer,
-    @Optional() @Inject(MAT_SELECT_CONFIG) private _defaultOptions?: MatSelectConfig,
+    @Optional() @Inject(MAT_SELECT_CONFIG) protected _defaultOptions?: MatSelectConfig,
   ) {
     super(elementRef, _defaultErrorStateMatcher, _parentForm, _parentFormGroup, ngControl);
 
@@ -859,6 +872,7 @@ export abstract class _MatSelectBase<C>
     this._destroy.next();
     this._destroy.complete();
     this.stateChanges.complete();
+    this._clearFromModal();
   }
 
   /**
@@ -879,6 +893,8 @@ export abstract class _MatSelectBase<C>
    */
   open(): void {
     if (this._canOpen()) {
+      this._applyModalPanelOwnership();
+
       this._panelOpen = true;
       this._keyManager.withHorizontalOrientation(null);
       this._highlightCorrectOption();
@@ -887,11 +903,71 @@ export abstract class _MatSelectBase<C>
   }
 
   /**
-   * Closes the overlay panel and focuses the host element.
-   *
-   * 关闭浮层窗格并让宿主元素获得焦点。
-   *
+   * Track which modal we have modified the `aria-owns` attribute of. When the combobox trigger is
+   * inside an aria-modal, we apply aria-owns to the parent modal with the `id` of the options
+   * panel. Track the modal we have changed so we can undo the changes on destroy.
    */
+  private _trackedModal: Element | null = null;
+
+  /**
+   * If the autocomplete trigger is inside of an `aria-modal` element, connect
+   * that modal to the options panel with `aria-owns`.
+   *
+   * For some browser + screen reader combinations, when navigation is inside
+   * of an `aria-modal` element, the screen reader treats everything outside
+   * of that modal as hidden or invisible.
+   *
+   * This causes a problem when the combobox trigger is _inside_ of a modal, because the
+   * options panel is rendered _outside_ of that modal, preventing screen reader navigation
+   * from reaching the panel.
+   *
+   * We can work around this issue by applying `aria-owns` to the modal with the `id` of
+   * the options panel. This effectively communicates to assistive technology that the
+   * options panel is part of the same interaction as the modal.
+   *
+   * At time of this writing, this issue is present in VoiceOver.
+   * See https://github.com/angular/components/issues/20694
+   */
+  private _applyModalPanelOwnership() {
+    // TODO(http://github.com/angular/components/issues/26853): consider de-duplicating this with
+    // the `LiveAnnouncer` and any other usages.
+    //
+    // Note that the selector here is limited to CDK overlays at the moment in order to reduce the
+    // section of the DOM we need to look through. This should cover all the cases we support, but
+    // the selector can be expanded if it turns out to be too narrow.
+    const modal = this._elementRef.nativeElement.closest(
+      'body > .cdk-overlay-container [aria-modal="true"]',
+    );
+
+    if (!modal) {
+      // Most commonly, the autocomplete trigger is not inside a modal.
+      return;
+    }
+
+    const panelId = `${this.id}-panel`;
+
+    if (this._trackedModal) {
+      removeAriaReferencedId(this._trackedModal, 'aria-owns', panelId);
+    }
+
+    addAriaReferencedId(modal, 'aria-owns', panelId);
+    this._trackedModal = modal;
+  }
+
+  /** Clears the reference to the listbox overlay element from the modal it was added to. */
+  private _clearFromModal() {
+    if (!this._trackedModal) {
+      // Most commonly, the autocomplete trigger is not used inside a modal.
+      return;
+    }
+
+    const panelId = `${this.id}-panel`;
+
+    removeAriaReferencedId(this._trackedModal, 'aria-owns', panelId);
+    this._trackedModal = null;
+  }
+
+  /** Closes the overlay panel and focuses the host element. */
   close(): void {
     if (this._panelOpen) {
       this._panelOpen = false;
@@ -1201,7 +1277,7 @@ export abstract class _MatSelectBase<C>
    *
    */
   private _setSelectionByValue(value: any | any[]): void {
-    this._selectionModel.selected.forEach(option => option.setInactiveStyles());
+    this.options.forEach(option => option.setInactiveStyles());
     this._selectionModel.clear();
 
     if (this.multiple && value) {
@@ -1283,6 +1359,10 @@ export abstract class _MatSelectBase<C>
     return false;
   }
 
+  protected _skipPredicate(item: MatOption): boolean {
+    return item.disabled;
+  }
+
   /**
    * Sets up a key manager to listen to keyboard events on the overlay panel.
    *
@@ -1296,7 +1376,8 @@ export abstract class _MatSelectBase<C>
       .withHorizontalOrientation(this._isRtl() ? 'rtl' : 'ltr')
       .withHomeAndEnd()
       .withPageUpDown()
-      .withAllowedModifierKeys(['shiftKey']);
+      .withAllowedModifierKeys(['shiftKey'])
+      .skipPredicate(this._skipPredicate);
 
     this._keyManager.tabOut.subscribe(() => {
       if (this.panelOpen) {
@@ -1443,7 +1524,7 @@ export abstract class _MatSelectBase<C>
 
   /**
    * Highlights the selected item. If no option is selected, it will highlight
-   * the first item instead.
+   * the first *enabled* option.
    *
    * 突出显示选定条目。如果没有选定的选项，它会突出显示第一个条目。
    *
@@ -1451,7 +1532,19 @@ export abstract class _MatSelectBase<C>
   private _highlightCorrectOption(): void {
     if (this._keyManager) {
       if (this.empty) {
-        this._keyManager.setFirstItemActive();
+        // Find the index of the first *enabled* option. Avoid calling `_keyManager.setActiveItem`
+        // because it activates the first option that passes the skip predicate, rather than the
+        // first *enabled* option.
+        let firstEnabledOptionIndex = -1;
+        for (let index = 0; index < this.options.length; index++) {
+          const option = this.options.get(index)!;
+          if (!option.disabled) {
+            firstEnabledOptionIndex = index;
+            break;
+          }
+        }
+
+        this._keyManager.setActiveItem(firstEnabledOptionIndex);
       } else {
         this._keyManager.setActiveItem(this._selectionModel.selected[0]);
       }
@@ -1612,6 +1705,7 @@ export class MatSelectTrigger {}
     '[attr.aria-disabled]': 'disabled.toString()',
     '[attr.aria-invalid]': 'errorState',
     '[attr.aria-activedescendant]': '_getAriaActiveDescendant()',
+    'ngSkipHydration': '',
     '[class.mat-mdc-select-disabled]': 'disabled',
     '[class.mat-mdc-select-invalid]': 'errorState',
     '[class.mat-mdc-select-required]': 'required',
@@ -1627,10 +1721,19 @@ export class MatSelectTrigger {}
     {provide: MAT_OPTION_PARENT_COMPONENT, useExisting: MatSelect},
   ],
 })
-export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit, AfterViewInit {
+export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit {
   @ContentChildren(MatOption, {descendants: true}) options: QueryList<MatOption>;
   @ContentChildren(MAT_OPTGROUP, {descendants: true}) optionGroups: QueryList<MatOptgroup>;
   @ContentChild(MAT_SELECT_TRIGGER) customTrigger: MatSelectTrigger;
+
+  /**
+   * Width of the panel. If set to `auto`, the panel will match the trigger width.
+   * If set to null or an empty string, the panel will grow to match the longest option's text.
+   */
+  @Input() panelWidth: string | number | null =
+    this._defaultOptions && typeof this._defaultOptions.panelWidth !== 'undefined'
+      ? this._defaultOptions.panelWidth
+      : 'auto';
 
   _positions: ConnectedPosition[] = [
     {
@@ -1640,9 +1743,22 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
       overlayY: 'top',
     },
     {
+      originX: 'end',
+      originY: 'bottom',
+      overlayX: 'end',
+      overlayY: 'top',
+    },
+    {
       originX: 'start',
       originY: 'top',
       overlayX: 'start',
+      overlayY: 'bottom',
+      panelClass: 'mat-mdc-select-panel-above',
+    },
+    {
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
       overlayY: 'bottom',
       panelClass: 'mat-mdc-select-panel-above',
     },
@@ -1662,7 +1778,7 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
    * 浮层面板的宽度。
    *
    */
-  _overlayWidth: number;
+  _overlayWidth: string | number;
 
   override get shouldLabelFloat(): boolean {
     // Since the panel doesn't overlap the trigger, we
@@ -1677,23 +1793,23 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
       .pipe(takeUntil(this._destroy))
       .subscribe(() => {
         if (this.panelOpen) {
-          this._overlayWidth = this._getOverlayWidth();
+          this._overlayWidth = this._getOverlayWidth(this._preferredOverlayOrigin);
           this._changeDetectorRef.detectChanges();
         }
       });
   }
 
-  ngAfterViewInit() {
-    // Note that it's important that we read this in `ngAfterViewInit`, because
-    // reading it earlier will cause the form field to return a different element.
+  override open() {
+    // It's important that we read this as late as possible, because doing so earlier will
+    // return a different element since it's based on queries in the form field which may
+    // not have run yet. Also this needs to be assigned before we measure the overlay width.
     if (this._parentFormField) {
       this._preferredOverlayOrigin = this._parentFormField.getConnectedOverlayOrigin();
     }
-  }
 
-  override open() {
-    this._overlayWidth = this._getOverlayWidth();
+    this._overlayWidth = this._getOverlayWidth(this._preferredOverlayOrigin);
     super.open();
+
     // Required for the MDC form field to pick up when the overlay has been opened.
     this.stateChanges.next();
   }
@@ -1743,11 +1859,64 @@ export class MatSelect extends _MatSelectBase<MatSelectChange> implements OnInit
   }
 
   /** Gets how wide the overlay panel should be. */
-  private _getOverlayWidth() {
-    const refToMeasure =
-      this._preferredOverlayOrigin instanceof CdkOverlayOrigin
-        ? this._preferredOverlayOrigin.elementRef
-        : this._preferredOverlayOrigin || this._elementRef;
-    return refToMeasure.nativeElement.getBoundingClientRect().width;
+  private _getOverlayWidth(
+    preferredOrigin: ElementRef<ElementRef> | CdkOverlayOrigin | undefined,
+  ): string | number {
+    if (this.panelWidth === 'auto') {
+      const refToMeasure =
+        preferredOrigin instanceof CdkOverlayOrigin
+          ? preferredOrigin.elementRef
+          : preferredOrigin || this._elementRef;
+      return refToMeasure.nativeElement.getBoundingClientRect().width;
+    }
+
+    return this.panelWidth === null ? '' : this.panelWidth;
   }
+
+  /** Whether checkmark indicator for single-selection options is hidden. */
+  @Input()
+  get hideSingleSelectionIndicator(): boolean {
+    return this._hideSingleSelectionIndicator;
+  }
+  set hideSingleSelectionIndicator(value: BooleanInput) {
+    this._hideSingleSelectionIndicator = coerceBooleanProperty(value);
+    this._syncParentProperties();
+  }
+  private _hideSingleSelectionIndicator: boolean =
+    this._defaultOptions?.hideSingleSelectionIndicator ?? false;
+
+  /** Syncs the parent state with the individual options. */
+  _syncParentProperties(): void {
+    if (this.options) {
+      for (const option of this.options) {
+        option._changeDetectorRef.markForCheck();
+      }
+    }
+  }
+
+  // `skipPredicate` determines if key manager should avoid putting a given option in the tab
+  // order. Allow disabled list items to receive focus via keyboard to align with WAI ARIA
+  // recommendation.
+  //
+  // Normally WAI ARIA's instructions are to exclude disabled items from the tab order, but it
+  // makes a few exceptions for compound widgets.
+  //
+  // From [Developing a Keyboard Interface](
+  // https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/):
+  //   "For the following composite widget elements, keep them focusable when disabled: Options in a
+  //   Listbox..."
+  //
+  // The user can focus disabled options using the keyboard, but the user cannot click disabled
+  // options.
+  protected override _skipPredicate = (option: MatOption) => {
+    if (this.panelOpen) {
+      // Support keyboard focusing disabled options in an ARIA listbox.
+      return false;
+    }
+
+    // When the panel is closed, skip over disabled options. Support options via the UP/DOWN arrow
+    // keys on a closed select. ARIA listbox interaction pattern is less relevant when the panel is
+    // closed.
+    return option.disabled;
+  };
 }

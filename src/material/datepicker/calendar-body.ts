@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {Platform, normalizePassiveListenerOptions} from '@angular/cdk/platform';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,6 +20,7 @@ import {
   SimpleChanges,
   OnDestroy,
   AfterViewChecked,
+  inject,
 } from '@angular/core';
 import {take} from 'rxjs/operators';
 
@@ -73,6 +75,21 @@ export interface MatCalendarUserEvent<D> {
 
 let calendarBodyId = 1;
 
+/** Event options that can be used to bind an active, capturing event. */
+const activeCapturingEventOptions = normalizePassiveListenerOptions({
+  passive: false,
+  capture: true,
+});
+
+/** Event options that can be used to bind a passive, capturing event. */
+const passiveCapturingEventOptions = normalizePassiveListenerOptions({
+  passive: true,
+  capture: true,
+});
+
+/** Event options that can be used to bind a passive, non-capturing event. */
+const passiveEventOptions = normalizePassiveListenerOptions({passive: true});
+
 /**
  * An internal component used to display calendar data in a table.
  *
@@ -92,6 +109,8 @@ let calendarBodyId = 1;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatCalendarBody<D = any> implements OnChanges, OnDestroy, AfterViewChecked {
+  private _platform = inject(Platform);
+
   /**
    * Used to skip the next focus event when rendering the preview range.
    * We need a flag like this, because some browsers fire focus events asynchronously.
@@ -310,15 +329,22 @@ export class MatCalendarBody<D = any> implements OnChanges, OnDestroy, AfterView
   constructor(private _elementRef: ElementRef<HTMLElement>, private _ngZone: NgZone) {
     _ngZone.runOutsideAngular(() => {
       const element = _elementRef.nativeElement;
-      element.addEventListener('mouseenter', this._enterHandler, true);
-      element.addEventListener('touchmove', this._touchmoveHandler, true);
-      element.addEventListener('focus', this._enterHandler, true);
-      element.addEventListener('mouseleave', this._leaveHandler, true);
-      element.addEventListener('blur', this._leaveHandler, true);
-      element.addEventListener('mousedown', this._mousedownHandler);
-      element.addEventListener('touchstart', this._mousedownHandler);
-      window.addEventListener('mouseup', this._mouseupHandler);
-      window.addEventListener('touchend', this._touchendHandler);
+
+      // `touchmove` is active since we need to call `preventDefault`.
+      element.addEventListener('touchmove', this._touchmoveHandler, activeCapturingEventOptions);
+
+      element.addEventListener('mouseenter', this._enterHandler, passiveCapturingEventOptions);
+      element.addEventListener('focus', this._enterHandler, passiveCapturingEventOptions);
+      element.addEventListener('mouseleave', this._leaveHandler, passiveCapturingEventOptions);
+      element.addEventListener('blur', this._leaveHandler, passiveCapturingEventOptions);
+
+      element.addEventListener('mousedown', this._mousedownHandler, passiveEventOptions);
+      element.addEventListener('touchstart', this._mousedownHandler, passiveEventOptions);
+
+      if (this._platform.isBrowser) {
+        window.addEventListener('mouseup', this._mouseupHandler);
+        window.addEventListener('touchend', this._touchendHandler);
+      }
     });
   }
 
@@ -375,15 +401,21 @@ export class MatCalendarBody<D = any> implements OnChanges, OnDestroy, AfterView
 
   ngOnDestroy() {
     const element = this._elementRef.nativeElement;
-    element.removeEventListener('mouseenter', this._enterHandler, true);
-    element.removeEventListener('touchmove', this._touchmoveHandler, true);
-    element.removeEventListener('focus', this._enterHandler, true);
-    element.removeEventListener('mouseleave', this._leaveHandler, true);
-    element.removeEventListener('blur', this._leaveHandler, true);
-    element.removeEventListener('mousedown', this._mousedownHandler);
-    element.removeEventListener('touchstart', this._mousedownHandler);
-    window.removeEventListener('mouseup', this._mouseupHandler);
-    window.removeEventListener('touchend', this._touchendHandler);
+
+    element.removeEventListener('touchmove', this._touchmoveHandler, activeCapturingEventOptions);
+
+    element.removeEventListener('mouseenter', this._enterHandler, passiveCapturingEventOptions);
+    element.removeEventListener('focus', this._enterHandler, passiveCapturingEventOptions);
+    element.removeEventListener('mouseleave', this._leaveHandler, passiveCapturingEventOptions);
+    element.removeEventListener('blur', this._leaveHandler, passiveCapturingEventOptions);
+
+    element.removeEventListener('mousedown', this._mousedownHandler, passiveEventOptions);
+    element.removeEventListener('touchstart', this._mousedownHandler, passiveEventOptions);
+
+    if (this._platform.isBrowser) {
+      window.removeEventListener('mouseup', this._mouseupHandler);
+      window.removeEventListener('touchend', this._touchendHandler);
+    }
   }
 
   /**

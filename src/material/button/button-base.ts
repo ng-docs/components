@@ -7,6 +7,7 @@
  */
 
 import {FocusMonitor, FocusOrigin} from '@angular/cdk/a11y';
+import {coerceBooleanProperty} from '@angular/cdk/coercion';
 import {Platform} from '@angular/cdk/platform';
 import {
   AfterViewInit,
@@ -16,7 +17,6 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import {
   CanColor,
@@ -26,6 +26,7 @@ import {
   mixinColor,
   mixinDisabled,
   mixinDisableRipple,
+  MatRippleLoader,
 } from '@angular/material/core';
 
 /**
@@ -117,20 +118,47 @@ export class MatButtonBase
   private readonly _focusMonitor = inject(FocusMonitor);
 
   /**
-   * Whether this button is a FAB. Used to apply the correct class on the ripple.
-   *
-   * 此按钮是否为 FAB。用于在涟漪上应用正确的类。
-   *
+   * Handles the lazy creation of the MatButton ripple.
+   * Used to improve initial load time of large applications.
    */
+  _rippleLoader: MatRippleLoader = inject(MatRippleLoader);
+
+  /** Whether this button is a FAB. Used to apply the correct class on the ripple. */
   _isFab = false;
 
   /**
    * Reference to the MatRipple instance of the button.
-   *
-   * 引用此按钮的 MatRipple 实例。
-   *
+   * @deprecated Considered an implementation detail. To be removed.
+   * @breaking-change 17.0.0
    */
-  @ViewChild(MatRipple) ripple: MatRipple;
+  get ripple(): MatRipple {
+    return this._rippleLoader?.getRipple(this._elementRef.nativeElement)!;
+  }
+  set ripple(v: MatRipple) {
+    this._rippleLoader?.attachRipple(this._elementRef.nativeElement, v);
+  }
+
+  // We override `disableRipple` and `disabled` so we can hook into
+  // their setters and update the ripple disabled state accordingly.
+
+  /** Whether the ripple effect is disabled or not. */
+  override get disableRipple(): boolean {
+    return this._disableRipple;
+  }
+  override set disableRipple(value: any) {
+    this._disableRipple = coerceBooleanProperty(value);
+    this._updateRippleDisabled();
+  }
+  private _disableRipple: boolean = false;
+
+  override get disabled(): boolean {
+    return this._disabled;
+  }
+  override set disabled(value: any) {
+    this._disabled = coerceBooleanProperty(value);
+    this._updateRippleDisabled();
+  }
+  private _disabled: boolean = false;
 
   constructor(
     elementRef: ElementRef,
@@ -139,6 +167,10 @@ export class MatButtonBase
     public _animationMode?: string,
   ) {
     super(elementRef);
+
+    this._rippleLoader?.configureRipple(this._elementRef.nativeElement, {
+      className: 'mat-mdc-button-ripple',
+    });
 
     const classList = (elementRef.nativeElement as HTMLElement).classList;
 
@@ -185,8 +217,11 @@ export class MatButtonBase
     return attributes.some(attribute => this._elementRef.nativeElement.hasAttribute(attribute));
   }
 
-  _isRippleDisabled() {
-    return this.disableRipple || this.disabled;
+  private _updateRippleDisabled(): void {
+    this._rippleLoader?.setDisabled(
+      this._elementRef.nativeElement,
+      this.disableRipple || this.disabled,
+    );
   }
 }
 

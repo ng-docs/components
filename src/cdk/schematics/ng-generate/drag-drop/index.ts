@@ -7,7 +7,12 @@
  */
 
 import {chain, noop, Rule, Tree} from '@angular-devkit/schematics';
-import {addModuleImportToModule, buildComponent, findModuleFromOptions} from '../../utils';
+import {
+  addModuleImportToModule,
+  buildComponent,
+  findModuleFromOptions,
+  isStandaloneSchematic,
+} from '../../utils';
 import {Schema} from './schema';
 
 /**
@@ -39,7 +44,11 @@ export default function (options: Schema): Rule {
  */
 function addDragDropModulesToModule(options: Schema) {
   return async (host: Tree) => {
-    const modulePath = await findModuleFromOptions(host, options);
-    addModuleImportToModule(host, modulePath!, 'DragDropModule', '@angular/cdk/drag-drop');
+    const isStandalone = await isStandaloneSchematic(host, options);
+
+    if (!isStandalone) {
+      const modulePath = await findModuleFromOptions(host, options);
+      addModuleImportToModule(host, modulePath!, 'DragDropModule', '@angular/cdk/drag-drop');
+    }
   };
 }

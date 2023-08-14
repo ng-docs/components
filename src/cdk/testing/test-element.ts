@@ -80,6 +80,7 @@ export enum TestKey {
   F11,
   F12,
   META,
+  COMMA, // Commas are a common separator key.
 }
 
 /**
@@ -234,6 +235,13 @@ export interface TestElement {
    *
    */
   text(options?: TextOptions): Promise<string>;
+
+  /**
+   * Sets the value of a `contenteditable` element.
+   * @param value Value to be set on the element.
+   * @breaking-change 16.0.0 Will become a required method.
+   */
+  setContenteditableValue?(value: string): Promise<void>;
 
   /**
    * Gets the value for the given attribute from the element.

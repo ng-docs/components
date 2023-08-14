@@ -8,8 +8,8 @@
 
 import {DOCUMENT} from '@angular/common';
 import {Inject, Injectable, NgZone, Optional} from '@angular/core';
-import {OverlayReference} from '../overlay-reference';
 import {BaseOverlayDispatcher} from './base-overlay-dispatcher';
+import type {OverlayRef} from '../overlay-ref';
 
 /**
  * Service for dispatching keyboard events that land on the body to appropriate overlay ref,
@@ -35,7 +35,7 @@ export class OverlayKeyboardDispatcher extends BaseOverlayDispatcher {
    * 将新的浮层添加到已附加的浮层引用列表中。
    *
    */
-  override add(overlayRef: OverlayReference): void {
+  override add(overlayRef: OverlayRef): void {
     super.add(overlayRef);
 
     // Lazily start dispatcher once first overlay is added

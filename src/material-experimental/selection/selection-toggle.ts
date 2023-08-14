@@ -37,5 +37,5 @@ export class MatSelectionToggle<T> extends CdkSelectionToggle<T> {
    * 与此开关相关联的值
    *
    */
-  @Input('matSelectionToggleValue') override value: T;
+  @Input('matSelectionToggleValue') override value: T = undefined!;
 }

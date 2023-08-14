@@ -25,6 +25,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import {AnimationEvent} from '@angular/animations';
 import {
   MAT_OPTGROUP,
   MAT_OPTION_PARENT_COMPONENT,
@@ -126,12 +127,16 @@ export interface MatAutocompleteDefaultOptions {
   autoSelectActiveOption?: boolean;
 
   /**
-   * Class or list of classes to be applied to the autocomplete's overlay panel.
-   *
-   * 类或类的列表，应用在自动完成器的弹出面板中。
-   *
+   * Whether the user is required to make a selection when
+   * they're interacting with the autocomplete.
    */
+  requireSelection?: boolean;
+
+  /** Class or list of classes to be applied to the autocomplete's overlay panel. */
   overlayPanelClass?: string | string[];
+
+  /** Wheter icon indicators should be hidden for single-selection. */
+  hideSingleSelectionIndicator?: boolean;
 }
 
 /**
@@ -150,7 +155,12 @@ export const MAT_AUTOCOMPLETE_DEFAULT_OPTIONS = new InjectionToken<MatAutocomple
 
 /** @docs-private */
 export function MAT_AUTOCOMPLETE_DEFAULT_OPTIONS_FACTORY(): MatAutocompleteDefaultOptions {
-  return {autoActiveFirstOption: false, autoSelectActiveOption: false};
+  return {
+    autoActiveFirstOption: false,
+    autoSelectActiveOption: false,
+    hideSingleSelectionIndicator: false,
+    requireSelection: false,
+  };
 }
 
 /**
@@ -182,12 +192,10 @@ export abstract class _MatAutocompleteBase
    */
   protected abstract _hiddenClass: string;
 
-  /**
-   * Manages active item in option list based on key events.
-   *
-   * 根据某些关键事件来管理选项列表中的活动条目。
-   *
-   */
+  /** Emits when the panel animation is done. Null if the panel doesn't animate. */
+  abstract _animationDone: EventEmitter<AnimationEvent> | null;
+
+  /** Manages active item in option list based on key events. */
   _keyManager: ActiveDescendantKeyManager<_MatOptionBase>;
 
   /**
@@ -304,6 +312,21 @@ export abstract class _MatAutocompleteBase
   private _autoSelectActiveOption: boolean;
 
   /**
+   * Whether the user is required to make a selection when they're interacting with the
+   * autocomplete. If the user moves away from the autcomplete without selecting an option from
+   * the list, the value will be reset. If the user opens the panel and closes it without
+   * interacting or selecting a value, the initial value will be kept.
+   */
+  @Input()
+  get requireSelection(): boolean {
+    return this._requireSelection;
+  }
+  set requireSelection(value: BooleanInput) {
+    this._requireSelection = coerceBooleanProperty(value);
+  }
+  private _requireSelection: boolean;
+
+  /**
    * Specify the width of the autocomplete panel.  Can be any CSS sizing value, otherwise it will
    * match the width of its host.
    *
@@ -390,7 +413,7 @@ export abstract class _MatAutocompleteBase
   constructor(
     private _changeDetectorRef: ChangeDetectorRef,
     private _elementRef: ElementRef<HTMLElement>,
-    @Inject(MAT_AUTOCOMPLETE_DEFAULT_OPTIONS) defaults: MatAutocompleteDefaultOptions,
+    @Inject(MAT_AUTOCOMPLETE_DEFAULT_OPTIONS) protected _defaults: MatAutocompleteDefaultOptions,
     platform?: Platform,
   ) {
     super();
@@ -400,12 +423,15 @@ export abstract class _MatAutocompleteBase
     // wasn't resolved in VoiceOver, and if it has, we can remove this and the `inertGroups`
     // option altogether.
     this.inertGroups = platform?.SAFARI || false;
-    this._autoActiveFirstOption = !!defaults.autoActiveFirstOption;
-    this._autoSelectActiveOption = !!defaults.autoSelectActiveOption;
+    this._autoActiveFirstOption = !!_defaults.autoActiveFirstOption;
+    this._autoSelectActiveOption = !!_defaults.autoSelectActiveOption;
+    this._requireSelection = !!_defaults.requireSelection;
   }
 
   ngAfterContentInit() {
-    this._keyManager = new ActiveDescendantKeyManager<_MatOptionBase>(this.options).withWrap();
+    this._keyManager = new ActiveDescendantKeyManager<_MatOptionBase>(this.options)
+      .withWrap()
+      .skipPredicate(this._skipPredicate);
     this._activeOptionChanges = this._keyManager.change.subscribe(index => {
       if (this.isOpen) {
         this.optionActivated.emit({source: this, option: this.options.toArray()[index] || null});
@@ -499,6 +525,10 @@ export abstract class _MatAutocompleteBase
     classList['mat-warn'] = this._color === 'warn';
     classList['mat-accent'] = this._color === 'accent';
   }
+
+  protected _skipPredicate(option: _MatOptionBase) {
+    return option.disabled;
+  }
 }
 
 @Component({
@@ -511,11 +541,12 @@ export abstract class _MatAutocompleteBase
   inputs: ['disableRipple'],
   host: {
     'class': 'mat-mdc-autocomplete',
+    'ngSkipHydration': '',
   },
   providers: [{provide: MAT_OPTION_PARENT_COMPONENT, useExisting: MatAutocomplete}],
   animations: [panelAnimation],
 })
-export class MatAutocomplete extends _MatAutocompleteBase {
+export class MatAutocomplete extends _MatAutocompleteBase implements OnDestroy {
   /**
    * Reference to all option groups within the autocomplete.
    *
@@ -532,4 +563,49 @@ export class MatAutocomplete extends _MatAutocompleteBase {
   @ContentChildren(MatOption, {descendants: true}) options: QueryList<MatOption>;
   protected _visibleClass = 'mat-mdc-autocomplete-visible';
   protected _hiddenClass = 'mat-mdc-autocomplete-hidden';
+  override _animationDone = new EventEmitter<AnimationEvent>();
+
+  /** Whether checkmark indicator for single-selection options is hidden. */
+  @Input()
+  get hideSingleSelectionIndicator(): boolean {
+    return this._hideSingleSelectionIndicator;
+  }
+  set hideSingleSelectionIndicator(value: BooleanInput) {
+    this._hideSingleSelectionIndicator = coerceBooleanProperty(value);
+    this._syncParentProperties();
+  }
+  private _hideSingleSelectionIndicator: boolean =
+    this._defaults.hideSingleSelectionIndicator ?? false;
+
+  /** Syncs the parent state with the individual options. */
+  _syncParentProperties(): void {
+    if (this.options) {
+      for (const option of this.options) {
+        option._changeDetectorRef.markForCheck();
+      }
+    }
+  }
+
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this._animationDone.complete();
+  }
+
+  // `skipPredicate` determines if key manager should avoid putting a given option in the tab
+  // order. Allow disabled list items to receive focus via keyboard to align with WAI ARIA
+  // recommendation.
+  //
+  // Normally WAI ARIA's instructions are to exclude disabled items from the tab order, but it
+  // makes a few exceptions for compound widgets.
+  //
+  // From [Developing a Keyboard Interface](
+  // https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/):
+  //   "For the following composite widget elements, keep them focusable when disabled: Options in a
+  //   Listbox..."
+  //
+  // The user can focus disabled options using the keyboard, but the user cannot click disabled
+  // options.
+  protected override _skipPredicate(_option: _MatOptionBase) {
+    return false;
+  }
 }

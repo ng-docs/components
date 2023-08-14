@@ -96,9 +96,6 @@ describe('MDC-based MatCheckbox', () => {
     it('should add and remove indeterminate state', fakeAsync(() => {
       expect(inputElement.checked).toBe(false);
       expect(inputElement.indeterminate).toBe(false);
-      expect(inputElement.getAttribute('aria-checked'))
-        .withContext('Expect aria-checked to be false')
-        .toBe('false');
 
       testComponent.isIndeterminate = true;
       fixture.detectChanges();
@@ -106,9 +103,9 @@ describe('MDC-based MatCheckbox', () => {
 
       expect(inputElement.checked).toBe(false);
       expect(inputElement.indeterminate).toBe(true);
-      expect(inputElement.getAttribute('aria-checked'))
-        .withContext('Expect aria checked to be mixed for indeterminate checkbox')
-        .toBe('mixed');
+      expect(inputElement.hasAttribute('aria-checked'))
+        .withContext('Expect aria-checked attribute to not be used')
+        .toBe(false);
 
       testComponent.isIndeterminate = false;
       fixture.detectChanges();
@@ -148,9 +145,9 @@ describe('MDC-based MatCheckbox', () => {
       expect(inputElement.indeterminate).toBe(true);
       expect(inputElement.checked).toBe(true);
       expect(testComponent.isIndeterminate).toBe(true);
-      expect(inputElement.getAttribute('aria-checked'))
-        .withContext('Expect aria checked to be true')
-        .toBe('true');
+      expect(inputElement.hasAttribute('aria-checked'))
+        .withContext('Expect aria-checked attribute to not be used')
+        .toBe(false);
 
       inputElement.click();
       fixture.detectChanges();
@@ -400,6 +397,20 @@ describe('MDC-based MatCheckbox', () => {
 
       checkboxInstance.focus();
       fixture.detectChanges();
+
+      expect(document.activeElement).toBe(inputElement);
+    }));
+
+    it('should focus underlying input element when the touch target is clicked', fakeAsync(() => {
+      const touchTarget = checkboxElement.querySelector(
+        '.mat-mdc-checkbox-touch-target',
+      ) as HTMLElement;
+
+      expect(document.activeElement).not.toBe(inputElement);
+
+      touchTarget.click();
+      fixture.detectChanges();
+      flush();
 
       expect(document.activeElement).toBe(inputElement);
     }));

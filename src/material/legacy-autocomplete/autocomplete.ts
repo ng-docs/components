@@ -38,6 +38,7 @@ import {_MatAutocompleteBase} from '@angular/material/autocomplete';
   inputs: ['disableRipple'],
   host: {
     'class': 'mat-autocomplete',
+    'ngSkipHydration': '',
   },
   providers: [{provide: MAT_LEGACY_OPTION_PARENT_COMPONENT, useExisting: MatLegacyAutocomplete}],
 })
@@ -59,4 +60,5 @@ export class MatLegacyAutocomplete extends _MatAutocompleteBase {
   @ContentChildren(MatLegacyOption, {descendants: true}) options: QueryList<MatLegacyOption>;
   protected _visibleClass = 'mat-autocomplete-visible';
   protected _hiddenClass = 'mat-autocomplete-hidden';
+  override _animationDone = null;
 }

@@ -45,7 +45,7 @@ export type AutoFocusTarget = 'dialog' | 'first-tabbable' | 'first-heading';
 // @public
 export class CdkDialogContainer<C extends DialogConfig = DialogConfig> extends BasePortalOutlet implements OnDestroy {
     constructor(_elementRef: ElementRef, _focusTrapFactory: FocusTrapFactory, _document: any, _config: C, _interactivityChecker: InteractivityChecker, _ngZone: NgZone, _overlayRef: OverlayRef, _focusMonitor?: FocusMonitor | undefined);
-    _ariaLabelledBy: string | null;
+    _ariaLabelledByQueue: string[];
     attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T>;
     // @deprecated
     attachDomPortal: (portal: DomPortal) => void;
@@ -64,6 +64,8 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig> extends B
     protected _focusTrapFactory: FocusTrapFactory;
     // (undocumented)
     ngOnDestroy(): void;
+    // (undocumented)
+    protected _ngZone: NgZone;
     _portalOutlet: CdkPortalOutlet;
     _recaptureFocus(): void;
     protected _trapFocus(): void;
@@ -127,6 +129,7 @@ export class DialogConfig<D = unknown, R = unknown, C extends BasePortalOutlet =
     backdropClass?: string | string[];
     closeOnDestroy?: boolean;
     closeOnNavigation?: boolean;
+    closeOnOverlayDetachments?: boolean;
     componentFactoryResolver?: ComponentFactoryResolver;
     container?: Type<C> | {
         type: Type<C>;
@@ -172,6 +175,7 @@ export class DialogRef<R = unknown, C = unknown> {
     close(result?: R, options?: DialogCloseOptions): void;
     readonly closed: Observable<R | undefined>;
     readonly componentInstance: C | null;
+    readonly componentRef: ComponentRef<C> | null;
     // (undocumented)
     readonly config: DialogConfig<any, DialogRef<R, C>, BasePortalOutlet>;
     readonly containerInstance: BasePortalOutlet & {

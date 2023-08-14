@@ -288,10 +288,15 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     }
   }
 
+  /**
+   * Whether tooltip should be relative to the click or touch origin
+   * instead of outside the element bounding box.
+   */
   @Input('matTooltipPositionAtOrigin')
   get positionAtOrigin(): boolean {
     return this._positionAtOrigin;
   }
+
   set positionAtOrigin(value: BooleanInput) {
     this._positionAtOrigin = coerceBooleanProperty(value);
     this._detach();
@@ -335,7 +340,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     this._showDelay = coerceNumberProperty(value);
   }
 
-  private _showDelay = this._defaultOptions.showDelay;
+  private _showDelay: number;
 
   /**
    * The default delay in ms before hiding the tooltip after hide is called
@@ -356,7 +361,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     }
   }
 
-  private _hideDelay = this._defaultOptions.hideDelay;
+  private _hideDelay: number;
 
   /**
    * How touch gestures should be handled by the tooltip. On touch devices the tooltip directive
@@ -465,7 +470,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
    * 从最后一次 `touchstart` 事件开始的计时器。
    *
    */
-  private _touchstartTimeout: number;
+  private _touchstartTimeout: ReturnType<typeof setTimeout>;
 
   /**
    * Emits when the component is destroyed.
@@ -493,6 +498,9 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
     this._document = _document;
 
     if (_defaultOptions) {
+      this._showDelay = _defaultOptions.showDelay;
+      this._hideDelay = _defaultOptions.hideDelay;
+
       if (_defaultOptions.position) {
         this.position = _defaultOptions.position;
       }
@@ -1086,6 +1094,7 @@ export abstract class _MatTooltipBase<T extends _TooltipComponentBase>
   exportAs: 'matTooltip',
   host: {
     'class': 'mat-mdc-tooltip-trigger',
+    '[class.mat-mdc-tooltip-disabled]': 'disabled',
   },
 })
 export class MatTooltip extends _MatTooltipBase<TooltipComponent> {
@@ -1165,10 +1174,10 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    * 用来显示工具提示的当前定时器的超时 ID
    *
    */
-  private _showTimeoutId: number | undefined;
+  private _showTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
   /** The timeout ID of any current timer set to hide the tooltip */
-  private _hideTimeoutId: number | undefined;
+  private _hideTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
   /**
    * Element that caused the tooltip to open.
@@ -1261,7 +1270,9 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    */
   show(delay: number): void {
     // Cancel the delayed hide if it is scheduled
-    clearTimeout(this._hideTimeoutId);
+    if (this._hideTimeoutId != null) {
+      clearTimeout(this._hideTimeoutId);
+    }
 
     this._showTimeoutId = setTimeout(() => {
       this._toggleVisibility(true);
@@ -1281,7 +1292,9 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    */
   hide(delay: number): void {
     // Cancel the delayed show if it is scheduled
-    clearTimeout(this._showTimeoutId);
+    if (this._showTimeoutId != null) {
+      clearTimeout(this._showTimeoutId);
+    }
 
     this._hideTimeoutId = setTimeout(() => {
       this._toggleVisibility(false);
@@ -1380,8 +1393,14 @@ export abstract class _TooltipComponentBase implements OnDestroy {
    *
    */
   _cancelPendingAnimations() {
-    clearTimeout(this._showTimeoutId);
-    clearTimeout(this._hideTimeoutId);
+    if (this._showTimeoutId != null) {
+      clearTimeout(this._showTimeoutId);
+    }
+
+    if (this._hideTimeoutId != null) {
+      clearTimeout(this._hideTimeoutId);
+    }
+
     this._showTimeoutId = this._hideTimeoutId = undefined;
   }
 

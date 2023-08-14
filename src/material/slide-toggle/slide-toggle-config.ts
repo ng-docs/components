@@ -30,6 +30,9 @@ export interface MatSlideToggleDefaultOptions {
    *
    */
   color?: ThemePalette;
+
+  /** Whether to hide the icon inside the slide toggle. */
+  hideIcon?: boolean;
 }
 
 /**
@@ -42,6 +45,6 @@ export const MAT_SLIDE_TOGGLE_DEFAULT_OPTIONS = new InjectionToken<MatSlideToggl
   'mat-slide-toggle-default-options',
   {
     providedIn: 'root',
-    factory: () => ({disableToggleValue: false}),
+    factory: () => ({disableToggleValue: false, hideIcon: false}),
   },
 );

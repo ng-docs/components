@@ -259,6 +259,11 @@ inside of `<mat-form-field>`, the `aria-label` attribute, or the `aria-labelledb
 
 始终要为选择框提供一个无障碍标签。这可以通过在 `<mat-form-field>` 中添加一个 `<mat-label>` 组件或 `aria-label`、`aria-labelledby` 属性来实现。
 
+By default, `MatSelect` displays a checkmark to identify selected items. While you can hide the
+checkmark indicator for single-selection via `hideSingleSelectionIndicator`, this makes the
+component less accessible by making it harder or impossible for users to visually identify selected
+items.
+
 ### Troubleshooting
 
 ### 排查问题

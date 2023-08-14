@@ -14,7 +14,7 @@ import {
   PAGE_DOWN,
   PAGE_UP,
 } from '@angular/cdk/keycodes';
-import {OverlayContainer} from '@angular/cdk/overlay';
+import {OverlayContainer, OverlayModule} from '@angular/cdk/overlay';
 import {ScrollDispatcher} from '@angular/cdk/scrolling';
 import {
   createKeyboardEvent,
@@ -27,6 +27,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DebugElement,
+  ElementRef,
   OnInit,
   QueryList,
   ViewChild,
@@ -110,6 +111,7 @@ describe('MDC-based MatSelect', () => {
         ReactiveFormsModule,
         FormsModule,
         NoopAnimationsModule,
+        OverlayModule,
       ],
       declarations: declarations,
       providers: [
@@ -131,6 +133,7 @@ describe('MDC-based MatSelect', () => {
     beforeEach(waitForAsync(() => {
       configureMatSelectTestingModule([
         BasicSelect,
+        SelectInsideAModal,
         MultiSelect,
         SelectWithGroups,
         SelectWithGroupsAndNgContainer,
@@ -167,19 +170,6 @@ describe('MDC-based MatSelect', () => {
           const ariaControls = select.getAttribute('aria-controls');
           expect(ariaControls).toBeTruthy();
           expect(ariaControls).toBe(document.querySelector('.mat-mdc-select-panel')!.id);
-        }));
-
-        it('should point the aria-owns attribute to the listbox on the trigger', fakeAsync(() => {
-          const trigger = select.querySelector('.mat-mdc-select-trigger')!;
-          expect(trigger.hasAttribute('aria-owns')).toBe(false);
-
-          fixture.componentInstance.select.open();
-          fixture.detectChanges();
-          flush();
-
-          const ariaOwns = trigger.getAttribute('aria-owns');
-          expect(ariaOwns).toBeTruthy();
-          expect(ariaOwns).toBe(document.querySelector('.mat-mdc-select-panel')!.id);
         }));
 
         it('should set aria-expanded based on the select open state', fakeAsync(() => {
@@ -838,17 +828,27 @@ describe('MDC-based MatSelect', () => {
               'mat-option',
             ) as NodeListOf<HTMLElement>;
 
-            options[3].focus();
+            select.focus();
+            multiFixture.detectChanges();
+            multiFixture.componentInstance.select._keyManager.setActiveItem(3);
+            multiFixture.detectChanges();
+
             expect(document.activeElement)
-              .withContext('Expected fourth option to be focused.')
-              .toBe(options[3]);
+              .withContext('Expected select to have DOM focus.')
+              .toBe(select);
+            expect(select.getAttribute('aria-activedescendant'))
+              .withContext('Expected fourth option to be activated.')
+              .toBe(options[3].id);
 
             multiFixture.componentInstance.control.setValue(['steak-0', 'sushi-7']);
             multiFixture.detectChanges();
 
             expect(document.activeElement)
-              .withContext('Expected fourth option to remain focused.')
-              .toBe(options[3]);
+              .withContext('Expected select to have DOM focus.')
+              .toBe(select);
+            expect(select.getAttribute('aria-activedescendant'))
+              .withContext('Expected fourth optino to remain activated.')
+              .toBe(options[3].id);
           }),
         );
 
@@ -1071,12 +1071,12 @@ describe('MDC-based MatSelect', () => {
             fixture.detectChanges();
           });
 
-          expect(host.getAttribute('aria-activedescendant')).toBe(options[4].id);
+          expect(host.getAttribute('aria-activedescendant')).toBe(options[3].id);
 
           dispatchKeyboardEvent(host, 'keydown', UP_ARROW);
           fixture.detectChanges();
 
-          expect(host.getAttribute('aria-activedescendant')).toBe(options[3].id);
+          expect(host.getAttribute('aria-activedescendant')).toBe(options[2].id);
         }));
 
         it('should not change the aria-activedescendant using the horizontal arrow keys', fakeAsync(() => {
@@ -1176,6 +1176,27 @@ describe('MDC-based MatSelect', () => {
         }));
       });
 
+      describe('for select inside a modal', () => {
+        let fixture: ComponentFixture<SelectInsideAModal>;
+
+        beforeEach(fakeAsync(() => {
+          fixture = TestBed.createComponent(SelectInsideAModal);
+          fixture.detectChanges();
+        }));
+
+        it('should add the id of the select panel to the aria-owns of the modal', fakeAsync(() => {
+          fixture.componentInstance.select.open();
+          fixture.detectChanges();
+
+          const panelId = `${fixture.componentInstance.select.id}-panel`;
+          const modalElement = fixture.componentInstance.modal.nativeElement;
+
+          expect(modalElement.getAttribute('aria-owns')?.split(' '))
+            .withContext('expecting modal to own the select panel')
+            .toContain(panelId);
+        }));
+      });
+
       describe('for options', () => {
         let fixture: ComponentFixture<BasicSelect>;
         let trigger: HTMLElement;
@@ -1198,9 +1219,9 @@ describe('MDC-based MatSelect', () => {
         }));
 
         it('should set aria-selected on each option for single select', fakeAsync(() => {
-          expect(options.every(option => !option.hasAttribute('aria-selected')))
+          expect(options.every(option => option.getAttribute('aria-selected') === 'false'))
             .withContext(
-              'Expected all unselected single-select options not to have ' + 'aria-selected set.',
+              'Expected all unselected single-select options to have ' + 'aria-selected="false".',
             )
             .toBe(true);
 
@@ -1217,9 +1238,9 @@ describe('MDC-based MatSelect', () => {
             )
             .toEqual('true');
           options.splice(1, 1);
-          expect(options.every(option => !option.hasAttribute('aria-selected')))
+          expect(options.every(option => option.getAttribute('aria-selected') === 'false'))
             .withContext(
-              'Expected all unselected single-select options not to have ' + 'aria-selected set.',
+              'Expected all unselected single-select options to have ' + 'aria-selected="false".',
             )
             .toBe(true);
         }));
@@ -1274,10 +1295,10 @@ describe('MDC-based MatSelect', () => {
             .toBe(true);
         }));
 
-        it('should set the tabindex of each option according to disabled state', fakeAsync(() => {
-          expect(options[0].getAttribute('tabindex')).toEqual('0');
-          expect(options[1].getAttribute('tabindex')).toEqual('0');
-          expect(options[2].getAttribute('tabindex')).toEqual('-1');
+        it('should omit the tabindex attribute on each option', fakeAsync(() => {
+          expect(options[0].hasAttribute('tabindex')).toBeFalse();
+          expect(options[1].hasAttribute('tabindex')).toBeFalse();
+          expect(options[2].hasAttribute('tabindex')).toBeFalse();
         }));
 
         it('should set aria-disabled for disabled options', fakeAsync(() => {
@@ -1334,6 +1355,56 @@ describe('MDC-based MatSelect', () => {
                 'value has changed.',
             )
             .toEqual([options[7]]);
+        }));
+
+        it('should render a checkmark on selected option', fakeAsync(() => {
+          fixture.componentInstance.control.setValue(fixture.componentInstance.foods[2].value);
+          fixture.detectChanges();
+
+          trigger.click();
+          fixture.detectChanges();
+          flush();
+
+          const pseudoCheckboxes = options
+            .map(option => option.querySelector('.mat-pseudo-checkbox-minimal'))
+            .filter((x): x is HTMLElement => !!x);
+          const selectedOption = options[2];
+
+          expect(selectedOption.querySelector('.mat-pseudo-checkbox-minimal')).not.toBeNull();
+          expect(pseudoCheckboxes.length).toBe(1);
+        }));
+
+        it('should render checkboxes for multi-select', fakeAsync(() => {
+          fixture.destroy();
+
+          const multiFixture = TestBed.createComponent(MultiSelect);
+          multiFixture.detectChanges();
+
+          multiFixture.componentInstance.control.setValue([
+            multiFixture.componentInstance.foods[2].value,
+          ]);
+          multiFixture.detectChanges();
+
+          trigger = multiFixture.debugElement.query(
+            By.css('.mat-mdc-select-trigger'),
+          )!.nativeElement;
+
+          trigger.click();
+          multiFixture.detectChanges();
+          flush();
+
+          options = Array.from(overlayContainerElement.querySelectorAll('mat-option'));
+          const pseudoCheckboxes = options
+            .map(option => option.querySelector('.mat-pseudo-checkbox.mat-pseudo-checkbox-full'))
+            .filter((x): x is HTMLElement => !!x);
+          const selectedPseudoCheckbox = pseudoCheckboxes[2];
+
+          expect(pseudoCheckboxes.length)
+            .withContext('expecting each option to have a pseudo-checkbox with "full" appearance')
+            .toEqual(options.length);
+          expect(selectedPseudoCheckbox.classList)
+            .withContext('expecting selected pseudo-checkbox to be checked')
+            .toContain('mat-pseudo-checkbox-checked');
         }));
       });
 
@@ -1465,6 +1536,42 @@ describe('MDC-based MatSelect', () => {
         fixture.detectChanges();
 
         expect(parseInt(pane.style.width || '0')).toBeGreaterThan(initialWidth);
+      }));
+
+      it('should be able to set a custom width on the select panel', fakeAsync(() => {
+        fixture.componentInstance.panelWidth = '42px';
+        fixture.detectChanges();
+
+        trigger.click();
+        fixture.detectChanges();
+        flush();
+
+        const pane = overlayContainerElement.querySelector('.cdk-overlay-pane') as HTMLElement;
+        expect(pane.style.width).toBe('42px');
+      }));
+
+      it('should not set a width on the panel if panelWidth is null', fakeAsync(() => {
+        fixture.componentInstance.panelWidth = null;
+        fixture.detectChanges();
+
+        trigger.click();
+        fixture.detectChanges();
+        flush();
+
+        const pane = overlayContainerElement.querySelector('.cdk-overlay-pane') as HTMLElement;
+        expect(pane.style.width).toBeFalsy();
+      }));
+
+      it('should not set a width on the panel if panelWidth is an empty string', fakeAsync(() => {
+        fixture.componentInstance.panelWidth = '';
+        fixture.detectChanges();
+
+        trigger.click();
+        fixture.detectChanges();
+        flush();
+
+        const pane = overlayContainerElement.querySelector('.cdk-overlay-pane') as HTMLElement;
+        expect(pane.style.width).toBeFalsy();
       }));
 
       it('should not attempt to open a select that does not have any options', fakeAsync(() => {
@@ -2417,14 +2524,12 @@ describe('MDC-based MatSelect', () => {
         host = groupFixture.debugElement.query(By.css('mat-select'))!.nativeElement;
         panel = overlayContainerElement.querySelector('.mat-mdc-select-panel')! as HTMLElement;
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 8; i++) {
           dispatchKeyboardEvent(host, 'keydown', DOWN_ARROW);
         }
 
-        // Note that we press down 5 times, but it will skip
-        // 3 options because the second group is disabled.
         // <top padding> + <(option index + group labels) * height> - <panel height> =
-        //    8 + (9 + 3) * 48 - 275 = 309
+        //    8 + (8 + 3) * 48 - 275 = 309
         expect(panel.scrollTop).withContext('Expected scroll to be at the 9th option.').toBe(309);
       }));
 
@@ -3420,12 +3525,14 @@ describe('MDC-based MatSelect', () => {
   describe('with reset option and a form control', () => {
     let fixture: ComponentFixture<SelectWithResetOptionAndFormControl>;
     let options: HTMLElement[];
+    let trigger: HTMLElement;
 
     beforeEach(fakeAsync(() => {
       configureMatSelectTestingModule([SelectWithResetOptionAndFormControl]);
       fixture = TestBed.createComponent(SelectWithResetOptionAndFormControl);
       fixture.detectChanges();
-      fixture.debugElement.query(By.css('.mat-mdc-select-trigger'))!.nativeElement.click();
+      trigger = fixture.debugElement.query(By.css('.mat-mdc-select-trigger'))!.nativeElement;
+      trigger.click();
       fixture.detectChanges();
       options = Array.from(overlayContainerElement.querySelectorAll('mat-option'));
     }));
@@ -3452,6 +3559,22 @@ describe('MDC-based MatSelect', () => {
       flush();
       expect(fixture.componentInstance.select.value).toBe('a');
       expect(fixture.componentInstance.control.value).toBe('a');
+    }));
+
+    it('should deselect the reset option when a value is assigned through the form control', fakeAsync(() => {
+      expect(options[0].classList).toContain('mat-mdc-option-active');
+
+      options[0].click();
+      fixture.detectChanges();
+      flush();
+
+      fixture.componentInstance.control.setValue('c');
+      fixture.detectChanges();
+      trigger.click();
+      fixture.detectChanges();
+
+      expect(options[0].classList).not.toContain('mat-mdc-option-active');
+      expect(options[3].classList).toContain('mat-mdc-option-active');
     }));
   });
 
@@ -4357,6 +4480,7 @@ describe('MDC-based MatSelect', () => {
             disableOptionCentering: true,
             typeaheadDebounceInterval: 1337,
             overlayPanelClass: 'test-panel-class',
+            panelWidth: null,
           } as MatSelectConfig,
         },
       ],
@@ -4371,13 +4495,48 @@ describe('MDC-based MatSelect', () => {
     expect(select.disableOptionCentering).toBe(true);
     expect(select.typeaheadDebounceInterval).toBe(1337);
     expect(document.querySelector('.cdk-overlay-pane')?.classList).toContain('test-panel-class');
+    expect(select.panelWidth).toBeNull();
   }));
+
+  it('should be able to hide checkmark icon through an injection token', () => {
+    const matSelectConfig: MatSelectConfig = {hideSingleSelectionIndicator: true};
+    configureMatSelectTestingModule(
+      [NgModelSelect],
+      [
+        {
+          provide: MAT_SELECT_CONFIG,
+          useValue: matSelectConfig,
+        },
+      ],
+    );
+    const fixture = TestBed.createComponent(NgModelSelect);
+    fixture.detectChanges();
+    const select = fixture.componentInstance.select;
+
+    fixture.componentInstance.select.value = fixture.componentInstance.foods[0].value;
+    select.open();
+    fixture.detectChanges();
+
+    // Select the first value to ensure selection state is displayed. That way this test ensures
+    // that the selection state hides the checkmark icon, rather than hiding the checkmark icon
+    // because nothing is selected.
+    expect(document.querySelector('mat-option[aria-selected="true"]'))
+      .withContext('expecting selection state to be displayed')
+      .not.toBeNull();
+
+    const pseudoCheckboxes = document.querySelectorAll('.mat-pseudo-checkbox');
+
+    expect(pseudoCheckboxes.length)
+      .withContext('expecting not to display a pseudo-checkbox')
+      .toBe(0);
+  });
 
   it('should not not throw if the select is inside an ng-container with ngIf', fakeAsync(() => {
     configureMatSelectTestingModule([SelectInNgContainer]);
     const fixture = TestBed.createComponent(SelectInNgContainer);
     expect(() => fixture.detectChanges()).not.toThrow();
   }));
+
   describe('page up/down with disabled options', () => {
     let fixture: ComponentFixture<BasicSelectWithFirstAndLastOptionDisabled>;
     let host: HTMLElement;
@@ -4397,30 +4556,30 @@ describe('MDC-based MatSelect', () => {
       host = fixture.debugElement.query(By.css('mat-select'))!.nativeElement;
     }));
 
-    it('should scroll to the second one pressing PAGE_UP, because the first one is disabled', fakeAsync(() => {
+    it('should be able to scroll to disabled option when pressing PAGE_UP', fakeAsync(() => {
       expect(fixture.componentInstance.select._keyManager.activeItemIndex).toBe(1);
 
       dispatchKeyboardEvent(host, 'keydown', PAGE_UP);
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.select._keyManager.activeItemIndex).toBe(1);
+      expect(fixture.componentInstance.select._keyManager.activeItemIndex).toBe(0);
 
       dispatchKeyboardEvent(host, 'keydown', PAGE_UP);
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.select._keyManager.activeItemIndex).toBe(1);
+      expect(fixture.componentInstance.select._keyManager.activeItemIndex).toBe(0);
     }));
 
-    it('should scroll by PAGE_DOWN to the one before the last, because last one is disabled', fakeAsync(() => {
+    it('should be able to scroll to disabled option when pressing PAGE_DOWN', fakeAsync(() => {
       dispatchKeyboardEvent(host, 'keydown', PAGE_DOWN);
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.select._keyManager.activeItemIndex).toBe(6);
+      expect(fixture.componentInstance.select._keyManager.activeItemIndex).toBe(7);
 
       dispatchKeyboardEvent(host, 'keydown', PAGE_DOWN);
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.select._keyManager.activeItemIndex).toBe(6);
+      expect(fixture.componentInstance.select._keyManager.activeItemIndex).toBe(7);
     }));
   });
 });
@@ -4435,7 +4594,8 @@ describe('MDC-based MatSelect', () => {
         [tabIndex]="tabIndexOverride" [aria-describedby]="ariaDescribedBy"
         [aria-label]="ariaLabel" [aria-labelledby]="ariaLabelledby"
         [panelClass]="panelClass" [disableRipple]="disableRipple"
-        [typeaheadDebounceInterval]="typeaheadDebounceInterval">
+        [typeaheadDebounceInterval]="typeaheadDebounceInterval"
+        [panelWidth]="panelWidth">
         <mat-option *ngFor="let food of foods" [value]="food.value" [disabled]="food.disabled">
           {{ capitalize ? food.viewValue.toUpperCase() : food.viewValue }}
         </mat-option>
@@ -4470,6 +4630,7 @@ class BasicSelect {
   disableRipple: boolean;
   typeaheadDebounceInterval: number;
   capitalize = false;
+  panelWidth: string | null | number = 'auto';
 
   @ViewChild(MatSelect, {static: true}) select: MatSelect;
   @ViewChildren(MatOption) options: QueryList<MatOption>;
@@ -5353,4 +5514,35 @@ class BasicSelectWithFirstAndLastOptionDisabled {
 
   @ViewChild(MatSelect, {static: true}) select: MatSelect;
   @ViewChildren(MatOption) options: QueryList<MatOption>;
+}
+
+@Component({
+  selector: 'select-inside-a-modal',
+  template: `
+    <button cdkOverlayOrigin #trigger="cdkOverlayOrigin">open dialog</button>
+    <ng-template cdkConnectedOverlay [cdkConnectedOverlayOpen]="true"
+      [cdkConnectedOverlayOrigin]="trigger">
+      <div role="dialog" [attr.aria-modal]="'true'" #modal>
+        <mat-form-field>
+          <mat-label>Select a food</mat-label>
+          <mat-select placeholder="Food" ngModel>
+            <mat-option *ngFor="let food of foods"
+                        [value]="food.value">{{ food.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </ng-template>
+  `,
+})
+class SelectInsideAModal {
+  foods = [
+    {value: 'steak-0', viewValue: 'Steak'},
+    {value: 'pizza-1', viewValue: 'Pizza'},
+    {value: 'tacos-2', viewValue: 'Tacos'},
+  ];
+
+  @ViewChild(MatSelect) select: MatSelect;
+  @ViewChildren(MatOption) options: QueryList<MatOption>;
+  @ViewChild('modal') modal: ElementRef;
 }

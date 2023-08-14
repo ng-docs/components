@@ -42,6 +42,9 @@ import {
     '[attr.aria-label]': 'null',
     '[attr.aria-labelledby]': 'null',
     '[attr.aria-describedby]': 'null',
+    'ngSkipHydration': '',
+    // This binding is used to ensure that the component ID doesn't clash with the `MatMenu`.
+    '[attr.mat-id-collision]': 'null',
   },
   animations: [matMenuAnimations.transformMenu, matMenuAnimations.fadeInItems],
   providers: [{provide: MAT_MENU_PANEL, useExisting: MatLegacyMenu}],

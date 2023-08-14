@@ -173,3 +173,5 @@ Always provide an accessible label via `aria-label` or `aria-labelledby` for any
 triggers or menu items without descriptive text content.
 
 总是要通过 `aria-label` 或 `aria-labelledby` 来为没有描述性文本内容的任何菜单触发器或菜单项提供无障碍标签。
+
+MatMenu should not contain any interactive controls aside from MatMenuItem.

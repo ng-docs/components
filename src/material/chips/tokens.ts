@@ -22,6 +22,9 @@ export interface MatChipsDefaultOptions {
    *
    */
   separatorKeyCodes: readonly number[] | ReadonlySet<number>;
+
+  /** Wheter icon indicators should be hidden for single-selection. */
+  hideSingleSelectionIndicator?: boolean;
 }
 
 /**

@@ -14,4 +14,7 @@ import {BaseHarnessFilters} from '@angular/cdk/testing';
  * 一组可用于过滤 `MatSelectHarness` 实例列表的条件。
  *
  */
-export interface SelectHarnessFilters extends BaseHarnessFilters {}
+export interface SelectHarnessFilters extends BaseHarnessFilters {
+  /** Only find instances which match the given disabled state. */
+  disabled?: boolean;
+}

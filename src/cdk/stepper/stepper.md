@@ -88,7 +88,7 @@ this default `completed` behavior by setting the `completed` attribute as needed
 ### 步进按钮
 
 There are two button directives to support navigation between different steps:
-`CdkStepperNext` and `CdkStepperPrevious`. When placed inside of a step, these will automatically
+`CdkStepperNext` and `CdkStepperPrevious`. When placed inside a step, these will automatically
 add click handlers to advance or rewind the workflow, respectively.
 
 有两个按钮指令可以支持不同步骤之间的导航： `CdkStepperNext` 和 `CdkStepperPrevious`。当放置在某个步骤中时，它们会自动添加点击处理器来分别推进或回退此工作流。

@@ -204,6 +204,7 @@ export const MAT_LEGACY_FORM_FIELD_DEFAULT_OPTIONS =
     '[class.ng-invalid]': '_shouldForward("invalid")',
     '[class.ng-pending]': '_shouldForward("pending")',
     '[class._mat-animation-noopable]': '!_animationsEnabled',
+    'ngSkipHydration': '',
   },
   inputs: ['color'],
   encapsulation: ViewEncapsulation.None,

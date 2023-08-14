@@ -6,8 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Path} from '@angular-devkit/core';
-import {ProjectDefinition} from '@angular-devkit/core/src/workspace';
+import {Path, workspaces} from '@angular-devkit/core';
 import {defaultTargetBuilders, getTargetsByBuilderName} from './project-targets';
 
 /**
@@ -16,7 +15,7 @@ import {defaultTargetBuilders, getTargetsByBuilderName} from './project-targets'
  * 获取给定项目中索引文件的路径。
  *
  */
-export function getProjectIndexFiles(project: ProjectDefinition): Path[] {
+export function getProjectIndexFiles(project: workspaces.ProjectDefinition): Path[] {
   const paths = getTargetsByBuilderName(project, defaultTargetBuilders.build)
     .filter(t => t.options?.index)
     .map(t => t.options!.index as Path);

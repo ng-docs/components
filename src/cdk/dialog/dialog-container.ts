@@ -63,7 +63,7 @@ export function throwDialogContentAlreadyAttachedError() {
     '[attr.id]': '_config.id || null',
     '[attr.role]': '_config.role',
     '[attr.aria-modal]': '_config.ariaModal',
-    '[attr.aria-labelledby]': '_config.ariaLabel ? null : _ariaLabelledBy',
+    '[attr.aria-labelledby]': '_config.ariaLabel ? null : _ariaLabelledByQueue[0]',
     '[attr.aria-label]': '_config.ariaLabel',
     '[attr.aria-describedby]': '_config.ariaDescribedBy || null',
   },
@@ -109,12 +109,12 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
   _closeInteractionType: FocusOrigin | null = null;
 
   /**
-   * ID of the element that should be considered as the dialog's label.
-   *
-   * 应被视为对话框标签的元素的 ID。
-   *
+   * Queue of the IDs of the dialog's label element, based on their definition order. The first
+   * ID will be used as the `aria-labelledby` value. We use a queue here to handle the case
+   * where there are two or more titles in the DOM at a time and the first one is destroyed while
+   * the rest are present.
    */
-  _ariaLabelledBy: string | null;
+  _ariaLabelledByQueue: string[] = [];
 
   constructor(
     protected _elementRef: ElementRef,
@@ -122,13 +122,17 @@ export class CdkDialogContainer<C extends DialogConfig = DialogConfig>
     @Optional() @Inject(DOCUMENT) _document: any,
     @Inject(DialogConfig) readonly _config: C,
     private _interactivityChecker: InteractivityChecker,
-    private _ngZone: NgZone,
+    protected _ngZone: NgZone,
     private _overlayRef: OverlayRef,
     private _focusMonitor?: FocusMonitor,
   ) {
     super();
-    this._ariaLabelledBy = this._config.ariaLabelledBy || null;
+
     this._document = _document;
+
+    if (this._config.ariaLabelledBy) {
+      this._ariaLabelledByQueue.push(this._config.ariaLabelledBy);
+    }
   }
 
   protected _contentAttached() {

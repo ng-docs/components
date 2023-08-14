@@ -33,6 +33,9 @@ import { ThemePalette } from '@angular/material/core';
 export const MAT_LIST: InjectionToken<MatList>;
 
 // @public
+export const MAT_LIST_CONFIG: InjectionToken<MatListConfig>;
+
+// @public
 export const MAT_NAV_LIST: InjectionToken<MatNavList>;
 
 // @public (undocumented)
@@ -56,6 +59,11 @@ export class MatList extends MatListBase {
     static ɵfac: i0.ɵɵFactoryDeclaration<MatList, never>;
 }
 
+// @public
+export interface MatListConfig {
+    hideSingleSelectionIndicator?: boolean;
+}
+
 // @public (undocumented)
 export class MatListItem extends MatListItemBase {
     constructor(element: ElementRef, ngZone: NgZone, listBase: MatListBase | null, platform: Platform, globalRippleOptions?: RippleGlobalOptions, animationMode?: string);
@@ -75,7 +83,7 @@ export class MatListItem extends MatListItemBase {
     // (undocumented)
     _unscopedContent: ElementRef<HTMLSpanElement>;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatListItem, "mat-list-item, a[mat-list-item], button[mat-list-item]", ["matListItem"], { "activated": "activated"; }, {}, ["_lines", "_titles", "_meta"], ["[matListItemAvatar],[matListItemIcon]", "[matListItemTitle]", "[matListItemLine]", "*", "[matListItemMeta]", "mat-divider"], false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatListItem, "mat-list-item, a[mat-list-item], button[mat-list-item]", ["matListItem"], { "activated": { "alias": "activated"; "required": false; }; }, {}, ["_lines", "_titles", "_meta"], ["[matListItemAvatar],[matListItemIcon]", "[matListItemTitle]", "[matListItemLine]", "*", "[matListItemMeta]", "mat-divider"], false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatListItem, [null, null, { optional: true; }, null, { optional: true; }, { optional: true; }]>;
 }
@@ -188,7 +196,7 @@ export class MatListOption extends MatListItemBase implements ListOption, OnInit
     get value(): any;
     set value(newValue: any);
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatListOption, "mat-list-option", ["matListOption"], { "togglePosition": "togglePosition"; "checkboxPosition": "checkboxPosition"; "color": "color"; "value": "value"; "selected": "selected"; }, { "selectedChange": "selectedChange"; }, ["_lines", "_titles"], ["[matListItemAvatar],[matListItemIcon]", "[matListItemTitle]", "[matListItemLine]", "*", "mat-divider"], false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatListOption, "mat-list-option", ["matListOption"], { "togglePosition": { "alias": "togglePosition"; "required": false; }; "checkboxPosition": { "alias": "checkboxPosition"; "required": false; }; "color": { "alias": "color"; "required": false; }; "value": { "alias": "value"; "required": false; }; "selected": { "alias": "selected"; "required": false; }; }, { "selectedChange": "selectedChange"; }, ["_lines", "_titles"], ["[matListItemAvatar],[matListItemIcon]", "[matListItemTitle]", "[matListItemLine]", "*", "mat-divider"], false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatListOption, [null, null, null, null, null, { optional: true; }, { optional: true; }]>;
 }
@@ -229,6 +237,8 @@ export class MatSelectionList extends MatListBase implements SelectionList, Cont
     _emitChangeEvent(options: MatListOption[]): void;
     focus(options?: FocusOptions): void;
     _handleKeydown(event: KeyboardEvent): void;
+    get hideSingleSelectionIndicator(): boolean;
+    set hideSingleSelectionIndicator(value: BooleanInput);
     // (undocumented)
     _items: QueryList<MatListOption>;
     get multiple(): boolean;
@@ -251,7 +261,7 @@ export class MatSelectionList extends MatListBase implements SelectionList, Cont
     _value: string[] | null;
     writeValue(values: string[]): void;
     // (undocumented)
-    static ɵcmp: i0.ɵɵComponentDeclaration<MatSelectionList, "mat-selection-list", ["matSelectionList"], { "color": "color"; "compareWith": "compareWith"; "multiple": "multiple"; "disabled": "disabled"; }, { "selectionChange": "selectionChange"; }, ["_items"], ["*"], false, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<MatSelectionList, "mat-selection-list", ["matSelectionList"], { "color": { "alias": "color"; "required": false; }; "compareWith": { "alias": "compareWith"; "required": false; }; "multiple": { "alias": "multiple"; "required": false; }; "hideSingleSelectionIndicator": { "alias": "hideSingleSelectionIndicator"; "required": false; }; "disabled": { "alias": "disabled"; "required": false; }; }, { "selectionChange": "selectionChange"; }, ["_items"], ["*"], false, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<MatSelectionList, never>;
 }
@@ -276,6 +286,8 @@ export interface SelectionList extends MatListBase {
     compareWith: (o1: any, o2: any) => boolean;
     // (undocumented)
     _emitChangeEvent(options: MatListOption[]): void;
+    // (undocumented)
+    hideSingleSelectionIndicator: boolean;
     // (undocumented)
     multiple: boolean;
     // (undocumented)

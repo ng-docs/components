@@ -65,6 +65,9 @@ export interface MatTabsConfig {
    *
    */
   preserveContent?: boolean;
+
+  /** Whether tabs should be stretched to fill the header. */
+  stretchTabs?: boolean;
 }
 
 /**

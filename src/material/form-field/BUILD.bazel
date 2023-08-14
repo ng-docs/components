@@ -18,7 +18,7 @@ ng_module(
     deps = [
         "//src:dev_mode_types",
         "//src/cdk/bidi",
-        "//src/cdk/observers",
+        "//src/cdk/observers/private",
         "//src/cdk/platform",
         "//src/material/core",
         "@npm//@angular/forms",
@@ -62,6 +62,7 @@ sass_library(
         "_form-field-subscript.scss",
         "_mdc-text-field-structure-overrides.scss",
         "_mdc-text-field-textarea-overrides.scss",
+        "_user-agent-overrides.scss",
     ],
     deps = [
         "//:mdc_sass_lib",

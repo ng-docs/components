@@ -634,8 +634,10 @@ export abstract class _MatTabGroupBase
    *
    */
   _handleClick(tab: MatTab, tabHeader: MatTabGroupBaseHeader, index: number) {
+    tabHeader.focusIndex = index;
+
     if (!tab.disabled) {
-      this.selectedIndex = tabHeader.focusIndex = index;
+      this.selectedIndex = index;
     }
   }
 
@@ -645,10 +647,7 @@ export abstract class _MatTabGroupBase
    * 获取该选项卡的 tabindex。
    *
    */
-  _getTabIndex(tab: MatTab, index: number): number | null {
-    if (tab.disabled) {
-      return null;
-    }
+  _getTabIndex(index: number): number {
     const targetIndex = this._lastFocusedTabIndex ?? this.selectedIndex;
     return index === targetIndex ? 0 : -1;
   }
@@ -694,10 +693,12 @@ export abstract class _MatTabGroupBase
     },
   ],
   host: {
+    'ngSkipHydration': '',
     'class': 'mat-mdc-tab-group',
     '[class.mat-mdc-tab-group-dynamic-height]': 'dynamicHeight',
     '[class.mat-mdc-tab-group-inverted-header]': 'headerPosition === "below"',
     '[class.mat-mdc-tab-group-stretch-tabs]': 'stretchTabs',
+    '[style.--mat-tab-animation-duration]': 'animationDuration',
   },
 })
 export class MatTabGroup extends _MatTabGroupBase {
@@ -747,6 +748,8 @@ export class MatTabGroup extends _MatTabGroupBase {
       defaultConfig && defaultConfig.fitInkBarToContent != null
         ? defaultConfig.fitInkBarToContent
         : false;
+    this.stretchTabs =
+      defaultConfig && defaultConfig.stretchTabs != null ? defaultConfig.stretchTabs : true;
   }
 }
 

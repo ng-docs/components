@@ -67,10 +67,10 @@ describe('MenuItem', () => {
       expect(menuItem.hasMenu).toBeFalse();
     });
 
-    it('should prevent the default selection key action', () => {
+    it('should not prevent the default selection key action', () => {
       const event = dispatchKeyboardEvent(nativeButton, 'keydown', ENTER);
       fixture.detectChanges();
-      expect(event.defaultPrevented).toBe(true);
+      expect(event.defaultPrevented).toBe(false);
     });
   });
 
@@ -176,7 +176,7 @@ class MenuItemWithIconClass {
 }
 
 @Component({
-  template: ` <button cdkMenuItem><b>Click</b> me!</button> `,
+  template: ` <button cdkMenuItem><strong>Click</strong> me!</button> `,
 })
 class MenuItemWithBoldElement {}
 
@@ -189,7 +189,7 @@ class MenuItemWithBoldElement {}
           Click
         </div>
         <mat-icon>menu</mat-icon>
-        <div>me<b>!</b></div>
+        <div>me<strong>!</strong></div>
       </div>
     </button>
   `,

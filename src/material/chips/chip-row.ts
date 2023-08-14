@@ -57,7 +57,7 @@ export interface MatChipEditedEvent extends MatChipEvent {
  *
  */
 @Component({
-  selector: 'mat-chip-row, mat-basic-chip-row',
+  selector: 'mat-chip-row, [mat-chip-row], mat-basic-chip-row, [mat-basic-chip-row]',
   templateUrl: 'chip-row.html',
   styleUrls: ['chip.css'],
   inputs: ['color', 'disabled', 'disableRipple', 'tabIndex'],
@@ -75,12 +75,14 @@ export interface MatChipEditedEvent extends MatChipEvent {
     '[class.mat-mdc-chip-highlighted]': 'highlighted',
     '[class.mat-mdc-chip-with-trailing-icon]': '_hasTrailingIcon()',
     '[id]': 'id',
-    '[attr.tabindex]': 'null',
+    // Has to have a negative tabindex in order to capture
+    // focus and redirect it to the primary action.
+    '[attr.tabindex]': 'disabled ? null : -1',
     '[attr.aria-label]': 'null',
     '[attr.aria-description]': 'null',
     '[attr.role]': 'role',
-    '(mousedown)': '_mousedown($event)',
-    '(dblclick)': '_doubleclick($event)',
+    '(focus)': '_handleFocus($event)',
+    '(dblclick)': '_handleDoubleclick($event)',
   },
   providers: [
     {provide: MatChip, useExisting: MatChipRow},
@@ -170,13 +172,9 @@ export class MatChipRow extends MatChip implements AfterViewInit {
    * 当用户单击纸片内的任意位置时，将焦点发送到第一个网格单元。
    *
    */
-  _mousedown(event: MouseEvent) {
-    if (!this._isEditing) {
-      if (!this.disabled) {
-        this.focus();
-      }
-
-      event.preventDefault();
+  _handleFocus() {
+    if (!this._isEditing && !this.disabled) {
+      this.focus();
     }
   }
 
@@ -196,7 +194,7 @@ export class MatChipRow extends MatChip implements AfterViewInit {
     }
   }
 
-  _doubleclick(event: MouseEvent) {
+  _handleDoubleclick(event: MouseEvent) {
     if (!this.disabled && this.editable) {
       this._startEditing(event);
     }
@@ -213,9 +211,14 @@ export class MatChipRow extends MatChip implements AfterViewInit {
     // The value depends on the DOM so we need to extract it before we flip the flag.
     const value = this.value;
 
-    this._isEditing = true;
-    this._editStartPending = true;
+    this._isEditing = this._editStartPending = true;
 
+    // Starting the editing sequence below depends on the edit input
+    // query resolving on time. Trigger a synchronous change detection to
+    // ensure that it happens by the time we hit the timeout below.
+    this._changeDetectorRef.detectChanges();
+
+    // TODO(crisbeto): this timeout shouldn't be necessary given the `detectChange` call above.
     // Defer initializing the input so it has time to be added to the DOM.
     setTimeout(() => {
       this._getEditInput().initialize(value);
@@ -224,8 +227,7 @@ export class MatChipRow extends MatChip implements AfterViewInit {
   }
 
   private _onEditFinish() {
-    this._isEditing = false;
-    this._editStartPending = false;
+    this._isEditing = this._editStartPending = false;
     this.edited.emit({chip: this, value: this._getEditInput().getValue()});
 
     // If the edit input is still focused or focus was returned to the body after it was destroyed,
@@ -236,6 +238,10 @@ export class MatChipRow extends MatChip implements AfterViewInit {
     ) {
       this.primaryAction.focus();
     }
+  }
+
+  override _isRippleDisabled(): boolean {
+    return super._isRippleDisabled() || this._isEditing;
   }
 
   /**

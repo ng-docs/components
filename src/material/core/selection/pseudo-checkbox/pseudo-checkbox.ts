@@ -54,6 +54,8 @@ export type MatPseudoCheckboxState = 'unchecked' | 'checked' | 'indeterminate';
     '[class.mat-pseudo-checkbox-indeterminate]': 'state === "indeterminate"',
     '[class.mat-pseudo-checkbox-checked]': 'state === "checked"',
     '[class.mat-pseudo-checkbox-disabled]': 'disabled',
+    '[class.mat-pseudo-checkbox-minimal]': 'appearance === "minimal"',
+    '[class.mat-pseudo-checkbox-full]': 'appearance === "full"',
     '[class._mat-animation-noopable]': '_animationMode === "NoopAnimations"',
   },
 })
@@ -73,6 +75,12 @@ export class MatPseudoCheckbox {
    *
    */
   @Input() disabled: boolean = false;
+
+  /**
+   * Appearance of the pseudo checkbox. Default appearance of 'full' renders a checkmark/mixedmark
+   * indicator inside a square box. 'minimal' appearance only renders the checkmark/mixedmark.
+   */
+  @Input() appearance: 'minimal' | 'full' = 'full';
 
   constructor(@Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) {}
 }

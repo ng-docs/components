@@ -300,10 +300,12 @@ export abstract class _MatCheckboxBase<E>
   @ViewChild('label') _labelElement: ElementRef<HTMLInputElement>;
 
   /**
-   * Reference to the ripple instance of the checkbox.
+   * Reference to the MatRipple instance of the checkbox.
    *
-   * 引用复选框的涟漪对象实例。
+   * 引用复选框的 MatRipple 实例。
    *
+   * @deprecated Considered an implementation detail. To be removed.
+   * @breaking-change 17.0.0
    */
   @ViewChild(MatRipple) ripple: MatRipple;
 
@@ -452,14 +454,6 @@ export abstract class _MatCheckboxBase<E>
   // Implemented as part of ControlValueAccessor.
   setDisabledState(isDisabled: boolean) {
     this.disabled = isDisabled;
-  }
-
-  _getAriaChecked(): 'true' | 'false' | 'mixed' {
-    if (this.checked) {
-      return 'true';
-    }
-
-    return this.indeterminate ? 'mixed' : 'false';
   }
 
   private _transitionCheckState(newState: TransitionCheckState) {
@@ -703,6 +697,16 @@ export class MatCheckbox
 
   _onInputClick() {
     super._handleInputClick();
+  }
+
+  _onTouchTargetClick() {
+    super._handleInputClick();
+
+    if (!this.disabled) {
+      // Normally the input should be focused already, but if the click
+      // comes from the touch target, then we might have to focus it ourselves.
+      this._inputElement.nativeElement.focus();
+    }
   }
 
   /**

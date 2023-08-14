@@ -14,32 +14,18 @@ import {
   getProjectMainFile,
   getProjectStyleFile,
   hasNgModuleImport,
+  isStandaloneApp,
 } from '@angular/cdk/schematics';
 import {
   importsProvidersFrom,
-  addModuleImportToStandaloneBootstrap,
+  addFunctionalProvidersToStandaloneBootstrap,
+  callsProvidersFunction,
 } from '@schematics/angular/private/components';
 import {getWorkspace, ProjectDefinition} from '@schematics/angular/utility/workspace';
 import {ProjectType} from '@schematics/angular/utility/workspace-models';
 import {addFontsToIndex} from './fonts/material-fonts';
 import {Schema} from './schema';
 import {addThemeToAppStyles, addTypographyClass} from './theming/theming';
-
-/**
- * Name of the Angular module that enables Angular browser animations.
- *
- * 用来启用 Angular 浏览器动画的 Angular 模块的名称。
- *
- */
-const browserAnimationsModuleName = 'BrowserAnimationsModule';
-
-/**
- * Name of the module that switches Angular animations to a noop implementation.
- *
- * 将 Angular 动画切换到 noop 实现的模块的名称。
- *
- */
-const noopAnimationsModuleName = 'NoopAnimationsModule';
 
 /**
  * Scaffolds the basics of a Angular Material application, this includes:
@@ -95,15 +81,12 @@ function addAnimationsModule(options: Schema) {
   return async (host: Tree, context: SchematicContext) => {
     const workspace = await getWorkspace(host);
     const project = getProjectFromWorkspace(workspace, options.project);
+    const mainFilePath = getProjectMainFile(project);
 
-    try {
-      addAnimationsModuleToNonStandaloneApp(host, project, context, options);
-    } catch (e) {
-      if ((e as {message?: string}).message?.includes('Bootstrap call not found')) {
-        addAnimationsModuleToStandaloneApp(host, project, context, options);
-      } else {
-        throw e;
-      }
+    if (isStandaloneApp(host, mainFilePath)) {
+      addAnimationsToStandaloneApp(host, mainFilePath, context, options);
+    } else {
+      addAnimationsToNonStandaloneApp(host, project, mainFilePath, context, options);
     }
   };
 }
@@ -114,43 +97,44 @@ function addAnimationsModule(options: Schema) {
  * 将动画模块添加到使用独立组件 API 进行引导的应用程序中。
  *
  */
-function addAnimationsModuleToStandaloneApp(
+function addAnimationsToStandaloneApp(
   host: Tree,
-  project: ProjectDefinition,
+  mainFile: string,
   context: SchematicContext,
   options: Schema,
 ) {
-  const mainFile = getProjectMainFile(project);
+  const animationsFunction = 'provideAnimations';
+  const noopAnimationsFunction = 'provideNoopAnimations';
 
   if (options.animations === 'enabled') {
-    // In case the project explicitly uses the NoopAnimationsModule, we should print a warning
+    // In case the project explicitly uses provideNoopAnimations, we should print a warning
     // message that makes the user aware of the fact that we won't automatically set up
-    // animations. If we would add the BrowserAnimationsModule while the NoopAnimationsModule
+    // animations. If we would add provideAnimations while provideNoopAnimations
     // is already configured, we would cause unexpected behavior and runtime exceptions.
-    if (importsProvidersFrom(host, mainFile, noopAnimationsModuleName)) {
+    if (callsProvidersFunction(host, mainFile, noopAnimationsFunction)) {
       context.logger.error(
-        `Could not set up "${browserAnimationsModuleName}" ` +
-          `because "${noopAnimationsModuleName}" is already imported.`,
+        `Could not add "${animationsFunction}" ` +
+          `because "${noopAnimationsFunction}" is already provided.`,
       );
       context.logger.info(`Please manually set up browser animations.`);
     } else {
-      addModuleImportToStandaloneBootstrap(
+      addFunctionalProvidersToStandaloneBootstrap(
         host,
         mainFile,
-        browserAnimationsModuleName,
+        animationsFunction,
         '@angular/platform-browser/animations',
       );
     }
   } else if (
     options.animations === 'disabled' &&
-    !importsProvidersFrom(host, mainFile, browserAnimationsModuleName)
+    !importsProvidersFrom(host, mainFile, animationsFunction)
   ) {
-    // Do not add the NoopAnimationsModule module if the project already explicitly uses
-    // the BrowserAnimationsModule.
-    addModuleImportToStandaloneBootstrap(
+    // Do not add the provideNoopAnimations if the project already explicitly uses
+    // the provideAnimations.
+    addFunctionalProvidersToStandaloneBootstrap(
       host,
       mainFile,
-      noopAnimationsModuleName,
+      noopAnimationsFunction,
       '@angular/platform-browser/animations',
     );
   }
@@ -163,13 +147,16 @@ function addAnimationsModuleToStandaloneApp(
  * 将动画模块添加到使用非独立组件 API 进行引导的应用程序中。
  *
  */
-function addAnimationsModuleToNonStandaloneApp(
+function addAnimationsToNonStandaloneApp(
   host: Tree,
   project: ProjectDefinition,
+  mainFile: string,
   context: SchematicContext,
   options: Schema,
 ) {
-  const appModulePath = getAppModulePath(host, getProjectMainFile(project));
+  const browserAnimationsModuleName = 'BrowserAnimationsModule';
+  const noopAnimationsModuleName = 'NoopAnimationsModule';
+  const appModulePath = getAppModulePath(host, mainFile);
 
   if (options.animations === 'enabled') {
     // In case the project explicitly uses the NoopAnimationsModule, we should print a warning

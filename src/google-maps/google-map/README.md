@@ -38,6 +38,7 @@ export class GoogleMapDemo {
 
   center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
   zoom = 4;
+  display: google.maps.LatLngLiteral;
 
   moveMap(event: google.maps.MapMouseEvent) {
     this.center = (event.latLng.toJSON());

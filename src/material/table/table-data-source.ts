@@ -402,7 +402,7 @@ export class _MatTableDataSource<
 
   /**
    * Returns a filtered data array where each filter object contains the filter string within
-   * the result of the filterTermAccessor function. If no filter is set, returns the data array
+   * the result of the filterPredicate function. If no filter is set, returns the data array
    * as provided.
    *
    * 返回一个过滤后的数据数组，其中每个过滤器对象都包含 filterTermAccessor 函数结果中的过滤字符串。如果没有设置过滤器，则返回所提供的数据数组。
@@ -410,7 +410,7 @@ export class _MatTableDataSource<
    */
   _filterData(data: T[]) {
     // If there is a filter string, filter out data that does not contain it.
-    // Each data object is converted to a string using the function defined by filterTermAccessor.
+    // Each data object is converted to a string using the function defined by filterPredicate.
     // May be overridden for customization.
     this.filteredData =
       this.filter == null || this.filter === ''
@@ -527,7 +527,7 @@ export class _MatTableDataSource<
  * 可接受客户端数据的数据源，包括原生支持的过滤、排序（使用 MatSort）和分页（使用 MatPaginator）。
  *
  * Allows for sort customization by overriding sortingDataAccessor, which defines how data
- * properties are accessed. Also allows for filter customization by overriding filterTermAccessor,
+ * properties are accessed. Also allows for filter customization by overriding filterPredicate,
  * which defines how row data is converted to a string for filter matching.
  *
  * 可以通过改写 sortingDataAccessor 来进行自定义排序，它定义了要如何访问数据属性。

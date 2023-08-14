@@ -15,9 +15,10 @@ import {
   Output,
   ViewEncapsulation,
   OnInit,
+  inject,
 } from '@angular/core';
 import {MatChip} from './chip';
-import {MAT_CHIP} from './tokens';
+import {MAT_CHIP, MAT_CHIPS_DEFAULT_OPTIONS} from './tokens';
 
 /**
  * Event object emitted by MatChipOption when selected or deselected.
@@ -48,13 +49,15 @@ export class MatChipSelectionChange {
  *
  */
 @Component({
-  selector: 'mat-basic-chip-option, mat-chip-option',
+  selector: 'mat-basic-chip-option, [mat-basic-chip-option], mat-chip-option, [mat-chip-option]',
   templateUrl: 'chip-option.html',
   styleUrls: ['chip.css'],
   inputs: ['color', 'disabled', 'disableRipple', 'tabIndex'],
   host: {
-    'class':
-      'mat-mdc-chip mat-mdc-chip-option mdc-evolution-chip mdc-evolution-chip--filter mdc-evolution-chip--selectable mdc-evolution-chip--with-primary-graphic',
+    'class': 'mat-mdc-chip mat-mdc-chip-option',
+    '[class.mdc-evolution-chip]': '!_isBasicChip',
+    '[class.mdc-evolution-chip--filter]': '!_isBasicChip',
+    '[class.mdc-evolution-chip--selectable]': '!_isBasicChip',
     '[class.mat-mdc-chip-selected]': 'selected',
     '[class.mat-mdc-chip-multiple]': '_chipListMultiple',
     '[class.mat-mdc-chip-disabled]': 'disabled',
@@ -68,6 +71,7 @@ export class MatChipSelectionChange {
     '[class.mdc-evolution-chip--selecting]': '!_animationsDisabled',
     '[class.mdc-evolution-chip--with-trailing-action]': '_hasTrailingIcon()',
     '[class.mdc-evolution-chip--with-primary-icon]': 'leadingIcon',
+    '[class.mdc-evolution-chip--with-primary-graphic]': '_hasLeadingGraphic()',
     '[class.mdc-evolution-chip--with-avatar]': 'leadingIcon',
     '[class.mat-mdc-chip-highlighted]': 'highlighted',
     '[class.mat-mdc-chip-with-trailing-icon]': '_hasTrailingIcon()',
@@ -85,12 +89,10 @@ export class MatChipSelectionChange {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MatChipOption extends MatChip implements OnInit {
-  /**
-   * Whether the chip list is selectable.
-   *
-   * 纸片列表是否可选。
-   *
-   */
+  /** Default chip options. */
+  private _defaultOptions = inject(MAT_CHIPS_DEFAULT_OPTIONS, {optional: true});
+
+  /** Whether the chip list is selectable. */
   chipListSelectable: boolean = true;
 
   /**
@@ -100,6 +102,10 @@ export class MatChipOption extends MatChip implements OnInit {
    *
    */
   _chipListMultiple: boolean = false;
+
+  /** Whether the chip list hides single-selection indicator. */
+  _chipListHideSingleSelectionIndicator: boolean =
+    this._defaultOptions?.hideSingleSelectionIndicator ?? false;
 
   /**
    * Whether or not the chip is selectable.
@@ -176,7 +182,8 @@ export class MatChipOption extends MatChip implements OnInit {
   @Output() readonly selectionChange: EventEmitter<MatChipSelectionChange> =
     new EventEmitter<MatChipSelectionChange>();
 
-  ngOnInit() {
+  override ngOnInit() {
+    super.ngOnInit();
     this.role = 'presentation';
   }
 
@@ -222,9 +229,27 @@ export class MatChipOption extends MatChip implements OnInit {
   }
 
   override _handlePrimaryActionInteraction() {
-    if (this.selectable && !this.disabled) {
-      this.toggleSelected(true);
+    if (!this.disabled) {
+      // Interacting with the primary action implies that the chip already has focus, however
+      // there's a bug in Safari where focus ends up lingering on the previous chip (see #27544).
+      // We work around it by explicitly focusing the primary action of the current chip.
+      this.focus();
+
+      if (this.selectable) {
+        this.toggleSelected(true);
+      }
     }
+  }
+
+  _hasLeadingGraphic() {
+    if (this.leadingIcon) {
+      return true;
+    }
+
+    // The checkmark graphic communicates selected state for both single-select and multi-select.
+    // Include checkmark in single-select to fix a11y issue where selected state is communicated
+    // visually only using color (#25886).
+    return !this._chipListHideSingleSelectionIndicator || this._chipListMultiple;
   }
 
   _setSelectedState(isSelected: boolean, isUserInput: boolean, emitEvent: boolean) {

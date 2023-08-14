@@ -227,15 +227,7 @@ export class SelectionModel<T> {
    *
    */
   isSelected(value: T): boolean {
-    if (this.compareWith) {
-      for (const otherValue of this._selection) {
-        if (this.compareWith(otherValue, value)) {
-          return true;
-        }
-      }
-      return false;
-    }
-    return this._selection.has(value);
+    return this._selection.has(this._getConcreteValue(value));
   }
 
   /**
@@ -309,6 +301,7 @@ export class SelectionModel<T> {
    *
    */
   private _markSelected(value: T) {
+    value = this._getConcreteValue(value);
     if (!this.isSelected(value)) {
       if (!this._multiple) {
         this._unmarkAll();
@@ -331,6 +324,7 @@ export class SelectionModel<T> {
    *
    */
   private _unmarkSelected(value: T) {
+    value = this._getConcreteValue(value);
     if (this.isSelected(value)) {
       this._selection.delete(value);
 
@@ -368,6 +362,20 @@ export class SelectionModel<T> {
   /** Whether there are queued up change to be emitted. */
   private _hasQueuedChanges() {
     return !!(this._deselectedToEmit.length || this._selectedToEmit.length);
+  }
+
+  /** Returns a value that is comparable to inputValue by applying compareWith function, returns the same inputValue otherwise. */
+  private _getConcreteValue(inputValue: T): T {
+    if (!this.compareWith) {
+      return inputValue;
+    } else {
+      for (let selectedValue of this._selection) {
+        if (this.compareWith!(inputValue, selectedValue)) {
+          return selectedValue;
+        }
+      }
+      return inputValue;
+    }
   }
 }
 

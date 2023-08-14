@@ -235,9 +235,8 @@ that point.
 
 <!-- example(datepicker-filter) -->
 
-In this example the user can back past 2005, but all of the dates before then will be unselectable.
-They will not be able to go further back in the calendar than 2000. If they manually type in a date
-that is before the min, after the max, or filtered out, the input will have validation errors.
+In this example the user cannot select any date that falls on a Saturday or Sunday, but all of the 
+dates which fall on other days of the week are selectable.
 
 在这个例子中（译注：这个例子有问题），用户可以回到 2005 年之前，但那之前的所有日期都是不可选取的。
 但日历不能回到 2000 年之前。如果用户手动输入一个 `min` 之前或 `max` 之后或过滤掉的日期，该输入框就会发生有效性错误。
