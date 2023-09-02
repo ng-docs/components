@@ -107,7 +107,7 @@ export function MAT_ICON_LOCATION_FACTORY(): MatIconLocation {
   };
 }
 /**
- * SVG attributes that accept a FuncIRI (e.g. `url(<something>)`).
+ * SVG attributes that accept a FuncIRI \(e.g. `url(<something>)`\).
  *
  * 可接受 FuncIRI（例如 `url(<something>)` ）的 SVG 属性。
  *

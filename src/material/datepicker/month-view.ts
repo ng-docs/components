@@ -81,7 +81,7 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   private _selectionKeyPressed: boolean;
 
   /**
-   * The date to display in this month view (everything other than the month and year is ignored).
+   * The date to display in this month view \(everything other than the month and year is ignored\).
    *
    * 要显示在本月视图中的日期（忽略月份和年份以外的所有内容）。
    *
@@ -260,7 +260,7 @@ export class MatMonthView<D> implements AfterContentInit, OnChanges, OnDestroy {
   @ViewChild(MatCalendarBody) _matCalendarBody: MatCalendarBody;
 
   /**
-   * The label for this month (e.g. "January 2017").
+   * The label for this month \(e.g. "January 2017"\).
    *
    * 当前月的标签（例如“2017 年 1 月”）。
    *

@@ -212,8 +212,8 @@ abstract class RowViewRef<T> extends EmbeddedViewRef<RowContext<T>> {}
  * 用来表示单渲染行标识的属性集。
  *
  * When the table needs to determine the list of rows to render, it will do so by iterating through
- * each data object and evaluating its list of row templates to display (when multiTemplateDataRows
- * is false, there is only one template per data object). For each pair of data object and row
+ * each data object and evaluating its list of row templates to display \(when multiTemplateDataRows
+ * is false, there is only one template per data object\). For each pair of data object and row
  * template, a `RenderRow` is added to the list of rows to render. If the data object and row
  * template pair has already been rendered, the previously used `RenderRow` is added; else a new
  * `RenderRow` is \* created. Once the list is complete and all data objects have been iterated
@@ -222,6 +222,7 @@ abstract class RowViewRef<T> extends EmbeddedViewRef<RowContext<T>> {}
  * 当表格需要确定要渲染的行的列表时，它会迭代遍历每个数据对象并评估它要显示的行模板的列表（当 multiTemplateDataRows 为 false 时，每个数据对象只有一个模板）。
  * 每对数据对象和行模板都会把一个 `RenderRow` 添加到要渲染的行列表中。如果已经渲染过这个数据对象和行模板对，就会添加以前用过的 `RenderRow`，否则就会创建一个新的 `RenderRow`。
  * 一旦列表完成、迭代完所有的数据对象之后，才会执行 diff 来确定需要对渲染行进行的更改。
+ *
  * @docs-private
  */
 export interface RenderRow<T> {
@@ -528,11 +529,11 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
   private _trackByFn: TrackByFunction<T>;
 
   /**
-   * The table's source of data, which can be provided in three ways (in order of complexity):
+   * The table's source of data, which can be provided in three ways \(in order of complexity\):
    *
    * 该表格的数据源可以通过三种方式提供（按复杂程度排序）：
    *
-   * - Simple data array (each object represents one table row)
+   * - Simple data array \(each object represents one table row\)
    *
    *   简单数据数组（每个对象代表格一个表格行）
    *
@@ -560,11 +561,12 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
    * Finally, when providing a `DataSource` object, the table will use the Observable stream
    * provided by the connect function and trigger updates when that stream emits new data array
    * values. During the table's ngOnDestroy or when the data source is removed from the table, the
-   * table will call the DataSource's `disconnect` function (may be useful for cleaning up any
-   * subscriptions registered during the connect process).
+   * table will call the DataSource's `disconnect` function \(may be useful for cleaning up any
+   * subscriptions registered during the connect process\).
    *
    * 最后，在提供 `DataSource` 对象时，该表格将使用 connect 函数提供的 Observable 流，并在该流发出新的数据数组值时触发更新。
    * 在表格的 ngOnDestroy 中，或者从表格中删除了数据源时，该表格会调用数据源的 `disconnect` 函数（这可能对清理在连接过程中注册的所有订阅很有帮助）。
+   *
    */
   @Input()
   get dataSource(): CdkTableDataSourceInput<T> {
@@ -835,9 +837,9 @@ export class CdkTable<T> implements AfterContentChecked, CollectionViewer, OnDes
 
   /**
    * Renders rows based on the table's latest set of data, which was either provided directly as an
-   * input or retrieved through an Observable stream (directly or from a DataSource).
+   * input or retrieved through an Observable stream \(directly or from a DataSource\).
    * Checks for differences in the data since the last diff to perform only the necessary
-   * changes (add/remove/move rows).
+   * changes \(add/remove/move rows\).
    *
    * 根据表格中最新的数据集来渲染行，这些数据既可以直接输入，也可以从一个可观察的流中检索出来（直接获取或从 DataSource 获取）。检查自上次 diff 之后的数据差异，以便只进行必要的修改（添加/删除/移动行）。
    *

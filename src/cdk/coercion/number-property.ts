@@ -16,7 +16,7 @@
 export type NumberInput = string | number | null | undefined;
 
 /**
- * Coerces a data-bound value (typically a string) to a number.
+ * Coerces a data-bound value \(typically a string\) to a number.
  *
  * 把数据绑定值（通常是字符串）强制转换为数字。
  *

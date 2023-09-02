@@ -32,7 +32,7 @@ import {
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 
 /**
- * Default color palette for round buttons (mat-fab and mat-mini-fab)
+ * Default color palette for round buttons \(mat-fab and mat-mini-fab\)
  *
  * 圆形按钮（mat-fab 和 mat-mini-fab）的默认调色板
  *

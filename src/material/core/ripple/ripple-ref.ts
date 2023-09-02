@@ -37,14 +37,14 @@ export type RippleConfig = {
  */
 export interface RippleAnimationConfig {
   /**
-   * Duration in milliseconds for the enter animation (expansion from point of contact).
+   * Duration in milliseconds for the enter animation \(expansion from point of contact\).
    *
    * 进场动画的持续时间（以毫秒为单位）（从接触点开始扩展）。
    *
    */
   enterDuration?: number;
   /**
-   * Duration in milliseconds for the exit animation (fade-out).
+   * Duration in milliseconds for the exit animation \(fade-out\).
    *
    * 离场动画（淡出）的持续时间（以毫秒为单位）。
    *

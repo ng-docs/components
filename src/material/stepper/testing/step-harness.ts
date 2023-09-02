@@ -144,7 +144,7 @@ export class MatStepHarness extends ContentContainerComponentHarness<string> {
 
   /**
    * Selects the given step by clicking on the label. The step may not be selected
-   * if the stepper doesn't allow it (e.g. if there are validation errors).
+   * if the stepper doesn't allow it \(e.g. if there are validation errors\).
    *
    * 通过单击标签选择给定的步骤。如果步进器不允许，则不能选择该步骤（例如，如果存在验证错误）。
    *

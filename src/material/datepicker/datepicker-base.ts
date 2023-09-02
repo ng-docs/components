@@ -131,7 +131,7 @@ const _MatDatepickerContentBase = mixinColor(
  * Component used as the content for the datepicker overlay. We use this instead of using
  * MatCalendar directly as the content so we can control the initial focus. This also gives us a
  * place to put additional features of the overlay that are not part of the calendar itself in the
- * future. (e.g. confirmation buttons).
+ * future. \(e.g. confirmation buttons\).
  *
  * 用作日期选择器对话框和弹出框的内容组件。我们用它取代直接使用 MatCalendar 作为内容，这样才能控制初始焦点。这也为我们提供了一个未来可以把弹出窗口的其他特性（例如确认按钮）放到日历自身之外的机会。
  *

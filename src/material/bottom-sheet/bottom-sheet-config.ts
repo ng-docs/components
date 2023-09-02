@@ -107,8 +107,8 @@ export class MatBottomSheetConfig<D = any> {
 
   /**
    * Whether the bottom sheet should close when the user goes backwards/forwards in history.
-   * Note that this usually doesn't include clicking on links (unless the user is using
-   * the `HashLocationStrategy`).
+   * Note that this usually doesn't include clicking on links \(unless the user is using
+   * the `HashLocationStrategy`\).
    *
    * 当用户在历史记录中前进或后退时，底部操作表是否应该关闭。请注意，这通常不包括单击某些链接（除非用户正在使用 `HashLocationStrategy` ）。
    *

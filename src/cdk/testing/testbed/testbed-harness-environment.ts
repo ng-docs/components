@@ -201,7 +201,7 @@ export class TestbedHarnessEnvironment extends HarnessEnvironment<Element> {
 
   /**
    * Creates a `HarnessLoader` at the document root. This can be used if harnesses are
-   * located outside of a fixture (e.g. overlays appended to the document body).
+   * located outside of a fixture \(e.g. overlays appended to the document body\).
    *
    * 在文档的根上创建一个 `HarnessLoader`。如果测试工具位于测试夹具之外（例如，附加在 document body 上的浮层），则可以使用此功能。
    *

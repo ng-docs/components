@@ -25,8 +25,8 @@ let nextId = 0;
  *
  * 将样式应用于宿主元素，使其滚动条与包含在其中的 CdkTable 的非粘滞可滚动部分相匹配。
  *
- * This visual effect only works in Webkit and Blink based browsers (eg Chrome,
- * Safari, Edge). Other browsers such as Firefox will gracefully degrade to
+ * This visual effect only works in Webkit and Blink based browsers \(eg Chrome,
+ * Safari, Edge\). Other browsers such as Firefox will gracefully degrade to
  * normal scrollbar appearance.
  * Further note: These styles have no effect when the browser is using OS-default
  * scrollbars. The easiest way to force them into custom mode is to specify width

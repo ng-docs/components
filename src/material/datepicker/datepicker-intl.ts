@@ -27,7 +27,7 @@ export class MatDatepickerIntl {
   readonly changes: Subject<void> = new Subject<void>();
 
   /**
-   * A label for the calendar popup (used by screen readers).
+   * A label for the calendar popup \(used by screen readers\).
    *
    * 日历弹出框的标签（由屏幕阅读器使用）。
    *
@@ -35,7 +35,7 @@ export class MatDatepickerIntl {
   calendarLabel = 'Calendar';
 
   /**
-   * A label for the button used to open the calendar popup (used by screen readers).
+   * A label for the button used to open the calendar popup \(used by screen readers\).
    *
    * 该按钮的标签，用于打开日历弹出框（由屏幕阅读器使用）。
    *
@@ -51,7 +51,7 @@ export class MatDatepickerIntl {
   closeCalendarLabel = 'Close calendar';
 
   /**
-   * A label for the previous month button (used by screen readers).
+   * A label for the previous month button \(used by screen readers\).
    *
    * 上个月按钮的标签（由屏幕阅读器使用）。
    *
@@ -59,7 +59,7 @@ export class MatDatepickerIntl {
   prevMonthLabel = 'Previous month';
 
   /**
-   * A label for the next month button (used by screen readers).
+   * A label for the next month button \(used by screen readers\).
    *
    * 下个月按钮的标签（由屏幕阅读器使用）。
    *
@@ -67,7 +67,7 @@ export class MatDatepickerIntl {
   nextMonthLabel = 'Next month';
 
   /**
-   * A label for the previous year button (used by screen readers).
+   * A label for the previous year button \(used by screen readers\).
    *
    * 上一年按钮的标签（由屏幕阅读器使用）。
    *
@@ -75,7 +75,7 @@ export class MatDatepickerIntl {
   prevYearLabel = 'Previous year';
 
   /**
-   * A label for the next year button (used by screen readers).
+   * A label for the next year button \(used by screen readers\).
    *
    * 下一年按钮的标签（由屏幕阅读器使用）。
    *
@@ -83,7 +83,7 @@ export class MatDatepickerIntl {
   nextYearLabel = 'Next year';
 
   /**
-   * A label for the previous multi-year button (used by screen readers).
+   * A label for the previous multi-year button \(used by screen readers\).
    *
    * 前一个多年按钮的标签（由屏幕阅读器使用）。
    *
@@ -91,7 +91,7 @@ export class MatDatepickerIntl {
   prevMultiYearLabel = 'Previous 24 years';
 
   /**
-   * A label for the next multi-year button (used by screen readers).
+   * A label for the next multi-year button \(used by screen readers\).
    *
    * 下一个多年按钮的标签（由屏幕阅读器使用）。
    *
@@ -99,7 +99,7 @@ export class MatDatepickerIntl {
   nextMultiYearLabel = 'Next 24 years';
 
   /**
-   * A label for the 'switch to month view' button (used by screen readers).
+   * A label for the 'switch to month view' button \(used by screen readers\).
    *
    * “切换到月份视图”按钮的标签（由屏幕阅读器使用）。
    *
@@ -107,7 +107,7 @@ export class MatDatepickerIntl {
   switchToMonthViewLabel = 'Choose date';
 
   /**
-   * A label for the 'switch to year view' button (used by screen readers).
+   * A label for the 'switch to year view' button \(used by screen readers\).
    *
    * “切换到年份视图”按钮的标签（由屏幕阅读器使用）。
    *
@@ -115,7 +115,7 @@ export class MatDatepickerIntl {
   switchToMultiYearViewLabel = 'Choose month and year';
 
   /**
-   * A label for the first date of a range of dates (used by screen readers).
+   * A label for the first date of a range of dates \(used by screen readers\).
    *
    * 日期范围中第一个日期的标签（由屏幕阅读器使用）。
    *
@@ -124,13 +124,12 @@ export class MatDatepickerIntl {
    * Provide your own internationalization string.
    *
    * 提供你自己的国际化字符串。
-   *
    * @breaking-change 17.0.0
    */
   startDateLabel = 'Start date';
 
   /**
-   * A label for the last date of a range of dates (used by screen readers).
+   * A label for the last date of a range of dates \(used by screen readers\).
    *
    * 日期范围中最后一个日期的标签（由屏幕阅读器使用）。
    *
@@ -139,13 +138,12 @@ export class MatDatepickerIntl {
    * Provide your own internationalization string.
    *
    * 提供你自己的国际化字符串。
-   *
    * @breaking-change 17.0.0
    */
   endDateLabel = 'End date';
 
   /**
-   * Formats a range of years (used for visuals).
+   * Formats a range of years \(used for visuals\).
    *
    * 格式化年份范围（供视觉读取使用）。
    *
@@ -155,7 +153,7 @@ export class MatDatepickerIntl {
   }
 
   /**
-   * Formats a label for a range of years (used by screen readers).
+   * Formats a label for a range of years \(used by screen readers\).
    *
    * 格式化一系列年份的标签（由屏幕阅读器使用）。
    *

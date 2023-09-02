@@ -585,7 +585,7 @@ export class RippleRenderer implements EventListenerObject {
 }
 
 /**
- * Returns the distance from the point (x, y) to the furthest corner of a rectangle.
+ * Returns the distance from the point \(x, y\) to the furthest corner of a rectangle.
  *
  * 返回从点（x，y）到矩形最远角的距离。
  *

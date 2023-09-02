@@ -474,7 +474,7 @@ export abstract class _MatPaginatorBase<
    *
    * 更改分页大小，以便原来分页上显示的第一个条目在新的分页大小下仍然可见。
    *
-   * For example, if the page size is 10 and on the second page (items indexed 10-19) then
+   * For example, if the page size is 10 and on the second page \(items indexed 10-19\) then
    * switching so that the page size is 5 will set the third page as the current page so
    * that the 10th item will still be displayed.
    *

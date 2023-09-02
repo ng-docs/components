@@ -55,7 +55,7 @@ export class CdkMenuBar extends CdkMenuBase implements AfterContentInit {
   override readonly orientation = 'horizontal';
 
   /**
-   * Whether the menu is displayed inline (i.e. always present vs a conditional popup that the user triggers with a trigger element).
+   * Whether the menu is displayed inline \(i.e. always present vs a conditional popup that the user triggers with a trigger element\).
    *
    * 菜单是否内联显示（即始终存在的弹出菜单，与之相对的是通过触发器元素由用户触发的条件化弹出菜单）。
    *

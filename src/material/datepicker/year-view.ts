@@ -71,7 +71,7 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   private _selectionKeyPressed: boolean;
 
   /**
-   * The date to display in this year view (everything other than the year is ignored).
+   * The date to display in this year view \(everything other than the year is ignored\).
    *
    * 要在今年视图中显示的日期（忽略该年份以外的所有内容）。
    *
@@ -200,7 +200,7 @@ export class MatYearView<D> implements AfterContentInit, OnDestroy {
   _months: MatCalendarCell[][];
 
   /**
-   * The label for this year (e.g. "2017").
+   * The label for this year \(e.g. "2017"\).
    *
    * 今年的标签（例如“2017”）。
    *

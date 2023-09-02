@@ -70,7 +70,7 @@ export const enum HoverContentState {
 @Injectable()
 export class EditEventDispatcher<R> {
   /**
-   * A subject that indicates which table cell is currently editing (unless it is disabled).
+   * A subject that indicates which table cell is currently editing \(unless it is disabled\).
    *
    * 指示当前正在编辑哪个表格单元格的主体（除非它被禁用）。
    *
@@ -120,7 +120,7 @@ export class EditEventDispatcher<R> {
   readonly disabledCells = new WeakMap<Element, boolean>();
 
   /**
-   * The EditRef for the currently active edit lens (if any).
+   * The EditRef for the currently active edit lens \(if any\).
    *
    * 当前活动编辑镜头（如果有）的 EditRef。
    *

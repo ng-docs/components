@@ -281,7 +281,7 @@ export class MatChipInput implements MatChipTextControl, AfterContentInit, OnCha
   }
 
   /**
-   * Checks to see if the blur should emit the (chipEnd) event.
+   * Checks to see if the blur should emit the \(chipEnd\) event.
    *
    * 检查失焦时是否应该发出（chipEnd）事件。
    *
@@ -305,7 +305,7 @@ export class MatChipInput implements MatChipTextControl, AfterContentInit, OnCha
   }
 
   /**
-   * Checks to see if the (chipEnd) event needs to be emitted.
+   * Checks to see if the \(chipEnd\) event needs to be emitted.
    *
    * 检查是否需要发出（chipEnd）事件。
    *

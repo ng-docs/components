@@ -34,15 +34,12 @@ import {
  * @template T The type for the embedded view's $implicit property.
  *
  * 嵌入式视图的 $implicit 属性的类型。
- *
  * @template R The type for the item in each IterableDiffer change record.
  *
  * 每个 IterableDiffer 更改记录中的条目类型。
- *
  * @template C The type for the context passed to each embedded view.
  *
  * 传给每个嵌入式视图的上下文类型。
- *
  */
 export class _RecycleViewRepeaterStrategy<T, R, C extends _ViewRepeaterItemContext<T>>
   implements _ViewRepeater<T, R, C>

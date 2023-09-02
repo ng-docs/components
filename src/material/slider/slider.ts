@@ -108,7 +108,7 @@ export class MatSlider
   @ViewChild('trackActive') _trackActive: ElementRef<HTMLElement>;
 
   /**
-   * The slider thumb(s).
+   * The slider thumb\(s\).
    *
    * 此滑杆的滑块。
    *
@@ -116,7 +116,7 @@ export class MatSlider
   @ViewChildren(MAT_SLIDER_VISUAL_THUMB) _thumbs: QueryList<_MatSliderVisualThumb>;
 
   /**
-   * The sliders hidden range input(s).
+   * The sliders hidden range input\(s\).
    *
    * 此滑杆隐藏范围输入组件。
    *
@@ -124,7 +124,7 @@ export class MatSlider
   @ContentChild(MAT_SLIDER_THUMB) _input: _MatSliderThumb;
 
   /**
-   * The sliders hidden range input(s).
+   * The sliders hidden range input\(s\).
    *
    * 此滑杆隐藏范围输入组件。
    *

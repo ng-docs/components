@@ -102,7 +102,7 @@ export abstract class Migration<Data, Context = any> {
    * Method that will be called for each node in a given source file. Unlike tslint, this
    * function will only retrieve TypeScript nodes that need to be casted manually. This
    * allows us to only walk the program source files once per program and not per
-   * migration rule (significant performance boost).
+   * migration rule \(significant performance boost\).
    *
    * 将对给定源文件中每个节点调用的方法。与 tslint 不同，此函数将仅检索需要手动转换的 TypeScript 节点。这使我们每个程序只能遍历程序源文件一次，而不能按照迁移规则遍历程序源文件（显著提高性能）。
    *

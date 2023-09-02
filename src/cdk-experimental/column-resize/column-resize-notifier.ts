@@ -50,7 +50,7 @@ export interface ColumnSize {
 export interface ColumnSizeAction extends ColumnSize {
   /**
    * Whether the resize action should be applied instantaneously. False for events triggered during
-   * a UI-triggered resize (such as with the mouse) until the mouse button is released. True
+   * a UI-triggered resize \(such as with the mouse\) until the mouse button is released. True
    * for all programmatically triggered resizes.
    *
    * 是否应该立即应用此调整大小操作。对于在 UI 触发的（例如使用鼠标）调整大小期间触发的事件，直到释放鼠标按钮未知都为 false。对于所有以编程方式触发的调整大小都为 true。

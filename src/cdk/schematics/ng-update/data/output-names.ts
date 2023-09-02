@@ -10,9 +10,9 @@ import {VersionChanges} from '../../update-tool/version-changes';
 
 export interface OutputNameUpgradeData {
   /**
-   * The @Output() name to replace.
+   * The @Output\(\) name to replace.
    *
-   * 要替换的 @Output() 名称。
+   * 要替换的 @Output\(\) 名称。
    *
    */
   replace: string;

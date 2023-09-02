@@ -31,8 +31,8 @@ export interface Tile {
 }
 
 /**
- * Class for determining, from a list of tiles, the (row, col) position of each of those tiles
- * in the grid. This is necessary (rather than just rendering the tiles in normal document flow)
+ * Class for determining, from a list of tiles, the \(row, col\) position of each of those tiles
+ * in the grid. This is necessary \(rather than just rendering the tiles in normal document flow\)
  * because the tiles can have a rowspan.
  *
  * 该类用于从一个图块列表中确定该网格中每个图块的位置（row，col）。这是必要的（与在普通的文档流中渲染图块不同），因为这些图块可以跨行（rowspan）。
@@ -46,8 +46,8 @@ export interface Tile {
  * The basis of the algorithm is the use of an array to track the already placed tiles. Each
  * element of the array corresponds to a column, and the value indicates how many cells in that
  * column are already occupied; zero indicates an empty cell. Moving "down" to the next row
- * decrements each value in the tracking array (indicating that the column is one cell closer to
- * being free).
+ * decrements each value in the tracking array \(indicating that the column is one cell closer to
+ * being free\).
  *
  * 该算法的基础是使用一个数组来跟踪已放置的图块。数组中的每一个元素对应一列，其值表示该列中已经占用了多少个单元格；用零表示空单元格。
  * 每向下移动一行就会递减跟踪数组中的每一个值（以表明该列是一个更接近空闲状态的单元格）。
@@ -56,7 +56,7 @@ export interface Tile {
  */
 export class TileCoordinator {
   /**
-   * Tracking array (see class description).
+   * Tracking array \(see class description\).
    *
    * 跟踪数组（参见类说明）。
    *
@@ -104,7 +104,7 @@ export class TileCoordinator {
   }
 
   /**
-   * The computed (row, col) position of each tile (the output).
+   * The computed \(row, col\) position of each tile \(the output\).
    *
    * 每个图块输出的计算位置（row，col）。
    *
@@ -255,7 +255,7 @@ export class TileCoordinator {
 }
 
 /**
- * Simple data structure for tile position (row, col).
+ * Simple data structure for tile position \(row, col\).
  *
  * 图块位置（row，col）的简单数据结构。
  *

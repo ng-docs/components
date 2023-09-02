@@ -130,7 +130,7 @@ application.
 `RepositionScrollStrategy` 会在滚动时重新定位浮层元素。注意，这会对滚动带来一些性能影响 - 用户应该在每个具体应用的上下文中权衡这种代价。
 
 A custom scroll strategy can be created by implementing the `ScrollStrategy` interface. Each
-strategy will typically inject `ScrollDispatcher` (from `@angular/cdk/scrolling`) to be notified
+strategy will typically inject `ScrollDispatcher` \(from `@angular/cdk/scrolling`\) to be notified
 of when scrolling takes place. See the documentation for `ScrollDispatcher` for more information
 on how scroll events are detected and dispatched.
 

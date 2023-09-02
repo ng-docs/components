@@ -71,7 +71,7 @@ export abstract class _MatSelectHarnessBase<
   }
 
   /**
-   * Gets a boolean promise indicating if the select is empty (no value is selected).
+   * Gets a boolean promise indicating if the select is empty \(no value is selected\).
    *
    * 获取一个布尔型 Promise，指示此选择框是否为空（未选择任何值）。
    *

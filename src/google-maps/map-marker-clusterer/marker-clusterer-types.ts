@@ -101,6 +101,7 @@ export declare class MarkerClusterer {
  * See googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.cluster.html
  *
  * 参见 googlemaps.github.io/v3-utility-library/classes/\_google_markerclustererplus.cluster.html
+ *
  */
 export declare class Cluster {
   constructor(markerClusterer: MarkerClusterer);

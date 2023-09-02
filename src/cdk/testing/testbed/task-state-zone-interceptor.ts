@@ -17,7 +17,7 @@ import {ProxyZone, ProxyZoneStatic} from './proxy-zone-types';
  */
 export interface TaskState {
   /**
-   * Whether the zone is stable (i.e. no microtasks and macrotasks).
+   * Whether the zone is stable \(i.e. no microtasks and macrotasks\).
    *
    * zone 是否稳定（即没有微任务和宏任务）。
    *

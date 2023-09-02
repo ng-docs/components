@@ -34,7 +34,7 @@ import {
  *
  * 此可视滑杆的滑块。
  *
- * Handles the slider thumb ripple states (hover, focus, and active),
+ * Handles the slider thumb ripple states \(hover, focus, and active\),
  * and displaying the value tooltip on discrete sliders.
  *
  * 处理此滑杆的滑块状态（悬停、焦点和活动），并在离散滑杆上显示值的工具提示。

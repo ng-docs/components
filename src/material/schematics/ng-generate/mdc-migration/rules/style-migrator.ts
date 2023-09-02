@@ -51,7 +51,7 @@ export interface MixinChange {
   old: string;
 
   /**
-   * The name(s) of the new scss mixin(s).
+   * The name\(s\) of the new scss mixin\(s\).
    *
    * 新的 scss mixin 名称。
    *
@@ -59,7 +59,7 @@ export interface MixinChange {
   new: string[] | null;
 
   /**
-   * Optional check to see if new scss mixin(s) already exist in the styles
+   * Optional check to see if new scss mixin\(s\) already exist in the styles
    *
    * 可选检查以查看样式中是否已存在新的 scss mixin
    *
@@ -159,7 +159,7 @@ export abstract class StyleMigrator {
   }
 
   /**
-   * Gets the mixin change object that has the new mixin(s) replacements if
+   * Gets the mixin change object that has the new mixin\(s\) replacements if
    * found for the at rule node.
    *
    * 如果为 at-rule 节点找到了新的 mixin 替代品，则获取此 mixin 更改对象。
@@ -167,17 +167,14 @@ export abstract class StyleMigrator {
    * @param namespace the namespace being used for angular/material.
    *
    * 用于 angular/material 的命名空间。
-   *
    * @param atRule an at-include at-rule of a legacy mixin for this component.
    *
    * 此组件的旧版 mixin 的 at-include 规则。
-   *
    * @returns
    *
    * the mixin change object or null if not found
    *
    * 此 mixin 的更改对象，如果未找到则返回 null
-   *
    */
   getMixinChange(namespace: string, atRule: postcss.AtRule): MixinChange | null {
     const processedKey = `mixinChange-${namespace}`;

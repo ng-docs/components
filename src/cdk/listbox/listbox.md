@@ -102,7 +102,7 @@ following directives:
 
 Each option in a listbox is bound to the value it represents when selected, e.g.
 `<li cdkOption="red">Red</li>`. Within a single listbox, each option must have a unique value. If 
-an option is not explicitly given a value, its value is considered to be `''` (empty string), e.g.
+an option is not explicitly given a value, its value is considered to be `''` \(empty string\), e.g.
 `<li cdkOption>No color preference</li>`.
 
 列表框中的每个选项都会绑定到它在被选中时代表的值，例如 `<li cdkOption="red">Red</li>` 。在单个列表框中，每个选项都必须具有唯一值。如果一个选项没有被明确地赋予一个值，它的值被认为是 `''` （空字符串），例如 `<li cdkOption>No color preference</li>` 。
@@ -132,7 +132,7 @@ Listboxes only support a single selected option at a time by default, but adding
 
 ### 列表框的值
 
-The listbox's value is an array containing the values of the selected option(s). This is true even
+The listbox's value is an array containing the values of the selected option\(s\). This is true even
 for the single selection listbox, whose value is an array containing a single element. The listbox's
 value can be bound using `[cdkListboxValue]` and `(cdkListboxValueChange)`.
 
@@ -226,7 +226,7 @@ listbox element.
 The directives defined in `@angular/cdk/listbox` follow accessibility best practices as defined
 in the [ARIA spec][aria]. Keyboard interaction is supported as defined in the
 [ARIA listbox keyboard interaction spec][keyboard] _without_ the optional selection follows focus
-logic (TODO: should we make this an option?).
+logic \(TODO: should we make this an option?\).
 
 `@angular/cdk/listbox` 中定义的指令遵循[ARIA 规范][aria]中定义的无障碍性最佳实践。支持键盘交互，如[ARIA 列表框键盘交互规范][keyboard]中所定义，*没有*可选的选择结果会遵循焦点逻辑（TODO：我们应该将其作为一个选项吗？）。
 
@@ -277,7 +277,7 @@ will still need to adjust your CSS styles to change the visual appearance.
 #### 预先输入选项
 
 The CDK listbox supports typeahead based on the option text. If the typeahead text for your options
-needs to be different than the display text (e.g. to exclude emoji), this can be accomplished by
+needs to be different than the display text \(e.g. to exclude emoji\), this can be accomplished by
 setting the `cdkOptionTypeaheadLabel` on the option.
 
 CDK 列表框支持基于选项文本的预先输入。如果选项的预先输入文本需要与显示文本不同（例如，排除表情符号），这可以通过在选项上设置 `cdkOptionTypeaheadLabel` 来实现。

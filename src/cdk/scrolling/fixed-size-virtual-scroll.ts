@@ -68,12 +68,11 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
    * @param itemSize The size of the items in the virtually scrolling list.
    *
    * 虚拟滚动列表中各条目的大小。
-   *
-   * @param minBufferPx The minimum amount of buffer (in pixels) before needing to render more
+   * @param minBufferPx The minimum amount of buffer \(in pixels\) before needing to render more
    *
    * 在需要渲染更多内容之前，缓冲区的最小量（以像素为单位）
    *
-   * @param maxBufferPx The amount of buffer (in pixels) to render when rendering more.
+   * @param maxBufferPx The amount of buffer \(in pixels\) to render when rendering more.
    *
    * 渲染时要渲染的缓冲区（以像素为单位）。
    *
@@ -119,12 +118,11 @@ export class FixedSizeVirtualScrollStrategy implements VirtualScrollStrategy {
    * @param itemSize The size of the items in the virtually scrolling list.
    *
    * 虚拟滚动列表中各条目的大小。
-   *
-   * @param minBufferPx The minimum amount of buffer (in pixels) before needing to render more
+   * @param minBufferPx The minimum amount of buffer \(in pixels\) before needing to render more
    *
    * 在需要渲染更多内容之前，缓冲区的最小量（以像素为单位）
    *
-   * @param maxBufferPx The amount of buffer (in pixels) to render when rendering more.
+   * @param maxBufferPx The amount of buffer \(in pixels\) to render when rendering more.
    *
    * 渲染时要渲染的缓冲区（以像素为单位）。
    *
@@ -321,7 +319,7 @@ export function _fixedSizeVirtualScrollStrategyFactory(fixedSizeDir: CdkFixedSiz
 })
 export class CdkFixedSizeVirtualScroll implements OnChanges {
   /**
-   * The size of the items in the list (in pixels).
+   * The size of the items in the list \(in pixels\).
    *
    * 列表中条目的大小（以像素为单位）。
    *
@@ -336,7 +334,7 @@ export class CdkFixedSizeVirtualScroll implements OnChanges {
   _itemSize = 20;
 
   /**
-   * The minimum amount of buffer rendered beyond the viewport (in pixels).
+   * The minimum amount of buffer rendered beyond the viewport \(in pixels\).
    * If the amount of buffer dips below this number, more items will be rendered. Defaults to 100px.
    *
    * 缓存在视口之外的最小缓冲区数（以像素为单位）。当缓冲区的数量低于这个数时，就会渲染出更多的条目。默认为 100px。

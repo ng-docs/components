@@ -589,7 +589,7 @@ export class OverlayRef implements PortalOutlet {
   }
 
   /**
-   * Detaches the backdrop (if any) associated with the overlay.
+   * Detaches the backdrop \(if any\) associated with the overlay.
    *
    * 拆除与本浮层关联的背景板（如果有的话）。
    *

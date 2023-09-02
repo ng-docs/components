@@ -84,7 +84,7 @@ export class MediaMatcher {
  *    inside the `@media` match existing elements on the page. We work around it by having one rule
  *    targeting the `body`. See https://github.com/angular/components/issues/23546.
  *
- *    在某些情况下，如果 `@media` 中的任何规则都不能匹配页面上的现有元素，则 Blink 浏览器将停止触发 `matchMedia` 侦听器。我们通过制定一个针对 `body` 的规则来解决它。请参阅https://github.com/angular/components/issues/23546 。
+ *    在某些情况下，如果 `@media` 中的任何规则都不能匹配页面上的现有元素，则 Blink 浏览器将停止触发 `matchMedia` 侦听器。我们通过制定一个针对 `body` 的规则来解决它。请参阅 https://github.com/angular/components/issues/23546 。
  *
  */
 function createEmptyStyleRule(query: string, nonce: string | undefined | null) {

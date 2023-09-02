@@ -121,7 +121,7 @@ export class ScrollDispatcher implements OnDestroy {
 
   /**
    * Returns an observable that emits an event whenever any of the registered Scrollable
-   * references (or window, document, or body) fire a scrolled event. Can provide a time in ms
+   * references \(or window, document, or body\) fire a scrolled event. Can provide a time in ms
    * to override the default "throttle" time.
    *
    * 返回一个可观察对象，它会在任何已注册的可滚动对象引用（或 window, document, body）中发生滚动事件时发出一个事件。可以提供一个毫秒数来来改写默认的“限流”时间。

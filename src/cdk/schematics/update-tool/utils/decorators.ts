@@ -21,7 +21,7 @@ export interface NgDecorator {
 
 /**
  * Gets all decorators which are imported from an Angular package
- * (e.g. "@angular/core") from a list of decorators.
+ * \(e.g. "@angular/core"\) from a list of decorators.
  *
  * 从装饰器列表中获取从 Angular 包（例如 "@angular/core"）导入的所有装饰器。
  *

@@ -23,7 +23,7 @@ export const enum FocusNext {
 }
 
 /**
- * A single item (menu) in the menu stack.
+ * A single item \(menu\) in the menu stack.
  *
  * 菜单栈中的单个项目（菜单）。
  *
@@ -127,8 +127,8 @@ export interface MenuStackCloseEvent {
 let nextId = 0;
 
 /**
- * MenuStack allows subscribers to listen for close events (when a MenuStackItem is popped off
- * of the stack) in order to perform closing actions. Upon the MenuStack being empty it emits
+ * MenuStack allows subscribers to listen for close events \(when a MenuStackItem is popped off
+ * of the stack\) in order to perform closing actions. Upon the MenuStack being empty it emits
  * from the `empty` observable specifying the next focus action which the listener should perform
  * as requested by the closer.
  *

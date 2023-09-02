@@ -270,7 +270,7 @@ export class MatSliderThumb implements _MatSliderThumb, OnDestroy, ControlValueA
   _isActive: boolean = false;
 
   /**
-   * Whether the input is currently focused (either by tab or after clicking).
+   * Whether the input is currently focused \(either by tab or after clicking\).
    *
    * 此输入框当前是否拥有焦点（通过 tab 或单击后）。
    *

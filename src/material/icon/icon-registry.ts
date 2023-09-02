@@ -512,17 +512,16 @@ export class MatIconRegistry implements OnDestroy {
   }
 
   /**
-   * Returns an Observable that produces the icon (as an `<svg>` DOM element) from the given URL.
+   * Returns an Observable that produces the icon \(as an `<svg>` DOM element\) from the given URL.
    * The response from the URL may be cached so this will not always cause an HTTP request, but
-   * the produced element will always be a new copy of the originally fetched icon. (That is,
-   * it will not contain any modifications made to elements previously returned).
+   * the produced element will always be a new copy of the originally fetched icon. \(That is,
+   * it will not contain any modifications made to elements previously returned\).
    *
    * 返回一个 Observable，用于根据指定的 URL 生成图标（比如 `<svg>` DOM 元素）。该 URL 的响应可能会被缓存，所以这并不总会导致 HTTP 请求，但是所生成的元素始终是原来获得的图标的新副本。（也就是说，它不会对以前返回的元素做任何修改）。
    *
    * @param safeUrl URL from which to fetch the SVG icon.
    *
    * 要从中获取 SVG 图标的 URL。
-   *
    */
   getSvgIconFromUrl(safeUrl: SafeResourceUrl): Observable<SVGElement> {
     const url = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, safeUrl);
@@ -544,7 +543,7 @@ export class MatIconRegistry implements OnDestroy {
   }
 
   /**
-   * Returns an Observable that produces the icon (as an `<svg>` DOM element) with the given name
+   * Returns an Observable that produces the icon \(as an `<svg>` DOM element\) with the given name
    * and namespace. The icon must have been previously registered with addIcon or addIconSet;
    * if not, the Observable will throw an error.
    *
@@ -553,11 +552,9 @@ export class MatIconRegistry implements OnDestroy {
    * @param name Name of the icon to be retrieved.
    *
    * 要检索的图标名称。
-   *
    * @param namespace Namespace in which to look for the icon.
    *
    * 要在其中查找图标的命名空间。
-   *
    */
   getNamedSvgIcon(name: string, namespace: string = ''): Observable<SVGElement> {
     const key = iconKey(namespace, name);

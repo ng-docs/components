@@ -608,8 +608,8 @@ export abstract class MatPaginatedTabHeader
   }
 
   /**
-   * Moves the tab list in the 'before' or 'after' direction (towards the beginning of the list or
-   * the end of the list, respectively). The distance to scroll is computed to be a third of the
+   * Moves the tab list in the 'before' or 'after' direction \(towards the beginning of the list or
+   * the end of the list, respectively\). The distance to scroll is computed to be a third of the
    * length of the tab list view window.
    *
    * 在'前'或后'方向移动选项卡列表（分别朝向列表的开头或列表的末尾）。滚动的距离是选项卡列表视图窗口长度的三分之一。
@@ -641,7 +641,7 @@ export abstract class MatPaginatedTabHeader
   }
 
   /**
-   * Moves the tab list such that the desired tab label (marked by index) is moved into view.
+   * Moves the tab list such that the desired tab label \(marked by index\) is moved into view.
    *
    * 移动选项卡列表，以便把所需的选项卡（用 index 标出）移动到视图中。
    *
@@ -724,9 +724,9 @@ export abstract class MatPaginatedTabHeader
 
   /**
    * Evaluate whether the before and after controls should be enabled or disabled.
-   * If the header is at the beginning of the list (scroll distance is equal to 0) then disable the
-   * before button. If the header is at the end of the list (scroll distance is equal to the
-   * maximum distance we can scroll), then disable the after button.
+   * If the header is at the beginning of the list \(scroll distance is equal to 0\) then disable the
+   * before button. If the header is at the end of the list \(scroll distance is equal to the
+   * maximum distance we can scroll\), then disable the after button.
    *
    * 评估应该启用还是禁用之前和之后的控件。如果标头位于列表的开头（滚动距离等于 0），则禁用“前一个”按钮。如果标头位于列表的末尾（滚动距离等于我们可以滚动的最大距离），则禁用“后一个”按钮。
    *

@@ -229,9 +229,9 @@ export class MatExpansionPanelHeader
   }
 
   /**
-   * Handle keydown event calling to toggle() if appropriate.
+   * Handle keydown event calling to toggle\(\) if appropriate.
    *
-   * 处理 keydown 事件，并且如果合适就调用 toggle()。
+   * 处理 keydown 事件，并且如果合适就调用 toggle\(\)。
    *
    */
   _keydown(event: KeyboardEvent) {

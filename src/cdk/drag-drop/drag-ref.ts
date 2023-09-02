@@ -104,7 +104,7 @@ const MOUSE_EVENT_IGNORE_TIME = 800;
 // list programmatically. Useful for keyboard controls.
 
 /**
- * Template that can be used to create a drag helper element (e.g. a preview or a placeholder).
+ * Template that can be used to create a drag helper element \(e.g. a preview or a placeholder\).
  *
  * 可用于创建拖动辅助元素（例如预览或占位符）的模板。
  *

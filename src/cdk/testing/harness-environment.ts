@@ -60,7 +60,7 @@ type ParsedQueries<T extends ComponentHarness> = {
 
 /**
  * Base harness environment class that can be extended to allow `ComponentHarness`es to be used in
- * different test environments (e.g. testbed, protractor, etc.). This class implements the
+ * different test environments \(e.g. testbed, protractor, etc.\). This class implements the
  * functionality of both a `HarnessLoader` and `LocatorFactory`. This class is generic on the raw
  * element type, `E`, used by the particular test environment.
  *
@@ -328,7 +328,7 @@ function _parseQueries<T extends (HarnessQuery<any> | string)[]>(
 }
 
 /**
- * Removes duplicate query results for a particular element. (e.g. multiple `TestElement`
+ * Removes duplicate query results for a particular element. \(e.g. multiple `TestElement`
  * instances or multiple instances of the same `ComponentHarness` class.
  *
  * 删除特定元素的重复查询结果。（例如，多个 `TestElement` 实例或同一个 `ComponentHarness` 类的多个实例）。

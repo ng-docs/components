@@ -89,9 +89,10 @@ export class MatColumnDef extends CdkColumnDef {
   /**
    * Add "mat-column-" prefix in addition to "cdk-column-" prefix.
    * In the future, this will only add "mat-column-" and columnCssClassName
-   * will change from type string\[] to string.
+   * will change from type string\[\] to string.
    *
-   * 除 “cdk-column-” 前缀外，还会添加 “mat-column-” 前缀。将来，只会添加 “mat-column-”，而 columnCssClassName 会从 string\[] 类型改为 string。
+   * 除 “cdk-column-” 前缀外，还会添加 “mat-column-” 前缀。将来，只会添加 “mat-column-”，而 columnCssClassName 会从 string\[\] 类型改为 string。
+   *
    * @docs-private
    */
   protected override _updateColumnCssClassName() {

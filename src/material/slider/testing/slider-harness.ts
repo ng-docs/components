@@ -51,7 +51,7 @@ export class MatSliderHarness extends ComponentHarness {
   }
 
   /**
-   * Gets the start thumb of the slider (only applicable for range sliders).
+   * Gets the start thumb of the slider \(only applicable for range sliders\).
    *
    * 获取滑杆的起始缩略图（仅适用于范围滑杆）。
    *
@@ -67,7 +67,7 @@ export class MatSliderHarness extends ComponentHarness {
   }
 
   /**
-   * Gets the thumb (for single point sliders), or the end thumb (for range sliders).
+   * Gets the thumb \(for single point sliders\), or the end thumb \(for range sliders\).
    *
    * 获取滑块的 ID。
    *

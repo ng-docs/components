@@ -209,7 +209,7 @@ export class MatProgressSpinner extends _MatProgressSpinnerBase implements CanCo
   private _value = 0;
 
   /**
-   * The diameter of the progress spinner (will set width and height of svg).
+   * The diameter of the progress spinner \(will set width and height of svg\).
    *
    * 进度圈的直径（用于设置 svg 的宽度和高度）。
    *

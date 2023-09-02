@@ -114,7 +114,7 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
 
   /**
    * Provides a stream containing the latest data array to render. Influenced by the tree's
-   * stream of view window (what dataNodes are currently on screen).
+   * stream of view window \(what dataNodes are currently on screen\).
    * Data source can be an observable of data array, or a data array to render.
    *
    * 提供一个包含要渲染的最新数据数组的流。受树的视图流窗口影响（即当前屏幕上有哪些数据节点）。数据源可以是数据数组的可观察对象，也可以是要渲染的数据数组。
@@ -278,7 +278,7 @@ export class CdkTree<T, K = T> implements AfterContentChecked, CollectionViewer,
   }
 
   /**
-   * Check for changes made in the data and render each change (node added/removed/moved).
+   * Check for changes made in the data and render each change \(node added/removed/moved\).
    *
    * 检查数据所做的更改，并渲染每个更改（添加/删除/移动节点）。
    *

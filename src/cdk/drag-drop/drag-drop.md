@@ -99,27 +99,27 @@ by the directives:
 
 `cdkDrag` 和 `cdkDropList` 指令只包含使用此功能时必需的那些样式。然后，该应用可以通过那些由指令添加的 CSS 类来定制这些元素：
 
-| Selector | Description |
-| -------- | ----------- |
-| 选择器 | 说明 |
-| `.cdk-drop-list` | Corresponds to the `cdkDropList` container. |
-| `.cdk-drop-list` | 对应于 `cdkDropList` 容器。 |
-| `.cdk-drag` | Corresponds to a `cdkDrag` instance. |
-| `.cdk-drag` | 对应于 `cdkDrag` 实例。 |
-| `.cdk-drag-disabled` | Class that is added to a disabled `cdkDrag`. |
-| `.cdk-drag-disabled` | 要添加到已禁用的 `cdkDrag` 上的类。 |
-| `.cdk-drag-handle` | Class that is added to the host element of the cdkDragHandle directive. |
-| `.cdk-drag-handle` | 要添加到 cdkDragHandle 指令的宿主元素上的类。 |
-| `.cdk-drag-preview` | This is the element that will be rendered next to the user's cursor as they're dragging an item in a sortable list. By default the element looks exactly like the element that is being dragged. |
-| `.cdk-drag-preview` | 这是当用户在可排序列表中拖动一个条目时，要渲染在用户光标附近的元素。默认情况下，该元素看上去和被拖动的元素完全一样。 |
-| `.cdk-drag-placeholder` | This is element that will be shown instead of the real element as it's being dragged inside a `cdkDropList`. By default this will look exactly like the element that is being sorted. |
-| `.cdk-drag-placeholder` | 这是一个在拖入 `cdkDropList` 时要显示的元素，但不是真正的元素。默认情况下，它看上去和要排序的元素完全一样。 |
-| `.cdk-drop-list-dragging` | A class that is added to `cdkDropList` while the user is dragging an item. |
-| `.cdk-drop-list-dragging` | 当用户拖动条目时，添加到 `cdkDropList` 上的类。 |
-| `.cdk-drop-list-disabled` | A class that is added to `cdkDropList` when it is disabled. |
-| `.cdk-drop-list-disabled` | 当 `cdkDropList` 禁用时添加的一个类。 |
-| `.cdk-drop-list-receiving` | A class that is added to `cdkDropList` when it can receive an item that is being dragged inside a connected drop list. |
-| `.cdk-drop-list-receiving` | 当 `cdkDropList` 可以接受某个拖动进关联拖放列表时，添加到 `cdkDropList` 上的类。 |
+| Selector                   | Description                                                                                                                                                                                      |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 选择器                     | 说明                                                                                                                                                                                             |
+| `.cdk-drop-list`           | Corresponds to the `cdkDropList` container.                                                                                                                                                      |
+| `.cdk-drop-list`           | 对应于 `cdkDropList` 容器。                                                                                                                                                                      |
+| `.cdk-drag`                | Corresponds to a `cdkDrag` instance.                                                                                                                                                             |
+| `.cdk-drag`                | 对应于 `cdkDrag` 实例。                                                                                                                                                                          |
+| `.cdk-drag-disabled`       | Class that is added to a disabled `cdkDrag`.                                                                                                                                                     |
+| `.cdk-drag-disabled`       | 要添加到已禁用的 `cdkDrag` 上的类。                                                                                                                                                              |
+| `.cdk-drag-handle`         | Class that is added to the host element of the cdkDragHandle directive.                                                                                                                          |
+| `.cdk-drag-handle`         | 要添加到 cdkDragHandle 指令的宿主元素上的类。                                                                                                                                                    |
+| `.cdk-drag-preview`        | This is the element that will be rendered next to the user's cursor as they're dragging an item in a sortable list. By default the element looks exactly like the element that is being dragged. |
+| `.cdk-drag-preview`        | 这是当用户在可排序列表中拖动一个条目时，要渲染在用户光标附近的元素。默认情况下，该元素看上去和被拖动的元素完全一样。                                                                             |
+| `.cdk-drag-placeholder`    | This is element that will be shown instead of the real element as it's being dragged inside a `cdkDropList`. By default this will look exactly like the element that is being sorted.            |
+| `.cdk-drag-placeholder`    | 这是一个在拖入 `cdkDropList` 时要显示的元素，但不是真正的元素。默认情况下，它看上去和要排序的元素完全一样。                                                                                      |
+| `.cdk-drop-list-dragging`  | A class that is added to `cdkDropList` while the user is dragging an item.                                                                                                                       |
+| `.cdk-drop-list-dragging`  | 当用户拖动条目时，添加到 `cdkDropList` 上的类。                                                                                                                                                  |
+| `.cdk-drop-list-disabled`  | A class that is added to `cdkDropList` when it is disabled.                                                                                                                                      |
+| `.cdk-drop-list-disabled`  | 当 `cdkDropList` 禁用时添加的一个类。                                                                                                                                                            |
+| `.cdk-drop-list-receiving` | A class that is added to `cdkDropList` when it can receive an item that is being dragged inside a connected drop list.                                                                           |
+| `.cdk-drop-list-receiving` | 当 `cdkDropList` 可以接受某个拖动进关联拖放列表时，添加到 `cdkDropList` 上的类。                                                                                                                 |
 
 ### Animations
 
@@ -205,15 +205,15 @@ using the `cdkDragPreviewContainer` input on `cdkDrag`. The possible values are:
 
 默认情况下，`cdkDrag` 的预览器将插入到页面的 `<body>` 中，以避免出现 `z-index` 和 `overflow: hidden` 相关的问题。在某些情况下，这可能是无效的，因为此预览器不会保留其继承的样式。你可以使用 cdkDrag 上的 `cdkDragPreviewContainer` 输入来控制插入预览器的 `cdkDrag` 。可能的值为：
 
-| Value | Description | Advantages | Disadvantages |
-| ----- | ----------- | ---------- | ------------- |
-| 值 | 说明 | 优点 | 缺点 |
-| `global` | Default value. Preview is inserted into the `<body>` or the closest shadow root. | Preview won't be affected by `z-index` or `overflow: hidden`. It also won't affect `:nth-child` selectors and flex layouts. | Doesn't retain inherited styles. |
-| `global` | 默认值。预览器被插入到 `<body>` 或最近的 Shadow Root 中。 | 预览器不会受到 `z-index` 或 `overflow: hidden` 的影响。它也不会影响 `:nth-child` 选择器和 flex 布局。 | 不保留继承的样式。 |
-| `parent` | Preview is inserted inside the parent of the item that is being dragged. | Preview inherits the same styles as the dragged item. | Preview may be clipped by `overflow: hidden` or be placed under other elements due to `z-index`. Furthermore, it can affect `:nth-child` selectors and some flex layouts. |
-| `parent` | 预览器被插入到被拖动条目的父节点内。 | 预览器继承与拖动条目相同的样式。 | 由于 `z-index` 的影响，预览器可能会被 `overflow: hidden` 裁剪或被放置在其他元素下。此外，它会影响 `:nth-child` 选择器和一些 flex 布局。 |
-| `ElementRef` or `HTMLElement` | Preview will be inserted into the specified element. | Preview inherits styles from the specified container element. | Preview may be clipped by `overflow: hidden` or be placed under other elements due to `z-index`. Furthermore, it can affect `:nth-child` selectors and some flex layouts. |
-| `ElementRef` 或 `HTMLElement` | 预览器将插入到指定的元素内部。 | 预览器从指定的容器元素继承样式。 | 由于 `z-index` 的影响，预览器可能会被 `overflow: hidden` 裁剪或被放置在其他元素下。此外，它会影响 `:nth-child` 选择器和一些 flex 布局。 |
+| Value                         | Description                                                                      | Advantages                                                                                                                  | Disadvantages                                                                                                                                                             |
+| ----------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 值                            | 说明                                                                             | 优点                                                                                                                        | 缺点                                                                                                                                                                      |
+| `global`                      | Default value. Preview is inserted into the `<body>` or the closest shadow root. | Preview won't be affected by `z-index` or `overflow: hidden`. It also won't affect `:nth-child` selectors and flex layouts. | Doesn't retain inherited styles.                                                                                                                                          |
+| `global`                      | 默认值。预览器被插入到 `<body>` 或最近的 Shadow Root 中。                        | 预览器不会受到 `z-index` 或 `overflow: hidden` 的影响。它也不会影响 `:nth-child` 选择器和 flex 布局。                       | 不保留继承的样式。                                                                                                                                                        |
+| `parent`                      | Preview is inserted inside the parent of the item that is being dragged.         | Preview inherits the same styles as the dragged item.                                                                       | Preview may be clipped by `overflow: hidden` or be placed under other elements due to `z-index`. Furthermore, it can affect `:nth-child` selectors and some flex layouts. |
+| `parent`                      | 预览器被插入到被拖动条目的父节点内。                                             | 预览器继承与拖动条目相同的样式。                                                                                            | 由于 `z-index` 的影响，预览器可能会被 `overflow: hidden` 裁剪或被放置在其他元素下。此外，它会影响 `:nth-child` 选择器和一些 flex 布局。                                   |
+| `ElementRef` or `HTMLElement` | Preview will be inserted into the specified element.                             | Preview inherits styles from the specified container element.                                                               | Preview may be clipped by `overflow: hidden` or be placed under other elements due to `z-index`. Furthermore, it can affect `:nth-child` selectors and some flex layouts. |
+| `ElementRef` 或 `HTMLElement` | 预览器将插入到指定的元素内部。                                                   | 预览器从指定的容器元素继承样式。                                                                                            | 由于 `z-index` 的影响，预览器可能会被 `overflow: hidden` 裁剪或被放置在其他元素下。此外，它会影响 `:nth-child` 选择器和一些 flex 布局。                                   |
 
 ### Customizing the drag placeholder
 

@@ -44,7 +44,7 @@ export class CdkSelectAll<T> implements OnDestroy, OnInit {
 
   /**
    * The indeterminate state of the toggle.
-   * Resolves to `true` if part (not all) of the values are selected, `false` if all values or no
+   * Resolves to `true` if part \(not all\) of the values are selected, `false` if all values or no
    * value at all are selected.
    *
    * 开关的不确定状态。如果选定了部分值（而不是全部），则解析为 `true` ；如果选定了所有值或根本未选定任何值，则解析为 `false` 。
@@ -57,7 +57,7 @@ export class CdkSelectAll<T> implements OnDestroy, OnInit {
    *
    * 切换全选状态。
    *
-   * @param event The click event if the toggle is triggered by a (mouse or keyboard) click. If
+   * @param event The click event if the toggle is triggered by a \(mouse or keyboard\) click. If
    *     using with a native `<input type="checkbox">`, the parameter is required for the
    *     indeterminate state to work properly.
    *

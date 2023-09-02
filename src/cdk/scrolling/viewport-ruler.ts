@@ -158,7 +158,7 @@ export class ViewportRuler implements OnDestroy {
   }
 
   /**
-   * Gets the (top, left) scroll position of the viewport.
+   * Gets the \(top, left\) scroll position of the viewport.
    *
    * 获取视口的滚动位置（上，左）。
    *

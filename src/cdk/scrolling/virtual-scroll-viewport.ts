@@ -55,7 +55,7 @@ function rangesEqual(r1: ListRange, r2: ListRange): boolean {
 /**
  * Scheduler to be used for scroll events. Needs to fall back to
  * something that doesn't rely on requestAnimationFrame on environments
- * that don't support it (e.g. server-side rendering).
+ * that don't support it \(e.g. server-side rendering\).
  *
  * 用于滚动事件的派发器。在不支持它的环境（例如服务器端渲染）下要回退到不依赖 requestAnimationFrame 派发器。
  *
@@ -400,7 +400,7 @@ export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements On
   }
 
   /**
-   * Gets the length of the data bound to this viewport (in number of items).
+   * Gets the length of the data bound to this viewport \(in number of items\).
    *
    * 获取绑定到该视口的数据的长度（以条目数表示）。
    *
@@ -410,7 +410,7 @@ export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements On
   }
 
   /**
-   * Gets the size of the viewport (in pixels).
+   * Gets the size of the viewport \(in pixels\).
    *
    * 获取视口的大小（以像素为单位）。
    *
@@ -439,7 +439,7 @@ export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements On
   }
 
   /**
-   * Sets the total size of all content (in pixels), including content that is not currently
+   * Sets the total size of all content \(in pixels\), including content that is not currently
    * rendered.
    *
    * 设置所有内容的总大小（以像素为单位），包括当前未渲染的内容。
@@ -470,7 +470,7 @@ export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements On
   }
 
   /**
-   * Gets the offset from the start of the viewport to the start of the rendered data (in pixels).
+   * Gets the offset from the start of the viewport to the start of the rendered data \(in pixels\).
    *
    * 获取从视口起点到渲染数据起始位置的偏移量（以像素为单位）。
    *
@@ -481,7 +481,7 @@ export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements On
 
   /**
    * Sets the offset from the start of the viewport to either the start or end of the rendered data
-   * (in pixels).
+   * \(in pixels\).
    *
    * 设置从视口起点到渲染数据起点或终点的偏移量（以像素为单位）。
    *
@@ -566,7 +566,7 @@ export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements On
   }
 
   /**
-   * Gets the current scroll offset from the start of the scrollable (in pixels).
+   * Gets the current scroll offset from the start of the scrollable \(in pixels\).
    *
    * 从可滚动区的开头得到当前的滚动偏移量（以像素为单位）。
    *
@@ -574,7 +574,6 @@ export class CdkVirtualScrollViewport extends CdkVirtualScrollable implements On
    *     in horizontal mode.
    *
    * 测量到边缘的偏移。在垂直模式下默认为 “top”，在水平模式下默认为 “start”。
-   *
    */
   override measureScrollOffset(
     from?: 'top' | 'left' | 'right' | 'bottom' | 'start' | 'end',

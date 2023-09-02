@@ -182,7 +182,7 @@ export class MatButtonToggleGroup implements ControlValueAccessor, OnInit, After
   _controlValueAccessorChangeFn: (value: any) => void = () => {};
 
   /**
-   * onTouch function registered via registerOnTouch (ControlValueAccessor).
+   * onTouch function registered via registerOnTouch \(ControlValueAccessor\).
    *
    * 通过 ControlValueAccessor 的 registerOnTouch 注册的 onTouch 函数。
    *
@@ -605,7 +605,7 @@ export class MatButtonToggle
   @ViewChild('button') _buttonElement: ElementRef<HTMLButtonElement>;
 
   /**
-   * The parent button toggle group (exclusive selection). Optional.
+   * The parent button toggle group \(exclusive selection\). Optional.
    *
    * 父开关组（排他选择）。可选。
    *

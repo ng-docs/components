@@ -128,15 +128,15 @@ determine component colors:
 
 * A **primary** palette for the color that appears most frequently throughout your application
 
-  在整个应用程序中最常出现的颜色的 **primary(主要)** 调色板
+  在整个应用程序中最常出现的颜色的 **primary\(主要\)** 调色板
 
 * An **accent**, or _secondary_, palette used to selectively highlight key parts of your UI
 
-  用于有选择地突出显示 UI 中某些关键部位的 **accent(强调)** 或 *secondary(辅助)* 调色板
+  用于有选择地突出显示 UI 中某些关键部位的 **accent\(强调\)** 或 *secondary\(辅助\)* 调色板
 
 * A **warn**, or _error_, palette used for warnings and error states
 
-  用于警告和错误状态的 **warn(警告)** 或 *error(错误)* 调色板
+  用于警告和错误状态的 **warn\(警告\)** 或 *error\(错误\)* 调色板
 
 You can include the CSS styles for a theme in your application in one of two ways: by defining a
 custom theme with Sass, or by importing a pre-built theme CSS file.
@@ -186,7 +186,7 @@ represent, in order: the "default" hue, a "lighter" hue, a "darker" hue, and a "
 Components use these hues to choose the most appropriate color for different parts of
 themselves.
 
-构建主题首先需要定义你的 `primary`(主要)和 `accent`(重音)调色板，以及可选的 `warn`(警告)调色板。Sass 函数 `define-palette` 接受一个调色板（这在上面的[调色板](#palettes)部分中讲过）以及四个可选的色调数值。这四种色调依次表示：“default(默认)”色调、“lighter(较浅)”色调、“darker(较暗)”色调和“text(文本)”色调。各个组件会使用这些色调为自身的不同部位选择最合适的颜色。
+构建主题首先需要定义你的 `primary`\(主要\)和 `accent`\(重音\)调色板，以及可选的 `warn`\(警告\)调色板。Sass 函数 `define-palette` 接受一个调色板（这在上面的[调色板](#palettes)部分中讲过）以及四个可选的色调数值。这四种色调依次表示：“default\(默认\)”色调、“lighter\(较浅\)”色调、“darker\(较暗\)”色调和“text\(文本\)”色调。各个组件会使用这些色调为自身的不同部位选择最合适的颜色。
 
 ```scss
 @use '@angular/material' as mat;
@@ -248,7 +248,7 @@ configuration to `define-light-theme` or `define-dark-theme`.
 Apply the styles for each of the components used in your application by including each of their
 theme Sass mixins.
 
-通过包含 (`include`) 每个主题 Sass mixins，可以为应用程序中使用的每个组件应用样式。
+通过包含 \(`include`\) 每个主题 Sass mixins，可以为应用程序中使用的每个组件应用样式。
 
 ```scss
 @use '@angular/material' as mat;
@@ -341,11 +341,11 @@ theme definitions.
 这些文件包括库中每个组件的 CSS。如果要单独包含这些组件的某个子集的 CSS，你必须使用上面[定义主题](#defining-a-theme)中详述的 Sass API。你可以[参考这些预建主题的源代码][prebuilt]查看完整主题定义的示例。
 
 You can find the pre-built theme files in the "prebuilt-themes" directory of Angular Material's
-npm package (`@angular/material/prebuilt-themes`). To include the pre-built theme in your
+npm package \(`@angular/material/prebuilt-themes`\). To include the pre-built theme in your
 application, [add your chosen CSS file to the `styles` array of your project's `angular.json`
 file][adding-styles].
 
-你可以在 Angular Material 的 npm 包 ( `@angular/material/prebuilt-themes` ) 的 `prebuilt-themes` 目录中找到预构建的主题文件。要在你的应用程序中包含预先构建的主题，[请将你选择的 CSS 文件添加到你项目的 `angular.json` 文件的 `styles` 数组中][adding-styles]。
+你可以在 Angular Material 的 npm 包 \( `@angular/material/prebuilt-themes` \) 的 `prebuilt-themes` 目录中找到预构建的主题文件。要在你的应用程序中包含预先构建的主题，[请将你选择的 CSS 文件添加到你项目的 `angular.json` 文件的 `styles` 数组中][adding-styles]。
 
 [prebuilt]: https://github.com/angular/components/blob/main/src/material/core/theming/prebuilt
 
@@ -440,7 +440,7 @@ to match the components' theme, you can either:
 
    假设你正在使用 `MatSidenav` ，请将应用程序的主要内容放入 `mat-sidenav-container` ，或者
 
-2. Apply the `mat-app-background` CSS class to your main content root element (typically `body`).
+2. Apply the `mat-app-background` CSS class to your main content root element \(typically `body`\).
 
    将 `mat-app-background` CSS 类应用到你主要内容的根元素（通常是 `body` ）。
 
@@ -518,7 +518,7 @@ the number for _less density_.
 Angular Material 的密集度定制是基于 [Material Design 密集度指南](https://m2.material.io/design/layout/applying-density.html)的。该系统定义了一个等级，其中零表示默认密集度。你可以减少该数字以*增加密集度*，增加该数字以*减少密集度*。
 
 The density system is based on a *density scale*. The scale starts with the
-default density of `0`. Each whole number step down (`-1`, `-2`, etc.) reduces
+default density of `0`. Each whole number step down \(`-1`, `-2`, etc.\) reduces
 the affected sizes by `4px`, down to the minimum size necessary for a component to render coherently.
 
 密集度系统基于某个*密集度等级*。此等级以默认密集度 `0` 开始。每个整数递减（`-1`、`-2` 等）都会将受影响的尺寸减小 `4px` ，直至组件连续渲染所需的最小尺寸。

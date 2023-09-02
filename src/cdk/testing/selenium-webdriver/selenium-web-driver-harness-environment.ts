@@ -25,7 +25,7 @@ declare global {
   interface Window {
     /**
      * These hooks are exposed by Angular to register a callback for when the application is stable
-     * (no more pending tasks).
+     * \(no more pending tasks\).
      *
      * 这些挂钩是由 Angular 暴露出来的，以在应用程序稳定时（没有更多未决任务）注册回调。
      *
@@ -68,7 +68,7 @@ const defaultEnvironmentOptions: WebDriverHarnessEnvironmentOptions = {
 
 /**
  * This function is meant to be executed in the browser. It taps into the hooks exposed by Angular
- * and invokes the specified `callback` when the application is stable (no more pending tasks).
+ * and invokes the specified `callback` when the application is stable \(no more pending tasks\).
  *
  * 该函数应在浏览器中执行。它会利用 Angular 公开的钩子，并在应用程序进入稳定态时（不再有待处理的任务）调用这个 `callback`。
  *

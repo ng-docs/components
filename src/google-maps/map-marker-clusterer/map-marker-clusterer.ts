@@ -64,7 +64,7 @@ declare const MarkerClusterer: typeof MarkerClustererInstance;
  *
  * See https://developers.google.com/maps/documentation/javascript/marker-clustering
  *
- * 请参阅https://developers.google.com/maps/documentation/javascript/marker-clustering
+ * 请参阅 https://developers.google.com/maps/documentation/javascript/marker-clustering
  *
  */
 @Component({

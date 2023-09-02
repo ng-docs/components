@@ -45,10 +45,11 @@ export class StickyStyler {
    *     sticky positioning applied.
    *
    * 这个 CSS 类会应用于那些应用了粘性定位的行/单元格。
-   * @param direction The directionality context of the table (ltr/rtl); affects column positioning
+   * @param direction The directionality context of the table \(ltr/rtl\); affects column positioning
    *     by reversing left/right positions.
    *
    * 该表的方向性上下文（ltr/rtl）；通过反转左/右位置来影响列的定位。
+   *
    * @param _isBrowser Whether the table is currently being rendered on the server or the client.
    *
    * 表格当前是在服务器端还是客户端上渲染的。
@@ -362,7 +363,7 @@ export class StickyStyler {
 
   /**
    * Adds the sticky styling to the element by adding the sticky style class, changing position
-   * to be sticky (and -webkit-sticky), setting the appropriate zIndex, and adding a sticky
+   * to be sticky \(and -webkit-sticky\), setting the appropriate zIndex, and adding a sticky
    * direction and value.
    *
    * 为该元素添加粘性样式 —— 添加粘性样式类，修改粘附到的位置（和-webkit-sticky），设置合适的 zIndex，添加粘附的方向和值。
@@ -386,13 +387,13 @@ export class StickyStyler {
   }
 
   /**
-   * Calculate what the z-index should be for the element, depending on what directions (top,
-   * bottom, left, right) have been set. It should be true that elements with a top direction
+   * Calculate what the z-index should be for the element, depending on what directions \(top,
+   * bottom, left, right\) have been set. It should be true that elements with a top direction
    * should have the highest index since these are elements like a table header. If any of those
    * elements are also sticky in another direction, then they should appear above other elements
-   * that are only sticky top (e.g. a sticky column on a sticky header). Bottom-sticky elements
-   * (e.g. footer rows) should then be next in the ordering such that they are below the header
-   * but above any non-sticky elements. Finally, left/right sticky elements (e.g. sticky columns)
+   * that are only sticky top \(e.g. a sticky column on a sticky header\). Bottom-sticky elements
+   * \(e.g. footer rows\) should then be next in the ordering such that they are below the header
+   * but above any non-sticky elements. Finally, left/right sticky elements \(e.g. sticky columns\)
    * should minimally increment so that they are above non-sticky elements but below top and bottom
    * elements.
    *

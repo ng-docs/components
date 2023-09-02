@@ -16,11 +16,11 @@ packages, they will be available through the Angular CLI.
 
 Angular Material 附带了一些原理图，一旦你安装了这个 npm 包，就可以通过 Angular CLI 来使用这些原理图了。
 
-Using the command below will install Angular Material, the [Component Dev Kit](https://material.angular.io/cdk) (CDK),
+Using the command below will install Angular Material, the [Component Dev Kit](https://material.angular.io/cdk) \(CDK\),
 and [Angular Animations](https://angular.io/guide/animations) in your project. Then it will run the
 installation schematic.
 
-运行下列命令可以自动为你的项目安装 Angular Material、[组件开发工具](/cdk) (CDK) 和 [Angular 动画库](https://angular.cn/guide/animations)，并运行代码原理图。
+运行下列命令可以自动为你的项目安装 Angular Material、[组件开发工具](/cdk) \(CDK\) 和 [Angular 动画库](https://angular.cn/guide/animations)，并运行代码原理图。
 
 ```
 ng add @angular/material
@@ -45,6 +45,7 @@ Angular Material 的 `ng add` 原理图会帮助你的 Angular CLI 项目配置 
 - Enable the [BrowserAnimationsModule](./getting-started#step-2-configure-animations) in your app module
 
   为应用启用 [BrowserAnimationsModule](./getting-started#step-2-configure-animations) 模块
+
 - Add either a [prebuilt theme](./theming#using-a-pre-built-theme) or a [custom theme](./theming#defining-a-custom-theme)
 
   添加一个[预定义的主题](./theming#using-a-pre-built-theme)或一个[自定义主题](./theming#defining-a-custom-theme)
@@ -82,29 +83,29 @@ used to easily generate Material Design components:
 
 除了用于安装的 schematic 之外，Angular Material 还带有多个原理图，用于轻松生成 Material Design 组件：
 
-| Name | Description |
-| ---- | ----------- |
-| 名称 | 说明 |
-| `address-form` | Component with a form group that uses Material Design form controls to prompt for a shipping address |
-| `address-form` | 一个表单组，它使用 Material Design 的多个表单控件接收一个送货地址 |
-| `navigation` | Creates a component with a responsive Material Design sidenav and a toolbar for showing the app name |
-| `navigation` | 创建一个带有响应式 Material Design 侧边栏组件和一个用于显示应用名称的工具栏组件 |
-| `dashboard` | Component with multiple Material Design cards and menus which are aligned in a grid layout |
-| `dashboard` | 带有多个 Material Design 卡片和菜单的网格式布局组件 |
-| `table` | Generates a component with a Material Design data table that supports sorting and pagination |
-| `table` | 生成一个带有 Material Design 并支持排序和分页的数据表组件 |
-| `tree` | Component that interactively visualizes a nested folder structure by using the `<mat-tree>` component |
-| `tree` | 该组件以 `<mat-tree>` 组件来展示一个可交互的文件夹式结构 |
+| Name           | Description                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------------- |
+| 名称           | 说明                                                                                                  |
+| `address-form` | Component with a form group that uses Material Design form controls to prompt for a shipping address  |
+| `address-form` | 一个表单组，它使用 Material Design 的多个表单控件接收一个送货地址                                     |
+| `navigation`   | Creates a component with a responsive Material Design sidenav and a toolbar for showing the app name  |
+| `navigation`   | 创建一个带有响应式 Material Design 侧边栏组件和一个用于显示应用名称的工具栏组件                       |
+| `dashboard`    | Component with multiple Material Design cards and menus which are aligned in a grid layout            |
+| `dashboard`    | 带有多个 Material Design 卡片和菜单的网格式布局组件                                                   |
+| `table`        | Generates a component with a Material Design data table that supports sorting and pagination          |
+| `table`        | 生成一个带有 Material Design 并支持排序和分页的数据表组件                                             |
+| `tree`         | Component that interactively visualizes a nested folder structure by using the `<mat-tree>` component |
+| `tree`         | 该组件以 `<mat-tree>` 组件来展示一个可交互的文件夹式结构                                              |
 
 Additionally, the Angular CDK also comes with a collection of component schematics:
 
 此外，Angular CDK 也给出了一些组件的原理图：
 
-| Name | Description |
-| ---- | ----------- |
-| 名称 | 说明 |
+| Name        | Description                                                                                        |
+| ----------- | -------------------------------------------------------------------------------------------------- |
+| 名称        | 说明                                                                                               |
 | `drag-drop` | Component that uses the `@angular/cdk/drag-drop` directives for creating an interactive to-do list |
-| `drag-drop` | 该组件使用 `@angular/cdk/drag-drop` 指令来创建一个可交互的 to-do 列表 |
+| `drag-drop` | 该组件使用 `@angular/cdk/drag-drop` 指令来创建一个可交互的 to-do 列表                              |
 
 ### Address form schematic
 

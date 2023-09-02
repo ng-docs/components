@@ -14,26 +14,26 @@
  */
 export const enum RtlScrollAxisType {
   /**
-   * scrollLeft is 0 when scrolled all the way left and (scrollWidth - clientWidth) when scrolled
+   * scrollLeft is 0 when scrolled all the way left and \(scrollWidth - clientWidth\) when scrolled
    * all the way right.
    *
-   * 一直向左滚动时，scrollLeft 为 0；向右滚动时，为 (scrollWidth - clientWidth)。
+   * 一直向左滚动时，scrollLeft 为 0；向右滚动时，为 \(scrollWidth - clientWidth\)。
    *
    */
   NORMAL,
   /**
-   * scrollLeft is -(scrollWidth - clientWidth) when scrolled all the way left and 0 when scrolled
+   * scrollLeft is -\(scrollWidth - clientWidth\) when scrolled all the way left and 0 when scrolled
    * all the way right.
    *
-   * 一直向左滚动时，scrollLeft 为 -(scrollWidth - clientWidth)；向右滚动时，为 0。
+   * 一直向左滚动时，scrollLeft 为 -\(scrollWidth - clientWidth\)；向右滚动时，为 0。
    *
    */
   NEGATED,
   /**
-   * scrollLeft is (scrollWidth - clientWidth) when scrolled all the way left and 0 when scrolled
+   * scrollLeft is \(scrollWidth - clientWidth\) when scrolled all the way left and 0 when scrolled
    * all the way right.
    *
-   * 一直向左滚动时，scrollLeft 为 (scrollWidth - clientWidth)；向右滚动时，scrollLeft 是 0。
+   * 一直向左滚动时，scrollLeft 为 \(scrollWidth - clientWidth\)；向右滚动时，scrollLeft 是 0。
    *
    */
   INVERTED,

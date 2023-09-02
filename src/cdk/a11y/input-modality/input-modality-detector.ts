@@ -57,8 +57,8 @@ export const INPUT_MODALITY_DETECTOR_OPTIONS = new InjectionToken<InputModalityD
  *
  * InputModalityDetector 的默认选项。
  *
- * Modifier keys are ignored by default (i.e. when pressed won't cause the service to detect
- * keyboard input modality) for two reasons:
+ * Modifier keys are ignored by default \(i.e. when pressed won't cause the service to detect
+ * keyboard input modality\) for two reasons:
  *
  * 默认情况下忽略修饰键（即按下时不会导致服务检测键盘输入模式），这有两个原因：
  *
@@ -67,8 +67,8 @@ export const INPUT_MODALITY_DETECTOR_OPTIONS = new InjectionToken<InputModalityD
  *
  *    修饰键通常与鼠标一起使用以执行诸如“右键单击”或“在新选项卡中打开”之类的操作，因此不太能代表实际的键盘交互。
  *
- * 2. VoiceOver triggers some keyboard events when linearly navigating with Control + Option (but
- *    confusingly not with Caps Lock). Thus, to have parity with other screen readers, we ignore
+ * 2. VoiceOver triggers some keyboard events when linearly navigating with Control + Option \(but
+ *    confusingly not with Caps Lock\). Thus, to have parity with other screen readers, we ignore
  *    these keys so as to not update the input modality.
  *
  *    当使用 Control + Option 进行线性导航时，VoiceOver 会触发一些键盘事件（但不会与 Caps Lock 混淆）。因此，为了与其他屏幕阅读器保持一致，我们忽略这些键以免改变输入模式。
@@ -90,7 +90,7 @@ export const INPUT_MODALITY_DETECTOR_DEFAULT_OPTIONS: InputModalityDetectorOptio
  *
  * 在 touchstart 事件之后需要经过的时间量，以便将随后的 mousedown 事件归因于鼠标而不是触摸。
  *
- * This is the value used by AngularJS Material. Through trial and error (on iPhone 6S) they found
+ * This is the value used by AngularJS Material. Through trial and error \(on iPhone 6S\) they found
  * that a value of around 650ms seems appropriate.
  *
  * 这是 AngularJS Material 使用的值。通过反复试验（在 iPhone 6S 上），他们发现 650 毫秒左右的值似乎是合适的。
@@ -116,9 +116,9 @@ const modalityEventListenerOptions = normalizePassiveListenerOptions({
  * 检测用户输入模式的服务。
  *
  * This service does not update the input modality when a user navigates with a screen reader
- * (e.g. linear navigation with VoiceOver, object navigation / browse mode with NVDA, virtual PC
- * cursor mode with JAWS). This is in part due to technical limitations (i.e. keyboard events do not
- * fire as expected in these modes) but is also arguably the correct behavior. Navigating with a
+ * \(e.g. linear navigation with VoiceOver, object navigation / browse mode with NVDA, virtual PC
+ * cursor mode with JAWS\). This is in part due to technical limitations \(i.e. keyboard events do not
+ * fire as expected in these modes\) but is also arguably the correct behavior. Navigating with a
  * screen reader is akin to visually scanning a page, and should not be interpreted as actual user
  * input interaction.
  *

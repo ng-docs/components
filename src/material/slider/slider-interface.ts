@@ -10,8 +10,8 @@ import {InjectionToken, ChangeDetectorRef} from '@angular/core';
 import {MatRipple, RippleGlobalOptions} from '@angular/material/core';
 
 /**
- * Thumb types: range slider has two thumbs (START, END) whereas single point
- * slider only has one thumb (END).
+ * Thumb types: range slider has two thumbs \(START, END\) whereas single point
+ * slider only has one thumb \(END\).
  *
  * 滑杆类型：范围滑杆有两个滑块（START、END），而单点滑杆只有一个滑块（END）。
  *

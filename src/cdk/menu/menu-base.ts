@@ -93,7 +93,7 @@ export abstract class CdkMenuBase
   protected readonly menuAim = inject(MENU_AIM, {optional: true, self: true});
 
   /**
-   * The directionality (text direction) of the current page.
+   * The directionality \(text direction\) of the current page.
    *
    * 当前页面的方向性（文本方向）。
    *
@@ -126,8 +126,8 @@ export abstract class CdkMenuBase
   orientation: 'horizontal' | 'vertical' = 'vertical';
 
   /**
-   * Whether the menu is displayed inline (i.e. always present vs a conditional popup that the
-   * user triggers with a trigger element).
+   * Whether the menu is displayed inline \(i.e. always present vs a conditional popup that the
+   * user triggers with a trigger element\).
    *
    * 菜单是否内联显示（即始终存在的弹出菜单，与之相对的是通过触发器元素由用户触发的条件化弹出菜单）。
    *

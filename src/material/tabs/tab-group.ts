@@ -352,7 +352,7 @@ export abstract class _MatTabGroupBase
    * After the content is checked, this component knows what tabs have been defined
    * and what the selected index should be. This is where we can know exactly what position
    * each tab should be in according to the new selected index, and additionally we know how
-   * a new selected tab should transition in (from the left or right).
+   * a new selected tab should transition in \(from the left or right\).
    *
    * 检查内容后，该组件会知道哪些选项卡已定义，以及选定的索引应该是什么。
    * 这里我们可以根据新选定项的索引准确知道每个选项卡应该在哪个位置，另外我们也知道新选定选项卡应如何过渡（从左边或右边）。
@@ -670,7 +670,7 @@ export abstract class _MatTabGroupBase
 }
 
 /**
- * Material design tab-group component. Supports basic tab pairs (label + content) and includes
+ * Material design tab-group component. Supports basic tab pairs \(label + content\) and includes
  * animated ink-bar, keyboard navigation, and screen reader.
  * See: https://material.io/design/components/tabs.html
  *

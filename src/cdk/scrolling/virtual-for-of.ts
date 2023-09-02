@@ -340,7 +340,7 @@ export class CdkVirtualForOf<T>
   }
 
   /**
-   * Measures the combined size (width for horizontal orientation, height for vertical) of all items
+   * Measures the combined size \(width for horizontal orientation, height for vertical\) of all items
    * in the specified range. Throws an error if the range includes items that are not currently
    * rendered.
    *

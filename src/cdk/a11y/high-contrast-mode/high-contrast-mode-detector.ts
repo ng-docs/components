@@ -147,7 +147,7 @@ export class HighContrastModeDetector implements OnDestroy {
   }
 
   /**
-   * Applies CSS classes indicating high-contrast mode to document body (browser-only).
+   * Applies CSS classes indicating high-contrast mode to document body \(browser-only\).
    *
    * 将指示高对比度模式的 CSS 类应用于文档正文（仅浏览器）。
    *

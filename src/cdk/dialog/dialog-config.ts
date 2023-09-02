@@ -259,7 +259,7 @@ export class DialogConfig<D = unknown, R = unknown, C extends BasePortalOutlet =
   /**
    * Whether the dialog should close when the user navigates backwards or forwards through browser
    * history. This does not apply to navigation via anchor element unless using URL-hash based
-   * routing (`HashLocationStrategy` in the Angular router).
+   * routing \(`HashLocationStrategy` in the Angular router\).
    *
    * 当用户在浏览器历史中向后或向前导航时，对话框是否应该关闭。这不适用于通过链接（ `a` 元素）导航，除非使用基于 URL 哈希的路由（Angular 路由器中的 `HashLocationStrategy` ）。
    *

@@ -149,13 +149,12 @@ export class ThemingStylesMigration extends Migration<ComponentMigrator[], Schem
  * @param atRule a postcss AtRule node.
  *
  * 一个 postcss AtRule 节点。
- *
  * @returns
  *
  * true if the given AtRule is an import for
  *
- * 如果给定的 AtRule 是对 @angular/material 样式的导入，则为真【模糊翻译】
- *
+ * 如果给定的 AtRule 是对
+ * @angular /material 样式的导入，则为真【模糊翻译】
  * @angular /material styles.
  */
 function isAngularMaterialImport(atRule: postcss.AtRule): boolean {

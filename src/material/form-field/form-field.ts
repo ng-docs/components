@@ -108,7 +108,7 @@ export interface MatFormFieldDefaultOptions {
   hideRequiredMarker?: boolean;
   /**
    * Whether the label for form fields should by default float `always`,
-   * `never`, or `auto` (only when necessary).
+   * `never`, or `auto` \(only when necessary\).
    *
    * 表单字段的标签默认应该是 `always`、`never` 还是 `auto`（只在必要时）。
    *
@@ -322,7 +322,7 @@ export class MatFormField
   private _appearance: MatFormFieldAppearance = DEFAULT_APPEARANCE;
 
   /**
-   * Whether the form field should reserve space for one line of hint/error text (default)
+   * Whether the form field should reserve space for one line of hint/error text \(default\)
    * or to have the spacing grow from 0px as needed based on the size of the hint/error content.
    * Note that when using dynamic sizing, layout shifts will occur when hint/error text changes.
    *

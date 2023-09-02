@@ -184,8 +184,7 @@ export interface HarnessLoader {
    * @param query A query for a harness to create
    *
    * 要创建的测试工具的查询
-   *
-   * @return An instance of the given harness type (or null if not found).
+   * @return An instance of the given harness type \(or null if not found\).
    *
    * 给定测试工具类型的实例（如果未找到，则为 null）。
    *
@@ -548,8 +547,8 @@ export abstract class ComponentHarness {
 
   /**
    * Gets a `LocatorFactory` for the document root element. This factory can be used to create
-   * locators for elements that a component creates outside of its own root element. (e.g. by
-   * appending to document.body).
+   * locators for elements that a component creates outside of its own root element. \(e.g. by
+   * appending to document.body\).
    *
    * 获取 document 根元素的 `LocatorFactory`。这个工厂可以用来为组件在自己的根元素之外创建（例如，通过追加到 document.body 中）的元素创建定位器。。
    *

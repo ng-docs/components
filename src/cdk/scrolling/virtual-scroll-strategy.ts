@@ -55,7 +55,7 @@ export interface VirtualScrollStrategy {
   detach(): void;
 
   /**
-   * Called when the viewport is scrolled (debounced using requestAnimationFrame).
+   * Called when the viewport is scrolled \(debounced using requestAnimationFrame\).
    *
    * 在视口发生滚动时调用（使用 requestAnimationFrame 来防抖）。
    *

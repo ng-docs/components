@@ -16,7 +16,7 @@
 export type BooleanInput = string | boolean | null | undefined;
 
 /**
- * Coerces a data-bound value (typically a string) to a boolean.
+ * Coerces a data-bound value \(typically a string\) to a boolean.
  *
  * 把一个数据绑定值（通常是一个字符串）强制转换为布尔值。
  *

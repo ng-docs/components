@@ -56,9 +56,9 @@ let nextId = 0;
  * SelectionModel 的一种实现，它在内部始终会将选定结果表示为多选形式。这是必要的，因为如果用户可能会在初始化后将列表框从单选切换到多选，这时我们可以借此恢复全部选定结果。
  *
  * This selection model may report multiple selected values, even if it is in single-selection
- * mode. It is up to the user (CdkListbox) to check for invalid selections.
+ * mode. It is up to the user \(CdkListbox\) to check for invalid selections.
  *
- * 此选择模型可能会报告多个选定结果，即使它处于单选模式也一样。如何检查无效选定结果取决于用户 (CdkListbox)。
+ * 此选择模型可能会报告多个选定结果，即使它处于单选模式也一样。如何检查无效选定结果取决于用户 \(CdkListbox\)。
  *
  */
 class ListboxSelectionModel<T> extends SelectionModel<T> {
@@ -520,7 +520,7 @@ export class CdkListbox<T = unknown> implements AfterContentInit, OnDestroy, Con
   private _navigateDisabledOptions = false;
 
   /**
-   * Emits when the selected value(s) in the listbox change.
+   * Emits when the selected value\(s\) in the listbox change.
    *
    * 当列表框中的选定值更改时发出。
    *

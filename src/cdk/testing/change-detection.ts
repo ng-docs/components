@@ -177,7 +177,7 @@ export async function manualChangeDetection<T>(fn: () => Promise<T>) {
 }
 
 /**
- * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
+ * Resolves the given list of async values in parallel \(i.e. via Promise.all\) while batching change
  * detection over the entire operation such that change detection occurs exactly once before
  * resolving the values and once after.
  *
@@ -186,11 +186,9 @@ export async function manualChangeDetection<T>(fn: () => Promise<T>) {
  * @param values A getter for the async values to resolve in parallel with batched change detection.
  *
  * 异步值的 getter，用于在批量变更检测时并行解析。
- *
  * @return The resolved values.
  *
  * 已解析的值。
- *
  */
 export function parallel<T1, T2, T3, T4, T5>(
   values: () => [
@@ -203,7 +201,7 @@ export function parallel<T1, T2, T3, T4, T5>(
 ): Promise<[T1, T2, T3, T4, T5]>;
 
 /**
- * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
+ * Resolves the given list of async values in parallel \(i.e. via Promise.all\) while batching change
  * detection over the entire operation such that change detection occurs exactly once before
  * resolving the values and once after.
  *
@@ -212,11 +210,9 @@ export function parallel<T1, T2, T3, T4, T5>(
  * @param values A getter for the async values to resolve in parallel with batched change detection.
  *
  * 异步值的 getter，用于在批量变更检测时并行解析。
- *
  * @return The resolved values.
  *
  * 已解析的值。
- *
  */
 export function parallel<T1, T2, T3, T4>(
   values: () => [
@@ -228,7 +224,7 @@ export function parallel<T1, T2, T3, T4>(
 ): Promise<[T1, T2, T3, T4]>;
 
 /**
- * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
+ * Resolves the given list of async values in parallel \(i.e. via Promise.all\) while batching change
  * detection over the entire operation such that change detection occurs exactly once before
  * resolving the values and once after.
  *
@@ -237,18 +233,16 @@ export function parallel<T1, T2, T3, T4>(
  * @param values A getter for the async values to resolve in parallel with batched change detection.
  *
  * 异步值的 getter，用于在批量变更检测时并行解析。
- *
  * @return The resolved values.
  *
  * 已解析的值。
- *
  */
 export function parallel<T1, T2, T3>(
   values: () => [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>, T3 | PromiseLike<T3>],
 ): Promise<[T1, T2, T3]>;
 
 /**
- * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
+ * Resolves the given list of async values in parallel \(i.e. via Promise.all\) while batching change
  * detection over the entire operation such that change detection occurs exactly once before
  * resolving the values and once after.
  *
@@ -257,18 +251,16 @@ export function parallel<T1, T2, T3>(
  * @param values A getter for the async values to resolve in parallel with batched change detection.
  *
  * 异步值的 getter，用于在批量变更检测时并行解析。
- *
  * @return The resolved values.
  *
  * 已解析的值。
- *
  */
 export function parallel<T1, T2>(
   values: () => [T1 | PromiseLike<T1>, T2 | PromiseLike<T2>],
 ): Promise<[T1, T2]>;
 
 /**
- * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
+ * Resolves the given list of async values in parallel \(i.e. via Promise.all\) while batching change
  * detection over the entire operation such that change detection occurs exactly once before
  * resolving the values and once after.
  *
@@ -277,16 +269,14 @@ export function parallel<T1, T2>(
  * @param values A getter for the async values to resolve in parallel with batched change detection.
  *
  * 异步值的 getter，用于在批量变更检测时并行解析。
- *
  * @return The resolved values.
  *
  * 已解析的值。
- *
  */
 export function parallel<T>(values: () => (T | PromiseLike<T>)[]): Promise<T[]>;
 
 /**
- * Resolves the given list of async values in parallel (i.e. via Promise.all) while batching change
+ * Resolves the given list of async values in parallel \(i.e. via Promise.all\) while batching change
  * detection over the entire operation such that change detection occurs exactly once before
  * resolving the values and once after.
  *
@@ -295,11 +285,9 @@ export function parallel<T>(values: () => (T | PromiseLike<T>)[]): Promise<T[]>;
  * @param values A getter for the async values to resolve in parallel with batched change detection.
  *
  * 异步值的 getter，与批量变更检测并行解析。
- *
  * @return The resolved values.
  *
  * 解析后的值。
- *
  */
 export async function parallel<T>(values: () => Iterable<T | PromiseLike<T>>): Promise<T[]> {
   return batchChangeDetection(() => Promise.all(values()), true);

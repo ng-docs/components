@@ -103,7 +103,7 @@ export class ProtractorElement implements TestElement {
   }
 
   /**
-   * Clear the element's input (for input and textarea elements only).
+   * Clear the element's input \(for input and textarea elements only\).
    *
    * 清除元素的输入（仅适用于 input 和 textarea 元素）。
    *

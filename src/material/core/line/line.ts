@@ -12,10 +12,10 @@ import {MatCommonModule} from '../common-behaviors/common-module';
 
 /**
  * Shared directive to count lines inside a text area, such as a list item.
- * Line elements can be extracted with a @ContentChildren(MatLine) query, then
+ * Line elements can be extracted with a @ContentChildren\(MatLine\) query, then
  * counted by checking the query list's length.
  *
- * 共享指令，用于对文本区域（例如列表项）内的行进行计数。可以使用 @ContentChildren(MatLine) 查询来提取 MatLine 元素，然后通过检查查询列表的长度对其进行计数。
+ * 共享指令，用于对文本区域（例如列表项）内的行进行计数。可以使用 @ContentChildren\(MatLine\) 查询来提取 MatLine 元素，然后通过检查查询列表的长度对其进行计数。
  *
  */
 @Directive({

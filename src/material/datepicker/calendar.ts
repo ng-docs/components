@@ -333,7 +333,7 @@ export class MatCalendar<D> implements AfterContentInit, AfterViewChecked, OnDes
   private _moveFocusOnNextTick = false;
 
   /**
-   * A date representing the period (month or year) to start the calendar in.
+   * A date representing the period \(month or year\) to start the calendar in.
    *
    * 表示时间段（月或年）的起始日期。
    *

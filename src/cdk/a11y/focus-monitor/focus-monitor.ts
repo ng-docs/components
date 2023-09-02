@@ -59,8 +59,8 @@ export interface FocusOptions {
 export const enum FocusMonitorDetectionMode {
   /**
    * Any mousedown, keydown, or touchstart event that happened in the previous
-   * tick or the current tick will be used to assign a focus event's origin (to
-   * either mouse, keyboard, or touch). This is the default option.
+   * tick or the current tick will be used to assign a focus event's origin \(to
+   * either mouse, keyboard, or touch\). This is the default option.
    *
    * 在上一个周期或当前周期中发生的任何 mousedown、keydown 或 touchstart 事件都将用于指定焦点事件的来源（鼠标、键盘或触摸）。这是默认选项。
    *
@@ -829,19 +829,23 @@ export class FocusMonitor implements OnDestroy {
 }
 
 /**
- * Directive that determines how a particular element was focused (via keyboard, mouse, touch, or
- * programmatically) and adds corresponding classes to the element.
+ * Directive that determines how a particular element was focused \(via keyboard, mouse, touch, or
+ * programmatically\) and adds corresponding classes to the element.
  *
  * 指令，用于确定如何让特定元素获得焦点（通过键盘，鼠标，触摸或以编程方式），并向该元素添加相应的类。
  *
  * There are two variants of this directive:
- * 1) cdkMonitorElementFocus: does not consider an element to be focused if one of its children is
- *    focused.
- * 2) cdkMonitorSubtreeFocus: considers an element focused if it or any of its children are focused.
  *
  * 此指令有两种变体：
- * 1）cdkMonitorElementFocus：如果元素的任何一个子元素有焦点，则不认为该元素拥有焦点。
- * 2）cdkMonitorSubtreeFocus：如果元素或其任何子元素都有焦点，则认为该元素拥有焦点。
+ *
+ * 1. cdkMonitorElementFocus: does not consider an element to be focused if one of its children is
+ *    focused.
+ *
+ *    cdkMonitorElementFocus：如果元素的任何一个子元素有焦点，则不认为该元素拥有焦点。
+ *
+ * 2. cdkMonitorSubtreeFocus: considers an element focused if it or any of its children are focused.
+ *
+ *    cdkMonitorSubtreeFocus：如果元素或其任何子元素都有焦点，则认为该元素拥有焦点。
  *
  */
 @Directive({

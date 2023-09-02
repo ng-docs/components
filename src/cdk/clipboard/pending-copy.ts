@@ -13,12 +13,12 @@
  *
  * The implementation of copying text to the clipboard modifies the DOM and
  * forces a re-layout. This re-layout can take too long if the string is large,
- * causing the execCommand('copy') to happen too long after the user clicked.
+ * causing the execCommand\('copy'\) to happen too long after the user clicked.
  * This results in the browser refusing to copy. This object lets the
  * re-layout happen in a separate tick from copying by providing a copy function
  * that can be called later.
  *
- * 把文本复制到剪贴板的实现会修改 DOM 并强制重新布局。如果字符串很大，这次重新布局可能需要很长时间，这会导致 execCommand('copy') 在用户点击后很久才会发生。这会导致浏览器拒绝复制。该对象可以通过提供一个稍后调用的复制函数，来允许在一个独立的周期中内进行重新布局。
+ * 把文本复制到剪贴板的实现会修改 DOM 并强制重新布局。如果字符串很大，这次重新布局可能需要很长时间，这会导致 execCommand\('copy'\) 在用户点击后很久才会发生。这会导致浏览器拒绝复制。该对象可以通过提供一个稍后调用的复制函数，来允许在一个独立的周期中内进行重新布局。
  *
  * Destroy must be called when no longer in use, regardless of whether `copy` is
  * called.

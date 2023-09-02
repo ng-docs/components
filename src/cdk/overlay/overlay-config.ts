@@ -116,8 +116,8 @@ export class OverlayConfig {
 
   /**
    * Whether the overlay should be disposed of when the user goes backwards/forwards in history.
-   * Note that this usually doesn't include clicking on links (unless the user is using
-   * the `HashLocationStrategy`).
+   * Note that this usually doesn't include clicking on links \(unless the user is using
+   * the `HashLocationStrategy`\).
    *
    * 当用户在历史记录中往后退时，是否应该处理浮层。请注意，这通常不包括单击链接（除非用户正在使用 `HashLocationStrategy` ）。
    *

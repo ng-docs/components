@@ -11,7 +11,7 @@ import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/co
 
 /**
  * Column that simply shows text content for the header and row cells. Assumes that the table
- * is using the native table implementation (`<table>`).
+ * is using the native table implementation \(`<table>`\).
  *
  * 只显示表头行和行单元格的文本内容的列。假设该表正在使用原生表格实现（ `<table>` ）。
  *

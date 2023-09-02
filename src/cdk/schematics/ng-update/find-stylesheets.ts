@@ -25,10 +25,9 @@ const STYLESHEET_REGEX = /.*\.(css|scss)$/;
  * @param tree Devkit tree where stylesheet files can be found in.
  *
  * 可以在其中找到样式表文件的 Devkit 树。
- *
  * @param startDirectory Optional start directory where stylesheets should be searched in.
- *   This can be useful if only stylesheets within a given folder are relevant (to avoid
- *   unnecessary iterations).
+ *   This can be useful if only stylesheets within a given folder are relevant \(to avoid
+ *   unnecessary iterations\).
  *
  * 可选的开始目录，应在其中搜索样式表。如果只有给定文件夹中的样式表才是相关的，就会很有用（以避免不必要的迭代）。
  *

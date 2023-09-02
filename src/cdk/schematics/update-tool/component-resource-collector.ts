@@ -34,7 +34,7 @@ export interface ResolvedResource {
    */
   content: string;
   /**
-   * Start offset of the resource content (e.g. in the inline source file)
+   * Start offset of the resource content \(e.g. in the inline source file\)
    *
    * 资源内容的起始偏移量（例如，内联源文件中的偏移量）
    *
@@ -67,7 +67,7 @@ export interface ResolvedResource {
 
 /**
  * Collector that can be used to find Angular templates and stylesheets referenced within
- * given TypeScript source files (inline or external referenced files)
+ * given TypeScript source files \(inline or external referenced files\)
  *
  * 本收集器可用于查找在给定 TypeScript 源文件（内联或外部引用文件）中引用的 Angular 模板和样式表
  *

@@ -220,17 +220,17 @@ You can customize which element receives focus with the `autoFocus` property of
 
 打开时， `Dialog` 会捕获浏览器焦点，使其无法离开带有 `role="dialog"` 的根元素。默认情况下，对话框中的第一个可 tab 到的元素会获得焦点。你可以使用 `DialogConfig` 的 `autoFocus` 属性来自定义哪个元素接收焦点，该属性支持以下值。
 
-| Value | Behavior |
-| ----- | -------- |
-| 值 | 行为 |
-| `first-tabbable` | Focus the first tabbable element. This is the default setting. |
-| `first-tabbable` | 聚焦第一个可 tab 到的元素。这是默认设置。 |
-| `first-header` | Focus the first header element (`role="heading"`, `h1` through `h6`) |
-| `first-header` | 聚焦第一个标题元素（ `role="heading"` ， `h1` 到 `h6` ） |
-| `dialog` | Focus the root `role="dialog"` element. |
-| `dialog` | 聚焦根 `role="dialog"` 元素。 |
-| Any CSS selector | Focus the first element matching the given selector. |
-| 任何 CSS 选择器 | 聚焦与给定选择器匹配的第一个元素。 |
+| Value            | Behavior                                                               |
+| ---------------- | ---------------------------------------------------------------------- |
+| 值               | 行为                                                                   |
+| `first-tabbable` | Focus the first tabbable element. This is the default setting.         |
+| `first-tabbable` | 聚焦第一个可 tab 到的元素。这是默认设置。                              |
+| `first-header`   | Focus the first header element \(`role="heading"`, `h1` through `h6`\) |
+| `first-header`   | 聚焦第一个标题元素（ `role="heading"` ， `h1` 到 `h6` ）               |
+| `dialog`         | Focus the root `role="dialog"` element.                                |
+| `dialog`         | 聚焦根 `role="dialog"` 元素。                                          |
+| Any CSS selector | Focus the first element matching the given selector.                   |
+| 任何 CSS 选择器  | 聚焦与给定选择器匹配的第一个元素。                                     |
 
 While the default setting applies the best behavior for most applications, special cases may benefit
 from these alternatives. Always test your application to verify the behavior that works best for
@@ -248,12 +248,12 @@ property of `DialogConfig`. It supports the following values.
 
 关闭时 `Dialog` 默认会将焦点还原到打开对话框之前持有焦点的元素。你可以使用 `DialogConfig` 的 `restoreFocus` 属性自定义焦点恢复行为。它支持以下值。
 
-| Value type | Behavior |
-| ---------- | -------- |
-| 值类型 | 行为 |
-| `boolean` | When `true`, focus will be restored to the previously-focused element, otherwise focus won't be restored at all. |
-| `boolean` | 当为 `true` 时，焦点将恢复到先前聚焦的元素，否则根本不会恢复焦点。 |
-| `string` | Value is treated as a CSS selector. Focus will be restored to the element matching the selector. |
-| `string` | 值被视为 CSS 选择器。焦点将恢复到匹配此选择器的元素。 |
-| `HTMLElement` | Specific element that focus should be restored to. |
-| `HTMLElement` | 应恢复焦点的特定元素。 |
+| Value type    | Behavior                                                                                                         |
+| ------------- | ---------------------------------------------------------------------------------------------------------------- |
+| 值类型        | 行为                                                                                                             |
+| `boolean`     | When `true`, focus will be restored to the previously-focused element, otherwise focus won't be restored at all. |
+| `boolean`     | 当为 `true` 时，焦点将恢复到先前聚焦的元素，否则根本不会恢复焦点。                                               |
+| `string`      | Value is treated as a CSS selector. Focus will be restored to the element matching the selector.                 |
+| `string`      | 值被视为 CSS 选择器。焦点将恢复到匹配此选择器的元素。                                                            |
+| `HTMLElement` | Specific element that focus should be restored to.                                                               |
+| `HTMLElement` | 应恢复焦点的特定元素。                                                                                           |

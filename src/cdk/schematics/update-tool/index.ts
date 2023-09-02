@@ -20,7 +20,7 @@ import {createFileSystemCompilerHost} from './utils/virtual-host';
  * An update project that can be run against individual migrations. An update project
  * accepts a TypeScript program and a context that is provided to all migrations. The
  * context is usually not used by migrations, but in some cases migrations rely on
- * specifics from the tool that performs the update (e.g. the Angular CLI). In those cases,
+ * specifics from the tool that performs the update \(e.g. the Angular CLI\). In those cases,
  * the context can provide the necessary specifics to the migrations in a type-safe way.
  *
  * 可以针对单个迁移运行的更新项目。更新项目可以接受提供给所有迁移的一个 TypeScript 程序和上下文。迁移通常不使用上下文，但是在某些情况下，迁移依赖于执行更新工具（例如 Angular CLI）中的细节。在这些情况下，上下文可以以类型安全的方式为迁移提供必要的细节。

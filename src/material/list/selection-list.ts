@@ -126,7 +126,7 @@ export class MatSelectionList
   @Input() compareWith: (o1: any, o2: any) => boolean = (a1, a2) => a1 === a2;
 
   /**
-   * Whether selection is limited to one or multiple items (default multiple).
+   * Whether selection is limited to one or multiple items \(default multiple\).
    *
    * 选择是否限制到一个或多个条目（默认的多个）。
    *

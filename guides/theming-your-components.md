@@ -118,11 +118,11 @@ structural, color, and typography styles. This file is included in the `styleUrl
 
 To change this file to participate in Angular Material's theming system, we split the styles into
 two files, with the color and typography styles moved into mixins. By convention, the new file
-name ends with `-theme`. Additionally, the file starts with an underscore (`_`), indicating that
+name ends with `-theme`. Additionally, the file starts with an underscore \(`_`\), indicating that
 this is a Sass partial file. See the [Sass documentation][sass-partials] for more information about
 partial files.
 
-为了更改此文件以融入 Angular Material 的主题体系，我们将这些样式拆分为两个文件，把颜色和排版样式移动到 mixin 中。按照惯例，新文件名以 `-theme` 结尾。此外，该文件以下划线 (`_`) 开头，以表明这是一个 Sass “部分（partial）文件”。关于“部分文件”的更多信息，请参阅 [Sass 文档][sass-partials]。
+为了更改此文件以融入 Angular Material 的主题体系，我们将这些样式拆分为两个文件，把颜色和排版样式移动到 mixin 中。按照惯例，新文件名以 `-theme` 结尾。此外，该文件以下划线 \(`_`\) 开头，以表明这是一个 Sass “部分（partial）文件”。关于“部分文件”的更多信息，请参阅 [Sass 文档][sass-partials]。
 
 [sass-partials]: https://sass-lang.com/guide#topic-4
 

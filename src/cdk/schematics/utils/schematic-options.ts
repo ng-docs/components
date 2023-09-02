@@ -16,7 +16,7 @@ import {Tree} from '@angular-devkit/schematics';
 
 /**
  * Returns the default options for the `@schematics/angular:component` schematic which would
- * have been specified at project initialization (ng new or ng init).
+ * have been specified at project initialization \(ng new or ng init\).
  *
  * `@schematics/angular:component` 原理图的默认选项，该选项在项目初始化时已指定（ng new 或 ng init）。
  *

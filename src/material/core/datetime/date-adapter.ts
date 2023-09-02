@@ -75,10 +75,9 @@ export abstract class DateAdapter<D, L = any> {
    * @param date The date to extract the month from.
    *
    * 要从中提取月份的日期。
-   *
    * @returns
    *
-   * The month component (0-indexed, 0 = January).
+   * The month component \(0-indexed, 0 = January\).
    *
    * 月份组成部分（从 0 开始的索引，0 表示一月）。
    *
@@ -93,10 +92,9 @@ export abstract class DateAdapter<D, L = any> {
    * @param date The date to extract the date of the month from.
    *
    * 要从中提取月份日期的日期。
-   *
    * @returns
    *
-   * The month component (1-indexed, 1 = first of month).
+   * The month component \(1-indexed, 1 = first of month\).
    *
    * 月份的组成部分（从 1 开始的索引，1 表示月初）。
    *
@@ -111,10 +109,9 @@ export abstract class DateAdapter<D, L = any> {
    * @param date The date to extract the day of the week from.
    *
    * 要从中提取星期几的日期。
-   *
    * @returns
    *
-   * The month component (0-indexed, 0 = Sunday).
+   * The month component \(0-indexed, 0 = Sunday\).
    *
    * 月份组成部分（从 0 开始的索引，0 表示星期日）。
    *
@@ -126,7 +123,7 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 获取月份的名称列表。
    *
-   * @param style The naming style (e.g. long = 'January', short = 'Jan', narrow = 'J').
+   * @param style The naming style \(e.g. long = 'January', short = 'Jan', narrow = 'J'\).
    *
    * 命名样式（例如 long = 'January', short = 'Jan', narrow = 'J'）。
    *
@@ -135,7 +132,6 @@ export abstract class DateAdapter<D, L = any> {
    * An ordered list of all month names, starting with January.
    *
    * 从一月开始的所有月份名称的有序列表。
-   *
    */
   abstract getMonthNames(style: 'long' | 'short' | 'narrow'): string[];
 
@@ -158,7 +154,7 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 获取星期几的名称列表。
    *
-   * @param style The naming style (e.g. long = 'Sunday', short = 'Sun', narrow = 'S').
+   * @param style The naming style \(e.g. long = 'Sunday', short = 'Sun', narrow = 'S'\).
    *
    * 命名样式（例如，long = 'Sunday', short = 'Sun', narrow = 'S'）。
    *
@@ -167,7 +163,6 @@ export abstract class DateAdapter<D, L = any> {
    * An ordered list of all weekday names, starting with Sunday.
    *
    * 从星期天开始的所有工作日名称的有序列表。
-   *
    */
   abstract getDayOfWeekNames(style: 'long' | 'short' | 'narrow'): string[];
 
@@ -179,10 +174,9 @@ export abstract class DateAdapter<D, L = any> {
    * @param date The date to get the year name for.
    *
    * 要获取年份名称的日期。
-   *
    * @returns
    *
-   * The name of the given year (e.g. '2017').
+   * The name of the given year \(e.g. '2017'\).
    *
    * 给定年份的名称（例如 “2017”）。
    *
@@ -196,7 +190,7 @@ export abstract class DateAdapter<D, L = any> {
    *
    * @returns
    *
-   * The first day of the week (0-indexed, 0 = Sunday).
+   * The first day of the week \(0-indexed, 0 = Sunday\).
    *
    * 一周的第一天（从 0 开始的索引，0 表示星期日）。
    *
@@ -245,24 +239,22 @@ export abstract class DateAdapter<D, L = any> {
    *
    * 创建具有给定年份、月份和日期的日期对象。不允许月份和日期的上溢/下溢。
    *
-   * @param year The full year of the date. (e.g. 89 means the year 89, not the year 1989).
+   * @param year The full year of the date. \(e.g. 89 means the year 89, not the year 1989\).
    *
    * 日期中的完整年份。（例如 89 表示 89 年，而不是 1989 年）。
    *
-   * @param month The month of the date (0-indexed, 0 = January). Must be an integer 0 - 11.
+   * @param month The month of the date \(0-indexed, 0 = January\). Must be an integer 0 - 11.
    *
    * 日期中的月份（0 索引，0 =一月）。必须为 0 到 11 的整数。
    *
    * @param date The date of month of the date. Must be an integer 1 - length of the given month.
    *
    * 日期中的月内日期。必须为整数 1 ~ 给定月份的天数。
-   *
    * @returns
    *
    * The new date, or null if invalid.
    *
    * 新日期；如果无效，则为 null。
-   *
    */
   abstract createDate(year: number, month: number, date: number): D;
 
@@ -288,9 +280,8 @@ export abstract class DateAdapter<D, L = any> {
    * @param value The value to parse.
    *
    * 要解析的值。
-   *
    * @param parseFormat The expected format of the value being parsed
-   *     (type is implementation-dependent).
+   *     \(type is implementation-dependent\).
    *
    * 要解析值的预期格式（类型取决于实现）。
    *
@@ -299,7 +290,6 @@ export abstract class DateAdapter<D, L = any> {
    * The parsed date.
    *
    * 解析后的日期。
-   *
    */
   abstract parse(value: any, parseFormat: any): D | null;
 
@@ -335,8 +325,7 @@ export abstract class DateAdapter<D, L = any> {
    * @param date The date to add years to.
    *
    * 要添加年份的日期。
-   *
-   * @param years The number of years to add (may be negative).
+   * @param years The number of years to add \(may be negative\).
    *
    * 要增加的年数（可能为负）。
    *
@@ -345,7 +334,6 @@ export abstract class DateAdapter<D, L = any> {
    * A new date equal to the given one with the specified number of years added.
    *
    * 一个等于给定日期加上指定年数的新日期。
-   *
    */
   abstract addCalendarYears(date: D, years: number): D;
 
@@ -359,8 +347,7 @@ export abstract class DateAdapter<D, L = any> {
    * @param date The date to add months to.
    *
    * 要添加月份的日期。
-   *
-   * @param months The number of months to add (may be negative).
+   * @param months The number of months to add \(may be negative\).
    *
    * 要添加的月数（可能为负）。
    *
@@ -369,7 +356,6 @@ export abstract class DateAdapter<D, L = any> {
    * A new date equal to the given one with the specified number of months added.
    *
    * 一个等于给定的日期加上指定的月份数的新日期。
-   *
    */
   abstract addCalendarMonths(date: D, months: number): D;
 
@@ -382,8 +368,7 @@ export abstract class DateAdapter<D, L = any> {
    * @param date The date to add days to.
    *
    * 要添加天数的日期。
-   *
-   * @param days The number of days to add (may be negative).
+   * @param days The number of days to add \(may be negative\).
    *
    * 要添加的天数（可能为负）。
    *
@@ -392,12 +377,11 @@ export abstract class DateAdapter<D, L = any> {
    * A new date equal to the given one with the specified number of days added.
    *
    * 一个等于给定的日期加上指定的天数的新日期。
-   *
    */
   abstract addCalendarDays(date: D, days: number): D;
 
   /**
-   * Gets the RFC 3339 compatible string (https://tools.ietf.org/html/rfc3339) for the given date.
+   * Gets the RFC 3339 compatible string \(https://tools.ietf.org/html/rfc3339\) for the given date.
    * This method is used to generate date strings that are compatible with native HTML attributes
    * such as the `min` or `max` attribute of an `<input>`.
    *
@@ -487,8 +471,8 @@ export abstract class DateAdapter<D, L = any> {
 
   /**
    * Attempts to deserialize a value to a valid date object. This is different from parsing in that
-   * deserialize should only accept non-ambiguous, locale-independent formats (e.g. a ISO 8601
-   * string). The default implementation does not allow any deserialization, it simply checks that
+   * deserialize should only accept non-ambiguous, locale-independent formats \(e.g. a ISO 8601
+   * string\). The default implementation does not allow any deserialization, it simply checks that
    * the given value is already a valid date object or null. The `<mat-datepicker>` will call this
    * method on all of its `@Input()` properties that accept dates. It is therefore possible to
    * support passing values from your backend directly to these properties by overriding this method
@@ -499,11 +483,10 @@ export abstract class DateAdapter<D, L = any> {
    * @param value The value to be deserialized into a date object.
    *
    * 要反序列化为日期对象的值。
-   *
    * @returns
    *
    * The deserialized date object, either a valid date, null if the value can be
-   *     deserialized into a null date (e.g. the empty string), or an invalid date.
+   *     deserialized into a null date \(e.g. the empty string\), or an invalid date.
    *
    * 反序列化后的日期对象，可以是有效日期，如果可以将该值反序列化为空日期（例如，空字符串），则为 null 或无效日期。
    *

@@ -240,10 +240,10 @@ export class MomentDateAdapter extends DateAdapter<Moment> {
 
   /**
    * Returns the given value if given a valid Moment or null. Deserializes valid ISO 8601 strings
-   * (https://www.ietf.org/rfc/rfc3339.txt) and valid Date objects into valid Moments and empty
+   * \(https://www.ietf.org/rfc/rfc3339.txt\) and valid Date objects into valid Moments and empty
    * string into null. Returns an invalid date for all other values.
    *
-   * 如果给定有效时刻或 null，则返回给定值。将有效的 ISO 8601 字符串 ( https://www.ietf.org/rfc/rfc3339.txt ) 和有效的 Date 对象反序列化为有效的 Moments 并将空字符串反序列化为 null。对于所有其他值返回无效日期。
+   * 如果给定有效时刻或 null，则返回给定值。将有效的 ISO 8601 字符串 \( https://www.ietf.org/rfc/rfc3339.txt \) 和有效的 Date 对象反序列化为有效的 Moments 并将空字符串反序列化为 null。对于所有其他值返回无效日期。
    *
    */
   override deserialize(value: any): Moment | null {

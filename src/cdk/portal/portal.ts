@@ -171,7 +171,7 @@ export class ComponentPortal<T> extends Portal<ComponentRef<T>> {
 }
 
 /**
- * A `TemplatePortal` is a portal that represents some embedded template (TemplateRef).
+ * A `TemplatePortal` is a portal that represents some embedded template \(TemplateRef\).
  *
  * `TemplatePortal` 是一个代表嵌入式模板（TemplateRef）的传送点。
  *

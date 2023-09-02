@@ -113,11 +113,11 @@ export class _MatTableDataSource<
   /**
    * The filtered set of data that has been matched by the filter string, or all the data if there
    * is no filter. Useful for knowing the set of data the table represents.
-   * For example, a 'selectAll()' function would likely want to select the set of filtered data
+   * For example, a 'selectAll\(\)' function would likely want to select the set of filtered data
    * shown to the user rather than all the data.
    *
    * 通过过滤器字符串过滤过的数据集，如果没有过滤器，则全是数据。
-   * 需要知道表格所展现的数据集时，这非常有用。比如，'selectAll()' 函数可能会想给用户展示一组过滤过的数据，而不是所有的数据。
+   * 需要知道表格所展现的数据集时，这非常有用。比如，'selectAll\(\)' 函数可能会想给用户展示一组过滤过的数据，而不是所有的数据。
    *
    */
   filteredData: T[];
@@ -210,8 +210,8 @@ export class _MatTableDataSource<
   /**
    * Data accessor function that is used for accessing data properties for sorting through
    * the default sortData function.
-   * This default function assumes that the sort header IDs (which defaults to the column name)
-   * matches the data's properties (e.g. column Xyz represents data['Xyz']).
+   * This default function assumes that the sort header IDs \(which defaults to the column name\)
+   * matches the data's properties \(e.g. column Xyz represents data['Xyz']\).
    * May be set to a custom function for different behavior.
    *
    * 数据访问器函数，用于访问数据属性，以便通过默认的 sortData 函数进行排序。
@@ -220,11 +220,9 @@ export class _MatTableDataSource<
    * @param data Data object that is being accessed.
    *
    * 正在访问的数据对象
-   *
    * @param sortHeaderId The name of the column that represents the data.
    *
    * 用来代表数据列的名字。
-   *
    */
   sortingDataAccessor: (data: T, sortHeaderId: string) => string | number = (
     data: T,
@@ -522,7 +520,7 @@ export class _MatTableDataSource<
 
 /**
  * Data source that accepts a client-side data array and includes native support of filtering,
- * sorting (using MatSort), and pagination (using MatPaginator).
+ * sorting \(using MatSort\), and pagination \(using MatPaginator\).
  *
  * 可接受客户端数据的数据源，包括原生支持的过滤、排序（使用 MatSort）和分页（使用 MatPaginator）。
  *

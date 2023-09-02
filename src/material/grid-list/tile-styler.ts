@@ -77,7 +77,7 @@ export abstract class TileStyler {
   }
 
   /**
-   * Computes the amount of space a single 1x1 tile would take up (width or height).
+   * Computes the amount of space a single 1x1 tile would take up \(width or height\).
    * Used as a basis for other calculations.
    *
    * 计算单个 1x1 图块占用的空间量（宽度或高度）。用作其它计算的基础。
@@ -85,14 +85,14 @@ export abstract class TileStyler {
    * @param sizePercent Percent of the total grid-list space that one 1x1 tile would take up.
    *
    * 一个 1x1 图块占用的网格列表总空间的百分比。
-   *
    * @param gutterFraction Fraction of the gutter size taken up by one 1x1 tile.
    *
    * 一个 1x1 的图块占间隙尺寸的多大比例。
    *
-   * @return The size of a 1x1 tile as an expression that can be evaluated via CSS calc().
+   * @return The size of a 1x1 tile as an expression that can be evaluated via CSS calc\(\).
    *
-   * 1x1 图块的大小表达式，可以通过 CSS calc() 来计算。
+   * 1x1 图块的大小表达式，可以通过 CSS calc\(\) 来计算。
+   *
    */
   getBaseTileSize(sizePercent: number, gutterFraction: number): string {
     // Take the base size percent (as would be if evenly dividing the size between cells),
@@ -111,14 +111,14 @@ export abstract class TileStyler {
    * @param offset Number of tiles that have already been rendered in the row/column.
    *
    * 那些已在行/列中渲染过的图块数量。
-   *
-   * @param baseSize Base size of a 1x1 tile (as computed in getBaseTileSize).
+   * @param baseSize Base size of a 1x1 tile \(as computed in getBaseTileSize\).
    *
    * 1x1 图块的基本大小（在 getBaseTileSize 中计算）。
    *
-   * @return Position of the tile as a CSS calc() expression.
+   * @return Position of the tile as a CSS calc\(\) expression.
    *
-   * 图块位置的 CSS calc() 表达式形式。
+   * 图块位置的 CSS calc\(\) 表达式形式。
+   *
    */
   getTilePosition(baseSize: string, offset: number): string {
     // The position comes the size of a 1x1 tile plus gutter for each previous tile in the
@@ -131,17 +131,17 @@ export abstract class TileStyler {
    *
    * 获取图块的实际大小，比如 width: height，考虑了 rowspan 或 colspan。
    *
-   * @param baseSize Base size of a 1x1 tile (as computed in getBaseTileSize).
+   * @param baseSize Base size of a 1x1 tile \(as computed in getBaseTileSize\).
    *
    * 1x1 图块的基本大小（在 getBaseTileSize 中计算）。
    *
    * @param span The tile's rowspan or colspan.
    *
    * 图块的 rowspan 或 colspan。
+   * @return Size of the tile as a CSS calc\(\) expression.
    *
-   * @return Size of the tile as a CSS calc() expression.
+   * 图块大小的 CSS calc\(\) 表达式形式。
    *
-   * 图块大小的 CSS calc() 表达式形式。
    */
   getTileSize(baseSize: string, span: number): string {
     return `(${baseSize} * ${span}) + (${span - 1} * ${this._gutterSize})`;

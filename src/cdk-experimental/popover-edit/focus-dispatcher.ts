@@ -36,7 +36,7 @@ export class FocusDispatcher {
   }
 
   /**
-   * Moves focus to earlier or later cells (in dom order) by offset cells relative to
+   * Moves focus to earlier or later cells \(in dom order\) by offset cells relative to
    * currentCell.
    *
    * 通过相对于 currentCell 的偏移单元格将焦点移动到较早或较晚的单元格（按 dom 中的顺序）。

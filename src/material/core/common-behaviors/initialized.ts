@@ -111,7 +111,7 @@ export function mixinInitialized<T extends Constructor<{}>>(base: T): HasInitial
     }
 
     /**
-     * Emits and completes the subscriber stream (should only emit once).
+     * Emits and completes the subscriber stream \(should only emit once\).
      *
      * 发出事件并完成订阅流（应该只发出一次）。
      *

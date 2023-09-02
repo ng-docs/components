@@ -81,7 +81,7 @@ export class MatSubheaderHarness extends ComponentHarness {
   }
 
   /**
-   * Gets the full text content of the list item (including text from any font icons).
+   * Gets the full text content of the list item \(including text from any font icons\).
    *
    * 获取列表项的完整文本内容（包括来自任何字体图标的文本）。
    *

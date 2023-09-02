@@ -255,7 +255,7 @@ export class MatBadge extends _MatBadgeBase implements OnInit, OnDestroy, CanDis
 
   /**
    * Gets the element into which the badge's content is being rendered. Undefined if the element
-   * hasn't been created (e.g. if the badge doesn't have content).
+   * hasn't been created \(e.g. if the badge doesn't have content\).
    *
    * 获取要在其中渲染徽章内容的元素。如果该元素尚未创建（例如，如果徽章没有内容），则为 undefined。
    *

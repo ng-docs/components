@@ -57,7 +57,7 @@ export interface GranularSanityChecks {
  *
  * 用来捕捉那些应该为*所有* Angular Material 组件加载和/或运行的内容的模块。包括 bidi（双向文字）等
  *
- * This module should be imported to each top-level component module (e.g., MatTabsModule).
+ * This module should be imported to each top-level component module \(e.g., MatTabsModule\).
  *
  * 该模块应导入到每个顶级组件模块（例如 MatTabsModule）中。
  *

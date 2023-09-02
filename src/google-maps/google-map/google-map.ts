@@ -160,7 +160,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/events#auth-errors
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/events#auth-errors
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/events#auth-errors
    *
    */
   @Output() readonly authFailure: EventEmitter<void> = new EventEmitter<void>();
@@ -169,7 +169,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.bounds_changed
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.bounds_changed
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.bounds_changed
    *
    */
   @Output() readonly boundsChanged: Observable<void> =
@@ -179,7 +179,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.center_changed
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.center_changed
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.center_changed
    *
    */
   @Output() readonly centerChanged: Observable<void> =
@@ -189,7 +189,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.click
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.click
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.click
    *
    */
   @Output() readonly mapClick: Observable<google.maps.MapMouseEvent | google.maps.IconMouseEvent> =
@@ -201,7 +201,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.dblclick
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.dblclick
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.dblclick
    *
    */
   @Output() readonly mapDblclick: Observable<google.maps.MapMouseEvent> =
@@ -211,7 +211,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.drag
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.drag
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.drag
    *
    */
   @Output() readonly mapDrag: Observable<void> = this._eventManager.getLazyEmitter<void>('drag');
@@ -220,7 +220,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.dragend
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.dragend
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.dragend
    *
    */
   @Output() readonly mapDragend: Observable<void> =
@@ -230,7 +230,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.dragstart
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.dragstart
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.dragstart
    *
    */
   @Output() readonly mapDragstart: Observable<void> =
@@ -240,7 +240,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.heading_changed
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.heading_changed
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.heading_changed
    *
    */
   @Output() readonly headingChanged: Observable<void> =
@@ -250,7 +250,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.idle
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.idle
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.idle
    *
    */
   @Output() readonly idle: Observable<void> = this._eventManager.getLazyEmitter<void>('idle');
@@ -259,7 +259,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.maptypeid_changed
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.maptypeid_changed
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.maptypeid_changed
    *
    */
   @Output() readonly maptypeidChanged: Observable<void> =
@@ -269,7 +269,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.mousemove
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.mousemove
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.mousemove
    *
    */
   @Output()
@@ -280,7 +280,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.mouseout
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.mouseout
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.mouseout
    *
    */
   @Output() readonly mapMouseout: Observable<google.maps.MapMouseEvent> =
@@ -290,7 +290,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.mouseover
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.mouseover
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.mouseover
    *
    */
   @Output() readonly mapMouseover: Observable<google.maps.MapMouseEvent> =
@@ -310,7 +310,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.rightclick
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.rightclick
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.rightclick
    *
    */
   @Output() readonly mapRightclick: Observable<google.maps.MapMouseEvent> =
@@ -320,7 +320,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.tilesloaded
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.tilesloaded
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.tilesloaded
    *
    */
   @Output() readonly tilesloaded: Observable<void> =
@@ -330,7 +330,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.tilt_changed
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.tilt_changed
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.tilt_changed
    *
    */
   @Output() readonly tiltChanged: Observable<void> =
@@ -340,7 +340,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.zoom_changed
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.zoom_changed
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.zoom_changed
    *
    */
   @Output() readonly zoomChanged: Observable<void> =
@@ -431,7 +431,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.fitBounds
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.fitBounds
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.fitBounds
    *
    */
   fitBounds(
@@ -446,7 +446,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.panBy
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.panBy
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.panBy
    *
    */
   panBy(x: number, y: number) {
@@ -458,7 +458,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.panTo
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.panTo
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.panTo
    *
    */
   panTo(latLng: google.maps.LatLng | google.maps.LatLngLiteral) {
@@ -470,7 +470,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.panToBounds
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.panToBounds
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.panToBounds
    *
    */
   panToBounds(
@@ -485,7 +485,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getBounds
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.getBounds
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.getBounds
    *
    */
   getBounds(): google.maps.LatLngBounds | null {
@@ -497,7 +497,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getCenter
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.getCenter
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.getCenter
    *
    */
   getCenter(): google.maps.LatLng | undefined {
@@ -509,7 +509,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getClickableIcons
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.getClickableIcons
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.getClickableIcons
    *
    */
   getClickableIcons(): boolean | undefined {
@@ -521,7 +521,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getHeading
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.getHeading
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.getHeading
    *
    */
   getHeading(): number | undefined {
@@ -533,7 +533,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getMapTypeId
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.getMapTypeId
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.getMapTypeId
    *
    */
   getMapTypeId(): google.maps.MapTypeId | string | undefined {
@@ -545,7 +545,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getProjection
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.getProjection
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.getProjection
    *
    */
   getProjection(): google.maps.Projection | null {
@@ -557,7 +557,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getStreetView
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.getStreetView
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.getStreetView
    *
    */
   getStreetView(): google.maps.StreetViewPanorama {
@@ -569,7 +569,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getTilt
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.getTilt
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.getTilt
    *
    */
   getTilt(): number | undefined {
@@ -581,7 +581,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.getZoom
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.getZoom
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.getZoom
    *
    */
   getZoom(): number | undefined {
@@ -593,7 +593,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.controls
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.controls
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.controls
    *
    */
   get controls(): google.maps.MVCArray<Node>[] {
@@ -605,7 +605,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.data
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.data
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.data
    *
    */
   get data(): google.maps.Data {
@@ -617,7 +617,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.mapTypes
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.mapTypes
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.mapTypes
    *
    */
   get mapTypes(): google.maps.MapTypeRegistry {
@@ -629,7 +629,7 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
    * See
    * https://developers.google.com/maps/documentation/javascript/reference/map#Map.overlayMapTypes
    *
-   * 请参阅https://developers.google.com/maps/documentation/javascript/reference/map#Map.overlayMapTypes
+   * 请参阅 https://developers.google.com/maps/documentation/javascript/reference/map#Map.overlayMapTypes
    *
    */
   get overlayMapTypes(): google.maps.MVCArray<google.maps.MapType | null> {

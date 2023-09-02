@@ -53,7 +53,7 @@ export function hasNgModuleImport(tree: Tree, modulePath: string, className: str
 
 /**
  * Resolves the last identifier that is part of the given expression. This helps resolving
- * identifiers of nested property access expressions (e.g. myNamespace.core.NgModule).
+ * identifiers of nested property access expressions \(e.g. myNamespace.core.NgModule\).
  *
  * 解析作为给定表达式一部分的最后一个标识符。这有助于解析嵌套属性访问表达式的标识符（例如 myNamespace.core.NgModule）。
  *

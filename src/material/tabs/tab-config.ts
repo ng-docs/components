@@ -15,7 +15,7 @@ import {InjectionToken} from '@angular/core';
  */
 export interface MatTabsConfig {
   /**
-   * Duration for the tab animation. Must be a valid CSS value (e.g. 600ms).
+   * Duration for the tab animation. Must be a valid CSS value \(e.g. 600ms\).
    *
    * 选项卡动画的持续时间。必须是一个有效的 CSS 值（比如 600ms）。
    *

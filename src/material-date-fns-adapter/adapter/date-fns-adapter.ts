@@ -221,10 +221,10 @@ export class DateFnsAdapter extends DateAdapter<Date, Locale> {
 
   /**
    * Returns the given value if given a valid Date or null. Deserializes valid ISO 8601 strings
-   * (https://www.ietf.org/rfc/rfc3339.txt) into valid Dates and empty string into null. Returns an
+   * \(https://www.ietf.org/rfc/rfc3339.txt\) into valid Dates and empty string into null. Returns an
    * invalid date for all other values.
    *
-   * 如果给定有效日期或 null，则返回给定值。将有效的 ISO 8601 字符串 ( https://www.ietf.org/rfc/rfc3339.txt ) 反序列化为有效日期并将空字符串反序列化为 null。对所有其他值返回无效日期。
+   * 如果给定有效日期或 null，则返回给定值。将有效的 ISO 8601 字符串 \( https://www.ietf.org/rfc/rfc3339.txt \) 反序列化为有效日期并将空字符串反序列化为 null。对所有其他值返回无效日期。
    *
    */
   override deserialize(value: any): Date | null {

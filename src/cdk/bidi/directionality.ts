@@ -37,7 +37,7 @@ export function _resolveDirectionality(rawValue: string): Direction {
 }
 
 /**
- * The directionality (LTR / RTL) context for the application (or a subtree of it).
+ * The directionality \(LTR / RTL\) context for the application \(or a subtree of it\).
  * Exposes the current direction and a stream of direction changes.
  *
  * 应用程序（或其子树）的方向性（LTR/RTL）上下文。对外暴露当前的方向和一个表示方向变化的流。

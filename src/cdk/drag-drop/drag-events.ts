@@ -255,8 +255,8 @@ export interface CdkDragMove<T = any> {
   distance: {x: number; y: number};
   /**
    * Indicates the direction in which the user is dragging the element along each axis.
-   * `1` means that the position is increasing (e.g. the user is moving to the right or downwards),
-   * whereas `-1` means that it's decreasing (they're moving to the left or upwards). `0` means
+   * `1` means that the position is increasing \(e.g. the user is moving to the right or downwards\),
+   * whereas `-1` means that it's decreasing \(they're moving to the left or upwards\). `0` means
    * that the position hasn't changed.
    *
    * 指示用户沿每个轴拖动元素的方向。`1` 表示位置在增加（例如，用户向右或向下移动），而 `-1` 表示它正在减少（它们向左或向上移动）。`0` 意味着该位置没有变化。

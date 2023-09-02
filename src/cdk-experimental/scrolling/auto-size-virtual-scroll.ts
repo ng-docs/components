@@ -154,21 +154,20 @@ export class AutoSizeVirtualScrollStrategy implements VirtualScrollStrategy {
   private _removalFailures = 0;
 
   /**
-   * @param minBufferPx The minimum amount of buffer rendered beyond the viewport (in pixels).
+   * @param minBufferPx The minimum amount of buffer rendered beyond the viewport \(in pixels\).
    *     If the amount of buffer dips below this number, more items will be rendered.
    *
    * 在视口之外渲染的最小缓冲区量（以像素为单位）。如果缓冲区数量低于此数字，将渲染更多条目。
    *
    * @param maxBufferPx The number of pixels worth of buffer to shoot for when rendering new items.
    *     If the actual amount turns out to be less it will not necessarily trigger an additional
-   *     rendering cycle (as long as the amount of buffer is still greater than `minBufferPx`).
+   *     rendering cycle \(as long as the amount of buffer is still greater than `minBufferPx`\).
    *
    * 渲染新条目时要预留的缓冲区像素数。如果实际数量更少，则不一定会触发额外的渲染周期（只要缓冲区数量仍然大于 `minBufferPx` ）。
    *
    * @param averager The averager used to estimate the size of unseen items.
    *
    * 此平均器用于估计看不见的条目的大小。
-   *
    */
   constructor(minBufferPx: number, maxBufferPx: number, averager = new ItemSizeAverager()) {
     this._minBufferPx = minBufferPx;
@@ -252,12 +251,12 @@ export class AutoSizeVirtualScrollStrategy implements VirtualScrollStrategy {
    *
    * 更新缓冲区参数。
    *
-   * @param minBufferPx The minimum amount of buffer rendered beyond the viewport (in pixels).
+   * @param minBufferPx The minimum amount of buffer rendered beyond the viewport \(in pixels\).
    *
    * 要在视口之外渲染的最小缓冲区量（以像素为单位）。
    *
-   * @param maxBufferPx The number of buffer items to render beyond the edge of the viewport (in
-   *     pixels).
+   * @param maxBufferPx The number of buffer items to render beyond the edge of the viewport \(in
+   *     pixels\).
    *
    * 要渲染超出视口边缘的缓冲区条目数（以像素为单位）。
    *
@@ -557,7 +556,7 @@ export function _autoSizeVirtualScrollStrategyFactory(autoSizeDir: CdkAutoSizeVi
 })
 export class CdkAutoSizeVirtualScroll implements OnChanges {
   /**
-   * The minimum amount of buffer rendered beyond the viewport (in pixels).
+   * The minimum amount of buffer rendered beyond the viewport \(in pixels\).
    * If the amount of buffer dips below this number, more items will be rendered. Defaults to 100px.
    *
    * 缓存在视口之外的最小缓冲区数（以像素为单位）。当缓冲区的数量低于这个数时，就会渲染出更多的条目。默认为 100px。
@@ -575,7 +574,7 @@ export class CdkAutoSizeVirtualScroll implements OnChanges {
   /**
    * The number of pixels worth of buffer to shoot for when rendering new items.
    * If the actual amount turns out to be less it will not necessarily trigger an additional
-   * rendering cycle (as long as the amount of buffer is still greater than `minBufferPx`).
+   * rendering cycle \(as long as the amount of buffer is still greater than `minBufferPx`\).
    * Defaults to 200px.
    *
    * 渲染新条目时要预留的缓冲区像素数。如果实际数量更少，则不一定会触发额外的渲染周期（只要缓冲区数量仍然大于 `minBufferPx` ）。默认为 200 像素。

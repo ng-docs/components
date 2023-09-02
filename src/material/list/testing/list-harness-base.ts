@@ -165,7 +165,7 @@ export abstract class MatListHarnessBase<
 
   /**
    * Gets a list of harnesses representing all of the items, subheaders, and dividers
-   * (in the order they appear in the list). Use `instanceof` to check which type of harness a given
+   * \(in the order they appear in the list\). Use `instanceof` to check which type of harness a given
    * item is.
    *
    * 获取表示所有条目、子标题和分隔器的测试工具列表（按它们在列表中出现的顺序）。使用 `instanceof` 来检查给定条目的测试工具类型。
@@ -175,12 +175,10 @@ export abstract class MatListHarnessBase<
    *     that the respective harness type should be omitted completely.
    *
    * 包括用于缩小列表项、子标题和分隔符的可选过滤器。`item`、`subheader` 或 `divider` 属性的 `false` 值指示应完全省略相应的测试工具类型。
-   *
    * @return The list of harnesses representing the items, subheaders, and dividers matching the
    *     given filters.
    *
    * 表示与给定过滤器匹配的条目、子标题和分隔器的测试工具列表。
-   *
    */
   getItemsWithSubheadersAndDividers(filters: {
     item: false;

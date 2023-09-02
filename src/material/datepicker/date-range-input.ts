@@ -341,9 +341,9 @@ export class MatDateRangeInput<D>
 
   /**
    * Implemented as a part of `MatFormFieldControl`.
-   * TODO(crisbeto): change type to `AbstractControlDirective` after #18206 lands.
+   * TODO\(crisbeto\): change type to `AbstractControlDirective` after #18206 lands.
    *
-   *是 `MatFormFieldControl` 实现的一部分。
+   * 是 `MatFormFieldControl` 实现的一部分。
    *
    * @docs-private
    */

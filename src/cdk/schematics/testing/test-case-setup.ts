@@ -54,7 +54,7 @@ export function readFileContent(filePath: string): string {
  * Creates a test app schematic tree that will be copied over to a real filesystem location.
  * This is necessary because otherwise the TypeScript compiler API would not be able to
  * find source files within the tsconfig project.
- * TODO(devversion): we should be able to make the TypeScript config parsing respect the
+ * TODO\(devversion\): we should be able to make the TypeScript config parsing respect the
  * schematic tree. This would allow us to fully take advantage of the virtual file system.
  *
  * 创建一个测试应用程序原理图树，该树将被复制到真实的文件系统位置。这是必需的，否则 TypeScript 编译器 API 将无法在 tsconfig 项目中找到源文件。

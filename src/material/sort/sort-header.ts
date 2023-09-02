@@ -54,7 +54,7 @@ const _MatSortHeaderBase = mixinDisabled(class {});
 export type ArrowViewState = SortDirection | 'hint' | 'active';
 
 /**
- * States describing the arrow's animated position (animating fromState to toState).
+ * States describing the arrow's animated position \(animating fromState to toState\).
  * If the fromState is not defined, there will be no animated transition to the toState.
  *
  * 描述箭头动画位置的状态（动画从 fromState 变为 toState）。如果没有定义 fromState，就不会有到 toState 的过渡动画。
@@ -77,7 +77,7 @@ interface MatSortHeaderColumnDef {
 }
 
 /**
- * Applies sorting behavior (click to change sort) and styles to an element, including an
+ * Applies sorting behavior \(click to change sort\) and styles to an element, including an
  * arrow to display the current sort direction.
  *
  * 对元素应用排序行为（点击以改变排序）和样式，包括一个显示当前排序方向的箭头。
@@ -143,7 +143,7 @@ export class MatSortHeader
   _showIndicatorHint: boolean = false;
 
   /**
-   * The view transition state of the arrow (translation/ opacity) - indicates its `from` and `to`
+   * The view transition state of the arrow \(translation/ opacity\) - indicates its `from` and `to`
    * position through the animation. If animations are currently disabled, the fromState is removed
    * so that there is no animation displayed.
    *
@@ -386,7 +386,7 @@ export class MatSortHeader
   }
 
   /**
-   * Returns the animation state for the arrow direction (indicator and pointers).
+   * Returns the animation state for the arrow direction \(indicator and pointers\).
    *
    * 返回箭头方向的动画状态（指示器和指针）。
    *
@@ -396,7 +396,7 @@ export class MatSortHeader
   }
 
   /**
-   * Returns the arrow position state (opacity, translation).
+   * Returns the arrow position state \(opacity, translation\).
    *
    * 返回箭头位置的状态（不透明度，平移）。
    *
@@ -414,7 +414,7 @@ export class MatSortHeader
    * the sort is active and the direction changes. Otherwise the arrow's direction should linger
    * in cases such as the sort becoming deactivated but we want to animate the arrow away while
    * preserving its direction, even though the next sort direction is actually different and should
-   * only be changed once the arrow displays again (hint or activation).
+   * only be changed once the arrow displays again \(hint or activation\).
    *
    * 更新箭头指向的方向。如果没有排序，箭头应朝向起始方向。如果有排序，箭头应指向当前活动的排序方向。
    * 这就是要通过函数进行更新的原因，因为该方向只能在特定的时候更改 - 当停用时。当排序处于活动状态且方向发生变化时却要显示提示。

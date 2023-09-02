@@ -210,7 +210,7 @@ export class MatProgressBar
   /**
    * Event emitted when animation of the primary progress bar completes. This event will not
    * be emitted when animations are disabled, nor will it be emitted for modes with continuous
-   * animations (indeterminate and query).
+   * animations \(indeterminate and query\).
    *
    * 当主进度条的动画完成时会发出本事件。当禁用动画时，不会发出此事件，也不会为具有连续动画的模式（不定动画和查询动画）发出此事件。
    *

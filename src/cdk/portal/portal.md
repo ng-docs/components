@@ -24,29 +24,29 @@ built upon.
 
 ##### `Portal<T>`
 
-| Method | Description |
-| ------ | ----------- |
-| 方法 | 说明 |
-| `attach(PortalOutlet): T` | Attaches the portal to a host. |
-| `attach(PortalOutlet): T` | 把此传送点附着到宿主上。 |
-| `detach(): void` | Detaches the portal from its host. |
-| `detach(): void` | 把此传送点从宿主上拆除。 |
-| `isAttached: boolean` | Whether the portal is attached. |
-| `isAttached: boolean` | 此传送点是否已附着上。 |
+| Method                    | Description                        |
+| ------------------------- | ---------------------------------- |
+| 方法                      | 说明                               |
+| `attach(PortalOutlet): T` | Attaches the portal to a host.     |
+| `attach(PortalOutlet): T` | 把此传送点附着到宿主上。           |
+| `detach(): void`          | Detaches the portal from its host. |
+| `detach(): void`          | 把此传送点从宿主上拆除。           |
+| `isAttached: boolean`     | Whether the portal is attached.    |
+| `isAttached: boolean`     | 此传送点是否已附着上。             |
 
 ##### `PortalOutlet`
 
-| Method | Description |
-| ------ | ----------- |
-| 方法 | 说明 |
-| `attach(Portal): any` | Attaches a portal to the host. |
-| `attach(Portal): any` | 把指定的传送点添加到此宿主上。 |
-| `detach(): any` | Detaches the portal from the host. |
-| `detach(): any` | 把指定的传送点从此宿主上拆除。 |
-| `dispose(): void` | Permanently dispose the host. |
-| `dispose(): void` | 永久销毁此宿主。 |
+| Method                 | Description                               |
+| ---------------------- | ----------------------------------------- |
+| 方法                   | 说明                                      |
+| `attach(Portal): any`  | Attaches a portal to the host.            |
+| `attach(Portal): any`  | 把指定的传送点添加到此宿主上。            |
+| `detach(): any`        | Detaches the portal from the host.        |
+| `detach(): any`        | 把指定的传送点从此宿主上拆除。            |
+| `dispose(): void`      | Permanently dispose the host.             |
+| `dispose(): void`      | 永久销毁此宿主。                          |
 | `hasAttached: boolean` | Whether a portal is attached to the host. |
-| `hasAttached: boolean` | 判断是否有传送点附着在此宿主上。 |
+| `hasAttached: boolean` | 判断是否有传送点附着在此宿主上。          |
 
 #### Portals in practice
 

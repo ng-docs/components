@@ -663,14 +663,13 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   /**
    * Sets whether the overlay's position should be locked in after it is positioned
    * initially. When an overlay is locked in, it won't attempt to reposition itself
-   * when the position is re-applied (e.g. when the user scrolls away).
+   * when the position is re-applied \(e.g. when the user scrolls away\).
    *
    * 设置浮层的位置在最初放置后是否应锁定。当浮层被锁定时，在重新应用位置时（例如，当用户滚动时），它不会尝试重新定位自身。
    *
    * @param isLocked Whether the overlay should locked in.
    *
    * 浮层是否应锁定。
-   *
    */
   withLockedPosition(isLocked = true): this {
     this._positionLocked = isLocked;
@@ -680,7 +679,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
   /**
    * Sets the origin, relative to which to position the overlay.
    * Using an element origin is useful for building components that need to be positioned
-   * relatively to a trigger (e.g. dropdown menus or tooltips), whereas using a point can be
+   * relatively to a trigger \(e.g. dropdown menus or tooltips\), whereas using a point can be
    * used for cases like contextual menus which open relative to the user's pointer.
    *
    * 设置相对于此浮层位置的原点。使用元素原点可用于构建需要相对于触发器定位的组件（例如，下拉菜单或工具提示），从而让这个点可用于诸如上下文菜单等需要相对于用户指针处打开的情况。
@@ -688,7 +687,6 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
    * @param origin Reference to the new origin.
    *
    * 新原点的引用。
-   *
    */
   setOrigin(origin: FlexibleConnectedPositionStrategyOrigin): this {
     this._origin = origin;
@@ -1577,7 +1575,7 @@ export class FlexibleConnectedPositionStrategy implements PositionStrategy {
 }
 
 /**
- * A simple (x, y) coordinate.
+ * A simple \(x, y\) coordinate.
  *
  * 一个简单的（x，y）坐标。
  *
@@ -1588,7 +1586,7 @@ interface Point {
 }
 
 /**
- * Record of measurements for how an overlay (at a given position) fits into the viewport.
+ * Record of measurements for how an overlay \(at a given position\) fits into the viewport.
  *
  * 指定位置的浮层应该如何适合视口的测量记录。
  *
@@ -1619,7 +1617,7 @@ interface OverlayFit {
   fitsInViewportHorizontally: boolean;
 
   /**
-   * The total visible area (in px^2) of the overlay inside the viewport.
+   * The total visible area \(in px^2\) of the overlay inside the viewport.
    *
    * 视口内浮层的总可见区域（以 px^2 为单位）。
    *
@@ -1710,7 +1708,7 @@ function extendStyles(
 
 /**
  * Extracts the pixel value as a number from a value, if it's a number
- * or a CSS pixel string (e.g. `1337px`). Otherwise returns null.
+ * or a CSS pixel string \(e.g. `1337px`\). Otherwise returns null.
  *
  * 如果是数字或 CSS 像素字符串（例如 `1337px` ），则从值中提取像素值作为数字。否则返回 null。
  *
@@ -1727,8 +1725,8 @@ function getPixelValue(input: number | string | null | undefined): number | null
 /**
  * Gets a version of an element's bounding `ClientRect` where all the values are rounded down to
  * the nearest pixel. This allows us to account for the cases where there may be sub-pixel
- * deviations in the `ClientRect` returned by the browser (e.g. when zoomed in with a percentage
- * size, see #21350).
+ * deviations in the `ClientRect` returned by the browser \(e.g. when zoomed in with a percentage
+ * size, see #21350\).
  *
  * 获取元素边界 `ClientRect` 的版本，其中所有值均向下舍入到最接近的像素。`ClientRect` 可能存在亚像素偏差的情况（例如，以百分比大小放大时，请参阅＃21350）。
  *

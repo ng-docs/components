@@ -108,8 +108,8 @@ export class MatTabBodyPortal extends CdkPortalOutlet implements OnInit, OnDestr
 /**
  * These position states are used internally as animation states for the tab body. Setting the
  * position state to left, right, or center will transition the tab body from its current
- * position to its respective state. If there is not current position (void, in the case of a new
- * tab body), then there will be no transition animation to its state.
+ * position to its respective state. If there is not current position \(void, in the case of a new
+ * tab body\), then there will be no transition animation to its state.
  *
  * 这些位置状态在内部用作选项卡本体的动画状态。将位置状态设置为 left、right 或 center，会把选项卡本体从当前位置转移到各自的状态。 如果没有当前位置（对于新的选项卡本体是 void），那么它的状态就没有过渡动画了）。
  *

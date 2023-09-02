@@ -49,8 +49,8 @@ export interface MatDateRangeSelectionStrategy<D> {
   selectionFinished(date: D | null, currentRange: DateRange<D>, event: Event): DateRange<D>;
 
   /**
-   * Called when the user has activated a new date (e.g. by hovering over
-   * it or moving focus) and the calendar tries to display a date range.
+   * Called when the user has activated a new date \(e.g. by hovering over
+   * it or moving focus\) and the calendar tries to display a date range.
    *
    * 当用户激活一个新日期时（例如，通过将鼠标悬停在此区域或移动焦点上）以及当日历尝试显示一个日期范围时，就会调用它。
    *
@@ -58,16 +58,13 @@ export interface MatDateRangeSelectionStrategy<D> {
    *    focus to an element that's no a calendar cell.
    *
    * 用户已激活的日期。如果用户把焦点移到了一个不是日历单元格的元素上，它就是 null。
-   *
    * @param currentRange Range that is currently shown in the calendar.
    *
    * 当前在日历里显示的范围。
-   *
    * @param event DOM event that caused the preview to be changed. Will be either a
    *    `mouseenter`/`mouseleave` or `focus`/`blur` depending on how the user is navigating.
    *
    * 导致预览发生变化的 DOM 事件。可能是 `mouseenter`/`mouseleave` 或 `focus`/`blur`，具体取决于用户的导航方式。
-   *
    */
   createPreview(activeDate: D | null, currentRange: DateRange<D>, event: Event): DateRange<D>;
 

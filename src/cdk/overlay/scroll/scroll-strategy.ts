@@ -16,7 +16,7 @@ import type {OverlayRef} from '../overlay-ref';
  */
 export interface ScrollStrategy {
   /**
-   * Enable this scroll strategy (called when the attached overlay is attached to a portal).
+   * Enable this scroll strategy \(called when the attached overlay is attached to a portal\).
    *
    * 启用此滚动策略（将已附加的浮层附加到传送点 Portal 时调用）。
    *
@@ -24,7 +24,7 @@ export interface ScrollStrategy {
   enable: () => void;
 
   /**
-   * Disable this scroll strategy (called when the attached overlay is detached from a portal).
+   * Disable this scroll strategy \(called when the attached overlay is detached from a portal\).
    *
    * 禁用此滚动策略（当已附加的浮层从传送点 Portal 拆除时调用）。
    *

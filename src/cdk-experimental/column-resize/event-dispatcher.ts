@@ -52,8 +52,8 @@ export class HeaderRowEventDispatcher {
   readonly headerCellHoveredDistinct = this.headerCellHovered.pipe(distinctUntilChanged(), share());
 
   /**
-   * Emits the header that is currently hovered or hosting an active resize event (with active
-   * taking precedence).
+   * Emits the header that is currently hovered or hosting an active resize event \(with active
+   * taking precedence\).
    *
    * 发出当前悬停的或作为活动 resize 事件宿主的标题（活动优先）。
    *

@@ -110,7 +110,7 @@ export class MatCalendarHarness extends ComponentHarness {
   }
 
   /**
-   * Goes to the next page of the current view (e.g. next month when inside the month view).
+   * Goes to the next page of the current view \(e.g. next month when inside the month view\).
    *
    * 转到当前视图的下一页（例如，在月份视图中的下个月）。
    *
@@ -121,7 +121,7 @@ export class MatCalendarHarness extends ComponentHarness {
 
   /**
    * Goes to the previous page of the current view
-   * (e.g. previous month when inside the month view).
+   * \(e.g. previous month when inside the month view\).
    *
    * 转到当前视图的上一页（例如，在月份视图中时的前一个月）。
    *

@@ -22,18 +22,17 @@ type Dimensions = Omit<ClientRect, 'x' | 'y' | 'toJSON'>;
  *
  * 获取一个元素是否被其任何父级滚动容器滚动到了视图之外。
  *
- * @param element Dimensions of the element (from getBoundingClientRect)
+ * @param element Dimensions of the element \(from getBoundingClientRect\)
  *
  * 元素的规格（来自 getBoundingClientRect）
  *
- * @param scrollContainers Dimensions of element's scrolling containers (from getBoundingClientRect)
+ * @param scrollContainers Dimensions of element's scrolling containers \(from getBoundingClientRect\)
  *
  * 元素的滚动容器的规格（来自 getBoundingClientRect）
  *
  * @returns Whether the element is scrolled out of view
  *
  * 元素是否滚动到了视野之外
- *
  * @docs-private
  */
 export function isElementScrolledOutsideView(element: Dimensions, scrollContainers: Dimensions[]) {
@@ -52,18 +51,17 @@ export function isElementScrolledOutsideView(element: Dimensions, scrollContaine
  *
  * 获取元素是否被其任何滚动容器剪切。
  *
- * @param element Dimensions of the element (from getBoundingClientRect)
+ * @param element Dimensions of the element \(from getBoundingClientRect\)
  *
  * 元素的规格（来自 getBoundingClientRect）
  *
- * @param scrollContainers Dimensions of element's scrolling containers (from getBoundingClientRect)
+ * @param scrollContainers Dimensions of element's scrolling containers \(from getBoundingClientRect\)
  *
  * 元素的滚动容器的规格（来自 getBoundingClientRect）
  *
  * @returns Whether the element is clipped
  *
  * 元素是否被裁剪
- *
  * @docs-private
  */
 export function isElementClippedByScrolling(element: Dimensions, scrollContainers: Dimensions[]) {

@@ -74,7 +74,7 @@ export class MatMultiYearView<D> implements AfterContentInit, OnDestroy {
   private _selectionKeyPressed: boolean;
 
   /**
-   * The date to display in this multi-year view (everything other than the year is ignored).
+   * The date to display in this multi-year view \(everything other than the year is ignored\).
    *
    * 在这个多年视图中显示的日期（忽略该年份以外的所有日期）。
    *

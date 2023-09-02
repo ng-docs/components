@@ -39,29 +39,29 @@ The available CSS classes are listed below, by directive.
 
 `@angular/cdk/menu` 旨在根据你的需求高度定制。因此，它不对元素的样式做出任何假设。你可以应用任何所需的 CSS 样式，但这些指令确实应用了一些 CSS 类，以便你更轻松地添加自定义样式。下面按指令列出了可用的 CSS 类。
 
-| Directive | CSS Class | Applied... |
-| :-------- | --------- | ---------- |
-| 指令 | CSS 类 | 何时应用 |
-| `cdkMenu` | `cdk-menu` | Always |
-| `cdkMenu` | `cdk-menu` | 总是 |
-| `cdkMenu` | `cdk-menu-inline` | If the menu is an [inline menu](#menu-content) |
-| `cdkMenu` | `cdk-menu-inline` | 如果菜单是[内联菜单](#menu-content) |
-| `cdkMenuBar` | `cdk-menu-bar` | Always |
-| `cdkMenuBar` | `cdk-menu-bar` | 总是 |
-| `cdkMenuGroup` | `cdk-menu-group` | Always |
-| `cdkMenuGroup` | `cdk-menu-group` | 总是 |
-| `cdkMenuItem` | `cdk-menu-item` | Always |
-| `cdkMenuItem` | `cdk-menu-item` | 总是 |
-| `cdkMenuItemCheckbox` | `cdk-menu-item` | Always |
-| `cdkMenuItemCheckbox` | `cdk-menu-item` | 总是 |
-| `cdkMenuItemCheckbox` | `cdk-menu-item-checkbox` | Always |
-| `cdkMenuItemCheckbox` | `cdk-menu-item-checkbox` | 总是 |
-| `cdkMenuItemRadio` | `cdk-menu-item` | Always |
-| `cdkMenuItemRadio` | `cdk-menu-item` | 总是 |
-| `cdkMenuItemRadio` | `cdk-menu-item-radio` | Always |
-| `cdkMenuItemRadio` | `cdk-menu-item-radio` | 总是 |
-| `cdkMenuTriggerFor` | `cdk-menu-trigger` | Always |
-| `cdkMenuTriggerFor` | `cdk-menu-trigger` | 总是 |
+| Directive             | CSS Class                | Applied...                                     |
+| :-------------------- | ------------------------ | ---------------------------------------------- |
+| 指令                  | CSS 类                   | 何时应用                                       |
+| `cdkMenu`             | `cdk-menu`               | Always                                         |
+| `cdkMenu`             | `cdk-menu`               | 总是                                           |
+| `cdkMenu`             | `cdk-menu-inline`        | If the menu is an [inline menu](#menu-content) |
+| `cdkMenu`             | `cdk-menu-inline`        | 如果菜单是[内联菜单](#menu-content)            |
+| `cdkMenuBar`          | `cdk-menu-bar`           | Always                                         |
+| `cdkMenuBar`          | `cdk-menu-bar`           | 总是                                           |
+| `cdkMenuGroup`        | `cdk-menu-group`         | Always                                         |
+| `cdkMenuGroup`        | `cdk-menu-group`         | 总是                                           |
+| `cdkMenuItem`         | `cdk-menu-item`          | Always                                         |
+| `cdkMenuItem`         | `cdk-menu-item`          | 总是                                           |
+| `cdkMenuItemCheckbox` | `cdk-menu-item`          | Always                                         |
+| `cdkMenuItemCheckbox` | `cdk-menu-item`          | 总是                                           |
+| `cdkMenuItemCheckbox` | `cdk-menu-item-checkbox` | Always                                         |
+| `cdkMenuItemCheckbox` | `cdk-menu-item-checkbox` | 总是                                           |
+| `cdkMenuItemRadio`    | `cdk-menu-item`          | Always                                         |
+| `cdkMenuItemRadio`    | `cdk-menu-item`          | 总是                                           |
+| `cdkMenuItemRadio`    | `cdk-menu-item-radio`    | Always                                         |
+| `cdkMenuItemRadio`    | `cdk-menu-item-radio`    | 总是                                           |
+| `cdkMenuTriggerFor`   | `cdk-menu-trigger`       | Always                                         |
+| `cdkMenuTriggerFor`   | `cdk-menu-trigger`       | 总是                                           |
 
 ### Getting started
 
@@ -324,7 +324,7 @@ feature for a menu and its sub-menus, add the `cdkMenuTargetAim` directive to th
 ![menu aim diagram][diagram]
 
 As demonstrated in the diagram above we first track the user's mouse movements within a menu. Next,
-when a user mouses into a sibling menu item (e.g. Share button) the sibling item asks the Menu Aim
+when a user mouses into a sibling menu item \(e.g. Share button\) the sibling item asks the Menu Aim
 service if it can perform its close actions. In order to determine if the current submenu can be
 closed out, the Menu Aim service calculates the slope between a selected target coordinate in the
 submenu and the previous mouse point, and the slope between the target and the current mouse point.
