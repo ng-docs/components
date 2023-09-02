@@ -18,7 +18,7 @@ git pull
 
 yarn
 
-cp -r ../dist/docs-content-pkg/docs-content node_modules/@angular/components-examples/
+cp -r ../dist/docs-content-pkg/* node_modules/@angular/components-examples/
 
 nt mark 'node_modules/@angular/components-examples/docs-content/api-docs/**/*.html'
 nt mark 'node_modules/@angular/components-examples/docs-content/guides/**/*.html'
