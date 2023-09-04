@@ -49,6 +49,8 @@ let apiLoadingPromise: Promise<unknown> | null = null;
 /**
  * Demo Component for @angular/google-maps/map
  *
+ * @angular/google-maps/map 的演示组件
+ *
  */
 @Component({
   selector: 'google-map-demo',

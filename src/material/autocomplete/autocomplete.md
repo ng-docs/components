@@ -107,14 +107,14 @@ the autocomplete in the following ways:
 默认情况下，自动完成器将接受用户在输入字段中输入的值。但如果你想确保选中自动完成器的选项之一，则可以在 `mat-autocomplete` 上启用 `requireSelection` 输入属性。 这将通过以下方式改变自动完成器的行为：
 
 1. If the user opens the autocomplete, changes its value, but doesn't select anything, the
-autocomplete value will be reset back to `null`.
+   autocomplete value will be reset back to `null`.
 
-    如果用户打开自动完成器，更改其值，但未选中任何内容，则自动完成器的值将重置回 `null` 。
+   如果用户打开自动完成器，更改其值，但未选中任何内容，则自动完成器的值将重置回 `null` 。
 
 2. If the user opens and closes the autocomplete without changing the value, the old value will
-be preserved.
+   be preserved.
 
-    如果用户打开并关闭自动完成器而不更改它的值，则将保留旧值。
+   如果用户打开并关闭自动完成器而不更改它的值，则将保留旧值。
 
 This behavior can be configured globally using the `MAT_AUTOCOMPLETE_DEFAULT_OPTIONS`
 injection token.

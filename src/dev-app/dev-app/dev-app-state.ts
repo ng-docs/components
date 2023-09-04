@@ -10,7 +10,12 @@ import {Direction} from '@angular/cdk/bidi';
 
 const KEY = 'MAT_DEV_APP_STATE';
 
-/** State of the appearance of the dev app. */
+/**
+ * State of the appearance of the dev app.
+ *
+ * 开发应用程序的外观状态。
+ *
+ */
 export interface DevAppState {
   density: string | number;
   animations: boolean;
@@ -21,7 +26,12 @@ export interface DevAppState {
   direction: Direction;
 }
 
-/** Gets the current appearance state of the dev app. */
+/**
+ * Gets the current appearance state of the dev app.
+ *
+ * 获取开发应用程序的当前外观状态。
+ *
+ */
 export function getAppState(): DevAppState {
   let value: DevAppState | null = null;
 

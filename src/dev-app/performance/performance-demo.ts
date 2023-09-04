@@ -40,10 +40,20 @@ import {take} from 'rxjs/operators';
   ],
 })
 export class PerformanceDemo implements AfterViewInit {
-  /** Controls the rendering of components. */
+  /**
+   * Controls the rendering of components.
+   *
+   * 控制组件的渲染。
+   *
+   */
   show = false;
 
-  /** The number of times metrics will be gathered. */
+  /**
+   * The number of times metrics will be gathered.
+   *
+   * 将要收集指标的次数。
+   *
+   */
   sampleSize = 100;
 
   /** The number of components being rendered. */

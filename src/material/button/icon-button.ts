@@ -32,6 +32,8 @@ import {
  * users to perform an action.
  * See https://material.io/develop/web/components/buttons/icon-buttons/
  *
+ * Material Design 图标按钮组件。这种类型的按钮显示单个交互式图标，供用户执行操作。请参阅 https://material.io/develop/web/components/buttons/icon-buttons/
+ *
  */
 @Component({
   selector: `button[mat-icon-button]`,
@@ -60,6 +62,8 @@ export class MatIconButton extends MatButtonBase {
  * Material Design icon button component for anchor elements. This button displays a single
  * interaction icon that allows users to navigate across different routes or pages.
  * See https://material.io/develop/web/components/buttons/icon-buttons/
+ *
+ * `a` 元素的 Material Design 图标按钮组件。此按钮显示单个交互图标，允许用户跨不同的路由或页面导航。请参阅 https://material.io/develop/web/components/buttons/icon-buttons/
  *
  */
 @Component({
