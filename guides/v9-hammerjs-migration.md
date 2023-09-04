@@ -39,7 +39,7 @@ The migration automatically removes HammerJS from your project if HammerJS is no
 
 如果没有使用 HammerJS，迁移会自动从项目中删除 HammerJS。
 
-Additionally, Angular Material's `GestureConfig` \(now deprecated\) defined custom HammerJS gestures.
+Additionally, Angular Material's `GestureConfig` (now deprecated) defined custom HammerJS gestures.
 If your application directly uses any of these gestures, the migration will introduce a new
 application-specific configuration for these custom gestures, removing the dependency on Angular
 Material's `GestureConfig`.
@@ -164,8 +164,8 @@ reference should be changed to the new gesture config created by the migration.
 如果某些单元测试依赖于弃用的 Angular Material `GestureConfig` 来模拟手势事件，那么该引用应该被删除，并且重新编写这些测试来使用这些 DOM 事件，或者应该把其引用改为该迁移所创建的新手势配置。
 
 If HammerJS has been removed from your project by the migration, you might need to refactor
-the test setup that provides HammerJS. This is usually done in your test main file \(usually
-in `src/test.ts`\) where `hammerjs` may be imported.
+the test setup that provides HammerJS. This is usually done in your test main file (usually
+in `src/test.ts`) where `hammerjs` may be imported.
 
 如果 HammerJS 已经被本迁移从项目中移除了，你可能需要重构提供 HammerJS 的测试设置代码。这通常是在测试主文件（通常是 `src/test.ts` ）中完成的，`hammerjs` 可能是在那里导入的。
 

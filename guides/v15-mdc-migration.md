@@ -3,14 +3,14 @@
 # 迁移到基于 MDC 的 Angular Material Components
 
 In Angular Material v15, many of the components have been refactored to be based on the official
-[Material Design Components for Web \(MDC\)](https://github.com/material-components/material-components-web).
+[Material Design Components for Web (MDC)](https://github.com/material-components/material-components-web).
 The components from the following imports have been refactored:
 
-在 Angular Material v15 中，许多组件已经重构为基于官方的 [Material Design Components for Web \(MDC\)](https://github.com/material-components/material-components-web) 。来自以下导入的组件已被重构：
+在 Angular Material v15 中，许多组件已经重构为基于官方的 [Material Design Components for Web (MDC)](https://github.com/material-components/material-components-web) 。来自以下导入的组件已被重构：
 
-| Import path | Summary of changes |
-| ----------- | ------------------ |
-| 导入路径 | 变更摘要 |
+| Import path                               | Summary of changes                                   |
+| ----------------------------------------- | ---------------------------------------------------- |
+| 导入路径                                  | 变更摘要                                             |
 | @angular/material/autocomplete | Style changes only |
 | @angular/material/autocomplete | 仅样式变更 |
 | @angular/material/button | Style changes, API changes |
@@ -271,7 +271,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
 * CSS classes applied to components use the `mat-mdc-` prefix, whereas before it was simply a `mat-`
   prefix. Elements that roughly correspond to element in the old implementation have been given the
-  same class name \(aside from the prefix\). For example, the button’s host class is `mat-mdc-button`
+  same class name (aside from the prefix). For example, the button’s host class is `mat-mdc-button`
   instead of `mat-button`. However, not all elements in the previous implementation have an
   equivalent element in the new implementation.
 
@@ -291,10 +291,10 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
   `mat.define-typography-config` 定义的默认排版级别已更新，以反映对 Material Design 规范的更改。
 
-* All components now have themeable density. Styles for the default density level \(0\) will be
+* All components now have themeable density. Styles for the default density level (0) will be
   included by default when you include a theme mixin.
 
-  所有组件现在都具有可主题化的密集度。当你包含主题混合时，默认密集度级别 \(0\) 的样式将默认包含在内。
+  所有组件现在都具有可主题化的密集度。当你包含主题混合时，默认密集度级别 (0) 的样式将默认包含在内。
 
   ```scss
   @use '@angular/material' as mat;
@@ -348,7 +348,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
   图标按钮的高度和宽度是 `48px` 而不再是 `40px` 。
 
-* State colors \(hover, focus, active\) are slightly different to improve text contrast ratios.
+* State colors (hover, focus, active) are slightly different to improve text contrast ratios.
 
   各种状态颜色（悬停、焦点、活动）略有不同，以提高文本对比度。
 
@@ -364,7 +364,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
   主题 mixin 被分成三个独立的 mixin：
 
-  - Normal button \(default, raised, stroked, flat\): `mat.mdc-button-theme`
+  - Normal button (default, raised, stroked, flat): `mat.mdc-button-theme`
 
     普通按钮（ default - 默认、raised - 凸起、stroked - 描边、flat - 扁平）： `mat.mdc-button-theme`
 
@@ -379,7 +379,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
   按钮内容中的图标放置在按钮文本之前。添加 `iconPositionEnd` 属性可以将它们放在按钮文本之后。
 
 * Icons in the button content inherit the text `font-size`. Buttons with only icons and no text do
-  not align properly \(this does not apply to the icon-button\).
+  not align properly (this does not apply to the icon-button).
 
   按钮内容中的图标继承文本的 `font-size` 。只有图标而没有文本的按钮不能正确对齐（这不适用于图标按钮）。
 
@@ -531,7 +531,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
 * By default, MatFormField still reserves exactly one line of space below the field for hint or
   error text. However, there is a new option `@Input() subscriptSizing: 'fixed'|'dynamic'`. When
-  this setting is set to `fixed` \(default\), the form-field reserves enough space in the layout to
+  this setting is set to `fixed` (default), the form-field reserves enough space in the layout to
   show one line of hint or error text. When set to `dynamic`, the form-field expands and contracts
   the amount of space it takes in the layout to fit the error / hint that is currently shown.
 
@@ -541,14 +541,14 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
   `<mat-hint>` 中的文本变得更大更暗，以满足 W3C 文本指南。
 
-* While the previous form-field had a single directive for prefixes \(`matPrefix`\) and a single
-  directive for suffixes \(`matSuffix`\), the MDC-based form-field distinguishes between text
+* While the previous form-field had a single directive for prefixes (`matPrefix`) and a single
+  directive for suffixes (`matSuffix`), the MDC-based form-field distinguishes between text
   prefix/suffixes which are baseline aligned with the input text, and icon prefix/suffixes which are
   center aligned in the form-field. Use `matTextPrefix` or `matTextSuffix` to indicate a text
   prefix/suffix, and `matIconPrefix` or `matIconSuffix` to indicate an icon prefix/suffix. The old
   `matSuffix` and `matPrefix` APIs will behave like icons, though they are now deprecated.
 
-  虽然以前的表单字段有一个前缀指令 \( `matPrefix` \) 和一个后缀指令 \( `matSuffix` \)，但基于 MDC 的表单字段把它们分成了与输入文本基线对齐的文本前缀/后缀和在表单字段中居中对齐的图标前缀/后缀。使用 `matTextPrefix` 或 `matTextSuffix` 标出文本前缀/后缀，使用 `matIconPrefix` 或 `matIconSuffix` 标出图标前缀/后缀。旧的 `matSuffix` 和 `matPrefix` API 会表现得像图标前缀/后缀，不过它们现在已被弃用。
+  虽然以前的表单字段有一个前缀指令 ( `matPrefix` ) 和一个后缀指令 ( `matSuffix` )，但基于 MDC 的表单字段把它们分成了与输入文本基线对齐的文本前缀/后缀和在表单字段中居中对齐的图标前缀/后缀。使用 `matTextPrefix` 或 `matTextSuffix` 标出文本前缀/后缀，使用 `matIconPrefix` 或 `matIconSuffix` 标出图标前缀/后缀。旧的 `matSuffix` 和 `matPrefix` API 会表现得像图标前缀/后缀，不过它们现在已被弃用。
 
 * The `floatLabel` input no longer accepts `'never'`. `floatLabel="never"` was only supported by the
   legacy form-field appearance which has been dropped. It was used to achieve a floating label that
@@ -566,7 +566,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
 ### 输入框
 
-* MatInput must be inside `<mat-form-field>`. Previously it was \(unintentionally\) possible to use an
+* MatInput must be inside `<mat-form-field>`. Previously it was (unintentionally) possible to use an
   `<input matInput>` without the form field if the page loaded form field styles elsewhere.
 
   MatInput 必须用在 `<mat-form-field>` 内。以前，如果页面在其他地方加载了表单字段样式，则可能会（无意中）用到不在表单字段中的 `<input matInput>` 。
@@ -602,8 +602,8 @@ DOM and CSS of the components, you may need to tweak some of your application's 
   * `matListItemTitle`
   * `matListItemLine`
 
-* Text outside of a `matListItemLine` \(so-called "unscoped content"\) will result in an additional
-  line being acquired \(as if the content was put into a line\).
+* Text outside of a `matListItemLine` (so-called "unscoped content") will result in an additional
+  line being acquired (as if the content was put into a line).
 
   `matListItemLine` 之外的文本（所谓的“未限定范围的内容”）将导致获取额外的一行（就好像其内容被放进了一行）。
 
@@ -646,11 +646,11 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
     `matListAvatar` 现在是 `matListItemAvatar`
 
-* Lastly, also a new directive \(`matListItemMeta`\) is available to put content into the meta section
-  of a list item \(usually the end of the list item\). Previously unscoped content in a list item was
+* Lastly, also a new directive (`matListItemMeta`) is available to put content into the meta section
+  of a list item (usually the end of the list item). Previously unscoped content in a list item was
   put into the meta section.
 
-  最后，还有一个新指令 \( `matListItemMeta` \) 可用于将内容放入列表项的元（meta）部分（通常是列表项的末尾）。列表项中以前未限定范围的内容会被放入元部分。
+  最后，还有一个新指令 ( `matListItemMeta` ) 可用于将内容放入列表项的元（meta）部分（通常是列表项的末尾）。列表项中以前未限定范围的内容会被放入元部分。
 
 * Recommended migration steps for common use of a list item:
 
@@ -672,7 +672,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
      将所有 `matListAvatar` 更改为 `matListItemAvatar`
 
-  5. Wrap all unscoped content \(content outside a `matLine`\) in a `matListItemMeta` container.
+  5. Wrap all unscoped content (content outside a `matLine`) in a `matListItemMeta` container.
 
      将所有未限定范围的内容（ `matLine` 之外的内容）包装在 `matListItemMeta` 容器中。
 
@@ -689,7 +689,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
     如果你有一段内容，例如 `<img>` ，你想用它来代替 `<mat-icon>` 使用 `ngProjectAs="mat-icon"` 将它投射到图标槽中。
 
-  * If you need your icon to appear at the end of the item \(not officially supported by the spec\)
+  * If you need your icon to appear at the end of the item (not officially supported by the spec)
     you can wrap both the text and your icon in a span, for example:
 
     如果你需要图标出现在条目的末尾（规范未正式支持），你可以将文本和图标包裹在一个 span 内，例如：
@@ -730,7 +730,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 ### 分页器
 
 * The form-field inside of `mat-paginator` only supports the `appearance` options offered by the new
-  form-field \(`fill` and `outline`\).
+  form-field (`fill` and `outline`).
 
   `mat-paginator` 中的表单字段仅支持新表单字段提供的 `appearance` 选项（ `fill` 和 `outline` ）。
 
@@ -844,7 +844,7 @@ DOM and CSS of the components, you may need to tweak some of your application's 
   滑块现在可与移动设备屏幕阅读器配合使用。
 
 * The slider template API has changed from a single `<mat-slider>` element to a `<mat-slider>`
-  element which contains one or two `<input>` elements \(depending on whether the slider should\)
+  element which contains one or two `<input>` elements (depending on whether the slider should)
   be a standard or range slider. E.g.
 
   滑块模板 API 已从单个 `<mat-slider>` 元素更改为包含一个或两个 `<input>` 元素（取决于滑块是否应为标准滑块或范围滑块）的 `<mat-slider>` 元素。例如
@@ -952,9 +952,9 @@ DOM and CSS of the components, you may need to tweak some of your application's 
   - `focus`
 
 * To accommodate range sliders, the implementation has changed from the `<mat-slider>` element being
-  the form control to the `<mat-slider>` element containing 1-2 `<input>` elements \(the slider
-  "thumbs"\) that act as the form control\(s\). The value, associated events \(`input`, `change`\), and
-  labels \(`aria-label`\) now live on the `<input>` elements instead.
+  the form control to the `<mat-slider>` element containing 1-2 `<input>` elements (the slider
+  "thumbs") that act as the form control(s). The value, associated events (`input`, `change`), and
+  labels (`aria-label`) now live on the `<input>` elements instead.
 
   为了适应范围滑块，实现已从作为表单控件的 `<mat-slider>` 元素更改为包含 1-2 个 `<input>` 元素（滑块的“Thumbs”）作为表单控件的 `<mat-slider>` 元素。值、关联事件（ `input` 、 `change` ）和标签（ `aria-label` ）现在改为放在 `<input>` 元素上。
 
@@ -976,8 +976,8 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
   对于带有操作按钮的简单快餐栏，它们使用基于 MDC 的 mat-button，因此你的应用程序需要包含用于基于 MDC 的按钮的 Sass 主题 mixin。
 
-* For snack-bars that use custom structured content \(if you call `MatSnackBar.openFromComponent` or
-  `MatSnackBar.openFromTemplate`\), you should use the following new directives to annotate your
+* For snack-bars that use custom structured content (if you call `MatSnackBar.openFromComponent` or
+  `MatSnackBar.openFromTemplate`), you should use the following new directives to annotate your
   content:
 
   对于使用自定义结构化内容的快餐栏（如果你调用 `MatSnackBar.openFromComponent` 或 `MatSnackBar.openFromTemplate` ），你应该使用以下新指令来标记出你的内容：
@@ -1043,13 +1043,13 @@ DOM and CSS of the components, you may need to tweak some of your application's 
 
   `MatTableDataSource` 的 paginator 属性有一个通用接口，可以匹配大多数但不是所有的 paginator API。你可能需要明确指定分页器的类型才能访问完整的 API，例如： `new MatTableDataSource<MyData, MatPaginator>();`
 
-* Flex tables \(`<mat-table>`\) display a border on the cells instead of rows.
+* Flex tables (`<mat-table>`) display a border on the cells instead of rows.
 
-  弹性表格 \( `<mat-table>` \) 会在单元格而不是行上显示边框。
+  弹性表格 ( `<mat-table>` ) 会在单元格而不是行上显示边框。
 
-* Flex table \(`<mat-table>`\) row height is set with `height` instead of `min-height`.
+* Flex table (`<mat-table>`) row height is set with `height` instead of `min-height`.
 
-  弹性表格 \( `<mat-table>` \) 用 `height` 设置行高而不再是 `min-height` 。
+  弹性表格 ( `<mat-table>` ) 用 `height` 设置行高而不再是 `min-height` 。
 
 ### Tabs
 

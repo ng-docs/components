@@ -36,7 +36,7 @@ ng add @angular/material
 ```
 
 The `ng add` command will install Angular Material, the
-[Component Dev Kit \(CDK\)](https://material.angular.io/cdk/categories),
+[Component Dev Kit (CDK)](https://material.angular.io/cdk/categories),
 [Angular Animations](https://angular.io/guide/animations) and ask you the following questions to
 determine which features to include:
 
@@ -151,7 +151,7 @@ You should see the Material slide toggle component on the page.
 你会在页面上看到这个 Material 滑块开关组件。
 
 In addition to the installation schematic, Angular Material comes with
-[several other schematics](https://material.angular.io/guide/schematics) \(like nav, table,
-address-form, etc.\) that can be used to easily generate pre-built components in your application.
+[several other schematics](https://material.angular.io/guide/schematics) (like nav, table,
+address-form, etc.) that can be used to easily generate pre-built components in your application.
 
 除了安装原理图之外，Angular Material 还带有[另外一些原理图](https://material.angular.cn/guide/schematics)（如导航、表格、地址表单等），可用于方便地在应用中生成预置的组件。

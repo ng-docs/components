@@ -50,7 +50,7 @@ The following sections will illustrate these benefits in more detail.
 
 The Angular CDK's component harnesses are designed to work in multiple different test environments.
 Support currently includes Angular's Testbed environment in Karma unit tests and Selenium WebDriver
-end-to-end \(e2e\) tests. You can also support additional environments by creating custom extensions
+end-to-end (e2e) tests. You can also support additional environments by creating custom extensions
 of the CDK's `HarnessEnvironment` and `TestElement` classes.
 
 Angular CDK 的组件测试工具专为多种不同的测试环境而设计。目前支持包括 Karma 单元测试和 Selenium WebDriver 端到端（e2e）测试在内的 Angular Testbed 环境。你还可以通过创建 CDK 的 `HarnessEnvironment` 和 `TestElement` 类的自定义扩展来支持更多环境。
@@ -99,7 +99,7 @@ different paths.
 
   `@angular/cdk/testing/testbed` 包含仅用于 Karma 测试中的符号。
 
-- `@angular/cdk/testing/selenium-webdriver` \(not shown above\) contains symbols that are used only in
+- `@angular/cdk/testing/selenium-webdriver` (not shown above) contains symbols that are used only in
   Selenium WebDriver tests.
 
   `@angular/cdk/testing/selenium-webdriver`（上面未演示）包含仅用于 Selenium WebDriver 测试中的符号。
@@ -161,8 +161,8 @@ harnesses support at least:
 
 你还可以在所有的 Angular Material 组件测试工具上使用静态方法 `with`。该方法会创建一个 `HarnessPredicate`，它是一个根据所提供的约束条件来过滤已加载测试工具的对象。具体的约束选项取决于测试工具的类型，但所有的测试工具都支持：
 
-- `selector` - CSS selector that the component must match \(in addition to its host selector, such
-  as `[mat-button]`\)
+- `selector` - CSS selector that the component must match (in addition to its host selector, such
+  as `[mat-button]`)
 
   `selector` - 该组件必须匹配的 CSS 选择器（还有它的宿主选择器，如 `[mat-button]` ）
 

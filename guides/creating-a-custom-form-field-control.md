@@ -21,8 +21,8 @@ guide:
 
 In order to learn how to build custom form field controls, let's start with a simple input component
 that we want to work inside the form field. For example, a phone number input that segments the
-parts of the number into their own inputs. \(Note: this is not intended to be a robust component,
-just a starting point for us to learn.\)
+parts of the number into their own inputs. (Note: this is not intended to be a robust component,
+just a starting point for us to learn.)
 
 要学习如何构建自定义表单字段控件，我们先从一个简单的输入框组件开始，我们要让它能用于表单字段中。 比如，一个电话号码输入框应该能把号码拆分后放进它的各个输入属性中。（注意，我们并不打算把它做成一个健壮的组件，只想把它作成学习的起点。）
 
@@ -217,8 +217,8 @@ constructor(
 ```
 
 Note that if your component implements `ControlValueAccessor`, it may already be set up to provide
-`NG_VALUE_ACCESSOR` \(in the `providers` part of the component's decorator, or possibly in a module
-declaration\). If so, you may get a *cannot instantiate cyclic dependency* error.
+`NG_VALUE_ACCESSOR` (in the `providers` part of the component's decorator, or possibly in a module
+declaration). If so, you may get a *cannot instantiate cyclic dependency* error.
 
 注意，如果你的组件实现了 `ControlValueAccessor`，那么它可能已经作为 `NG_VALUE_ACCESSOR` 提供出去了（在组件装饰器的 `providers` 部分，或模块声明中）。如果是这样，可能会导致*cannot instantiate cyclic dependency（不能实例化循环依赖）*错误。
 
@@ -388,7 +388,7 @@ get errorState(): boolean {
 }
 ```
 
-However, there are some error triggers that we can't subscribe to \(e.g. parent form submissions\),
+However, there are some error triggers that we can't subscribe to (e.g. parent form submissions),
 to handle such cases we should re-evaluate `errorState` on every change detection cycle.
 
 但是，有一些错误触发器我们无法订阅（例如父表单提交），为了处理此类情况，我们应该在每个变更检测周期重新对 `errorState` 进行求值。
@@ -516,7 +516,7 @@ element using either `aria-label` or `aria-labelledby`.
 屏幕阅读器用户却缺少一条很重要的信息。他们无法分辨这个输入组所代表的含义。为了改善这一点，我们应该使用 `aria-label` 或者 `aria-labelledby` 为这个分组元素添加一个标签。
 
 It's recommended to link the group to the label that is displayed as part of the parent
-`<mat-form-field>`. This ensures that explicitly specified labels \(using `<mat-label>`\) are
+`<mat-form-field>`. This ensures that explicitly specified labels (using `<mat-label>`) are
 actually used for labelling the control.
 
 我们建议把该标签链接到这个组，将其作为父元素 `<mat-form-field>` 的一部分。这可以确保显式指定的标签（使用 `<mat-label>` ）确实被用作了该控件的标签。
@@ -559,8 +559,8 @@ do is place it inside a `<mat-form-field>`
 ```
 
 We also get all the features that come with `<mat-form-field>` such as floating placeholder,
-prefix, suffix, hints, and errors \(if we've given the form field an `NgControl` and correctly report
-the error state\).
+prefix, suffix, hints, and errors (if we've given the form field an `NgControl` and correctly report
+the error state).
 
 我们还获得了 `<mat-form-field>` 的所有特性，比如上浮占位符、前缀、后缀、提示和错误（前提是我们给了表单字段一个 `NgControl`，并正确的报告了错误状态）。
 

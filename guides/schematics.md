@@ -16,11 +16,11 @@ packages, they will be available through the Angular CLI.
 
 Angular Material 附带了一些原理图，一旦你安装了这个 npm 包，就可以通过 Angular CLI 来使用这些原理图了。
 
-Using the command below will install Angular Material, the [Component Dev Kit](https://material.angular.io/cdk) \(CDK\),
+Using the command below will install Angular Material, the [Component Dev Kit](https://material.angular.io/cdk) (CDK),
 and [Angular Animations](https://angular.io/guide/animations) in your project. Then it will run the
 installation schematic.
 
-运行下列命令可以自动为你的项目安装 Angular Material、[组件开发工具](/cdk) \(CDK\) 和 [Angular 动画库](https://angular.cn/guide/animations)，并运行代码原理图。
+运行下列命令可以自动为你的项目安装 Angular Material、[组件开发工具](/cdk) (CDK) 和 [Angular 动画库](https://angular.cn/guide/animations)，并运行代码原理图。
 
 ```
 ng add @angular/material
