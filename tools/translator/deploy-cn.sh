@@ -20,8 +20,8 @@ yarn
 
 cp -r ../dist/docs-content-pkg/* node_modules/@angular/components-examples/
 
-nt mark 'node_modules/@angular/components-examples/docs-content/api-docs/**/*.html'
-nt mark 'node_modules/@angular/components-examples/docs-content/guides/**/*.html'
-nt mark 'node_modules/@angular/components-examples/docs-content/overviews/**/*.html'
+nt export 'node_modules/@angular/components-examples/docs-content/api-docs/**/*.html'
+nt export 'node_modules/@angular/components-examples/docs-content/guides/**/*.html'
+nt export 'node_modules/@angular/components-examples/docs-content/overviews/**/*.html'
 
 ./scripts/ci/deploy-cn.sh
