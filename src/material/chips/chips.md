@@ -208,6 +208,8 @@ The chips components support 3 user interaction patterns, each with its own cont
 
 #### Listbox
 
+#### 列表框
+
 `<mat-chip-listbox>` and `<mat-chip-option>` : These elements implement a listbox accessibility pattern. Use them to present set of user selectable options.
 
 `<mat-chip-listbox>` 和 `<mat-chip-option>` ：这些元素实现了列表框无障碍模式。使用它们来渲染一组可供用户选定的选项。
@@ -296,6 +298,12 @@ When using MatChipListbox, never nest other interactive controls inside of the `
 
 By default, `MatChipListbox` displays a checkmark to identify selected items. While you can hide the checkmark indicator for single-selection via `hideSingleSelectionIndicator`, this makes the component less accessible by making it harder or impossible for users to visually identify selected items.
 
+默认情况下，`MatChipListbox` 会显示选中标记以标识所选条目。虽然你可以通过 `hideSingleSelectionIndicator` 隐藏单选时的选中标记指示器，但这会使用户更难甚至不可能直观地识别所选条目，从而降低组件的无障碍性。
+
 When using `MatChipRemove`, you should always communicate removals for assistive technology. One way to accomplish this is by sending a message with `LiveAnnouncer`. Otherwise, removing a chip may only be communicated visually.
 
+使用 `MatChipRemove` 时，你应该始终向辅助技术传达移除纸片的动作。实现此目的的方法之一是使用 `LiveAnnouncer` 发送消息。否则，移除纸片就只能通过视觉方式来传达了。
+
 When a chip is editable, provide instructions to assistive technology how to edit the chip using a keyboard. One way to accomplish this is adding an `aria-description` attribute with instructions to press enter to edit the chip.
+
+如果纸片是可编辑的，则向辅助技术提供如何使用键盘编辑此纸片的说明。达成此目的的方法之一是添加 `aria-description` 属性，其中包含“按 Enter 键来编辑此纸片”的说明。

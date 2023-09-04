@@ -13,13 +13,13 @@ The `<mat-spinner>` component is an alias for `<mat-progress-spinner mode="indet
 
 进度圈支持两种模式：确定（"determinate"）和待定（"indeterminate"）。
 
-| Mode | Description |
-| ---- | ----------- |
-| 模式 | 说明 |
-| determinate | Standard progress indicator, fills from 0% to 100% |
-| determinate | 标准的进度指示符，填充 0% 到 100% |
+| Mode          | Description                                                                 |
+| ------------- | --------------------------------------------------------------------------- |
+| 模式          | 说明                                                                        |
+| determinate   | Standard progress indicator, fills from 0% to 100%                          |
+| determinate   | 标准的进度指示符，填充 0% 到 100%                                           |
 | indeterminate | Indicates that something is happening without conveying a discrete progress |
-| indeterminate | 表示正在发生某些事情，却没有传达离散的进度 |
+| indeterminate | 表示正在发生某些事情，却没有传达离散的进度                                  |
 
 The default mode is "determinate". In this mode, the progress is set via the `value` property,
 which can be a whole number between 0 and 100.

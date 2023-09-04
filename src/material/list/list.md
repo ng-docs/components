@@ -63,19 +63,19 @@ The following directives can be used to style the content of a list item:
 
 以下指令可用于设置列表条目内容的样式：
 
-| Directive | Description |
-| --------- | ----------- |
-| 指令 | 说明 |
-| `matListItemTitle` | Indicates the title of the list item. Required for multi-line list items. |
-| `matListItemTitle` | 指示列表条目的标题。多行列表条目需要。 |
-| `matListItemLine` | Wraps a line of text within a list item. |
-| `matListItemLine` | 在列表条目中进行文本换行。 |
-| `matListItemIcon` | Icon typically placed at the beginning of a list item. |
-| `matListItemIcon` | 图标通常放置在列表条目的开头。 |
-| `matListItemAvatar` | Image typically placed at the beginning of a list item. |
-| `matListItemAvatar` | 图像通常放置在列表条目的开头。 |
-| `matListItemMeta` | Inserts content in the meta section at the end of a list item. |
-| `matListItemMeta` | 在列表条目末尾的 meta 部分中插入内容。 |
+| Directive           | Description                                                               |
+| ------------------- | ------------------------------------------------------------------------- |
+| 指令                | 说明                                                                      |
+| `matListItemTitle`  | Indicates the title of the list item. Required for multi-line list items. |
+| `matListItemTitle`  | 指示列表条目的标题。多行列表条目需要。                                    |
+| `matListItemLine`   | Wraps a line of text within a list item.                                  |
+| `matListItemLine`   | 在列表条目中进行文本换行。                                                |
+| `matListItemIcon`   | Icon typically placed at the beginning of a list item.                    |
+| `matListItemIcon`   | 图标通常放置在列表条目的开头。                                            |
+| `matListItemAvatar` | Image typically placed at the beginning of a list item.                   |
+| `matListItemAvatar` | 图像通常放置在列表条目的开头。                                            |
+| `matListItemMeta`   | Inserts content in the meta section at the end of a list item.            |
+| `matListItemMeta`   | 在列表条目末尾的 meta 部分中插入内容。                                    |
 
 ### Navigation lists
 
@@ -294,6 +294,8 @@ By default, `MatSelectionList` displays radio or checkmark indicators to identif
 While you can hide the radio indicator for single-selection via `hideSingleSelectionIndicator`, this
 makes the component less accessible by making it harder or impossible for users to visually identify
 selected items.
+
+默认情况下， `MatSelectionList` 会显示单选或复选标记指示器来标识所选条目。 虽然你可以通过 `hideSingleSelectionIndicator` 来隐藏用于单选的单选指示器，但这会使用户更难甚至不可能直观地识别所选条目，从而降低组件的无障碍性。
 
 #### Custom scenarios
 

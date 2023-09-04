@@ -18,21 +18,21 @@ the positions `before` and `after` should be used instead of `left` and `right`,
 提示框将会显示在本元素的下方，但可以使用输入属性 `matTooltipPosition` 进行配置。
 提示框可以显示在元素的上方、下方、左侧或右侧，默认是下方。如果希望该提示框在 RTL 布局下自动调换左右位置，则应该用 `before` 和 `after` 代替 `left` 和 `right`。
 
-| Position | Description |
-| -------- | ----------- |
-| 位置 | 说明 |
-| `above` | Always display above the element |
-| `above` | 总是显示在元素上方 |
-| `below` | Always display beneath the element |
-| `below` | 总是显示在元素下方 |
-| `left` | Always display to the left of the element |
-| `left` | 总是显示在元素左侧 |
-| `right` | Always display to the right of the element |
-| `right` | 总是显示在元素右侧 |
+| Position | Description                                                                          |
+| -------- | ------------------------------------------------------------------------------------ |
+| 位置     | 说明                                                                                 |
+| `above`  | Always display above the element                                                     |
+| `above`  | 总是显示在元素上方                                                                   |
+| `below`  | Always display beneath the element                                                   |
+| `below`  | 总是显示在元素下方                                                                   |
+| `left`   | Always display to the left of the element                                            |
+| `left`   | 总是显示在元素左侧                                                                   |
+| `right`  | Always display to the right of the element                                           |
+| `right`  | 总是显示在元素右侧                                                                   |
 | `before` | Display to the left in left-to-right layout and to the right in right-to-left layout |
-| `before` | 在 LTR 布局下显示在左侧，RTL 布局下显示在右侧 |
-| `after` | Display to the right in left-to-right layout and to the left in right-to-left layout |
-| `after` | 在 LTR 布局下显示在右侧，RTL 布局下显示在左侧 |
+| `before` | 在 LTR 布局下显示在左侧，RTL 布局下显示在右侧                                        |
+| `after`  | Display to the right in left-to-right layout and to the left in right-to-left layout |
+| `after`  | 在 LTR 布局下显示在右侧，RTL 布局下显示在左侧                                        |
 
 Based on the position in which the tooltip is shown, the `.mat-tooltip-panel` element will receive a
 CSS class that can be used for style (e.g. to add an arrow). The possible classes are

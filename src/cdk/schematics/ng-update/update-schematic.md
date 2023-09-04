@@ -23,17 +23,17 @@ given target version:
 
 到目前为止，我们有多个迁移入口点来处理指定目标版本的重大变更：
 
-| Target Version | Description |
-| -------------- | ----------- |
-| 目标版本 | 说明 |
-| V6 | Upgrade from any version to v6.0.0 |
-| V6 | 从任意版本升级到 v6.0.0 |
-| V7 | Upgrade from any version to v7.0.0 |
-| V7 | 从任意版本升级到 v7.0.0 |
-| V8 | Upgrade from any version to v8.0.0 |
-| V8 | 从任意版本升级到 v8.0.0 |
-| V9 | Upgrade from any version to v9.0.0 |
-| V9 | 从任意版本升级到 v9.0.0 |
+| Target Version | Description                        |
+| -------------- | ---------------------------------- |
+| 目标版本       | 说明                               |
+| V6             | Upgrade from any version to v6.0.0 |
+| V6             | 从任意版本升级到 v6.0.0            |
+| V7             | Upgrade from any version to v7.0.0 |
+| V7             | 从任意版本升级到 v7.0.0            |
+| V8             | Upgrade from any version to v8.0.0 |
+| V8             | 从任意版本升级到 v8.0.0            |
+| V9             | Upgrade from any version to v9.0.0 |
+| V9             | 从任意版本升级到 v9.0.0            |
 
 Note that the migrations run _in order_ if multiple versions are implicitly targeted. For
 example, consider an application which uses Angular Material v5.0.0. In case the developer runs
@@ -181,13 +181,13 @@ approaches below:
 
 还有其他各种用于转换 TypeScript 源文件的概念，但是大多数概念都没有为替换和报告提供简单的 API。对可能的方式作如下详细分析：
 
-| Description | Evaluation |
-| ----------- | ---------- |
-| 说明 | 评价 |
-| Regular Expressions | Too brittle. No type checking possible. Regular Expression *can* be used in combination with some real AST walking |
-| 正则表达式 | 太脆弱了。不能检查类型。正则表达式*可以*和一些真正的 AST walk 一起使用 |
+| Description                     | Evaluation                                                                                                                                                                                                                                                              |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 说明                            | 评价                                                                                                                                                                                                                                                                    |
+| Regular Expressions             | Too brittle. No type checking possible. Regular Expression *can* be used in combination with some real AST walking                                                                                                                                                      |
+| 正则表达式                      | 太脆弱了。不能检查类型。正则表达式*可以*和一些真正的 AST walk 一起使用                                                                                                                                                                                                  |
 | TypeScript transforms (no emit) | This would be a good solution but there is no API to serialize the transformed AST into source code without using the `ts.Printer`. The printer can be used to serialize the AST but it breaks formatting, code style and more. This is not acceptable for a migration. |
-| TypeScript 转换（不发出声） | 这是一个很好的解决方案，但是如果没有使用 `ts.Printer`，就没有把序列化 AST 转换成源代码的 API。该打印机可用于序列化 AST，但它会破坏格式化，代码风格等等。这对于迁移来说是不可接受的。 |
+| TypeScript 转换（不发出声）     | 这是一个很好的解决方案，但是如果没有使用 `ts.Printer`，就没有把序列化 AST 转换成源代码的 API。该打印机可用于序列化 AST，但它会破坏格式化，代码风格等等。这对于迁移来说是不可接受的。                                                                                    |
 
 ### Upgrade data for target versions
 

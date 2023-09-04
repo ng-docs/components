@@ -120,17 +120,17 @@ Several directives are available to make it easier to structure your dialog cont
 
 下面几个指令能让你更轻松地定义对话框内容的结构：
 
-| Name | Description |
-| ---- | ----------- |
-| 名称 | 说明 |
-| `mat-dialog-title` | \[Attr] Dialog title, applied to a heading element (e.g., `<h1>`, `<h2>`) |
-| `mat-dialog-title` | \[Attr] 对话框标题，应用于标题元素（如 `<h1>`、`<h2>`） |
-| `<mat-dialog-content>` | Primary scrollable content of the dialog. |
-| `<mat-dialog-content>` | 对话框中主要的可滚动内容 |
+| Name                   | Description                                                                                                                                                    |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 名称                   | 说明                                                                                                                                                           |
+| `mat-dialog-title`     | \[Attr] Dialog title, applied to a heading element (e.g., `<h1>`, `<h2>`)                                                                                      |
+| `mat-dialog-title`     | \[Attr] 对话框标题，应用于标题元素（如 `<h1>`、`<h2>`）                                                                                                        |
+| `<mat-dialog-content>` | Primary scrollable content of the dialog.                                                                                                                      |
+| `<mat-dialog-content>` | 对话框中主要的可滚动内容                                                                                                                                       |
 | `<mat-dialog-actions>` | Container for action buttons at the bottom of the dialog. Button alignment can be controlled via the `align` attribute which can be set to `end` and `center`. |
-| `<mat-dialog-actions>` | 对话框底部动作按钮的容器 |
-| `mat-dialog-close` | \[Attr] Added to a `<button>`, makes the button close the dialog with an optional result from the bound value. |
-| `mat-dialog-close` | \[Attr] 添加到 `<button>` 上，点击它时会用它绑定的值（可选）作为结果来关闭对话框 |
+| `<mat-dialog-actions>` | 对话框底部动作按钮的容器                                                                                                                                       |
+| `mat-dialog-close`     | \[Attr] Added to a `<button>`, makes the button close the dialog with an optional result from the bound value.                                                 |
+| `mat-dialog-close`     | \[Attr] 添加到 `<button>` 上，点击它时会用它绑定的值（可选）作为结果来关闭对话框                                                                               |
 
 For example:
 
@@ -208,17 +208,17 @@ You can customize which element receives focus with the `autoFocus` property of
 
 打开时，`MatDialog` 会捕获浏览器焦点，使其无法逃脱 `role="dialog"` 的根元素。默认情况下，对话框中的第一个可 tab 到的元素获得焦点。你可以使用 `MatDialogConfig` 的 `autoFocus` 属性自定义哪个元素获得焦点，该属性支持以下值。
 
-| Value | Behavior |
-| ----- | -------- |
-| 值 | 行为 |
-| `first-tabbable` | Focus the first tabbable element. This is the default setting. |
-| `first-tabbable` | 聚焦第一个可 tab 到的元素。这是默认设置。 |
-| `first-header` | Focus the first header element (`role="heading"`, `h1` through `h6`) |
-| `first-header` | 聚焦第一个标题元素（ `role="heading"`、`h1` 到 `h6` ） |
-| `dialog` | Focus the root `role="dialog"` element. |
-| `dialog` | 聚焦 `role="dialog"` 的根元素。 |
-| Any CSS selector | Focus the first element matching the given selector. |
-| 任意 CSS 选择器 | 聚焦与给定选择器匹配的第一个元素。 |
+| Value            | Behavior                                                             |
+| ---------------- | -------------------------------------------------------------------- |
+| 值               | 行为                                                                 |
+| `first-tabbable` | Focus the first tabbable element. This is the default setting.       |
+| `first-tabbable` | 聚焦第一个可 tab 到的元素。这是默认设置。                            |
+| `first-header`   | Focus the first header element (`role="heading"`, `h1` through `h6`) |
+| `first-header`   | 聚焦第一个标题元素（ `role="heading"`、`h1` 到 `h6` ）               |
+| `dialog`         | Focus the root `role="dialog"` element.                              |
+| `dialog`         | 聚焦 `role="dialog"` 的根元素。                                      |
+| Any CSS selector | Focus the first element matching the given selector.                 |
+| 任意 CSS 选择器  | 聚焦与给定选择器匹配的第一个元素。                                   |
 
 While the default setting applies the best behavior for most applications, special cases may benefit
 from these alternatives. Always test your application to verify the behavior that works best for

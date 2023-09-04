@@ -17,10 +17,10 @@ The directives in `@angular/cdk/listbox` set the appropriate roles on their host
 
 `@angular/cdk/listbox` 中的指令在其宿主元素上设置适当的角色。
 
-| Directive | ARIA Role |
-| --------- |-----------|
-| 指令 | ARIA 角色   |
-| cdkOption | option    |
+| Directive  | ARIA Role |
+| ---------- | --------- |
+| 指令       | ARIA 角色 |
+| cdkOption  | option    |
 | cdkListbox | listbox   |
 
 ### CSS Styles and Classes
@@ -34,43 +34,43 @@ The available CSS classes are listed below, by directive.
 
 `@angular/cdk/listbox` 旨在根据你的需要进行高度定制。因此，它不会对元素的样式进行任何假设。你应该应用任何所需的 CSS 样式，但这些指令确实应用了 CSS 类，以便你更轻松地添加自定义样式。下面按指令列出了可用的 CSS 类。
 
-| Directive | CSS Class         | Applied... |
-| :-------- |-------------------| ---------- |
-| 指令 | CSS 类             | 何时应用 |
-| cdkOption | .cdk-option       | Always |
-| cdkOption | .cdk-option       | 总是 |
-| cdkOption | .cdk-option-active | If the option is active |
-| cdkOption | .cdk-option-active | 如果选项处于活动状态 |
-| cdkListbox | .cdk-listbox      | Always |
-| cdkListbox | .cdk-listbox      | 总是 |
+| Directive  | CSS Class          | Applied...              |
+| :--------- | ------------------ | ----------------------- |
+| 指令       | CSS 类             | 何时应用                |
+| cdkOption  | .cdk-option        | Always                  |
+| cdkOption  | .cdk-option        | 总是                    |
+| cdkOption  | .cdk-option-active | If the option is active |
+| cdkOption  | .cdk-option-active | 如果选项处于活动状态    |
+| cdkListbox | .cdk-listbox       | Always                  |
+| cdkListbox | .cdk-listbox       | 总是                    |
 
 In addition to CSS classes, these directives add aria attributes that can be targeted in CSS.
 
 除了 CSS 类之外，这些指令还添加了可以在 CSS 中定位的 aria 属性。
 
-| Directive | Attribute Selector               | Applied... |
-| :-------- |----------------------------------| ---------- |
-| 指令 | Attribute 选择器                    | 何时应用 |
-| cdkOption | \[aria-disabled="true"]          | If the option is disabled |
-| cdkOption | \[aria-disabled="true"]          | 如果该选项已禁用 |
-| cdkOption | \[aria-disabled="false"]         | If the option is not disabled |
-| cdkOption | \[aria-disabled="false"]         | 如果该选项未禁用 |
-| cdkOption | \[aria-selected="true"]          | If the option is selected |
-| cdkOption | \[aria-selected="true"]          | 如果选定了该选项 |
-| cdkOption | \[aria-selected="false"]         | If the option is not selected |
-| cdkOption | \[aria-selected="false"]         | 如果未选定该选项 |
-| cdkListbox | \[aria-disabled="true"]          | If the listbox is disabled |
-| cdkListbox | \[aria-disabled="true"]          | 如果列表框已禁用 |
-| cdkListbox | \[aria-disabled="false"]         | If the listbox is not disabled |
-| cdkListbox | \[aria-disabled="false"]         | 如果列表框没有禁用 |
-| cdkListbox | \[aria-multiselectable="true"]   | If the listbox is multiple selection |
-| cdkListbox | \[aria-multiselectable="true"]   | 如果列表框是多选 |
-| cdkListbox | \[aria-multiselectable="false"]  | If the listbox is single selection |
-| cdkListbox | \[aria-multiselectable="false"]  | 如果列表框是单选 |
+| Directive  | Attribute Selector               | Applied...                              |
+| :--------- | -------------------------------- | --------------------------------------- |
+| 指令       | Attribute 选择器                 | 何时应用                                |
+| cdkOption  | \[aria-disabled="true"]          | If the option is disabled               |
+| cdkOption  | \[aria-disabled="true"]          | 如果该选项已禁用                        |
+| cdkOption  | \[aria-disabled="false"]         | If the option is not disabled           |
+| cdkOption  | \[aria-disabled="false"]         | 如果该选项未禁用                        |
+| cdkOption  | \[aria-selected="true"]          | If the option is selected               |
+| cdkOption  | \[aria-selected="true"]          | 如果选定了该选项                        |
+| cdkOption  | \[aria-selected="false"]         | If the option is not selected           |
+| cdkOption  | \[aria-selected="false"]         | 如果未选定该选项                        |
+| cdkListbox | \[aria-disabled="true"]          | If the listbox is disabled              |
+| cdkListbox | \[aria-disabled="true"]          | 如果列表框已禁用                        |
+| cdkListbox | \[aria-disabled="false"]         | If the listbox is not disabled          |
+| cdkListbox | \[aria-disabled="false"]         | 如果列表框没有禁用                      |
+| cdkListbox | \[aria-multiselectable="true"]   | If the listbox is multiple selection    |
+| cdkListbox | \[aria-multiselectable="true"]   | 如果列表框是多选                        |
+| cdkListbox | \[aria-multiselectable="false"]  | If the listbox is single selection      |
+| cdkListbox | \[aria-multiselectable="false"]  | 如果列表框是单选                        |
 | cdkListbox | \[aria-orientation="horizontal"] | If the listbox is oriented horizontally |
-| cdkListbox | \[aria-orientation="horizontal"] | 如果列表框是水平的 |
-| cdkListbox | \[aria-orientation="vertical"]   | If the listbox is oriented vertically |
-| cdkListbox | \[aria-orientation="vertical"]   | 如果列表框是垂直的 |
+| cdkListbox | \[aria-orientation="horizontal"] | 如果列表框是水平的                      |
+| cdkListbox | \[aria-orientation="vertical"]   | If the listbox is oriented vertically   |
+| cdkListbox | \[aria-orientation="vertical"]   | 如果列表框是垂直的                      |
 
 ### Getting started
 
@@ -102,7 +102,7 @@ following directives:
 
 Each option in a listbox is bound to the value it represents when selected, e.g.
 `<li cdkOption="red">Red</li>`. Within a single listbox, each option must have a unique value. If 
-an option is not explicitly given a value, its value is considered to be `''` \(empty string\), e.g.
+an option is not explicitly given a value, its value is considered to be `''` (empty string), e.g.
 `<li cdkOption>No color preference</li>`.
 
 列表框中的每个选项都会绑定到它在被选中时代表的值，例如 `<li cdkOption="red">Red</li>` 。在单个列表框中，每个选项都必须具有唯一值。如果一个选项没有被明确地赋予一个值，它的值被认为是 `''` （空字符串），例如 `<li cdkOption>No color preference</li>` 。
@@ -132,7 +132,7 @@ Listboxes only support a single selected option at a time by default, but adding
 
 ### 列表框的值
 
-The listbox's value is an array containing the values of the selected option\(s\). This is true even
+The listbox's value is an array containing the values of the selected option(s). This is true even
 for the single selection listbox, whose value is an array containing a single element. The listbox's
 value can be bound using `[cdkListboxValue]` and `(cdkListboxValueChange)`.
 
@@ -226,7 +226,7 @@ listbox element.
 The directives defined in `@angular/cdk/listbox` follow accessibility best practices as defined
 in the [ARIA spec][aria]. Keyboard interaction is supported as defined in the
 [ARIA listbox keyboard interaction spec][keyboard] _without_ the optional selection follows focus
-logic \(TODO: should we make this an option?\).
+logic (TODO: should we make this an option?).
 
 `@angular/cdk/listbox` 中定义的指令遵循[ARIA 规范][aria]中定义的无障碍性最佳实践。支持键盘交互，如[ARIA 列表框键盘交互规范][keyboard]中所定义，*没有*可选的选择结果会遵循焦点逻辑（TODO：我们应该将其作为一个选项吗？）。
 
@@ -277,7 +277,7 @@ will still need to adjust your CSS styles to change the visual appearance.
 #### 预先输入选项
 
 The CDK listbox supports typeahead based on the option text. If the typeahead text for your options
-needs to be different than the display text \(e.g. to exclude emoji\), this can be accomplished by
+needs to be different than the display text (e.g. to exclude emoji), this can be accomplished by
 setting the `cdkOptionTypeaheadLabel` on the option.
 
 CDK 列表框支持基于选项文本的预先输入。如果选项的预先输入文本需要与显示文本不同（例如，排除表情符号），这可以通过在选项上设置 `cdkOptionTypeaheadLabel` 来实现。

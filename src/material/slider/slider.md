@@ -99,25 +99,25 @@ The slider has the following keyboard bindings:
 
 滑杆具有下列键盘绑定：
 
-| Key | Action |
-| --- | ------ |
-| 按键 | 操作 |
+| Key         | Action                                                      |
+| ----------- | ----------------------------------------------------------- |
+| 按键        | 操作                                                        |
 | Right arrow | Increment the slider value by one step (decrements in RTL). |
-| 右方向键 | 滑杆的值增加一步（在 RTL 下则减小）。 |
-| Up arrow | Increment the slider value by one step. |
-| 上方向键 | 滑杆的值增加一步。 |
-| Left arrow | Decrement the slider value by one step (increments in RTL). |
-| 左方向键 | 滑杆的值减小一步（在 RTL 下则增加）。 |
-| Down arrow | Decrement the slider value by one step. |
-| 下方向键 | 滑杆的值减小一步。 |
-| Page up | Increment the slider value by 10 steps. |
-| 上翻页 | 滑杆的值增加 10 步。 |
-| Page down | Decrement the slider value by 10 steps. |
-| 下翻页 | 滑杆的值减小 10 步。 |
-| End | Set the value to the maximum possible. |
-| End | 设置为可能的最大值。 |
-| Home | Set the value to the minimum possible. |
-| Home | 设置为可能的最小值。 |
+| 右方向键    | 滑杆的值增加一步（在 RTL 下则减小）。                       |
+| Up arrow    | Increment the slider value by one step.                     |
+| 上方向键    | 滑杆的值增加一步。                                          |
+| Left arrow  | Decrement the slider value by one step (increments in RTL). |
+| 左方向键    | 滑杆的值减小一步（在 RTL 下则增加）。                       |
+| Down arrow  | Decrement the slider value by one step.                     |
+| 下方向键    | 滑杆的值减小一步。                                          |
+| Page up     | Increment the slider value by 10 steps.                     |
+| 上翻页      | 滑杆的值增加 10 步。                                        |
+| Page down   | Decrement the slider value by 10 steps.                     |
+| 下翻页      | 滑杆的值减小 10 步。                                        |
+| End         | Set the value to the maximum possible.                      |
+| End         | 设置为可能的最大值。                                        |
+| Home        | Set the value to the minimum possible.                      |
+| Home        | 设置为可能的最小值。                                        |
 
 ### Accessibility
 

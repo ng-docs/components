@@ -840,103 +840,103 @@ The datepicker supports the following keyboard shortcuts:
 
 日期选择器支持下列键盘快捷键：
 
-| Keyboard Shortcut | Action |
-| ----------------- | ------ |
-| 快捷键 | 操作 |
-| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the calendar pop-up |
-| <kbd>Alt</kbd>+ <kbd>Down Arrow</kbd> | 打开日历弹出框 |
-| <kbd>Escape</kbd> | Close the calendar pop-up |
-| `ESCAPE` | 关闭日历弹出框 |
+| Keyboard Shortcut                      | Action                    |
+| -------------------------------------- | ------------------------- |
+| 快捷键                                 | 操作                      |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the calendar pop-up  |
+| <kbd>Alt</kbd>+ <kbd>Down Arrow</kbd>  | 打开日历弹出框            |
+| <kbd>Escape</kbd>                      | Close the calendar pop-up |
+| `ESCAPE`                               | 关闭日历弹出框            |
 
 In month view:
 
 在月份视图中：
 
-| Shortcut | Action |
-| -------- | ------ |
-| 快捷键 | 操作 |
-| <kbd>Left Arrow</kbd> | Go to previous day |
-| <kbd>Left Arrow</kbd> | 转到上一天 |
-| <kbd>Right Arrow</kbd> | Go to next day |
-| <kbd>Right Arrow</kbd> | 转到下一天 |
-| <kbd>Up Arrow</kbd> | Go to same day in the previous week |
-| <kbd>Up Arrow</kbd> | 转到上周的同一天 |
-| <kbd>Down Arrow</kbd> | Go to same day in the next week |
-| <kbd>Down Arrow</kbd> | 转到下周的同一天 |
-| <kbd>Home</kbd> | Go to the first day of the month |
-| <kbd>Home</kbd> | 转到本月初 |
-| <kbd>End</kbd> | Go to the last day of the month |
-| <kbd>End</kbd> | 转到本月末 |
-| <kbd>Page Up</kbd> | Go to the same day in the previous month |
-| <kbd>Page Up</kbd> | 转到上月的同一天 |
-| <kbd>Alt</kbd> + <kbd>Page Up</kbd> | Go to the same day in the previous year |
-| <kbd>Alt</kbd>+ <kbd>Page Up</kbd> | 转到去年的同一天 |
-| <kbd>Page Down</kbd> | Go to the same day in the next month |
-| <kbd>Page Down</kbd> | 转到下月的同一天 |
-| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | Go to the same day in the next year |
-| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | 转到明年的同一天 |
-| <kbd>Enter</kbd> | Select current date |
-| <kbd>Enter</kbd> | 选择当前日期 |
+| Shortcut                             | Action                                   |
+| ------------------------------------ | ---------------------------------------- |
+| 快捷键                               | 操作                                     |
+| <kbd>Left Arrow</kbd>                | Go to previous day                       |
+| <kbd>Left Arrow</kbd>                | 转到上一天                               |
+| <kbd>Right Arrow</kbd>               | Go to next day                           |
+| <kbd>Right Arrow</kbd>               | 转到下一天                               |
+| <kbd>Up Arrow</kbd>                  | Go to same day in the previous week      |
+| <kbd>Up Arrow</kbd>                  | 转到上周的同一天                         |
+| <kbd>Down Arrow</kbd>                | Go to same day in the next week          |
+| <kbd>Down Arrow</kbd>                | 转到下周的同一天                         |
+| <kbd>Home</kbd>                      | Go to the first day of the month         |
+| <kbd>Home</kbd>                      | 转到本月初                               |
+| <kbd>End</kbd>                       | Go to the last day of the month          |
+| <kbd>End</kbd>                       | 转到本月末                               |
+| <kbd>Page Up</kbd>                   | Go to the same day in the previous month |
+| <kbd>Page Up</kbd>                   | 转到上月的同一天                         |
+| <kbd>Alt</kbd> + <kbd>Page Up</kbd>  | Go to the same day in the previous year  |
+| <kbd>Alt</kbd>+ <kbd>Page Up</kbd>   | 转到去年的同一天                         |
+| <kbd>Page Down</kbd>                 | Go to the same day in the next month     |
+| <kbd>Page Down</kbd>                 | 转到下月的同一天                         |
+| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | Go to the same day in the next year      |
+| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | 转到明年的同一天                         |
+| <kbd>Enter</kbd>                     | Select current date                      |
+| <kbd>Enter</kbd>                     | 选择当前日期                             |
 
 In year view:
 
 在年份视图中：
 
-| Shortcut | Action |
-| -------- | ------ |
-| 快捷键 | 操作 |
-| <kbd>Left Arrow</kbd> | Go to previous month |
-| <kbd>Left Arrow</kbd> | 转到上月 |
-| <kbd>Right Arrow</kbd> | Go to next month |
-| <kbd>Right Arrow</kbd> | 转到下月 |
-| <kbd>Up Arrow</kbd> | Go up a row (back 4 months) |
-| <kbd>Up Arrow</kbd> | 转到上一行（回退四个月） |
-| <kbd>Down Arrow</kbd> | Go down a row (forward 4 months) |
-| <kbd>Down Arrow</kbd> | 转到下一行（前进四个月） |
-| <kbd>Home</kbd> | Go to the first month of the year |
-| <kbd>Home</kbd> | 转到今年的第一个月 |
-| <kbd>End</kbd> | Go to the last month of the year |
-| <kbd>End</kbd> | 转到今年的最后一月 |
-| <kbd>Page Up</kbd> | Go to the same month in the previous year |
-| <kbd>Page Up</kbd> | 转到去年的同一月 |
-| <kbd>Alt</kbd> + <kbd>Page Up</kbd> | Go to the same month 10 years back |
-| <kbd>Alt</kbd>+ <kbd>Page Up</kbd> | 转到十年前的同一月 |
-| <kbd>Page Down</kbd> | Go to the same month in the next year |
-| <kbd>Page Down</kbd> | 转到明年的同一月 |
-| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | Go to the same month 10 years forward |
-| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | 转到十年后的同一月 |
-| <kbd>Enter</kbd> | Select current month |
-| <kbd>Enter</kbd> | 选择当前月份 |
+| Shortcut                             | Action                                    |
+| ------------------------------------ | ----------------------------------------- |
+| 快捷键                               | 操作                                      |
+| <kbd>Left Arrow</kbd>                | Go to previous month                      |
+| <kbd>Left Arrow</kbd>                | 转到上月                                  |
+| <kbd>Right Arrow</kbd>               | Go to next month                          |
+| <kbd>Right Arrow</kbd>               | 转到下月                                  |
+| <kbd>Up Arrow</kbd>                  | Go up a row (back 4 months)               |
+| <kbd>Up Arrow</kbd>                  | 转到上一行（回退四个月）                  |
+| <kbd>Down Arrow</kbd>                | Go down a row (forward 4 months)          |
+| <kbd>Down Arrow</kbd>                | 转到下一行（前进四个月）                  |
+| <kbd>Home</kbd>                      | Go to the first month of the year         |
+| <kbd>Home</kbd>                      | 转到今年的第一个月                        |
+| <kbd>End</kbd>                       | Go to the last month of the year          |
+| <kbd>End</kbd>                       | 转到今年的最后一月                        |
+| <kbd>Page Up</kbd>                   | Go to the same month in the previous year |
+| <kbd>Page Up</kbd>                   | 转到去年的同一月                          |
+| <kbd>Alt</kbd> + <kbd>Page Up</kbd>  | Go to the same month 10 years back        |
+| <kbd>Alt</kbd>+ <kbd>Page Up</kbd>   | 转到十年前的同一月                        |
+| <kbd>Page Down</kbd>                 | Go to the same month in the next year     |
+| <kbd>Page Down</kbd>                 | 转到明年的同一月                          |
+| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | Go to the same month 10 years forward     |
+| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | 转到十年后的同一月                        |
+| <kbd>Enter</kbd>                     | Select current month                      |
+| <kbd>Enter</kbd>                     | 选择当前月份                              |
 
 In multi-year view:
 
 在多年视图中：
 
-| Shortcut | Action |
-| -------- | ------ |
-| 快捷键 | 操作 |
-| <kbd>Left Arrow</kbd> | Go to previous year |
-| <kbd>Left Arrow</kbd> | 转到去年 |
-| <kbd>Right Arrow</kbd> | Go to next year |
-| <kbd>Right Arrow</kbd> | 转到明年 |
-| <kbd>Up Arrow</kbd> | Go up a row (back 4 years) |
-| <kbd>Up Arrow</kbd> | 转到上一行（后退四年） |
-| <kbd>Down Arrow</kbd> | Go down a row (forward 4 years) |
-| <kbd>Down Arrow</kbd> | 转到下一行（前进四年） |
-| <kbd>Home</kbd> | Go to the first year in the current range |
-| <kbd>Home</kbd> | 转到当前范围内的第一年 |
-| <kbd>End</kbd> | Go to the last year in the current range |
-| <kbd>End</kbd> | 转到当前范围内的最后一年 |
-| <kbd>Page Up</kbd> | Go back 24 years |
-| <kbd>Page Up</kbd> | 后退 24 年 |
-| <kbd>Alt</kbd> + <kbd>Page Up</kbd> | Go back 240 years |
-| <kbd>Alt</kbd>+ <kbd>Page Up</kbd> | 后退 240 年 |
-| <kbd>Page Down</kbd> | Go forward 24 years |
-| <kbd>Page Down</kbd> | 前进 24 年 |
-| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | Go forward 240 years |
-| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | 前进 240 年 |
-| <kbd>Enter</kbd> | Select current year |
-| <kbd>Enter</kbd> | 选择当前年份 |
+| Shortcut                             | Action                                    |
+| ------------------------------------ | ----------------------------------------- |
+| 快捷键                               | 操作                                      |
+| <kbd>Left Arrow</kbd>                | Go to previous year                       |
+| <kbd>Left Arrow</kbd>                | 转到去年                                  |
+| <kbd>Right Arrow</kbd>               | Go to next year                           |
+| <kbd>Right Arrow</kbd>               | 转到明年                                  |
+| <kbd>Up Arrow</kbd>                  | Go up a row (back 4 years)                |
+| <kbd>Up Arrow</kbd>                  | 转到上一行（后退四年）                    |
+| <kbd>Down Arrow</kbd>                | Go down a row (forward 4 years)           |
+| <kbd>Down Arrow</kbd>                | 转到下一行（前进四年）                    |
+| <kbd>Home</kbd>                      | Go to the first year in the current range |
+| <kbd>Home</kbd>                      | 转到当前范围内的第一年                    |
+| <kbd>End</kbd>                       | Go to the last year in the current range  |
+| <kbd>End</kbd>                       | 转到当前范围内的最后一年                  |
+| <kbd>Page Up</kbd>                   | Go back 24 years                          |
+| <kbd>Page Up</kbd>                   | 后退 24 年                                |
+| <kbd>Alt</kbd> + <kbd>Page Up</kbd>  | Go back 240 years                         |
+| <kbd>Alt</kbd>+ <kbd>Page Up</kbd>   | 后退 240 年                               |
+| <kbd>Page Down</kbd>                 | Go forward 24 years                       |
+| <kbd>Page Down</kbd>                 | 前进 24 年                                |
+| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | Go forward 240 years                      |
+| <kbd>Alt</kbd>+ <kbd>Page Down</kbd> | 前进 240 年                               |
+| <kbd>Enter</kbd>                     | Select current year                       |
+| <kbd>Enter</kbd>                     | 选择当前年份                              |
 
 ### Troubleshooting
 

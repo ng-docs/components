@@ -314,17 +314,17 @@ viewport.
 
 ### 键盘交互
 
-| Keyboard shortcut | Action |
-| ----------------- | ------ |
-| 键盘快捷键 | 操作 |
-| <kbd>Left Arrow</kbd> | Focus the previous step header. |
-| <kbd>Left Arrow</kbd> | 聚焦上一步标题。 |
-| <kbd>Right Arrow</kbd> | Focus the next step header. |
-| <kbd>Right Arrow</kbd> | 聚焦下一步标题。 |
-| <kbd>Enter</kbd> | Select the focused step. |
-| <kbd>Enter</kbd> | 选择聚焦的步骤。 |
-| <kbd>Space</kbd> | Select the focused step. |
-| <kbd>Space</kbd> | 选择聚焦的步骤。 |
+| Keyboard shortcut      | Action                          |
+| ---------------------- | ------------------------------- |
+| 键盘快捷键             | 操作                            |
+| <kbd>Left Arrow</kbd>  | Focus the previous step header. |
+| <kbd>Left Arrow</kbd>  | 聚焦上一步标题。                |
+| <kbd>Right Arrow</kbd> | Focus the next step header.     |
+| <kbd>Right Arrow</kbd> | 聚焦下一步标题。                |
+| <kbd>Enter</kbd>       | Select the focused step.        |
+| <kbd>Enter</kbd>       | 选择聚焦的步骤。                |
+| <kbd>Space</kbd>       | Select the focused step.        |
+| <kbd>Space</kbd>       | 选择聚焦的步骤。                |
 
   <kbd>TAB</kbd>+<kbd>SHIFT</kbd>：焦点移到上一个可捕获焦点的元素上
 

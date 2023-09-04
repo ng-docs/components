@@ -97,17 +97,29 @@ desired display value. Then bind it to the autocomplete's `displayWith` property
 
 ### Require an option to be selected
 
+### 需要选中一个选项
+
 By default, the autocomplete will accept the value that the user typed into the input field.
 Instead, if you want to instead ensure that an option from the autocomplete was selected, you can
 enable the `requireSelection` input on `mat-autocomplete`. This will change the behavior of
 the autocomplete in the following ways:
+
+默认情况下，自动完成器将接受用户在输入字段中输入的值。但如果你想确保选中自动完成器的选项之一，则可以在 `mat-autocomplete` 上启用 `requireSelection` 输入属性。 这将通过以下方式改变自动完成器的行为：
+
 1. If the user opens the autocomplete, changes its value, but doesn't select anything, the
 autocomplete value will be reset back to `null`.
+
+    如果用户打开自动完成器，更改其值，但未选中任何内容，则自动完成器的值将重置回 `null` 。
+
 2. If the user opens and closes the autocomplete without changing the value, the old value will
 be preserved.
 
+    如果用户打开并关闭自动完成器而不更改它的值，则将保留旧值。
+
 This behavior can be configured globally using the `MAT_AUTOCOMPLETE_DEFAULT_OPTIONS`
 injection token.
+
+可以使用 `MAT_AUTOCOMPLETE_DEFAULT_OPTIONS` 注入令牌来全局配置此行为。
 
 <!-- example(autocomplete-require-selection) -->
 
@@ -166,21 +178,21 @@ autocomplete is attached to using the `matAutocompleteOrigin` directive together
 
 ### 键盘交互
 
-| Keyboard shortcut | Action |
-| ----------------- | ------ |
-| 快捷键 | 操作 |
-| <kbd>Down Arrow</kbd> | Navigate to the next option. |
-| <kbd>Down Arrow</kbd> | 导航到下一个选项。 |
-| <kbd>Up Arrow</kbd> | Navigate to the previous option. |
-| <kbd>Up Arrow</kbd> | 导航到上一个选项。 |
-| <kbd>Enter</kbd> | Select the active option. |
-| <kbd>Enter</kbd> | 选择活动选项。 |
-| <kbd>Escape</kbd> | Close the autocomplete panel. |
-| <kbd>Escape</kbd> | 关闭自动完成面板。 |
-| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd> | Close the autocomplete panel. |
-| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd> | 关闭自动完成面板。 |
+| Keyboard shortcut                      | Action                                                         |
+| -------------------------------------- | -------------------------------------------------------------- |
+| 快捷键                                 | 操作                                                           |
+| <kbd>Down Arrow</kbd>                  | Navigate to the next option.                                   |
+| <kbd>Down Arrow</kbd>                  | 导航到下一个选项。                                             |
+| <kbd>Up Arrow</kbd>                    | Navigate to the previous option.                               |
+| <kbd>Up Arrow</kbd>                    | 导航到上一个选项。                                             |
+| <kbd>Enter</kbd>                       | Select the active option.                                      |
+| <kbd>Enter</kbd>                       | 选择活动选项。                                                 |
+| <kbd>Escape</kbd>                      | Close the autocomplete panel.                                  |
+| <kbd>Escape</kbd>                      | 关闭自动完成面板。                                             |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | Close the autocomplete panel.                                  |
+| <kbd>Alt</kbd> + <kbd>Up Arrow</kbd>   | 关闭自动完成面板。                                             |
 | <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | Open the autocomplete panel if there are any matching options. |
-| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | 如果有任何匹配的选项，就打开自动完成面板。 |
+| <kbd>Alt</kbd> + <kbd>Down Arrow</kbd> | 如果有任何匹配的选项，就打开自动完成面板。                     |
 
   <kbd>ESCAPE</kbd>: 关闭自动完成面板
 
@@ -222,3 +234,5 @@ navigation though the autocomplete options.
 By default, `MatAutocomplete` displays a checkmark to identify the selected item. While you can hide
 the checkmark indicator via `hideSingleSelectionIndicator`, this makes the component less accessible
 by making it harder or impossible for users to visually identify selected items.
+
+默认情况下， `MatAutocomplete` 会显示一个选中标记来标识所选条目。 虽然你也可以通过 `hideSingleSelectionIndicator` 来隐藏单选时的选中标记指示器，但这会使用户更难甚至不可能直观地识别已选条目，从而降低组件的无障碍性。

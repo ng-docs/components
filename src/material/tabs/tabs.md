@@ -185,16 +185,16 @@ When using `MatTabNavGroup`, always specify a label for the `<nav>` element.
 
 `MatTabGroup` 和 `MatTabNavBar` 都实现了以下键盘交互。
 
-| Shortcut | Action |
-| -------- | ------ |
-| 快捷键 | 操作 |
-| `LEFT_ARROW` | Move focus to previous tab |
-| `LEFT_ARROW` | 把焦点移到前一个选项卡 |
-| `RIGHT_ARROW` | Move focus to next tab |
-| `RIGHT_ARROW` | 把焦点移到后一个选项卡 |
-| `HOME` | Move focus to first tab |
-| `HOME` | 把焦点移到第一个选项卡 |
-| `END` | Move focus to last tab |
-| `END` | 把焦点移到最后一个选项卡 |
-| `SPACE` or `ENTER` | Switch to focused tab |
-| `SPACE` 或 `ENTER` | 切换到当前有焦点的选项卡 |
+| Shortcut           | Action                     |
+| ------------------ | -------------------------- |
+| 快捷键             | 操作                       |
+| `LEFT_ARROW`       | Move focus to previous tab |
+| `LEFT_ARROW`       | 把焦点移到前一个选项卡     |
+| `RIGHT_ARROW`      | Move focus to next tab     |
+| `RIGHT_ARROW`      | 把焦点移到后一个选项卡     |
+| `HOME`             | Move focus to first tab    |
+| `HOME`             | 把焦点移到第一个选项卡     |
+| `END`              | Move focus to last tab     |
+| `END`              | 把焦点移到最后一个选项卡   |
+| `SPACE` or `ENTER` | Switch to focused tab      |
+| `SPACE` 或 `ENTER` | 切换到当前有焦点的选项卡   |

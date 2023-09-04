@@ -47,7 +47,7 @@ rest.
 
 `*cdkVirtualFor` replaces `*ngFor` inside of a `<cdk-virtual-scroll-viewport>`, supporting the exact
 same API as [`*ngFor`](https://angular.io/api/common/NgForOf). The simplest usage just specifies the
-list of items \(note that the `itemSize` property on the viewport must be set\):
+list of items (note that the `itemSize` property on the viewport must be set):
 
 `*cdkVirtualFor` 替换了 `<cdk-virtual-scroll-viewport>` 中的 [`*ngFor`](https://angular.cn/api/common/NgForOf)，它支持与 [`*ngFor`](https://angular.cn/api/common/NgForOf) 完全相同的 API。最简单的用法就是指定条目列表（注意，必须在视口中设置 `itemSize` 属性）：
 
@@ -128,7 +128,7 @@ that it allows for better performance, since items do not need to be measured as
 
 The fixed size strategy also supports setting a couple of buffer parameters that determine how much
 extra content is rendered beyond what is visible in the viewport. The first of these parameters is
-`minBufferPx`. The `minBufferPx` is the minimum amount of content buffer \(in pixels\) that the
+`minBufferPx`. The `minBufferPx` is the minimum amount of content buffer (in pixels) that the
 viewport must render. If the viewport ever detects that there is less buffered content it will
 immediately render more. The second buffer parameter is `maxBufferPx`. This tells the viewport how 
 much buffer space to render back up to when it detects that more buffer is required.
@@ -139,8 +139,8 @@ The interaction of these two buffer parameters can be best illustrated with an e
 that we have the following parameters: `itemSize = 50`, `minBufferPx = 100`, `maxBufferPx = 250`. As
 the user is scrolling through the content the viewport detects that there is only `90px` of buffer
 remaining. Since this is below `minBufferPx` the viewport must render more buffer. It must render at
-least enough buffer to get back to `maxBufferPx`. In this case, it renders 4 items \(an additional
-`200px`\) to bring the total buffer size to `290px`, back above `maxBufferPx`.
+least enough buffer to get back to `maxBufferPx`. In this case, it renders 4 items (an additional
+`200px`) to bring the total buffer size to `290px`, back above `maxBufferPx`.
 
 这两个缓冲区参数的作用可以用一个例子来说明。假设我们有以下参数：`itemSize = 50`、`minBufferPx = 100`、`maxBufferPx = 250`。当用户滚动浏览内容时，视口就会检测到只剩下 `90px` 的缓冲区。由于它小于 `minBufferPx`，所以视口必须渲染更多缓冲区。它必须渲染足够数量的缓冲区，直到其大于等于 `maxBufferPx`。在这种情况下，它渲染了 4 个条目（额外的 `200px`），使缓冲区总大小达到 `290px`，略高于 `maxBufferPx`。
 
@@ -173,7 +173,7 @@ content.
 Some HTML elements such as `<tr>` and `<li>` have limitations on the kinds of parent elements they
 can be placed inside. To enable virtual scrolling over these type of elements, place the elements in
 their proper parent, and then wrap the whole thing in a `cdk-virtual-scroll-viewport`. Be careful
-that the parent does not introduce additional space \(e.g. via `margin` or `padding`\) as it will
+that the parent does not introduce additional space (e.g. via `margin` or `padding`) as it will
 interfere with the scrolling.
 
 某些 HTML 元素（如 `<tr>` 和 `<li>`）对它们所在的父元素种类有一些限制。要想对这些类型的元素进行虚拟滚动操作，就要把它们放在合适的父元素中，然后把它们共同包装在 `cdk-virtual-scroll-viewport` 中。注意，父组件中不要引入额外的空白区（比如通过 `margin` 或 `padding`），因为这样会干扰滚动。
@@ -187,7 +187,7 @@ interfere with the scrolling.
 In order to determine how large the overall content is and what portion of it actually needs to be
 rendered at any given time the viewport relies on a `VirtualScrollStrategy` being provided. The
 simplest way to provide it is to use the `itemSize` directive on the viewport
-\(e.g. `<cdk-virtual-scroll-viewport itemSize="50">`\). However it is also possible to provide a 
+(e.g. `<cdk-virtual-scroll-viewport itemSize="50">`). However it is also possible to provide a 
 custom strategy by creating a class that implements the `VirtualScrollStrategy` interface and
 providing it as the `VIRTUAL_SCROLL_STRATEGY` on the component containing your viewport.
 

@@ -106,17 +106,17 @@ resetting it will call `reset` on the underlying form control which clears the v
 
 ### 键盘交互
 
-| Keyboard shortcut | Action |
-| ----------------- | ------ |
-| 键盘快捷键 | 操作 |
-| <kbd>Left Arrow</kbd> | Focus the previous step header. |
-| <kbd>Left Arrow</kbd> | 聚焦上一步标题。 |
-| <kbd>Right Arrow</kbd> | Focus the next step header. |
-| <kbd>Right Arrow</kbd> | 聚焦下一步标题。 |
-| <kbd>Enter</kbd> | Select the focused step. |
-| <kbd>Enter</kbd> | 选择有焦点的步骤。 |
-| <kbd>Space</kbd> | Select the focused step. |
-| <kbd>Space</kbd> | 选择有焦点的步骤。 |
+| Keyboard shortcut      | Action                          |
+| ---------------------- | ------------------------------- |
+| 键盘快捷键             | 操作                            |
+| <kbd>Left Arrow</kbd>  | Focus the previous step header. |
+| <kbd>Left Arrow</kbd>  | 聚焦上一步标题。                |
+| <kbd>Right Arrow</kbd> | Focus the next step header.     |
+| <kbd>Right Arrow</kbd> | 聚焦下一步标题。                |
+| <kbd>Enter</kbd>       | Select the focused step.        |
+| <kbd>Enter</kbd>       | 选择有焦点的步骤。              |
+| <kbd>Space</kbd>       | Select the focused step.        |
+| <kbd>Space</kbd>       | 选择有焦点的步骤。              |
 
 ### Accessibility
 

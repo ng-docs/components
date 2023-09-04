@@ -113,17 +113,17 @@ You can customize which element receives focus with the `autoFocus` property of
 
 在打开时， `MatBottomSheet` 会捕获浏览器焦点，使其无法逃脱 `role="dialog"` 的根元素。默认情况下，底部工作表中的第一个可 tab 到的元素会获得焦点。你可以使用 `MatBottomSheetConfig` 的 `autoFocus` 属性来自定义哪个元素将获得焦点，该属性支持以下值。
 
-| Value | Behavior |
-| ----- | -------- |
-| 值 | 行为 |
-| `first-tabbable` | Focus the first tabbable element. This is the default setting. |
-| `first-tabbable` | 聚焦到第一个可 tab 到的元素。这是默认设置。 |
-| `first-header` | Focus the first header element (`role="heading"`, `h1` through `h6`) |
-| `first-header` | 聚焦到第一个标题元素（`role="heading"`、`h1` 到 `h6` ） |
-| `dialog` | Focus the root `role="dialog"` element. |
-| `dialog` | 聚焦到 `role="dialog"` 的根元素。 |
-| Any CSS selector | Focus the first element matching the given selector. |
-| 任意 CSS 选择器 | 聚焦到与给定选择器匹配的第一个元素。 |
+| Value            | Behavior                                                             |
+| ---------------- | -------------------------------------------------------------------- |
+| 值               | 行为                                                                 |
+| `first-tabbable` | Focus the first tabbable element. This is the default setting.       |
+| `first-tabbable` | 聚焦到第一个可 tab 到的元素。这是默认设置。                          |
+| `first-header`   | Focus the first header element (`role="heading"`, `h1` through `h6`) |
+| `first-header`   | 聚焦到第一个标题元素（`role="heading"`、`h1` 到 `h6` ）              |
+| `dialog`         | Focus the root `role="dialog"` element.                              |
+| `dialog`         | 聚焦到 `role="dialog"` 的根元素。                                    |
+| Any CSS selector | Focus the first element matching the given selector.                 |
+| 任意 CSS 选择器  | 聚焦到与给定选择器匹配的第一个元素。                                 |
 
 While the default setting applies the best behavior for most applications, special cases may benefit
 from these alternatives. Always test your application to verify the behavior that works best for

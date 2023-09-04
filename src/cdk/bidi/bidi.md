@@ -8,7 +8,7 @@ application's LTR/RTL layout direction.
 ### 方向性
 
 When including the CDK's `BidiModule`, components can inject `Directionality` to get the current
-text direction \(RTL or LTR\);
+text direction (RTL or LTR);
 
 当包含 CDK 的 `BidiModule` 时，组件中就可以注入 `Directionality` 来获取当前的文本方向了（RTL 或者 LTR）;
 
@@ -58,8 +58,8 @@ context.
 The CDK also supports the native `auto` value for the `dir` attribute, however there's a difference
 in how it is interpreted. Some parts of the CDK, like overlays and keyboard navigation, need to know
 if the element is in an RTL or LTR layout in order to work correctly. For performance reasons, we
-resolve the `auto` value by looking at the browser's language \(`navigator.language`\) and matching
+resolve the `auto` value by looking at the browser's language (`navigator.language`) and matching
 it against a set of known RTL locales. This differs from the way the browser handles it, which is
 based on the text content of the element.
 
-CDK 还支持 `dir` 属性的原生 `auto` 值，但是它的解释方式有所不同。 CDK 的某些部分，如浮层和键盘导航，需要知道元素是在 RTL 还是 LTR 布局中才能正常工作。出于性能原因，我们通过查看浏览器的语言 \(`navigator.language` \) 并将其与一组已知的 RTL 语言环境进行匹配来解析 `auto` 值。这与浏览器处理它的方式不同，后者会基于元素的文本内容。
+CDK 还支持 `dir` 属性的原生 `auto` 值，但是它的解释方式有所不同。 CDK 的某些部分，如浮层和键盘导航，需要知道元素是在 RTL 还是 LTR 布局中才能正常工作。出于性能原因，我们通过查看浏览器的语言 (`navigator.language` ) 并将其与一组已知的 RTL 语言环境进行匹配来解析 `auto` 值。这与浏览器处理它的方式不同，后者会基于元素的文本内容。

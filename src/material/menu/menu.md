@@ -129,21 +129,21 @@ with a different set of data, depending on the trigger that opened it:
 
 ### 键盘交互
 
-| Keyboard shortcut | Action |
-| ----------------- | ------ |
-| 键盘快捷键 | 操作 |
-| <kbd>Down Arrow</kbd> | Focus the next menu item. |
-| <kbd>Down Arrow</kbd> | 聚焦下一个菜单项。 |
-| <kbd>Up Arrow</kbd> | Focus the previous menu item. |
-| <kbd>Up Arrow</kbd> | 聚焦上一个菜单项。 |
-| <kbd>Left Arrow</kbd> | Close the current menu if it is a sub-menu. |
-| <kbd>Left Arrow</kbd> | 如果是子菜单，则关闭当前菜单。 |
-| <kbd>Right Arrow</kbd> | Opens the current menu item's sub-menu. |
-| <kbd>Right Arrow</kbd> | 打开当前菜单项的子菜单。 |
-| <kbd>Enter</kbd> | Activate the focused menu item. |
-| <kbd>Enter</kbd> | 激活焦点菜单项。 |
-| <kbd>Escape</kbd> | Close all open menus. |
-| <kbd>Escape</kbd> | 关闭所有打开的菜单。 |
+| Keyboard shortcut      | Action                                      |
+| ---------------------- | ------------------------------------------- |
+| 键盘快捷键             | 操作                                        |
+| <kbd>Down Arrow</kbd>  | Focus the next menu item.                   |
+| <kbd>Down Arrow</kbd>  | 聚焦下一个菜单项。                          |
+| <kbd>Up Arrow</kbd>    | Focus the previous menu item.               |
+| <kbd>Up Arrow</kbd>    | 聚焦上一个菜单项。                          |
+| <kbd>Left Arrow</kbd>  | Close the current menu if it is a sub-menu. |
+| <kbd>Left Arrow</kbd>  | 如果是子菜单，则关闭当前菜单。              |
+| <kbd>Right Arrow</kbd> | Opens the current menu item's sub-menu.     |
+| <kbd>Right Arrow</kbd> | 打开当前菜单项的子菜单。                    |
+| <kbd>Enter</kbd>       | Activate the focused menu item.             |
+| <kbd>Enter</kbd>       | 激活焦点菜单项。                            |
+| <kbd>Escape</kbd>      | Close all open menus.                       |
+| <kbd>Escape</kbd>      | 关闭所有打开的菜单。                        |
 
 ### Accessibility
 
@@ -175,3 +175,5 @@ triggers or menu items without descriptive text content.
 总是要通过 `aria-label` 或 `aria-labelledby` 来为没有描述性文本内容的任何菜单触发器或菜单项提供无障碍标签。
 
 MatMenu should not contain any interactive controls aside from MatMenuItem.
+
+除了 MatMenuItem 之外，MatMenu 不应包含任何交互式控件。

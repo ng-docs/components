@@ -85,6 +85,8 @@ element, `MatBadge` applies this description to its host via `aria-describedby`.
 a non-interactive element, `MatBadge` appends a visually-hidden, inline description element. The
 badge determines interactivity based on whether the host element is focusable.
 
+你必须通过 `matBadgeDescription` 提供有意义的描述。 当附加到交互式元素时， `MatBadge` 通过 `aria-describedby` 将此描述应用于其宿主。 当附加到非交互式元素时，`MatBadge` 会附加一个不可视的内联描述元素。徽章会根据主体元素是否可获得焦点来确定其交互性。
+
 When applying a badge to a `<mat-icon>`, it is important to know that `<mat-icon>` is
 `aria-hidden="true"` by default. If the combination of icon and badge communicates meaningful
 information, always surface this information in another way. [See the guidance on indicator

@@ -146,15 +146,15 @@ The `<mat-sidenav>` can render in one of three different ways based on the `mode
 
 `<mat-sidenav>` 可以根据其 `mode` 属性的值以三种方式之一进行渲染。
 
-| Mode | Description |
-| ---- | ----------- |
-| 模式 | 说明 |
-| `over` | Sidenav floats over the primary content, which is covered by a backdrop |
-| `over` | 侧边栏浮在主内容上方，并用一个背景遮住主内容 |
-| `push` | Sidenav pushes the primary content out of its way, also covering it with a backdrop |
-| `push` | 侧边栏把主内容挤出去，并用一个背景遮住主内容 |
+| Mode   | Description                                                                                                           |
+| ------ | --------------------------------------------------------------------------------------------------------------------- |
+| 模式   | 说明                                                                                                                  |
+| `over` | Sidenav floats over the primary content, which is covered by a backdrop                                               |
+| `over` | 侧边栏浮在主内容上方，并用一个背景遮住主内容                                                                          |
+| `push` | Sidenav pushes the primary content out of its way, also covering it with a backdrop                                   |
+| `push` | 侧边栏把主内容挤出去，并用一个背景遮住主内容                                                                          |
 | `side` | Sidenav appears side-by-side with the main content, shrinking the main content's width to make space for the sidenav. |
-| `side` | 侧边栏和主内容并排显示，并收缩主内容的宽度，给侧边栏腾出空间 |
+| `side` | 侧边栏和主内容并排显示，并收缩主内容的宽度，给侧边栏腾出空间                                                          |
 
 If no `mode` is specified, `over` is used by default.
 

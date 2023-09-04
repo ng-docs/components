@@ -17,16 +17,16 @@ The directives in `@angular/cdk/menu` set the appropriate roles on their host el
 
 `@angular/cdk/menu` 中的指令在其宿主元素上设置适当的角色。
 
-| Directive | ARIA Role        |
-| --------- |------------------|
-| 指令 | ARIA 角色          |
-| CdkMenuBar | menubar          |
-| CdkMenu | menu             |
-| CdkMenuGroup | group            |
-| CdkMenuItem | menuitem         |
-| CdkMenuItemRadio | menuitemradio    |
+| Directive           | ARIA Role        |
+| ------------------- | ---------------- |
+| 指令                | ARIA 角色        |
+| CdkMenuBar          | menubar          |
+| CdkMenu             | menu             |
+| CdkMenuGroup        | group            |
+| CdkMenuItem         | menuitem         |
+| CdkMenuItemRadio    | menuitemradio    |
 | CdkMenuItemCheckbox | menuitemcheckbox |
-| CdkMenuTrigger | button           |
+| CdkMenuTrigger      | button           |
 
 ### CSS Styles and Classes
 
@@ -324,7 +324,7 @@ feature for a menu and its sub-menus, add the `cdkMenuTargetAim` directive to th
 ![menu aim diagram][diagram]
 
 As demonstrated in the diagram above we first track the user's mouse movements within a menu. Next,
-when a user mouses into a sibling menu item \(e.g. Share button\) the sibling item asks the Menu Aim
+when a user mouses into a sibling menu item (e.g. Share button) the sibling item asks the Menu Aim
 service if it can perform its close actions. In order to determine if the current submenu can be
 closed out, the Menu Aim service calculates the slope between a selected target coordinate in the
 submenu and the previous mouse point, and the slope between the target and the current mouse point.
