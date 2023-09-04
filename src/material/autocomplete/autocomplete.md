@@ -97,14 +97,14 @@ desired display value. Then bind it to the autocomplete's `displayWith` property
 
 ### Require an option to be selected
 
-### 需要选中一个选项
+### 要求选中某个选项
 
 By default, the autocomplete will accept the value that the user typed into the input field.
 Instead, if you want to instead ensure that an option from the autocomplete was selected, you can
 enable the `requireSelection` input on `mat-autocomplete`. This will change the behavior of
 the autocomplete in the following ways:
 
-默认情况下，自动完成器将接受用户在输入字段中输入的值。但如果你想确保选中自动完成器的选项之一，则可以在 `mat-autocomplete` 上启用 `requireSelection` 输入属性。 这将通过以下方式改变自动完成器的行为：
+默认情况下，自动完成器将接受用户在输入字段中输入的值。但如果你想确保选中自动完成器的某个选项，则可以在 `mat-autocomplete` 上启用 `requireSelection` 输入属性。这会通过以下方式改变自动完成器的行为：
 
 1. If the user opens the autocomplete, changes its value, but doesn't select anything, the
    autocomplete value will be reset back to `null`.
